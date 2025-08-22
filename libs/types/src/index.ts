@@ -1,2 +1,2 @@
 // @index(['./**/*.ts', '!./**/*.{spec,test}.ts'], f => `export * from '${f.path}.js'`)
-export * from './lib/<%- fileName %>.js'
+export * from './lib/common/class-constructor.js';

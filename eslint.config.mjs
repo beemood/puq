@@ -55,7 +55,26 @@ export default [
       parser: await import('jsonc-eslint-parser'),
     },
   },
+  {
+    files: ['**/*.ts'],
+    rules: {
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        {
+          prefer: 'type-imports',
+          disallowTypeAnnotations: false,
+          fixStyle: 'separate-type-imports',
+        },
+      ],
+    },
+  },
 
+  {
+    files: ['**/*.ts'],
+    rules: {
+      '@typescript-eslint/no-shadow': ['error'],
+    },
+  },
   {
     files: [
       '**/*.ts',

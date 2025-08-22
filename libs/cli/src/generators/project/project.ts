@@ -18,8 +18,28 @@ export async function projectGenerator(
   const target = options.directory;
   const projectName = options.directory.split(/[\/\\]/).pop()!;
   const mp = readJsonFile('package.json');
-  const projectFullName = mp.name.split(/[\/]/).pop() + '/' + projectName;
+
+  const projectFullName =
+    (mp.name as string).split(/[\/]/).shift()! + '/' + projectName;
   const __names = names(projectName);
+
+  updateJson(tree, 'tsconfig.json', (value) => {
+    if (!value.references) {
+      value.references = [];
+    }
+
+    const projectPath = `./${options.directory}`;
+
+    if (
+      value.references.find((e: { path: string }) => e.path === projectPath)
+    ) {
+      throw new Error(`${options.directory} project already exist!`);
+    }
+
+    value.references.push({ path: projectPath });
+
+    return value;
+  });
 
   generateFiles(tree, source, target, {
     mp,
@@ -27,17 +47,6 @@ export async function projectGenerator(
     projectFullName,
     directory: options.directory,
     ...__names,
-  });
-
-  updateJson(tree, 'tsconfig.json', (value) => {
-    if (!value.references) {
-      value.references = [];
-    }
-    value.references.push({
-      path: `./${options.directory}`,
-    });
-
-    return value;
   });
 
   await formatFiles(tree);
