@@ -9,7 +9,3 @@ export abstract class CommandClass {
     throw new Error('Not implemented!');
   }
 }
-
-export interface CommandClassConstructor {
-  new (...args: any[]): CommandClass;
-}

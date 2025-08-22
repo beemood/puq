@@ -59,6 +59,7 @@
   },
   "dependencies": {
     "@nx/devkit": "21.4.1",
+    "@puq/types": "workspace:*",
     "commander": "^14.0.0",
     "tslib": "^2.3.0"
   },
