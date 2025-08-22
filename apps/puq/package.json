@@ -97,5 +97,7 @@
       }
     }
   },
-  "dependencies": {}
+  "dependencies": {
+    "@puq/utils": "^0.2.1"
+  }
 }
