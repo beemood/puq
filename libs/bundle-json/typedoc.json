@@ -1,0 +1,6 @@
+{
+  "name": "bundle-json",
+  "favicon": "favicon.png",
+  "entryPoints": ["src/index.ts"],
+  "out": "../../public/libs/bundle-json"
+}

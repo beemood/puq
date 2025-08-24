@@ -50,7 +50,8 @@
       "doc": {
         "executor": "nx:run-commands",
         "options": {
-          "command": "npx typedoc --name bundle-json --entryPoints {projectRoot}/src/index.ts --favicon {projectRoot}/favicon.png --out public/bundle-json --tsconfig {projectRoot}/tsconfig.lib.json"
+          "command": "npx typedoc",
+          "cwd": "{projectRoot}"
         }
       }
     }

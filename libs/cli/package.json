@@ -66,7 +66,8 @@
       "doc": {
         "executor": "nx:run-commands",
         "options": {
-          "command": "npx typedoc --name cli --entryPoints {projectRoot}/src/index.ts --favicon {projectRoot}/favicon.png --out public/cli --tsconfig {projectRoot}/tsconfig.lib.json"
+          "command": "npx typedoc",
+          "cwd": "{projectRoot}"
         }
       }
     }
