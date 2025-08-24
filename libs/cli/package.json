@@ -5,7 +5,8 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "puq": "./bin/puq.cjs"
+    "puq": "./bin/puq.cjs",
+    "@puq/cli": "./bin/puq.cjs"
   },
   "exports": {
     "./package.json": "./package.json",

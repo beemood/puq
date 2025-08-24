@@ -1,9 +1,9 @@
 import { fileName, writeJsonFile } from '@puq/fs';
-import { readSchemaFile } from './read-schema-file.js';
 import { names } from '@puq/names';
+import { inspect } from 'util';
+import { readSchemaFile } from './read-schema-file.js';
 import { readSchemaFiles } from './read-schema-files.js';
 import { resolveReferences } from './resolve-references.js';
-import { inspect } from 'util';
 
 /**
  * Bundle json schemas into a single schema file
@@ -40,8 +40,6 @@ export async function bundleJson(
     mainSchema.definitions[value.$id] = value;
     delete value.definitions;
   }
-
-  
 
   await writeJsonFile(outputPath, mainSchema);
 }
