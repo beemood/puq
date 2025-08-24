@@ -1,6 +1,6 @@
 {
   "name": "@puq/cli",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "Cli tool for common development operations",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -74,6 +74,8 @@
   "dependencies": {
     "@nx/devkit": "21.4.1",
     "@puq/bundle-json": "workspace:*",
+    "@puq/fs": "workspace:*",
+    "@puq/generate-types": "workspace:*",
     "@puq/types": "workspace:*",
     "commander": "^14.0.0",
     "tslib": "^2.3.0"

@@ -1,4 +1,4 @@
-import { fileName, writeJsonFile } from '@puq/fs';
+import { fileName } from '@puq/fs';
 import { names } from '@puq/names';
 import { readSchemaFile } from './read-schema-file.js';
 import { readSchemaFiles } from './read-schema-files.js';
@@ -11,8 +11,7 @@ import { resolveReferences } from './resolve-references.js';
  */
 export async function bundleJson(
   rootDirectory: string,
-  mainSchemaFilePath: string,
-  outputPath: string
+  mainSchemaFilePath: string
 ) {
   const name = names(fileName(mainSchemaFilePath)).pascalCase;
 
@@ -36,5 +35,5 @@ export async function bundleJson(
     delete value.definitions;
   }
 
-  await writeJsonFile(outputPath, mainSchema);
+  return mainSchema;
 }

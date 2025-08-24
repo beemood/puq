@@ -35,6 +35,9 @@
     },
     {
       "path": "./libs/names"
+    },
+    {
+      "path": "./libs/generate-types"
     }
   ]
 }

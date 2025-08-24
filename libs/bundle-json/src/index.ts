@@ -5,3 +5,4 @@ export * from './lib/read-schema-file.js';
 export * from './lib/read-schema-files.js';
 export * from './lib/resolve-references.js';
 export * from './lib/to-definition-path.js';
+

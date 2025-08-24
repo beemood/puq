@@ -1,7 +1,7 @@
 {
-  "name": "@puq/nest",
+  "name": "@puq/generate-types",
   "version": "0.7.2",
-  "description": "Wrapper around nestjs decorators",
+  "description": "Generate types from json schema",
   "author": {
     "name": "Robert Brightline",
     "email": "robert.brightline@gmail.com",
@@ -32,7 +32,7 @@
     "!**/*.tsbuildinfo"
   ],
   "nx": {
-    "sourceRoot": "libs/nest/src",
+    "sourceRoot": "libs/generate-types/src",
     "targets": {
       "build": {
         "executor": "@nx/js:swc",
@@ -40,9 +40,9 @@
           "{options.outputPath}"
         ],
         "options": {
-          "outputPath": "libs/nest/dist",
-          "main": "libs/nest/src/index.ts",
-          "tsConfig": "libs/nest/tsconfig.lib.json",
+          "outputPath": "libs/generate-types/dist",
+          "main": "libs/generate-types/src/index.ts",
+          "tsConfig": "libs/generate-types/tsconfig.lib.json",
           "skipTypeCheck": true,
           "stripLeadingPaths": true
         }
@@ -50,13 +50,15 @@
       "doc": {
         "executor": "nx:run-commands",
         "options": {
-          "command": "npx typedoc --name nest --entryPoints {projectRoot}/src/index.ts --favicon {projectRoot}/favicon.png --out public/nest --tsconfig {projectRoot}/tsconfig.lib.json"
+          "command": "npx typedoc --name generate-types --entryPoints {projectRoot}/src/index.ts --favicon {projectRoot}/favicon.png --out public/generate-types --tsconfig {projectRoot}/tsconfig.lib.json"
         }
       }
     }
   },
   "dependencies": {
-    "@nestjs/common": "^11.1.6",
+    "@puq/fs": "workspace:*",
+    "@puq/names": "workspace:*",
+    "@puq/types": "workspace:*",
     "@swc/helpers": "~0.5.11"
   }
 }

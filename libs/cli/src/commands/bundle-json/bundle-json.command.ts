@@ -1,6 +1,7 @@
+import { bundleJson } from '@puq/bundle-json';
+import { writeJsonFile } from '@puq/fs';
 import { Command } from 'commander';
 import { CommandClass } from '../../common/command-class';
-import { bundleJson } from '@puq/bundle-json';
 
 export type BundleJsonCommandOptions = {
   rootDirectory: string;
@@ -25,10 +26,10 @@ export class BundleJsonCommand extends CommandClass {
   }
 
   override async handler(options: BundleJsonCommandOptions) {
-    await bundleJson(
+    const schema = await bundleJson(
       options.rootDirectory,
-      options.mainSchemaFilePath,
-      options.outputPath
+      options.mainSchemaFilePath
     );
+    await writeJsonFile(options.outputPath, schema);
   }
 }
