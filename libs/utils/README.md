@@ -1,3 +1,3 @@
 # @puq/utils
 
-Common utilities
+Common utility functions

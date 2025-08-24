@@ -1,7 +1,7 @@
 {
   "name": "@puq/nest",
-  "version": "0.4.1",
-  "description": "Add project description here...",
+  "version": "0.7.0",
+  "description": "Wrapper around nestjs decorators",
   "author": {
     "name": "Robert Brightline",
     "email": "robert.brightline@gmail.com",

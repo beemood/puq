@@ -1,3 +1,3 @@
 # @puq/bundle-json
 
-- [ ] update project description here and in `package.json` files
+Bundle json schemas into a single json schema file.

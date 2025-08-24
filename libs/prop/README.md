@@ -1,3 +1,3 @@
 # @puq/prop
 
-- [ ] update project description here and in `package.json` files
+Dto and dto property decorators

@@ -1,7 +1,7 @@
 {
   "name": "@puq/bundle-json",
-  "version": "0.4.1",
-  "description": "Add project description here...",
+  "version": "0.7.0",
+  "description": "Bundle json schemas into a single json schema file.",
   "author": {
     "name": "Robert Brightline",
     "email": "robert.brightline@gmail.com",

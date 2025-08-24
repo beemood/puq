@@ -1,7 +1,7 @@
 {
   "name": "@puq/utils",
-  "version": "0.4.1",
-  "description": "Common utilities",
+  "version": "0.7.0",
+  "description": "Common utility functions",
   "author": {
     "name": "Robert Brightline",
     "email": "robert.brightline@gmail.com",

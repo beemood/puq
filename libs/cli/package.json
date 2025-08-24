@@ -1,9 +1,18 @@
 {
   "name": "@puq/cli",
-  "version": "0.4.2",
+  "version": "0.7.0",
+  "description": "Cli tool for common development operations",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "author": {
+    "name": "Robert Brightline",
+    "email": "robert.brightline@gmail.com",
+    "url": "https://beemood.github.io"
+  },
+  "funding": [
+    "https://cash.app/$puqlib"
+  ],
   "publishConfig": {
     "access": "public",
     "tag": "latest"

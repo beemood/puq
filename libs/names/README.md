@@ -1,3 +1,3 @@
 # @puq/names
 
-- [ ] update project description here and in `package.json` files
+Create all case variants of a given text

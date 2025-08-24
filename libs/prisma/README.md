@@ -1,3 +1,3 @@
 # @puq/prisma
 
-- [ ] update project description here and in `package.json` files
+Nestjs prisma orm module

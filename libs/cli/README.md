@@ -1,3 +1,3 @@
 # @puq/cli
 
-Cli tool
+Cli tool for common development operations

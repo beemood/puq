@@ -1,3 +1,3 @@
 # @puq/types
 
-Common types 
+Common data and utility types, interfaces
