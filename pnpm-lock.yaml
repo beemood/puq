@@ -45,6 +45,9 @@ importers:
       '@nx/workspace':
         specifier: 21.4.0
         version: 21.4.0(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.17))(@swc/types@0.1.24)(typescript@5.8.3))(@swc/core@1.5.29(@swc/helpers@0.5.17))
+      '@puq/cli':
+        specifier: workspace:*
+        version: link:libs/cli
       '@swc-node/register':
         specifier: ~1.9.1
         version: 1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.17))(@swc/types@0.1.24)(typescript@5.8.3)
@@ -138,6 +141,9 @@ importers:
       '@puq/prop':
         specifier: workspace:*
         version: link:../../libs/prop
+      '@puq/types':
+        specifier: workspace:*
+        version: link:../../libs/types
       '@puq/utils':
         specifier: workspace:^
         version: link:../../libs/utils
@@ -148,11 +154,29 @@ importers:
 
   apps/puq-e2e: {}
 
+  libs/bundle-json:
+    dependencies:
+      '@puq/fs':
+        specifier: workspace:*
+        version: link:../fs
+      '@puq/names':
+        specifier: workspace:*
+        version: link:../names
+      '@puq/types':
+        specifier: workspace:*
+        version: link:../types
+      '@swc/helpers':
+        specifier: ~0.5.11
+        version: 0.5.17
+
   libs/cli:
     dependencies:
       '@nx/devkit':
         specifier: 21.4.1
         version: 21.4.1(nx@21.4.1(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.17))(@swc/types@0.1.24)(typescript@5.8.3))(@swc/core@1.5.29(@swc/helpers@0.5.17)))
+      '@puq/bundle-json':
+        specifier: workspace:*
+        version: link:../bundle-json
       '@puq/types':
         specifier: workspace:*
         version: link:../types
@@ -162,6 +186,25 @@ importers:
       tslib:
         specifier: ^2.3.0
         version: 2.8.1
+
+  libs/fs:
+    dependencies:
+      '@swc/helpers':
+        specifier: ~0.5.11
+        version: 0.5.17
+      js-yaml:
+        specifier: ^4.1.0
+        version: 4.1.0
+    devDependencies:
+      '@types/js-yaml':
+        specifier: ^4.0.9
+        version: 4.0.9
+
+  libs/names:
+    dependencies:
+      '@swc/helpers':
+        specifier: ~0.5.11
+        version: 0.5.17
 
   libs/nest:
     dependencies:
@@ -204,6 +247,12 @@ importers:
       class-validator:
         specifier: ^0.14.2
         version: 0.14.2
+
+  libs/schemas:
+    dependencies:
+      '@swc/helpers':
+        specifier: ~0.5.11
+        version: 0.5.17
 
   libs/types:
     dependencies:
@@ -2050,6 +2099,9 @@ packages:
 
   '@types/istanbul-reports@3.0.4':
     resolution: {integrity: sha512-pk2B1NWalF9toCRu6gjBzR69syFjP4Od8WRAX+0mmf9lAjCRicLOWc+ZrxZHx/0XRjotgkF9t6iaMJ+aXcOdZQ==}
+
+  '@types/js-yaml@4.0.9':
+    resolution: {integrity: sha512-k4MGaQl5TGo/iipqb2UDG2UwjXziSWkh0uysQelTlJpX1qGlpUZYm8PnO4DxG1qBomtJUdYJ6qR6xdIah10JLg==}
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
@@ -7603,6 +7655,8 @@ snapshots:
   '@types/istanbul-reports@3.0.4':
     dependencies:
       '@types/istanbul-lib-report': 3.0.3
+
+  '@types/js-yaml@4.0.9': {}
 
   '@types/json-schema@7.0.15': {}
 

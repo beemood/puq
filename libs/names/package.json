@@ -1,7 +1,7 @@
 {
-  "name": "@puq/types",
+  "name": "@puq/names",
   "version": "0.3.0",
-  "description": "Common types",
+  "description": "Add project description here...",
   "author": {
     "name": "Robert Brightline",
     "email": "robert.brightline@gmail.com",
@@ -28,12 +28,11 @@
     }
   },
   "files": [
-    "schemas",
     "dist",
     "!**/*.tsbuildinfo"
   ],
   "nx": {
-    "sourceRoot": "libs/types/src",
+    "sourceRoot": "libs/names/src",
     "targets": {
       "build": {
         "executor": "@nx/js:swc",
@@ -41,23 +40,17 @@
           "{options.outputPath}"
         ],
         "options": {
-          "outputPath": "libs/types/dist",
-          "main": "libs/types/src/index.ts",
-          "tsConfig": "libs/types/tsconfig.lib.json",
+          "outputPath": "libs/names/dist",
+          "main": "libs/names/src/index.ts",
+          "tsConfig": "libs/names/tsconfig.lib.json",
           "skipTypeCheck": true,
           "stripLeadingPaths": true
-        }
-      },
-      "bundle-json": {
-        "executor": "nx:run-commands",
-        "options": {
-          "command": "npx @puq/cli@latest bundle-json -r ./schemas/model -m ./schemas/model/model.json -o ./schemas/model.schema.json"
         }
       },
       "doc": {
         "executor": "nx:run-commands",
         "options": {
-          "command": "npx typedoc --name types --entryPoints {projectRoot}/src/index.ts --favicon {projectRoot}/favicon.png --out public/types --tsconfig {projectRoot}/tsconfig.lib.json"
+          "command": "npx typedoc --name names --entryPoints {projectRoot}/src/index.ts --favicon {projectRoot}/favicon.png --out public/names --tsconfig {projectRoot}/tsconfig.lib.json"
         }
       }
     }

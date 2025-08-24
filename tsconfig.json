@@ -26,6 +26,15 @@
     },
     {
       "path": "./libs/nest"
+    },
+    {
+      "path": "./libs/bundle-json"
+    },
+    {
+      "path": "./libs/fs"
+    },
+    {
+      "path": "./libs/names"
     }
   ]
 }
