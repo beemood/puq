@@ -2,7 +2,7 @@ import { fileName, readJsonFile } from '@puq/fs';
 import { names } from '@puq/names';
 import type { JSONSchema7 } from '@puq/types';
 
-function typifyJsonSchema7Options(schema: JSONSchema7): string {
+function toTypeOptions(schema: JSONSchema7): string {
   if (!schema) throw new Error(`schema is required`);
 
   if (schema.type == 'boolean') {
@@ -15,7 +15,7 @@ function typifyJsonSchema7Options(schema: JSONSchema7): string {
     if (!schema.items) {
       return 'any[]';
     }
-    return `${typifyJsonSchema7Options(schema.items as JSONSchema7)}[]`;
+    return `${toTypeOptions(schema.items as JSONSchema7)}[]`;
   }
 
   if (schema.$ref) {
@@ -25,7 +25,7 @@ function typifyJsonSchema7Options(schema: JSONSchema7): string {
   if (schema.allOf) {
     const allOfType = schema.allOf
       .map((e) => {
-        return typifyJsonSchema7Options(e as JSONSchema7);
+        return toTypeOptions(e as JSONSchema7);
       })
       .join(' & ');
 
@@ -35,7 +35,7 @@ function typifyJsonSchema7Options(schema: JSONSchema7): string {
   if (schema.oneOf) {
     const oneOfType = schema.oneOf
       .map((e) => {
-        return typifyJsonSchema7Options(e as JSONSchema7);
+        return toTypeOptions(e as JSONSchema7);
       })
       .join(' | ');
 
@@ -62,7 +62,7 @@ function typifyJsonSchema7Options(schema: JSONSchema7): string {
     const properties = entries
       .map(([propertyName, value]) => {
         const isRequired = schema.required?.includes(propertyName) ? '' : '?';
-        const propertyType = typifyJsonSchema7Options(value as JSONSchema7);
+        const propertyType = toTypeOptions(value as JSONSchema7);
         return `${propertyName}${isRequired}:${propertyType};`;
       })
       .join('\n');
@@ -72,10 +72,10 @@ function typifyJsonSchema7Options(schema: JSONSchema7): string {
 
   if (schema.patternProperties) {
     const propertyName = schema.propertyNames
-      ? typifyJsonSchema7Options(schema.propertyNames as JSONSchema7)
+      ? toTypeOptions(schema.propertyNames as JSONSchema7)
       : 'string';
 
-    return `Partial<Record<${propertyName}, ${typifyJsonSchema7Options(
+    return `Partial<Record<${propertyName}, ${toTypeOptions(
       Object.values(schema.patternProperties)[0] as JSONSchema7
     )}>>`;
   }
@@ -83,8 +83,8 @@ function typifyJsonSchema7Options(schema: JSONSchema7): string {
   return '';
 }
 
-function printType(typeName: string, schema: JSONSchema7): string {
-  return `export type ${typeName} = ${typifyJsonSchema7Options(schema)}`;
+function toType(typeName: string, schema: JSONSchema7): string {
+  return `export type ${typeName} = ${toTypeOptions(schema)}`;
 }
 
 export async function generateTypes(filepath: string): Promise<string> {
@@ -93,14 +93,14 @@ export async function generateTypes(filepath: string): Promise<string> {
 
   {
     const typeName = names(fileName(filepath)).pascalCase;
-    types.push(printType(typeName, schema));
+    types.push(toType(typeName, schema));
   }
   {
     const definitionEntries = Object.entries(schema.definitions ?? {});
     for (const [key, value] of definitionEntries) {
       const typeName = names(key).pascalCase;
 
-      types.push(printType(typeName, value));
+      types.push(toType(typeName, value));
     }
   }
   return types.join('\n');
