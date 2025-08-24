@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const { runCommand } = require('./run-command');
-const { libs } = require('./libs');
+import { libs } from './libs.js';
+import { runCommand } from './run-command.js';
 
 async function run() {
   await runCommand('typedoc', await libs());

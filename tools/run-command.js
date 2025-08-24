@@ -1,7 +1,6 @@
-import { chdir } from 'process';
+import { exec } from 'child_process';
 
 export async function runCommand(command, libs) {
-  chdir(__dirname, '..');
   await Promise.all(
     libs.map(async (e) => {
       return await new Promise((res, rej) => {

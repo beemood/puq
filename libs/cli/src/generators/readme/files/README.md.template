@@ -3,13 +3,13 @@
 </p>
 
 
-## <%- projectName %>
+## <%- projectFullName %>
 
 <%- mp.description %>
 
 ## Install
 
-`pnpm add <%- projectName %>`
+`pnpm add <%- projectFullName %>`
 
 ## Funding
 
