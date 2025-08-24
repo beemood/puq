@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-require('./../dist/commands/program');
+require('./../dist/commands/program.js');

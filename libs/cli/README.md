@@ -1,1 +1,3 @@
 # @puq/cli
+
+Cli tool

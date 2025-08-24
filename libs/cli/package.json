@@ -1,9 +1,13 @@
 {
   "name": "@puq/cli",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  },
   "bin": {
     "puq": "./bin/puq.cjs",
     "@puq/cli": "./bin/puq.cjs"
