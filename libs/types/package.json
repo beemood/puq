@@ -1,6 +1,6 @@
 {
   "name": "@puq/types",
-  "version": "0.7.3",
+  "version": "0.7.4",
   "description": "Common data and utility types, interfaces.",
   "author": {
     "name": "Robert Brightline",
