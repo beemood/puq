@@ -17,6 +17,15 @@
     },
     {
       "path": "./libs/types"
+    },
+    {
+      "path": "./libs/prop"
+    },
+    {
+      "path": "./libs/prisma"
+    },
+    {
+      "path": "./libs/nest"
     }
   ]
 }
