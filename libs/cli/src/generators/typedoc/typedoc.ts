@@ -1,6 +1,6 @@
 import { formatFiles, generateFiles, Tree, updateJson } from '@nx/devkit';
 import * as path from 'path';
-import { getProjectName } from 'src/common/get-project-name';
+import { getProjectName } from '../../common/get-project-name';
 import { TypedocGeneratorSchema } from './schema';
 
 export async function typedocGenerator(
