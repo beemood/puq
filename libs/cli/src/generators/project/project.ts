@@ -7,6 +7,10 @@ import {
   updateJson,
 } from '@nx/devkit';
 import * as path from 'path';
+import {
+  getFullProjectName,
+  getProjectName,
+} from '../../common/get-project-name';
 import { ProjectGeneratorSchema } from './schema';
 
 export async function projectGenerator(
@@ -16,11 +20,10 @@ export async function projectGenerator(
   const source = path.join(__dirname, options.type);
 
   const target = options.directory;
-  const projectName = options.directory.split(/[\/\\]/).pop()!;
+  const projectName = getProjectName(options.directory);
   const mp = readJsonFile('package.json');
+  const projectFullName = getFullProjectName(mp.name, projectName);
 
-  const projectFullName =
-    (mp.name as string).split(/[\/]/).shift()! + '/' + projectName;
   const __names = names(projectName);
 
   updateJson(tree, 'tsconfig.json', (value) => {

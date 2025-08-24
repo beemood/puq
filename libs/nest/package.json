@@ -1,6 +1,6 @@
 {
   "name": "@puq/nest",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "Wrapper around nestjs decorators",
   "author": {
     "name": "Robert Brightline",
@@ -50,7 +50,8 @@
       "doc": {
         "executor": "nx:run-commands",
         "options": {
-          "command": "npx typedoc --name nest --entryPoints {projectRoot}/src/index.ts --favicon {projectRoot}/favicon.png --out public/nest --tsconfig {projectRoot}/tsconfig.lib.json"
+          "command": "npx typedoc",
+          "cwd": "{projectRoot}"
         }
       }
     }

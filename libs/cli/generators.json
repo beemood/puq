@@ -6,9 +6,14 @@
       "description": "project generator"
     },
     "readme": {
-      "factory": "./dist/generators/readme/readme/readme",
-      "schema": "./dist/generators/readme/readme/schema.json",
+      "factory": "./dist/generators/readme/readme",
+      "schema": "./dist/generators/readme/schema.json",
       "description": "readme generator"
+    },
+    "typedoc": {
+      "factory": "./dist/generators/typedoc/typedoc",
+      "schema": "./dist/generators/typedoc/schema.json",
+      "description": "typedoc generator"
     }
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@puq/types",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "Common data and utility types, interfaces.",
   "author": {
     "name": "Robert Brightline",
@@ -52,6 +52,12 @@
         "executor": "nx:run-commands",
         "options": {
           "command": "npx @puq/cli@latest bundle-json -r {projectRoot}/schemas/model -m {projectRoot}/schemas/model/model.json -o {projectRoot}/schemas/model.schema.json"
+        }
+      },
+      "generate-types": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "npx @puq/cli@latest generate-types  -m {projectRoot}/schemas/model.schema.json -o {projectRoot}/src/lib/model/model.ts"
         }
       },
       "doc": {

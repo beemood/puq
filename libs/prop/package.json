@@ -1,6 +1,6 @@
 {
   "name": "@puq/prop",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "Dto and dto property decorators",
   "author": {
     "name": "Robert Brightline",

@@ -1,6 +1,6 @@
 {
   "name": "@puq/names",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "Create all case variants of a given text",
   "author": {
     "name": "Robert Brightline",

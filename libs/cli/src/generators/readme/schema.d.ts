@@ -1,3 +1,3 @@
 export interface ReadmeGeneratorSchema {
-  name: string;
+  directory: string;
 }
