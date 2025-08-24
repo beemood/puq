@@ -1,6 +1,6 @@
 {
   "name": "@puq/types",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Common types",
   "author": {
     "name": "Robert Brightline",
@@ -51,7 +51,7 @@
       "bundle-json": {
         "executor": "nx:run-commands",
         "options": {
-          "command": "npx @puq/cli@latest bundle-json -r ./schemas/model -m ./schemas/model/model.json -o ./schemas/model.schema.json"
+          "command": "npx @puq/cli@latest bundle-json -r {projectRoot}/schemas/model -m {projectRoot}/schemas/model/model.json -o {projectRoot}/schemas/model.schema.json"
         }
       },
       "doc": {

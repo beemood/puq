@@ -1,3 +1,20 @@
 {
-  "eslint.validate": ["json"]
+  "eslint.validate": [
+    "json",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.sortImports": "always",
+    "source.addMissingImports.ts": "always",
+    "source.fixAll.eslint": "always",
+    "source.fixAll.ts": "always",
+    "source.organizeImports": "always",
+    "source.removeUnusedImports": "always"
+  },
+  "yaml.schemas": {
+    "libs/types/schemas/model.schema.json": "projects/**/*.model.yaml"
+  }
 }

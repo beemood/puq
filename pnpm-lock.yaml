@@ -248,12 +248,6 @@ importers:
         specifier: ^0.14.2
         version: 0.14.2
 
-  libs/schemas:
-    dependencies:
-      '@swc/helpers':
-        specifier: ~0.5.11
-        version: 0.5.17
-
   libs/types:
     dependencies:
       '@swc/helpers':
