@@ -1,6 +1,6 @@
 {
   "name": "@puq/fs",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "IO library",
   "author": {
     "name": "Robert Brightline",

@@ -1,6 +1,6 @@
 {
   "name": "@puq/cli",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Cli tool for common development operations",
   "main": "./dist/index.js",
   "module": "./dist/index.js",

@@ -1,6 +1,6 @@
 {
   "name": "@puq/nest",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Wrapper around nestjs decorators",
   "author": {
     "name": "Robert Brightline",
@@ -56,6 +56,7 @@
     }
   },
   "dependencies": {
+    "@nestjs/common": "^11.1.6",
     "@swc/helpers": "~0.5.11"
   }
 }

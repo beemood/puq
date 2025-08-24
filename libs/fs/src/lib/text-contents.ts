@@ -5,10 +5,18 @@ import { readTextFile } from './read-text-file.js';
 export type Content<T = string> = {
   content: T;
 };
+
 export type TextContent = Dir | Content<string>;
 
-export async function textContents(root: string): Promise<TextContent[]> {
-  const found = await files(root);
+/**
+ * Read all files under the {@link rootDirectory}.
+ * @param rootDirectory
+ * @returns list of {@link TextContent}
+ */
+export async function textContents(
+  rootDirectory: string
+): Promise<TextContent[]> {
+  const found = await files(rootDirectory);
 
   return await Promise.all(
     found.map(async (e) => {
