@@ -18,6 +18,7 @@ import {
   SelectProp,
 } from '@puq/prop';
 import { CategoryWhereInputDto } from '../../category/category-find-args.dto';
+import { SortOrder } from '@puq/types';
 
 @Dto()
 export class ProductSelectDto implements Prisma.ProductSelect {
@@ -69,17 +70,17 @@ export class ProductWhereInputDto implements Prisma.ProductWhereInput {
 export class ProductOrderByDto
   implements Prisma.ProductOrderByWithAggregationInput
 {
-  @OrderByProp() id?: Prisma.SortOrder;
-  @OrderByProp() productId?: Prisma.SortOrder;
-  @OrderByProp() createdAt?: Prisma.SortOrder;
-  @OrderByProp() updatedAt?: Prisma.SortOrder;
-  @OrderByProp() deletedAt?: Prisma.SortOrder | Prisma.SortOrderInput;
-  @OrderByProp() name?: Prisma.SortOrder;
-  @OrderByProp() description?: Prisma.SortOrder;
-  @OrderByProp() upc?: Prisma.SortOrder;
-  @OrderByProp() cost?: Prisma.SortOrder;
-  @OrderByProp() price?: Prisma.SortOrder;
-  @OrderByProp() categoryId?: Prisma.SortOrder | Prisma.SortOrderInput;
+  @OrderByProp() id?: SortOrder;
+  @OrderByProp() productId?: SortOrder;
+  @OrderByProp() createdAt?: SortOrder;
+  @OrderByProp() updatedAt?: SortOrder;
+  @OrderByProp() deletedAt?: SortOrder;
+  @OrderByProp() name?: SortOrder;
+  @OrderByProp() description?: SortOrder;
+  @OrderByProp() upc?: SortOrder;
+  @OrderByProp() cost?: SortOrder;
+  @OrderByProp() price?: SortOrder;
+  @OrderByProp() categoryId?: SortOrder;
 }
 
 export class ProductSelectorDto {
