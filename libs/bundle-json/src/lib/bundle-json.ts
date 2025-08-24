@@ -1,6 +1,5 @@
 import { fileName, writeJsonFile } from '@puq/fs';
 import { names } from '@puq/names';
-import { inspect } from 'util';
 import { readSchemaFile } from './read-schema-file.js';
 import { readSchemaFiles } from './read-schema-files.js';
 import { resolveReferences } from './resolve-references.js';
@@ -21,13 +20,9 @@ export async function bundleJson(
 
   resolveReferences(mainSchema);
 
-  console.log('MainSchema', inspect(mainSchema, true, 100));
-
   mainSchema.definitions = mainSchema.definitions ?? {};
 
   const schemas = await readSchemaFiles(rootDirectory);
-
-  console.log('Schemas', inspect(schemas, true, 100));
 
   schemas.delete(name);
 
