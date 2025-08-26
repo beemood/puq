@@ -38,6 +38,12 @@
     },
     {
       "path": "./libs/generate-types"
+    },
+    {
+      "path": "./libs/models"
+    },
+    {
+      "path": "./libs/zod"
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
-  "name": "@puq/nest",
-  "version": "0.7.5",
-  "description": "Wrapper around nestjs decorators",
+  "name": "@puq/zod",
+  "version": "0.7.1",
+  "description": "Add project description here...",
   "author": {
     "name": "Robert Brightline",
     "email": "robert.brightline@gmail.com",
@@ -32,7 +32,7 @@
     "!**/*.tsbuildinfo"
   ],
   "nx": {
-    "sourceRoot": "libs/nest/src",
+    "sourceRoot": "libs/zod/src",
     "targets": {
       "build": {
         "executor": "@nx/js:swc",
@@ -40,9 +40,9 @@
           "{options.outputPath}"
         ],
         "options": {
-          "outputPath": "libs/nest/dist",
-          "main": "libs/nest/src/index.ts",
-          "tsConfig": "libs/nest/tsconfig.lib.json",
+          "outputPath": "libs/zod/dist",
+          "main": "libs/zod/src/index.ts",
+          "tsConfig": "libs/zod/tsconfig.lib.json",
           "skipTypeCheck": true,
           "stripLeadingPaths": true
         }
@@ -50,16 +50,13 @@
       "doc": {
         "executor": "nx:run-commands",
         "options": {
-          "command": "npx typedoc",
-          "cwd": "{projectRoot}"
+          "command": "npx typedoc --name zod --entryPoints {projectRoot}/src/index.ts --favicon {projectRoot}/favicon.png --out public/zod --tsconfig {projectRoot}/tsconfig.lib.json"
         }
       }
     }
   },
   "dependencies": {
-    "@nestjs/common": "^11.1.6",
-    "@nestjs/swagger": "^11.2.0",
-    "@puq/names": "workspace:*",
-    "@swc/helpers": "~0.5.11"
+    "@swc/helpers": "~0.5.11",
+    "zod": "^4.1.3"
   }
 }
