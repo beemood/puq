@@ -6,18 +6,20 @@ import { inferOperationSummary } from './../common/infer-operation-summary.js';
 import { isPublicResource } from './../common/is-public-resource.js';
 import { isSecureResource } from './../common/is-secure-resource.js';
 
-export function CommonMethodDecorator(
-  properties?: Record<string, string>
-): MethodDecorator {
+export function __getFields(...args: any[]) {
+  const fields = (args[0].constructor as any)['fields'];
+
+  if (!fields)
+    throw new Error(
+      'static property fields is not defined in controller class!'
+    );
+
+  return fields;
+}
+
+export function CommonMethodDecorator(): MethodDecorator {
   return (...args) => {
-    const fields = (args[0].constructor as any)['fields'];
-
-    if (!fields)
-      throw new Error(
-        'static property fields is not defined in controller class!'
-      );
-
-    console.log('Fields: ', fields);
+    const fields = __getFields(...args);
 
     const methodName = args[1].toString();
 

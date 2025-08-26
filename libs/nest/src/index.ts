@@ -12,4 +12,7 @@ export * from './lib/meta/resource-name.js';
 export * from './lib/method/auth-methods.js';
 export * from './lib/method/common.js';
 export * from './lib/method/crud-methods.js';
+export * from './lib/param/body.js';
+export * from './lib/param/param-id.js';
+export * from './lib/param/query.js';
 

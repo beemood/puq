@@ -110,6 +110,7 @@
     "@puq/prop": "workspace:*",
     "@puq/types": "workspace:*",
     "@puq/utils": "workspace:^",
+    "@puq/zod": "workspace:*",
     "zod": "^4.1.3"
   },
   "devDependencies": {

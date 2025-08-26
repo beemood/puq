@@ -1,6 +1,6 @@
 import z from 'zod';
 import { id } from './number.js';
-import { DateTimeFilter, IntFilter } from './prisma.js';
+import { DateTimeFilterSchema, IntFilterSchema } from './prisma.js';
 import { datetime } from './text.js';
 
 export const IdSchema = z.object({
@@ -18,15 +18,15 @@ export const TimestampSchema = IdSchema.extend({
 export type Timestamp = z.infer<typeof TimestampSchema>;
 
 export const WhereIdSchema = z.object({
-  id: IntFilter.optional(),
+  id: IntFilterSchema.optional(),
 });
 
 export type WhereId = z.infer<typeof WhereIdSchema>;
 
 export const WhereTimestampSchema = WhereIdSchema.extend({
-  createdAt: DateTimeFilter.optional(),
-  updatedAt: DateTimeFilter.optional(),
-  deletedAt: DateTimeFilter.optional(),
+  createdAt: DateTimeFilterSchema.optional(),
+  updatedAt: DateTimeFilterSchema.optional(),
+  deletedAt: DateTimeFilterSchema.optional(),
 });
 
 export type WhereTimestamp = z.infer<typeof WhereTimestampSchema>;

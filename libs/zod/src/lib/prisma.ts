@@ -1,14 +1,17 @@
 import z from 'zod';
+import { bool } from './boolean.js';
 import { int, num, quantity } from './number.js';
 import { datetime, str } from './text.js';
 
-export const SortOrder = z.literal(['asc', 'desc']).optional();
+export const SortOrderSchema = z.literal(['asc', 'desc']).optional();
 
-export type SortOrder = z.infer<typeof SortOrder>;
+export type SortOrder = z.infer<typeof SortOrderSchema>;
 
-export const StringMode = z.literal(['default', 'insensitive']).optional();
+export const StringModeSchema = z
+  .literal(['default', 'insensitive'])
+  .optional();
 
-export type StringMode = z.infer<typeof StringMode>;
+export type StringMode = z.infer<typeof StringModeSchema>;
 
 export const __StrFilter = z.object({
   equals: str.optional(),
@@ -21,14 +24,14 @@ export const __StrFilter = z.object({
   contains: str.optional(),
   startsWith: str.optional(),
   endsWith: str.optional(),
-  mode: StringMode,
+  mode: StringModeSchema,
 });
 
-export const StrFilter = __StrFilter.extend({
+export const StrFilterSchema = __StrFilter.extend({
   not: __StrFilter.optional(),
 });
 
-export type StrFilter = z.infer<typeof StrFilter>;
+export type StrFilter = z.infer<typeof StrFilterSchema>;
 
 export const __IntFilter = z.object({
   equals: int.optional(),
@@ -40,11 +43,11 @@ export const __IntFilter = z.object({
   gte: int.optional(),
 });
 
-export const IntFilter = __IntFilter.extend({
+export const IntFilterSchema = __IntFilter.extend({
   not: __IntFilter.optional(),
 });
 
-export type IntFilter = z.infer<typeof IntFilter>;
+export type IntFilter = z.infer<typeof IntFilterSchema>;
 
 export const __NumFilter = z.object({
   equals: num.optional(),
@@ -56,11 +59,11 @@ export const __NumFilter = z.object({
   gte: num.optional(),
 });
 
-export const NumFilter = __NumFilter.extend({
+export const NumFilterSchema = __NumFilter.extend({
   not: __NumFilter.optional(),
 });
 
-export type NumFilter = z.infer<typeof NumFilter>;
+export type NumFilter = z.infer<typeof NumFilterSchema>;
 
 export const __DateTimeFilter = z.object({
   equals: datetime,
@@ -72,15 +75,31 @@ export const __DateTimeFilter = z.object({
   gte: datetime,
 });
 
-export const DateTimeFilter = __DateTimeFilter.extend({
+export const DateTimeFilterSchema = __DateTimeFilter.extend({
   not: __DateTimeFilter.optional(),
 });
 
-export type DateTimeFilter = z.infer<typeof DateTimeFilter>;
+export type DateTimeFilter = z.infer<typeof DateTimeFilterSchema>;
 
-export const Paginator = z.object({
+export const PaginatorSchema = z.object({
   take: quantity.optional(),
   skip: quantity.optional(),
 });
 
-export type Paginator = z.infer<typeof Paginator>;
+export type Paginator = z.infer<typeof PaginatorSchema>;
+
+export const SelectIdSchema = z.object({
+  id: bool.optional(),
+});
+
+export const SelectTimestampSchema = SelectIdSchema.extend({
+  createdAt: bool.optional(),
+  updatedAt: bool.optional(),
+  deletedAt: bool.optional(),
+});
+
+export const LimitSchema = z.object({
+  limit: quantity.optional(),
+});
+
+export type Limit = z.infer<typeof LimitSchema>;

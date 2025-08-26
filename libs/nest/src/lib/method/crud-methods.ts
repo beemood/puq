@@ -2,11 +2,14 @@ import { Delete, Get, Post, Put } from '@nestjs/common';
 import { ApiBody, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { names, pluralNames } from '@puq/names';
 import { inferResourceName } from '../common/infer-resource-name.js';
-import { CommonMethodDecorator } from './common.js';
+import { __getFields, CommonMethodDecorator } from './common.js';
 
-export function FindMany(properties?: Record<string, string>): MethodDecorator {
+export function FindMany(): MethodDecorator {
   return (...args) => {
-    CommonMethodDecorator(properties)(...args);
+    CommonMethodDecorator()(...args);
+
+    const fields = __getFields(...args);
+
     const className = args[0].constructor.name;
     const resourceName = inferResourceName(className);
     const pluralResourceNames = pluralNames(resourceName);
@@ -25,11 +28,9 @@ export function FindMany(properties?: Record<string, string>): MethodDecorator {
       default: 0,
     })(...args);
 
-    ApiQuery({ name: 'search', type: 'string', required: false })(...args);
-
     ApiQuery({
       name: 'orderBy',
-      enum: properties ? Object.keys(properties) : undefined,
+      enum: fields,
       required: false,
     })(...args);
 
@@ -40,15 +41,19 @@ export function FindMany(properties?: Record<string, string>): MethodDecorator {
       required: false,
     })(...args);
 
+    ApiQuery({
+      name: 'where',
+      schema: { properties: {} },
+      required: false,
+    })(...args);
+
     Get(pluralResourceNames.kebabCase)(...args);
   };
 }
 
-export function FindOneById(
-  properties?: Record<string, string>
-): MethodDecorator {
+export function FindOneById(): MethodDecorator {
   return (...args) => {
-    CommonMethodDecorator(properties)(...args);
+    CommonMethodDecorator()(...args);
     const className = args[0].constructor.name;
     const resourceName = inferResourceName(className);
     const resourceNames = names(resourceName);
@@ -58,11 +63,9 @@ export function FindOneById(
   };
 }
 
-export function CreateOne(
-  properties?: Record<string, string>
-): MethodDecorator {
+export function CreateOne(): MethodDecorator {
   return (...args) => {
-    CommonMethodDecorator(properties)(...args);
+    CommonMethodDecorator()(...args);
     const className = args[0].constructor.name;
     const resourceName = inferResourceName(className);
     const resourceNames = names(resourceName);
@@ -71,11 +74,9 @@ export function CreateOne(
   };
 }
 
-export function CreateMany(
-  properties?: Record<string, string>
-): MethodDecorator {
+export function CreateMany(): MethodDecorator {
   return (...args) => {
-    CommonMethodDecorator(properties)(...args);
+    CommonMethodDecorator()(...args);
     const className = args[0].constructor.name;
     const resourceName = inferResourceName(className);
     const pluralResourceNames = pluralNames(resourceName);
@@ -84,11 +85,9 @@ export function CreateMany(
   };
 }
 
-export function DeleteOneById(
-  properties?: Record<string, string>
-): MethodDecorator {
+export function DeleteOneById(): MethodDecorator {
   return (...args) => {
-    CommonMethodDecorator(properties)(...args);
+    CommonMethodDecorator()(...args);
     const className = args[0].constructor.name;
     const resourceName = inferResourceName(className);
     const resourceNames = names(resourceName);
@@ -98,11 +97,17 @@ export function DeleteOneById(
   };
 }
 
-export function DeleteMany(
-  properties?: Record<string, string>
-): MethodDecorator {
+export function DeleteMany(): MethodDecorator {
   return (...args) => {
-    CommonMethodDecorator(properties)(...args);
+    CommonMethodDecorator()(...args);
+
+    ApiQuery({
+      name: 'limit',
+      type: 'integer',
+      required: false,
+      nullable: true,
+    })(...args);
+
     const className = args[0].constructor.name;
     const resourceName = inferResourceName(className);
     const pluralResourceNames = pluralNames(resourceName);
@@ -110,11 +115,9 @@ export function DeleteMany(
   };
 }
 
-export function UpdateOne(
-  properties?: Record<string, string>
-): MethodDecorator {
+export function UpdateOne(): MethodDecorator {
   return (...args) => {
-    CommonMethodDecorator(properties)(...args);
+    CommonMethodDecorator()(...args);
     const className = args[0].constructor.name;
     const resourceName = inferResourceName(className);
     const resourceNames = names(resourceName);
@@ -125,11 +128,9 @@ export function UpdateOne(
   };
 }
 
-export function UpdateMany(
-  properties?: Record<string, string>
-): MethodDecorator {
+export function UpdateMany(): MethodDecorator {
   return (...args) => {
-    CommonMethodDecorator(properties)(...args);
+    CommonMethodDecorator()(...args);
     const className = args[0].constructor.name;
     const resourceName = inferResourceName(className);
     const pluralResourceNames = pluralNames(resourceName);

@@ -60,6 +60,7 @@
     "@nestjs/common": "^11.1.6",
     "@nestjs/swagger": "^11.2.0",
     "@puq/names": "workspace:*",
-    "@swc/helpers": "~0.5.11"
+    "@swc/helpers": "~0.5.11",
+    "zod": "^4.1.3"
   }
 }

@@ -1,3 +1,3 @@
 import z from 'zod';
 
-export const bool = () => z.coerce.boolean();
+export const bool = z.coerce.boolean();

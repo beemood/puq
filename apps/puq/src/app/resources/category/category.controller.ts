@@ -1,19 +1,27 @@
-/* eslint-disable @nx/enforce-module-boundaries */
-
-import { Body, Param, Query } from '@nestjs/common';
-
-import {
-  CreateCategorySchema,
-  UpdateCategorySchema,
-  WhereCategorySchema,
+import type {
+  CategoryFields,
+  CreateCategory,
+  DeleteManyCategory,
+  QueryCategory,
+  UpdateCategory,
 } from '@puq/models';
 import {
+  CategoryFieldsSchema,
+  CreateCategorySchema,
+  DeleteManyCategorySchema,
+  QueryCategorySchema,
+  UpdateCategorySchema,
+} from '@puq/models';
+import {
+  Body,
   Controller,
   CreateOne,
   DeleteMany,
   DeleteOneById,
   FindMany,
   FindOneById,
+  ParamId,
+  Query,
   UpdateOne,
 } from '@puq/nest';
 import { InjectRepository } from '@puq/prisma';
@@ -22,44 +30,52 @@ import { Prisma } from '@puq/prisma-puq';
 @Controller()
 export class CategoryController {
   static readonly fields = Object.keys(Prisma.CategoryScalarFieldEnum);
-  
+
   constructor(
     @InjectRepository('category')
     public readonly repo: Prisma.CategoryDelegate
   ) {}
 
   @CreateOne()
-  createOne(@Body() data: any) {
-    data = CreateCategorySchema.parse(data);
-    return this.repo.create({ data });
+  createOne(
+    @Body(CreateCategorySchema) data: CreateCategory,
+    @Query(CategoryFieldsSchema) fields: CategoryFields
+  ) {
+    return this.repo.create({ data, ...fields });
   }
 
   @UpdateOne()
-  updateOne(@Param('id') id: number, @Body() data: any) {
-    data = UpdateCategorySchema.parse(data);
-    return this.repo.update({ where: { id }, data });
+  updateOne(
+    @ParamId() id: number,
+    @Body(UpdateCategorySchema) data: UpdateCategory,
+    @Query(CategoryFieldsSchema) fields: CategoryFields
+  ) {
+    return this.repo.update({ where: { id }, data, ...fields });
   }
 
   @FindMany()
-  findMany(@Query() query: any) {
-    const where = WhereCategorySchema.parse(query);
-    return this.repo.findMany({ where });
+  findMany(@Query(QueryCategorySchema) query: QueryCategory) {
+    return this.repo.findMany({ ...query });
   }
 
   @FindOneById()
-  findOneById(@Param('id') id: number) {
-    return this.repo.findUnique({ where: { id } });
+  findOneById(
+    @ParamId() id: number,
+    @Query(CategoryFieldsSchema) fields: CategoryFields
+  ) {
+    return this.repo.findUnique({ where: { id }, ...fields });
   }
 
   @DeleteMany()
-  deleteMany(@Query() query: any) {
-    const where = WhereCategorySchema.parse(query);
-
-    return this.repo.deleteMany({ where });
+  deleteMany(@Query(DeleteManyCategorySchema) query: DeleteManyCategory) {
+    return this.repo.deleteMany({ ...query });
   }
 
   @DeleteOneById()
-  deleteOneById(@Param('id') id: number) {
-    return this.repo.delete({ where: { id } });
+  deleteOneById(
+    @ParamId() id: number,
+    @Query(CategoryFieldsSchema) fields: CategoryFields
+  ) {
+    return this.repo.delete({ where: { id }, ...fields });
   }
 }
