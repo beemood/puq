@@ -135,6 +135,9 @@ importers:
       '@puq/models':
         specifier: workspace:*
         version: link:../../libs/models
+      '@puq/nest':
+        specifier: workspace:*
+        version: link:../../libs/nest
       '@puq/prisma':
         specifier: workspace:^
         version: link:../../libs/prisma

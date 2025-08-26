@@ -1,5 +1,5 @@
 export function normalizeName(name: string): string {
-  if (/^[A-Z\.-\s\_]{1,}$/.test(name)) {
+  if (/^[A-Z.-\s_]{1,}$/.test(name)) {
     name = name.toLowerCase();
   }
 
@@ -14,8 +14,8 @@ export function normalizeName(name: string): string {
     })
     .join('')
     .replace(/\s{1,}|\t{1,}|\n{1,}/g, '-')
-    .replace(/\.{1,}|\_{1,}|\|{1,}/g, '-')
-    .replace(/\-{2,}/g, '-')
+    .replace(/\.{1,}|_{1,}|\|{1,}/g, '-')
+    .replace(/-{2,}/g, '-')
     .toLowerCase();
 
   if (name == '') throw new Error(`name, <${name}>, is empty!`);

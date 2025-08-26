@@ -34,7 +34,7 @@ export function toPascalCase(name: string) {
 }
 
 export function toSnakeCase(name: string) {
-  return normalizeName(name).replace(/\-/g, '_');
+  return normalizeName(name).replace(/-/g, '_');
 }
 
 export function toScreamingSnakeCase(name: string) {
@@ -42,7 +42,7 @@ export function toScreamingSnakeCase(name: string) {
 }
 
 export function toSentenceCase(name: string) {
-  name = name.replace(/\-/, ' ');
+  name = normalizeName(name).replace(/-/g, ' ');
   return name[0].toUpperCase() + name.slice(1);
 }
 

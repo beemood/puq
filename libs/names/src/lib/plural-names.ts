@@ -1,4 +1,5 @@
-import { Names, names } from './names.js';
+import type { Names } from './names.js';
+import { names } from './names.js';
 import { normalizeName } from './normalize-name.js';
 
 export function pluralNames(name: string): Names {
