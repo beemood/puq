@@ -6,6 +6,8 @@ export * from './lib/common/is-public-resource.js';
 export * from './lib/common/is-secure-resource.js';
 export * from './lib/controller/controller.js';
 export * from './lib/enums/operation-names.js';
+export * from './lib/filters/prisma-exception.filter.js';
+export * from './lib/filters/zod-exception.filter.js';
 export * from './lib/meta/operation-name.js';
 export * from './lib/meta/public.js';
 export * from './lib/meta/resource-name.js';

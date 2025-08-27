@@ -256,12 +256,18 @@ importers:
       '@nestjs/swagger':
         specifier: ^11.2.0
         version: 11.2.0(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)
+      '@prisma/client':
+        specifier: ^6.14.0
+        version: 6.14.0(prisma@6.14.0(magicast@0.3.5)(typescript@5.8.3))(typescript@5.8.3)
       '@puq/names':
         specifier: workspace:*
         version: link:../names
       '@swc/helpers':
         specifier: ~0.5.11
         version: 0.5.17
+      express:
+        specifier: ^5.1.0
+        version: 5.1.0
       zod:
         specifier: ^4.1.3
         version: 4.1.3
@@ -8674,7 +8680,7 @@ snapshots:
 
   compressible@2.0.18:
     dependencies:
-      mime-db: 1.52.0
+      mime-db: 1.54.0
 
   compression@1.8.1:
     dependencies:
@@ -9186,7 +9192,7 @@ snapshots:
 
   ext-list@2.2.2:
     dependencies:
-      mime-db: 1.52.0
+      mime-db: 1.54.0
 
   ext-name@5.0.0:
     dependencies:

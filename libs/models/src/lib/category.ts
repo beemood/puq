@@ -15,9 +15,9 @@ export const CategorySchema = TimestampSchema.extend({
 
 export type Category = z.infer<typeof CategorySchema>;
 
-export const CreateCategorySchema = CategorySchema.pick({
-  name: true,
-}).required();
+export const CreateCategorySchema = z.object({
+  name: name,
+});
 
 export type CreateCategory = z.infer<typeof CreateCategorySchema>;
 

@@ -7,11 +7,18 @@ export function parseIntTransformer(value: string | number) {
   return value;
 }
 
-export const num = z.coerce.number();
+export function parseNumTransformer(value: string | number) {
+  if (typeof value === 'string') {
+    return parseFloat(value);
+  }
+  return value;
+}
+
+export const num = z.number();
 
 export const int = z.int();
 
-export const positive = num.positive();
+export const positive = num.positive().transform(parseNumTransformer);
 
 export const quantity = int.nonnegative().transform(parseIntTransformer);
 

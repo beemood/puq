@@ -13,6 +13,7 @@ export function Controller(): ClassDecorator {
     const resourceNameVariants = names(resouceName);
 
     __Controller()(...args);
+
     ResourceName(resourceNameVariants.screamingSnakeCase)(...args);
     ApiTags(names(className).titleCase)(...args);
 

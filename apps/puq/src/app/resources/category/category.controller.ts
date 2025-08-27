@@ -37,45 +37,45 @@ export class CategoryController {
   ) {}
 
   @CreateOne()
-  createOne(
+  async createOne(
     @Body(CreateCategorySchema) data: CreateCategory,
     @Query(CategoryFieldsSchema) fields: CategoryFields
   ) {
-    return this.repo.create({ data, ...fields });
+    return await this.repo.create({ data, ...fields });
   }
 
   @UpdateOne()
-  updateOne(
+  async updateOne(
     @ParamId() id: number,
     @Body(UpdateCategorySchema) data: UpdateCategory,
     @Query(CategoryFieldsSchema) fields: CategoryFields
   ) {
-    return this.repo.update({ where: { id }, data, ...fields });
+    return await this.repo.update({ where: { id }, data, ...fields });
   }
 
   @FindMany()
-  findMany(@Query(QueryCategorySchema) query: QueryCategory) {
-    return this.repo.findMany({ ...query });
+  async findMany(@Query(QueryCategorySchema) query: QueryCategory) {
+    return await this.repo.findMany({ ...query });
   }
 
   @FindOneById()
-  findOneById(
+  async findOneById(
     @ParamId() id: number,
     @Query(CategoryFieldsSchema) fields: CategoryFields
   ) {
-    return this.repo.findUnique({ where: { id }, ...fields });
+    return await this.repo.findUnique({ where: { id }, ...fields });
   }
 
   @DeleteMany()
-  deleteMany(@Query(DeleteManyCategorySchema) query: DeleteManyCategory) {
-    return this.repo.deleteMany({ ...query });
+  async deleteMany(@Query(DeleteManyCategorySchema) query: DeleteManyCategory) {
+    return await this.repo.deleteMany({ ...query });
   }
 
   @DeleteOneById()
-  deleteOneById(
+  async deleteOneById(
     @ParamId() id: number,
     @Query(CategoryFieldsSchema) fields: CategoryFields
   ) {
-    return this.repo.delete({ where: { id }, ...fields });
+    return await this.repo.delete({ where: { id }, ...fields });
   }
 }

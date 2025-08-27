@@ -3,7 +3,7 @@ import z from 'zod';
 /**
  * String schema
  */
-export const str = z.coerce.string();
+export const str = z.string();
 
 /**
  * 0 to 30 charcters long string
