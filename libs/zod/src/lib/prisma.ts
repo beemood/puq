@@ -1,6 +1,6 @@
 import z from 'zod';
 import { bool } from './boolean.js';
-import { int, num, quantity } from './number.js';
+import { num, quantity } from './number.js';
 import { datetime, str } from './text.js';
 
 export const SortOrderSchema = z.literal(['asc', 'desc']).optional();
@@ -34,13 +34,13 @@ export const StrFilterSchema = __StrFilter.extend({
 export type StrFilter = z.infer<typeof StrFilterSchema>;
 
 export const __IntFilter = z.object({
-  equals: int.optional(),
-  in: int.array(),
-  notIn: z.array(int),
-  lt: int.optional(),
-  lte: int.optional(),
-  gt: int.optional(),
-  gte: int.optional(),
+  equals: z.int().optional(),
+  in: z.int().array().optional(),
+  notIn: z.int().array().optional(),
+  lt: z.int().optional(),
+  lte: z.int().optional(),
+  gt: z.int().optional(),
+  gte: z.int().optional(),
 });
 
 export const IntFilterSchema = __IntFilter.extend({
@@ -92,10 +92,20 @@ export const SelectIdSchema = z.object({
   id: bool.optional(),
 });
 
+export const OrderIdSchema = z.object({
+  id: SortOrderSchema.optional(),
+});
+
 export const SelectTimestampSchema = SelectIdSchema.extend({
   createdAt: bool.optional(),
   updatedAt: bool.optional(),
   deletedAt: bool.optional(),
+});
+
+export const OrderTimestampSchema = OrderIdSchema.extend({
+  createdAt: SortOrderSchema.optional(),
+  updatedAt: SortOrderSchema.optional(),
+  deletedAt: SortOrderSchema.optional(),
 });
 
 export const LimitSchema = z.object({

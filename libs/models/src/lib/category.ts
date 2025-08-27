@@ -1,8 +1,11 @@
 import {
   bool,
+  jsonTransformer,
   name,
+  OrderTimestampSchema,
   quantity,
   SelectTimestampSchema,
+  SortOrderSchema,
   StrFilterSchema,
   TimestampSchema,
   WhereTimestampSchema,
@@ -15,9 +18,9 @@ export const CategorySchema = TimestampSchema.extend({
 
 export type Category = z.infer<typeof CategorySchema>;
 
-export const CreateCategorySchema = z.object({
-  name: name,
-});
+export const CreateCategorySchema = CategorySchema.pick({
+  name: true,
+}).required();
 
 export type CreateCategory = z.infer<typeof CreateCategorySchema>;
 
@@ -25,15 +28,22 @@ export const UpdateCategorySchema = CreateCategorySchema.partial();
 
 export type UpdateCategory = z.infer<typeof UpdateCategorySchema>;
 
-export const WhereCategorySchema = WhereTimestampSchema.extend({
-  name: StrFilterSchema.optional(),
-});
+export const WhereCategorySchema = z.preprocess(
+  jsonTransformer,
+  WhereTimestampSchema.extend({
+    name: StrFilterSchema.optional(),
+  })
+);
 
 export type WhereCategory = z.infer<typeof WhereCategorySchema>;
 
-export const SelectCategoryFieldsSchema = SelectTimestampSchema.extend({
-  name: bool.optional(),
-});
+export const SelectCategoryFieldsSchema = z.preprocess(
+  jsonTransformer,
+  SelectTimestampSchema.extend({
+    name: bool.optional(),
+  })
+);
+
 export type SelectCategoryFields = z.infer<typeof SelectCategoryFieldsSchema>;
 
 export const CategoryFieldsSchema = z.object({
@@ -43,8 +53,20 @@ export const CategoryFieldsSchema = z.object({
 
 export type CategoryFields = z.infer<typeof CategoryFieldsSchema>;
 
+export const OrderCategorySchema = z.preprocess(
+  jsonTransformer,
+  OrderTimestampSchema.extend({
+    name: SortOrderSchema.optional(),
+  })
+);
+
+export type OderCategory = z.infer<typeof OrderCategorySchema>;
+
 export const QueryCategorySchema = CategoryFieldsSchema.extend({
-  where: WhereCategorySchema,
+  where: WhereCategorySchema.optional(),
+  orderBy: OrderCategorySchema.optional(),
+  take: quantity.optional(),
+  skip: quantity.optional(),
 });
 
 export type QueryCategory = z.infer<typeof QueryCategorySchema>;

@@ -1,7 +1,8 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import type { DynamicModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import type { ClassConstructor } from '@puq/types';
 import { getClientToken, provideClient } from './providers/client.js';
-import { ClassConstructor } from '@puq/types';
 import { DEFAULT_DATASOURCE_NAME } from './providers/constants.js';
 import {
   getRepositoryToken,

@@ -32,8 +32,7 @@ export class CategoryController {
   static readonly fields = Object.keys(Prisma.CategoryScalarFieldEnum);
 
   constructor(
-    @InjectRepository('category')
-    public readonly repo: Prisma.CategoryDelegate
+    @InjectRepository() protected readonly repo: Prisma.CategoryDelegate
   ) {}
 
   @CreateOne()

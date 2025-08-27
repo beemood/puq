@@ -30,20 +30,41 @@ export function FindMany(): MethodDecorator {
 
     ApiQuery({
       name: 'orderBy',
-      enum: fields,
-      required: false,
-    })(...args);
-
-    ApiQuery({
-      name: 'orderDir',
-      type: 'string',
-      enum: ['asc', 'desc'],
+      type: 'object',
+      schema: {
+        type: 'object',
+        properties: {
+          orderBy: {
+            properties: {
+              ...fields.reduce(
+                (p, c) => ({
+                  ...p,
+                  [c]: { type: 'string', enum: ['asc', 'desc'] },
+                }),
+                {}
+              ),
+            },
+          },
+        },
+      },
       required: false,
     })(...args);
 
     ApiQuery({
       name: 'where',
-      schema: { properties: {} },
+      schema: {
+        type: 'object',
+        properties: {
+          where: {
+            properties: {
+              ...fields.reduce(
+                (p, c) => ({ ...p, [c]: { type: 'string' } }),
+                {}
+              ),
+            },
+          },
+        },
+      },
       required: false,
     })(...args);
 

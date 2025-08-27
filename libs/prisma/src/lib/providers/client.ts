@@ -1,7 +1,8 @@
-import { Inject, Provider } from '@nestjs/common';
-import { DEFAULT_DATASOURCE_NAME } from './constants.js';
+import type { Provider } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ClassConstructor } from '@puq/types';
+import type { ClassConstructor } from '@puq/types';
+import { DEFAULT_DATASOURCE_NAME } from './constants.js';
 
 export function getClientToken(
   datasourceName = DEFAULT_DATASOURCE_NAME

@@ -1,0 +1,30 @@
+{
+  "command": {
+    "prefix": "command",
+    "scope": "typescript",
+    "body": [
+      "import { Command } from 'commander';",
+      "import { CommandClass } from '../../common/command-class';",
+      "",
+      "export type $1CommandOptions = {",
+      "  pattern: string;",
+      "  from: string[];",
+      "  to: string[];",
+      "};",
+      "",
+      "export class $1Command extends CommandClass {",
+      "  override bind(command: Command) {",
+      "    command",
+      "      .name('$2')",
+      "      .description('$2')",
+      "      .command('$2')",
+      "      .action(this.handler);",
+      "  }",
+      "",
+      "  override handler(options: $1CommandOptions) {",
+      "    console.table(options);",
+      "  }",
+      "}"
+    ]
+  }
+}

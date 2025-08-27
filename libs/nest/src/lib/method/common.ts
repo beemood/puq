@@ -6,7 +6,7 @@ import { inferOperationSummary } from './../common/infer-operation-summary.js';
 import { isPublicResource } from './../common/is-public-resource.js';
 import { isSecureResource } from './../common/is-secure-resource.js';
 
-export function __getFields(...args: any[]) {
+export function __getFields(...args: any[]): string[] {
   const fields = (args[0].constructor as any)['fields'];
 
   if (!fields)
@@ -33,27 +33,66 @@ export function CommonMethodDecorator(): MethodDecorator {
 
     ApiQuery({
       name: 'select',
-      type: 'string',
-      isArray: true,
-      enum: fields,
+      type: 'object',
+      schema: {
+        type: 'object',
+        properties: {
+          select: {
+            properties: {
+              ...fields.reduce(
+                (p, c) => ({
+                  ...p,
+                  [c]: { type: 'boolean', required: false, nullable: true },
+                }),
+                {}
+              ),
+            },
+          },
+        },
+      },
       required: false,
     })(...args);
 
     ApiQuery({
       name: 'omit',
-      type: 'array',
-      items: {
-        type: 'string',
-        enum: fields,
+      type: 'object',
+      schema: {
+        type: 'object',
+        properties: {
+          omit: {
+            properties: {
+              ...fields.reduce(
+                (p, c) => ({
+                  ...p,
+                  [c]: { type: 'boolean', required: false, nullable: true },
+                }),
+                {}
+              ),
+            },
+          },
+        },
       },
       required: false,
-      nullable: true,
     })(...args);
 
     ApiQuery({
       name: 'include',
-      type: 'array',
-      items: { type: 'string', nullable: true },
+      schema: {
+        type: 'object',
+        properties: {
+          include: {
+            properties: {
+              ...fields.reduce(
+                (p, c) => ({
+                  ...p,
+                  [c]: { type: 'boolean', required: false, nullable: true },
+                }),
+                {}
+              ),
+            },
+          },
+        },
+      },
       required: false,
       nullable: true,
     })(...args);

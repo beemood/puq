@@ -1,29 +1,22 @@
 import z from 'zod';
 
-export function parseIntTransformer(value: string | number) {
+export function intPreprocess(value: unknown) {
   if (typeof value === 'string') {
     return parseInt(value);
   }
   return value;
 }
 
-export function parseNumTransformer(value: string | number) {
-  if (typeof value === 'string') {
-    return parseFloat(value);
-  }
-  return value;
-}
+export const int = z.int();
 
 export const num = z.number();
 
-export const int = z.int();
+export const positive = z.preprocess(parseFloat, z.number().positive());
 
-export const positive = num.positive().transform(parseNumTransformer);
+export const quantity = z.preprocess(intPreprocess, z.int().nonnegative());
 
-export const quantity = int.nonnegative().transform(parseIntTransformer);
+export const rate = z.preprocess(intPreprocess, z.int().min(0).max(5));
 
-export const rate = int.min(0).max(5).transform(parseIntTransformer);
+export const percent = z.preprocess(intPreprocess, z.int().min(0).max(100));
 
-export const percent = int.min(0).max(100).transform(parseIntTransformer);
-
-export const id = z.int().positive().transform(parseIntTransformer);
+export const id = z.preprocess(intPreprocess, z.int().positive());

@@ -60,6 +60,8 @@
     "@nestjs/common": "^11.1.6",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.1.6",
+    "@puq/names": "workspace:*",
+    "@puq/nest": "workspace:*",
     "@puq/types": "workspace:*",
     "@swc/helpers": "~0.5.11"
   }
