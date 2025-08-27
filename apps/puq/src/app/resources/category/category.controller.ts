@@ -1,80 +1,61 @@
-import type {
-  CategoryFields,
-  CreateCategory,
-  DeleteManyCategory,
-  QueryCategory,
-  UpdateCategory,
-} from '@puq/models';
-import {
-  CategoryFieldsSchema,
-  CreateCategorySchema,
-  DeleteManyCategorySchema,
-  QueryCategorySchema,
-  UpdateCategorySchema,
-} from '@puq/models';
-import {
-  Body,
-  Controller,
-  CreateOne,
-  DeleteMany,
-  DeleteOneById,
-  FindMany,
-  FindOneById,
-  ParamId,
-  Query,
-  UpdateOne,
-} from '@puq/nest';
-import { InjectRepository } from '@puq/prisma';
-import { Prisma } from '@puq/prisma-puq';
+import type * as T from '@puq/models';
+import { CategorySchema as S } from '@puq/models';
+import * as N from '@puq/nest';
+import { InjectRepository as Inject } from '@puq/prisma';
+import { Prisma as P } from '@puq/prisma-puq';
 
-@Controller()
+@N.Controller()
 export class CategoryController {
-  static readonly fields = Object.keys(Prisma.CategoryScalarFieldEnum);
+  static readonly fields = Object.keys(P.CategoryScalarFieldEnum);
 
-  constructor(
-    @InjectRepository() protected readonly repo: Prisma.CategoryDelegate
-  ) {}
+  constructor(@Inject() protected readonly repo: P.CategoryDelegate) {}
 
-  @CreateOne()
+  @N.CreateOne()
   async createOne(
-    @Body(CreateCategorySchema) data: CreateCategory,
-    @Query(CategoryFieldsSchema) fields: CategoryFields
+    @N.Body(S.Create) data: T.CreateCategory,
+    @N.Query(S.Select) select: T.SelectCategory
   ) {
-    return await this.repo.create({ data, ...fields });
+    return await this.repo.create({
+      data,
+      ...select,
+    });
   }
 
-  @UpdateOne()
+  @N.UpdateOne()
   async updateOne(
-    @ParamId() id: number,
-    @Body(UpdateCategorySchema) data: UpdateCategory,
-    @Query(CategoryFieldsSchema) fields: CategoryFields
+    @N.ParamId() id: number,
+    @N.Body(S.Update) data: T.UpdateCategory,
+    @N.Query(S.Select) select: T.SelectCategory
   ) {
-    return await this.repo.update({ where: { id }, data, ...fields });
+    return await this.repo.update({ where: { id }, data, ...select });
   }
 
-  @FindMany()
-  async findMany(@Query(QueryCategorySchema) query: QueryCategory) {
-    return await this.repo.findMany({ ...query });
+  @N.FindMany()
+  async findMany(
+    @N.Query(S.Query) query: T.QueryCategory,
+    @N.Query(S.Select) select: T.SelectCategory
+  ) {
+    return await this.repo.findMany({ ...query, ...select });
   }
 
-  @FindOneById()
+  @N.FindOneById()
   async findOneById(
-    @ParamId() id: number,
-    @Query(CategoryFieldsSchema) fields: CategoryFields
+    @N.ParamId() id: number,
+    @N.Query(S.Select) select: T.SelectCategory
   ) {
-    return await this.repo.findUnique({ where: { id }, ...fields });
+    return await this.repo.findUnique({ where: { id }, ...select });
   }
 
-  @DeleteMany()
-  async deleteMany(@Query(DeleteManyCategorySchema) query: DeleteManyCategory) {
-    return await this.repo.deleteMany({ ...query });
+  @N.DeleteMany()
+  async deleteMany(@N.Query(S.DeleteMany) query: T.DeleteManyCategory) {
+    return await this.repo.deleteMany(query);
   }
 
-  @DeleteOneById()
+  @N.DeleteOneById()
   async deleteOneById(
-    @ParamId() id: number,
-    @Query(CategoryFieldsSchema) fields: CategoryFields
+    @N.ParamId() id: number,
+    @N.Query(S.Select) select: T.SelectCategory
   ) {
-    return await this.repo.delete({ where: { id }, ...fields });
+    return await this.repo.delete({ where: { id }, ...select });
   }
 }

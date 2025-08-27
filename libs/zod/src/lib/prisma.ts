@@ -1,115 +1,109 @@
 import z from 'zod';
-import { bool } from './boolean.js';
-import { num, quantity } from './number.js';
-import { datetime, str } from './text.js';
+import { quantity } from './number.js';
 
-export const SortOrderSchema = z.literal(['asc', 'desc']).optional();
+export const DirectionSchema = z.literal(['asc', 'desc']);
 
-export type SortOrder = z.infer<typeof SortOrderSchema>;
+export const StrModeSchema = z.literal(['default', 'insensitive']);
 
-export const StringModeSchema = z
-  .literal(['default', 'insensitive'])
-  .optional();
-
-export type StringMode = z.infer<typeof StringModeSchema>;
-
-export const __StrFilter = z.object({
-  equals: str.optional(),
-  in: z.array(z.string()).optional(),
-  notIn: z.array(z.string()).optional(),
-  lt: str.optional(),
-  lte: str.optional(),
-  gt: str.optional(),
-  gte: str.optional(),
-  contains: str.optional(),
-  startsWith: str.optional(),
-  endsWith: str.optional(),
-  mode: StringModeSchema,
+export const __StrFilterSchema = z.object({
+  equals: z.string(),
+  in: z.string().array(),
+  notIn: z.string().array(),
+  lt: z.string(),
+  lte: z.string(),
+  gt: z.string(),
+  gte: z.string(),
+  contains: z.string(),
+  startsWith: z.string(),
+  endsWith: z.string(),
+  mode: StrModeSchema,
 });
 
-export const StrFilterSchema = __StrFilter.extend({
-  not: __StrFilter.optional(),
-});
+export const StrFilterSchema = __StrFilterSchema
+  .extend({ not: __StrFilterSchema.partial() })
+  .partial();
 
 export type StrFilter = z.infer<typeof StrFilterSchema>;
 
-export const __IntFilter = z.object({
-  equals: z.int().optional(),
-  in: z.int().array().optional(),
-  notIn: z.int().array().optional(),
-  lt: z.int().optional(),
-  lte: z.int().optional(),
-  gt: z.int().optional(),
-  gte: z.int().optional(),
+export const __IntFilterSchema = z.object({
+  equals: z.int(),
+  in: z.int().array(),
+  notIn: z.int().array(),
+  lt: z.int(),
+  lte: z.int(),
+  gt: z.int(),
+  gte: z.int(),
 });
 
-export const IntFilterSchema = __IntFilter.extend({
-  not: __IntFilter.optional(),
-});
+export const IntFilterSchema = __IntFilterSchema
+  .extend({ not: __IntFilterSchema.partial() })
+  .partial();
 
 export type IntFilter = z.infer<typeof IntFilterSchema>;
 
-export const __NumFilter = z.object({
-  equals: num.optional(),
-  in: num.array(),
-  notIn: num.array(),
-  lt: num.optional(),
-  lte: num.optional(),
-  gt: num.optional(),
-  gte: num.optional(),
+export const __NumFilterSchema = z.object({
+  equals: z.number(),
+  in: z.number().array(),
+  notIn: z.number().array(),
+  lt: z.number(),
+  lte: z.number(),
+  gt: z.number(),
+  gte: z.number(),
 });
 
-export const NumFilterSchema = __NumFilter.extend({
-  not: __NumFilter.optional(),
-});
+export const NumFilterSchema = __NumFilterSchema
+  .extend({ not: __NumFilterSchema.partial() })
+  .partial();
 
 export type NumFilter = z.infer<typeof NumFilterSchema>;
 
-export const __DateTimeFilter = z.object({
-  equals: datetime,
-  in: datetime.array(),
-  notIn: datetime.array(),
-  lt: datetime,
-  lte: datetime,
-  gt: datetime,
-  gte: datetime,
+export const __DateTimeFilterSchema = z.object({
+  equals: z.iso.datetime(),
+  in: z.iso.datetime().array(),
+  notIn: z.iso.datetime().array(),
+  lt: z.iso.datetime(),
+  lte: z.iso.datetime(),
+  gt: z.iso.datetime(),
+  gte: z.iso.datetime(),
 });
 
-export const DateTimeFilterSchema = __DateTimeFilter.extend({
-  not: __DateTimeFilter.optional(),
-});
+export const DateTimeFilterSchema = __DateTimeFilterSchema
+  .extend({ not: __DateTimeFilterSchema.partial() })
+  .partial();
 
 export type DateTimeFilter = z.infer<typeof DateTimeFilterSchema>;
 
-export const PaginatorSchema = z.object({
-  take: quantity.optional(),
-  skip: quantity.optional(),
-});
+export const BasePaginatorSchema = {
+  take: quantity,
+  skip: quantity,
+};
 
-export type Paginator = z.infer<typeof PaginatorSchema>;
+export const BaseSelectIdSchema = {
+  id: z.boolean(),
+};
 
-export const SelectIdSchema = z.object({
-  id: bool.optional(),
-});
+export const BaseOrderIdSchema = {
+  id: DirectionSchema,
+};
 
-export const OrderIdSchema = z.object({
-  id: SortOrderSchema.optional(),
-});
+export const BaseSelectTimestampSchema = {
+  createdAt: z.boolean(),
+  updatedAt: z.boolean(),
+  deletedAt: z.boolean(),
+};
 
-export const SelectTimestampSchema = SelectIdSchema.extend({
-  createdAt: bool.optional(),
-  updatedAt: bool.optional(),
-  deletedAt: bool.optional(),
-});
+export const BaseOrderTimestampSchema = {
+  createdAt: DirectionSchema,
+  updatedAt: DirectionSchema,
+  deletedAt: DirectionSchema,
+};
 
-export const OrderTimestampSchema = OrderIdSchema.extend({
-  createdAt: SortOrderSchema.optional(),
-  updatedAt: SortOrderSchema.optional(),
-  deletedAt: SortOrderSchema.optional(),
-});
+export const BaseLimitSchema = {
+  limit: quantity,
+};
 
-export const LimitSchema = z.object({
-  limit: quantity.optional(),
-});
-
-export type Limit = z.infer<typeof LimitSchema>;
+export type Selection<T> = {
+  select?: Record<keyof T, boolean>;
+  omit?: Record<keyof T, boolean>;
+  include?: Record<keyof T, boolean>;
+};
