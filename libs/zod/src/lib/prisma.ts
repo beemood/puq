@@ -1,11 +1,11 @@
 import z from 'zod';
 import { quantity } from './number.js';
 
-export const DirectionSchema = z.literal(['asc', 'desc']);
+export const Direction = z.literal(['asc', 'desc']);
 
-export const StrModeSchema = z.literal(['default', 'insensitive']);
+export const StrMode = z.literal(['default', 'insensitive']);
 
-export const __StrFilterSchema = z.object({
+export const __StrFilter = z.object({
   equals: z.string(),
   in: z.string().array(),
   notIn: z.string().array(),
@@ -16,16 +16,14 @@ export const __StrFilterSchema = z.object({
   contains: z.string(),
   startsWith: z.string(),
   endsWith: z.string(),
-  mode: StrModeSchema,
+  mode: StrMode,
 });
 
-export const StrFilterSchema = __StrFilterSchema
-  .extend({ not: __StrFilterSchema.partial() })
+export const StrFilter = __StrFilter
+  .extend({ not: __StrFilter.partial() })
   .partial();
 
-export type StrFilter = z.infer<typeof StrFilterSchema>;
-
-export const __IntFilterSchema = z.object({
+export const __IntFilter = z.object({
   equals: z.int(),
   in: z.int().array(),
   notIn: z.int().array(),
@@ -35,13 +33,11 @@ export const __IntFilterSchema = z.object({
   gte: z.int(),
 });
 
-export const IntFilterSchema = __IntFilterSchema
-  .extend({ not: __IntFilterSchema.partial() })
+export const IntFilter = __IntFilter
+  .extend({ not: __IntFilter.partial() })
   .partial();
 
-export type IntFilter = z.infer<typeof IntFilterSchema>;
-
-export const __NumFilterSchema = z.object({
+export const __NumFilter = z.object({
   equals: z.number(),
   in: z.number().array(),
   notIn: z.number().array(),
@@ -51,11 +47,9 @@ export const __NumFilterSchema = z.object({
   gte: z.number(),
 });
 
-export const NumFilterSchema = __NumFilterSchema
-  .extend({ not: __NumFilterSchema.partial() })
+export const NumFilter = __NumFilter
+  .extend({ not: __NumFilter.partial() })
   .partial();
-
-export type NumFilter = z.infer<typeof NumFilterSchema>;
 
 export const __DateTimeFilterSchema = z.object({
   equals: z.iso.datetime(),
@@ -67,43 +61,56 @@ export const __DateTimeFilterSchema = z.object({
   gte: z.iso.datetime(),
 });
 
-export const DateTimeFilterSchema = __DateTimeFilterSchema
+export const DateTimeFilter = __DateTimeFilterSchema
   .extend({ not: __DateTimeFilterSchema.partial() })
   .partial();
 
-export type DateTimeFilter = z.infer<typeof DateTimeFilterSchema>;
-
-export const BasePaginatorSchema = {
+export const Page = {
   take: quantity,
   skip: quantity,
 };
 
-export const BaseSelectIdSchema = {
+/**
+ * Object including id field as direction schema which is used to order response body such as { id : 'asc' | 'desc' }
+ */
+export const OrderId = {
+  id: Direction,
+};
+
+export const OrderTimestamp = {
+  createdAt: Direction,
+  updatedAt: Direction,
+  deletedAt: Direction,
+};
+
+/**
+ * Object including id field as boolean schema which is used to select response body such as { id :true }
+ */
+export const SelectId = {
   id: z.boolean(),
 };
 
-export const BaseOrderIdSchema = {
-  id: DirectionSchema,
-};
-
-export const BaseSelectTimestampSchema = {
+/**
+ * Object including timestamp fields as boolean schema which is used to select response body such as { createdAt :true }
+ */
+export const SelectTimestamp = {
   createdAt: z.boolean(),
   updatedAt: z.boolean(),
   deletedAt: z.boolean(),
 };
-
-export const BaseOrderTimestampSchema = {
-  createdAt: DirectionSchema,
-  updatedAt: DirectionSchema,
-  deletedAt: DirectionSchema,
+/**
+ * Object including id and timestamp fields as boolean schema which is used to select response body such as {id :true }
+ */
+export const BaseSelectable = {
+  ...SelectId,
+  ...SelectTimestamp,
 };
 
-export const BaseLimitSchema = {
+export const BaseOrder = {
+  ...OrderId,
+  ...OrderTimestamp,
+};
+
+export const Limit = {
   limit: quantity,
-};
-
-export type Selection<T> = {
-  select?: Record<keyof T, boolean>;
-  omit?: Record<keyof T, boolean>;
-  include?: Record<keyof T, boolean>;
 };

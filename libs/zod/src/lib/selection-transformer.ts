@@ -1,20 +1,17 @@
-import type { Selection } from './prisma.js';
-
-export function __selectionTransformer<T>(selection: Selection<T>) {
+export function __selectionTransformer(selection: any) {
   if (typeof selection === 'string') {
     selection = JSON.parse(selection);
   }
 
-  const { select, omit, include } = selection;
+  const { select, omit, include, ...rest } = selection;
 
   if (select) {
-    return { select };
+    return { ...rest, select };
   } else if (omit) {
-    return { omit };
-  } else if (include) {
-    return { include };
+    return { ...rest, omit, include };
   }
-  return {};
+
+  return { ...rest };
 }
 
 /**
@@ -23,5 +20,5 @@ export function __selectionTransformer<T>(selection: Selection<T>) {
  * @returns
  */
 export function selectionTransformer(value: unknown) {
-  return __selectionTransformer(value as Selection<any>);
+  return __selectionTransformer(value);
 }

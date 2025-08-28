@@ -1,0 +1,16 @@
+{
+  "module": {
+    "prefix": "module",
+    "body": [
+      "import { Module } from '@nestjs/common';",
+      "import { PrismaModule } from '@puq/prisma';",
+      "import { $1Controller } from './$2.controller';",
+      "",
+      "@Module({",
+      "  imports: [PrismaModule.forFeature({ modelNames: [$2] })],",
+      "  controllers: [$1Controller],",
+      "})",
+      "export class $1Module {}"
+    ]
+  }
+}

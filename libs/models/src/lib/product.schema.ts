@@ -1,13 +1,20 @@
 import * as p from '@puq/zod';
 import z from 'zod';
+import { CategorySchema } from './category.schema.js';
 
-export class CategorySchema {
+export class ProductSchema {
   /**
    * Configure input validation
    */
   static readonly __Schema = {
     ...p.Base,
+    productId: z.uuid(),
     name: p.name,
+    description: p.description,
+    upc: p.barcode,
+    cost: p.currency,
+    price: p.currency,
+    categoryId: p.id,
   };
 
   /**
@@ -15,7 +22,13 @@ export class CategorySchema {
    */
   static readonly __Select = {
     ...p.BaseSelectable,
+    productId: z.boolean(),
     name: z.boolean(),
+    description: z.boolean(),
+    upc: z.boolean(),
+    cost: z.boolean(),
+    price: z.boolean(),
+    categoryId: z.boolean(),
   };
 
   /**
@@ -56,7 +69,7 @@ export class CategorySchema {
     p.jsonTransformer,
     z
       .object({
-        // Add relation fields if any
+        category: CategorySchema.IncludeMe,
       })
       .partial()
   );
@@ -83,27 +96,40 @@ export class CategorySchema {
   /**
    * Create validation schema
    */
-  static readonly Create = CategorySchema.Read.pick({
+  static readonly Create = ProductSchema.Read.pick({
+    productId: true,
     name: true,
+    description: true,
+    upc: true,
+    price: true,
+    cost: true,
 
     // Add all input fields here
   }).required({
     name: true,
-
+    upc: true,
+    price: true,
+    cost: true,
     // Add all required input fields here
   });
 
   /**
    * Update validation schema
    */
-  static readonly Update = CategorySchema.Create.partial();
+  static readonly Update = ProductSchema.Create.partial();
 
   /**
    * Configure query fields
    */
   static readonly __Where = {
     ...p.BaseWhere,
-    name: p.name,
+    productId: p.StrFilter,
+    name: p.StrFilter,
+    description: p.StrFilter,
+    upc: p.StrFilter,
+    cost: p.NumFilter,
+    price: p.NumFilter,
+    categoryId: p.IntFilter,
   };
 
   /**
@@ -120,6 +146,12 @@ export class CategorySchema {
   static readonly __Order = {
     ...p.BaseOrder,
     name: p.Direction,
+    productId: p.Direction,
+    description: p.Direction,
+    upc: p.Direction,
+    cost: p.Direction,
+    price: p.Direction,
+    categoryId: p.Direction,
   };
 
   /**
@@ -143,17 +175,14 @@ export class CategorySchema {
   /**
    * Query many schema
    */
-  static readonly QueryMany = z.preprocess(
-    p.selectionTransformer,
-    z
-      .object({
-        ...p.Page,
-        ...this.__QuerySelect,
-        orderBy: this.Order,
-        where: this.Where,
-      })
-      .partial()
-  );
+  static readonly QueryMany = z
+    .object({
+      ...p.Page,
+      ...this.__QuerySelect,
+      orderBy: this.Order,
+      where: this.Where,
+    })
+    .partial();
 
   /**
    * Relation query schema used by other schemas
@@ -169,12 +198,12 @@ export class CategorySchema {
   );
 }
 
-export type Category = z.infer<typeof CategorySchema.Read>;
-export type CreateCategory = z.infer<typeof CategorySchema.Create>;
-export type UpdateCategory = z.infer<typeof CategorySchema.Update>;
-export type PageCategory = z.infer<typeof CategorySchema.Page>;
-export type WhereCategory = z.infer<typeof CategorySchema.Where>;
-export type OrderCategory = z.infer<typeof CategorySchema.Order>;
-export type SelectCategory = z.infer<typeof CategorySchema.QuerySelect>;
-export type QueryManyCategory = z.infer<typeof CategorySchema.QueryMany>;
-export type DeleteManyCategory = z.infer<typeof CategorySchema.DeleteMany>;
+export type Product = z.infer<typeof ProductSchema.Read>;
+export type CreateProduct = z.infer<typeof ProductSchema.Create>;
+export type UpdateProduct = z.infer<typeof ProductSchema.Update>;
+export type PageProduct = z.infer<typeof ProductSchema.Page>;
+export type WhereProduct = z.infer<typeof ProductSchema.Where>;
+export type OrderProduct = z.infer<typeof ProductSchema.Order>;
+export type SelectProduct = z.infer<typeof ProductSchema.QuerySelect>;
+export type QueryManyProduct = z.infer<typeof ProductSchema.QueryMany>;
+export type DeleteManyProduct = z.infer<typeof ProductSchema.DeleteMany>;

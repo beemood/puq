@@ -1,7 +1,7 @@
 import * as p from '@puq/zod';
 import z from 'zod';
 
-export class CategorySchema {
+export class DepartmentSchema {
   /**
    * Configure input validation
    */
@@ -83,7 +83,7 @@ export class CategorySchema {
   /**
    * Create validation schema
    */
-  static readonly Create = CategorySchema.Read.pick({
+  static readonly Create = DepartmentSchema.Read.pick({
     name: true,
 
     // Add all input fields here
@@ -96,7 +96,7 @@ export class CategorySchema {
   /**
    * Update validation schema
    */
-  static readonly Update = CategorySchema.Create.partial();
+  static readonly Update = DepartmentSchema.Create.partial();
 
   /**
    * Configure query fields
@@ -143,17 +143,14 @@ export class CategorySchema {
   /**
    * Query many schema
    */
-  static readonly QueryMany = z.preprocess(
-    p.selectionTransformer,
-    z
-      .object({
-        ...p.Page,
-        ...this.__QuerySelect,
-        orderBy: this.Order,
-        where: this.Where,
-      })
-      .partial()
-  );
+  static readonly QueryMany = z
+    .object({
+      ...p.Page,
+      ...this.__QuerySelect,
+      orderBy: this.Order,
+      where: this.Where,
+    })
+    .partial();
 
   /**
    * Relation query schema used by other schemas
@@ -169,12 +166,13 @@ export class CategorySchema {
   );
 }
 
-export type Category = z.infer<typeof CategorySchema.Read>;
-export type CreateCategory = z.infer<typeof CategorySchema.Create>;
-export type UpdateCategory = z.infer<typeof CategorySchema.Update>;
-export type PageCategory = z.infer<typeof CategorySchema.Page>;
-export type WhereCategory = z.infer<typeof CategorySchema.Where>;
-export type OrderCategory = z.infer<typeof CategorySchema.Order>;
-export type SelectCategory = z.infer<typeof CategorySchema.QuerySelect>;
-export type QueryManyCategory = z.infer<typeof CategorySchema.QueryMany>;
-export type DeleteManyCategory = z.infer<typeof CategorySchema.DeleteMany>;
+export type Department = z.infer<typeof DepartmentSchema.Read>;
+export type CreateDepartment = z.infer<typeof DepartmentSchema.Create>;
+export type UpdateDepartment = z.infer<typeof DepartmentSchema.Update>;
+
+export type PageDepartment = z.infer<typeof DepartmentSchema.Page>;
+export type WhereDepartment = z.infer<typeof DepartmentSchema.Where>;
+export type OrderDepartment = z.infer<typeof DepartmentSchema.Order>;
+export type SelectDepartment = z.infer<typeof DepartmentSchema.QuerySelect>;
+export type QueryManyDepartment = z.infer<typeof DepartmentSchema.QueryMany>;
+export type DeleteManyDepartment = z.infer<typeof DepartmentSchema.DeleteMany>;
