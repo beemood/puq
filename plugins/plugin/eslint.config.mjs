@@ -19,23 +19,13 @@ export default [
       parser: await import('jsonc-eslint-parser'),
     },
   },
-
   {
-    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
+    files: ['**/package.json', '**/package.json', '**/generators.json'],
     rules: {
-      '@nx/enforce-module-boundaries': [
-        'error',
-        {
-          enforceBuildableLibDependency: true,
-          allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?[jt]s$'],
-          depConstraints: [
-            {
-              sourceTag: '*',
-              onlyDependOnLibsWithTags: ['*'],
-            },
-          ],
-        },
-      ],
+      '@nx/nx-plugin-checks': 'error',
+    },
+    languageOptions: {
+      parser: await import('jsonc-eslint-parser'),
     },
   },
 ];

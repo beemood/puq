@@ -1,6 +1,7 @@
 packages:
   - 'apps/*'
   - 'libs/*'
+  - 'plugins/*'
 autoInstallPeers: true
 onlyBuiltDependencies:
   - '@swc/core'

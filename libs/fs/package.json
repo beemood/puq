@@ -1,14 +1,14 @@
 {
-  "name": "@puq/names",
+  "name": "@puq/fs",
   "version": "0.0.1",
-  "description": "All name variants",
-  "homepage": "https://beemood.github.io/puq/libs/names",
+  "description": "File sytem",
+  "homepage": "https://beemood.github.io/puq/libs/fs",
   "author": {
     "email": "robert.brightline@gmail.com",
     "name": "Robert Brightline",
     "url": "https://beemood.github.io"
   },
-  "icon": "https://beemood.github.io/puq/libs/names/assets/favicon.png",
+  "icon": "https://beemood.github.io/puq/libs/fs/assets/favicon.png",
   "funding": [
     "https://cash.app/$puqlib"
   ],
@@ -30,7 +30,7 @@
     "!**/*.tsbuildinfo"
   ],
   "nx": {
-    "sourceRoot": "libs/names/src",
+    "sourceRoot": "libs/fs/src",
     "targets": {
       "build": {
         "executor": "@nx/js:swc",
@@ -38,9 +38,9 @@
           "{options.outputPath}"
         ],
         "options": {
-          "outputPath": "libs/names/dist",
-          "main": "libs/names/src/index.ts",
-          "tsConfig": "libs/names/tsconfig.lib.json",
+          "outputPath": "libs/fs/dist",
+          "main": "libs/fs/src/index.ts",
+          "tsConfig": "libs/fs/tsconfig.lib.json",
           "skipTypeCheck": true,
           "stripLeadingPaths": true
         }
@@ -57,9 +57,10 @@
     }
   },
   "dependencies": {
-    "@swc/helpers": "~0.5.11"
+    "@swc/helpers": "~0.5.11",
+    "js-yaml": "^4.1.0"
   },
   "devDependencies": {
-    "typedoc": "^0.28.12"
+    "@types/js-yaml": "^4.0.9"
   }
 }

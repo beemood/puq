@@ -1,0 +1,71 @@
+{
+  "name": "@puq/plugin",
+  "version": "0.0.1",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@puq/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "!**/*.tsbuildinfo",
+    "generators.json"
+  ],
+  "bin": {
+    "puq": "./bin/plugin.js"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "executor": "@nx/js:tsc",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "options": {
+          "outputPath": "plugins/plugin/dist",
+          "main": "plugins/plugin/src/index.ts",
+          "tsConfig": "plugins/plugin/tsconfig.lib.json",
+          "rootDir": "plugins/plugin/src",
+          "generatePackageJson": false,
+          "assets": [
+            {
+              "input": "./plugins/plugin/src",
+              "glob": "**/!(*.ts)",
+              "output": "."
+            },
+            {
+              "input": "./plugins/plugin/src",
+              "glob": "**/*.d.ts",
+              "output": "."
+            }
+          ]
+        }
+      },
+      "doc": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npx typedoc"
+          ],
+          "cwd": "{projectRoot}"
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "@nx/devkit": "21.5.2",
+    "commander": "^14.0.1",
+    "tslib": "^2.3.0"
+  },
+  "generators": "./generators.json",
+  "devDependencies": {
+    "@types/commander": "^2.12.5"
+  }
+}

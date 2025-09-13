@@ -11,6 +11,12 @@
     },
     {
       "path": "./libs/names"
+    },
+    {
+      "path": "./plugins/plugin"
+    },
+    {
+      "path": "./libs/fs"
     }
   ]
 }

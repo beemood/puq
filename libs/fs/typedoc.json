@@ -1,0 +1,6 @@
+{
+  "name": "File system",
+  "favicon": "./favicon.png",
+  "entryPoints": ["./src/index.ts"],
+  "out": "../../public/libs/fs"
+}

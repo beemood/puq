@@ -1,10 +1,14 @@
 <p align="center">
-  <img src="https://beemood.github.io/puq/libs/names/assets/favicon.png" alt="Logo" />
+  <img src="https://beemood.github.io/puq/libs/fs/assets/favicon.png" alt="Logo" />
 </p>
 
-# @puq/names
+# @puq/fs
 
-All name variants
+File system library
+
+## Install
+
+`pnpm add @puq/fs`
 
 ## Funding
 
