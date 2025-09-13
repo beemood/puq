@@ -1,0 +1,6 @@
+{
+  "name": "Names",
+  "favicon": "./favicon.png",
+  "entryPoints": ["./src/index.ts"],
+  "out": "../../public/libs/names"
+}
