@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Common libraries",
   "license": "MIT",
+  "scripts": {
+    "prepare": ""
+  },
   "homepage": "https://beemood.github.io/puq",
   "author": {
     "email": "robert.brightline@gmail.com",
