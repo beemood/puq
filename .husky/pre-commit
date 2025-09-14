@@ -2,4 +2,4 @@
 
 
 
-# npx nx run-many -t test
+npx nx run-many -t test build lint
