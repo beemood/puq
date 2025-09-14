@@ -1,20 +1,12 @@
 {
-  "name": "@puq/fs",
-  "version": "0.0.1",
+  "name": "<%- projectName %>",
+  "version": "<%- mp.version %>",
   "description": "File sytem",
-  "homepage": "https://beemood.github.io/puq/libs/fs",
-  "author": {
-    "email": "robert.brightline@gmail.com",
-    "name": "Robert Brightline",
-    "url": "https://beemood.github.io"
-  },
-  "icon": "https://beemood.github.io/puq/libs/fs/assets/favicon.png",
-  "funding": [
-    "https://cash.app/$puqlib"
-  ],
-  "keywords": [
-    "fs"
-  ],
+  "homepage": "<%- mp.homepage %>/<%- projectDirectory %>",
+  "author": <%- JSON.stringify(mp.author) %>,
+  "icon": "<%- mp.homepage %>/<%- projectDirectory %>/assets/favicon.png",
+  "funding": <%- JSON.stringify(mp.funding) %>,
+  "keywords": [],
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -22,7 +14,6 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "@puq/source": "./src/index.ts",
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
@@ -33,7 +24,7 @@
     "!**/*.tsbuildinfo"
   ],
   "nx": {
-    "sourceRoot": "libs/fs/src",
+    "sourceRoot": "<%- projectDirectory %>/src",
     "targets": {
       "build": {
         "executor": "@nx/js:swc",
@@ -41,9 +32,9 @@
           "{options.outputPath}"
         ],
         "options": {
-          "outputPath": "libs/fs/dist",
-          "main": "libs/fs/src/index.ts",
-          "tsConfig": "libs/fs/tsconfig.lib.json",
+          "outputPath": "<%- projectDirectory %>/dist",
+          "main": "<%- projectDirectory %>/src/index.ts",
+          "tsConfig": "<%- projectDirectory %>/tsconfig.lib.json",
           "skipTypeCheck": true,
           "stripLeadingPaths": true
         }
@@ -61,9 +52,7 @@
   },
   "dependencies": {
     "@swc/helpers": "~0.5.11",
-    "js-yaml": "^4.1.0"
   },
   "devDependencies": {
-    "@types/js-yaml": "^4.0.9"
   }
 }

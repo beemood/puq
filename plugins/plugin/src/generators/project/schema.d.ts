@@ -1,3 +1,6 @@
+export type ProjectType = 'lib' | 'api' | 'plugin';
+
 export interface ProjectGeneratorSchema {
-  name: string;
+  directory: string;
+  type: ProjectType
 }

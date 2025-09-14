@@ -1,6 +1,6 @@
 {
-  "name": "File system",
+  "name": "<%- fileName %>",
   "favicon": "./favicon.png",
   "entryPoints": ["./src/index.ts"],
-  "out": "../../public/libs/fs"
+  "out": "../../public/<%- projectDirectory %>"
 }
