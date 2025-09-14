@@ -6,5 +6,5 @@ export function tmpdir() {
 }
 
 export function testDirectory(projectDirectory: string) {
-  return join(tmpdir(), projectDirectory);
+  return join(tmpdir(), 'test', projectDirectory);
 }

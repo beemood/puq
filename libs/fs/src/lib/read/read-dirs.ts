@@ -6,6 +6,14 @@ export type ReadDirOptions = ObjectEncodingOptions & {
   recursive?: boolean | undefined;
 };
 
+/**
+ * List file/directory paths under the {@link rootPath} directory.
+ *
+ * @group Read
+ * @param rootPath string
+ * @param options {@link ReadDirOptions}
+ * @returns List of file/directory paths only under the {@link rootPath} directory.
+ */
 export async function readDirs(
   rootPath: string,
   options?: ReadDirOptions
