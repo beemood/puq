@@ -1,20 +1,33 @@
-import { Tree, readProjectConfiguration } from '@nx/devkit';
-import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import { } from '@nx/devkit';
+import {
+    createTsconfigReferenceUpdater,
+    getOrganizationPrefix,
+    getShortName
+} from './project-helper';
 
-import { projectGenerator } from './project';
-import { ProjectGeneratorSchema } from './schema';
-
-describe('project generator', () => {
-  let tree: Tree;
-  const options: ProjectGeneratorSchema = { directory: 'test', type: 'api' };
-
-  beforeEach(() => {
-    tree = createTreeWithEmptyWorkspace();
+describe('project', () => {
+  describe('getOrganizationPrefix', () => {
+    it('should get the organization prefix', () => {
+      expect(getOrganizationPrefix('@some/project')).toEqual('@some');
+    });
   });
 
-  it('should run successfully', async () => {
-    await projectGenerator(tree, options);
-    const config = readProjectConfiguration(tree, 'test');
-    expect(config).toBeDefined();
+  describe('getShortName', () => {
+    it('should get short name', () => {
+      expect(getShortName('some/name')).toEqual('name');
+    });
+  });
+
+  describe('addTsconfigReference', () => {
+    it('should add tsconfig reference', () => {
+      const updater = createTsconfigReferenceUpdater('some/dir');
+
+      const tsconfigJson = {};
+      const updatedTsconfig = updater(tsconfigJson);
+
+      expect(updatedTsconfig).toHaveProperty('references');
+      expect(updatedTsconfig.references[0]).toHaveProperty('path');
+      expect(updatedTsconfig.references[0].path).toEqual('./some/dir');
+    });
   });
 });
