@@ -1,12 +1,13 @@
 import { stat } from 'fs/promises';
 import { join } from 'path';
-import { readdir, ReadDirOptions } from './readdir.js';
+import { ReadDirOptions } from './read-dir-options.js';
+import { readDir } from './read-dir.js';
 
 export async function directories(
   rootPath: string,
   options?: ReadDirOptions
 ): Promise<string[]> {
-  const allPaths = await readdir(rootPath, options);
+  const allPaths = await readDir(rootPath, options);
 
   const directoryPaths: string[] = [];
 

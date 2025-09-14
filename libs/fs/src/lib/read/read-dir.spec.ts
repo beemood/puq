@@ -1,8 +1,8 @@
-import { readdir } from 'fs/promises';
+import { readDir } from './read-dir.js';
 
 describe('dirs', () => {
   it('should read directories', async () => {
-    const d = await readdir('.', { recursive: true });
+    const d = await readDir('.', { recursive: true });
 
     console.log(d);
   });
