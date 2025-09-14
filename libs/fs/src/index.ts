@@ -4,7 +4,7 @@ export * from './lib/read/directories.js';
 export * from './lib/read/file-node.js';
 export * from './lib/read/files.js';
 export * from './lib/read/read-dir-options.js';
-export * from './lib/read/read-dir.js';
+export * from './lib/read/read-dirs.js';
 export * from './lib/read/read-json-file.js';
 export * from './lib/read/read-text-file.js';
 export * from './lib/read/read-yaml-file.js';
