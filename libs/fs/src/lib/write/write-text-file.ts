@@ -1,4 +1,5 @@
-import { writeFile } from 'fs/promises';
+import { mkdir, writeFile } from 'fs/promises';
+import { dirname } from 'path';
 import { OpenMode } from './open-mode.js';
 import { WriteFileOptions } from './write-file-options.js';
 
@@ -7,6 +8,7 @@ export async function __writeTextFile(
   content: string,
   options?: WriteFileOptions
 ) {
+  await mkdir(dirname(filePath), { recursive: true });
   await writeFile(filePath, content, {
     encoding: 'utf-8',
     ...options,

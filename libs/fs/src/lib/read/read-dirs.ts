@@ -1,5 +1,10 @@
+import { ObjectEncodingOptions } from 'fs';
 import { readdir } from 'fs/promises';
-import { ReadDirOptions } from './read-dir-options.js';
+
+export type ReadDirOptions = ObjectEncodingOptions & {
+  withFileTypes?: false | undefined;
+  recursive?: boolean | undefined;
+};
 
 export async function readDirs(
   rootPath: string,

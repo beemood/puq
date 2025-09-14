@@ -1,0 +1,6 @@
+{
+  "name": "testing",
+  "favicon": "./favicon.png",
+  "entryPoints": ["./src/index.ts"],
+  "out": "../../public/plugins/testing"
+}

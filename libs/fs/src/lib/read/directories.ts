@@ -1,7 +1,6 @@
 import { stat } from 'fs/promises';
 import { join } from 'path';
-import { ReadDirOptions } from './read-dir-options.js';
-import { readDirs } from './read-dirs.js';
+import { ReadDirOptions, readDirs } from './read-dirs.js';
 
 export async function directories(
   rootPath: string,

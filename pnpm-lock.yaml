@@ -121,6 +121,9 @@ importers:
 
   libs/fs:
     dependencies:
+      '@puq/testing':
+        specifier: workspace:*
+        version: link:../../plugins/testing
       '@swc/helpers':
         specifier: ~0.5.11
         version: 0.5.17
@@ -157,6 +160,15 @@ importers:
       '@types/commander':
         specifier: ^2.12.5
         version: 2.12.5
+
+  plugins/testing:
+    dependencies:
+      '@nx/devkit':
+        specifier: 21.5.2
+        version: 21.5.2(nx@21.5.2(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.9.2))(@swc/core@1.5.29(@swc/helpers@0.5.17)))
+      '@swc/helpers':
+        specifier: ~0.5.11
+        version: 0.5.17
 
 packages:
 
