@@ -6,7 +6,7 @@ import { ProjectGeneratorSchema } from './schema';
 
 describe('project generator', () => {
   let tree: Tree;
-  const options: ProjectGeneratorSchema = { directory: 'test' };
+  const options: ProjectGeneratorSchema = { directory: 'test', type: 'api' };
 
   beforeEach(() => {
     tree = createTreeWithEmptyWorkspace();
