@@ -17,6 +17,9 @@
     },
     {
       "path": "./libs/fs"
+    },
+    {
+      "path": "./tmp/sample"
     }
   ]
 }
