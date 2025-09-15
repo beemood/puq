@@ -10,6 +10,5 @@
   "eslint.validate": [
     "json",
     "typescript"
-  ],
-  "editor.snippetSuggestions": "top"
+  ]
 }
