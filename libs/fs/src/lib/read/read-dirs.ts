@@ -1,5 +1,6 @@
 import { ObjectEncodingOptions } from 'fs';
 import { readdir } from 'fs/promises';
+import { resolve } from './scope.js';
 
 export type ReadDirOptions = ObjectEncodingOptions & {
   withFileTypes?: false | undefined;
@@ -18,5 +19,6 @@ export async function readDirs(
   rootPath: string,
   options?: ReadDirOptions
 ): Promise<string[]> {
+  rootPath = resolve(rootPath);
   return await readdir(rootPath, { encoding: 'utf-8', ...options });
 }

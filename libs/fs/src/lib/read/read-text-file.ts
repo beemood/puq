@@ -1,4 +1,6 @@
 import { readFile } from 'fs/promises';
+import { resolve } from './scope.js';
+
 /**
  * Read text file
  *
@@ -7,5 +9,6 @@ import { readFile } from 'fs/promises';
  * @returns utf-8 file content
  */
 export async function readTextFile(filePath: string) {
-  return await readFile(filePath, { encoding: 'utf-8' });
+  filePath = resolve(filePath);
+  return await readFile(resolve(filePath), { encoding: 'utf-8' });
 }

@@ -1,3 +1,5 @@
+import { workspaceRoot } from '@nx/devkit';
+import { resolve } from 'path';
 import { defineConfig } from 'vite';
 
 export default defineConfig(() => ({
@@ -14,6 +16,9 @@ export default defineConfig(() => ({
     coverage: {
       reportsDirectory: './test-output/vitest/coverage',
       provider: 'v8' as const,
+    },
+    env: {
+      FILE_SYSTEM_SCOPE: resolve(workspaceRoot, 'tmp/test/libs/fs'),
     },
   },
 }));

@@ -5,7 +5,7 @@ import { readJsonFile } from './read-json-file.js';
 import { scope } from './scope.js';
 
 describe('readJsonFile', () => {
-  const root = testDirectory('lib/fs/read-json-file');
+  const root = testDirectory('libs/fs/readJsonFile');
   const resolve = scope(root);
   const filePath = resolve(root, 'file');
 

@@ -1,4 +1,4 @@
-import { resolve } from 'path';
+import path from 'path';
 
 export type PathResolver = (...segments: string[]) => string;
 
@@ -16,16 +16,26 @@ export class PathOutOfScopeError extends Error {
  * @returns secure resolver function
  */
 export function scope(root: string): PathResolver {
-  const scopePath = resolve(root);
+  const scopePath = path.resolve(root);
 
-  function pathResolver(...segments: string[]) {
-    const resolved = resolve(...segments);
-
+  function scopedResolver(...segments: string[]) {
+    const resolved = path.resolve(...segments);
     if (resolved.startsWith(scopePath)) {
       return resolved;
     }
     throw new PathOutOfScopeError(resolved, scopePath);
   }
 
-  return pathResolver;
+  return scopedResolver;
 }
+
+function createScopeResolver() {
+  const FILE_SYSTEM_SCOPE = process.env.FILE_SYSTEM_SCOPE;
+  if (FILE_SYSTEM_SCOPE == undefined || FILE_SYSTEM_SCOPE == '') {
+    return path.resolve;
+  } else {
+    return scope(path.resolve(FILE_SYSTEM_SCOPE));
+  }
+}
+
+export const resolve = createScopeResolver();

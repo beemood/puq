@@ -1,7 +1,9 @@
 import { appendFile, mkdir, writeFile } from 'fs/promises';
 import { dirname } from 'path';
+import { resolve } from '../read/scope.js';
 import { WriteFileOptions } from './write-file-options.js';
 import { WriteFlag } from './write-flag.js';
+
 /**
  * Write text file with utf-8 encoding
  *
@@ -15,6 +17,7 @@ export async function __writeTextFile(
   content: string,
   options?: WriteFileOptions
 ) {
+  filePath = resolve(filePath);
   await mkdir(dirname(filePath), { recursive: true });
   await writeFile(filePath, content, {
     encoding: 'utf-8',

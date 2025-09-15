@@ -1,5 +1,7 @@
 import { load } from 'js-yaml';
 import { readTextFile } from './read-text-file.js';
+import { resolve } from './scope.js';
+
 /**
  * Read and parse yaml file
  *
@@ -8,6 +10,6 @@ import { readTextFile } from './read-text-file.js';
  * @returns parsed yaml value such as object or valid yaml literal
  */
 export async function readYamlFile<T>(filePath: string) {
-  const content = await readTextFile(filePath);
+  const content = await readTextFile(resolve(filePath));
   return load(content) as T;
 }
