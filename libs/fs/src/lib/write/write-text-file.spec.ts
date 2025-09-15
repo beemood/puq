@@ -1,5 +1,4 @@
 import { testDirectory } from '@puq/testing';
-
 import { rm } from '../delete/rm.js';
 import { readTextFile } from '../read/read-text-file.js';
 import { scope } from '../read/scope.js';
@@ -36,6 +35,9 @@ describe('writeTextFile', () => {
     const root = resolve('appendTextFile');
     const filePath = resolve(root, 'appendTextFile');
 
+    beforeAll(async () => {
+      await rm(root);
+    });
     afterAll(async () => {
       await rm(root);
     });
