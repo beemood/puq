@@ -1,1 +1,1 @@
-require('../dist/commands/commands.js')
+require('../dist/commands/commands.js').parse();
