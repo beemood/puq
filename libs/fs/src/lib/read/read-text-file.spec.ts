@@ -5,9 +5,9 @@ import { readTextFile } from './read-text-file.js';
 import { scope } from './scope.js';
 
 describe('readTextFile', () => {
-  const root = testDirectory('lib/fs/read-text-file');
+  const root = testDirectory('libs/fs/read-text-file');
   const resolve = scope(root);
-  const filePath = resolve(root, 'file.txt');
+  const filePath = resolve(root, 'file');
 
   beforeAll(async () => {
     await writeTextFile(filePath, 'some');

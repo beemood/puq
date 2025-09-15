@@ -7,11 +7,12 @@ import { scope } from './scope.js';
 describe('readJsonFile', () => {
   const root = testDirectory('lib/fs/read-json-file');
   const resolve = scope(root);
-  const filePath = resolve(root, 'file.json');
+  const filePath = resolve(root, 'file');
 
   beforeAll(async () => {
     await writeJsonFile(filePath, { ok: true });
   });
+
   afterAll(async () => {
     await rm(root, { recursive: true });
   });

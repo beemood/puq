@@ -6,11 +6,9 @@ import {
 } from '@puq/testing';
 import { rm } from 'fs/promises';
 import { readDirs } from './read-dirs.js';
-import { scope } from './scope.js';
 
 describe('dirs', () => {
   const root = testDirectory('libs/fs/read-dirs');
-  const resolve = scope(root);
 
   beforeAll(async () => {
     await createTestFiles(root);

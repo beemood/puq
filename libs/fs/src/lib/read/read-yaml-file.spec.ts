@@ -5,9 +5,9 @@ import { readYamlFile } from './read-yaml-file.js';
 import { scope } from './scope.js';
 
 describe('readYamlFile', () => {
-  const root = testDirectory('lib/fs/read-yaml-file');
+  const root = testDirectory('libs/fs/read-yaml-file');
   const resolve = scope(root);
-  const filePath = resolve(root, 'file.yaml');
+  const filePath = resolve(root, 'file');
 
   beforeAll(async () => {
     await writeYamlFile(filePath, { ok: true });

@@ -1,8 +1,15 @@
-import { mkdir, writeFile } from 'fs/promises';
+import { appendFile, mkdir, writeFile } from 'fs/promises';
 import { dirname } from 'path';
-import { OpenMode } from './open-mode.js';
 import { WriteFileOptions } from './write-file-options.js';
-
+import { WriteFlag } from './write-flag.js';
+/**
+ * Write text file with utf-8 encoding
+ *
+ * @group Write
+ * @param filePath file path
+ * @param content file content
+ * @param options {@link WriteFileOptions}
+ */
 export async function __writeTextFile(
   filePath: string,
   content: string,
@@ -15,17 +22,40 @@ export async function __writeTextFile(
   });
 }
 
+/**
+ * Write text file with utf-8 encoding
+ *
+ * @group Write
+ * @param filePath file path
+ * @param content file content
+ */
+
 export async function writeTextFile(filePath: string, content: string) {
   await __writeTextFile(filePath, content);
 }
 
+/**
+ * Append text file
+ *
+ * @group Write
+ * @param filePath file path
+ * @param content file content
+ */
 export async function appendTextFile(filePath: string, content: string) {
-  await __writeTextFile(filePath, content, { mode: OpenMode.APPEND });
+  await mkdir(dirname(filePath), { recursive: true });
+  await appendFile(filePath, content, { encoding: 'utf-8', flush: true });
 }
 
+/**
+ * Create and write tex file if it does not exist
+ *
+ * @group Write
+ * @param filePath file path
+ * @param content file content
+ */
 export async function writeTextFileExclusive(
   filePath: string,
   content: string
 ) {
-  await __writeTextFile(filePath, content, { mode: OpenMode.EXCLUSIVE });
+  await __writeTextFile(filePath, content, { flag: WriteFlag.EXCLUSIVE_FLAG });
 }

@@ -1,9 +1,10 @@
 import { Abortable } from 'events';
-import { Mode, ObjectEncodingOptions } from 'fs';
+import { ObjectEncodingOptions, OpenMode } from 'fs';
+import { WriteFlag } from './write-flag.js';
 
 export type WriteFileOptions = ObjectEncodingOptions &
   Abortable & {
-    mode?: Mode | undefined;
-    flag?: string | undefined;
+    mode?: OpenMode;
+    flag?: WriteFlag | undefined;
     flush?: boolean | undefined;
   };

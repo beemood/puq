@@ -58,6 +58,10 @@
   },
   "dependencies": {
     "@nx/devkit": "21.5.2",
-    "@swc/helpers": "~0.5.11"
+    "@swc/helpers": "~0.5.11",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9"
   }
 }

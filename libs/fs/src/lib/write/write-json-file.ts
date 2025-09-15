@@ -1,8 +1,14 @@
-import { readJsonFile } from '../read/read-json-file.js';
-import { OpenMode } from './open-mode.js';
 import { WriteFileOptions } from './write-file-options.js';
+import { WriteFlag } from './write-flag.js';
 import { __writeTextFile } from './write-text-file.js';
-
+/**
+ * Write json file
+ *
+ * @group Write
+ * @param filePath file path
+ * @param content file content
+ * @param options {@link WriteFileOptions}
+ */
 export async function __writeJsonFile<T>(
   filePath: string,
   content: T,
@@ -12,21 +18,24 @@ export async function __writeJsonFile<T>(
   await __writeTextFile(filePath, stringContent, options);
 }
 
+/**
+ * Write json file
+ *
+ * @group Write
+ * @param filePath file pathF
+ * @param content file content
+ */
 export async function writeJsonFile<T>(filePath: string, content: T) {
   await __writeJsonFile(filePath, content);
 }
 
-export async function appendJsonFile<T>(filePath: string, content: T) {
-  let jsonFileContent = await readJsonFile(filePath);
-
-  if (Array.isArray(jsonFileContent)) {
-    jsonFileContent.push(content);
-  } else if (typeof jsonFileContent == 'object') {
-    jsonFileContent = { ...jsonFileContent, ...content };
-  }
-  await __writeJsonFile(filePath, jsonFileContent);
-}
-
+/**
+ * Create and write json file if it does not exist
+ *
+ * @group Write
+ * @param filePath file pathF
+ * @param content file content
+ */
 export async function writeJsonFileExclusive<T>(filePath: string, content: T) {
-  await __writeJsonFile(filePath, content, { mode: OpenMode.EXCLUSIVE });
+  await __writeJsonFile(filePath, content, { flag: WriteFlag.EXCLUSIVE_FLAG });
 }
