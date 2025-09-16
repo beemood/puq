@@ -1,14 +1,15 @@
 import { Delete, Get, Post, Put } from '@nestjs/common';
 import type {
-  CrudOperationName} from '@puq/names';
+  CrudOperationName
+} from '@puq/names';
 import {
   extractResourceName,
   InvalidResourceOperationNameError,
   isCrudOperationName,
   names,
 } from '@puq/names';
-import { ApiOperation } from './api-operation.js';
 import { resourcePaths } from './resource-paths.js';
+import { SwaggerResourceOperation } from './swagger-resource-operation.js';
 
 /**
  * A method decorator that automatically configures an HTTP endpoint
@@ -113,6 +114,6 @@ export function ResourceMethod(): MethodDecorator {
       }
     }
 
-    ApiOperation(resourceName, operationName)(...args);
+    SwaggerResourceOperation(resourceName, operationName)(...args);
   };
 }

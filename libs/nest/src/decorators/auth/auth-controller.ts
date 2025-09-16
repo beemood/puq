@@ -9,7 +9,6 @@ export function AuthController(): ClassDecorator {
     if (!className.endsWith(classNameSuffixes.Controller)) {
       throw new InvalidResourceNameError(className);
     }
-
     Controller()(...args);
     ApiTags(args[0].name)(...args);
     ApiBearerAuth()(...args);
