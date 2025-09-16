@@ -1,6 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { Request } from 'express';
+
 export type AuthenticatedRequest = {
-  app: { appId: any };
-  user: { userId: any };
-  session: { sessionId: any };
+  app: { appId: string };
+  user: { userId: string };
+  session: { sessionId: string };
 } & Request;
