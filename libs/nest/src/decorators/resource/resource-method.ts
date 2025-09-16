@@ -1,6 +1,7 @@
 import { Delete, Get, Post, Put } from '@nestjs/common';
+import type {
+  CrudOperationName} from '@puq/names';
 import {
-  CrudOperationName,
   extractResourceName,
   InvalidResourceOperationNameError,
   isCrudOperationName,

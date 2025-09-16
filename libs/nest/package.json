@@ -67,6 +67,7 @@
     "@nestjs/swagger": "^11.2.0",
     "@nestjs/throttler": "^6.4.0",
     "@puq/names": "workspace:*",
+    "@puq/utils": "workspace:*",
     "@swc/helpers": "~0.5.11",
     "cache-manager": "^7.2.0",
     "express": "^5.1.0",

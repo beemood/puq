@@ -35,8 +35,24 @@ export default [
         },
       ],
     },
+
     languageOptions: {
       parser: await import('jsonc-eslint-parser'),
+    },
+  },
+
+  {
+    files: ['**/*.ts', '**/*.cts', '**/*.mts'],
+
+    rules: {
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        {
+          prefer: 'type-imports',
+          fixStyle: 'separate-type-imports',
+          disallowTypeAnnotations: false,
+        },
+      ],
     },
   },
 ];

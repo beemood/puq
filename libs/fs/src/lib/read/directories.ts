@@ -1,6 +1,7 @@
 import { stat } from 'fs/promises';
 import { join } from 'path';
-import { ReadDirOptions, readDirs } from './read-dirs.js';
+import type { ReadDirOptions} from './read-dirs.js';
+import { readDirs } from './read-dirs.js';
 
 /**
  * List directory paths under the {@link rootPath} directory.

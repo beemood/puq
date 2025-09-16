@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { NotImplementedException } from '@nestjs/common';
-import { CrudOperationName } from '@puq/names';
+import type { CrudOperationName } from '@puq/names';
 
 export type EventPayload = {
   req: {

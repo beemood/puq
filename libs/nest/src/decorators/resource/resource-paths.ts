@@ -3,6 +3,7 @@ import { pluralize } from '@puq/names';
 /**
  * Defines the structure for a set of standardized RESTful API paths
  * generated for a resource.
+ * @group Path
  */
 export type ResourcePaths = {
   /**

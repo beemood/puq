@@ -192,6 +192,9 @@ importers:
       '@puq/names':
         specifier: workspace:*
         version: link:../names
+      '@puq/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@swc/helpers':
         specifier: ~0.5.11
         version: 0.5.17
@@ -211,6 +214,18 @@ importers:
       '@types/multer':
         specifier: ^2.0.0
         version: 2.0.0
+
+  libs/types:
+    dependencies:
+      '@swc/helpers':
+        specifier: ~0.5.11
+        version: 0.5.17
+
+  libs/utils:
+    dependencies:
+      '@swc/helpers':
+        specifier: ~0.5.11
+        version: 0.5.17
 
   plugins/plugin:
     dependencies:

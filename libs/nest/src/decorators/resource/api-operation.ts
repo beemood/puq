@@ -1,5 +1,6 @@
 import { ApiOperation as __ApiOperation } from '@nestjs/swagger';
-import { CrudOperationName, pluralize } from '@puq/names';
+import type { CrudOperationName} from '@puq/names';
+import { pluralize } from '@puq/names';
 
 
 /**

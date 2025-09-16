@@ -1,4 +1,5 @@
-import { NameCases, names } from './names.js';
+import type { NameCases} from './names.js';
+import { names } from './names.js';
 import { InvalidNameError } from './normalize-name.js';
 
 describe('names', () => {

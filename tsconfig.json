@@ -18,5 +18,11 @@
     {
       "path": "./libs/nest"
     },
+    {
+      "path": "./libs/utils"
+    },
+    {
+      "path": "./libs/types"
+    }
   ]
 }

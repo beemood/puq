@@ -1,9 +1,10 @@
+import type {
+  Tree} from '@nx/devkit';
 import {
   formatFiles,
   generateFiles,
   names,
-  readJsonFile,
-  Tree,
+  readJsonFile
 } from '@nx/devkit';
 import { join } from 'path';
 import {
@@ -11,7 +12,7 @@ import {
   getOrganizationPrefix,
   getShortName,
 } from './project-helper';
-import { ProjectGeneratorSchema } from './schema';
+import type { ProjectGeneratorSchema } from './schema';
 
 export async function projectGenerator(
   tree: Tree,

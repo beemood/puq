@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NotImplementedException } from '@nestjs/common';
-import { CrudOperationName } from '@puq/names';
+import type { CrudOperationName } from '@puq/names';
 
 export abstract class AbstractResourceController
   implements Record<CrudOperationName, (...params: any[]) => any>

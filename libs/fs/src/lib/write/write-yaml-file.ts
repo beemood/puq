@@ -1,5 +1,5 @@
 import { dump } from 'js-yaml';
-import { WriteFileOptions } from './write-file-options.js';
+import type { WriteFileOptions } from './write-file-options.js';
 import { WriteFlag } from './write-flag.js';
 import { __writeTextFile } from './write-text-file.js';
 

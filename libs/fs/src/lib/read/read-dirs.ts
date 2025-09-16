@@ -1,4 +1,4 @@
-import { ObjectEncodingOptions } from 'fs';
+import type { ObjectEncodingOptions } from 'fs';
 import { readdir } from 'fs/promises';
 import { resolve } from './scope.js';
 
