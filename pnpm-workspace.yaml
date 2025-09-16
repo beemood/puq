@@ -1,10 +1,14 @@
 packages:
-  - 'apps/*'
-  - 'libs/*'
-  - 'plugins/*'
+  - apps/*
+  - libs/*
+  - plugins/*
+
 autoInstallPeers: true
+
 onlyBuiltDependencies:
+  - '@scarf/scarf'
   - '@swc/core'
-  - 'esbuild'
-  - 'nx'
+  - esbuild
+  - nx
+
 strictPeerDependencies: false

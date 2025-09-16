@@ -9,6 +9,18 @@ import {
 import { ApiOperation } from './api-operation.js';
 import { resourcePaths } from './resource-paths.js';
 
+/**
+ * A method decorator that automatically configures an HTTP endpoint
+ * for a CRUD operation based on the method name.
+ *
+ * It uses the method name and the class name to determine the resource
+ * and the specific operation to perform (e.g., findOne, saveMany, etc.).
+ * It then applies the appropriate NestJS HTTP method decorator (@Get, @Post, etc.)
+ * and a custom API operation decorator for documentation purposes.
+ *
+ * @group Resource
+ * @returns - {@link MethodDecorator}
+ */
 export function ResourceMethod(): MethodDecorator {
   return (...args) => {
     const { singularPath, operationName, resourceName } = (() => {

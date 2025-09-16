@@ -4,9 +4,13 @@ export const INTERNAL_RESOURCE_METADATA_TOKEN = Symbol(
   'INTERNAL_RESOURCE_METADATA_TOKEN'
 );
 
+
 /**
- * Only allow the request from the same origin
- * @returns
+ * This decorator marks a class as an internal resource,
+ * meaning it can only be accessed by users within the same network.
+ *
+ * @group Metadata
+ * @returns - {@link ClassDecorator}
  */
 export function InternalResource(): ClassDecorator {
   return (...args) => {

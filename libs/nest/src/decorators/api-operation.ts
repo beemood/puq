@@ -1,6 +1,18 @@
 import { ApiOperation as __ApiOperation } from '@nestjs/swagger';
 import { CrudOperationName, pluralize } from '@puq/names';
 
+
+/**
+ * A method decorator that generates a standardized operation summary for Swagger API documentation.
+ *
+ * This decorator automatically creates a human-readable summary for a RESTful API
+ * endpoint based on the resource name and the CRUD operation being performed.
+ * It is designed to work in conjunction with NestJS and Swagger to reduce boilerplate.
+ *
+ * @param resouceName The singular name of the resource (e.g., 'User').
+ * @param operationName The name of the CRUD operation (e.g., 'findOne', 'saveMany').
+ * @returns A NestJS method decorator that applies the Swagger `@ApiOperation` decorator.
+ */
 export function ApiOperation(
   resouceName: string,
   operationName: CrudOperationName

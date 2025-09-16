@@ -41,7 +41,7 @@
           "outputPath": "libs/nest/dist",
           "main": "libs/nest/src/index.ts",
           "tsConfig": "libs/nest/tsconfig.lib.json",
-          "skipTypeCheck": true,
+          "skipTypeCheck": false,
           "stripLeadingPaths": true
         }
       },
