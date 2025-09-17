@@ -2,13 +2,13 @@
   "name": "@puq/fs",
   "version": "0.0.1",
   "description": "File sytem",
-  "homepage": "https://beemood.github.io/puq/libs/fs",
+  "homepage": "https://beemood.github.io/libs/fs",
   "author": {
     "email": "robert.brightline@gmail.com",
     "name": "Robert Brightline",
     "url": "https://beemood.github.io"
   },
-  "icon": "https://beemood.github.io/puq/libs/fs/assets/favicon.png",
+  "icon": "https://beemood.github.io/libs/fs/assets/favicon.png",
   "funding": [
     "https://cash.app/$puqlib"
   ],

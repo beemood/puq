@@ -2,13 +2,13 @@
   "name": "@puq/utils",
   "version": "0.0.1",
   "description": "utils",
-  "homepage": "https://beemood.github.io/puq/libs/utils",
+  "homepage": "https://beemood.github.io/libs/utils",
   "author": {
     "email": "robert.brightline@gmail.com",
     "name": "Robert Brightline",
     "url": "https://beemood.github.io"
   },
-  "icon": "https://beemood.github.io/puq/libs/utils/assets/favicon.png",
+  "icon": "https://beemood.github.io/libs/utils/assets/favicon.png",
   "funding": [
     "https://cash.app/$puqlib"
   ],

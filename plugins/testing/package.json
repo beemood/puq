@@ -2,13 +2,13 @@
   "name": "@puq/testing",
   "version": "0.0.1",
   "description": "testing",
-  "homepage": "https://beemood.github.io/puq/plugins/testing",
+  "homepage": "https://beemood.github.io/plugins/testing",
   "author": {
     "email": "robert.brightline@gmail.com",
     "name": "Robert Brightline",
     "url": "https://beemood.github.io"
   },
-  "icon": "https://beemood.github.io/puq/plugins/testing/assets/favicon.png",
+  "icon": "https://beemood.github.io/plugins/testing/assets/favicon.png",
   "funding": [
     "https://cash.app/$puqlib"
   ],

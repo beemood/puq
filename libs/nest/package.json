@@ -2,13 +2,13 @@
   "name": "@puq/nest",
   "version": "0.0.1",
   "description": "nest",
-  "homepage": "https://beemood.github.io/puq/libs/nest",
+  "homepage": "https://beemood.github.io/libs/nest",
   "author": {
     "email": "robert.brightline@gmail.com",
     "name": "Robert Brightline",
     "url": "https://beemood.github.io"
   },
-  "icon": "https://beemood.github.io/puq/libs/nest/assets/favicon.png",
+  "icon": "https://beemood.github.io/libs/nest/assets/favicon.png",
   "funding": [
     "https://cash.app/$puqlib"
   ],

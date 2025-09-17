@@ -4,13 +4,13 @@
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "homepage": "https://beemood.github.io/puq/plugins/plugin",
+  "homepage": "https://beemood.github.io/plugins/plugin",
   "author": {
     "email": "robert.brightline@gmail.com",
     "name": "Robert Brightline",
     "url": "https://beemood.github.io"
   },
-  "icon": "https://beemood.github.io/puq/plugins/plugin/assets/favicon.png",
+  "icon": "https://beemood.github.io/plugins/plugin/assets/favicon.png",
   "funding": [
     "https://cash.app/$puqlib"
   ],
