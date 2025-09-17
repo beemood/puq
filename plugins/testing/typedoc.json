@@ -2,5 +2,5 @@
   "name": "testing",
   "favicon": "./favicon.png",
   "entryPoints": ["./src/index.ts"],
-  "out": "../../public/plugins/testing"
+  "out": "../../../beemood.github.io/public/puq/plugins/testing"
 }
