@@ -2,5 +2,5 @@
   "name": "nest",
   "favicon": "./favicon.png",
   "entryPoints": ["./src/index.ts"],
-  "out": "../../../beemood.github.io/public/puq/libs/nest"
+  "out": "../../../beemood.github.io/public/libs/nest"
 }

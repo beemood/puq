@@ -2,5 +2,5 @@
   "name": "File system",
   "favicon": "./favicon.png",
   "entryPoints": ["./src/index.ts"],
-  "out": "../../../beemood.github.io/public/puq/libs/fs"
+  "out": "../../../beemood.github.io/public/libs/fs"
 }

@@ -2,5 +2,5 @@
   "name": "Plugin",
   "favicon": "./favicon.png",
   "entryPoints": ["./src/index.ts"],
-  "out": "../../../beemood.github.io/public/puq/plugins/plugin"
+  "out": "../../../beemood.github.io/public/plugins/plugin"
 }

@@ -2,5 +2,5 @@
   "name": "types",
   "favicon": "./favicon.png",
   "entryPoints": ["./src/index.ts"],
-  "out": "../../../beemood.github.io/public/puq/libs/types"
+  "out": "../../../beemood.github.io/public/libs/types"
 }
