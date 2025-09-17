@@ -2,5 +2,5 @@
   "name": "utils",
   "favicon": "./favicon.png",
   "entryPoints": ["./src/index.ts"],
-  "out": "../../public/libs/utils"
+  "out": "../../../beemood.github.io/public/puq/libs/utils"
 }
