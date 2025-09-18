@@ -1,4 +1,4 @@
-import { createMetaDataDecorator } from './create-metadata-decorator.js';
+import { createMetadataDecorator } from '../helpers/create-metadata-decorator.js';
 
 export const { decorator: AdminResource, key: ADMIN_RESOURCE_METADATA_KEY } =
-  createMetaDataDecorator('AdminResource');
+  createMetadataDecorator<ClassDecorator, []>('AdminResource');

@@ -13,3 +13,8 @@ export type PickRequired<T, K extends keyof T> =
 export type PickOptional<T, K extends keyof T> =
   | Partial<Pick<T, K>>
   | Required<Omit<T, K>>;
+
+export type DecoratorType =
+  | ClassDecorator
+  | MethodDecorator
+  | ParameterDecorator;

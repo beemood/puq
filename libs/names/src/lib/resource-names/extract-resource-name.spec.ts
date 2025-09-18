@@ -5,13 +5,13 @@ describe('extractResourceName', () => {
   describe('valid cases', () => {
     it.each([
       ...Object.values(classNamePrefixes).map((e) => {
-        return `${e}SampleDto`;
+        return `${e}SomeSampleDto`;
       }),
       ...Object.values(classNameSuffixes).map((e) => {
-        return `Sample${e}`;
+        return `SomeSample${e}`;
       }),
     ])('extractResourceName($0) should return sample', (value) => {
-      expect(extractResourceName(value)).toEqual('sample');
+      expect(extractResourceName(value)).toEqual('SomeSample');
     });
   });
 });

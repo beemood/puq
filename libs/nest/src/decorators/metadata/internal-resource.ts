@@ -1,6 +1,6 @@
-import { createMetaDataDecorator } from './create-metadata-decorator.js';
+import { createMetadataDecorator } from '../helpers/create-metadata-decorator.js';
 
 export const {
   decorator: InternalResource,
   key: INTERNAL_RESOURCE_METADATA_KEY,
-} = createMetaDataDecorator('InternalResource');
+} = createMetadataDecorator<ClassDecorator, []>('InternalResource');

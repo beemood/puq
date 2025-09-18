@@ -15,8 +15,8 @@ export type EventPayload = {
   res?: {
     uuid: string;
     timestamp: number;
-    body: any;
-    status: number;
+    body?: any;
+    status?: number;
     errors?: any;
   };
 };

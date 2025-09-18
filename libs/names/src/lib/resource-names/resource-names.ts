@@ -43,7 +43,7 @@ export const classNameSuffixes = {
 };
 
 export const resouceOperationClassNameExp = () =>
-  /^[A-Z]{1}.+[a-z]{1,}(Controller|Service|Interceptor|ExceptionFilter|EventEmitter|EventListener|Module|Guard|Error|Pipe|Transformer|Middleware|Dto)$/;
+  /^[A-Z]{1}.+[a-z]{1,}(Controller|Service|ExceptionFilter|EventEmitter|EventListener|Interceptor|Module|Guard|Error|Pipe|Transformer|Middleware|Dto)$/;
 
 export function isResouceOperationClassName(name: string) {
   return resouceOperationClassNameExp().test(name);

@@ -1,6 +1,6 @@
-import { createMetaDataDecorator } from './create-metadata-decorator.js';
+import { createMetadataDecorator } from '../helpers/create-metadata-decorator.js';
 
 export const {
   decorator: SecureOperation,
   key: SECURE_OPERATION_METADATA_KEY,
-} = createMetaDataDecorator('SecureOperation');
+} = createMetadataDecorator<MethodDecorator>('SecureOperation');

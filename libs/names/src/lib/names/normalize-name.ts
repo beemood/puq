@@ -46,7 +46,11 @@ export function lowerCaseFirst(name: string) {
   return name[0].toLowerCase() + name.slice(1);
 }
 
-
+/**
+ * Normalize the given {@link name} by transforming into lowercase and replace delimeters with a single space
+ * @param name string
+ * @returns normalized name in the lowercase and space seperated string
+ */
 export function normalizeName(name: string) {
   name = trim(name);
   if (!isValidName(name)) {
@@ -66,7 +70,7 @@ export function normalizeName(name: string) {
       })
       .join('');
   }
-  
+
   name = name.replace(/[\s-_]{1,}/g, ' ');
 
   name = name.toLowerCase();

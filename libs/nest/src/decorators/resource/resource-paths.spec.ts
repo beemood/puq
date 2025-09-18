@@ -1,4 +1,4 @@
-import { resourcePaths } from './resource-paths.js';
+import { resourcePaths } from '../helpers/resource-paths.js';
 
 describe('resourcePaths', () => {
   it('should crate resource paths', async () => {

@@ -1,4 +1,3 @@
-import { normalizeName } from '../names/normalize-name.js';
 import {
   classNamePrefixes,
   classNameSuffixes,
@@ -29,5 +28,5 @@ export function extractResourceName(className: string) {
     }
   }
 
-  return normalizeName(className);
+  return className;
 }

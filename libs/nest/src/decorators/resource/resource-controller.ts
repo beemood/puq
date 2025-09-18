@@ -1,6 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { classNameSuffixes, InvalidResourceNameError } from '@puq/names';
+import { ResourceName } from '../metadata/resource-name.js';
 
 /**
  * A class decorator that combines NestJS's `@Controller` with Swagger decorators
@@ -23,6 +24,7 @@ export function ResourceController(): ClassDecorator {
       throw new InvalidResourceNameError(className);
     }
 
+    ResourceName()(...args);
     Controller()(...args);
     ApiTags(className)(...args);
     ApiBearerAuth()(...args);

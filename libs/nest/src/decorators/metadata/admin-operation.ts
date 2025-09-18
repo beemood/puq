@@ -1,4 +1,4 @@
-import { createMetaDataDecorator } from './create-metadata-decorator.js';
+import { createMetadataDecorator } from '../helpers/create-metadata-decorator.js';
 
 export const { decorator: AdminOperation, key: ADMIN_OPERATION_METADATA_KEY } =
-  createMetaDataDecorator('AdminOperation');
+  createMetadataDecorator<MethodDecorator, []>('AdminOperation');

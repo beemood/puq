@@ -4,8 +4,8 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
-
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { EventInterceptor } from '../interceptors/event-interceptor.js';
 
 @Module({
   imports: [
@@ -25,6 +25,10 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
     {
       provide: APP_INTERCEPTOR,
       useClass: CacheInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: EventInterceptor,
     },
   ],
 })

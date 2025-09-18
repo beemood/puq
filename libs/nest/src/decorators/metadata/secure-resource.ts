@@ -1,4 +1,4 @@
-import { createMetaDataDecorator } from './create-metadata-decorator.js';
+import { createMetadataDecorator } from '../helpers/create-metadata-decorator.js';
 
 export const { decorator: SecureResource, key: SECURE_RESOURCE_METADATA_KEY } =
-  createMetaDataDecorator('SecureResource');
+  createMetadataDecorator<ClassDecorator>('SecureResource');

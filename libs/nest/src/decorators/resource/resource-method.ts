@@ -1,14 +1,13 @@
 import { Delete, Get, Post, Put } from '@nestjs/common';
-import type {
-  CrudOperationName
-} from '@puq/names';
+import type { CrudOperationName } from '@puq/names';
 import {
   extractResourceName,
   InvalidResourceOperationNameError,
   isCrudOperationName,
   names,
 } from '@puq/names';
-import { resourcePaths } from './resource-paths.js';
+import { resourcePaths } from '../helpers/resource-paths.js';
+import { OperationName } from '../metadata/operation-name.js';
 import { SwaggerResourceOperation } from './swagger-resource-operation.js';
 
 /**
@@ -41,6 +40,9 @@ export function ResourceMethod(): MethodDecorator {
 
     const { pluralByPath, pluralPath, singularByPath, singularIdPath } =
       resourcePaths(singularPath);
+
+    OperationName()(...args);
+    SwaggerResourceOperation(resourceName, operationName)(...args);
 
     // Configure nestjs http method
     switch (operationName) {
@@ -113,7 +115,5 @@ export function ResourceMethod(): MethodDecorator {
         break;
       }
     }
-
-    SwaggerResourceOperation(resourceName, operationName)(...args);
   };
 }
