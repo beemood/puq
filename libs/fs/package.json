@@ -1,6 +1,6 @@
 {
   "name": "@puq/fs",
-  "version": "0.0.1",
+  "version": "0.10.0",
   "description": "File sytem",
   "homepage": "https://beemood.github.io/libs/fs",
   "author": {
