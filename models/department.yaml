@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://json-schema.org/draft-07/schema#
+# Department and category model
+
+properties:
+  name:
+    $schema: auto
+
+  category:
+    type: array
+    items:
+      properties:
+        name:
+          $schema: auto
+      required:
+        - name
+
+required:
+  - name

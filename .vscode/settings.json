@@ -10,5 +10,8 @@
   "eslint.validate": [
     "json",
     "typescript"
-  ]
+  ],
+  "yaml.schemas": {
+    "https://json-schema.org/draft-07/schema#": "file:///home/ahmet-emrebas/Projects/puq/schemas/models/category.yaml"
+  }
 }
