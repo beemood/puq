@@ -1,7 +1,10 @@
 {
   "name": "@puq/names",
   "version": "0.10.0",
-"publishConfig": {"access": "public", "tag": "lastest"},
+  "publishConfig": {
+    "access": "public",
+    "tag": "lastest"
+  },
   "description": "All name variants",
   "homepage": "https://beemood.github.io/libs/names",
   "author": {
