@@ -1,6 +1,7 @@
 {
   "name": "@puq/nest",
   "version": "0.10.0",
+"publishConfig": {"access": "public", "tag": "lastest"},
   "description": "nest",
   "homepage": "https://beemood.github.io/libs/nest",
   "author": {

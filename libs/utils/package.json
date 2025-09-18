@@ -1,6 +1,7 @@
 {
   "name": "@puq/utils",
   "version": "0.10.0",
+"publishConfig": {"access": "public", "tag": "lastest"},
   "description": "utils",
   "homepage": "https://beemood.github.io/libs/utils",
   "author": {

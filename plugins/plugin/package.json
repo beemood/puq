@@ -1,6 +1,7 @@
 {
   "name": "@puq/plugin",
   "version": "0.10.0",
+"publishConfig": {"access": "public", "tag": "lastest"},
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",

@@ -1,6 +1,7 @@
 {
   "name": "@puq/testing",
   "version": "0.10.0",
+"publishConfig": {"access": "public", "tag": "lastest"},
   "description": "testing",
   "homepage": "https://beemood.github.io/plugins/testing",
   "author": {
