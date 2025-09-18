@@ -26,6 +26,8 @@ allowed_prefixes="^(feat|fix|docs|style|refactor|perf|test)(\(.+\))?: "
 if ! echo "$first_line" | grep -qE "$allowed_prefixes"; then
   echo "Error: Invalid commit message format."
   echo ""
+  echo "Message: $commit_msg"
+  echo ""
   echo "Your commit message should start with one of the following prefixes:"
   echo "  - feat: (new feature)"
   echo "  - fix: (bug fix)"
