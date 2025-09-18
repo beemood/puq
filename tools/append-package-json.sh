@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sed -i "3 a\\$1" libs/**/package.json
+sed -i "3 a\\$1" plugins/**/package.json
