@@ -5,7 +5,8 @@ import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-import { EventInterceptor } from '../interceptors/event-interceptor.js';
+import { ResourceTransformInterceptor } from 'src/interceptors/resource-transform.js';
+import { EventInterceptor } from '../interceptors/event.js';
 
 @Module({
   imports: [
@@ -29,6 +30,10 @@ import { EventInterceptor } from '../interceptors/event-interceptor.js';
     {
       provide: APP_INTERCEPTOR,
       useClass: EventInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ResourceTransformInterceptor,
     },
   ],
 })

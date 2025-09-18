@@ -1,15 +1,3 @@
-export class InvalidResourceNameError extends Error {
-  constructor(name: string) {
-    super(`The resource name, ${name}, is invalid`);
-  }
-}
-
-export class InvalidResourceOperationNameError extends Error {
-  constructor(name: string) {
-    super(`The operation name, ${name}, is invalid`);
-  }
-}
-
 export const classNamePrefixes = {
   Create: 'Create',
   Read: 'Read',
@@ -77,8 +65,30 @@ export const crudOperationNames = {
 export const crudOperationNameExp = () =>
   /^(findOne|findOneBy|findOneById|findMany|findManyBy|saveOne|saveMany|updateOne|updateOneBy|updateOneById|updateMany|updateManyBy|deleteOne|deleteOneBy|deleteOneById|deleteMany|deleteManyBy|)$/;
 
-export function isCrudOperationName(name: string) {
+export type CrudOperationName = keyof typeof crudOperationNames;
+
+export function isCrudOperationName<T extends CrudOperationName>(
+  name: T | string
+): name is T {
   return crudOperationNameExp().test(name);
 }
 
-export type CrudOperationName = keyof typeof crudOperationNames;
+export class InvalidResourceNameError extends Error {
+  constructor(name: string) {
+    super(
+      `The resource name, ${name}, is invalid. Resource names must match ${
+        resourceDataClassNameExp().source
+      }`
+    );
+  }
+}
+
+export class InvalidResourceOperationNameError extends Error {
+  constructor(name: string) {
+    super(
+      `The operation name, ${name}, is invalid. Resource operation names must match ${
+        resouceOperationClassNameExp().source
+      }`
+    );
+  }
+}

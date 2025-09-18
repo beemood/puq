@@ -34,9 +34,12 @@ export * from './decorators/resource/injectable.js';
 export * from './decorators/resource/resource-controller.js';
 export * from './decorators/resource/resource-method.js';
 export * from './decorators/resource/swagger-resource-operation.js';
-export * from './interceptors/event-interceptor.js';
-export * from './interceptors/validation-interceptor.js';
+export * from './interceptors/event.js';
+export * from './interceptors/resource-transform.js';
 export * from './modules/common-app.moudle.js';
-export * from './providers/transform.js';
+export * from './providers/helpers/create-provider-key.js';
+export * from './providers/helpers/create-provider.js';
+export * from './providers/transformers.js';
 export * from './types/authenticated-request.js';
+export * from './types/resource-transformers.js';
 

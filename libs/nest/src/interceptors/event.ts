@@ -21,8 +21,8 @@ import { Injectable } from '../decorators/resource/injectable.js';
 @Injectable()
 export class EventInterceptor implements NestInterceptor {
   constructor(
-    @Inject(EventEmitter2) protected readonly emitter: EventEmitter2,
-    @Inject(Reflector) protected readonly reflector: Reflector
+    @Inject(Reflector) protected readonly reflector: Reflector,
+    @Inject(EventEmitter2) protected readonly emitter: EventEmitter2
   ) {}
 
   intercept(context: ExecutionContext, next: CallHandler) {
