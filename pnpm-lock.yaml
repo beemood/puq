@@ -123,9 +123,6 @@ importers:
 
   libs/fs:
     dependencies:
-      '@puq/testing':
-        specifier: workspace:*
-        version: link:../../plugins/testing
       '@swc/helpers':
         specifier: ~0.5.11
         version: 0.5.17
@@ -133,6 +130,9 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
     devDependencies:
+      '@puq/testing':
+        specifier: workspace:*
+        version: link:../../plugins/testing
       '@types/js-yaml':
         specifier: ^4.0.9
         version: 4.0.9

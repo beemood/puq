@@ -1,6 +1,6 @@
 {
   "name": "@puq/fs",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "publishConfig": {
     "access": "public",
     "tag": "lastest"
@@ -64,11 +64,11 @@
     }
   },
   "dependencies": {
-    "@puq/testing": "workspace:*",
     "@swc/helpers": "~0.5.11",
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
+    "@puq/testing": "workspace:*",
     "@types/js-yaml": "^4.0.9"
   }
 }
