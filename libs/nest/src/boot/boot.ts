@@ -8,13 +8,15 @@ import helmet from 'helmet';
 export async function boot(appModule: Type) {
   const app = await NestFactory.create(appModule, {});
 
-  app.enableCors();
-  app.use(helmet());
-
   const config = app.get(ConfigService);
   const TITLE = config.get('TITLE', 'App name');
+  const GLOBAL_PREFIX = config.get('GLOBAL_PREFIX', 'api');
   const DESCRIPTION = config.get('DESCRIPTION', 'App description');
   const PORT = config.getOrThrow('PORT');
+
+  app.enableCors();
+  app.use(helmet());
+  app.setGlobalPrefix(GLOBAL_PREFIX);
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle(TITLE)

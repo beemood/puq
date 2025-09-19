@@ -1,6 +1,8 @@
-import { Controller } from '@nestjs/common';
+import { Controller, UseInterceptors } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { classNameSuffixes, InvalidResourceNameError } from '@puq/names';
+import { ResourceEventInterceptor } from 'src/interceptors/resource-event.js';
+import { ResourceTransformInterceptor } from 'src/interceptors/resource-transform.js';
 import { ResourceName } from '../metadata/resource-name.js';
 
 /**
@@ -23,7 +25,10 @@ export function ResourceController(): ClassDecorator {
     if (!className.endsWith(classNameSuffixes.Controller)) {
       throw new InvalidResourceNameError(className);
     }
-
+    UseInterceptors(
+      ResourceTransformInterceptor,
+      ResourceEventInterceptor
+    )(...args);
     ResourceName()(...args);
     Controller()(...args);
     ApiTags(className)(...args);

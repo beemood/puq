@@ -1,6 +1,5 @@
 import {
   Inject,
-  Injectable,
   Optional,
   type CallHandler,
   type ExecutionContext,
@@ -14,6 +13,7 @@ import {
 import type { Any } from '@puq/types';
 import type { Request } from 'express';
 import { map, type Observable } from 'rxjs';
+import { Injectable } from '../decorators/resource/injectable.js';
 import { InjectTransformers } from '../providers/transformers.js';
 import type { ResourceTransformers } from '../types/resource-transformers.js';
 

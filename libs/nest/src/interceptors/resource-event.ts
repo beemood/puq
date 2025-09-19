@@ -19,7 +19,7 @@ import { Injectable } from '../decorators/resource/injectable.js';
  * Interceptor that emits all controller events
  */
 @Injectable()
-export class EventInterceptor implements NestInterceptor {
+export class ResourceEventInterceptor implements NestInterceptor {
   constructor(
     @Inject(Reflector) protected readonly reflector: Reflector,
     @Inject(EventEmitter2) protected readonly emitter: EventEmitter2
