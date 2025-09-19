@@ -1,11 +1,11 @@
-import type { CrudOperationName } from '@puq/names';
 import type { Any } from '@puq/types';
+import type { ResourceOperationName } from '../names/resource-operation-name.js';
 
 export type ResourceTransformFn<T = Any> = (value: T) => T;
 
 export type ResourceTransformers = Partial<
   Record<
-    CrudOperationName,
+    ResourceOperationName,
     {
       body?: ResourceTransformFn;
       query?: ResourceTransformFn;

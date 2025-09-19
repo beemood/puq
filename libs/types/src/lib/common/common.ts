@@ -18,3 +18,7 @@ export type DecoratorType =
   | ClassDecorator
   | MethodDecorator
   | ParameterDecorator;
+
+export interface ClassType<T = Any> {
+  new (...args: Any[]): T;
+}

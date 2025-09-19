@@ -26,17 +26,19 @@ export type MapObjectHandler<T extends object = Any> = (
  * @param {MapObjectHandler<T>} handle The function to call for each key-value pair.
  * It receives the key, the old value, and the source object.
  * The returned value will replace the old value.
- * @returns {T} The modified source object.
+ * @returns - {@link T} The modified source object.
  */
 export function mapObject<T extends object>(
   source: T,
   handle: MapObjectHandler<T>
-) {
+): T {
   const entries = Object.entries(source);
 
   for (const [k, v] of entries) {
     (source as Any)[k] = handle(k, v, source);
   }
 
-  return source;
+  const result = { ...source } as const;
+
+  return result;
 }

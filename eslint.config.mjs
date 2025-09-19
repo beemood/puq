@@ -1,6 +1,10 @@
 import nx from '@nx/eslint-plugin';
 
 export default [
+  ...nx.configs['flat/base'],
+  ...nx.configs['flat/typescript'],
+  ...nx.configs['flat/javascript'],
+
   {
     files: ['**/*.json'],
     rules: {},
@@ -8,16 +12,7 @@ export default [
       parser: await import('jsonc-eslint-parser'),
     },
   },
-  ...nx.configs['flat/base'],
-  ...nx.configs['flat/typescript'],
-  ...nx.configs['flat/javascript'],
-  {
-    ignores: [
-      '**/dist',
-      '**/vite.config.*.timestamp*',
-      '**/vitest.config.*.timestamp*',
-    ],
-  },
+
   {
     files: [
       'libs/**/package.json',
@@ -43,7 +38,6 @@ export default [
 
   {
     files: ['**/*.ts', '**/*.cts', '**/*.mts'],
-
     rules: {
       '@typescript-eslint/consistent-type-imports': [
         'error',
@@ -54,5 +48,14 @@ export default [
         },
       ],
     },
+  },
+
+  {
+    ignores: [
+      '**/node_modules',
+      '**/dist',
+      '**/vite.config.*.timestamp*',
+      '**/vitest.config.*.timestamp*',
+    ],
   },
 ];
