@@ -4,9 +4,10 @@ import { AuthController } from './auth-controller.js';
 import { AutoAuthMethod } from './auto-auth-method.js';
 
 /**
- * Automatically wires auth controller and its methods to the corresponding HTTP operation.
+ * Authentication controller decorator that automatically wires auth controller and the methods of the target class to the corresponding HTTP operations.
  * It infers operations' details from method names
- * @group Decorator
+ *
+ * @group Decorators
  * @returns - {@link ClassDecorator}
  */
 export function AutoAuthController(): ClassDecorator {

@@ -8,16 +8,10 @@ import {
 } from '../names/resource-class-name.js';
 
 /**
- * A class decorator that combines NestJS's `@Injectable` with resource name validation.
- *
- * This decorator ensures that the class name adheres to the naming convention
- * for a resource operation class before applying the `@Injectable` decorator.
- * This helps enforce consistency and prevents potential runtime errors
- * in a larger framework.
- *
- * @returns {ClassDecorator} A NestJS class decorator.
- * @throws {InvalidResourceNameError} If the class name does not follow the
- * resource operation naming convention.
+ * Wrapper around Nestjs Injectable decorator that validate the target class name as defined in {@link ResourceClassNameSuffixes}.
+ * a
+ * @returns - {@link ClassDecorator}
+ * @throws - {@link InvalidNameError}
  */
 export function Injectable(): ClassDecorator {
   return (...args) => {

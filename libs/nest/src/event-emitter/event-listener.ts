@@ -1,9 +1,10 @@
+import { Injectable } from '../base/injectable.js';
 import { InvalidNameError } from '../names/invalid-name-error.js';
 import { ResourceClassNameSuffixes } from '../names/resource-class-name.js';
-import { Injectable } from './injectable.js';
 
 /**
- * Wrapper around the Injectable decorator that validates resource name before applying the decorator
+ * Wrapper around the Injectable decorator that checks target class name ends with "EventListener" suffix.
+ * If it does not end with "EventListener" suffix then throw {@link InvalidNameError}
  *
  * @group Decorators
  * @returns ClassDecorator

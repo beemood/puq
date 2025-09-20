@@ -1,7 +1,9 @@
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Controller } from '../base/controller.js';
+
 /**
  * Authentication controller decorator that combines Nestjs and Swagger decorators.
+ *
  * @group Decorators
  * @returns - {@link ClassDecorator}
  */

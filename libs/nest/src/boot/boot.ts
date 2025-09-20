@@ -5,6 +5,11 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
 
+/**
+ * Common nestjs bootstrap configuration including cors and helpmet middleware, global prefix, and swagger integrateion.
+ *
+ * @param appModule  Nestjs main app module
+ */
 export async function boot(appModule: Type) {
   const app = await NestFactory.create(appModule, {});
 

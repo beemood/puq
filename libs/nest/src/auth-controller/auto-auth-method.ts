@@ -11,7 +11,7 @@ import { InvalidNameError } from '../names/invalid-name-error.js';
 import { SwaggerAutoOperation } from '../swagger/swagger-auth-operation.js';
 
 /**
- * Authentication method decorator that automatically configure the method
+ * Authentication method decorator that automatically wires target method to the corresponding HTTP operation as defined in {@link AuthOperationNames}
  * if it is a valid, one of the operations {@link AuthOperationNames}
  *
  * @group Decorators

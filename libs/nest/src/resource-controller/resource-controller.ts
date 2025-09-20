@@ -6,6 +6,7 @@ import { ResourceTransformInterceptor } from '../interceptors/resource-transform
 import { ResourceName } from '../metadata/resource-name.js';
 
 /**
+ * Nestjs controller decorator that combines common resouce interceptors, {@link ResourceName} metadata, and swagger docs and security.
  *
  * @returns - {@link ClassDecorator}
  */
@@ -18,7 +19,6 @@ export function ResourceController(): ClassDecorator {
       ResourceEventInterceptor
     )(...args);
     ResourceName()(...args);
-
     ApiTags(className)(...args);
     ApiBearerAuth()(...args);
   };

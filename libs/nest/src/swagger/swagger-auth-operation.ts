@@ -3,7 +3,8 @@ import { names } from '@puq/names';
 import type { AuthOperationName } from '../names/auth-operation-name.js';
 
 /**
- * Set auth operation summary metadata
+ * Set swagger doc to the target authentication operation
+ *
  * @group Swagger
  * @param operationName
  * @returns

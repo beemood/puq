@@ -15,6 +15,7 @@ import { SwaggerResourceOperation } from '../swagger/swagger-resource-operation.
 /**
  * This automatically wires the corresponding HTTP operation to the target method.
  * It infers the operation's details from the method name, as defined in {@link ResourceOperationNames}.
+ * It also set the {@link OperationName} metadata
  *
  * @group Decorators
  * @returns - {@link MethodDecorator}
