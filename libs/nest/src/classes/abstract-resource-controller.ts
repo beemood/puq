@@ -6,55 +6,55 @@ import type { ResourceOperationName } from '../names/resource-operation-name.js'
 export abstract class AbstractResourceController
   implements Record<ResourceOperationName, (...params: Any[]) => Any>
 {
-  findOne(...params: Any[]) {
+  findOne(...params: Any[]): Any {
     throw new NIE(`findOne is not implemented: ${params}`);
   }
-  findOneBy(...params: Any[]) {
+  findOneBy(...params: Any[]): Any {
     throw new NIE(`findOneBy is not implemented: ${params}`);
   }
-  findOneById(...params: Any[]) {
+  findOneById(...params: Any[]): Any {
     throw new NIE(`findOneById is not implemented: ${params}`);
   }
-  findMany(...params: Any[]) {
+  findMany(...params: Any[]): Any {
     throw new NIE(`findMany is not implemented: ${params}`);
   }
-  findManyBy(...params: Any[]) {
+  findManyBy(...params: Any[]): Any {
     throw new NIE(`findManyBy is not implemented: ${params}`);
   }
-  saveOne(...params: Any[]) {
+  saveOne(...params: Any[]): Any {
     throw new NIE(`saveOne is not implemented: ${params}`);
   }
-  saveMany(...params: Any[]) {
+  saveMany(...params: Any[]): Any {
     throw new NIE(`saveMany is not implemented: ${params}`);
   }
-  updateOne(...params: Any[]) {
+  updateOne(...params: Any[]): Any {
     throw new NIE(`updateOne is not implemented: ${params}`);
   }
-  updateOneBy(...params: Any[]) {
+  updateOneBy(...params: Any[]): Any {
     throw new NIE(`updateOneBy is not implemented: ${params}`);
   }
-  updateOneById(...params: Any[]) {
+  updateOneById(...params: Any[]): Any {
     throw new NIE(`updateOneById is not implemented: ${params}`);
   }
-  updateMany(...params: Any[]) {
+  updateMany(...params: Any[]): Any {
     throw new NIE(`updateMany is not implemented: ${params}`);
   }
-  updateManyBy(...params: Any[]) {
+  updateManyBy(...params: Any[]): Any {
     throw new NIE(`updateManyBy is not implemented: ${params}`);
   }
-  deleteOne(...params: Any[]) {
+  deleteOne(...params: Any[]): Any {
     throw new NIE(`deleteOne is not implemented: ${params}`);
   }
-  deleteOneBy(...params: Any[]) {
+  deleteOneBy(...params: Any[]): Any {
     throw new NIE(`deleteOneBy is not implemented: ${params}`);
   }
-  deleteOneById(...params: Any[]) {
+  deleteOneById(...params: Any[]): Any {
     throw new NIE(`deleteOneById is not implemented: ${params}`);
   }
-  deleteMany(...params: Any[]) {
+  deleteMany(...params: Any[]): Any {
     throw new NIE(`deleteMany is not implemented: ${params}`);
   }
-  deleteManyBy(...params: Any[]) {
+  deleteManyBy(...params: Any[]): Any {
     throw new NIE(`deleteManyBy is not implemented: ${params}`);
   }
 }

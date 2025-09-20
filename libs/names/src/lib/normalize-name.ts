@@ -51,7 +51,7 @@ export function lowerCaseFirst(name: string) {
  * @param name string
  * @returns normalized name in the lowercase and space seperated string
  */
-export function normalizeName(name: string) {
+export function normalizeName(name: string): string {
   name = trim(name);
   if (!isValidName(name)) {
     throw new InvalidNameError(name);

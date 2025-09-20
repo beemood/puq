@@ -1,15 +1,10 @@
 import { Delete, Get, Post, Put } from '@nestjs/common';
 import { names } from '@puq/names';
-import { values } from '@puq/utils';
+import { extractResourceName } from 'src/names/extract-resource-name.js';
 import { createResourcePaths } from '../helpers/create-resource-paths.js';
 import { OperationName } from '../metadata/operation-name.js';
-import { extractResourceName } from '../names/extract-resource-name.js';
-import { InvalidNameError } from '../names/invalid-name-error.js';
 import type { ResourceOperationName } from '../names/resource-operation-name.js';
-import {
-  isResourceOperationName,
-  ResourceOperationNames,
-} from '../names/resource-operation-name.js';
+import { ResourceOperationNames } from '../names/resource-operation-name.js';
 import { SwaggerResourceOperation } from '../swagger/swagger-resource-operation.js';
 
 /**
@@ -22,22 +17,11 @@ import { SwaggerResourceOperation } from '../swagger/swagger-resource-operation.
  */
 export function AutoResourceMethod(): MethodDecorator {
   return (...args) => {
-    const { singularPath, operationName, resourceName } = (() => {
-      const className = args[0].constructor.name;
-      const operationName = args[1].toString() as ResourceOperationName;
+    const className = args[0].constructor.name;
 
-      if (!isResourceOperationName(operationName)) {
-        throw new InvalidNameError(
-          operationName,
-          values(ResourceOperationNames) + ''
-        );
-      }
-
-      const resourceName = extractResourceName(className);
-      const { kebab } = names(resourceName);
-
-      return { resourceName, singularPath: kebab, operationName };
-    })();
+    const operationName = args[1].toString() as ResourceOperationName;
+    const resourceName = extractResourceName(className);
+    const singularPath = names(resourceName).kebab;
 
     const { pluralByPath, pluralPath, singularByPath, singularIdPath } =
       createResourcePaths(singularPath);

@@ -1,8 +1,13 @@
 export const DataModelNames = {
+  // Common
+  Sample: 'Sample',
+  Todo: 'Todo',
+
   // Common & Core Resources
   User: 'User',
   Role: 'Role',
   Permission: 'Permission',
+  Group: 'Group',
   Team: 'Team',
   Workspace: 'Workspace',
   Organization: 'Organization',
@@ -12,7 +17,7 @@ export const DataModelNames = {
 
   // Inventory & Supply Chain Management
   Product: 'Product',
-  SKU: 'SKU',
+  Sku: 'Sku',
   Item: 'Item',
   Inventory: 'Inventory',
   Warehouse: 'Warehouse',
@@ -24,6 +29,12 @@ export const DataModelNames = {
   Return: 'Return',
   Invoice: 'Invoice',
   Payment: 'Payment',
+
+  Attribute: 'Attribute',
+  Price: 'Price',
+  Quantity: 'Quantity',
+  PriceLevel: 'PriceLevel',
+  Store: 'Store',
 
   // Content Management & Posting
   Post: 'Post',
@@ -53,10 +64,13 @@ export const DataModelNames = {
   JobPosting: 'JobPosting',
   Application: 'Application',
   Recruitment: 'Recruitment',
+  Hour: 'Hour',
+  Clock: 'Clock',
   Payroll: 'Payroll',
   LeaveRequest: 'LeaveRequest',
   PerformanceReview: 'PerformanceReview',
   Onboarding: 'Onboarding',
+  EmployeeShift: 'EmployeeShift',
 
   // Project Management & Collaboration
   Project: 'Project',
@@ -70,6 +84,11 @@ export const DataModelNames = {
   Timeline: 'Timeline',
   Issue: 'Issue',
   Report: 'Report',
+
+  // Contact
+  Email: 'Email',
+  Phone: 'Phone',
+  Address: 'Address',
 } as const;
 
 export type DataModelName = keyof typeof DataModelNames;
