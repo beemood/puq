@@ -1,8 +1,8 @@
 import { Delete, Get, Post, Put } from '@nestjs/common';
 import { names } from '@puq/names';
-import { extractResourceName } from 'src/names/extract-resource-name.js';
 import { createResourcePaths } from '../helpers/create-resource-paths.js';
 import { OperationName } from '../metadata/operation-name.js';
+import { extractResourceName } from '../names/extract-resource-name.js';
 import type { ResourceOperationName } from '../names/resource-operation-name.js';
 import { ResourceOperationNames } from '../names/resource-operation-name.js';
 import { SwaggerResourceOperation } from '../swagger/swagger-resource-operation.js';
