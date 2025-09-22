@@ -1,6 +1,10 @@
 {
   "name": "<%- projectName %>",
   "version": "<%- mp.version %>",
+   "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  },
   "description": "<%- fileName %>",
   "homepage": "<%- mp.homepage %>/<%- projectDirectory %>",
   "author": <%- JSON.stringify(mp.author) %>,
