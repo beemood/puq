@@ -3,7 +3,7 @@
   "version": "0.11.7",
   "publishConfig": {
     "access": "public",
-    "tag": "lastest"
+    "tag": "latest"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.js",

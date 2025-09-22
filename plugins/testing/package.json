@@ -3,7 +3,7 @@
   "version": "0.11.7",
   "publishConfig": {
     "access": "public",
-    "tag": "lastest"
+    "tag": "latest"
   },
   "description": "testing",
   "homepage": "https://beemood.github.io/plugins/testing",
