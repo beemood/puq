@@ -1,6 +1,6 @@
 {
   "name": "@puq/types",
-  "version": "0.11.12",
+  "version": "0.11.13",
   "publishConfig": {
     "access": "public",
     "tag": "latest"

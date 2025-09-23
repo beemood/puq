@@ -1,3 +1,21 @@
+## 0.11.13 (2025-09-23)
+
+### 🚀 Features
+
+- created prisma module ([dbf893c](https://github.com/beemood/puq/commit/dbf893c))
+- created sample db project ([534cc33](https://github.com/beemood/puq/commit/534cc33))
+- configuring sample prisma project ([a5bfc9a](https://github.com/beemood/puq/commit/a5bfc9a))
+- created sample prisma project and configured exports and prisma client generation ([7ba20c3](https://github.com/beemood/puq/commit/7ba20c3))
+- created prisma generator files ([227c208](https://github.com/beemood/puq/commit/227c208))
+
+### 🩹 Fixes
+
+- fixed the postinstall script of prisma ([bd72139](https://github.com/beemood/puq/commit/bd72139))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.11.12 (2025-09-23)
 
 ### 🚀 Features

@@ -1,6 +1,6 @@
 {
   "name": "@puq/inventory-db",
-  "version": "0.11.7",
+  "version": "0.11.13",
   "publishConfig": {
     "access": "public",
     "tag": "latest"
