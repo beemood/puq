@@ -1,0 +1,6 @@
+{
+  "name": "<%- shortName %>",
+  "favicon": "./favicon.png",
+  "entryPoints": ["./src/index.ts"],
+  "out": "../../public/<%- projectDirectory %>"
+}

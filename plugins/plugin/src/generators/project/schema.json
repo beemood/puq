@@ -20,9 +20,17 @@
         "$source": "argv",
         "index": 1
       },
-      "enum": ["lib", "api", "plugin"],
+      "enum": [
+        "lib",
+        "api",
+        "plugin",
+        "prisma"
+      ],
       "x-prompt": "What type of project would you like to use?"
     }
   },
-  "required": ["directory", "type"]
+  "required": [
+    "directory",
+    "type"
+  ]
 }

@@ -1,0 +1,66 @@
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Department {
+  id         Int        @id @default(autoincrement())
+  name       String     @unique
+  categories Category[]
+}
+
+model Category {
+  id           Int         @id @default(autoincrement())
+  name         String      @unique
+  departmentId Int?
+  department   Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+
+  products ProductCategory[]
+}
+
+model ProductAttribute {
+  id        Int     @id @default(autoincrement())
+  key       String
+  value     String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productId Int
+}
+
+model Product {
+  id   Int    @id @default(autoincrement())
+  uuid String @unique @default(uuid())
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  name        String  @unique
+  description String?
+
+  price    Decimal?
+  cost     Decimal?
+  quantity Int?
+
+  active Boolean?
+
+  features String[]
+
+  categories ProductCategory[]
+  attributes ProductAttribute[]
+}
+
+model ProductCategory {
+  id Int @id @default(autoincrement())
+
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productId Int
+
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  categoryId Int
+}

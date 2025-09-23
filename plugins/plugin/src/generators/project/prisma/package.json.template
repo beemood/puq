@@ -1,21 +1,15 @@
 {
-  "name": "@puq/sample-db",
-  "version": "0.11.12",
-  "publishConfig": {
+  "name": "<%- projectName %>",
+  "version": "<%- mp.version %>",
+   "publishConfig": {
     "access": "public",
     "tag": "latest"
   },
-  "description": "sample-db",
-  "homepage": "https://beemood.github.io/puq/samples/sample-db",
-  "author": {
-    "email": "robert.brightline@gmail.com",
-    "name": "Robert Brightline",
-    "url": "https://beemood.github.io"
-  },
-  "icon": "https://beemood.github.io/puq/samples/sample-db/assets/favicon.png",
-  "funding": [
-    "https://cash.app/$puqlib"
-  ],
+  "description": "<%- fileName %>",
+  "homepage": "<%- mp.homepage %>/<%- projectDirectory %>",
+  "author": <%- JSON.stringify(mp.author) %>,
+  "icon": "<%- mp.homepage %>/<%- projectDirectory %>/assets/favicon.png",
+  "funding": <%- JSON.stringify(mp.funding) %>,
   "keywords": [
     "prisma"
   ],
@@ -208,7 +202,7 @@
     "postinstall": "npx prisma migrate dev name --updated && npx prisma generate"
   },
   "nx": {
-    "sourceRoot": "samples/sample-db/src",
+    "sourceRoot": "<%- projectDirectory %>/src",
     "targets": {
       "build": {
         "executor": "@nx/js:swc",
@@ -216,9 +210,9 @@
           "{options.outputPath}"
         ],
         "options": {
-          "outputPath": "samples/sample-db/dist",
-          "main": "samples/sample-db/src/index.ts",
-          "tsConfig": "samples/sample-db/tsconfig.lib.json",
+          "outputPath": "<%- projectDirectory %>/dist",
+          "main": "<%- projectDirectory %>/src/index.ts",
+          "tsConfig": "<%- projectDirectory %>/tsconfig.lib.json",
           "skipTypeCheck": false,
           "stripLeadingPaths": true
         }
@@ -252,6 +246,6 @@
   },
   "devDependencies": {
     "prisma": "^6.16.2",
-    "@puq/sample-db": "workspace:*"
+    "<%- projectName %>"": "workspace:*"
   }
 }
