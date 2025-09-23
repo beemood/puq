@@ -20,7 +20,7 @@ first_line=$(echo "$commit_msg" | head -n 1)
 
 # Define allowed prefixes for the first line
 # This uses a regular expression to match the prefixes.
-allowed_prefixes="^(feat|fix|docs|style|refactor|perf|test)(\(.+\))?: "
+allowed_prefixes="^(feat|fix|docs|style|refactor|perf|test|dev|pub)(\(.+\))?: "
 
 # Rule 2: Validate the first line against the allowed prefixes
 if ! echo "$first_line" | grep -qE "$allowed_prefixes"; then
