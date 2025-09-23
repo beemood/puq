@@ -1,0 +1,6 @@
+{
+  "name": "sample-db",
+  "favicon": "./favicon.png",
+  "entryPoints": ["./src/index.ts"],
+  "out": "../../public/samples/sample-db"
+}

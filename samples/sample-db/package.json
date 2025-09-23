@@ -1,0 +1,70 @@
+{
+  "name": "@puq/sample-db",
+  "version": "0.11.7",
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  },
+  "description": "sample-db",
+  "homepage": "https://beemood.github.io/puq/samples/sample-db",
+  "author": {
+    "email": "robert.brightline@gmail.com",
+    "name": "Robert Brightline",
+    "url": "https://beemood.github.io"
+  },
+  "icon": "https://beemood.github.io/puq/samples/sample-db/assets/favicon.png",
+  "funding": [
+    "https://cash.app/$puqlib"
+  ],
+  "keywords": [],
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "!**/*.tsbuildinfo"
+  ],
+  "nx": {
+    "sourceRoot": "samples/sample-db/src",
+    "targets": {
+      "build": {
+        "executor": "@nx/js:swc",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "options": {
+          "outputPath": "samples/sample-db/dist",
+          "main": "samples/sample-db/src/index.ts",
+          "tsConfig": "samples/sample-db/tsconfig.lib.json",
+          "skipTypeCheck": false,
+          "stripLeadingPaths": true
+        }
+      },
+      "doc": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npx typedoc"
+          ],
+          "cwd": "{projectRoot}"
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "@prisma/client": "^6.16.2",
+    "@swc/helpers": "~0.5.11"
+  },
+  "devDependencies": {
+    "prisma": "^6.16.2"
+  }
+}
