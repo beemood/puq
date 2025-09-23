@@ -1,5 +1,5 @@
-import type { Prisma } from '<%- projectName %>';
-import { PrismaClient } from '<%- projectName %>';
+import type { Prisma } from '@puq/inventory-db';
+import { PrismaClient } from '@puq/inventory-db';
 
 describe('category', () => {
   let client: PrismaClient;

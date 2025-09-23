@@ -32,6 +32,9 @@
     },
     {
       "path": "./samples/sample-db"
+    },
+    {
+      "path": "./dbs/inventory-db"
     }
   ]
 }

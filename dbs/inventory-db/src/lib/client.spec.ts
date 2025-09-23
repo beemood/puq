@@ -1,4 +1,4 @@
-import { PrismaClient } from '<%- projectName %>';
+import { PrismaClient } from '@puq/inventory-db';
 
 describe('client', () => {
   let client: PrismaClient;

@@ -1,15 +1,21 @@
 {
-  "name": "<%- projectName %>",
-  "version": "<%- mp.version %>",
-   "publishConfig": {
+  "name": "@puq/inventory-db",
+  "version": "0.11.7",
+  "publishConfig": {
     "access": "public",
     "tag": "latest"
   },
-  "description": "<%- fileName %>",
-  "homepage": "<%- mp.homepage %>/<%- projectDirectory %>",
-  "author": <%- JSON.stringify(mp.author) %>,
-  "icon": "<%- mp.homepage %>/<%- projectDirectory %>/assets/favicon.png",
-  "funding": <%- JSON.stringify(mp.funding) %>,
+  "description": "inventory-db",
+  "homepage": "https://beemood.github.io/puq/dbs/inventory-db",
+  "author": {
+    "email": "robert.brightline@gmail.com",
+    "name": "Robert Brightline",
+    "url": "https://beemood.github.io"
+  },
+  "icon": "https://beemood.github.io/puq/dbs/inventory-db/assets/favicon.png",
+  "funding": [
+    "https://cash.app/$puqlib"
+  ],
   "keywords": [
     "prisma"
   ],
@@ -200,7 +206,7 @@
     }
   },
   "nx": {
-    "sourceRoot": "<%- projectDirectory %>/src",
+    "sourceRoot": "dbs/inventory-db/src",
     "targets": {
       "build": {
         "executor": "@nx/js:swc",
@@ -208,9 +214,9 @@
           "{options.outputPath}"
         ],
         "options": {
-          "outputPath": "<%- projectDirectory %>/dist",
-          "main": "<%- projectDirectory %>/src/index.ts",
-          "tsConfig": "<%- projectDirectory %>/tsconfig.lib.json",
+          "outputPath": "dbs/inventory-db/dist",
+          "main": "dbs/inventory-db/src/index.ts",
+          "tsConfig": "dbs/inventory-db/tsconfig.lib.json",
           "skipTypeCheck": false,
           "stripLeadingPaths": true
         }
@@ -243,7 +249,8 @@
     "@swc/helpers": "~0.5.11"
   },
   "devDependencies": {
-    "prisma": "^6.16.2",
-    "<%- projectName %>": "workspace:*"
+    "@prisma/client": "6.16.2",
+    "@puq/inventory-db": "workspace:*",
+    "prisma": "^6.16.2"
   }
 }
