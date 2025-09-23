@@ -4,7 +4,7 @@
 
 # @puq/sample-db
 
-sample-db
+Sample prisma orm project
 
 ## Install
 

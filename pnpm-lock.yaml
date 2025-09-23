@@ -294,6 +294,9 @@ importers:
         specifier: ~0.5.11
         version: 0.5.17
     devDependencies:
+      '@puq/sample-db':
+        specifier: workspace:*
+        version: 'link:'
       prisma:
         specifier: ^6.16.2
         version: 6.16.2(magicast@0.3.5)(typescript@5.9.2)
