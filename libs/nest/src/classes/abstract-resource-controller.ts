@@ -26,33 +26,33 @@ export abstract class AbstractResourceController
     throw new NIE(`findManyBy is not implemented: ${{ params, query }}`);
   }
 
-  saveOne(data: Any, query: Any): Any {
-    throw new NIE(`saveOne is not implemented: ${{ data, query }}`);
+  saveOne(body: Any, query: Any): Any {
+    throw new NIE(`saveOne is not implemented: ${{ body, query }}`);
   }
 
-  saveMany(data: Any, query: Any): Any {
-    throw new NIE(`saveMany is not implemented: ${{ data, query }}`);
+  saveMany(body: Any, query: Any): Any {
+    throw new NIE(`saveMany is not implemented: ${{ body, query }}`);
   }
 
-  updateOne(query: Any, data: Any): Any {
-    throw new NIE(`updateOne is not implemented: ${{ query, data }}`);
+  updateOne(query: Any, body: Any): Any {
+    throw new NIE(`updateOne is not implemented: ${{ query, body }}`);
   }
 
-  updateOneBy(params: PropertyValueParam, query: Any, data: Any): Any {
-    throw new NIE(`updateOneBy is not implemented: ${{ params, query, data }}`);
+  updateOneBy(params: PropertyValueParam, query: Any, body: Any): Any {
+    throw new NIE(`updateOneBy is not implemented: ${{ params, query, body }}`);
   }
 
-  updateOneById(id: number, query: Any, data: Any): Any {
-    throw new NIE(`updateOneById is not implemented: ${{ id, query, data }}`);
+  updateOneById(id: number, query: Any, body: Any): Any {
+    throw new NIE(`updateOneById is not implemented: ${{ id, query, body }}`);
   }
 
-  updateMany(query: Any, data: Any): Any {
-    throw new NIE(`updateMany is not implemented: ${{ query, data }}`);
+  updateMany(query: Any, body: Any): Any {
+    throw new NIE(`updateMany is not implemented: ${{ query, body }}`);
   }
 
-  updateManyBy(params: PropertyValueParam, query: Any, data: Any): Any {
+  updateManyBy(params: PropertyValueParam, query: Any, body: Any): Any {
     throw new NIE(
-      `updateManyBy is not implemented: ${{ params, query, data }}`
+      `updateManyBy is not implemented: ${{ params, query, body }}`
     );
   }
 
