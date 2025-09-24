@@ -15,5 +15,7 @@ export function toOrderRecord<T extends Record<string, z.ZodType>>(
       z.enum(['asc', 'desc']),
     ])
   );
-  return z.object(newShape) as z.ZodObject<{ [K in keyof T]: z.ZodEnum }>;
+  return z.object(newShape).partial() as z.ZodObject<{
+    [K in keyof T]: z.ZodOptional<z.ZodEnum>;
+  }>;
 }

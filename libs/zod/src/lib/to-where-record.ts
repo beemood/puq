@@ -1,10 +1,10 @@
 import { z } from 'zod';
 import {
-    BooleanFilterSchema,
-    DateFilterSchema,
-    IntegerFilterSchema,
-    NumberFilterSchema,
-    StringFilterSchema,
+  BooleanFilterSchema,
+  DateTimeFilterSchema,
+  IntegerFilterSchema,
+  NumberFilterSchema,
+  StringFilterSchema,
 } from './property-filter-schemas.js';
 
 /**
@@ -35,7 +35,7 @@ export function toWhereRecord<T extends Record<string, z.ZodType>>(
             return [key, IntegerFilterSchema];
           }
           case 'date': {
-            return [key, DateFilterSchema];
+            return [key, DateTimeFilterSchema];
           }
           case 'symbol':
           case 'undefined':
@@ -77,5 +77,6 @@ export function toWhereRecord<T extends Record<string, z.ZodType>>(
       })
       .filter((e) => e) as [[]]
   );
-  return z.object(newShape);
+
+  return z.object(newShape).partial();
 }

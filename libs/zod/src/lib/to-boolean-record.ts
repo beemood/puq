@@ -10,13 +10,10 @@ export function toBooleanRecord<T extends Record<string, z.ZodType>>(
   zodObject: z.ZodObject<T>
 ): z.ZodObject<{ [K in keyof T]: z.ZodOptional<z.ZodBoolean> }> {
   const newShape = Object.fromEntries(
-    Object.entries(zodObject.shape).map(([key]) => [
-      key,
-      z.boolean().optional(),
-    ])
+    Object.entries(zodObject.shape).map(([key]) => [key, z.boolean()])
   );
 
-  return z.object(newShape) as z.ZodObject<{
+  return z.object(newShape).partial() as z.ZodObject<{
     [K in keyof T]: z.ZodOptional<z.ZodBoolean>;
   }>;
 }

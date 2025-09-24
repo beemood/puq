@@ -3,10 +3,13 @@ import { toWhereRecord } from './to-where-record.js';
 
 describe('toWhereRecord', () => {
   it('should convert the object schema into where record', () => {
-    const whereSchema = toWhereRecord(z.object({ name: z.string() }));
+    const schema = z.object({ name: z.string() });
+
+    const whereSchema = toWhereRecord(schema);
+
     expect(whereSchema).toBeDefined();
-    expect(whereSchema.parse({ name: { equals: '' } })).toEqual({
-      name: { equals: '' },
+    expect(whereSchema.parse({ name: { equals: 's' } })).toEqual({
+      name: { equals: 's' },
     });
   });
 });
