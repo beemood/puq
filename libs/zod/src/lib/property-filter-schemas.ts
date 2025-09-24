@@ -1,24 +1,36 @@
-import z from "zod";
+import z from 'zod';
 
-export const StringFilterSchema = z.object({
+export const StringFilterSchema = z
+  .object({
     equals: z.string(),
-}).partial().optional()
+  })
+  .partial()
+  .optional();
 
-
-export const IntegerFilterSchema = z.object({
+export const IntegerFilterSchema = z
+  .object({
     equals: z.int(),
-}).partial().optional()
+  })
+  .partial()
+  .optional();
 
-export const NumberFilterSchema = z.object({
+export const NumberFilterSchema = z
+  .object({
     equals: z.int(),
-}).partial().optional()
+  })
+  .partial()
+  .optional();
 
-export const DateFilterSchema = z.object({
+export const DateFilterSchema = z
+  .object({
     equals: z.iso.datetime(),
-}).partial().optional()
+  })
+  .partial()
+  .optional();
 
-
-
-export const BooleanFilterSchema = z.object({
-    equals: z.boolean()
-}).partial().optional()
+export const BooleanFilterSchema = z
+  .object({
+    equals: z.boolean(),
+  })
+  .partial()
+  .optional();
