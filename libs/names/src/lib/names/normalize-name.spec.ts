@@ -1,4 +1,5 @@
-import { InvalidNameError, normalizeName } from './normalize-name.js';
+import { InvalidNameError } from '@puq/errors';
+import { normalizeName } from './normalize-name.js';
 
 describe('normalizeName', () => {
   describe('valid cases', () => {

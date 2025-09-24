@@ -1,3 +1,4 @@
+import { InvalidNameError } from '@puq/errors';
 import { trim } from './trim.js';
 
 export const VALID_NAME_EXP = () => /^[a-zA-Z\-_]{1,}[a-zA-Z\-_\s]{1,}$/;
@@ -6,14 +7,17 @@ export const HAS_LOWER_CASE_EXP = () => /[a-z]{1,}/;
 export const HAS_UNDER_SCORE_EXP = () => /[_]{1,}/;
 export const HAS_DASH_EXP = () => /[-]{1,}/;
 
-export class InvalidNameError extends Error {
-  constructor(name: string) {
-    super(`Name must match ${VALID_NAME_EXP().source} but found ${name}`);
-  }
-}
-
 export function isValidName(name: string) {
   return VALID_NAME_EXP().test(name);
+}
+
+export function isValidNameOrThrow<T extends string>(
+  name: T | never
+): name is T {
+  if (!isValidName(name)) {
+    throw new InvalidNameError(name, VALID_NAME_EXP().source);
+  }
+  return true;
 }
 
 export function hasUpperCase(name: string) {
@@ -53,9 +57,8 @@ export function lowerCaseFirst(name: string) {
  */
 export function normalizeName(name: string): string {
   name = trim(name);
-  if (!isValidName(name)) {
-    throw new InvalidNameError(name);
-  }
+
+  isValidNameOrThrow(name);
 
   if (hasUpperCaseAndLowerCase(name)) {
     name = name

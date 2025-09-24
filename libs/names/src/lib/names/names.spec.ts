@@ -1,6 +1,6 @@
-import type { NameCases} from './names.js';
+import { InvalidNameError } from '@puq/errors';
+import type { NameCases } from './names.js';
 import { names } from './names.js';
-import { InvalidNameError } from './normalize-name.js';
 
 describe('names', () => {
   describe('valid cases', () => {

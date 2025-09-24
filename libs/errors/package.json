@@ -1,21 +1,22 @@
 {
-  "name": "@puq/names",
+  "name": "@puq/errors",
   "version": "0.11.13",
   "publishConfig": {
     "access": "public",
     "tag": "latest"
   },
-  "description": "All name variants",
-  "homepage": "https://beemood.github.io/libs/names",
+  "description": "errors",
+  "homepage": "https://beemood.github.io/puq/libs/errors",
   "author": {
     "email": "robert.brightline@gmail.com",
     "name": "Robert Brightline",
     "url": "https://beemood.github.io"
   },
-  "icon": "https://beemood.github.io/libs/names/assets/favicon.png",
+  "icon": "https://beemood.github.io/puq/libs/errors/assets/favicon.png",
   "funding": [
     "https://cash.app/$puqlib"
   ],
+  "keywords": [],
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -23,7 +24,6 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "@puq/source": "./src/index.ts",
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
@@ -34,7 +34,7 @@
     "!**/*.tsbuildinfo"
   ],
   "nx": {
-    "sourceRoot": "libs/names/src",
+    "sourceRoot": "libs/errors/src",
     "targets": {
       "build": {
         "executor": "@nx/js:swc",
@@ -42,9 +42,9 @@
           "{options.outputPath}"
         ],
         "options": {
-          "outputPath": "libs/names/dist",
-          "main": "libs/names/src/index.ts",
-          "tsConfig": "libs/names/tsconfig.lib.json",
+          "outputPath": "libs/errors/dist",
+          "main": "libs/errors/src/index.ts",
+          "tsConfig": "libs/errors/tsconfig.lib.json",
           "skipTypeCheck": false,
           "stripLeadingPaths": true
         }
@@ -61,8 +61,6 @@
     }
   },
   "dependencies": {
-    "@puq/errors": "workspace:*",
-    "@puq/utils": "workspace:*",
     "@swc/helpers": "~0.5.11"
   }
 }

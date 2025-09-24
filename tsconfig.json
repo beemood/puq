@@ -35,6 +35,9 @@
     },
     {
       "path": "./dbs/inventory-db"
+    },
+    {
+      "path": "./libs/errors"
     }
   ]
 }
