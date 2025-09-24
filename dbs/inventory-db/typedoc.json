@@ -2,5 +2,5 @@
   "name": "inventory-db",
   "favicon": "./favicon.png",
   "entryPoints": ["./src/index.ts"],
-  "out": "../../public/dbs/inventory-db"
+  "out": "../../../beemood.github.io/public/dbs/inventory-db"
 }
