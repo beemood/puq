@@ -1,6 +1,10 @@
 import type { Type } from '@nestjs/common';
 import type { Any } from '@puq/types';
-import { getOwnPropertyDescriptor, getOwnPropertyNames } from '@puq/utils';
+import {
+  getOwnPropertyDescriptor,
+  getOwnPropertyNames,
+  isDefinedOrThrow,
+} from '@puq/utils';
 import { AuthController } from './auth-controller.js';
 import { AutoAuthMethod } from './auto-auth-method.js';
 
@@ -17,12 +21,14 @@ export function AutoAuthController(): ClassDecorator {
 
     const targetClass = args[0] as Any as Type;
 
-    const propertyKeys = getOwnPropertyNames(targetClass.prototype);
+    const propertyKeys = getOwnPropertyNames(targetClass);
 
     for (const propertyKey of propertyKeys) {
       const descriptor = getOwnPropertyDescriptor(targetClass, propertyKey);
 
-      AutoAuthMethod()(targetClass, propertyKey, descriptor ?? {});
+      isDefinedOrThrow(descriptor);
+
+      AutoAuthMethod()(targetClass, propertyKey, descriptor);
     }
   };
 }
