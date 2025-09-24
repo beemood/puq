@@ -1,3 +1,13 @@
+## 0.13.0 (2025-09-24)
+
+### 🩹 Fixes
+
+- fixed resource controller imports ([cf9746b](https://github.com/beemood/puq/commit/cf9746b))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.12.0 (2025-09-24)
 
 ### 🚀 Features
