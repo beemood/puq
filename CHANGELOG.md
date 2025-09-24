@@ -1,3 +1,18 @@
+## 0.12.0 (2025-09-24)
+
+### 🚀 Features
+
+- clean docs ([98df6ba](https://github.com/beemood/puq/commit/98df6ba))
+- added validation functions for resouce name and operations and cetrilized the errors ([7c2ae1d](https://github.com/beemood/puq/commit/7c2ae1d))
+- centralize all naming fucntion in the @puq/names library ([540e956](https://github.com/beemood/puq/commit/540e956))
+- auto inject repository ([25decec](https://github.com/beemood/puq/commit/25decec))
+- created zod and prisma exception filters and applied to resource controller decorator ([7ab6370](https://github.com/beemood/puq/commit/7ab6370))
+- created zod and prisma exception filters and applied to resource controller decorator ([60aefbc](https://github.com/beemood/puq/commit/60aefbc))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.11.13 (2025-09-23)
 
 ### 🚀 Features
