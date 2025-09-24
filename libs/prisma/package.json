@@ -67,6 +67,7 @@
   },
   "dependencies": {
     "@prisma/client": "6.16.2",
+    "@puq/names": "workspace:*",
     "@swc/helpers": "~0.5.11",
     "express": "^5.1.0"
   },
