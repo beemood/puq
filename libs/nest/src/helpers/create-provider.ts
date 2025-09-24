@@ -11,11 +11,23 @@ export type ProviderMetadata<T> = {
   provideFactory: (useFactory: (...args: Any[]) => T) => Provider;
 };
 
-
+/**
+ * Create provider with token, inject, and provider value handlers
+ *
+ * @param name
+ * @returns
+ *
+ * @example
+ *
+ * ```typescript
+ *
+ * const { inject: InjectSome, provide:provideSome, token:getSomeToken } = createProvider("Some")
+ *
+ * ```
+ */
 export function createProvider<T>(name: string): ProviderMetadata<T> {
   const key = createProviderKey(name);
 
-  
   function inject(): ParameterDecorator {
     return (...args) => {
       Inject(key)(...args);

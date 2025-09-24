@@ -15,5 +15,5 @@ export * from './lib/string/equals-fn.js';
 export * from './lib/string/includes-fn.js';
 export * from './lib/string/matches-fn.js';
 export * from './lib/string/starts-with-fn.js';
-export * from './lib/value/defined-or-throw.js';
+export * from './lib/validate/is-defined-or-throw.js';
 

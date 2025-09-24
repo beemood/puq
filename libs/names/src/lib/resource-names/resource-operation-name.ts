@@ -31,9 +31,9 @@ export function isResourceOperationName<T extends ResourceOperationName>(
 
 export function isResourceOperationNameOrThrow<T extends ResourceOperationName>(
   operationName: T | string
-): operationName is T {
+): asserts operationName is T {
   if (isResourceOperationName(operationName)) {
-    return true;
+    return;
   }
 
   throw new InvalidOperationNameError(

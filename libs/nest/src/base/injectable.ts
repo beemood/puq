@@ -1,26 +1,20 @@
 import { Injectable as __Injectable } from '@nestjs/common';
-
-import { values } from '@puq/utils';
-import { InvalidNameError } from '../names/invalid-name-error.js';
-import {
-  isResourceClassName,
-  ResourceClassNameSuffixes,
-} from '../names/resource-class-name.js';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { InvalidResourceNameError } from '@puq/errors';
+import { isResourceClassNameOrThrow } from '@puq/names';
 
 /**
  * Wrapper around Nestjs Injectable decorator that validate the target class name as defined in {@link ResourceClassNameSuffixes}.
- * a
+ *
  * @returns - {@link ClassDecorator}
- * @throws - {@link InvalidNameError}
+ * @throws - {@link InvalidResourceNameError}
  */
 export function Injectable(): ClassDecorator {
   return (...args) => {
-    if (!isResourceClassName(args[0].name)) {
-      throw new InvalidNameError(
-        args[0].name,
-        values(ResourceClassNameSuffixes) + ''
-      );
-    }
+    const className = args[0].name;
+
+    isResourceClassNameOrThrow(className);
+
     __Injectable()(...args);
   };
 }

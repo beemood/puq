@@ -7,12 +7,13 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
+import {
+  isResourceOperationNameOrThrow
+} from '@puq/names';
 import type { Any } from '@puq/types';
 import type { Request } from 'express';
 import { map, type Observable } from 'rxjs';
 import { Injectable } from '../base/injectable.js';
-import { InvalidNameError } from '../names/invalid-name-error.js';
-import { isResourceOperationName } from '../names/resource-operation-name.js';
 import { InjectTransformers } from '../providers/transformers.provider.js';
 import type { ResourceTransformers } from '../types/resource-transformers.js';
 
@@ -32,9 +33,7 @@ export class ResourceTransformInterceptor implements NestInterceptor {
     const req = context.switchToHttp().getRequest<Request>();
     const handlerName = context.getHandler().name;
 
-    if (!isResourceOperationName(handlerName)) {
-      throw new InvalidNameError(handlerName);
-    }
+    isResourceOperationNameOrThrow(handlerName);
 
     const transformers = this.transformers?.[handlerName];
 

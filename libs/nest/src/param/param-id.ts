@@ -1,6 +1,6 @@
 import { Param } from '@nestjs/common';
 
-export function PramId(): ParameterDecorator {
+export function ParamId(): ParameterDecorator {
   return (...args) => {
     Param('id')(...args);
   };

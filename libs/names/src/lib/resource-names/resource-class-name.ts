@@ -32,16 +32,14 @@ export function isResourceClassName(className: string): boolean {
 }
 
 export function isResourceClassNameOrThrow<T extends string>(
-  className: T
+  className: T,
+  expected: string = keys(ResourceClassNameSuffixes)
+    .map((e) => e + '$')
+    .join('|')
 ): className is T {
   if (isResourceClassName(className)) {
     return true;
   }
 
-  throw new InvalidResourceNameError(
-    className,
-    keys(ResourceClassNameSuffixes)
-      .map((e) => e + '$')
-      .join('|')
-  );
+  throw new InvalidResourceNameError(className, expected);
 }

@@ -1,7 +1,6 @@
+import type { DataModelName, ResourceOperationName } from '@puq/names';
 import { pluralize } from '@puq/names';
 import { createPlaceholderReplacer } from '@puq/utils';
-import type { DataModelName } from '../names/data-model-name.js';
-import type { ResourceOperationName } from '../names/resource-operation-name.js';
 
 /**
  * Create resource operation summary from {@link resouceName} and {@link operationName}

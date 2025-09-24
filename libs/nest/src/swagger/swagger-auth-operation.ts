@@ -1,6 +1,6 @@
 import { ApiOperation } from '@nestjs/swagger';
+import type { AuthOperationName } from '@puq/names';
 import { names } from '@puq/names';
-import type { AuthOperationName } from '../names/auth-operation-name.js';
 
 /**
  * Set swagger doc to the target authentication operation

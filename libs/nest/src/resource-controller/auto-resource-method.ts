@@ -1,10 +1,7 @@
 import { Delete, Get, Post, Put } from '@nestjs/common';
-import { names } from '@puq/names';
-import { createResourcePaths } from '../helpers/create-resource-paths.js';
+import type { ResourceOperationName } from '@puq/names';
+import { extractResourceName, resourcePaths } from '@puq/names';
 import { OperationName } from '../metadata/operation-name.js';
-import { extractResourceName } from '../names/extract-resource-name.js';
-import type { ResourceOperationName } from '../names/resource-operation-name.js';
-import { ResourceOperationNames } from '../names/resource-operation-name.js';
 import { SwaggerResourceOperation } from '../swagger/swagger-resource-operation.js';
 
 /**
@@ -21,83 +18,82 @@ export function AutoResourceMethod(): MethodDecorator {
 
     const operationName = args[1].toString() as ResourceOperationName;
     const resourceName = extractResourceName(className);
-    const singularPath = names(resourceName).kebab;
-
-    const { pluralByPath, pluralPath, singularByPath, singularIdPath } =
-      createResourcePaths(singularPath);
+    const resourcePathRecord = resourcePaths(resourceName);
 
     OperationName()(...args);
 
     SwaggerResourceOperation(resourceName, operationName)(...args);
 
+    const resourcePath = resourcePathRecord[operationName];
+
     // Configure nestjs http method
     switch (operationName) {
       case 'findOne': {
-        Get(singularPath)(...args);
+        Get(resourcePath)(...args);
         break;
       }
       case 'findOneBy': {
-        Get(singularByPath)(...args);
+        Get(resourcePath)(...args);
         break;
       }
       case 'findOneById': {
-        Get(singularIdPath)(...args);
+        Get(resourcePath)(...args);
         break;
       }
       case 'findMany': {
-        Get(pluralPath)(...args);
+        Get(resourcePath)(...args);
         break;
       }
       case 'findManyBy': {
-        Get(pluralByPath)(...args);
+        Get(resourcePath)(...args);
         break;
       }
       case 'saveOne': {
-        Post(singularPath)(...args);
+        Post(resourcePath)(...args);
         break;
       }
       case 'saveMany': {
-        Post(pluralPath)(...args);
+        Post(resourcePath)(...args);
         break;
       }
       case 'updateOne': {
-        Put(singularPath)(...args);
+        Put(resourcePath)(...args);
         break;
       }
       case 'updateOneBy': {
-        Put(singularByPath)(...args);
+        Put(resourcePath)(...args);
         break;
       }
       case 'updateOneById': {
-        Put(singularIdPath)(...args);
+        Put(resourcePath)(...args);
         break;
       }
       case 'updateMany': {
-        Put(pluralPath)(...args);
+        Put(resourcePath)(...args);
         break;
       }
       case 'updateManyBy': {
-        Put(pluralByPath)(...args);
+        Put(resourcePath)(...args);
         break;
       }
       case 'deleteOne': {
-        Delete(singularPath)(...args);
+        Delete(resourcePath)(...args);
         break;
       }
       case 'deleteOneById': {
-        Delete(singularIdPath)(...args);
+        Delete(resourcePath)(...args);
         break;
       }
       case 'deleteOneBy': {
-        Delete(singularByPath)(...args);
+        Delete(resourcePath)(...args);
         break;
       }
       case 'deleteMany': {
-        Delete(pluralPath)(...args);
+        Delete(resourcePath)(...args);
         break;
       }
       case 'deleteManyBy': {
-        Delete(pluralByPath)(...args);
+        Delete(resourcePath)(...args);
         break;
       }
     }

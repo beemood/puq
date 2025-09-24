@@ -1,5 +1,5 @@
+import type { ResourceOperationName } from '@puq/names';
 import type { Any } from '@puq/types';
-import type { ResourceOperationName } from '../names/resource-operation-name.js';
 
 export type ResourceTransformFn<T = Any> = (value: T) => T;
 

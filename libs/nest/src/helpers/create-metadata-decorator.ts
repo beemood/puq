@@ -11,6 +11,12 @@ export class MetadataKeyAlreadyUsedError extends Error {
 
 const metadataKeys = new Set<string>();
 
+/**
+ * Create meta-data decorator using nestjs SetMetadata decorator, if there is no params provided, the value will be true.
+ *
+ * @param name
+ * @returns
+ */
 export function createMetadataDecorator<
   D extends DecoratorType,
   V extends Any[] = []

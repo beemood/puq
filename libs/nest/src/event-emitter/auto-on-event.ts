@@ -1,6 +1,6 @@
 import { OnEvent } from '@nestjs/event-emitter';
+import { extractResourceName } from '@puq/names';
 import { toEventName } from '../helpers/to-event-name.js';
-import { extractResourceName } from '../names/extract-resource-name.js';
 
 /**
  * Wrapper around nestjs OnEvent decorator that automatically create event name from target class and method name.

@@ -1,6 +1,10 @@
 import { type Type } from '@nestjs/common';
 import type { Any } from '@puq/types';
-import { getOwnPropertyDescriptor, getOwnPropertyNames } from '@puq/utils';
+import {
+  getOwnPropertyDescriptor,
+  getOwnPropertyNames,
+  isDefinedOrThrow,
+} from '@puq/utils';
 import { AutoResourceMethod } from './auto-resource-method.js';
 import { ResourceController } from './resource-controller.js';
 
@@ -28,18 +32,15 @@ import { ResourceController } from './resource-controller.js';
 export function AutoResourceController(): ClassDecorator {
   return (...args) => {
     ResourceController()(...args);
+
     const targetClass = args[0] as Any as Type;
 
     const propertyKeys = getOwnPropertyNames(targetClass);
 
     for (const propertyKey of propertyKeys) {
       const descriptor = getOwnPropertyDescriptor(targetClass, propertyKey);
-
-      AutoResourceMethod()(
-        targetClass.prototype,
-        propertyKey,
-        descriptor ?? {}
-      );
+      isDefinedOrThrow(descriptor);
+      AutoResourceMethod()(targetClass.prototype, propertyKey, descriptor);
     }
   };
 }

@@ -1,13 +1,9 @@
 import { Post } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
+import { InvalidNameError } from '@puq/errors';
+import { AuthOperationNames, AuthPaths, isAuthOperationName } from '@puq/names';
 import { values } from '@puq/utils';
 import { PublicOperation } from '../metadata/public-operation.js';
-import {
-  AuthOperationNames,
-  isAuthOperationName,
-} from '../names/auth-operation-name.js';
-import { AuthPaths } from '../names/auth-paths.js';
-import { InvalidNameError } from '../names/invalid-name-error.js';
 import { SwaggerAutoOperation } from '../swagger/swagger-auth-operation.js';
 
 /**

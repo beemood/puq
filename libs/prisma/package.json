@@ -66,9 +66,12 @@
     "@nestjs/core": "^11.1.6"
   },
   "dependencies": {
-    "@swc/helpers": "~0.5.11"
+    "@prisma/client": "6.16.2",
+    "@swc/helpers": "~0.5.11",
+    "express": "^5.1.0"
   },
   "devDependencies": {
-    "@nestjs/testing": "^11.1.6"
+    "@nestjs/testing": "^11.1.6",
+    "@types/express": "^5.0.3"
   }
 }

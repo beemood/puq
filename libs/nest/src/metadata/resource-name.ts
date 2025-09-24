@@ -1,5 +1,5 @@
+import { extractResourceName } from '@puq/names';
 import { createMetadataDecorator } from '../helpers/create-metadata-decorator.js';
-import { extractResourceName } from '../names/extract-resource-name.js';
 
 const __resourceName = createMetadataDecorator<ClassDecorator, [string]>(
   'ResourceName'

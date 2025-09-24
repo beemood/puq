@@ -62,6 +62,7 @@
   },
   "dependencies": {
     "@puq/errors": "workspace:*",
+    "@puq/types": "workspace:*",
     "@puq/utils": "workspace:*",
     "@swc/helpers": "~0.5.11"
   }

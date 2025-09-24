@@ -1,11 +1,12 @@
-import { Controller as C } from '@nestjs/common';
-import { InvalidNameError } from '../names/invalid-name-error.js';
-import { ResourceClassNameSuffixes } from '../names/resource-class-name.js';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Controller as NestController } from '@nestjs/common';
+import { InvalidResourceNameError } from '@puq/errors';
+import { isResourceClassNameOrThrow } from '@puq/names';
 
 /**
  * Nestjs controller decorator wrapper that checks target class name that it ends with "Controller" or not.
- * If it does not ends with "Controller" suffix, then thorw {@link InvalidNameError}
- * 
+ * If it does not ends with "Controller" suffix, then thorw {@link InvalidResourceNameError}
+ *
  * @group Decorators
  * @returns - {@link ClassDecorator}
  */
@@ -13,10 +14,8 @@ export function Controller(): ClassDecorator {
   return (...args) => {
     const className = args[0].name;
 
-    if (!className.endsWith(ResourceClassNameSuffixes.Controller)) {
-      throw new InvalidNameError(className, `*Controller$`);
-    }
+    isResourceClassNameOrThrow(className, 'Controller$');
 
-    C()(...args);
+    NestController()(...args);
   };
 }

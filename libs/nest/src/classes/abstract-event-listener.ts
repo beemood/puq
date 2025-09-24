@@ -1,11 +1,11 @@
 import { NotImplementedException as NIE } from '@nestjs/common';
-import type { ResourceOperationName } from '../names/resource-operation-name.js';
+import type { ResourceOperationName } from '@puq/names';
 import type { EventPayload } from '../types/event-payload.js';
 
 /**
- * Whenever you need to listen to a resource operation event such as `Product.saveOne`, extends this class, 
+ * Whenever you need to listen to a resource operation event such as `Product.saveOne`, extends this class,
  * and override the corresponding method such as for `Product.saveOne`, override the `saveOne` method.
- * 
+ *
  */
 export abstract class AbstractEventListener
   implements Record<ResourceOperationName, (payload: EventPayload) => void>

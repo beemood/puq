@@ -1,5 +1,9 @@
 import type { ClassType } from '@puq/types';
-import { getOwnPropertyDescriptor, getOwnPropertyNames } from '@puq/utils';
+import {
+  getOwnPropertyDescriptor,
+  getOwnPropertyNames,
+  isDefinedOrThrow,
+} from '@puq/utils';
 import { AutoOnEvent } from './auto-on-event.js';
 import { EventListener } from './event-listener.js';
 
@@ -18,7 +22,10 @@ export function AutoEventListener(): ClassDecorator {
 
     for (const propertyKey of propertyKeys) {
       const descriptor = getOwnPropertyDescriptor(targetClass, propertyKey);
-      AutoOnEvent()(targetClass, propertyKey, descriptor!);
+
+      isDefinedOrThrow(descriptor);
+
+      AutoOnEvent()(targetClass, propertyKey, descriptor);
     }
   };
 }

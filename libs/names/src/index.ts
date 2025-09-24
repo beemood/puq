@@ -10,4 +10,5 @@ export * from './lib/resource-names/extract-resource-name.js';
 export * from './lib/resource-names/resource-class-name.js';
 export * from './lib/resource-names/resource-operation-name.js';
 export * from './lib/resource-paths/auth-paths.js';
+export * from './lib/resource-paths/resource-paths.js';
 

@@ -1,6 +1,5 @@
 import { ApiOperation as __ApiOperation } from '@nestjs/swagger';
-import type { DataModelName } from '../names/data-model-name.js';
-import type { ResourceOperationName } from '../names/resource-operation-name.js';
+import type { DataModelName, ResourceOperationName } from '@puq/names';
 import { resourceOperationSummary } from './resource-operation-summary.js';
 
 /**
