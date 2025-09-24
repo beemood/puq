@@ -1,8 +1,8 @@
 import { UseFilters, UseInterceptors } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { PrismaExceptionFilter } from 'src/filters/prisma-exception-filter.js';
-import { ZodExceptionFilter } from 'src/filters/zod-exception.filter.js';
 import { Controller } from '../base/controller.js';
+import { PrismaExceptionFilter } from '../filters/prisma-exception-filter.js';
+import { ZodExceptionFilter } from '../filters/zod-exception.filter.js';
 import { ResourceEventInterceptor } from '../interceptors/resource-event.interceptor.js';
 import { ResourceTransformInterceptor } from '../interceptors/resource-transform.interceptor.js';
 import { ResourceName } from '../metadata/resource-name.js';
