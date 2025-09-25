@@ -1,8 +1,8 @@
 import { Delete, Get, Post, Put } from '@nestjs/common';
 import type { ResourceOperationName } from '@puq/names';
 import { extractResourceName, resourcePaths } from '@puq/names';
-import { SwaggerApiParams } from 'src/swagger/swagger-api-params.js';
 import { OperationName } from '../metadata/operation-name.js';
+import { SwaggerApiParams } from '../swagger/swagger-api-params.js';
 import { SwaggerResourceOperation } from '../swagger/swagger-resource-operation.js';
 
 /**
