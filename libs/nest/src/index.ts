@@ -18,7 +18,6 @@ export * from './helpers/create-provider.js';
 export * from './helpers/to-event-name.js';
 export * from './helpers/to-metadata-key.js';
 export * from './interceptors/resource-event.interceptor.js';
-export * from './interceptors/resource-transform.interceptor.js';
 export * from './metadata/admin-operation.js';
 export * from './metadata/admin-resource.js';
 export * from './metadata/internal-operation.js';

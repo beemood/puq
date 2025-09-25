@@ -6,6 +6,8 @@ import { ZodError } from 'zod';
 @Catch(ZodError)
 export class ZodExceptionFilter implements ExceptionFilter {
   catch(exception: ZodError) {
-    throw new UnprocessableEntityException(exception);
+    throw new UnprocessableEntityException({
+      ...exception,
+    });
   }
 }

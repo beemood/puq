@@ -32,7 +32,7 @@ export class ResourceEventInterceptor implements NestInterceptor {
     );
     const operationName = this.reflector.get(
       OPERATION_NAME_METADATA_KEY,
-      context.getClass()
+      context.getHandler()
     );
     const req = context.switchToHttp().getRequest<Request>();
     const timestamp = Date.now();
@@ -40,10 +40,10 @@ export class ResourceEventInterceptor implements NestInterceptor {
     const EVENT_NAME = toEventName(resourceName, operationName);
 
     const payload: EventPayload = {
+      uuid,
+      timestamp,
       req: {
-        timestamp,
         url: req.url,
-        uuid,
         body: req.body,
         params: req.params,
         query: req.query,
@@ -52,7 +52,7 @@ export class ResourceEventInterceptor implements NestInterceptor {
 
     return next.handle().pipe(
       tap((body) => {
-        payload.res = { body, timestamp, uuid };
+        payload.res = { body };
         this.emitter.emit(EVENT_NAME, payload);
       })
     );
