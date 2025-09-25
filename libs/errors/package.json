@@ -1,6 +1,6 @@
 {
   "name": "@puq/errors",
-  "version": "0.16.0",
+  "version": "0.16.1",
   "license": "MIT",
   "description": "Error classes utilized accross the `@puq/*` project",
   "publishConfig": {

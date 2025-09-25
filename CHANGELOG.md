@@ -1,3 +1,13 @@
+## 0.16.1 (2025-09-25)
+
+### 🚀 Features
+
+- configured prisma client generators ([952171e](https://github.com/beemood/puq/commit/952171e))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.16.0 (2025-09-25)
 
 ### 🚀 Features
