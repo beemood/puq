@@ -32,7 +32,6 @@ import { ResourceController } from './resource-controller.js';
 export function AutoResourceController(): ClassDecorator {
   return (...args) => {
     ResourceController()(...args);
-
     const targetClass = args[0] as Any as Type;
 
     const propertyKeys = getOwnPropertyNames(targetClass);

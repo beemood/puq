@@ -1,8 +1,5 @@
-import { UseFilters } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Controller } from '../base/controller.js';
-import { PrismaExceptionFilter } from '../filters/prisma-exception-filter.js';
-import { ZodExceptionFilter } from '../filters/zod-exception.filter.js';
 import { ResourceName } from '../metadata/resource-name.js';
 
 /**
@@ -14,7 +11,6 @@ export function ResourceController(): ClassDecorator {
   return (...args) => {
     const className = args[0].name;
     Controller()(...args);
-    UseFilters(PrismaExceptionFilter, ZodExceptionFilter)(...args);
     ResourceName()(...args);
     ApiTags(className)(...args);
     ApiBearerAuth()(...args);

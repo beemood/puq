@@ -2,7 +2,6 @@ import { Delete, Get, Post, Put } from '@nestjs/common';
 import type { ResourceOperationName } from '@puq/names';
 import { extractResourceName, resourcePaths } from '@puq/names';
 import { OperationName } from '../metadata/operation-name.js';
-
 import { SwaggerResourceOperation } from '../swagger/swagger-resource-operation.js';
 
 /**
@@ -58,27 +57,6 @@ export function AutoResourceMethod(): MethodDecorator {
         Delete(resourcePath)(...args);
         break;
       }
-    }
-
-    // Configure params
-    switch (operationName) {
-      case 'findOne':
-      case 'findOneBy':
-      case 'findOneById':
-      case 'findMany':
-      case 'findManyBy':
-      case 'saveOne':
-      case 'saveMany':
-      case 'updateOne':
-      case 'updateOneBy':
-      case 'updateOneById':
-      case 'updateMany':
-      case 'updateManyBy':
-      case 'deleteOne':
-      case 'deleteOneById':
-      case 'deleteOneBy':
-      case 'deleteMany':
-      case 'deleteManyBy':
     }
   };
 }

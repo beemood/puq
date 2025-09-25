@@ -1,7 +1,8 @@
 import { Query as NestQuery } from '@nestjs/common';
+import type { ZodObject } from 'zod';
 
-export function Query(): ParameterDecorator {
+export function Query(schema: ZodObject): ParameterDecorator {
   return (...args) => {
-    NestQuery()(...args);
+    NestQuery(schema)(...args);
   };
 }
