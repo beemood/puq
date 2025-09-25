@@ -1,3 +1,22 @@
+## 0.14.0 (2025-09-25)
+
+### 🚀 Features
+
+- published ([67f31d7](https://github.com/beemood/puq/commit/67f31d7))
+- swagger query, param and body examples ([40e0792](https://github.com/beemood/puq/commit/40e0792))
+- removed the transform interceptor and go with Validation pipes. ([4e402d8](https://github.com/beemood/puq/commit/4e402d8))
+- added body, param, and query wrapper that accepts zod schema to append validaiton pipe and fixed zod toORderRecord return type ([46670f8](https://github.com/beemood/puq/commit/46670f8))
+- appended the params, body, and query examples to swagger ui ([4d33ae8](https://github.com/beemood/puq/commit/4d33ae8))
+
+### 🩹 Fixes
+
+- fixed resource controller imports ([cf9746b](https://github.com/beemood/puq/commit/cf9746b))
+- fixed toWhereRecord zod schema transformer ([fea9229](https://github.com/beemood/puq/commit/fea9229))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.13.0 (2025-09-24)
 
 ### 🩹 Fixes
