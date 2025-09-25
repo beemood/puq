@@ -6,6 +6,8 @@ export type Nullable<T> = T | null;
 
 export type Optional<T> = T | undefined;
 
+export type Unkown<T> = T | unknown;
+
 export type PickRequired<T, K extends keyof T> =
   | Required<Pick<T, K>>
   | Partial<Omit<T, K>>;

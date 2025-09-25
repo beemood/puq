@@ -64,13 +64,15 @@
   "peerDependencies": {
     "@nestjs/common": "^11.1.6",
     "@nestjs/config": "^4.0.2",
-    "@nestjs/core": "^11.1.6"
+    "@nestjs/core": "^11.1.6",
+    "@prisma/client": "6.16.2",
+    "express": "^5.1.0"
   },
   "dependencies": {
-    "@prisma/client": "6.16.2",
     "@puq/names": "workspace:*",
-    "@swc/helpers": "~0.5.11",
-    "express": "^5.1.0"
+    "@puq/types": "workspace:*",
+    "@puq/utils": "workspace:*",
+    "@swc/helpers": "~0.5.11"
   },
   "devDependencies": {
     "@nestjs/testing": "^11.1.6",

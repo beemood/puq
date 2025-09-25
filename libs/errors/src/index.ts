@@ -6,6 +6,7 @@ export * from './lib/empty-string.js';
 export * from './lib/invalid-name.js';
 export * from './lib/invalid-operation-name.js';
 export * from './lib/invalid-resource-name.js';
+export * from './lib/not-string.js';
 export * from './lib/null.js';
 export * from './lib/undefined.js';
 

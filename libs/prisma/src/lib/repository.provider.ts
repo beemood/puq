@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Inject, type Provider } from '@nestjs/common';
 import { extractResourceName } from '@puq/names';
+import type { Any } from '@puq/types';
+import { isStringOrThrow } from '@puq/utils';
 import { DEFAULT_DATASOURCE_NAME, getClientToken } from './client.provider.js';
 
 export function getRepositoryToken(
@@ -35,8 +37,12 @@ export function InjectRepository(
   datasourceName = DEFAULT_DATASOURCE_NAME
 ): ParameterDecorator {
   return (...args) => {
-    const className = args[0].constructor.name;
-    resourceName = resourceName ?? extractResourceName(className);
+    if (resourceName == undefined) {
+      const className = (args[0] as Any).name;
+      isStringOrThrow(className);
+      resourceName = extractResourceName(className);
+    }
+
     Inject(getRepositoryToken(resourceName, datasourceName))(...args);
   };
 }
