@@ -1,6 +1,6 @@
 {
   "name": "@puq/names",
-  "version": "0.16.1",
+  "version": "0.16.2",
   "license": "MIT",
   "description": "The library provides highly useful methods that keep resouce naming concistent. It provides commonly used resource names, prefixes, suffixes, and corresponding rest api paths that keep the code base consistent and prevent the code from naming bugs.",
   "publishConfig": {

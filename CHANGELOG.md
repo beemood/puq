@@ -1,3 +1,13 @@
+## 0.16.2 (2025-09-25)
+
+### 🩹 Fixes
+
+- ignored the generted directory from npm ([092ceeb](https://github.com/beemood/puq/commit/092ceeb))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.16.1 (2025-09-25)
 
 ### 🚀 Features
