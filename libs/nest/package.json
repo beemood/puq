@@ -1,11 +1,11 @@
 {
   "name": "@puq/nest",
   "version": "0.14.1",
+  "description": "The project is a wrapper around nestjs decorators. It provides combined decorators to keep code base clean and consistent. The project follows the common standard implementaions pattern of nestjs, swagger, zod, and prisma orm.",
   "publishConfig": {
     "access": "public",
     "tag": "latest"
   },
-  "description": "nest",
   "homepage": "https://beemood.github.io/libs/nest",
   "author": {
     "email": "robert.brightline@gmail.com",

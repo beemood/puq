@@ -1,5 +1,8 @@
 import z from 'zod';
-
+/**
+ * String query filter shape
+ * @group Schemas
+ */
 export const __StringFilterSchema = {
   contains: z.string(),
   endsWith: z.string(),
@@ -13,6 +16,10 @@ export const __StringFilterSchema = {
   startsWith: z.string(),
 };
 
+/**
+ * String query filter schema
+ * @group Schemas
+ */
 export const StringFilterSchema = z
   .object({
     ...__StringFilterSchema,
@@ -20,6 +27,10 @@ export const StringFilterSchema = z
   })
   .partial();
 
+/**
+ * Integer query filter shape
+ * @group Schemas
+ */
 export const __IntegerFilterSchema = {
   equals: z.coerce.number().int(),
   in: z.coerce.number().int(),
@@ -30,6 +41,10 @@ export const __IntegerFilterSchema = {
   gte: z.coerce.number().int(),
 };
 
+/**
+ * Integer query filter schema
+ * @group Schemas
+ */
 export const IntegerFilterSchema = z
   .object({
     ...__IntegerFilterSchema,
@@ -37,6 +52,10 @@ export const IntegerFilterSchema = z
   })
   .partial();
 
+/**
+ * Number query filter schema
+ * @group Schemas
+ */
 export const __NumberFilterSchema = {
   equals: z.coerce.number(),
   in: z.coerce.number(),
@@ -47,6 +66,10 @@ export const __NumberFilterSchema = {
   gte: z.coerce.number(),
 };
 
+/**
+ * Number query filter schema
+ * @group Schemas
+ */
 export const NumberFilterSchema = z
   .object({
     ...__NumberFilterSchema,
@@ -63,6 +86,11 @@ export const __DateTimeFilterSchema = {
   gt: z.iso.datetime(),
   gte: z.iso.datetime(),
 };
+
+/**
+ * DateTime query filter shape
+ * @group Schemas
+ */
 export const DateTimeFilterSchema = z
   .object({
     ...__DateTimeFilterSchema,
@@ -74,6 +102,11 @@ export const __BooleanFilterSchema = {
   equals: z.coerce.boolean(),
 };
 
+/**
+ * DateTime query filter schema
+ *
+ * @group Schemas
+ */
 export const BooleanFilterSchema = z
   .object({
     ...__BooleanFilterSchema,

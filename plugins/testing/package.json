@@ -1,11 +1,11 @@
 {
   "name": "@puq/testing",
   "version": "0.14.1",
+  "description": "Common testing utilities",
   "publishConfig": {
     "access": "public",
     "tag": "latest"
   },
-  "description": "testing",
   "homepage": "https://beemood.github.io/plugins/testing",
   "author": {
     "email": "robert.brightline@gmail.com",
@@ -16,7 +16,9 @@
   "funding": [
     "https://cash.app/$puqlib"
   ],
-  "keywords": [],
+  "keywords": [
+    "test"
+  ],
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",

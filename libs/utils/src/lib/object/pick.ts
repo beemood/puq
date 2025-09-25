@@ -1,3 +1,11 @@
+/**
+ * Pick some properties of the given {@link object}
+ *
+ * @group Objects
+ * @param value
+ * @param keys
+ * @returns
+ */
 export function pick<T extends object, K extends keyof T>(
   value: T,
   keys: K[]

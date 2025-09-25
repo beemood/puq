@@ -6,7 +6,6 @@ describe('getOwnPropertyNames', () => {
         //
       }
     }
-
     expect(getOwnPropertyNames(Sample)).toEqual(['some']);
   });
 });

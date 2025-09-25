@@ -1,11 +1,11 @@
 {
   "name": "@puq/errors",
   "version": "0.14.1",
+  "description": "Error classes utilized accross the `@puq/*` project",
   "publishConfig": {
     "access": "public",
     "tag": "latest"
   },
-  "description": "errors",
   "homepage": "https://beemood.github.io/puq/libs/errors",
   "author": {
     "email": "robert.brightline@gmail.com",

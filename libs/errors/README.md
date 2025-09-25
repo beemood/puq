@@ -1,10 +1,10 @@
-<p align="center">
-  <img src="https://beemood.github.io/puq/libs/errors/assets/favicon.png" alt="Logo" />
-</p>
+<p align="center"> <img src="https://beemood.github.io/puq/libs/errors/assets/favicon.png" alt="Logo" /> </p>
 
 # @puq/errors
 
-errors
+Error classes utilized accross the `@puq/*` project
+
+[Contact us](mailto:robert.brightline@gmail.com?subject=@puq/errors)
 
 ## Install
 
@@ -14,7 +14,7 @@ errors
 
 Thank you for using the library. It's an open-source project, and maintaining it takes time and effort. If you find this library useful, please consider supporting its ongoing development. Your contributions help ensure that the project stays up-to-date, secure, and well-maintained.
 
-[Instant Funding]([)
+[Fund us](https://cash.app/$puqlib)
 
 ## Your funding will go toward
 
@@ -26,6 +26,4 @@ Thank you for using the library. It's an open-source project, and maintaining it
 
 - **General maintenance** to keep the library running smoothly and securely.
 
-[Contact to the developer:](mailto:robert.brightline@gmail.com?subject=Inquiry From Readme)
-
-[Support the developer]([)
+[Support us](https://cash.app/$puqlib)

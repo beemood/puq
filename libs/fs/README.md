@@ -1,10 +1,10 @@
-<p align="center">
-  <img src="https://beemood.github.io/libs/fs/assets/favicon.png" alt="Logo" />
-</p>
+<p align="center"> <img src="https://beemood.github.io/libs/fs/assets/favicon.png" alt="Logo" /> </p>
 
 # @puq/fs
 
-File system library
+Extended file system library that provides text(utf-8), json, yaml, and directory operations
+
+[Contact us](mailto:robert.brightline@gmail.com?subject=@puq/fs)
 
 ## Install
 
@@ -14,7 +14,7 @@ File system library
 
 Thank you for using the library. It's an open-source project, and maintaining it takes time and effort. If you find this library useful, please consider supporting its ongoing development. Your contributions help ensure that the project stays up-to-date, secure, and well-maintained.
 
-[Instant Funding](https://cash.app/$puqlib)
+[Fund us](https://cash.app/$puqlib)
 
 ## Your funding will go toward
 
@@ -26,6 +26,4 @@ Thank you for using the library. It's an open-source project, and maintaining it
 
 - **General maintenance** to keep the library running smoothly and securely.
 
-[Contact to the developer:](mailto:robert.brightline@gmail.com?subject=InquiryFromReadme-utils)
-
-[Support the developer](https://cash.app/$puqlib)
+[Support us](https://cash.app/$puqlib)

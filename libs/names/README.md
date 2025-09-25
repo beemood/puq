@@ -1,16 +1,20 @@
-<p align="center">
-  <img src="https://beemood.github.io/libs/names/assets/favicon.png" alt="Logo" />
-</p>
+<p align="center"> <img src="https://beemood.github.io/libs/names/assets/favicon.png" alt="Logo" /> </p>
 
 # @puq/names
 
-All name variants
+The library provides highly useful methods that keep resouce naming concistent. It provides commonly used resource names, prefixes, suffixes, and corresponding rest api paths that keep the code base consistent and prevent the code from naming bugs.
+
+[Contact us](mailto:robert.brightline@gmail.com?subject=@puq/names)
+
+## Install
+
+`pnpm add @puq/names`
 
 ## Funding
 
 Thank you for using the library. It's an open-source project, and maintaining it takes time and effort. If you find this library useful, please consider supporting its ongoing development. Your contributions help ensure that the project stays up-to-date, secure, and well-maintained.
 
-[Instant Funding](https://cash.app/$puqlib)
+[Fund us](https://cash.app/$puqlib)
 
 ## Your funding will go toward
 
@@ -22,6 +26,4 @@ Thank you for using the library. It's an open-source project, and maintaining it
 
 - **General maintenance** to keep the library running smoothly and securely.
 
-[Contact to the developer:](mailto:robert.brightline@gmail.com?subject=InquiryFromReadme-utils)
-
-[Support the developer](https://cash.app/$puqlib)
+[Support us](https://cash.app/$puqlib)

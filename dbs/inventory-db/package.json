@@ -1,11 +1,11 @@
 {
   "name": "@puq/inventory-db",
   "version": "0.14.1",
+  "description": "Inventory database client",
   "publishConfig": {
     "access": "public",
     "tag": "latest"
   },
-  "description": "inventory-db",
   "homepage": "https://beemood.github.io/puq/dbs/inventory-db",
   "author": {
     "email": "robert.brightline@gmail.com",

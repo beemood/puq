@@ -2,8 +2,9 @@ import type { ZodObject } from 'zod';
 import z from 'zod';
 
 /**
- * Preproces the given {@link schema} by parsing json value.
+ * Preprocess the given {@link schema} by parsing the value if it is json string
  *
+ * @group Transformers
  * @param schema
  * @returns zod object schema
  */

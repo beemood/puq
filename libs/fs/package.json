@@ -1,11 +1,11 @@
 {
   "name": "@puq/fs",
   "version": "0.14.1",
+  "description": "Extended file system library that provides text(utf-8), json, yaml, and directory operations",
   "publishConfig": {
     "access": "public",
     "tag": "latest"
   },
-  "description": "File sytem",
   "homepage": "https://beemood.github.io/libs/fs",
   "author": {
     "email": "robert.brightline@gmail.com",

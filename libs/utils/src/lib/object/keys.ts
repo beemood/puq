@@ -1,6 +1,7 @@
 /**
  * Get the keys/properties of an object/class-instance
  *
+ * @group Objects
  * @param value
  * @returns
  */
