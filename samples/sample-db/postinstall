@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Define the directory to check
+DIR="./generated"
+
+if [ -d "$DIR" ]; then
+
+  echo "sample-db prisma client client already exists"
+
+else
+
+  echo "Generating sample-db prisma client"
+
+  npx prisma migrate dev --name updated
+
+  npx prisma generate
+
+fi

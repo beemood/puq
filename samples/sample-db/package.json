@@ -205,7 +205,7 @@
     "!**/*.tsbuildinfo"
   ],
   "scripts": {
-    "postinstall": "npx prisma migrate dev name --updated && npx prisma generate"
+    "postinstall": "sh ./postinstall"
   },
   "nx": {
     "sourceRoot": "samples/sample-db/src",

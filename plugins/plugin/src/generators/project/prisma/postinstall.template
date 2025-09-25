@@ -1,0 +1,17 @@
+#!/bin/bash
+
+DIR="./generated"
+
+if [ -d "$DIR" ]; then
+
+  echo "<%- fileName %> client already exists"
+
+else
+
+  echo "Generating <%- fileName %> client"
+
+  npx prisma migrate dev --name updated
+
+  npx prisma generate
+
+fi

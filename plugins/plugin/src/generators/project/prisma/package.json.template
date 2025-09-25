@@ -5,7 +5,7 @@
     "access": "public",
     "tag": "latest"
   },
-  "description": "<%- fileName %>",
+  "description": "<%- fileName %> prisma client",
   "homepage": "<%- mp.homepage %>/<%- projectDirectory %>",
   "author": <%- JSON.stringify(mp.author) %>,
   "icon": "<%- mp.homepage %>/<%- projectDirectory %>/assets/favicon.png",
@@ -21,7 +21,7 @@
     "!**/*.tsbuildinfo"
   ],
   "scripts": {
-    "postinstall": "npx prisma migrate dev --name auto && npx prisma generate"
+    "postinstall": "sh ./postinstall"
   },
   "exports": {
     "./package.json": "./package.json",

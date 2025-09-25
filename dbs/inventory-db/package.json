@@ -27,7 +27,7 @@
     "!**/*.tsbuildinfo"
   ],
   "scripts": {
-    "postinstall": "npx prisma migrate dev --name updated && npx prisma generate"
+    "postinstall": "sh ./postinstall"
   },
   "exports": {
     "./package.json": "./package.json",

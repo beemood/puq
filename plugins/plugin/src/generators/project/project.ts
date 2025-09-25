@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Tree } from '@nx/devkit';
 import { formatFiles, generateFiles, names, readJsonFile } from '@nx/devkit';
 import { join } from 'path';
