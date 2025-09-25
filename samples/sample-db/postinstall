@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Define the directory to check
-DIR="./generated"
+DIR="./generated/schema.prisma"
 
-if [ -d "$DIR" ]; then
+if [ -f "$DIR" ]; then
 
-  echo "sample-db prisma client client already exists"
+  echo "sample-db prisma client already exists"
 
 else
 
