@@ -1,3 +1,13 @@
+## 0.16.3 (2025-09-25)
+
+### 🩹 Fixes
+
+- fixed the prisma postinstall script ([0adf5b3](https://github.com/beemood/puq/commit/0adf5b3))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.16.2 (2025-09-25)
 
 ### 🩹 Fixes

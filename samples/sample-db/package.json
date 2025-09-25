@@ -1,6 +1,6 @@
 {
   "name": "@puq/sample-db",
-  "version": "0.16.2",
+  "version": "0.16.3",
   "license": "MIT",
   "description": "sample-db",
   "publishConfig": {
