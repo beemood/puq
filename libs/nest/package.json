@@ -1,6 +1,6 @@
 {
   "name": "@puq/nest",
-  "version": "0.14.1",
+  "version": "0.15.0",
   "description": "The project is a wrapper around nestjs decorators. It provides combined decorators to keep code base clean and consistent. The project follows the common standard implementaions pattern of nestjs, swagger, zod, and prisma orm.",
   "publishConfig": {
     "access": "public",

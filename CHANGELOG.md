@@ -1,3 +1,13 @@
+## 0.15.0 (2025-09-25)
+
+### 🩹 Fixes
+
+- created a new Readme.md genreator and fixed the current template of the readme.md in the project generator ([fbe41c0](https://github.com/beemood/puq/commit/fbe41c0))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.14.1 (2025-09-25)
 
 ### 🩹 Fixes
