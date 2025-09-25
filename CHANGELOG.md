@@ -1,3 +1,13 @@
+## 0.16.6 (2025-09-25)
+
+### 🩹 Fixes
+
+- fixed Query decorator Zod validation pipe ([b917485](https://github.com/beemood/puq/commit/b917485))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.16.5 (2025-09-25)
 
 ### 🩹 Fixes
