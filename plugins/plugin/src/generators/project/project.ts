@@ -8,6 +8,13 @@ import {
 } from './project-helper';
 import type { ProjectGeneratorSchema } from './schema';
 
+/**
+ * Generate project
+ *
+ * @group Generators
+ * @param tree
+ * @param options
+ */
 export async function projectGenerator(
   tree: Tree,
   options: ProjectGeneratorSchema

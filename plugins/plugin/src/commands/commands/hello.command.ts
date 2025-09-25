@@ -1,9 +1,19 @@
 import type { Command } from 'commander';
 
+/**
+ * @group Commands
+ */
 export type HelloCommandOptions = {
+  /**
+   * username
+   */
   name: string;
 };
 
+/**
+ * Say hello to the user
+ * @group Commands
+ */
 export class HelloCommand {
   protected handle(options: HelloCommandOptions) {
     console.log(`Hello, ${options.name}`);

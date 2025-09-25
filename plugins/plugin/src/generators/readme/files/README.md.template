@@ -1,14 +1,12 @@
-<p align="center">
-  <img src="<%- mp.homepage %>/<%- projectDirectory %>/assets/favicon.png" alt="Logo" />
-</p>
+<p align="center"> <img src="<%- mp.icon %>" alt="Logo" /> </p>
 
-# <%- projectName %>
+# <%- mp.name %>
 
-<%- fileName %> 
+<%- mp.description %>
 
 ## Install
 
-`pnpm add <%- projectName %>`
+`pnpm add <%- mp.name %>`
 
 ## Funding
 
@@ -26,6 +24,6 @@ Thank you for using the library. It's an open-source project, and maintaining it
 
 - **General maintenance** to keep the library running smoothly and securely.
 
-[Contact to the developer:](mailto:<%- mp.author.email %>?subject=Inquiry From Readme)
+[Contact to the developer](mailto:<%- mp.author.email %>?subject=Inquiry From Readme)
 
 [Support the developer](<%- mp.funding[0] %>)
