@@ -1,3 +1,14 @@
+## 0.16.4 (2025-09-25)
+
+### 🩹 Fixes
+
+- added bin directory to npm ([953eaa9](https://github.com/beemood/puq/commit/953eaa9))
+- fixed prisma InjectRepository decorator ([05b2a22](https://github.com/beemood/puq/commit/05b2a22))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.16.3 (2025-09-25)
 
 ### 🩹 Fixes

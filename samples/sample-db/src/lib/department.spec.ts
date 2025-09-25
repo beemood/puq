@@ -15,14 +15,14 @@ describe('department', () => {
   it('should create one', async () => {
     const saved = await repo.create({
       data: {
-        name: 'sample department',
+        name: 'sample department 1',
         categories: {
           createMany: {
             data: [
-              { name: 'Cat 1' },
-              { name: 'Cat 2' },
-              { name: 'Cat 3' },
-              { name: 'Cat 4' },
+              { name: ' D Cat 1' },
+              { name: ' D Cat 2' },
+              { name: ' D Cat 3' },
+              { name: ' D Cat 4' },
             ],
           },
         },
@@ -38,8 +38,8 @@ describe('department', () => {
   });
 
   it('should update one', async () => {
-    const saved = await repo.create({ data: { name: 'sample department' } });
-    await repo.update({ where: { id: saved.id }, data: { name: 'udpated' } });
+    const saved = await repo.create({ data: { name: 'sample department 2' } });
+    await repo.update({ where: { id: saved.id }, data: { name: 'udpated 2' } });
     await repo.deleteMany();
   });
 });

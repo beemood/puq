@@ -12,7 +12,7 @@ describe('category', () => {
   });
 
   it('should create one', async () => {
-    const saved = await repo.create({ data: { name: 'sample category' } });
+    const saved = await repo.create({ data: { name: 'sample category 1' } });
     expect(saved).toBeDefined();
     await repo.deleteMany();
   });
@@ -23,8 +23,8 @@ describe('category', () => {
   });
 
   it('should update one', async () => {
-    const saved = await repo.create({ data: { name: 'sample category' } });
-    await repo.update({ where: { id: saved.id }, data: { name: 'udpated' } });
+    const saved = await repo.create({ data: { name: 'sample category 2' } });
+    await repo.update({ where: { id: saved.id }, data: { name: 'udpated 2' } });
     await repo.deleteMany();
   });
 });
