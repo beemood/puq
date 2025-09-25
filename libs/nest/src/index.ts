@@ -45,6 +45,7 @@ export * from './resource-controller/auto-resource-controller.js';
 export * from './resource-controller/auto-resource-method.js';
 export * from './resource-controller/resource-controller.js';
 export * from './swagger/resource-operation-summary.js';
+export * from './swagger/swagger-api-params.js';
 export * from './swagger/swagger-auth-operation.js';
 export * from './swagger/swagger-resource-operation.js';
 export * from './types/authenticated-request.js';
