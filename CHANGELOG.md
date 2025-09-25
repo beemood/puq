@@ -1,3 +1,13 @@
+## 0.14.1 (2025-09-25)
+
+### 🩹 Fixes
+
+- fixed import absolute path bug ([c7223ee](https://github.com/beemood/puq/commit/c7223ee))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.14.0 (2025-09-25)
 
 ### 🚀 Features
