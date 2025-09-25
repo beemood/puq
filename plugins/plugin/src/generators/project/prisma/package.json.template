@@ -19,6 +19,8 @@
   "browser": "./generated/default.js",
   "files": [
     "prisma",
+    "postinstall",
+    ".env",
     "!**/*.tsbuildinfo"
   ],
   "scripts": {
