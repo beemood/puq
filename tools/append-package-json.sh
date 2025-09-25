@@ -1,6 +1,9 @@
 #!/bin/bash
 
-sed -i "3 a\\$1" ../libs/**/package.json
-sed -i "3 a\\$1" ../plugins/**/package.json
-sed -i "3 a\\$1" ../samples/**/package.json
-sed -i "3 a\\$1" ../dbs/**/package.json
+
+find ./libs/* ./plugins/* ./dbs/* ./samples/* -maxdepth 0 -type d |  while read dir; do
+
+    echo "Directory: $dir"
+    # append
+    # sed -i "3 a\\$1" "samples/$dir/package.json"
+done
