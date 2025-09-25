@@ -1,11 +1,14 @@
 import { Inject, type Provider, type Type } from '@nestjs/common';
+import { names } from '@puq/names';
 
 export const DEFAULT_DATASOURCE_NAME = 'DEFAULT';
 
 export function getClientToken(
   datasourceName = DEFAULT_DATASOURCE_NAME
 ): string {
-  return `${datasourceName}_PRISMA_CLIENT_TOKEN`.toUpperCase();
+  return `${
+    names(datasourceName).screamingSnake
+  }_PRISMA_CLIENT_TOKEN`.toUpperCase();
 }
 
 export function provideClient(

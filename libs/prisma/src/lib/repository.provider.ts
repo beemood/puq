@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Inject, type Provider } from '@nestjs/common';
-import { extractResourceName } from '@puq/names';
+import { extractResourceName, names } from '@puq/names';
 import type { Any } from '@puq/types';
 import { isStringOrThrow } from '@puq/utils';
 import { DEFAULT_DATASOURCE_NAME, getClientToken } from './client.provider.js';
@@ -9,7 +9,9 @@ export function getRepositoryToken(
   resourceName: string,
   datasouceName = DEFAULT_DATASOURCE_NAME
 ) {
-  return `${datasouceName}_${resourceName}_PRISMA_REPOSITORY`;
+  return `${names(datasouceName).screamingSnake}_${
+    names(resourceName).screamingSnake
+  }_PRISMA_REPOSITORY`.toUpperCase();
 }
 
 export function provideRepository(
