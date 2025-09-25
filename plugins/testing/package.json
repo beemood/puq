@@ -2,6 +2,7 @@
   "name": "@puq/testing",
   "version": "0.15.0",
   "description": "Common testing utilities",
+  "license": "MIT",
   "publishConfig": {
     "access": "public",
     "tag": "latest"
