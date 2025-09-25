@@ -1,11 +1,11 @@
 {
   "name": "@puq/sample-db",
   "version": "0.15.0",
+  "description": "sample-db",
   "publishConfig": {
     "access": "public",
     "tag": "latest"
   },
-  "description": "sample-db",
   "homepage": "https://beemood.github.io/puq/samples/sample-db",
   "author": {
     "email": "robert.brightline@gmail.com",

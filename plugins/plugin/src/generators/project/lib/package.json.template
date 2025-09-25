@@ -1,11 +1,12 @@
 {
   "name": "<%- projectName %>",
   "version": "<%- mp.version %>",
-   "publishConfig": {
+  "license": "MIT",
+  "description": "<%- fileName %>",
+  "publishConfig": {
     "access": "public",
     "tag": "latest"
   },
-  "description": "<%- fileName %>",
   "homepage": "<%- mp.homepage %>/<%- projectDirectory %>",
   "author": <%- JSON.stringify(mp.author) %>,
   "icon": "<%- mp.homepage %>/<%- projectDirectory %>/assets/favicon.png",
