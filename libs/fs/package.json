@@ -1,7 +1,7 @@
 {
   "name": "@puq/fs",
-  "version": "0.15.0",
-"license": "MIT",
+  "version": "0.16.0",
+  "license": "MIT",
   "description": "Extended file system library that provides text(utf-8), json, yaml, and directory operations",
   "publishConfig": {
     "access": "public",

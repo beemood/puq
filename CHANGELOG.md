@@ -1,3 +1,16 @@
+## 0.16.0 (2025-09-25)
+
+### 🚀 Features
+
+- added postinstall script for prisma projects that runs if the prisma client is not generated ([83663d4](https://github.com/beemood/puq/commit/83663d4))
+- license ([77267d0](https://github.com/beemood/puq/commit/77267d0))
+- updating license ([6cf4899](https://github.com/beemood/puq/commit/6cf4899))
+- updated license ([b88d587](https://github.com/beemood/puq/commit/b88d587))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.15.0 (2025-09-25)
 
 ### 🩹 Fixes

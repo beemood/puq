@@ -1,7 +1,7 @@
 {
   "name": "@puq/inventory-db",
-  "version": "0.15.0",
-"license": "MIT",
+  "version": "0.16.0",
+  "license": "MIT",
   "description": "Inventory database client",
   "publishConfig": {
     "access": "public",
