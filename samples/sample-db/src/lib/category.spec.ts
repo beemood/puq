@@ -11,6 +11,10 @@ describe('category', () => {
     await repo.deleteMany();
   });
 
+  afterAll(async () => {
+    await repo.deleteMany();
+  });
+
   it('should create one', async () => {
     const saved = await repo.create({ data: { name: 'sample category 1' } });
     expect(saved).toBeDefined();

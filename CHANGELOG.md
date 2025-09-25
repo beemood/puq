@@ -1,3 +1,13 @@
+## 0.16.5 (2025-09-25)
+
+### 🩹 Fixes
+
+- fixed prisma repository token error ([e0a0a5f](https://github.com/beemood/puq/commit/e0a0a5f))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.16.4 (2025-09-25)
 
 ### 🩹 Fixes
