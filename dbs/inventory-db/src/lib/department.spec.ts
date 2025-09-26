@@ -11,6 +11,9 @@ describe('department', () => {
 
     await repo.deleteMany();
   });
+  afterAll(async () => {
+    await repo.deleteMany();
+  });
 
   it('should create one', async () => {
     const saved = await repo.create({
