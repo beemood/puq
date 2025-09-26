@@ -1,3 +1,19 @@
+## 0.17.0 (2025-09-26)
+
+### 🚀 Features
+
+- created the common zod schemas ([a16dcbc](https://github.com/beemood/puq/commit/a16dcbc))
+- created the query schema factory functions and tested ([86ff60a](https://github.com/beemood/puq/commit/86ff60a))
+- created custom generated schema ([d1d54cf](https://github.com/beemood/puq/commit/d1d54cf))
+
+### 🩹 Fixes
+
+- fixed inventory tests ([d42c743](https://github.com/beemood/puq/commit/d42c743))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.16.8 (2025-09-26)
 
 ### 🩹 Fixes
