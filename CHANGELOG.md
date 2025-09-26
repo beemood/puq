@@ -1,3 +1,13 @@
+## 0.16.8 (2025-09-26)
+
+### 🩹 Fixes
+
+- fixed the zod and prisma exception filter ([74d2007](https://github.com/beemood/puq/commit/74d2007))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.16.7 (2025-09-26)
 
 ### 🩹 Fixes
