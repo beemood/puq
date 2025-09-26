@@ -1,14 +1,15 @@
 // @index(['./**/*.ts', '!./**/*.{spec,test}.ts'], f => `export * from '${f.path}.js'`)
 export * from './lib/constants/constants.js';
-export * from './lib/factory/create-input-schema.js';
 export * from './lib/factory/create-resource-schemas.js';
+export * from './lib/factory/omit-generated-type.js';
 export * from './lib/factory/to-filter-schema.js';
-export * from './lib/factory/to-generated-schema.js';
+export * from './lib/factory/to-input-schema.js';
 export * from './lib/factory/to-order-by-schema.js';
 export * from './lib/factory/to-projection-schema.js';
 export * from './lib/factory/to-where-query-schemas.js';
 export * from './lib/filters/boolean-filter-schema.js';
 export * from './lib/filters/datetime-filter-schema.js';
+export * from './lib/filters/filter-type.js';
 export * from './lib/filters/integer-filter-schema.js';
 export * from './lib/filters/number-filter-schema.js';
 export * from './lib/filters/string-filter-schema.js';
@@ -28,4 +29,5 @@ export * from './lib/object/pagination-schema.js';
 export * from './lib/object/property-value-schema.js';
 export * from './lib/preprocessors/json-preprocessor.js';
 export * from './lib/preprocessors/preprocess-json.js';
+export * from './lib/types/generated-type.js';
 

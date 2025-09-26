@@ -1,5 +1,5 @@
-import type { Any } from '@puq/types';
-import type { ZodObject } from 'zod';
+import type { EmptyObject } from '@puq/types';
+import type { ZodBoolean, ZodObject } from 'zod';
 import z from 'zod';
 
 /**
@@ -8,11 +8,13 @@ import z from 'zod';
  * @param schema
  * @returns
  */
-export function toProjectionSchema(schema: ZodObject<Any>) {
+export function toProjectionSchema<T extends EmptyObject>(
+  schema: ZodObject<T>
+) {
   const entries = Object.entries(schema.shape).map(([key]) => {
     return [key, z.boolean()];
   });
   const shape = Object.fromEntries(entries);
 
-  return z.object(shape);
+  return z.object(shape) as ZodObject<Record<keyof T, ZodBoolean>>;
 }

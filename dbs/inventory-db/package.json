@@ -34,6 +34,7 @@
   },
   "exports": {
     "./package.json": "./package.json",
+    "./zod": "./dist",
     "./client": {
       "require": {
         "node": "./generated/index.js",
@@ -249,7 +250,9 @@
     "@prisma/client": "^6.16.2"
   },
   "dependencies": {
-    "@swc/helpers": "~0.5.11"
+    "@puq/zod": "workspace:*",
+    "@swc/helpers": "~0.5.11",
+    "zod": "^4.1.11"
   },
   "devDependencies": {
     "@prisma/client": "6.16.2",

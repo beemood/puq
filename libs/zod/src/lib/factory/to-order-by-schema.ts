@@ -1,5 +1,5 @@
 import type { EmptyObject } from '@puq/types';
-import type { ZodObject } from 'zod';
+import type { ZodEnum, ZodObject } from 'zod';
 import { z } from 'zod';
 import { OrderDirectionSchema } from '../literals/order-direction-schema.js';
 /**
@@ -11,7 +11,7 @@ import { OrderDirectionSchema } from '../literals/order-direction-schema.js';
  */
 export function toOrderBySchema<T extends EmptyObject>(
   schema: ZodObject<T>
-): ZodObject<T> {
+): ZodObject<Record<keyof T, ZodEnum<{ asc: 'asc'; desc: 'desc' }>>> {
   const entires = Object.entries(schema.shape);
 
   const updatedEntries = entires.map(([key]) => {
@@ -19,5 +19,7 @@ export function toOrderBySchema<T extends EmptyObject>(
   });
   const shape = Object.fromEntries(updatedEntries);
 
-  return z.object(shape);
+  return z.object(shape) as ZodObject<
+    Record<keyof T, ZodEnum<{ asc: 'asc'; desc: 'desc' }>>
+  >;
 }

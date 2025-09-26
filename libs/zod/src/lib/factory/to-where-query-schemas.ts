@@ -1,6 +1,7 @@
 import type { Any, EmptyObject } from '@puq/types';
 import type { ZodObject, ZodType } from 'zod';
 import { z } from 'zod';
+import type { FilterType } from '../filters/filter-type.js';
 import { toFilterSchema } from './to-filter-schema.js';
 /**
  * Create where query schema of the given {@link schema}
@@ -8,10 +9,9 @@ import { toFilterSchema } from './to-filter-schema.js';
  * @param schema
  * @returns
  */
-export function toWhereQuerySchema<
-  T extends EmptyObject,
-  O extends ZodObject<T>
->(schema: O) {
+export function toWhereQuerySchema<T extends EmptyObject>(
+  schema: ZodObject<T>
+): ZodObject<Record<keyof T, FilterType>> {
   const entries = Object.entries(schema.shape) as [keyof T, ZodType][];
 
   const updatedEntries = entries.map(([key, value]) => {
@@ -23,5 +23,5 @@ export function toWhereQuerySchema<
     ZodType<Any>
   >;
 
-  return z.object(shape) as ZodObject<Record<keyof T, ZodType>>;
+  return z.object(shape) as ZodObject<Record<keyof T, FilterType>>;
 }

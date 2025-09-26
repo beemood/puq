@@ -1,7 +1,7 @@
 import z from 'zod';
-import { toGeneratedSchema } from '../factory/to-generated-schema.js';
 import { IdSchema } from '../literals/id-schema.js';
+import { Generated } from '../types/generated-type.js';
 
 export const BaseIdSchema = z.object({
-  id: toGeneratedSchema(IdSchema.clone()),
+  id: Generated(IdSchema.clone()),
 });
