@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
+import { AllExceptionFilter } from '../filters/all-exception-filter.js';
 
 /**
  * Common nestjs bootstrap configuration including cors and helpmet middleware, global prefix, and swagger integrateion.
@@ -22,6 +23,7 @@ export async function boot(appModule: Type) {
   app.enableCors();
   app.use(helmet());
   app.setGlobalPrefix(GLOBAL_PREFIX);
+  app.useGlobalFilters(new AllExceptionFilter());
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle(TITLE)
