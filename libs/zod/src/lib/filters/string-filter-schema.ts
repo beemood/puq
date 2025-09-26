@@ -15,4 +15,5 @@ const shape = {
 
 export const StringFilterSchema = z
   .object({ ...shape, not: z.object(shape) })
-  .partial();
+  .partial()
+  .describe('StringFilterSchema');

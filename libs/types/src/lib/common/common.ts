@@ -24,3 +24,6 @@ export type DecoratorType =
 export interface ClassType<T = Any> {
   new (...args: Any[]): T;
 }
+
+export type Keys<T> = (keyof T)[];
+

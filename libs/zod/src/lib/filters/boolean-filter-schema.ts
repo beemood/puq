@@ -9,4 +9,5 @@ export const BooleanFilterSchema = z
     ...shape,
     not: z.object(shape),
   })
-  .partial();
+  .partial()
+  .describe('BooleanFilterSchema');

@@ -1,4 +1,4 @@
-import type { Any } from '@puq/types';
+import type { EmptyObject } from '@puq/types';
 import type { ZodObject } from 'zod';
 import z from 'zod';
 import { jsonPreprocessor } from './json-preprocessor.js';
@@ -10,6 +10,8 @@ import { jsonPreprocessor } from './json-preprocessor.js';
  * @param schema
  * @returns
  */
-export function preprocessJson(schema: ZodObject<Any>) {
-  return z.preprocess(jsonPreprocessor, schema);
+export function preprocessJson<T extends EmptyObject, O extends ZodObject<T>>(
+  schema: O
+) {
+  return z.preprocess<O, O>(jsonPreprocessor, schema);
 }

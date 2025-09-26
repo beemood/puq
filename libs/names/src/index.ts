@@ -2,6 +2,7 @@
 export * from './lib/names/names.js';
 export * from './lib/names/normalize-name.js';
 export * from './lib/names/pluralize.js';
+export * from './lib/names/to-slug.js';
 export * from './lib/names/trim.js';
 export * from './lib/resource-names/auth-operation-name.js';
 export * from './lib/resource-names/data-model-name.js';

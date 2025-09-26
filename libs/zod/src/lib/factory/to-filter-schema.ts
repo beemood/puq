@@ -1,3 +1,4 @@
+import type { Any } from '@puq/types';
 import type { ZodType } from 'zod';
 import { BooleanFilterSchema } from '../filters/boolean-filter-schema.js';
 import { DatetimeFilterSchema } from '../filters/datetime-filter-schema.js';
@@ -17,16 +18,23 @@ export function toFilterSchema(schema: ZodType) {
   switch (type) {
     case 'bigint':
     case 'string': {
+      if ((schema.def as Any).format === 'datetime') {
+        return DatetimeFilterSchema;
+      }
       return StringFilterSchema;
     }
     case 'number': {
+      if ((schema.def as Any).format === 'safeint') {
+        return IntegerFilterSchema;
+      }
+
       return NumberFilterSchema;
-    }
-    case 'boolean': {
-      return BooleanFilterSchema;
     }
     case 'int': {
       return IntegerFilterSchema;
+    }
+    case 'boolean': {
+      return BooleanFilterSchema;
     }
     case 'date': {
       return DatetimeFilterSchema;

@@ -1,5 +1,7 @@
-describe('json-preprocessor', () => {
+import { jsonPreprocessor } from './json-preprocessor.js';
+describe('jsonPreprocessor', () => {
   it('should json-preprocessor', async () => {
-    expect(1).toEqual(1);
+    expect(jsonPreprocessor({ value: true })).toEqual({ value: true });
+    expect(jsonPreprocessor('{ "value": true }')).toEqual({ value: true });
   });
 });

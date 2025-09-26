@@ -12,4 +12,5 @@ const shape = {
 
 export const NumberFilterSchema = z
   .object({ ...shape, not: z.object(shape) })
-  .partial();
+  .partial()
+  .describe('NumberFilterSchema');

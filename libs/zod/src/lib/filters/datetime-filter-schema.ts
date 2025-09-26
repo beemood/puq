@@ -12,4 +12,5 @@ const shape = {
 
 export const DatetimeFilterSchema = z
   .object({ ...shape, not: z.object(shape) })
-  .partial();
+  .partial()
+  .describe('DatetimeFilterSchema');
