@@ -1,3 +1,13 @@
+## 0.16.7 (2025-09-26)
+
+### 🩹 Fixes
+
+- fixed prisma exception filter ([0f38eaf](https://github.com/beemood/puq/commit/0f38eaf))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.16.6 (2025-09-25)
 
 ### 🩹 Fixes

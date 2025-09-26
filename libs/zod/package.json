@@ -1,6 +1,6 @@
 {
   "name": "@puq/zod",
-  "version": "0.16.6",
+  "version": "0.16.7",
   "license": "MIT",
   "description": "The project provides common zod schemas and utilities.",
   "publishConfig": {
