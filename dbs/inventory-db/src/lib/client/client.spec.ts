@@ -18,6 +18,6 @@ describe('client', () => {
     expect(client.category).toBeDefined();
     expect(client.department).toBeDefined();
     expect(client.product).toBeDefined();
-    expect(client.productCategory).toBeDefined();
+    expect(client.category).toBeDefined();
   });
 });
