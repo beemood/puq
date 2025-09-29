@@ -45,13 +45,13 @@ export const SomeQuerySchema = z.object({
   select: SomeSelectSchema.optional()
 });
 
- export type   Some = z.infer<typeof SomeSchema>;
- export type   SomeCreate = z.infer<typeof SomeCreateSchema>;
- export type   SomeUpdate = z.infer<typeof SomeUpdateSchema>;
- export type   SomeWhere = z.infer<typeof SomeWhereSchema>;
- export type   SomeOrder = z.infer<typeof SomeOrderSchema>;
- export type   SomeSelect = z.infer<typeof SomeSelectSchema>;
- export type   SomeQuery = z.infer<typeof SomeQuerySchema>;
+export type Some = z.infer<typeof SomeSchema>;
+export type SomeCreate = z.infer<typeof SomeCreateSchema>;
+export type SomeUpdate = z.infer<typeof SomeUpdateSchema>;
+export type SomeWhere = z.infer<typeof SomeWhereSchema>;
+export type SomeOrder = z.infer<typeof SomeOrderSchema>;
+export type SomeSelect = z.infer<typeof SomeSelectSchema>;
+export type SomeQuery = z.infer<typeof SomeQuerySchema>;
 
 
 
@@ -95,13 +95,13 @@ export const DepartmentQuerySchema = z.object({
   select: DepartmentSelectSchema.optional()
 });
 
- export type   Department = z.infer<typeof DepartmentSchema>;
- export type   DepartmentCreate = z.infer<typeof DepartmentCreateSchema>;
- export type   DepartmentUpdate = z.infer<typeof DepartmentUpdateSchema>;
- export type   DepartmentWhere = z.infer<typeof DepartmentWhereSchema>;
- export type   DepartmentOrder = z.infer<typeof DepartmentOrderSchema>;
- export type   DepartmentSelect = z.infer<typeof DepartmentSelectSchema>;
- export type   DepartmentQuery = z.infer<typeof DepartmentQuerySchema>;
+export type Department = z.infer<typeof DepartmentSchema>;
+export type DepartmentCreate = z.infer<typeof DepartmentCreateSchema>;
+export type DepartmentUpdate = z.infer<typeof DepartmentUpdateSchema>;
+export type DepartmentWhere = z.infer<typeof DepartmentWhereSchema>;
+export type DepartmentOrder = z.infer<typeof DepartmentOrderSchema>;
+export type DepartmentSelect = z.infer<typeof DepartmentSelectSchema>;
+export type DepartmentQuery = z.infer<typeof DepartmentQuerySchema>;
 
 
 
@@ -150,13 +150,13 @@ export const CategoryQuerySchema = z.object({
   select: CategorySelectSchema.optional()
 });
 
- export type   Category = z.infer<typeof CategorySchema>;
- export type   CategoryCreate = z.infer<typeof CategoryCreateSchema>;
- export type   CategoryUpdate = z.infer<typeof CategoryUpdateSchema>;
- export type   CategoryWhere = z.infer<typeof CategoryWhereSchema>;
- export type   CategoryOrder = z.infer<typeof CategoryOrderSchema>;
- export type   CategorySelect = z.infer<typeof CategorySelectSchema>;
- export type   CategoryQuery = z.infer<typeof CategoryQuerySchema>;
+export type Category = z.infer<typeof CategorySchema>;
+export type CategoryCreate = z.infer<typeof CategoryCreateSchema>;
+export type CategoryUpdate = z.infer<typeof CategoryUpdateSchema>;
+export type CategoryWhere = z.infer<typeof CategoryWhereSchema>;
+export type CategoryOrder = z.infer<typeof CategoryOrderSchema>;
+export type CategorySelect = z.infer<typeof CategorySelectSchema>;
+export type CategoryQuery = z.infer<typeof CategoryQuerySchema>;
 
 
 
@@ -219,13 +219,13 @@ export const ProductQuerySchema = z.object({
   select: ProductSelectSchema.optional()
 });
 
- export type   Product = z.infer<typeof ProductSchema>;
- export type   ProductCreate = z.infer<typeof ProductCreateSchema>;
- export type   ProductUpdate = z.infer<typeof ProductUpdateSchema>;
- export type   ProductWhere = z.infer<typeof ProductWhereSchema>;
- export type   ProductOrder = z.infer<typeof ProductOrderSchema>;
- export type   ProductSelect = z.infer<typeof ProductSelectSchema>;
- export type   ProductQuery = z.infer<typeof ProductQuerySchema>;
+export type Product = z.infer<typeof ProductSchema>;
+export type ProductCreate = z.infer<typeof ProductCreateSchema>;
+export type ProductUpdate = z.infer<typeof ProductUpdateSchema>;
+export type ProductWhere = z.infer<typeof ProductWhereSchema>;
+export type ProductOrder = z.infer<typeof ProductOrderSchema>;
+export type ProductSelect = z.infer<typeof ProductSelectSchema>;
+export type ProductQuery = z.infer<typeof ProductQuerySchema>;
 
 
 
@@ -270,13 +270,13 @@ export const ProductCategoryQuerySchema = z.object({
   select: ProductCategorySelectSchema.optional()
 });
 
- export type   ProductCategory = z.infer<typeof ProductCategorySchema>;
- export type   ProductCategoryCreate = z.infer<typeof ProductCategoryCreateSchema>;
- export type   ProductCategoryUpdate = z.infer<typeof ProductCategoryUpdateSchema>;
- export type   ProductCategoryWhere = z.infer<typeof ProductCategoryWhereSchema>;
- export type   ProductCategoryOrder = z.infer<typeof ProductCategoryOrderSchema>;
- export type   ProductCategorySelect = z.infer<typeof ProductCategorySelectSchema>;
- export type   ProductCategoryQuery = z.infer<typeof ProductCategoryQuerySchema>;
+export type ProductCategory = z.infer<typeof ProductCategorySchema>;
+export type ProductCategoryCreate = z.infer<typeof ProductCategoryCreateSchema>;
+export type ProductCategoryUpdate = z.infer<typeof ProductCategoryUpdateSchema>;
+export type ProductCategoryWhere = z.infer<typeof ProductCategoryWhereSchema>;
+export type ProductCategoryOrder = z.infer<typeof ProductCategoryOrderSchema>;
+export type ProductCategorySelect = z.infer<typeof ProductCategorySelectSchema>;
+export type ProductCategoryQuery = z.infer<typeof ProductCategoryQuerySchema>;
 
 
 
@@ -333,13 +333,13 @@ export const VariantQuerySchema = z.object({
   select: VariantSelectSchema.optional()
 });
 
- export type   Variant = z.infer<typeof VariantSchema>;
- export type   VariantCreate = z.infer<typeof VariantCreateSchema>;
- export type   VariantUpdate = z.infer<typeof VariantUpdateSchema>;
- export type   VariantWhere = z.infer<typeof VariantWhereSchema>;
- export type   VariantOrder = z.infer<typeof VariantOrderSchema>;
- export type   VariantSelect = z.infer<typeof VariantSelectSchema>;
- export type   VariantQuery = z.infer<typeof VariantQuerySchema>;
+export type Variant = z.infer<typeof VariantSchema>;
+export type VariantCreate = z.infer<typeof VariantCreateSchema>;
+export type VariantUpdate = z.infer<typeof VariantUpdateSchema>;
+export type VariantWhere = z.infer<typeof VariantWhereSchema>;
+export type VariantOrder = z.infer<typeof VariantOrderSchema>;
+export type VariantSelect = z.infer<typeof VariantSelectSchema>;
+export type VariantQuery = z.infer<typeof VariantQuerySchema>;
 
 
 
@@ -383,13 +383,13 @@ export const AttributeQuerySchema = z.object({
   select: AttributeSelectSchema.optional()
 });
 
- export type   Attribute = z.infer<typeof AttributeSchema>;
- export type   AttributeCreate = z.infer<typeof AttributeCreateSchema>;
- export type   AttributeUpdate = z.infer<typeof AttributeUpdateSchema>;
- export type   AttributeWhere = z.infer<typeof AttributeWhereSchema>;
- export type   AttributeOrder = z.infer<typeof AttributeOrderSchema>;
- export type   AttributeSelect = z.infer<typeof AttributeSelectSchema>;
- export type   AttributeQuery = z.infer<typeof AttributeQuerySchema>;
+export type Attribute = z.infer<typeof AttributeSchema>;
+export type AttributeCreate = z.infer<typeof AttributeCreateSchema>;
+export type AttributeUpdate = z.infer<typeof AttributeUpdateSchema>;
+export type AttributeWhere = z.infer<typeof AttributeWhereSchema>;
+export type AttributeOrder = z.infer<typeof AttributeOrderSchema>;
+export type AttributeSelect = z.infer<typeof AttributeSelectSchema>;
+export type AttributeQuery = z.infer<typeof AttributeQuerySchema>;
 
 
 
@@ -438,13 +438,13 @@ export const AttributeValueQuerySchema = z.object({
   select: AttributeValueSelectSchema.optional()
 });
 
- export type   AttributeValue = z.infer<typeof AttributeValueSchema>;
- export type   AttributeValueCreate = z.infer<typeof AttributeValueCreateSchema>;
- export type   AttributeValueUpdate = z.infer<typeof AttributeValueUpdateSchema>;
- export type   AttributeValueWhere = z.infer<typeof AttributeValueWhereSchema>;
- export type   AttributeValueOrder = z.infer<typeof AttributeValueOrderSchema>;
- export type   AttributeValueSelect = z.infer<typeof AttributeValueSelectSchema>;
- export type   AttributeValueQuery = z.infer<typeof AttributeValueQuerySchema>;
+export type AttributeValue = z.infer<typeof AttributeValueSchema>;
+export type AttributeValueCreate = z.infer<typeof AttributeValueCreateSchema>;
+export type AttributeValueUpdate = z.infer<typeof AttributeValueUpdateSchema>;
+export type AttributeValueWhere = z.infer<typeof AttributeValueWhereSchema>;
+export type AttributeValueOrder = z.infer<typeof AttributeValueOrderSchema>;
+export type AttributeValueSelect = z.infer<typeof AttributeValueSelectSchema>;
+export type AttributeValueQuery = z.infer<typeof AttributeValueQuerySchema>;
 
 
 
@@ -496,13 +496,13 @@ export const VariantImageQuerySchema = z.object({
   select: VariantImageSelectSchema.optional()
 });
 
- export type   VariantImage = z.infer<typeof VariantImageSchema>;
- export type   VariantImageCreate = z.infer<typeof VariantImageCreateSchema>;
- export type   VariantImageUpdate = z.infer<typeof VariantImageUpdateSchema>;
- export type   VariantImageWhere = z.infer<typeof VariantImageWhereSchema>;
- export type   VariantImageOrder = z.infer<typeof VariantImageOrderSchema>;
- export type   VariantImageSelect = z.infer<typeof VariantImageSelectSchema>;
- export type   VariantImageQuery = z.infer<typeof VariantImageQuerySchema>;
+export type VariantImage = z.infer<typeof VariantImageSchema>;
+export type VariantImageCreate = z.infer<typeof VariantImageCreateSchema>;
+export type VariantImageUpdate = z.infer<typeof VariantImageUpdateSchema>;
+export type VariantImageWhere = z.infer<typeof VariantImageWhereSchema>;
+export type VariantImageOrder = z.infer<typeof VariantImageOrderSchema>;
+export type VariantImageSelect = z.infer<typeof VariantImageSelectSchema>;
+export type VariantImageQuery = z.infer<typeof VariantImageQuerySchema>;
 
 
 
@@ -554,12 +554,12 @@ export const ProductImageQuerySchema = z.object({
   select: ProductImageSelectSchema.optional()
 });
 
- export type   ProductImage = z.infer<typeof ProductImageSchema>;
- export type   ProductImageCreate = z.infer<typeof ProductImageCreateSchema>;
- export type   ProductImageUpdate = z.infer<typeof ProductImageUpdateSchema>;
- export type   ProductImageWhere = z.infer<typeof ProductImageWhereSchema>;
- export type   ProductImageOrder = z.infer<typeof ProductImageOrderSchema>;
- export type   ProductImageSelect = z.infer<typeof ProductImageSelectSchema>;
- export type   ProductImageQuery = z.infer<typeof ProductImageQuerySchema>;
+export type ProductImage = z.infer<typeof ProductImageSchema>;
+export type ProductImageCreate = z.infer<typeof ProductImageCreateSchema>;
+export type ProductImageUpdate = z.infer<typeof ProductImageUpdateSchema>;
+export type ProductImageWhere = z.infer<typeof ProductImageWhereSchema>;
+export type ProductImageOrder = z.infer<typeof ProductImageOrderSchema>;
+export type ProductImageSelect = z.infer<typeof ProductImageSelectSchema>;
+export type ProductImageQuery = z.infer<typeof ProductImageQuerySchema>;
 
 
