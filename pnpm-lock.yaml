@@ -129,6 +129,12 @@ importers:
 
   dbs/inventory-db:
     dependencies:
+      '@puq/names':
+        specifier: workspace:*
+        version: link:../../libs/names
+      '@puq/types':
+        specifier: workspace:*
+        version: link:../../libs/types
       '@puq/zod':
         specifier: workspace:*
         version: link:../../libs/zod

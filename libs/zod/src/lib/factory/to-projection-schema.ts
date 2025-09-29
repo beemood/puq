@@ -1,5 +1,5 @@
 import type { EmptyObject } from '@puq/types';
-import type { ZodBoolean, ZodObject } from 'zod';
+import type { ZodBoolean, ZodObject, ZodOptional } from 'zod';
 import z from 'zod';
 
 /**
@@ -16,5 +16,7 @@ export function toProjectionSchema<T extends EmptyObject>(
   });
   const shape = Object.fromEntries(entries);
 
-  return z.object(shape) as ZodObject<Record<keyof T, ZodBoolean>>;
+  return z.object(shape).partial() as ZodObject<
+    Record<keyof T, ZodOptional<ZodBoolean>>
+  >;
 }

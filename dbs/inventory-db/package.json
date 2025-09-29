@@ -212,6 +212,15 @@
   "nx": {
     "sourceRoot": "dbs/inventory-db/src",
     "targets": {
+      "generate-schemas": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "ts-node ./generate-schemas.ts"
+          ],
+          "cwd": "{projectRoot}"
+        }
+      },
       "build": {
         "executor": "@nx/js:swc",
         "outputs": [
@@ -223,7 +232,10 @@
           "tsConfig": "dbs/inventory-db/tsconfig.lib.json",
           "skipTypeCheck": false,
           "stripLeadingPaths": true
-        }
+        },
+        "dependsOn": [
+          "generate-schemas"
+        ]
       },
       "doc": {
         "executor": "nx:run-commands",
@@ -250,6 +262,8 @@
     "@prisma/client": "^6.16.2"
   },
   "dependencies": {
+    "@puq/names": "workspace:*",
+    "@puq/types": "workspace:*",
     "@puq/zod": "workspace:*",
     "@swc/helpers": "~0.5.11",
     "zod": "^4.1.11"

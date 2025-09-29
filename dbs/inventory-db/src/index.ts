@@ -1,2 +1,2 @@
 // @index(['./**/*.ts', '!./**/*.{spec,test}.ts'], f => `export * from '${f.path}.js'`)
-export * from './lib/category/category-schema.js';
+export * from './lib/schema.js';
