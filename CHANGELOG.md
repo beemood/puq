@@ -1,3 +1,20 @@
+## 0.18.0 (2025-09-30)
+
+### 🚀 Features
+
+- designing inventory databse ([79a3f0b](https://github.com/beemood/puq/commit/79a3f0b))
+- created input and query schema generator ([f843ea0](https://github.com/beemood/puq/commit/f843ea0))
+- created input/query schema geneator ([0ff334b](https://github.com/beemood/puq/commit/0ff334b))
+- created input/query schema generator ([2f20394](https://github.com/beemood/puq/commit/2f20394))
+- created the inventory database design ([0d8859f](https://github.com/beemood/puq/commit/0d8859f))
+- created the inventory database and zod schema generator ([9f5cf41](https://github.com/beemood/puq/commit/9f5cf41))
+- updated the prisma project generator with the most current prisma database project ([7cf597a](https://github.com/beemood/puq/commit/7cf597a))
+- created the contact database design ([d0fee94](https://github.com/beemood/puq/commit/d0fee94))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.17.0 (2025-09-26)
 
 ### 🚀 Features
