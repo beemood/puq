@@ -263,6 +263,7 @@
   },
   "dependencies": {
     "@puq/names": "workspace:*",
+    "@puq/prisma-schema": "workspace:*",
     "@puq/types": "workspace:*",
     "@puq/zod": "workspace:*",
     "@swc/helpers": "~0.5.11",

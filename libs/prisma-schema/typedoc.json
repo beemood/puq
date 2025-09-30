@@ -1,0 +1,6 @@
+{
+  "name": "prisma-schema",
+  "favicon": "./favicon.png",
+  "entryPoints": ["./src/index.ts"],
+  "out": "../../public/libs/prisma-schema"
+}

@@ -132,6 +132,9 @@ importers:
       '@puq/names':
         specifier: workspace:*
         version: link:../../libs/names
+      '@puq/prisma-schema':
+        specifier: workspace:*
+        version: link:../../libs/prisma-schema
       '@puq/types':
         specifier: workspace:*
         version: link:../../libs/types
@@ -301,6 +304,15 @@ importers:
       '@types/express':
         specifier: ^5.0.3
         version: 5.0.3
+
+  libs/prisma-schema:
+    dependencies:
+      '@prisma/client':
+        specifier: 6.16.2
+        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.2))(typescript@5.9.2)
+      '@swc/helpers':
+        specifier: ~0.5.11
+        version: 0.5.17
 
   libs/types:
     dependencies:

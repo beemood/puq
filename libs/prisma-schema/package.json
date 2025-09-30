@@ -1,0 +1,68 @@
+{
+  "name": "@puq/prisma-schema",
+  "version": "0.17.0",
+  "license": "MIT",
+  "description": "Generate zod schemas from prisma schema",
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  },
+  "homepage": "https://beemood.github.io/puq/libs/prisma-schema",
+  "author": {
+    "email": "robert.brightline@gmail.com",
+    "name": "Robert Brightline",
+    "url": "https://beemood.github.io"
+  },
+  "icon": "https://beemood.github.io/puq/libs/prisma-schema/assets/favicon.png",
+  "funding": [
+    "https://cash.app/$puqlib"
+  ],
+  "keywords": [],
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "!**/*.tsbuildinfo"
+  ],
+  "nx": {
+    "sourceRoot": "libs/prisma-schema/src",
+    "targets": {
+      "build": {
+        "executor": "@nx/js:swc",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "options": {
+          "outputPath": "libs/prisma-schema/dist",
+          "main": "libs/prisma-schema/src/index.ts",
+          "tsConfig": "libs/prisma-schema/tsconfig.lib.json",
+          "skipTypeCheck": false,
+          "stripLeadingPaths": true
+        }
+      },
+      "doc": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npx typedoc"
+          ],
+          "cwd": "{projectRoot}"
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "@prisma/client": "6.16.2",
+    "@swc/helpers": "~0.5.11"
+  }
+}

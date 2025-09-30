@@ -3,59 +3,6 @@ import { toOrderBySchema, toWhereQuerySchema } from '@puq/zod';
 import {z} from 'zod';
     
 
-// ---------- Some Schemas ----------
-
-
-export const SomeSchema = z.object({
-  int: z.number().int(),
-  num: z.number(),
-  date: z.date(),
-  boolean: z.boolean(),
-});
-
-export const SomeCreateSchema = z.object({
-  num: z.number(),
-  date: z.date(),
-  boolean: z.boolean(),
-});
-
-export const SomeUpdateSchema = z.object({
-  int: z.number().int().optional(),
-  num: z.number().optional(),
-  date: z.date().optional(),
-  boolean: z.boolean().optional(),
-});
-
-export const SomeWhereSchema = toWhereQuerySchema(SomeSchema);
-
-export const SomeOrderSchema =  toOrderBySchema(SomeSchema);
-
-export const SomeSelectSchema = z.object({
-  int: z.boolean().optional(),
-  num: z.boolean().optional(),
-  date: z.boolean().optional(),
-  boolean: z.boolean().optional(),
-});
-
-export const SomeQuerySchema = z.object({
-  take: z.coerce.number().int().min(1), 
-  skip: z.coerce.number().int().min(0), 
-  where: SomeWhereSchema.optional(),
-  orderBy: SomeOrderSchema.optional(),
-  select: SomeSelectSchema.optional()
-});
-
-export type Some = z.infer<typeof SomeSchema>;
-export type SomeCreate = z.infer<typeof SomeCreateSchema>;
-export type SomeUpdate = z.infer<typeof SomeUpdateSchema>;
-export type SomeWhere = z.infer<typeof SomeWhereSchema>;
-export type SomeOrder = z.infer<typeof SomeOrderSchema>;
-export type SomeSelect = z.infer<typeof SomeSelectSchema>;
-export type SomeQuery = z.infer<typeof SomeQuerySchema>;
-
-
-
-
 // ---------- Department Schemas ----------
 
 
@@ -166,31 +113,27 @@ export type CategoryQuery = z.infer<typeof CategoryQuerySchema>;
 
 export const ProductSchema = z.object({
   id: z.number().int(),
+  warrantyId: z.number().int().nullish(),
   uuid: z.string(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
-  active: z.boolean().nullish(),
   name: z.string(),
-  description: z.string().nullish(),
   slug: z.string(),
+  description: z.string().nullish(),
 });
 
 export const ProductCreateSchema = z.object({
-  active: z.boolean().nullish(),
+  warrantyId: z.number().int().nullish(),
   name: z.string(),
-  description: z.string().nullish(),
   slug: z.string(),
+  description: z.string().nullish(),
 });
 
 export const ProductUpdateSchema = z.object({
   id: z.number().int().optional(),
+  warrantyId: z.number().int().nullish().optional(),
   uuid: z.string().optional(),
-  createdAt: z.date().optional(),
-  updatedAt: z.date().optional(),
-  active: z.boolean().nullish().optional(),
   name: z.string().optional(),
-  description: z.string().nullish().optional(),
   slug: z.string().optional(),
+  description: z.string().nullish().optional(),
 });
 
 export const ProductWhereSchema = toWhereQuerySchema(ProductSchema);
@@ -199,16 +142,17 @@ export const ProductOrderSchema =  toOrderBySchema(ProductSchema);
 
 export const ProductSelectSchema = z.object({
   id: z.boolean().optional(),
+  warrantyId: z.boolean().optional(),
   uuid: z.boolean().optional(),
-  createdAt: z.boolean().optional(),
-  updatedAt: z.boolean().optional(),
-  active: z.boolean().optional(),
   name: z.boolean().optional(),
-  description: z.boolean().optional(),
   slug: z.boolean().optional(),
+  description: z.boolean().optional(),
   variants: z.boolean().optional(),
-  images: z.boolean().optional(),
   categories: z.boolean().optional(),
+  images: z.boolean().optional(),
+  suppliers: z.boolean().optional(),
+  discounts: z.boolean().optional(),
+  warranty: z.boolean().optional(),
 });
 
 export const ProductQuerySchema = z.object({
@@ -226,6 +170,294 @@ export type ProductWhere = z.infer<typeof ProductWhereSchema>;
 export type ProductOrder = z.infer<typeof ProductOrderSchema>;
 export type ProductSelect = z.infer<typeof ProductSelectSchema>;
 export type ProductQuery = z.infer<typeof ProductQuerySchema>;
+
+
+
+
+// ---------- Image Schemas ----------
+
+
+export const ImageSchema = z.object({
+  id: z.number().int(),
+  productId: z.number().int(),
+  url: z.string(),
+  order: z.number().int(),
+  description: z.string().nullish(),
+});
+
+export const ImageCreateSchema = z.object({
+  productId: z.number().int(),
+  url: z.string(),
+  order: z.number().int(),
+  description: z.string().nullish(),
+});
+
+export const ImageUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  productId: z.number().int().optional(),
+  url: z.string().optional(),
+  order: z.number().int().optional(),
+  description: z.string().nullish().optional(),
+});
+
+export const ImageWhereSchema = toWhereQuerySchema(ImageSchema);
+
+export const ImageOrderSchema =  toOrderBySchema(ImageSchema);
+
+export const ImageSelectSchema = z.object({
+  id: z.boolean().optional(),
+  productId: z.boolean().optional(),
+  url: z.boolean().optional(),
+  order: z.boolean().optional(),
+  description: z.boolean().optional(),
+  product: z.boolean().optional(),
+});
+
+export const ImageQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: ImageWhereSchema.optional(),
+  orderBy: ImageOrderSchema.optional(),
+  select: ImageSelectSchema.optional()
+});
+
+export type Image = z.infer<typeof ImageSchema>;
+export type ImageCreate = z.infer<typeof ImageCreateSchema>;
+export type ImageUpdate = z.infer<typeof ImageUpdateSchema>;
+export type ImageWhere = z.infer<typeof ImageWhereSchema>;
+export type ImageOrder = z.infer<typeof ImageOrderSchema>;
+export type ImageSelect = z.infer<typeof ImageSelectSchema>;
+export type ImageQuery = z.infer<typeof ImageQuerySchema>;
+
+
+
+
+// ---------- Supplier Schemas ----------
+
+
+export const SupplierSchema = z.object({
+  id: z.number().int(),
+  paymentTermId: z.number().int().nullish(),
+  uuid: z.string(),
+  name: z.string(),
+});
+
+export const SupplierCreateSchema = z.object({
+  paymentTermId: z.number().int().nullish(),
+  name: z.string(),
+});
+
+export const SupplierUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  paymentTermId: z.number().int().nullish().optional(),
+  uuid: z.string().optional(),
+  name: z.string().optional(),
+});
+
+export const SupplierWhereSchema = toWhereQuerySchema(SupplierSchema);
+
+export const SupplierOrderSchema =  toOrderBySchema(SupplierSchema);
+
+export const SupplierSelectSchema = z.object({
+  id: z.boolean().optional(),
+  paymentTermId: z.boolean().optional(),
+  uuid: z.boolean().optional(),
+  name: z.boolean().optional(),
+  products: z.boolean().optional(),
+  contacts: z.boolean().optional(),
+  paymentTerm: z.boolean().optional(),
+});
+
+export const SupplierQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: SupplierWhereSchema.optional(),
+  orderBy: SupplierOrderSchema.optional(),
+  select: SupplierSelectSchema.optional()
+});
+
+export type Supplier = z.infer<typeof SupplierSchema>;
+export type SupplierCreate = z.infer<typeof SupplierCreateSchema>;
+export type SupplierUpdate = z.infer<typeof SupplierUpdateSchema>;
+export type SupplierWhere = z.infer<typeof SupplierWhereSchema>;
+export type SupplierOrder = z.infer<typeof SupplierOrderSchema>;
+export type SupplierSelect = z.infer<typeof SupplierSelectSchema>;
+export type SupplierQuery = z.infer<typeof SupplierQuerySchema>;
+
+
+
+
+// ---------- ProductSupplier Schemas ----------
+
+
+export const ProductSupplierSchema = z.object({
+  id: z.number().int(),
+  productId: z.number().int(),
+  supplierId: z.number().int(),
+  supplierSku: z.string(),
+  supplierCost: z.number().nullish(),
+  leadTimeDays: z.number().int().nullish(),
+});
+
+export const ProductSupplierCreateSchema = z.object({
+  productId: z.number().int(),
+  supplierId: z.number().int(),
+  supplierSku: z.string(),
+  supplierCost: z.number().nullish(),
+  leadTimeDays: z.number().int().nullish(),
+});
+
+export const ProductSupplierUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  productId: z.number().int().optional(),
+  supplierId: z.number().int().optional(),
+  supplierSku: z.string().optional(),
+  supplierCost: z.number().nullish().optional(),
+  leadTimeDays: z.number().int().nullish().optional(),
+});
+
+export const ProductSupplierWhereSchema = toWhereQuerySchema(ProductSupplierSchema);
+
+export const ProductSupplierOrderSchema =  toOrderBySchema(ProductSupplierSchema);
+
+export const ProductSupplierSelectSchema = z.object({
+  id: z.boolean().optional(),
+  productId: z.boolean().optional(),
+  supplierId: z.boolean().optional(),
+  supplierSku: z.boolean().optional(),
+  supplierCost: z.boolean().optional(),
+  leadTimeDays: z.boolean().optional(),
+  product: z.boolean().optional(),
+  supplier: z.boolean().optional(),
+});
+
+export const ProductSupplierQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: ProductSupplierWhereSchema.optional(),
+  orderBy: ProductSupplierOrderSchema.optional(),
+  select: ProductSupplierSelectSchema.optional()
+});
+
+export type ProductSupplier = z.infer<typeof ProductSupplierSchema>;
+export type ProductSupplierCreate = z.infer<typeof ProductSupplierCreateSchema>;
+export type ProductSupplierUpdate = z.infer<typeof ProductSupplierUpdateSchema>;
+export type ProductSupplierWhere = z.infer<typeof ProductSupplierWhereSchema>;
+export type ProductSupplierOrder = z.infer<typeof ProductSupplierOrderSchema>;
+export type ProductSupplierSelect = z.infer<typeof ProductSupplierSelectSchema>;
+export type ProductSupplierQuery = z.infer<typeof ProductSupplierQuerySchema>;
+
+
+
+
+// ---------- SupplierContact Schemas ----------
+
+
+export const SupplierContactSchema = z.object({
+  id: z.number().int(),
+  supplierId: z.number().int(),
+  externalContactId: z.string(),
+});
+
+export const SupplierContactCreateSchema = z.object({
+  supplierId: z.number().int(),
+  externalContactId: z.string(),
+});
+
+export const SupplierContactUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  supplierId: z.number().int().optional(),
+  externalContactId: z.string().optional(),
+});
+
+export const SupplierContactWhereSchema = toWhereQuerySchema(SupplierContactSchema);
+
+export const SupplierContactOrderSchema =  toOrderBySchema(SupplierContactSchema);
+
+export const SupplierContactSelectSchema = z.object({
+  id: z.boolean().optional(),
+  supplierId: z.boolean().optional(),
+  externalContactId: z.boolean().optional(),
+  supplier: z.boolean().optional(),
+});
+
+export const SupplierContactQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: SupplierContactWhereSchema.optional(),
+  orderBy: SupplierContactOrderSchema.optional(),
+  select: SupplierContactSelectSchema.optional()
+});
+
+export type SupplierContact = z.infer<typeof SupplierContactSchema>;
+export type SupplierContactCreate = z.infer<typeof SupplierContactCreateSchema>;
+export type SupplierContactUpdate = z.infer<typeof SupplierContactUpdateSchema>;
+export type SupplierContactWhere = z.infer<typeof SupplierContactWhereSchema>;
+export type SupplierContactOrder = z.infer<typeof SupplierContactOrderSchema>;
+export type SupplierContactSelect = z.infer<typeof SupplierContactSelectSchema>;
+export type SupplierContactQuery = z.infer<typeof SupplierContactQuerySchema>;
+
+
+
+
+// ---------- PaymentTerm Schemas ----------
+
+
+export const PaymentTermSchema = z.object({
+  id: z.number().int(),
+  code: z.string(),
+  description: z.string(),
+  daysDue: z.number().int(),
+  discountDays: z.number().int(),
+  discountPercent: z.number(),
+});
+
+export const PaymentTermCreateSchema = z.object({
+  code: z.string(),
+  description: z.string(),
+  daysDue: z.number().int(),
+  discountDays: z.number().int(),
+  discountPercent: z.number(),
+});
+
+export const PaymentTermUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  code: z.string().optional(),
+  description: z.string().optional(),
+  daysDue: z.number().int().optional(),
+  discountDays: z.number().int().optional(),
+  discountPercent: z.number().optional(),
+});
+
+export const PaymentTermWhereSchema = toWhereQuerySchema(PaymentTermSchema);
+
+export const PaymentTermOrderSchema =  toOrderBySchema(PaymentTermSchema);
+
+export const PaymentTermSelectSchema = z.object({
+  id: z.boolean().optional(),
+  code: z.boolean().optional(),
+  description: z.boolean().optional(),
+  daysDue: z.boolean().optional(),
+  discountDays: z.boolean().optional(),
+  discountPercent: z.boolean().optional(),
+  suppliers: z.boolean().optional(),
+});
+
+export const PaymentTermQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: PaymentTermWhereSchema.optional(),
+  orderBy: PaymentTermOrderSchema.optional(),
+  select: PaymentTermSelectSchema.optional()
+});
+
+export type PaymentTerm = z.infer<typeof PaymentTermSchema>;
+export type PaymentTermCreate = z.infer<typeof PaymentTermCreateSchema>;
+export type PaymentTermUpdate = z.infer<typeof PaymentTermUpdateSchema>;
+export type PaymentTermWhere = z.infer<typeof PaymentTermWhereSchema>;
+export type PaymentTermOrder = z.infer<typeof PaymentTermOrderSchema>;
+export type PaymentTermSelect = z.infer<typeof PaymentTermSelectSchema>;
+export type PaymentTermQuery = z.infer<typeof PaymentTermQuerySchema>;
 
 
 
@@ -288,25 +520,25 @@ export const VariantSchema = z.object({
   id: z.number().int(),
   uuid: z.string(),
   productId: z.number().int(),
+  warrantyId: z.number().int().nullish(),
   sku: z.string(),
   upc: z.string(),
-  barcode: z.string(),
 });
 
 export const VariantCreateSchema = z.object({
   productId: z.number().int(),
+  warrantyId: z.number().int().nullish(),
   sku: z.string(),
   upc: z.string(),
-  barcode: z.string(),
 });
 
 export const VariantUpdateSchema = z.object({
   id: z.number().int().optional(),
   uuid: z.string().optional(),
   productId: z.number().int().optional(),
+  warrantyId: z.number().int().nullish().optional(),
   sku: z.string().optional(),
   upc: z.string().optional(),
-  barcode: z.string().optional(),
 });
 
 export const VariantWhereSchema = toWhereQuerySchema(VariantSchema);
@@ -316,13 +548,17 @@ export const VariantOrderSchema =  toOrderBySchema(VariantSchema);
 export const VariantSelectSchema = z.object({
   id: z.boolean().optional(),
   uuid: z.boolean().optional(),
-  product: z.boolean().optional(),
   productId: z.boolean().optional(),
+  warrantyId: z.boolean().optional(),
   sku: z.boolean().optional(),
   upc: z.boolean().optional(),
-  barcode: z.boolean().optional(),
+  product: z.boolean().optional(),
   attributes: z.boolean().optional(),
-  images: z.boolean().optional(),
+  prices: z.boolean().optional(),
+  quantities: z.boolean().optional(),
+  discounts: z.boolean().optional(),
+  serrialNumbers: z.boolean().optional(),
+  warranty: z.boolean().optional(),
 });
 
 export const VariantQuerySchema = z.object({
@@ -449,117 +685,533 @@ export type AttributeValueQuery = z.infer<typeof AttributeValueQuerySchema>;
 
 
 
-// ---------- VariantImage Schemas ----------
+// ---------- Currency Schemas ----------
 
 
-export const VariantImageSchema = z.object({
+export const CurrencySchema = z.object({
   id: z.number().int(),
-  description: z.string().nullish(),
-  url: z.string(),
-  order: z.number().int(),
-  variantId: z.number().int(),
+  name: z.string(),
 });
 
-export const VariantImageCreateSchema = z.object({
-  description: z.string().nullish(),
-  url: z.string(),
-  order: z.number().int(),
-  variantId: z.number().int(),
+export const CurrencyCreateSchema = z.object({
+  name: z.string(),
 });
 
-export const VariantImageUpdateSchema = z.object({
+export const CurrencyUpdateSchema = z.object({
   id: z.number().int().optional(),
-  description: z.string().nullish().optional(),
-  url: z.string().optional(),
-  order: z.number().int().optional(),
+  name: z.string().optional(),
+});
+
+export const CurrencyWhereSchema = toWhereQuerySchema(CurrencySchema);
+
+export const CurrencyOrderSchema =  toOrderBySchema(CurrencySchema);
+
+export const CurrencySelectSchema = z.object({
+  id: z.boolean().optional(),
+  name: z.boolean().optional(),
+  priceLevels: z.boolean().optional(),
+});
+
+export const CurrencyQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: CurrencyWhereSchema.optional(),
+  orderBy: CurrencyOrderSchema.optional(),
+  select: CurrencySelectSchema.optional()
+});
+
+export type Currency = z.infer<typeof CurrencySchema>;
+export type CurrencyCreate = z.infer<typeof CurrencyCreateSchema>;
+export type CurrencyUpdate = z.infer<typeof CurrencyUpdateSchema>;
+export type CurrencyWhere = z.infer<typeof CurrencyWhereSchema>;
+export type CurrencyOrder = z.infer<typeof CurrencyOrderSchema>;
+export type CurrencySelect = z.infer<typeof CurrencySelectSchema>;
+export type CurrencyQuery = z.infer<typeof CurrencyQuerySchema>;
+
+
+
+
+// ---------- PriceLevel Schemas ----------
+
+
+export const PriceLevelSchema = z.object({
+  id: z.number().int(),
+  currencyId: z.number().int(),
+  name: z.string(),
+  taxrate: z.number(),
+});
+
+export const PriceLevelCreateSchema = z.object({
+  currencyId: z.number().int(),
+  name: z.string(),
+  taxrate: z.number(),
+});
+
+export const PriceLevelUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  currencyId: z.number().int().optional(),
+  name: z.string().optional(),
+  taxrate: z.number().optional(),
+});
+
+export const PriceLevelWhereSchema = toWhereQuerySchema(PriceLevelSchema);
+
+export const PriceLevelOrderSchema =  toOrderBySchema(PriceLevelSchema);
+
+export const PriceLevelSelectSchema = z.object({
+  id: z.boolean().optional(),
+  currencyId: z.boolean().optional(),
+  name: z.boolean().optional(),
+  taxrate: z.boolean().optional(),
+  currency: z.boolean().optional(),
+  stores: z.boolean().optional(),
+  prices: z.boolean().optional(),
+  discounts: z.boolean().optional(),
+});
+
+export const PriceLevelQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: PriceLevelWhereSchema.optional(),
+  orderBy: PriceLevelOrderSchema.optional(),
+  select: PriceLevelSelectSchema.optional()
+});
+
+export type PriceLevel = z.infer<typeof PriceLevelSchema>;
+export type PriceLevelCreate = z.infer<typeof PriceLevelCreateSchema>;
+export type PriceLevelUpdate = z.infer<typeof PriceLevelUpdateSchema>;
+export type PriceLevelWhere = z.infer<typeof PriceLevelWhereSchema>;
+export type PriceLevelOrder = z.infer<typeof PriceLevelOrderSchema>;
+export type PriceLevelSelect = z.infer<typeof PriceLevelSelectSchema>;
+export type PriceLevelQuery = z.infer<typeof PriceLevelQuerySchema>;
+
+
+
+
+// ---------- Price Schemas ----------
+
+
+export const PriceSchema = z.object({
+  id: z.number().int(),
+  variantId: z.number().int(),
+  priceLevelId: z.number().int(),
+  price: z.number(),
+  cost: z.number(),
+  description: z.string().nullish(),
+});
+
+export const PriceCreateSchema = z.object({
+  variantId: z.number().int(),
+  priceLevelId: z.number().int(),
+  price: z.number(),
+  cost: z.number(),
+  description: z.string().nullish(),
+});
+
+export const PriceUpdateSchema = z.object({
+  id: z.number().int().optional(),
   variantId: z.number().int().optional(),
-});
-
-export const VariantImageWhereSchema = toWhereQuerySchema(VariantImageSchema);
-
-export const VariantImageOrderSchema =  toOrderBySchema(VariantImageSchema);
-
-export const VariantImageSelectSchema = z.object({
-  id: z.boolean().optional(),
-  description: z.boolean().optional(),
-  url: z.boolean().optional(),
-  order: z.boolean().optional(),
-  variant: z.boolean().optional(),
-  variantId: z.boolean().optional(),
-});
-
-export const VariantImageQuerySchema = z.object({
-  take: z.coerce.number().int().min(1), 
-  skip: z.coerce.number().int().min(0), 
-  where: VariantImageWhereSchema.optional(),
-  orderBy: VariantImageOrderSchema.optional(),
-  select: VariantImageSelectSchema.optional()
-});
-
-export type VariantImage = z.infer<typeof VariantImageSchema>;
-export type VariantImageCreate = z.infer<typeof VariantImageCreateSchema>;
-export type VariantImageUpdate = z.infer<typeof VariantImageUpdateSchema>;
-export type VariantImageWhere = z.infer<typeof VariantImageWhereSchema>;
-export type VariantImageOrder = z.infer<typeof VariantImageOrderSchema>;
-export type VariantImageSelect = z.infer<typeof VariantImageSelectSchema>;
-export type VariantImageQuery = z.infer<typeof VariantImageQuerySchema>;
-
-
-
-
-// ---------- ProductImage Schemas ----------
-
-
-export const ProductImageSchema = z.object({
-  id: z.number().int(),
-  description: z.string().nullish(),
-  url: z.string(),
-  order: z.number().int(),
-  productId: z.number().int(),
-});
-
-export const ProductImageCreateSchema = z.object({
-  description: z.string().nullish(),
-  url: z.string(),
-  order: z.number().int(),
-  productId: z.number().int(),
-});
-
-export const ProductImageUpdateSchema = z.object({
-  id: z.number().int().optional(),
+  priceLevelId: z.number().int().optional(),
+  price: z.number().optional(),
+  cost: z.number().optional(),
   description: z.string().nullish().optional(),
-  url: z.string().optional(),
-  order: z.number().int().optional(),
-  productId: z.number().int().optional(),
 });
 
-export const ProductImageWhereSchema = toWhereQuerySchema(ProductImageSchema);
+export const PriceWhereSchema = toWhereQuerySchema(PriceSchema);
 
-export const ProductImageOrderSchema =  toOrderBySchema(ProductImageSchema);
+export const PriceOrderSchema =  toOrderBySchema(PriceSchema);
 
-export const ProductImageSelectSchema = z.object({
+export const PriceSelectSchema = z.object({
   id: z.boolean().optional(),
+  variantId: z.boolean().optional(),
+  priceLevelId: z.boolean().optional(),
+  price: z.boolean().optional(),
+  cost: z.boolean().optional(),
   description: z.boolean().optional(),
-  url: z.boolean().optional(),
-  order: z.boolean().optional(),
-  product: z.boolean().optional(),
-  productId: z.boolean().optional(),
+  variant: z.boolean().optional(),
+  priceLevel: z.boolean().optional(),
 });
 
-export const ProductImageQuerySchema = z.object({
+export const PriceQuerySchema = z.object({
   take: z.coerce.number().int().min(1), 
   skip: z.coerce.number().int().min(0), 
-  where: ProductImageWhereSchema.optional(),
-  orderBy: ProductImageOrderSchema.optional(),
-  select: ProductImageSelectSchema.optional()
+  where: PriceWhereSchema.optional(),
+  orderBy: PriceOrderSchema.optional(),
+  select: PriceSelectSchema.optional()
 });
 
-export type ProductImage = z.infer<typeof ProductImageSchema>;
-export type ProductImageCreate = z.infer<typeof ProductImageCreateSchema>;
-export type ProductImageUpdate = z.infer<typeof ProductImageUpdateSchema>;
-export type ProductImageWhere = z.infer<typeof ProductImageWhereSchema>;
-export type ProductImageOrder = z.infer<typeof ProductImageOrderSchema>;
-export type ProductImageSelect = z.infer<typeof ProductImageSelectSchema>;
-export type ProductImageQuery = z.infer<typeof ProductImageQuerySchema>;
+export type Price = z.infer<typeof PriceSchema>;
+export type PriceCreate = z.infer<typeof PriceCreateSchema>;
+export type PriceUpdate = z.infer<typeof PriceUpdateSchema>;
+export type PriceWhere = z.infer<typeof PriceWhereSchema>;
+export type PriceOrder = z.infer<typeof PriceOrderSchema>;
+export type PriceSelect = z.infer<typeof PriceSelectSchema>;
+export type PriceQuery = z.infer<typeof PriceQuerySchema>;
+
+
+
+
+// ---------- Quantity Schemas ----------
+
+
+export const QuantitySchema = z.object({
+  id: z.number().int(),
+  variantId: z.number().int(),
+  storeId: z.number().int(),
+  quantity: z.number().int(),
+  alertThreshold: z.number().int().nullish(),
+});
+
+export const QuantityCreateSchema = z.object({
+  variantId: z.number().int(),
+  storeId: z.number().int(),
+  quantity: z.number().int(),
+  alertThreshold: z.number().int().nullish(),
+});
+
+export const QuantityUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  variantId: z.number().int().optional(),
+  storeId: z.number().int().optional(),
+  quantity: z.number().int().optional(),
+  alertThreshold: z.number().int().nullish().optional(),
+});
+
+export const QuantityWhereSchema = toWhereQuerySchema(QuantitySchema);
+
+export const QuantityOrderSchema =  toOrderBySchema(QuantitySchema);
+
+export const QuantitySelectSchema = z.object({
+  id: z.boolean().optional(),
+  variantId: z.boolean().optional(),
+  storeId: z.boolean().optional(),
+  quantity: z.boolean().optional(),
+  alertThreshold: z.boolean().optional(),
+  variant: z.boolean().optional(),
+  store: z.boolean().optional(),
+});
+
+export const QuantityQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: QuantityWhereSchema.optional(),
+  orderBy: QuantityOrderSchema.optional(),
+  select: QuantitySelectSchema.optional()
+});
+
+export type Quantity = z.infer<typeof QuantitySchema>;
+export type QuantityCreate = z.infer<typeof QuantityCreateSchema>;
+export type QuantityUpdate = z.infer<typeof QuantityUpdateSchema>;
+export type QuantityWhere = z.infer<typeof QuantityWhereSchema>;
+export type QuantityOrder = z.infer<typeof QuantityOrderSchema>;
+export type QuantitySelect = z.infer<typeof QuantitySelectSchema>;
+export type QuantityQuery = z.infer<typeof QuantityQuerySchema>;
+
+
+
+
+// ---------- SerialNumber Schemas ----------
+
+
+export const SerialNumberSchema = z.object({
+  id: z.number().int(),
+  variantId: z.number().int(),
+  storeId: z.number().int(),
+  serialNumber: z.string(),
+  inStock: z.boolean(),
+});
+
+export const SerialNumberCreateSchema = z.object({
+  variantId: z.number().int(),
+  storeId: z.number().int(),
+  serialNumber: z.string(),
+  inStock: z.boolean(),
+});
+
+export const SerialNumberUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  variantId: z.number().int().optional(),
+  storeId: z.number().int().optional(),
+  serialNumber: z.string().optional(),
+  inStock: z.boolean().optional(),
+});
+
+export const SerialNumberWhereSchema = toWhereQuerySchema(SerialNumberSchema);
+
+export const SerialNumberOrderSchema =  toOrderBySchema(SerialNumberSchema);
+
+export const SerialNumberSelectSchema = z.object({
+  id: z.boolean().optional(),
+  variantId: z.boolean().optional(),
+  storeId: z.boolean().optional(),
+  serialNumber: z.boolean().optional(),
+  inStock: z.boolean().optional(),
+  variant: z.boolean().optional(),
+  store: z.boolean().optional(),
+});
+
+export const SerialNumberQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: SerialNumberWhereSchema.optional(),
+  orderBy: SerialNumberOrderSchema.optional(),
+  select: SerialNumberSelectSchema.optional()
+});
+
+export type SerialNumber = z.infer<typeof SerialNumberSchema>;
+export type SerialNumberCreate = z.infer<typeof SerialNumberCreateSchema>;
+export type SerialNumberUpdate = z.infer<typeof SerialNumberUpdateSchema>;
+export type SerialNumberWhere = z.infer<typeof SerialNumberWhereSchema>;
+export type SerialNumberOrder = z.infer<typeof SerialNumberOrderSchema>;
+export type SerialNumberSelect = z.infer<typeof SerialNumberSelectSchema>;
+export type SerialNumberQuery = z.infer<typeof SerialNumberQuerySchema>;
+
+
+
+
+// ---------- Discount Schemas ----------
+
+
+export const DiscountSchema = z.object({
+  id: z.number().int(),
+  code: z.string(),
+  type: z.any(),
+  value: z.number(),
+  minQuantity: z.number().int().nullish(),
+  startDate: z.date(),
+  endDate: z.date(),
+  maxUses: z.number().int().nullish(),
+});
+
+export const DiscountCreateSchema = z.object({
+  code: z.string(),
+  type: z.any(),
+  value: z.number(),
+  minQuantity: z.number().int().nullish(),
+  startDate: z.date(),
+  endDate: z.date(),
+  maxUses: z.number().int().nullish(),
+});
+
+export const DiscountUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  code: z.string().optional(),
+  type: z.any().optional(),
+  value: z.number().optional(),
+  minQuantity: z.number().int().nullish().optional(),
+  startDate: z.date().optional(),
+  endDate: z.date().optional(),
+  maxUses: z.number().int().nullish().optional(),
+});
+
+export const DiscountWhereSchema = toWhereQuerySchema(DiscountSchema);
+
+export const DiscountOrderSchema =  toOrderBySchema(DiscountSchema);
+
+export const DiscountSelectSchema = z.object({
+  id: z.boolean().optional(),
+  code: z.boolean().optional(),
+  type: z.boolean().optional(),
+  value: z.boolean().optional(),
+  minQuantity: z.boolean().optional(),
+  startDate: z.boolean().optional(),
+  endDate: z.boolean().optional(),
+  maxUses: z.boolean().optional(),
+  targets: z.boolean().optional(),
+});
+
+export const DiscountQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: DiscountWhereSchema.optional(),
+  orderBy: DiscountOrderSchema.optional(),
+  select: DiscountSelectSchema.optional()
+});
+
+export type Discount = z.infer<typeof DiscountSchema>;
+export type DiscountCreate = z.infer<typeof DiscountCreateSchema>;
+export type DiscountUpdate = z.infer<typeof DiscountUpdateSchema>;
+export type DiscountWhere = z.infer<typeof DiscountWhereSchema>;
+export type DiscountOrder = z.infer<typeof DiscountOrderSchema>;
+export type DiscountSelect = z.infer<typeof DiscountSelectSchema>;
+export type DiscountQuery = z.infer<typeof DiscountQuerySchema>;
+
+
+
+
+// ---------- DiscountTarget Schemas ----------
+
+
+export const DiscountTargetSchema = z.object({
+  id: z.number().int(),
+  discountId: z.number().int(),
+  productId: z.number().int().nullish(),
+  variantId: z.number().int().nullish(),
+  storeId: z.number().int().nullish(),
+  priceLevelId: z.number().int().nullish(),
+});
+
+export const DiscountTargetCreateSchema = z.object({
+  discountId: z.number().int(),
+  productId: z.number().int().nullish(),
+  variantId: z.number().int().nullish(),
+  storeId: z.number().int().nullish(),
+  priceLevelId: z.number().int().nullish(),
+});
+
+export const DiscountTargetUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  discountId: z.number().int().optional(),
+  productId: z.number().int().nullish().optional(),
+  variantId: z.number().int().nullish().optional(),
+  storeId: z.number().int().nullish().optional(),
+  priceLevelId: z.number().int().nullish().optional(),
+});
+
+export const DiscountTargetWhereSchema = toWhereQuerySchema(DiscountTargetSchema);
+
+export const DiscountTargetOrderSchema =  toOrderBySchema(DiscountTargetSchema);
+
+export const DiscountTargetSelectSchema = z.object({
+  id: z.boolean().optional(),
+  discountId: z.boolean().optional(),
+  productId: z.boolean().optional(),
+  variantId: z.boolean().optional(),
+  storeId: z.boolean().optional(),
+  priceLevelId: z.boolean().optional(),
+  discount: z.boolean().optional(),
+  product: z.boolean().optional(),
+  variant: z.boolean().optional(),
+  store: z.boolean().optional(),
+  priceLevel: z.boolean().optional(),
+});
+
+export const DiscountTargetQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: DiscountTargetWhereSchema.optional(),
+  orderBy: DiscountTargetOrderSchema.optional(),
+  select: DiscountTargetSelectSchema.optional()
+});
+
+export type DiscountTarget = z.infer<typeof DiscountTargetSchema>;
+export type DiscountTargetCreate = z.infer<typeof DiscountTargetCreateSchema>;
+export type DiscountTargetUpdate = z.infer<typeof DiscountTargetUpdateSchema>;
+export type DiscountTargetWhere = z.infer<typeof DiscountTargetWhereSchema>;
+export type DiscountTargetOrder = z.infer<typeof DiscountTargetOrderSchema>;
+export type DiscountTargetSelect = z.infer<typeof DiscountTargetSelectSchema>;
+export type DiscountTargetQuery = z.infer<typeof DiscountTargetQuerySchema>;
+
+
+
+
+// ---------- Store Schemas ----------
+
+
+export const StoreSchema = z.object({
+  id: z.number().int(),
+  priceLevelId: z.number().int(),
+  name: z.string(),
+  description: z.string().nullish(),
+});
+
+export const StoreCreateSchema = z.object({
+  priceLevelId: z.number().int(),
+  name: z.string(),
+  description: z.string().nullish(),
+});
+
+export const StoreUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  priceLevelId: z.number().int().optional(),
+  name: z.string().optional(),
+  description: z.string().nullish().optional(),
+});
+
+export const StoreWhereSchema = toWhereQuerySchema(StoreSchema);
+
+export const StoreOrderSchema =  toOrderBySchema(StoreSchema);
+
+export const StoreSelectSchema = z.object({
+  id: z.boolean().optional(),
+  priceLevelId: z.boolean().optional(),
+  name: z.boolean().optional(),
+  description: z.boolean().optional(),
+  priceLevel: z.boolean().optional(),
+  quantities: z.boolean().optional(),
+  discounts: z.boolean().optional(),
+  serialNumbers: z.boolean().optional(),
+});
+
+export const StoreQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: StoreWhereSchema.optional(),
+  orderBy: StoreOrderSchema.optional(),
+  select: StoreSelectSchema.optional()
+});
+
+export type Store = z.infer<typeof StoreSchema>;
+export type StoreCreate = z.infer<typeof StoreCreateSchema>;
+export type StoreUpdate = z.infer<typeof StoreUpdateSchema>;
+export type StoreWhere = z.infer<typeof StoreWhereSchema>;
+export type StoreOrder = z.infer<typeof StoreOrderSchema>;
+export type StoreSelect = z.infer<typeof StoreSelectSchema>;
+export type StoreQuery = z.infer<typeof StoreQuerySchema>;
+
+
+
+
+// ---------- WarrantyPolicy Schemas ----------
+
+
+export const WarrantyPolicySchema = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  description: z.string().nullish(),
+  durationDays: z.number().int(),
+});
+
+export const WarrantyPolicyCreateSchema = z.object({
+  name: z.string(),
+  description: z.string().nullish(),
+  durationDays: z.number().int(),
+});
+
+export const WarrantyPolicyUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  name: z.string().optional(),
+  description: z.string().nullish().optional(),
+  durationDays: z.number().int().optional(),
+});
+
+export const WarrantyPolicyWhereSchema = toWhereQuerySchema(WarrantyPolicySchema);
+
+export const WarrantyPolicyOrderSchema =  toOrderBySchema(WarrantyPolicySchema);
+
+export const WarrantyPolicySelectSchema = z.object({
+  id: z.boolean().optional(),
+  name: z.boolean().optional(),
+  description: z.boolean().optional(),
+  durationDays: z.boolean().optional(),
+  products: z.boolean().optional(),
+  variants: z.boolean().optional(),
+});
+
+export const WarrantyPolicyQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: WarrantyPolicyWhereSchema.optional(),
+  orderBy: WarrantyPolicyOrderSchema.optional(),
+  select: WarrantyPolicySelectSchema.optional()
+});
+
+export type WarrantyPolicy = z.infer<typeof WarrantyPolicySchema>;
+export type WarrantyPolicyCreate = z.infer<typeof WarrantyPolicyCreateSchema>;
+export type WarrantyPolicyUpdate = z.infer<typeof WarrantyPolicyUpdateSchema>;
+export type WarrantyPolicyWhere = z.infer<typeof WarrantyPolicyWhereSchema>;
+export type WarrantyPolicyOrder = z.infer<typeof WarrantyPolicyOrderSchema>;
+export type WarrantyPolicySelect = z.infer<typeof WarrantyPolicySelectSchema>;
+export type WarrantyPolicyQuery = z.infer<typeof WarrantyPolicyQuerySchema>;
 
 
