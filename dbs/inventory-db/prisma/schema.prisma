@@ -18,9 +18,9 @@ model Department {
 
 model Category {
   id           Int    @id @default(autoincrement())
+  departmentId Int?
   name         String @unique
   slug         String @unique
-  departmentId Int?
 
   department Department?       @relation(fields: [departmentId], references: [id], onDelete: SetNull, onUpdate: NoAction)
   categories ProductCategory[]
@@ -37,15 +37,14 @@ model Product {
   variants   Variant[]
   categories ProductCategory[]
   images     Image[]
-  suppliers  ProductSupplier[]
+  suppliers  Supplier[]
   discounts  DiscountTarget[]
   warranty   WarrantyPolicy?   @relation(fields: [warrantyId], references: [id])
 }
 
 model Image {
-  id        Int @id @default(autoincrement())
-  productId Int
-
+  id          Int     @id @default(autoincrement())
+  productId   Int
   url         String
   order       Int     @default(0)
   description String?
@@ -54,37 +53,15 @@ model Image {
 }
 
 model Supplier {
-  id            Int    @id @default(autoincrement())
-  paymentTermId Int?
-  uuid          String @unique @default(uuid())
-  name          String @unique
-
-  products    ProductSupplier[]
-  contacts    SupplierContact[]
-  paymentTerm PaymentTerm?      @relation(fields: [paymentTermId], references: [id])
-}
-
-model ProductSupplier {
-  id         Int @id @default(autoincrement())
-  productId  Int
-  supplierId Int
+  id                     Int    @id @default(autoincrement())
+  externalOrganizationId String @unique
+  productId              Int
 
   supplierSku  String
   supplierCost Decimal?
   leadTimeDays Int?
 
-  product  Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  supplier Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
-
-  @@unique([productId, supplierId])
-}
-
-model SupplierContact {
-  id                Int    @id @default(autoincrement())
-  supplierId        Int
-  externalContactId String
-
-  supplier Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model PaymentTerm {
@@ -94,8 +71,6 @@ model PaymentTerm {
   daysDue         Int // e.g., 30
   discountDays    Int // e.g., 10 (for "2/10")
   discountPercent Decimal // e.g., 0.02 (for "2/10")
-
-  suppliers Supplier[]
 }
 
 model ProductCategory {

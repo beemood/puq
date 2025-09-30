@@ -41,6 +41,9 @@
     },
     {
       "path": "./libs/prisma-schema"
+    },
+    {
+      "path": "./dbs/contact-db"
     }
   ]
 }

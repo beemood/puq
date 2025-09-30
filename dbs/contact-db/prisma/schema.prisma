@@ -1,0 +1,112 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Industry {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  orgs OrgIndustry[]
+}
+
+model Org {
+  id   Int    @id @default(autoincrement())
+  uuid String @default(uuid())
+  name String @unique
+
+  agents     Agent[]
+  industries OrgIndustry[]
+}
+
+model OrgIndustry {
+  id         Int @id @default(autoincrement())
+  orgId      Int
+  industryId Int
+
+  industry     Industry @relation(fields: [industryId], references: [id])
+  organization Org      @relation(fields: [orgId], references: [id])
+
+  @@unique([orgId, industryId])
+}
+
+model Agent {
+  id          Int     @id @default(autoincrement())
+  orgId       Int?
+  firstName   String?
+  middleName  String?
+  lastName    String?
+  occupation  String?
+  gender      String?
+  phoneNumber String?
+  note        String?
+
+  organization Org?      @relation(fields: [orgId], references: [id])
+  contacts     Contact[]
+}
+
+enum ContactType {
+  WORK
+  HOME
+  PRIMARY
+}
+
+model Contact {
+  id      Int    @id @default(autoincrement())
+  agentId Int
+  uuid    String @unique @default(uuid())
+  order   Int?
+
+  type ContactType
+
+  emails  Email[]
+  phones  Phone[]
+  address Address[]
+  website Website[]
+  agent   Agent     @relation(fields: [agentId], references: [id])
+}
+
+model Email {
+  id        Int    @id @default(autoincrement())
+  contactId Int
+  order     Int?
+  email     String @unique
+
+  contact Contact @relation(fields: [contactId], references: [id])
+}
+
+model Phone {
+  id        Int    @id @default(autoincrement())
+  contactId Int
+  order     Int?
+  phone     String @unique
+
+  contact Contact @relation(fields: [contactId], references: [id])
+}
+
+model Address {
+  id        Int    @id @default(autoincrement())
+  contactId Int
+  order     Int?
+  street    String
+  city      String
+  state     String
+  country   String
+  zip       String
+
+  contact Contact @relation(fields: [contactId], references: [id])
+}
+
+model Website {
+  id        Int    @id @default(autoincrement())
+  contactId Int
+  order     Int?
+  url       String @unique
+
+  contact Contact @relation(fields: [contactId], references: [id])
+}
