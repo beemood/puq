@@ -84,12 +84,12 @@ model Category {
 }
 
 model Item {
-  id               Int     @id @default(autoincrement())
+  id               Int    @id @default(autoincrement())
+  itemId           String @unique @default(uuid())
   categoryId       Int?
-  supplierId       String?
-  name             String  @unique
-  description      String  @default("")
-  quantityTreshold Int     @default(0)
+  name             String @unique
+  description      String @default("")
+  quantityTreshold Int    @default(0)
 
   category   Category?            @relation(fields: [categoryId], references: [id])
   attributes ItemAttributeValue[]
@@ -98,10 +98,11 @@ model Item {
 }
 
 model Quantity {
-  id       Int @id @default(autoincrement())
-  roomId   Int
-  itemId   Int
-  quantity Int @default(1)
+  id               Int @id @default(autoincrement())
+  roomId           Int
+  itemId           Int
+  quantity         Int @default(1)
+  quantityTreshold Int @default(0)
 
   item Item @relation(fields: [itemId], references: [id])
   room Room @relation(fields: [roomId], references: [id])
@@ -123,8 +124,6 @@ model SerialNumber {
 
   targets SerialMoveRequest[] @relation("targets")
   sources SerialMoveRequest[] @relation("sources")
-
-  warranty Warranty?
 }
 
 model QuantityMoveRequest {
@@ -132,6 +131,7 @@ model QuantityMoveRequest {
   sourceId    Int
   targetId    Int
   quantity    Int
+  reason      String        @default("Not mentioned")
   status      RequestStatus @default(PENDING)
   requestedBy String
   approvedBy  String?
@@ -144,7 +144,7 @@ model SerialMoveRequest {
   id          Int           @id @default(autoincrement())
   sourceId    Int
   targetId    Int
-  quantity    Int
+  reason      String        @default("Not mentioned")
   status      RequestStatus @default(PENDING)
   requestedBy String
   approvedBy  String?
@@ -152,86 +152,3 @@ model SerialMoveRequest {
   source SerialNumber @relation("sources", fields: [sourceId], references: [id])
   target SerialNumber @relation("targets", fields: [targetId], references: [id])
 }
-
-model Supplier {
-  id          Int        @id @default(autoincrement())
-  orgId       String? // Org id to integrate with contact service.
-  name        String     @unique
-  description String     @default("")
-  warranties  Warranty[]
-}
-
-model Warranty {
-  id             Int      @id @default(autoincrement())
-  supplierId     Int
-  serialNumberId Int      @unique
-  itemId         Int
-  startDate      DateTime
-  endDate        DateTime
-  description    String   @default("")
-
-  serialNumber SerialNumber @relation(fields: [serialNumberId], references: [id])
-  supplier     Supplier     @relation(fields: [supplierId], references: [id])
-}
-
-// model MaintenanceLog {
-//   id                Int       @id @default(autoincrement())
-//   serialNumberId    Int
-//   scheduleId        Int?      // Link to a scheduled type of maintenance (optional for reactive maintenance)
-//   performedAt       DateTime  @default(now())
-//   nextDueAt         DateTime? // Calculated based on schedule frequency or manually set
-//   cost              Float?    @default(0.00)
-//   details           String?   // Work performed, parts replaced
-//   performedBy       String?   // Name of technician/company
-
-//   serialNumber      SerialNumber @relation(fields: [serialNumberId], references: [id])
-//   schedule          MaintenanceSchedule? @relation(fields: [scheduleId], references: [id])
-// }
-
-// enum TaskType {
-//   CLEANING
-//   MAINTENANCE
-//   REPAIR
-//   INSPECTION
-//   AUDIT
-// }
-
-// enum TaskFrequency {
-//   DAILY
-//   WEEKLY
-//   MONTHLY
-//   QUARTERLY
-//   YEARLY
-//   ONE_TIME
-// }
-
-// enum TaskStatus {
-//   PENDING
-//   IN_PROGRESS
-//   COMPLETED
-//   CANCELED
-// }
-
-// // --- NEW MODEL ---
-
-// model Task {
-//   id          Int          @id @default(autoincrement())
-//   title       String
-//   description String?
-
-//   // Task Details
-//   type        TaskType
-//   frequency   TaskFrequency
-//   status      TaskStatus @default(PENDING)
-
-//   // Scheduling
-//   createdAt   DateTime   @default(now())
-//   dueDate     DateTime
-
-//   // Relationship to Item or Room (A task can target either a Room or an Item Type)
-//   roomId      Int?
-//   room        Room? @relation(fields: [roomId], references: [id])
-
-//   itemId      Int?
-//   item        Item? @relation(fields: [itemId], references: [id])
-// }
