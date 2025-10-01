@@ -1,0 +1,237 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELED
+}
+
+model Building {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  code String @unique
+
+  rooms Room[]
+}
+
+model RoomAttribute {
+  id     Int                  @id @default(autoincrement())
+  name   String               @unique
+  values RoomAttributeValue[]
+}
+
+model RoomAttributeValue {
+  id          Int    @id @default(autoincrement())
+  roomId      Int
+  attributeId Int
+  value       String
+
+  attribute RoomAttribute @relation(fields: [attributeId], references: [id])
+  room      Room          @relation(fields: [roomId], references: [id])
+
+  @@unique([roomId, attributeId])
+}
+
+model ItemAttribute {
+  id     Int                  @id @default(autoincrement())
+  name   String               @unique
+  values ItemAttributeValue[]
+}
+
+model ItemAttributeValue {
+  id          Int    @id @default(autoincrement())
+  itemId      Int
+  attributeId Int
+  value       String
+
+  attribute ItemAttribute @relation(fields: [attributeId], references: [id])
+  item      Item          @relation(fields: [itemId], references: [id])
+
+  @@unique([itemId, attributeId])
+}
+
+model Room {
+  id         Int    @id @default(autoincrement())
+  buildingId Int
+  code       String
+  floor      Int    @default(0)
+
+  building   Building             @relation(fields: [buildingId], references: [id])
+  attributes RoomAttributeValue[]
+  quantities Quantity[]
+  serials    SerialNumber[]
+
+  @@unique([buildingId, code])
+}
+
+model Category {
+  id       Int    @id @default(autoincrement())
+  parentId Int?
+  name     String @unique
+
+  parent   Category?  @relation("children", fields: [parentId], references: [id], onDelete: SetNull)
+  children Category[] @relation("children")
+  items    Item[]
+}
+
+model Item {
+  id               Int     @id @default(autoincrement())
+  categoryId       Int?
+  supplierId       String?
+  name             String  @unique
+  description      String  @default("")
+  quantityTreshold Int     @default(0)
+
+  category   Category?            @relation(fields: [categoryId], references: [id])
+  attributes ItemAttributeValue[]
+  quantities Quantity[]
+  serials    SerialNumber[]
+}
+
+model Quantity {
+  id       Int @id @default(autoincrement())
+  roomId   Int
+  itemId   Int
+  quantity Int @default(1)
+
+  item Item @relation(fields: [itemId], references: [id])
+  room Room @relation(fields: [roomId], references: [id])
+
+  sources  QuantityMoveRequest[] @relation("sources")
+  taragets QuantityMoveRequest[] @relation("targets")
+
+  @@unique([roomId, itemId])
+}
+
+model SerialNumber {
+  id           Int    @id @default(autoincrement())
+  serialNumber String @unique
+  itemId       Int
+  roomId       Int
+
+  item Item @relation(fields: [itemId], references: [id])
+  room Room @relation(fields: [roomId], references: [id])
+
+  targets SerialMoveRequest[] @relation("targets")
+  sources SerialMoveRequest[] @relation("sources")
+
+  warranty Warranty?
+}
+
+model QuantityMoveRequest {
+  id          Int           @id @default(autoincrement())
+  sourceId    Int
+  targetId    Int
+  quantity    Int
+  status      RequestStatus @default(PENDING)
+  requestedBy String
+  approvedBy  String?
+
+  source Quantity @relation("sources", fields: [sourceId], references: [id])
+  target Quantity @relation("targets", fields: [targetId], references: [id])
+}
+
+model SerialMoveRequest {
+  id          Int           @id @default(autoincrement())
+  sourceId    Int
+  targetId    Int
+  quantity    Int
+  status      RequestStatus @default(PENDING)
+  requestedBy String
+  approvedBy  String?
+
+  source SerialNumber @relation("sources", fields: [sourceId], references: [id])
+  target SerialNumber @relation("targets", fields: [targetId], references: [id])
+}
+
+model Supplier {
+  id          Int        @id @default(autoincrement())
+  orgId       String? // Org id to integrate with contact service.
+  name        String     @unique
+  description String     @default("")
+  warranties  Warranty[]
+}
+
+model Warranty {
+  id             Int      @id @default(autoincrement())
+  supplierId     Int
+  serialNumberId Int      @unique
+  itemId         Int
+  startDate      DateTime
+  endDate        DateTime
+  description    String   @default("")
+
+  serialNumber SerialNumber @relation(fields: [serialNumberId], references: [id])
+  supplier     Supplier     @relation(fields: [supplierId], references: [id])
+}
+
+// model MaintenanceLog {
+//   id                Int       @id @default(autoincrement())
+//   serialNumberId    Int
+//   scheduleId        Int?      // Link to a scheduled type of maintenance (optional for reactive maintenance)
+//   performedAt       DateTime  @default(now())
+//   nextDueAt         DateTime? // Calculated based on schedule frequency or manually set
+//   cost              Float?    @default(0.00)
+//   details           String?   // Work performed, parts replaced
+//   performedBy       String?   // Name of technician/company
+
+//   serialNumber      SerialNumber @relation(fields: [serialNumberId], references: [id])
+//   schedule          MaintenanceSchedule? @relation(fields: [scheduleId], references: [id])
+// }
+
+// enum TaskType {
+//   CLEANING
+//   MAINTENANCE
+//   REPAIR
+//   INSPECTION
+//   AUDIT
+// }
+
+// enum TaskFrequency {
+//   DAILY
+//   WEEKLY
+//   MONTHLY
+//   QUARTERLY
+//   YEARLY
+//   ONE_TIME
+// }
+
+// enum TaskStatus {
+//   PENDING
+//   IN_PROGRESS
+//   COMPLETED
+//   CANCELED
+// }
+
+// // --- NEW MODEL ---
+
+// model Task {
+//   id          Int          @id @default(autoincrement())
+//   title       String
+//   description String?
+
+//   // Task Details
+//   type        TaskType
+//   frequency   TaskFrequency
+//   status      TaskStatus @default(PENDING)
+
+//   // Scheduling
+//   createdAt   DateTime   @default(now())
+//   dueDate     DateTime
+
+//   // Relationship to Item or Room (A task can target either a Room or an Item Type)
+//   roomId      Int?
+//   room        Room? @relation(fields: [roomId], references: [id])
+
+//   itemId      Int?
+//   item        Item? @relation(fields: [itemId], references: [id])
+// }

@@ -47,6 +47,9 @@
     },
     {
       "path": "./dbs/hr-db"
+    },
+    {
+      "path": "./dbs/asset-db"
     }
   ]
 }
