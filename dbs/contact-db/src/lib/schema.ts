@@ -9,15 +9,21 @@ import {z} from 'zod';
 export const IndustrySchema = z.object({
   id: z.number().int(),
   name: z.string(),
+  slug: z.string(),
+  description: z.string().nullish(),
 });
 
 export const IndustryCreateSchema = z.object({
   name: z.string(),
+  slug: z.string(),
+  description: z.string().nullish(),
 });
 
 export const IndustryUpdateSchema = z.object({
   id: z.number().int().optional(),
   name: z.string().optional(),
+  slug: z.string().optional(),
+  description: z.string().nullish().optional(),
 });
 
 export const IndustryWhereSchema = toWhereQuerySchema(IndustrySchema);
@@ -27,6 +33,8 @@ export const IndustryOrderSchema =  toOrderBySchema(IndustrySchema);
 export const IndustrySelectSchema = z.object({
   id: z.boolean().optional(),
   name: z.boolean().optional(),
+  slug: z.boolean().optional(),
+  description: z.boolean().optional(),
   orgs: z.boolean().optional(),
 });
 
@@ -56,16 +64,19 @@ export const OrgSchema = z.object({
   id: z.number().int(),
   uuid: z.string(),
   name: z.string(),
+  slug: z.string(),
 });
 
 export const OrgCreateSchema = z.object({
   name: z.string(),
+  slug: z.string(),
 });
 
 export const OrgUpdateSchema = z.object({
   id: z.number().int().optional(),
   uuid: z.string().optional(),
   name: z.string().optional(),
+  slug: z.string().optional(),
 });
 
 export const OrgWhereSchema = toWhereQuerySchema(OrgSchema);
@@ -76,6 +87,7 @@ export const OrgSelectSchema = z.object({
   id: z.boolean().optional(),
   uuid: z.boolean().optional(),
   name: z.boolean().optional(),
+  slug: z.boolean().optional(),
   agents: z.boolean().optional(),
   industries: z.boolean().optional(),
 });
@@ -150,41 +162,91 @@ export type OrgIndustryQuery = z.infer<typeof OrgIndustryQuerySchema>;
 
 
 
+// ---------- Occupation Schemas ----------
+
+
+export const OccupationSchema = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  description: z.string().nullish(),
+});
+
+export const OccupationCreateSchema = z.object({
+  name: z.string(),
+  description: z.string().nullish(),
+});
+
+export const OccupationUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  name: z.string().optional(),
+  description: z.string().nullish().optional(),
+});
+
+export const OccupationWhereSchema = toWhereQuerySchema(OccupationSchema);
+
+export const OccupationOrderSchema =  toOrderBySchema(OccupationSchema);
+
+export const OccupationSelectSchema = z.object({
+  id: z.boolean().optional(),
+  name: z.boolean().optional(),
+  description: z.boolean().optional(),
+  agents: z.boolean().optional(),
+});
+
+export const OccupationQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: OccupationWhereSchema.optional(),
+  orderBy: OccupationOrderSchema.optional(),
+  select: OccupationSelectSchema.optional()
+});
+
+export type Occupation = z.infer<typeof OccupationSchema>;
+export type OccupationCreate = z.infer<typeof OccupationCreateSchema>;
+export type OccupationUpdate = z.infer<typeof OccupationUpdateSchema>;
+export type OccupationWhere = z.infer<typeof OccupationWhereSchema>;
+export type OccupationOrder = z.infer<typeof OccupationOrderSchema>;
+export type OccupationSelect = z.infer<typeof OccupationSelectSchema>;
+export type OccupationQuery = z.infer<typeof OccupationQuerySchema>;
+
+
+
+
 // ---------- Agent Schemas ----------
 
 
 export const AgentSchema = z.object({
   id: z.number().int(),
   orgId: z.number().int().nullish(),
-  firstName: z.string().nullish(),
+  occupationId: z.number().int().nullish(),
+  firstName: z.string(),
   middleName: z.string().nullish(),
-  lastName: z.string().nullish(),
-  occupation: z.string().nullish(),
-  gender: z.string().nullish(),
-  phoneNumber: z.string().nullish(),
+  lastName: z.string(),
+  gender: z.any().nullish(),
+  slug: z.string(),
   note: z.string().nullish(),
 });
 
 export const AgentCreateSchema = z.object({
   orgId: z.number().int().nullish(),
-  firstName: z.string().nullish(),
+  occupationId: z.number().int().nullish(),
+  firstName: z.string(),
   middleName: z.string().nullish(),
-  lastName: z.string().nullish(),
-  occupation: z.string().nullish(),
-  gender: z.string().nullish(),
-  phoneNumber: z.string().nullish(),
+  lastName: z.string(),
+  gender: z.any().nullish(),
+  slug: z.string(),
   note: z.string().nullish(),
 });
 
 export const AgentUpdateSchema = z.object({
   id: z.number().int().optional(),
   orgId: z.number().int().nullish().optional(),
-  firstName: z.string().nullish().optional(),
+  occupationId: z.number().int().nullish().optional(),
+  firstName: z.string().optional(),
   middleName: z.string().nullish().optional(),
-  lastName: z.string().nullish().optional(),
-  occupation: z.string().nullish().optional(),
-  gender: z.string().nullish().optional(),
-  phoneNumber: z.string().nullish().optional(),
+  lastName: z.string().optional(),
+  gender: z.any().nullish().optional(),
+  slug: z.string().optional(),
   note: z.string().nullish().optional(),
 });
 
@@ -195,15 +257,16 @@ export const AgentOrderSchema =  toOrderBySchema(AgentSchema);
 export const AgentSelectSchema = z.object({
   id: z.boolean().optional(),
   orgId: z.boolean().optional(),
+  occupationId: z.boolean().optional(),
   firstName: z.boolean().optional(),
   middleName: z.boolean().optional(),
   lastName: z.boolean().optional(),
-  occupation: z.boolean().optional(),
   gender: z.boolean().optional(),
-  phoneNumber: z.boolean().optional(),
+  slug: z.boolean().optional(),
   note: z.boolean().optional(),
-  organization: z.boolean().optional(),
+  org: z.boolean().optional(),
   contacts: z.boolean().optional(),
+  occupation: z.boolean().optional(),
 });
 
 export const AgentQuerySchema = z.object({
@@ -232,22 +295,22 @@ export const ContactSchema = z.object({
   id: z.number().int(),
   agentId: z.number().int(),
   uuid: z.string(),
-  order: z.number().int().nullish(),
   type: z.any(),
+  order: z.number().int().nullish(),
 });
 
 export const ContactCreateSchema = z.object({
   agentId: z.number().int(),
-  order: z.number().int().nullish(),
   type: z.any(),
+  order: z.number().int().nullish(),
 });
 
 export const ContactUpdateSchema = z.object({
   id: z.number().int().optional(),
   agentId: z.number().int().optional(),
   uuid: z.string().optional(),
-  order: z.number().int().nullish().optional(),
   type: z.any().optional(),
+  order: z.number().int().nullish().optional(),
 });
 
 export const ContactWhereSchema = toWhereQuerySchema(ContactSchema);
@@ -258,13 +321,13 @@ export const ContactSelectSchema = z.object({
   id: z.boolean().optional(),
   agentId: z.boolean().optional(),
   uuid: z.boolean().optional(),
-  order: z.boolean().optional(),
   type: z.boolean().optional(),
   emails: z.boolean().optional(),
   phones: z.boolean().optional(),
-  address: z.boolean().optional(),
-  website: z.boolean().optional(),
+  addresses: z.boolean().optional(),
+  websites: z.boolean().optional(),
   agent: z.boolean().optional(),
+  order: z.boolean().optional(),
 });
 
 export const ContactQuerySchema = z.object({
@@ -286,27 +349,246 @@ export type ContactQuery = z.infer<typeof ContactQuerySchema>;
 
 
 
+// ---------- State Schemas ----------
+
+
+export const StateSchema = z.object({
+  id: z.number().int(),
+  countryId: z.number().int(),
+  state: z.string(),
+  code: z.string(),
+});
+
+export const StateCreateSchema = z.object({
+  countryId: z.number().int(),
+  state: z.string(),
+  code: z.string(),
+});
+
+export const StateUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  countryId: z.number().int().optional(),
+  state: z.string().optional(),
+  code: z.string().optional(),
+});
+
+export const StateWhereSchema = toWhereQuerySchema(StateSchema);
+
+export const StateOrderSchema =  toOrderBySchema(StateSchema);
+
+export const StateSelectSchema = z.object({
+  id: z.boolean().optional(),
+  countryId: z.boolean().optional(),
+  state: z.boolean().optional(),
+  code: z.boolean().optional(),
+  country: z.boolean().optional(),
+  cities: z.boolean().optional(),
+});
+
+export const StateQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: StateWhereSchema.optional(),
+  orderBy: StateOrderSchema.optional(),
+  select: StateSelectSchema.optional()
+});
+
+export type State = z.infer<typeof StateSchema>;
+export type StateCreate = z.infer<typeof StateCreateSchema>;
+export type StateUpdate = z.infer<typeof StateUpdateSchema>;
+export type StateWhere = z.infer<typeof StateWhereSchema>;
+export type StateOrder = z.infer<typeof StateOrderSchema>;
+export type StateSelect = z.infer<typeof StateSelectSchema>;
+export type StateQuery = z.infer<typeof StateQuerySchema>;
+
+
+
+
+// ---------- Country Schemas ----------
+
+
+export const CountrySchema = z.object({
+  id: z.number().int(),
+  country: z.string(),
+  code: z.string(),
+});
+
+export const CountryCreateSchema = z.object({
+  country: z.string(),
+  code: z.string(),
+});
+
+export const CountryUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  country: z.string().optional(),
+  code: z.string().optional(),
+});
+
+export const CountryWhereSchema = toWhereQuerySchema(CountrySchema);
+
+export const CountryOrderSchema =  toOrderBySchema(CountrySchema);
+
+export const CountrySelectSchema = z.object({
+  id: z.boolean().optional(),
+  country: z.boolean().optional(),
+  code: z.boolean().optional(),
+  states: z.boolean().optional(),
+});
+
+export const CountryQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: CountryWhereSchema.optional(),
+  orderBy: CountryOrderSchema.optional(),
+  select: CountrySelectSchema.optional()
+});
+
+export type Country = z.infer<typeof CountrySchema>;
+export type CountryCreate = z.infer<typeof CountryCreateSchema>;
+export type CountryUpdate = z.infer<typeof CountryUpdateSchema>;
+export type CountryWhere = z.infer<typeof CountryWhereSchema>;
+export type CountryOrder = z.infer<typeof CountryOrderSchema>;
+export type CountrySelect = z.infer<typeof CountrySelectSchema>;
+export type CountryQuery = z.infer<typeof CountryQuerySchema>;
+
+
+
+
+// ---------- City Schemas ----------
+
+
+export const CitySchema = z.object({
+  id: z.number().int(),
+  stateId: z.number().int(),
+  city: z.string(),
+});
+
+export const CityCreateSchema = z.object({
+  stateId: z.number().int(),
+  city: z.string(),
+});
+
+export const CityUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  stateId: z.number().int().optional(),
+  city: z.string().optional(),
+});
+
+export const CityWhereSchema = toWhereQuerySchema(CitySchema);
+
+export const CityOrderSchema =  toOrderBySchema(CitySchema);
+
+export const CitySelectSchema = z.object({
+  id: z.boolean().optional(),
+  stateId: z.boolean().optional(),
+  city: z.boolean().optional(),
+  state: z.boolean().optional(),
+  addresses: z.boolean().optional(),
+});
+
+export const CityQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: CityWhereSchema.optional(),
+  orderBy: CityOrderSchema.optional(),
+  select: CitySelectSchema.optional()
+});
+
+export type City = z.infer<typeof CitySchema>;
+export type CityCreate = z.infer<typeof CityCreateSchema>;
+export type CityUpdate = z.infer<typeof CityUpdateSchema>;
+export type CityWhere = z.infer<typeof CityWhereSchema>;
+export type CityOrder = z.infer<typeof CityOrderSchema>;
+export type CitySelect = z.infer<typeof CitySelectSchema>;
+export type CityQuery = z.infer<typeof CityQuerySchema>;
+
+
+
+
+// ---------- Address Schemas ----------
+
+
+export const AddressSchema = z.object({
+  id: z.number().int(),
+  contactId: z.number().int(),
+  cityId: z.number().int(),
+  street: z.string(),
+  zip: z.string(),
+  order: z.number().int().nullish(),
+});
+
+export const AddressCreateSchema = z.object({
+  contactId: z.number().int(),
+  cityId: z.number().int(),
+  street: z.string(),
+  zip: z.string(),
+  order: z.number().int().nullish(),
+});
+
+export const AddressUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  contactId: z.number().int().optional(),
+  cityId: z.number().int().optional(),
+  street: z.string().optional(),
+  zip: z.string().optional(),
+  order: z.number().int().nullish().optional(),
+});
+
+export const AddressWhereSchema = toWhereQuerySchema(AddressSchema);
+
+export const AddressOrderSchema =  toOrderBySchema(AddressSchema);
+
+export const AddressSelectSchema = z.object({
+  id: z.boolean().optional(),
+  contactId: z.boolean().optional(),
+  cityId: z.boolean().optional(),
+  street: z.boolean().optional(),
+  zip: z.boolean().optional(),
+  city: z.boolean().optional(),
+  contact: z.boolean().optional(),
+  order: z.boolean().optional(),
+});
+
+export const AddressQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: AddressWhereSchema.optional(),
+  orderBy: AddressOrderSchema.optional(),
+  select: AddressSelectSchema.optional()
+});
+
+export type Address = z.infer<typeof AddressSchema>;
+export type AddressCreate = z.infer<typeof AddressCreateSchema>;
+export type AddressUpdate = z.infer<typeof AddressUpdateSchema>;
+export type AddressWhere = z.infer<typeof AddressWhereSchema>;
+export type AddressOrder = z.infer<typeof AddressOrderSchema>;
+export type AddressSelect = z.infer<typeof AddressSelectSchema>;
+export type AddressQuery = z.infer<typeof AddressQuerySchema>;
+
+
+
+
 // ---------- Email Schemas ----------
 
 
 export const EmailSchema = z.object({
   id: z.number().int(),
   contactId: z.number().int(),
-  order: z.number().int().nullish(),
   email: z.string(),
+  order: z.number().int().nullish(),
 });
 
 export const EmailCreateSchema = z.object({
   contactId: z.number().int(),
-  order: z.number().int().nullish(),
   email: z.string(),
+  order: z.number().int().nullish(),
 });
 
 export const EmailUpdateSchema = z.object({
   id: z.number().int().optional(),
   contactId: z.number().int().optional(),
-  order: z.number().int().nullish().optional(),
   email: z.string().optional(),
+  order: z.number().int().nullish().optional(),
 });
 
 export const EmailWhereSchema = toWhereQuerySchema(EmailSchema);
@@ -316,9 +598,9 @@ export const EmailOrderSchema =  toOrderBySchema(EmailSchema);
 export const EmailSelectSchema = z.object({
   id: z.boolean().optional(),
   contactId: z.boolean().optional(),
-  order: z.boolean().optional(),
   email: z.boolean().optional(),
   contact: z.boolean().optional(),
+  order: z.boolean().optional(),
 });
 
 export const EmailQuerySchema = z.object({
@@ -346,21 +628,21 @@ export type EmailQuery = z.infer<typeof EmailQuerySchema>;
 export const PhoneSchema = z.object({
   id: z.number().int(),
   contactId: z.number().int(),
-  order: z.number().int().nullish(),
   phone: z.string(),
+  order: z.number().int().nullish(),
 });
 
 export const PhoneCreateSchema = z.object({
   contactId: z.number().int(),
-  order: z.number().int().nullish(),
   phone: z.string(),
+  order: z.number().int().nullish(),
 });
 
 export const PhoneUpdateSchema = z.object({
   id: z.number().int().optional(),
   contactId: z.number().int().optional(),
-  order: z.number().int().nullish().optional(),
   phone: z.string().optional(),
+  order: z.number().int().nullish().optional(),
 });
 
 export const PhoneWhereSchema = toWhereQuerySchema(PhoneSchema);
@@ -370,9 +652,9 @@ export const PhoneOrderSchema =  toOrderBySchema(PhoneSchema);
 export const PhoneSelectSchema = z.object({
   id: z.boolean().optional(),
   contactId: z.boolean().optional(),
-  order: z.boolean().optional(),
   phone: z.boolean().optional(),
   contact: z.boolean().optional(),
+  order: z.boolean().optional(),
 });
 
 export const PhoneQuerySchema = z.object({
@@ -394,97 +676,27 @@ export type PhoneQuery = z.infer<typeof PhoneQuerySchema>;
 
 
 
-// ---------- Address Schemas ----------
-
-
-export const AddressSchema = z.object({
-  id: z.number().int(),
-  contactId: z.number().int(),
-  order: z.number().int().nullish(),
-  street: z.string(),
-  city: z.string(),
-  state: z.string(),
-  country: z.string(),
-  zip: z.string(),
-});
-
-export const AddressCreateSchema = z.object({
-  contactId: z.number().int(),
-  order: z.number().int().nullish(),
-  street: z.string(),
-  city: z.string(),
-  state: z.string(),
-  country: z.string(),
-  zip: z.string(),
-});
-
-export const AddressUpdateSchema = z.object({
-  id: z.number().int().optional(),
-  contactId: z.number().int().optional(),
-  order: z.number().int().nullish().optional(),
-  street: z.string().optional(),
-  city: z.string().optional(),
-  state: z.string().optional(),
-  country: z.string().optional(),
-  zip: z.string().optional(),
-});
-
-export const AddressWhereSchema = toWhereQuerySchema(AddressSchema);
-
-export const AddressOrderSchema =  toOrderBySchema(AddressSchema);
-
-export const AddressSelectSchema = z.object({
-  id: z.boolean().optional(),
-  contactId: z.boolean().optional(),
-  order: z.boolean().optional(),
-  street: z.boolean().optional(),
-  city: z.boolean().optional(),
-  state: z.boolean().optional(),
-  country: z.boolean().optional(),
-  zip: z.boolean().optional(),
-  contact: z.boolean().optional(),
-});
-
-export const AddressQuerySchema = z.object({
-  take: z.coerce.number().int().min(1), 
-  skip: z.coerce.number().int().min(0), 
-  where: AddressWhereSchema.optional(),
-  orderBy: AddressOrderSchema.optional(),
-  select: AddressSelectSchema.optional()
-});
-
-export type Address = z.infer<typeof AddressSchema>;
-export type AddressCreate = z.infer<typeof AddressCreateSchema>;
-export type AddressUpdate = z.infer<typeof AddressUpdateSchema>;
-export type AddressWhere = z.infer<typeof AddressWhereSchema>;
-export type AddressOrder = z.infer<typeof AddressOrderSchema>;
-export type AddressSelect = z.infer<typeof AddressSelectSchema>;
-export type AddressQuery = z.infer<typeof AddressQuerySchema>;
-
-
-
-
 // ---------- Website Schemas ----------
 
 
 export const WebsiteSchema = z.object({
   id: z.number().int(),
   contactId: z.number().int(),
-  order: z.number().int().nullish(),
   url: z.string(),
+  order: z.number().int().nullish(),
 });
 
 export const WebsiteCreateSchema = z.object({
   contactId: z.number().int(),
-  order: z.number().int().nullish(),
   url: z.string(),
+  order: z.number().int().nullish(),
 });
 
 export const WebsiteUpdateSchema = z.object({
   id: z.number().int().optional(),
   contactId: z.number().int().optional(),
-  order: z.number().int().nullish().optional(),
   url: z.string().optional(),
+  order: z.number().int().nullish().optional(),
 });
 
 export const WebsiteWhereSchema = toWhereQuerySchema(WebsiteSchema);
@@ -494,9 +706,9 @@ export const WebsiteOrderSchema =  toOrderBySchema(WebsiteSchema);
 export const WebsiteSelectSchema = z.object({
   id: z.boolean().optional(),
   contactId: z.boolean().optional(),
-  order: z.boolean().optional(),
   url: z.boolean().optional(),
   contact: z.boolean().optional(),
+  order: z.boolean().optional(),
 });
 
 export const WebsiteQuerySchema = z.object({

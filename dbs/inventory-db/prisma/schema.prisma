@@ -8,22 +8,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Department {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-  slug String @unique
-
-  categories Category[]
-}
-
 model Category {
-  id           Int    @id @default(autoincrement())
-  departmentId Int?
-  name         String @unique
-  slug         String @unique
+  id       Int    @id @default(autoincrement())
+  parentId Int?
+  name     String @unique
+  slug     String @unique
 
-  department Department?       @relation(fields: [departmentId], references: [id], onDelete: SetNull, onUpdate: NoAction)
-  categories ProductCategory[]
+  parent   Category?         @relation("SubCategories", fields: [parentId], references: [id])
+  children Category[]        @relation("SubCategories")
+  products ProductCategory[]
 }
 
 model Product {

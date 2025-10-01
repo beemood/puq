@@ -1,0 +1,343 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum MaritalStatus {
+  SINGLE
+  MARRIED
+}
+
+enum EmployeeStatus {
+  INCOMMING
+  ACTIVE
+  INACTIVE
+  ON_LEAVE
+  TERMINATED
+}
+
+enum EmploymentType {
+  FULL_TIME
+  PART_TIME
+  CONTRACTOR
+  INTERN
+}
+
+enum PayFrequency {
+  ANNUAL
+  MONTHLY
+  BI_WEEKLY
+  WEEKLY
+  HOURLY
+}
+
+enum ContactType {
+  WORK
+  HOME
+  PERSONAL
+  EMERGENCY
+}
+
+enum PositionChangeType {
+  PROMOTION
+  TRANSFER
+}
+
+enum TimeOffType {
+  VACATION
+  SICK
+  PERSONAL
+  BEREAVEMENT
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELED
+}
+
+enum BenefitStatus {
+  ACTIVE // The employee is currently covered by the benefit plan. The plan is in force and deductions are being taken (if applicable).	Inactive, Terminated
+  PENDING // The employee has made their selection, but coverage has not yet begun. This is common during the waiting period, or while the plan carrier/administrator is processing the enrollment (e.g., waiting for proof of eligibility or evidence of insurability).	Active, Denied, Canceled
+  AWAITING_EOI // Specifically for benefits like voluntary life insurance where the employee must submit Evidence of Insurability (a medical questionnaire or exam) for approval before coverage can begin.	Pending (EOI Approved), Denied (EOI Denied)
+  WAIVED // The employee was eligible for the benefit but explicitly chose not to enroll in it.	Enrolled (during a future open enrollment or qualifying life event)
+  ENROLLED // A general status meaning the employee has successfully signed up for the benefit. This often encompasses both Pending and Active periods but can be a transitional status before becoming Active.	Active
+}
+
+model Department {
+  id       Int    @id @default(autoincrement())
+  parentId Int?
+  name     String @unique
+  slug     String @unique
+
+  parent    Department?  @relation("children", fields: [parentId], references: [id])
+  children  Department[] @relation("children")
+  positions Position[]
+}
+
+model Position {
+  id           Int     @id @default(autoincrement())
+  departmentId Int
+  name         String  @unique
+  slug         String  @unique
+  description  String?
+
+  department Department @relation(fields: [departmentId], references: [id])
+
+  employees Employee[]
+  histories PositionHistory[]
+}
+
+model Employee {
+  id   Int    @id @default(autoincrement())
+  uuid String @unique @default(uuid())
+
+  positionId Int
+
+  // Names
+  firstName    String
+  middleName   String?
+  lastName     String
+  preferedName String?
+  fullName     String         @unique
+  gender       Gender
+  slug         String         @unique
+  status       EmployeeStatus @default(INCOMMING)
+
+  position            Position              @relation(fields: [positionId], references: [id])
+  personalInfo        PersonalInfo?
+  leadTeams           Team[]                @relation("leadTeams")
+  memberships         TeamMember[]
+  compensation        Compensation?
+  compensationHistory CompensationHistory[]
+  contact             Contact?
+  benefits            BenefitEnrolment[]
+  positionHistory     PositionHistory[]
+  timeOffBalances     TimeOffBalance[]
+  timeOffRequests     TimeOffRequest[]
+
+  // List of time-offs that this employee (manager) approved
+  approvedTimeOffs TimeOffRequest[] @relation("approvedTimeOffs")
+
+  // List of performances that this employee reviewd
+  reviewedPerformances PerformanceReview[] @relation("reviewedPerformances")
+
+  // list of performance reviews of this employee
+  performanceReviews PerformanceReview[]
+}
+
+model PersonalInfo {
+  id            Int            @id @default(autoincrement())
+  employeeId    Int            @unique
+  dateOfBirth   DateTime
+  maritalStatus MaritalStatus?
+  nationality   String?
+  ssnLast4      String?
+  note          String?
+
+  employee Employee @relation(fields: [employeeId], references: [id])
+}
+
+model Team {
+  id        Int    @id @default(autoincrement())
+  managerId Int
+  name      String @unique
+
+  manager Employee     @relation("leadTeams", fields: [managerId], references: [id])
+  members TeamMember[]
+}
+
+model TeamMember {
+  id       Int @id @default(autoincrement())
+  teamId   Int
+  memberId Int
+
+  employee Employee @relation(fields: [memberId], references: [id])
+  team     Team     @relation(fields: [teamId], references: [id])
+}
+
+model Compensation {
+  id         Int @id @default(autoincrement())
+  employeeId Int @unique
+
+  salary         Decimal      @db.Decimal(10, 2)
+  payFrequency   PayFrequency
+  isHourly       Boolean
+  lastReviewDate DateTime
+
+  employee Employee @relation(fields: [employeeId], references: [id])
+}
+
+model CompensationHistory {
+  id         Int      @id @default(autoincrement())
+  employeeId Int
+  changeDate DateTime
+  oldSalary  Decimal  @db.Decimal(10, 2)
+  newSalary  Decimal  @db.Decimal(10, 2)
+  reason     String?
+
+  employee Employee @relation(fields: [employeeId], references: [id])
+}
+
+model Contact {
+  id         Int @id @default(autoincrement())
+  employeeId Int @unique
+
+  employee Employee @relation(fields: [employeeId], references: [id])
+  emails   Email[]
+  phones   Phone[]
+}
+
+model Email {
+  id        Int          @id @default(autoincrement())
+  contactId Int
+  type      ContactType?
+  email     String
+
+  contact Contact @relation(fields: [contactId], references: [id])
+
+  order Int @default(autoincrement())
+
+  @@unique([contactId, email])
+}
+
+model Phone {
+  id        Int          @id @default(autoincrement())
+  contactId Int
+  type      ContactType?
+  phone     String
+
+  contact Contact @relation(fields: [contactId], references: [id])
+
+  order Int @default(autoincrement())
+
+  @@unique([contactId, phone])
+}
+
+model Benefit {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  description String?
+  type        String?
+
+  enrolments BenefitEnrolment[]
+}
+
+model BenefitEnrolment {
+  id         Int           @id @default(autoincrement())
+  benefitId  Int
+  employeeId Int
+  startDate  DateTime
+  status     BenefitStatus @default(PENDING)
+
+  benefit  Benefit  @relation(fields: [benefitId], references: [id])
+  employee Employee @relation(fields: [employeeId], references: [id])
+
+  @@unique([benefitId, employeeId])
+}
+
+model PositionHistory {
+  id            Int                @id @default(autoincrement())
+  employeeId    Int
+  positionId    Int
+  type          PositionChangeType
+  justification String? // Detailed explanation for the change
+  startDate     DateTime
+  endDate       DateTime?
+
+  employee Employee @relation(fields: [employeeId], references: [id])
+  position Position @relation(fields: [positionId], references: [id])
+
+  @@unique([employeeId, startDate])
+}
+
+model TimeOffPolicy {
+  id            Int         @id @default(autoincrement())
+  name          String      @unique
+  timeOffType   TimeOffType
+  accrualRate   Decimal     @db.Decimal(4, 2) // e.g., 0.04 hours per hour worked
+  maxRollover   Decimal     @db.Decimal(5, 2) // Maximum amount of time-off to the next cycle
+  policyDetails String?
+
+  balances       TimeOffBalance[]
+  TimeOffRequest TimeOffRequest[]
+}
+
+model TimeOffBalance {
+  id         Int @id @default(autoincrement())
+  policyId   Int
+  employeeId Int
+
+  accruedHours   Decimal @db.Decimal(5, 2)
+  usedHours      Decimal @db.Decimal(5, 2)
+  availableHours Decimal @db.Decimal(5, 2)
+
+  policy       TimeOffPolicy        @relation(fields: [policyId], references: [id])
+  employee     Employee             @relation(fields: [employeeId], references: [id])
+  transactions TimeOffTransaction[]
+
+  @@unique([employeeId, policyId])
+}
+
+model TimeOffRequest {
+  id         Int           @id @default(autoincrement())
+  employeeId Int
+  policyId   Int
+  approverId Int?
+  status     RequestStatus @default(PENDING)
+  startDate  DateTime
+  endDate    DateTime
+
+  employee    Employee            @relation(fields: [employeeId], references: [id])
+  policy      TimeOffPolicy       @relation(fields: [policyId], references: [id])
+  approver    Employee?           @relation("approvedTimeOffs", fields: [approverId], references: [id])
+  transaction TimeOffTransaction?
+}
+
+model TimeOffTransaction {
+  id               Int     @id @default(autoincrement())
+  timeOffBalanceId Int
+  requestId        Int?    @unique
+  amount           Decimal @db.Decimal(5, 2)
+
+  balance TimeOffBalance  @relation(fields: [timeOffBalanceId], references: [id])
+  request TimeOffRequest? @relation(fields: [requestId], references: [id])
+}
+
+model ReviewCycle {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  startDate DateTime
+  endDate   DateTime
+
+  reviews PerformanceReview[]
+}
+
+model PerformanceReview {
+  id         Int @id @default(autoincrement())
+  employeeId Int
+  reviewerId Int // Manager or peer
+  cycleId    Int
+
+  reviewDate DateTime
+  rating     Int? // e.g., 1-5 scale
+  summary    String?
+  goals      String? // Goals for the next cycle
+
+  employee Employee    @relation(fields: [employeeId], references: [id])
+  reviewer Employee    @relation("reviewedPerformances", fields: [reviewerId], references: [id])
+  cycle    ReviewCycle @relation(fields: [cycleId], references: [id])
+
+  @@unique([employeeId, cycleId])
+}
