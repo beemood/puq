@@ -9,8 +9,10 @@ datasource db {
 }
 
 model Industry {
-  id   Int    @id @default(autoincrement())
-  name String @unique
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  slug        String  @unique
+  description String?
 
   orgs OrgIndustry[]
 }
@@ -19,6 +21,7 @@ model Org {
   id   Int    @id @default(autoincrement())
   uuid String @default(uuid())
   name String @unique
+  slug String @unique
 
   agents     Agent[]
   industries OrgIndustry[]
@@ -35,19 +38,34 @@ model OrgIndustry {
   @@unique([orgId, industryId])
 }
 
-model Agent {
-  id          Int     @id @default(autoincrement())
-  orgId       Int?
-  firstName   String?
-  middleName  String?
-  lastName    String?
-  occupation  String?
-  gender      String?
-  phoneNumber String?
-  note        String?
+enum Gender {
+  MALE
+  FEMALE
+}
 
-  organization Org?      @relation(fields: [orgId], references: [id])
-  contacts     Contact[]
+model Occupation {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  description String?
+
+  agents Agent[]
+}
+
+model Agent {
+  id           Int     @id @default(autoincrement())
+  orgId        Int?
+  occupationId Int?
+  firstName    String
+  middleName   String?
+  lastName     String
+  gender       Gender?
+  slug         String  @unique
+
+  note String?
+
+  org        Org?        @relation(fields: [orgId], references: [id])
+  contacts   Contact[]
+  occupation Occupation? @relation(fields: [occupationId], references: [id])
 }
 
 enum ContactType {
@@ -57,56 +75,100 @@ enum ContactType {
 }
 
 model Contact {
-  id      Int    @id @default(autoincrement())
+  id      Int         @id @default(autoincrement())
   agentId Int
-  uuid    String @unique @default(uuid())
-  order   Int?
+  uuid    String      @unique @default(uuid())
+  type    ContactType
 
-  type ContactType
+  emails    Email[]
+  phones    Phone[]
+  addresses Address[]
+  websites  Website[]
+  agent     Agent     @relation(fields: [agentId], references: [id])
 
-  emails  Email[]
-  phones  Phone[]
-  address Address[]
-  website Website[]
-  agent   Agent     @relation(fields: [agentId], references: [id])
+  order Int?
+
+  @@unique([agentId, order])
 }
 
-model Email {
+model State {
   id        Int    @id @default(autoincrement())
-  contactId Int
-  order     Int?
-  email     String @unique
+  countryId Int
+  state     String
+  code      String
 
-  contact Contact @relation(fields: [contactId], references: [id])
+  country Country @relation(fields: [countryId], references: [id])
+  cities  City[]
 }
 
-model Phone {
-  id        Int    @id @default(autoincrement())
-  contactId Int
-  order     Int?
-  phone     String @unique
+model Country {
+  id      Int    @id @default(autoincrement())
+  country String
+  code    String
 
-  contact Contact @relation(fields: [contactId], references: [id])
+  states State[]
+}
+
+model City {
+  id      Int    @id @default(autoincrement())
+  stateId Int
+  city    String
+
+  state     State     @relation(fields: [stateId], references: [id])
+  addresses Address[]
 }
 
 model Address {
   id        Int    @id @default(autoincrement())
   contactId Int
-  order     Int?
+  cityId    Int
   street    String
-  city      String
-  state     String
-  country   String
   zip       String
 
+  city    City    @relation(fields: [cityId], references: [id])
   contact Contact @relation(fields: [contactId], references: [id])
+
+  order Int?
+
+  @@unique([contactId, order])
+  @@unique([contactId, cityId, street])
+}
+
+model Email {
+  id        Int    @id @default(autoincrement())
+  contactId Int
+  email     String
+
+  contact Contact @relation(fields: [contactId], references: [id])
+
+  order Int?
+
+  @@unique([contactId, order])
+  @@unique([contactId, email])
+}
+
+model Phone {
+  id        Int    @id @default(autoincrement())
+  contactId Int
+  phone     String
+
+  contact Contact @relation(fields: [contactId], references: [id])
+
+  order Int?
+
+  @@unique([contactId, order])
+  @@unique([contactId, phone])
 }
 
 model Website {
   id        Int    @id @default(autoincrement())
   contactId Int
-  order     Int?
-  url       String @unique
+  url       String
 
   contact Contact @relation(fields: [contactId], references: [id])
+
+  order Int?
+
+  @@unique([contactId, order])
+  @@unique([contactId, url])
 }

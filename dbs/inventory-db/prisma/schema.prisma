@@ -53,9 +53,9 @@ model Image {
 }
 
 model Supplier {
-  id                     Int    @id @default(autoincrement())
-  externalOrganizationId String @unique
-  productId              Int
+  id        Int    @id @default(autoincrement())
+  orgId     String @unique
+  productId Int
 
   supplierSku  String
   supplierCost Decimal?
@@ -214,6 +214,7 @@ model Store {
   priceLevelId Int
 
   name        String  @unique
+  slug        String  @unique
   description String?
 
   priceLevel    PriceLevel       @relation(fields: [priceLevelId], references: [id])
@@ -228,10 +229,6 @@ model WarrantyPolicy {
   description  String? // Full legal details or notes
   durationDays Int // The length of the warranty
 
-  // Link to the products/variants this policy applies to
   products Product[]
   variants Variant[]
-
-  // You might link this to the Manufacturer model if you have one
-  // manufacturerId    Int?
 }
