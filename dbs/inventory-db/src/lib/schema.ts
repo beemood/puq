@@ -424,21 +424,77 @@ export type VariantQuery = z.infer<typeof VariantQuerySchema>;
 
 
 
+// ---------- AttributeCategory Schemas ----------
+
+
+export const AttributeCategorySchema = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  slug: z.string(),
+});
+
+export const AttributeCategoryCreateSchema = z.object({
+  name: z.string(),
+  slug: z.string(),
+});
+
+export const AttributeCategoryUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  name: z.string().optional(),
+  slug: z.string().optional(),
+});
+
+export const AttributeCategoryWhereSchema = toWhereQuerySchema(AttributeCategorySchema);
+
+export const AttributeCategoryOrderSchema =  toOrderBySchema(AttributeCategorySchema);
+
+export const AttributeCategorySelectSchema = z.object({
+  id: z.boolean().optional(),
+  name: z.boolean().optional(),
+  slug: z.boolean().optional(),
+  attributes: z.boolean().optional(),
+});
+
+export const AttributeCategoryQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: AttributeCategoryWhereSchema.optional(),
+  orderBy: AttributeCategoryOrderSchema.optional(),
+  select: AttributeCategorySelectSchema.optional()
+});
+
+export type AttributeCategory = z.infer<typeof AttributeCategorySchema>;
+export type AttributeCategoryCreate = z.infer<typeof AttributeCategoryCreateSchema>;
+export type AttributeCategoryUpdate = z.infer<typeof AttributeCategoryUpdateSchema>;
+export type AttributeCategoryWhere = z.infer<typeof AttributeCategoryWhereSchema>;
+export type AttributeCategoryOrder = z.infer<typeof AttributeCategoryOrderSchema>;
+export type AttributeCategorySelect = z.infer<typeof AttributeCategorySelectSchema>;
+export type AttributeCategoryQuery = z.infer<typeof AttributeCategoryQuerySchema>;
+
+
+
+
 // ---------- Attribute Schemas ----------
 
 
 export const AttributeSchema = z.object({
   id: z.number().int(),
+  categoryId: z.number().int().nullish(),
   name: z.string(),
+  description: z.string().nullish(),
 });
 
 export const AttributeCreateSchema = z.object({
+  categoryId: z.number().int().nullish(),
   name: z.string(),
+  description: z.string().nullish(),
 });
 
 export const AttributeUpdateSchema = z.object({
   id: z.number().int().optional(),
+  categoryId: z.number().int().nullish().optional(),
   name: z.string().optional(),
+  description: z.string().nullish().optional(),
 });
 
 export const AttributeWhereSchema = toWhereQuerySchema(AttributeSchema);
@@ -447,7 +503,10 @@ export const AttributeOrderSchema =  toOrderBySchema(AttributeSchema);
 
 export const AttributeSelectSchema = z.object({
   id: z.boolean().optional(),
+  categoryId: z.boolean().optional(),
   name: z.boolean().optional(),
+  description: z.boolean().optional(),
+  category: z.boolean().optional(),
   attributeUnits: z.boolean().optional(),
 });
 
@@ -476,15 +535,18 @@ export type AttributeQuery = z.infer<typeof AttributeQuerySchema>;
 export const UnitSchema = z.object({
   id: z.number().int(),
   name: z.string(),
+  symbol: z.string(),
 });
 
 export const UnitCreateSchema = z.object({
   name: z.string(),
+  symbol: z.string(),
 });
 
 export const UnitUpdateSchema = z.object({
   id: z.number().int().optional(),
   name: z.string().optional(),
+  symbol: z.string().optional(),
 });
 
 export const UnitWhereSchema = toWhereQuerySchema(UnitSchema);
@@ -494,8 +556,9 @@ export const UnitOrderSchema =  toOrderBySchema(UnitSchema);
 export const UnitSelectSchema = z.object({
   id: z.boolean().optional(),
   name: z.boolean().optional(),
+  symbol: z.boolean().optional(),
   attributeUnits: z.boolean().optional(),
-  AttributeValue: z.boolean().optional(),
+  attributeValues: z.boolean().optional(),
 });
 
 export const UnitQuerySchema = z.object({

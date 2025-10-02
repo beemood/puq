@@ -56,15 +56,6 @@ model Supplier {
   product Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
-model PaymentTerm {
-  id              Int     @id @default(autoincrement())
-  code            String  @unique // e.g., "NET30", "2/10NET30"
-  description     String // e.g., "Net amount due 30 days after invoice date"
-  daysDue         Int // e.g., 30
-  discountDays    Int // e.g., 10 (for "2/10")
-  discountPercent Decimal // e.g., 0.02 (for "2/10")
-}
-
 model ProductCategory {
   id         Int @id @default(autoincrement())
   productId  Int
@@ -91,18 +82,31 @@ model Variant {
   warranty       WarrantyPolicy?  @relation(fields: [warrantyId], references: [id])
 }
 
+model AttributeCategory {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  slug String @unique
+
+  attributes Attribute[]
+}
+
 model Attribute {
-  id             Int             @id @default(autoincrement())
-  name           String          @unique
+  id          Int     @id @default(autoincrement())
+  categoryId  Int?
+  name        String  @unique
+  description String?
+
+  category       AttributeCategory? @relation(fields: [categoryId], references: [id])
   attributeUnits AttributeUnit[]
 }
 
 model Unit {
-  id   Int    @id @default(autoincrement())
-  name String @unique
+  id     Int    @id @default(autoincrement())
+  name   String @unique
+  symbol String
 
-  attributeUnits AttributeUnit[]
-  AttributeValue AttributeValue[]
+  attributeUnits  AttributeUnit[]
+  attributeValues AttributeValue[]
 }
 
 model AttributeUnit {

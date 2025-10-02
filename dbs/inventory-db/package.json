@@ -34,7 +34,12 @@
   },
   "exports": {
     "./package.json": "./package.json",
-    "./zod": "./dist",
+    "./zod": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "node": "./dist/index.js"
+      }
+    },
     "./client": {
       "require": {
         "node": "./generated/index.js",
