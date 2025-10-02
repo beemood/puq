@@ -138,7 +138,7 @@ model QuantityMoveRequest {
   targetId      Int
   requestedById Int
   approvedById  Int?
-  quantity      Int?
+  quantity      Int
   reason        String        @default("Not mentioned")
   status        RequestStatus @default(PENDING)
 
@@ -179,7 +179,7 @@ model Employee {
 
   itemRequesters         EmployeeItemRequest[] @relation("itemRequesters")
   itemApprovers          EmployeeItemRequest[] @relation("itemApprovers")
-  roomRequestors         EmployeeRoomRequest[] @relation("roomRequesters")
+  roomRequesters         EmployeeRoomRequest[] @relation("roomRequesters")
   roomApprovers          EmployeeRoomRequest[] @relation("roomApprovers")
   serialMoveRequesters   SerialMoveRequest[]   @relation("serialMoveRequesters")
   serialMoveApprovers    SerialMoveRequest[]   @relation("serialMoveApprovers")
