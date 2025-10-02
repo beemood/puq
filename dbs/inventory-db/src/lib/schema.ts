@@ -189,7 +189,7 @@ export type ImageQuery = z.infer<typeof ImageQuerySchema>;
 export const SupplierSchema = z.object({
   id: z.number().int(),
   orgId: z.string(),
-  productId: z.number().int(),
+  productId: z.number().int().nullish(),
   supplierSku: z.string(),
   supplierCost: z.number().nullish(),
   leadTimeDays: z.number().int().nullish(),
@@ -197,7 +197,7 @@ export const SupplierSchema = z.object({
 
 export const SupplierCreateSchema = z.object({
   orgId: z.string(),
-  productId: z.number().int(),
+  productId: z.number().int().nullish(),
   supplierSku: z.string(),
   supplierCost: z.number().nullish(),
   leadTimeDays: z.number().int().nullish(),
@@ -206,7 +206,7 @@ export const SupplierCreateSchema = z.object({
 export const SupplierUpdateSchema = z.object({
   id: z.number().int().optional(),
   orgId: z.string().optional(),
-  productId: z.number().int().optional(),
+  productId: z.number().int().nullish().optional(),
   supplierSku: z.string().optional(),
   supplierCost: z.number().nullish().optional(),
   leadTimeDays: z.number().int().nullish().optional(),
@@ -430,18 +430,15 @@ export type VariantQuery = z.infer<typeof VariantQuerySchema>;
 export const AttributeSchema = z.object({
   id: z.number().int(),
   name: z.string(),
-  unit: z.string(),
 });
 
 export const AttributeCreateSchema = z.object({
   name: z.string(),
-  unit: z.string(),
 });
 
 export const AttributeUpdateSchema = z.object({
   id: z.number().int().optional(),
   name: z.string().optional(),
-  unit: z.string().optional(),
 });
 
 export const AttributeWhereSchema = toWhereQuerySchema(AttributeSchema);
@@ -451,8 +448,7 @@ export const AttributeOrderSchema =  toOrderBySchema(AttributeSchema);
 export const AttributeSelectSchema = z.object({
   id: z.boolean().optional(),
   name: z.boolean().optional(),
-  unit: z.boolean().optional(),
-  values: z.boolean().optional(),
+  attributeUnits: z.boolean().optional(),
 });
 
 export const AttributeQuerySchema = z.object({
@@ -474,27 +470,131 @@ export type AttributeQuery = z.infer<typeof AttributeQuerySchema>;
 
 
 
+// ---------- Unit Schemas ----------
+
+
+export const UnitSchema = z.object({
+  id: z.number().int(),
+  name: z.string(),
+});
+
+export const UnitCreateSchema = z.object({
+  name: z.string(),
+});
+
+export const UnitUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  name: z.string().optional(),
+});
+
+export const UnitWhereSchema = toWhereQuerySchema(UnitSchema);
+
+export const UnitOrderSchema =  toOrderBySchema(UnitSchema);
+
+export const UnitSelectSchema = z.object({
+  id: z.boolean().optional(),
+  name: z.boolean().optional(),
+  attributeUnits: z.boolean().optional(),
+  AttributeValue: z.boolean().optional(),
+});
+
+export const UnitQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: UnitWhereSchema.optional(),
+  orderBy: UnitOrderSchema.optional(),
+  select: UnitSelectSchema.optional()
+});
+
+export type Unit = z.infer<typeof UnitSchema>;
+export type UnitCreate = z.infer<typeof UnitCreateSchema>;
+export type UnitUpdate = z.infer<typeof UnitUpdateSchema>;
+export type UnitWhere = z.infer<typeof UnitWhereSchema>;
+export type UnitOrder = z.infer<typeof UnitOrderSchema>;
+export type UnitSelect = z.infer<typeof UnitSelectSchema>;
+export type UnitQuery = z.infer<typeof UnitQuerySchema>;
+
+
+
+
+// ---------- AttributeUnit Schemas ----------
+
+
+export const AttributeUnitSchema = z.object({
+  id: z.number().int(),
+  attributeId: z.number().int(),
+  unitId: z.number().int(),
+});
+
+export const AttributeUnitCreateSchema = z.object({
+  attributeId: z.number().int(),
+  unitId: z.number().int(),
+});
+
+export const AttributeUnitUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  attributeId: z.number().int().optional(),
+  unitId: z.number().int().optional(),
+});
+
+export const AttributeUnitWhereSchema = toWhereQuerySchema(AttributeUnitSchema);
+
+export const AttributeUnitOrderSchema =  toOrderBySchema(AttributeUnitSchema);
+
+export const AttributeUnitSelectSchema = z.object({
+  id: z.boolean().optional(),
+  attributeId: z.boolean().optional(),
+  unitId: z.boolean().optional(),
+  attribute: z.boolean().optional(),
+  unit: z.boolean().optional(),
+});
+
+export const AttributeUnitQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: AttributeUnitWhereSchema.optional(),
+  orderBy: AttributeUnitOrderSchema.optional(),
+  select: AttributeUnitSelectSchema.optional()
+});
+
+export type AttributeUnit = z.infer<typeof AttributeUnitSchema>;
+export type AttributeUnitCreate = z.infer<typeof AttributeUnitCreateSchema>;
+export type AttributeUnitUpdate = z.infer<typeof AttributeUnitUpdateSchema>;
+export type AttributeUnitWhere = z.infer<typeof AttributeUnitWhereSchema>;
+export type AttributeUnitOrder = z.infer<typeof AttributeUnitOrderSchema>;
+export type AttributeUnitSelect = z.infer<typeof AttributeUnitSelectSchema>;
+export type AttributeUnitQuery = z.infer<typeof AttributeUnitQuerySchema>;
+
+
+
+
 // ---------- AttributeValue Schemas ----------
 
 
 export const AttributeValueSchema = z.object({
   id: z.number().int(),
+  unitId: z.number().int().nullish(),
   variantId: z.number().int(),
-  attributeId: z.number().int(),
-  value: z.string(),
+  textValue: z.string().nullish(),
+  booleanValue: z.boolean().nullish(),
+  floatValue: z.number().nullish(),
 });
 
 export const AttributeValueCreateSchema = z.object({
+  unitId: z.number().int().nullish(),
   variantId: z.number().int(),
-  attributeId: z.number().int(),
-  value: z.string(),
+  textValue: z.string().nullish(),
+  booleanValue: z.boolean().nullish(),
+  floatValue: z.number().nullish(),
 });
 
 export const AttributeValueUpdateSchema = z.object({
   id: z.number().int().optional(),
+  unitId: z.number().int().nullish().optional(),
   variantId: z.number().int().optional(),
-  attributeId: z.number().int().optional(),
-  value: z.string().optional(),
+  textValue: z.string().nullish().optional(),
+  booleanValue: z.boolean().nullish().optional(),
+  floatValue: z.number().nullish().optional(),
 });
 
 export const AttributeValueWhereSchema = toWhereQuerySchema(AttributeValueSchema);
@@ -503,11 +603,13 @@ export const AttributeValueOrderSchema =  toOrderBySchema(AttributeValueSchema);
 
 export const AttributeValueSelectSchema = z.object({
   id: z.boolean().optional(),
-  variant: z.boolean().optional(),
+  unitId: z.boolean().optional(),
   variantId: z.boolean().optional(),
-  attribute: z.boolean().optional(),
-  attributeId: z.boolean().optional(),
-  value: z.boolean().optional(),
+  textValue: z.boolean().optional(),
+  booleanValue: z.boolean().optional(),
+  floatValue: z.boolean().optional(),
+  variant: z.boolean().optional(),
+  unit: z.boolean().optional(),
 });
 
 export const AttributeValueQuerySchema = z.object({
@@ -535,15 +637,18 @@ export type AttributeValueQuery = z.infer<typeof AttributeValueQuerySchema>;
 export const CurrencySchema = z.object({
   id: z.number().int(),
   name: z.string(),
+  code: z.string(),
 });
 
 export const CurrencyCreateSchema = z.object({
   name: z.string(),
+  code: z.string(),
 });
 
 export const CurrencyUpdateSchema = z.object({
   id: z.number().int().optional(),
   name: z.string().optional(),
+  code: z.string().optional(),
 });
 
 export const CurrencyWhereSchema = toWhereQuerySchema(CurrencySchema);
@@ -553,6 +658,7 @@ export const CurrencyOrderSchema =  toOrderBySchema(CurrencySchema);
 export const CurrencySelectSchema = z.object({
   id: z.boolean().optional(),
   name: z.boolean().optional(),
+  code: z.boolean().optional(),
   priceLevels: z.boolean().optional(),
 });
 
@@ -582,20 +688,26 @@ export const PriceLevelSchema = z.object({
   id: z.number().int(),
   currencyId: z.number().int(),
   name: z.string(),
+  slug: z.string(),
   taxrate: z.number(),
+  notes: z.string().nullish(),
 });
 
 export const PriceLevelCreateSchema = z.object({
   currencyId: z.number().int(),
   name: z.string(),
+  slug: z.string(),
   taxrate: z.number(),
+  notes: z.string().nullish(),
 });
 
 export const PriceLevelUpdateSchema = z.object({
   id: z.number().int().optional(),
   currencyId: z.number().int().optional(),
   name: z.string().optional(),
+  slug: z.string().optional(),
   taxrate: z.number().optional(),
+  notes: z.string().nullish().optional(),
 });
 
 export const PriceLevelWhereSchema = toWhereQuerySchema(PriceLevelSchema);
@@ -606,7 +718,9 @@ export const PriceLevelSelectSchema = z.object({
   id: z.boolean().optional(),
   currencyId: z.boolean().optional(),
   name: z.boolean().optional(),
+  slug: z.boolean().optional(),
   taxrate: z.boolean().optional(),
+  notes: z.boolean().optional(),
   currency: z.boolean().optional(),
   stores: z.boolean().optional(),
   prices: z.boolean().optional(),

@@ -46,15 +46,14 @@ model Image {
 }
 
 model Supplier {
-  id        Int    @id @default(autoincrement())
-  orgId     String @unique
-  productId Int
-
+  id           Int      @id @default(autoincrement())
+  orgId        String   @unique
+  productId    Int?
   supplierSku  String
   supplierCost Decimal?
   leadTimeDays Int?
 
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model PaymentTerm {
@@ -93,41 +92,64 @@ model Variant {
 }
 
 model Attribute {
-  id   Int    @id @default(autoincrement())
-  name String
-  unit String
+  id             Int             @id @default(autoincrement())
+  name           String          @unique
+  attributeUnits AttributeUnit[]
+}
 
-  values AttributeValue[]
+model Unit {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  attributeUnits AttributeUnit[]
+  AttributeValue AttributeValue[]
+}
+
+model AttributeUnit {
+  id          Int @id @default(autoincrement())
+  attributeId Int
+  unitId      Int
+
+  attribute Attribute @relation(fields: [attributeId], references: [id])
+  unit      Unit      @relation(fields: [unitId], references: [id])
 }
 
 model AttributeValue {
-  id Int @id @default(autoincrement())
+  id           Int      @id @default(autoincrement())
+  unitId       Int?
+  variantId    Int
+  textValue    String?
+  booleanValue Boolean?
+  floatValue   Float?
 
-  variant   Variant @relation(fields: [variantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  variantId Int
-
-  attribute   Attribute @relation(fields: [attributeId], references: [id])
-  attributeId Int
-
-  value String
+  variant Variant @relation(fields: [variantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  unit    Unit?   @relation(fields: [unitId], references: [id])
 }
 
 model Currency {
-  id          Int          @id @default(autoincrement())
-  name        String       @unique
+  id   Int    @id @default(autoincrement())
+  name String
+  code String
+
   priceLevels PriceLevel[]
+
+  @@unique([name, code])
 }
 
 model PriceLevel {
   id         Int     @id @default(autoincrement())
   currencyId Int
-  name       String  @unique
-  taxrate    Decimal
+  name       String
+  slug       String
+  taxrate    Decimal @db.Decimal(10, 4)
+  notes      String?
 
   currency  Currency         @relation(fields: [currencyId], references: [id])
   stores    Store[]
   prices    Price[]
   discounts DiscountTarget[]
+
+  @@unique([name, slug])
 }
 
 model Price {
