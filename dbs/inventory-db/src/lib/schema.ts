@@ -3,77 +3,27 @@ import { toOrderBySchema, toWhereQuerySchema } from '@puq/zod';
 import {z} from 'zod';
     
 
-// ---------- Department Schemas ----------
-
-
-export const DepartmentSchema = z.object({
-  id: z.number().int(),
-  name: z.string(),
-  slug: z.string(),
-});
-
-export const DepartmentCreateSchema = z.object({
-  name: z.string(),
-  slug: z.string(),
-});
-
-export const DepartmentUpdateSchema = z.object({
-  id: z.number().int().optional(),
-  name: z.string().optional(),
-  slug: z.string().optional(),
-});
-
-export const DepartmentWhereSchema = toWhereQuerySchema(DepartmentSchema);
-
-export const DepartmentOrderSchema =  toOrderBySchema(DepartmentSchema);
-
-export const DepartmentSelectSchema = z.object({
-  id: z.boolean().optional(),
-  name: z.boolean().optional(),
-  slug: z.boolean().optional(),
-  categories: z.boolean().optional(),
-});
-
-export const DepartmentQuerySchema = z.object({
-  take: z.coerce.number().int().min(1), 
-  skip: z.coerce.number().int().min(0), 
-  where: DepartmentWhereSchema.optional(),
-  orderBy: DepartmentOrderSchema.optional(),
-  select: DepartmentSelectSchema.optional()
-});
-
-export type Department = z.infer<typeof DepartmentSchema>;
-export type DepartmentCreate = z.infer<typeof DepartmentCreateSchema>;
-export type DepartmentUpdate = z.infer<typeof DepartmentUpdateSchema>;
-export type DepartmentWhere = z.infer<typeof DepartmentWhereSchema>;
-export type DepartmentOrder = z.infer<typeof DepartmentOrderSchema>;
-export type DepartmentSelect = z.infer<typeof DepartmentSelectSchema>;
-export type DepartmentQuery = z.infer<typeof DepartmentQuerySchema>;
-
-
-
-
 // ---------- Category Schemas ----------
 
 
 export const CategorySchema = z.object({
   id: z.number().int(),
+  parentId: z.number().int().nullish(),
   name: z.string(),
   slug: z.string(),
-  departmentId: z.number().int().nullish(),
 });
 
 export const CategoryCreateSchema = z.object({
+  parentId: z.number().int().nullish(),
   name: z.string(),
   slug: z.string(),
-  departmentId: z.number().int().nullish(),
 });
 
 export const CategoryUpdateSchema = z.object({
   id: z.number().int().optional(),
+  parentId: z.number().int().nullish().optional(),
   name: z.string().optional(),
   slug: z.string().optional(),
-  departmentId: z.number().int().nullish().optional(),
 });
 
 export const CategoryWhereSchema = toWhereQuerySchema(CategorySchema);
@@ -82,11 +32,12 @@ export const CategoryOrderSchema =  toOrderBySchema(CategorySchema);
 
 export const CategorySelectSchema = z.object({
   id: z.boolean().optional(),
+  parentId: z.boolean().optional(),
   name: z.boolean().optional(),
   slug: z.boolean().optional(),
-  departmentId: z.boolean().optional(),
-  department: z.boolean().optional(),
-  categories: z.boolean().optional(),
+  parent: z.boolean().optional(),
+  children: z.boolean().optional(),
+  products: z.boolean().optional(),
 });
 
 export const CategoryQuerySchema = z.object({
@@ -237,21 +188,28 @@ export type ImageQuery = z.infer<typeof ImageQuerySchema>;
 
 export const SupplierSchema = z.object({
   id: z.number().int(),
-  paymentTermId: z.number().int().nullish(),
-  uuid: z.string(),
-  name: z.string(),
+  orgId: z.string(),
+  productId: z.number().int(),
+  supplierSku: z.string(),
+  supplierCost: z.number().nullish(),
+  leadTimeDays: z.number().int().nullish(),
 });
 
 export const SupplierCreateSchema = z.object({
-  paymentTermId: z.number().int().nullish(),
-  name: z.string(),
+  orgId: z.string(),
+  productId: z.number().int(),
+  supplierSku: z.string(),
+  supplierCost: z.number().nullish(),
+  leadTimeDays: z.number().int().nullish(),
 });
 
 export const SupplierUpdateSchema = z.object({
   id: z.number().int().optional(),
-  paymentTermId: z.number().int().nullish().optional(),
-  uuid: z.string().optional(),
-  name: z.string().optional(),
+  orgId: z.string().optional(),
+  productId: z.number().int().optional(),
+  supplierSku: z.string().optional(),
+  supplierCost: z.number().nullish().optional(),
+  leadTimeDays: z.number().int().nullish().optional(),
 });
 
 export const SupplierWhereSchema = toWhereQuerySchema(SupplierSchema);
@@ -260,12 +218,12 @@ export const SupplierOrderSchema =  toOrderBySchema(SupplierSchema);
 
 export const SupplierSelectSchema = z.object({
   id: z.boolean().optional(),
-  paymentTermId: z.boolean().optional(),
-  uuid: z.boolean().optional(),
-  name: z.boolean().optional(),
-  products: z.boolean().optional(),
-  contacts: z.boolean().optional(),
-  paymentTerm: z.boolean().optional(),
+  orgId: z.boolean().optional(),
+  productId: z.boolean().optional(),
+  supplierSku: z.boolean().optional(),
+  supplierCost: z.boolean().optional(),
+  leadTimeDays: z.boolean().optional(),
+  product: z.boolean().optional(),
 });
 
 export const SupplierQuerySchema = z.object({
@@ -283,119 +241,6 @@ export type SupplierWhere = z.infer<typeof SupplierWhereSchema>;
 export type SupplierOrder = z.infer<typeof SupplierOrderSchema>;
 export type SupplierSelect = z.infer<typeof SupplierSelectSchema>;
 export type SupplierQuery = z.infer<typeof SupplierQuerySchema>;
-
-
-
-
-// ---------- ProductSupplier Schemas ----------
-
-
-export const ProductSupplierSchema = z.object({
-  id: z.number().int(),
-  productId: z.number().int(),
-  supplierId: z.number().int(),
-  supplierSku: z.string(),
-  supplierCost: z.number().nullish(),
-  leadTimeDays: z.number().int().nullish(),
-});
-
-export const ProductSupplierCreateSchema = z.object({
-  productId: z.number().int(),
-  supplierId: z.number().int(),
-  supplierSku: z.string(),
-  supplierCost: z.number().nullish(),
-  leadTimeDays: z.number().int().nullish(),
-});
-
-export const ProductSupplierUpdateSchema = z.object({
-  id: z.number().int().optional(),
-  productId: z.number().int().optional(),
-  supplierId: z.number().int().optional(),
-  supplierSku: z.string().optional(),
-  supplierCost: z.number().nullish().optional(),
-  leadTimeDays: z.number().int().nullish().optional(),
-});
-
-export const ProductSupplierWhereSchema = toWhereQuerySchema(ProductSupplierSchema);
-
-export const ProductSupplierOrderSchema =  toOrderBySchema(ProductSupplierSchema);
-
-export const ProductSupplierSelectSchema = z.object({
-  id: z.boolean().optional(),
-  productId: z.boolean().optional(),
-  supplierId: z.boolean().optional(),
-  supplierSku: z.boolean().optional(),
-  supplierCost: z.boolean().optional(),
-  leadTimeDays: z.boolean().optional(),
-  product: z.boolean().optional(),
-  supplier: z.boolean().optional(),
-});
-
-export const ProductSupplierQuerySchema = z.object({
-  take: z.coerce.number().int().min(1), 
-  skip: z.coerce.number().int().min(0), 
-  where: ProductSupplierWhereSchema.optional(),
-  orderBy: ProductSupplierOrderSchema.optional(),
-  select: ProductSupplierSelectSchema.optional()
-});
-
-export type ProductSupplier = z.infer<typeof ProductSupplierSchema>;
-export type ProductSupplierCreate = z.infer<typeof ProductSupplierCreateSchema>;
-export type ProductSupplierUpdate = z.infer<typeof ProductSupplierUpdateSchema>;
-export type ProductSupplierWhere = z.infer<typeof ProductSupplierWhereSchema>;
-export type ProductSupplierOrder = z.infer<typeof ProductSupplierOrderSchema>;
-export type ProductSupplierSelect = z.infer<typeof ProductSupplierSelectSchema>;
-export type ProductSupplierQuery = z.infer<typeof ProductSupplierQuerySchema>;
-
-
-
-
-// ---------- SupplierContact Schemas ----------
-
-
-export const SupplierContactSchema = z.object({
-  id: z.number().int(),
-  supplierId: z.number().int(),
-  externalContactId: z.string(),
-});
-
-export const SupplierContactCreateSchema = z.object({
-  supplierId: z.number().int(),
-  externalContactId: z.string(),
-});
-
-export const SupplierContactUpdateSchema = z.object({
-  id: z.number().int().optional(),
-  supplierId: z.number().int().optional(),
-  externalContactId: z.string().optional(),
-});
-
-export const SupplierContactWhereSchema = toWhereQuerySchema(SupplierContactSchema);
-
-export const SupplierContactOrderSchema =  toOrderBySchema(SupplierContactSchema);
-
-export const SupplierContactSelectSchema = z.object({
-  id: z.boolean().optional(),
-  supplierId: z.boolean().optional(),
-  externalContactId: z.boolean().optional(),
-  supplier: z.boolean().optional(),
-});
-
-export const SupplierContactQuerySchema = z.object({
-  take: z.coerce.number().int().min(1), 
-  skip: z.coerce.number().int().min(0), 
-  where: SupplierContactWhereSchema.optional(),
-  orderBy: SupplierContactOrderSchema.optional(),
-  select: SupplierContactSelectSchema.optional()
-});
-
-export type SupplierContact = z.infer<typeof SupplierContactSchema>;
-export type SupplierContactCreate = z.infer<typeof SupplierContactCreateSchema>;
-export type SupplierContactUpdate = z.infer<typeof SupplierContactUpdateSchema>;
-export type SupplierContactWhere = z.infer<typeof SupplierContactWhereSchema>;
-export type SupplierContactOrder = z.infer<typeof SupplierContactOrderSchema>;
-export type SupplierContactSelect = z.infer<typeof SupplierContactSelectSchema>;
-export type SupplierContactQuery = z.infer<typeof SupplierContactQuerySchema>;
 
 
 
@@ -440,7 +285,6 @@ export const PaymentTermSelectSchema = z.object({
   daysDue: z.boolean().optional(),
   discountDays: z.boolean().optional(),
   discountPercent: z.boolean().optional(),
-  suppliers: z.boolean().optional(),
 });
 
 export const PaymentTermQuerySchema = z.object({
@@ -1112,12 +956,14 @@ export const StoreSchema = z.object({
   id: z.number().int(),
   priceLevelId: z.number().int(),
   name: z.string(),
+  slug: z.string(),
   description: z.string().nullish(),
 });
 
 export const StoreCreateSchema = z.object({
   priceLevelId: z.number().int(),
   name: z.string(),
+  slug: z.string(),
   description: z.string().nullish(),
 });
 
@@ -1125,6 +971,7 @@ export const StoreUpdateSchema = z.object({
   id: z.number().int().optional(),
   priceLevelId: z.number().int().optional(),
   name: z.string().optional(),
+  slug: z.string().optional(),
   description: z.string().nullish().optional(),
 });
 
@@ -1136,6 +983,7 @@ export const StoreSelectSchema = z.object({
   id: z.boolean().optional(),
   priceLevelId: z.boolean().optional(),
   name: z.boolean().optional(),
+  slug: z.boolean().optional(),
   description: z.boolean().optional(),
   priceLevel: z.boolean().optional(),
   quantities: z.boolean().optional(),
