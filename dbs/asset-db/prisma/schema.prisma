@@ -15,14 +15,6 @@ enum RequestStatus {
   CANCELED
 }
 
-model Building {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-  code String @unique
-
-  rooms Room[]
-}
-
 model RoomAttribute {
   id     Int                  @id @default(autoincrement())
   name   String               @unique
@@ -59,20 +51,6 @@ model ItemAttributeValue {
   @@unique([itemId, attributeId])
 }
 
-model Room {
-  id         Int    @id @default(autoincrement())
-  buildingId Int
-  code       String
-  floor      Int    @default(0)
-
-  building   Building             @relation(fields: [buildingId], references: [id])
-  attributes RoomAttributeValue[]
-  quantities Quantity[]
-  serials    SerialNumber[]
-
-  @@unique([buildingId, code])
-}
-
 model Category {
   id       Int    @id @default(autoincrement())
   parentId Int?
@@ -83,9 +61,33 @@ model Category {
   items    Item[]
 }
 
+model Building {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  code String @unique
+
+  rooms Room[]
+}
+
+model Room {
+  id         Int    @id @default(autoincrement())
+  uuid       String @unique @default(uuid())
+  buildingId Int
+  name       String
+  code       String @unique
+  floor      Int    @default(0)
+
+  building             Building              @relation(fields: [buildingId], references: [id])
+  attributes           RoomAttributeValue[]
+  quantities           Quantity[]
+  serials              SerialNumber[]
+  employeeRooms        EmployeeRoom[]
+  employeeRoomRequests EmployeeRoomRequest[]
+}
+
 model Item {
   id               Int    @id @default(autoincrement())
-  itemId           String @unique @default(uuid())
+  uuid             String @unique @default(uuid())
   categoryId       Int?
   name             String @unique
   description      String @default("")
@@ -107,14 +109,15 @@ model Quantity {
   item Item @relation(fields: [itemId], references: [id])
   room Room @relation(fields: [roomId], references: [id])
 
-  sources  QuantityMoveRequest[] @relation("sources")
-  taragets QuantityMoveRequest[] @relation("targets")
+  quantityMoveSources QuantityMoveRequest[] @relation("quantityMoveSources")
+  quantityMoveTargets QuantityMoveRequest[] @relation("quantityMoveTargets")
 
   @@unique([roomId, itemId])
 }
 
 model SerialNumber {
   id           Int    @id @default(autoincrement())
+  uuid         String @unique @default(uuid())
   serialNumber String @unique
   itemId       Int
   roomId       Int
@@ -122,33 +125,121 @@ model SerialNumber {
   item Item @relation(fields: [itemId], references: [id])
   room Room @relation(fields: [roomId], references: [id])
 
-  targets SerialMoveRequest[] @relation("targets")
-  sources SerialMoveRequest[] @relation("sources")
+  serialMoveSources SerialMoveRequest[] @relation("serialMoveSources")
+  serialMoveTargets SerialMoveRequest[] @relation("serialMoveTargets")
+
+  employeeItemRequests EmployeeItemRequest[]
+  EmployeeItem         EmployeeItem[]
 }
 
 model QuantityMoveRequest {
-  id          Int           @id @default(autoincrement())
-  sourceId    Int
-  targetId    Int
-  quantity    Int
-  reason      String        @default("Not mentioned")
-  status      RequestStatus @default(PENDING)
-  requestedBy String
-  approvedBy  String?
+  id            Int           @id @default(autoincrement())
+  sourceId      Int
+  targetId      Int
+  requestedById Int
+  approvedById  Int?
+  quantity      Int?
+  reason        String        @default("Not mentioned")
+  status        RequestStatus @default(PENDING)
 
-  source Quantity @relation("sources", fields: [sourceId], references: [id])
-  target Quantity @relation("targets", fields: [targetId], references: [id])
+  requestedAt DateTime  @default(now())
+  approvedAt  DateTime?
+
+  source Quantity @relation("quantityMoveSources", fields: [sourceId], references: [id])
+  target Quantity @relation("quantityMoveTargets", fields: [targetId], references: [id])
+
+  requestedBy Employee  @relation("quantityMoveRequesters", fields: [requestedById], references: [id])
+  approvedBy  Employee? @relation("quantityMoveApprovers", fields: [approvedById], references: [id])
 }
 
 model SerialMoveRequest {
-  id          Int           @id @default(autoincrement())
-  sourceId    Int
-  targetId    Int
-  reason      String        @default("Not mentioned")
-  status      RequestStatus @default(PENDING)
-  requestedBy String
-  approvedBy  String?
+  id            Int           @id @default(autoincrement())
+  sourceId      Int
+  targetId      Int
+  requestedById Int
+  approvedById  Int?
+  reason        String        @default("Not mentioned")
+  status        RequestStatus @default(PENDING)
+  requestedAt   DateTime      @default(now())
+  approvedAt    DateTime?
 
-  source SerialNumber @relation("sources", fields: [sourceId], references: [id])
-  target SerialNumber @relation("targets", fields: [targetId], references: [id])
+  source SerialNumber @relation("serialMoveSources", fields: [sourceId], references: [id])
+  target SerialNumber @relation("serialMoveTargets", fields: [targetId], references: [id])
+
+  requestedBy Employee  @relation("serialMoveRequesters", fields: [requestedById], references: [id])
+  approvedBy  Employee? @relation("serialMoveApprovers", fields: [approvedById], references: [id])
+}
+
+model Employee {
+  id   Int    @id @default(autoincrement())
+  uuid String @unique
+
+  rooms EmployeeRoom[]
+  items EmployeeItem[]
+
+  itemRequesters         EmployeeItemRequest[] @relation("itemRequesters")
+  itemApprovers          EmployeeItemRequest[] @relation("itemApprovers")
+  roomRequestors         EmployeeRoomRequest[] @relation("roomRequesters")
+  roomApprovers          EmployeeRoomRequest[] @relation("roomApprovers")
+  serialMoveRequesters   SerialMoveRequest[]   @relation("serialMoveRequesters")
+  serialMoveApprovers    SerialMoveRequest[]   @relation("serialMoveApprovers")
+  quantityMoveRequesters QuantityMoveRequest[] @relation("quantityMoveRequesters")
+  quantityMoveApprovers  QuantityMoveRequest[] @relation("quantityMoveApprovers")
+}
+
+model EmployeeRoom {
+  id         Int       @id @default(autoincrement())
+  employeeId Int
+  roomId     Int
+  givenAt    DateTime  @default(now())
+  takenAt    DateTime?
+
+  room     Room     @relation(fields: [roomId], references: [id])
+  employee Employee @relation(fields: [employeeId], references: [id])
+
+  @@unique([roomId, givenAt])
+}
+
+model EmployeeItem {
+  id             Int @id @default(autoincrement())
+  employeeId     Int
+  serialNumberId Int
+
+  givenAt DateTime  @default(now())
+  takenAt DateTime?
+
+  serialNumber SerialNumber @relation(fields: [serialNumberId], references: [id])
+  employee     Employee     @relation(fields: [employeeId], references: [id])
+
+  @@unique([employeeId, serialNumberId, givenAt])
+}
+
+model EmployeeRoomRequest {
+  id            Int           @id @default(autoincrement())
+  roomId        Int?
+  requestedById Int
+  approvedById  Int?
+  requestedAt   DateTime      @default(now())
+  approvedAt    DateTime?
+  status        RequestStatus @default(PENDING)
+  note          String        @default("")
+
+  room        Room?     @relation(fields: [roomId], references: [id])
+  requestedBy Employee  @relation("roomRequesters", fields: [requestedById], references: [id])
+  approvedBy  Employee? @relation("roomApprovers", fields: [approvedById], references: [id])
+}
+
+model EmployeeItemRequest {
+  id             Int           @id @default(autoincrement())
+  requestedById  Int
+  approvedById   Int?
+  requestedAt    DateTime      @default(now())
+  approvedAt     DateTime?
+  serialNumberId Int?
+  status         RequestStatus @default(PENDING)
+  note           String        @default("")
+
+  serialNumber SerialNumber? @relation(fields: [serialNumberId], references: [id])
+  requestedBy  Employee      @relation("itemRequesters", fields: [requestedById], references: [id])
+  approvedBy   Employee?     @relation("itemApprovers", fields: [approvedById], references: [id])
 }
