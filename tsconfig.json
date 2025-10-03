@@ -50,6 +50,9 @@
     },
     {
       "path": "./dbs/asset-db"
+    },
+    {
+      "path": "./libs/barcode"
     }
   ]
 }

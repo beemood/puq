@@ -1,14 +1,14 @@
 import * as Zod from '@puq/inventory-db/zod';
+import { slugify } from '@puq/names';
 import { assert } from 'console';
 import { client } from '../common/client.mjs';
 import { data } from './data.mjs';
-
 /**
  *
  * @param {Zod.ProductCreate} product
  */
 async function create(product) {
-  const data = Zod.CurrencyCreateSchema.parse(product);
+  const data = Zod.ProductCreateSchema.parse(product);
   try {
     await client.product.create({ data });
   } catch (err) {
@@ -18,7 +18,11 @@ async function create(product) {
 
 export async function seedProducts() {
   for (const c of data) {
-    await create(c);
+    await create({
+      name: c.name,
+      description: c.description,
+      slug: slugify(c.name),
+    });
   }
 
   const count = await client.product.count();
