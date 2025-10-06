@@ -26,18 +26,20 @@ export async function seedCategories() {
       slug: slugify(category.category),
     });
 
-    for (const subCategory of category.departments) {
-      await create({
-        name: subCategory,
-        slug: slugify(subCategory),
-        parentId: parent.id,
-      });
-    }
+    if (category.departments != undefined)
+      for (const subCategory of category.departments) {
+        await create({
+          name: subCategory,
+          slug: slugify(subCategory),
+          parentId: parent.id,
+        });
+      }
   }
 
   const count = await client.category.count();
   const expectedCount =
-    data.length + data.map((c) => c.departments).flat().length;
+    data.length + data.flatMap((e) => e.departments || []).length;
+
   assert(
     count == expectedCount,
     `Must seed all categories expected ${expectedCount} but found ${count}`

@@ -8,246 +8,526 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Category {
-  id       Int    @id @default(autoincrement())
-  parentId Int?
-  name     String @unique
-  slug     String @unique
+/// Discount type 
+enum DiscountType {
+  /// Such as 10% discount
+  PERCENT
 
-  parent   Category?         @relation("SubCategories", fields: [parentId], references: [id])
-  children Category[]        @relation("SubCategories")
+  /// Such as $10
+  FIXED_AMOUNT
+
+  /// Buy one get one
+  BOGO
+}
+
+enum TimeUnit {
+  SECOND
+  MINUTE
+  HOUR
+  DAY
+  MONTH
+  YEAR
+  DECADE
+}
+
+/// Product category to group products 
+model Category {
+  id       Int  @id @default(autoincrement())
+  /// Categories might have parent category
+  parentId Int?
+
+  /// Unique category name
+  name String @unique
+
+  /// Unique url friendly version of the category name
+  slug String @unique
+
+  /// Parent category
+  parent Category? @relation("SubCategories", fields: [parentId], references: [id])
+
+  /// List of sub categories
+  children Category[] @relation("SubCategories")
+
+  /// List of products in this category
   products ProductCategory[]
 }
 
+/// Main common product table
 model Product {
-  id          Int     @id @default(autoincrement())
-  warrantyId  Int?
-  uuid        String  @unique @default(uuid())
-  name        String  @unique
-  slug        String  @unique
+  id Int @id @default(autoincrement())
+
+  /// Product uuid for external identification
+  uuid String @unique @default(uuid())
+
+  /// Unique product name
+  name String @unique
+
+  /// Unique url friendly product name (kebab case with NO special characters)
+  slug String @unique
+
+  /// Product description
   description String?
 
-  variants   Variant[]
+  /// List of product variants 
+  variants Variant[]
+
+  /// List of categories that the product falls into.
   categories ProductCategory[]
-  images     Image[]
-  suppliers  Supplier[]
-  discounts  DiscountTarget[]
-  warranty   WarrantyPolicy?   @relation(fields: [warrantyId], references: [id])
+
+  /// List of product images
+  images Image[]
+
+  /// List of product suppliers. Product might be supplied by multiple suppliers
+  suppliers Supplier[]
+
+  /// List of discounts that are applicable to this product. You can control discounts in price-level, store, and variant as well.
+  discounts DiscountTarget[]
+
+  /// List of warranties that the product falls into.
+  productWarranties ProductWarranty[]
 }
 
+/// Product image
 model Image {
-  id          Int     @id @default(autoincrement())
-  productId   Int
-  url         String
-  order       Int     @default(0)
+  id Int @id @default(autoincrement())
+
+  /// Product id
+  productId Int
+
+  /// Image url
+  url String
+
+  /// Order of the image. This field allows you to list product images in desired order.
+  order Int @default(0)
+
+  /// Image description such as "from-left", "from-right", "top", "bottom"
   description String?
 
+  /// Product 
   product Product @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
+/// Product supplier
 model Supplier {
-  id           Int      @id @default(autoincrement())
-  orgId        String   @unique
-  productId    Int?
-  supplierSku  String
+  id Int @id @default(autoincrement())
+
+  /// External supplier uuid which migth be used by contact service
+  uuid String @unique @default(uuid())
+
+  /// Product id
+  productId Int?
+
+  /// The sku defiend by the supplier which helps us to indentify the product during reordering process.
+  supplierSku String
+
+  /// Product cost 
   supplierCost Decimal?
+
+  /// How long does it takes to get the products
   leadTimeDays Int?
 
+  /// Product
   product Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
+/// Product category
 model ProductCategory {
-  id         Int @id @default(autoincrement())
-  productId  Int
+  id Int @id @default(autoincrement())
+
+  /// Product id
+  productId Int
+
+  /// Category id
   categoryId Int
 
-  product  Product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  /// Product 
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  /// Category
   category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
+/// Product variant 
 model Variant {
-  id         Int    @id @default(autoincrement())
-  uuid       String @unique @default(uuid())
-  productId  Int
-  warrantyId Int?
-  sku        String @unique
-  upc        String @unique
+  id Int @id @default(autoincrement())
 
-  product        Product          @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  attributes     AttributeValue[]
-  prices         Price[]
-  quantities     Quantity[]
-  discounts      DiscountTarget[]
+  /// Unique product uuid for external usages such as in crm application
+  uuid String @unique @default(uuid())
+
+  /// Product id
+  productId Int
+
+  /// Unique variant sku
+  sku String @unique
+
+  /// Unique product barcode/upc/ean
+  upc String @unique
+
+  /// Parent product 
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  /// List of attributes such as color, make, model, size, length etc.
+  attributes AttributeValue[]
+
+  /// List of pricess of this variant in the price-levels
+  prices Price[]
+
+  /// List of stock/quantity information of this variant in the stores.
+  quantities Quantity[]
+
+  /// List of discounts applicable to this variant
+  discounts DiscountTarget[]
+
+  /// List of serial numbers. 
   serrialNumbers SerialNumber[]
-  warranty       WarrantyPolicy?  @relation(fields: [warrantyId], references: [id])
+
+  /// List of warranties applicable to this product/variant
+  variantWarranties ProductWarranty[]
 }
 
 model AttributeCategory {
-  id   Int    @id @default(autoincrement())
+  id Int @id @default(autoincrement())
+
+  /// Unique attribute category name such as Common, Size, etc.
   name String @unique
+
+  /// Unique url friend attribute-category name
   slug String @unique
 
   attributes Attribute[]
 }
 
 model Attribute {
-  id          Int     @id @default(autoincrement())
-  categoryId  Int?
-  name        String  @unique
+  id Int @id @default(autoincrement())
+
+  /// Optional attribute category id
+  categoryId Int?
+
+  /// Unique attribute name such as color, length, ram, capacity, brand etc.
+  name String @unique
+
+  /// Attribute description such as "The capacity of the storeage (harddisk-capacity)"
   description String?
 
-  category       AttributeCategory? @relation(fields: [categoryId], references: [id])
+  /// Attribute category
+  category AttributeCategory? @relation(fields: [categoryId], references: [id])
+
+  /// Attribute unites such as "m", "mm", "MB", "GB", "g", "kg" etc
   attributeUnits AttributeUnit[]
 }
 
+/// Attribute unit
 model Unit {
-  id     Int    @id @default(autoincrement())
-  name   String @unique
+  id Int @id @default(autoincrement())
+
+  /// Unique unit name
+  name String @unique
+
+  /// Unit symbol such as "m", "$" etc.
   symbol String
 
-  attributeUnits  AttributeUnit[]
+  /// List of attributes-unites 
+  attributeUnits AttributeUnit[]
+
+  /// List of attribute values 
   attributeValues AttributeValue[]
 }
 
 model AttributeUnit {
-  id          Int @id @default(autoincrement())
+  id Int @id @default(autoincrement())
+
+  /// Attribute id
   attributeId Int
+  /// Unit id
   unitId      Int
 
+  /// Attribute 
   attribute Attribute @relation(fields: [attributeId], references: [id])
-  unit      Unit      @relation(fields: [unitId], references: [id])
+
+  /// Unit
+  unit Unit @relation(fields: [unitId], references: [id])
 }
 
+/// Attribute value
 model AttributeValue {
-  id           Int      @id @default(autoincrement())
-  unitId       Int?
-  variantId    Int
-  textValue    String?
-  booleanValue Boolean?
-  floatValue   Float?
+  id Int @id @default(autoincrement())
 
+  /// Unit id
+  unitId Int?
+
+  /// Product variant id
+  variantId Int
+
+  /// Value as string 
+  textValue String?
+
+  /// Value as boolean
+  booleanValue Boolean?
+
+  /// Value as floating number
+  floatValue Float?
+
+  /// Variant 
   variant Variant @relation(fields: [variantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  unit    Unit?   @relation(fields: [unitId], references: [id])
+
+  /// Unit
+  unit Unit? @relation(fields: [unitId], references: [id])
 }
 
 model Currency {
-  id   Int    @id @default(autoincrement())
+  id Int @id @default(autoincrement())
+
+  /// Currency name suchas "American Dolor"
   name String
+
+  /// Currency code such as "USD"
   code String
 
+  /// Currency symbol such as "$"
+  symbol String?
+
+  /// List of price levels that uses this currency type
   priceLevels PriceLevel[]
 
   @@unique([name, code])
 }
 
+/// Price levels. Price levels allows us to create multiple prices based on differnt taxrate, vip customers, or any other specific conditions such as family-price, friend-price, veteran-price, none-profit-price etc.
 model PriceLevel {
-  id         Int     @id @default(autoincrement())
+  id Int @id @default(autoincrement())
+
+  /// Currency id
   currencyId Int
-  name       String
-  slug       String
-  taxrate    Decimal @db.Decimal(10, 4)
-  notes      String?
 
-  currency  Currency         @relation(fields: [currencyId], references: [id])
-  stores    Store[]
-  prices    Price[]
+  /// Unique price level name
+  name String @unique
+
+  /// Unique url friendly price-level name
+  slug String @unique
+
+  /// Taxrate 
+  taxrate Decimal @db.Decimal(10, 4)
+
+  /// Notes and description 
+  notes String?
+
+  /// Currency 
+  currency Currency @relation(fields: [currencyId], references: [id])
+
+  /// List of stores using this price-level by default
+  stores Store[]
+
+  /// List of prices using this price-level
+  prices Price[]
+
+  /// List of discount using this price-level
   discounts DiscountTarget[]
-
-  @@unique([name, slug])
 }
 
+/// Product/Variant price
 model Price {
-  id           Int @id @default(autoincrement())
-  variantId    Int
+  id        Int @id @default(autoincrement())
+  /// Variant id
+  variantId Int
+
+  /// Price level id
   priceLevelId Int
 
-  price       Decimal
-  cost        Decimal
+  /// Sales price
+  price Decimal
+
+  /// Cost
+  cost Decimal
+
+  /// Price description
   description String?
 
-  variant    Variant    @relation(fields: [variantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  /// Variant 
+  variant Variant @relation(fields: [variantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  /// Price level
   priceLevel PriceLevel @relation(fields: [priceLevelId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
+/// Product/Variant quantity 
 model Quantity {
-  id        Int @id @default(autoincrement())
-  variantId Int
-  storeId   Int
+  id Int @id @default(autoincrement())
 
-  quantity       Int
+  /// Variant id
+  variantId Int
+
+  /// Store id
+  storeId Int
+
+  /// Quantity 
+  quantity Int
+
+  /// Threshold to reorder the prduct 
   alertThreshold Int?
 
+  /// Product variant 
   variant Variant @relation(fields: [variantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  store   Store   @relation(fields: [storeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  /// Store
+  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@unique([variantId, storeId])
 }
 
+/// Product/variant serial number. This is not for all products/variants. In case you need to track each product/variant specificly then use this table.
 model SerialNumber {
-  id        Int @id @default(autoincrement())
+  id Int @id @default(autoincrement())
+
+  /// Variant id
   variantId Int
-  storeId   Int
 
-  serialNumber String  @unique
-  inStock      Boolean
+  /// Store id
+  storeId Int
 
+  /// Unique serial number 
+  serialNumber String @unique
+
+  /// In stock or not
+  inStock Boolean
+
+  /// Variant 
   variant Variant @relation(fields: [variantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  store   Store   @relation(fields: [storeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-}
 
-enum DiscountType {
-  PERCENT
-  FIXED_AMOUNT
-  BOGO
+  /// Store
+  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Discount {
-  id          Int              @id @default(autoincrement())
-  code        String           @unique //	The unique promotional code (e.g., "FALL20", "BUY2GET1").
-  type        DiscountType ///String	Crucial: Defines how the discount is applied (PERCENT, FIXED_AMOUNT, BOGO - Buy One Get One).
-  value       Decimal //	The amount or percentage to discount (e.g., 0.20 for 20% or 10.00 for a $10 off).
-  minQuantity Int? //?	Minimum items required to trigger (e.g., must buy 2 shirts).
-  startDate   DateTime //	When the promotion becomes active.
-  endDate     DateTime //	When the promotion expires.
-  maxUses     Int? //?	Maximum number of times the code can be used globally.
-  targets     DiscountTarget[]
+  id Int @id @default(autoincrement())
+
+  ///	The unique promotional code (e.g., "FALL20", "BUY2GET1").
+  code String @unique
+
+  /// String	Crucial: Defines how the discount is applied (PERCENT, FIXED_AMOUNT, BOGO - Buy One Get One).
+  type DiscountType
+
+  ///	The amount or percentage to discount (e.g., 0.20 for 20% or 10.00 for a $10 off).
+  value Decimal
+
+  ///	Minimum items required to trigger (e.g., must buy 2 shirts).
+  minQuantity Int?
+
+  ///	When the promotion becomes active.
+  startDate DateTime
+
+  ///	When the promotion expires.
+  endDate DateTime
+
+  ///	Maximum number of times the code can be used globally.
+  maxUses Int?
+
+  /// List of product/variant targets that have this discount
+  targets DiscountTarget[]
 }
 
+/// Discount target table
 model DiscountTarget {
-  id           Int  @id @default(autoincrement())
-  discountId   Int
-  productId    Int?
-  variantId    Int?
-  storeId      Int?
+  id Int @id @default(autoincrement())
+
+  /// Discount id
+  discountId Int
+
+  // Optional product id when you want to discount all variant of the product
+  productId Int?
+
+  // Optional variant id when you want to discount only a single product variant
+  variantId Int?
+
+  /// Optional store id when you want to discount only in a single store
+  storeId Int?
+
+  /// Optional price-level id when you want to discount only in a single price-level group such as "family-price", "friend-price", "employee-price", "wholesale-price" etc.
   priceLevelId Int?
 
-  discount   Discount    @relation(fields: [discountId], references: [id])
-  product    Product?    @relation(fields: [productId], references: [id])
-  variant    Variant?    @relation(fields: [variantId], references: [id])
-  store      Store?      @relation(fields: [storeId], references: [id])
+  /// Dicount details
+  discount Discount @relation(fields: [discountId], references: [id])
+
+  /// Product details
+  product Product? @relation(fields: [productId], references: [id])
+
+  /// Variant details
+  variant Variant? @relation(fields: [variantId], references: [id])
+
+  /// Store details
+  store Store? @relation(fields: [storeId], references: [id])
+
+  /// Price level details
   priceLevel PriceLevel? @relation(fields: [priceLevelId], references: [id])
 }
 
+/// Store 
 model Store {
-  id           Int @id @default(autoincrement())
+  id Int @id @default(autoincrement())
+
+  /// Default price level
   priceLevelId Int
 
-  name        String  @unique
-  slug        String  @unique
+  /// Unique store name
+  name String @unique
+
+  /// Unique url friendly store name
+  slug String @unique
+
+  /// Store description
   description String?
 
-  priceLevel    PriceLevel       @relation(fields: [priceLevelId], references: [id])
-  quantities    Quantity[]
-  discounts     DiscountTarget[]
+  /// Default price level details
+  priceLevel PriceLevel @relation(fields: [priceLevelId], references: [id])
+
+  /// List of product/variant quantities in this store
+  quantities Quantity[]
+
+  /// List of discounts in this store
+  discounts DiscountTarget[]
+
+  /// List of product/variant serial nubmers in this store
   serialNumbers SerialNumber[]
 }
 
+/// Product warranty policy
 model WarrantyPolicy {
-  id           Int     @id @default(autoincrement())
-  name         String  @unique // e.g., "Standard 1-Year Limited"
-  description  String? // Full legal details or notes
-  durationDays Int // The length of the warranty
+  id Int @id @default(autoincrement())
 
-  products Product[]
-  variants Variant[]
+  /// Warranty policy name
+  name String @unique
+
+  /// Warranty policy description 
+  description String?
+
+  /// Warranty duration such as 1 (YEAR), 6 (MONTH) etc. 
+  duration Int
+
+  /// Duration type such as  YEAR, MONTH, DECADE, DAY
+  durationUnit TimeUnit @default(YEAR)
+
+  /// List of products that have this wrranty policy
+  productWarranties ProductWarranty[]
+}
+
+//// Product/variant warranty table
+model ProductWarranty {
+  id Int @id @default(autoincrement())
+
+  /// Optional product id when all product variants under the same warranty
+  productId Int?
+
+  /// Optional product id when a variant has the warranty
+  variantId Int?
+
+  /// Wrannty policy id
+  policyId Int
+
+  /// Product details
+  product Product? @relation(fields: [productId], references: [id])
+
+  /// Variant details
+  variant Variant? @relation(fields: [variantId], references: [id])
+
+  /// Policy details
+  policy WarrantyPolicy @relation(fields: [policyId], references: [id])
 }

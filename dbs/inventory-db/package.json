@@ -275,8 +275,9 @@
     "@swc/helpers": "~0.5.11"
   },
   "devDependencies": {
-    "prisma": "^6.16.2",
     "@prisma/client": "6.16.2",
-    "@puq/inventory-db": "workspace:*"
+    "@puq/barcode": "workspace:*",
+    "@puq/inventory-db": "workspace:*",
+    "prisma": "^6.16.2"
   }
 }

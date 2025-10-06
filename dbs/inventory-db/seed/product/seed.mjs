@@ -10,19 +10,30 @@ import { data } from './data.mjs';
 async function create(product) {
   const data = Zod.ProductCreateSchema.parse(product);
   try {
-    await client.product.create({ data });
+    return await client.product.create({ data });
   } catch (err) {
     return await client.product.findFirst({ where: { name: product.name } });
   }
 }
 
 export async function seedProducts() {
+  const category = await client.category.findFirst({
+    where: { name: { equals: 'Common' } },
+  });
+
   for (const c of data) {
-    await create({
+    const saved = await create({
       name: c.name,
       description: c.description,
       slug: slugify(c.name),
     });
+    try {
+      await client.productCategory.create({
+        data: { productId: saved.id, categoryId: category.id },
+      });
+    } catch {
+      //
+    }
   }
 
   const count = await client.product.count();

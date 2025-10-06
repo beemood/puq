@@ -1,5 +1,8 @@
 export const data = [
   {
+    category: 'Common',
+  },
+  {
     category: 'Fashion/Apparel & Accessories 🛍️',
     departments: [
       "Clothing (Men's, Women's, Kids')",
