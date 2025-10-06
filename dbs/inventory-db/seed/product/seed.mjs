@@ -1,3 +1,4 @@
+import { ean } from '@puq/barcode';
 import * as Zod from '@puq/inventory-db/zod';
 import { slugify } from '@puq/names';
 import { assert } from 'console';
@@ -31,6 +32,31 @@ export async function seedProducts() {
       await client.productCategory.create({
         data: { productId: saved.id, categoryId: category.id },
       });
+    } catch {
+      //
+    }
+
+    try {
+      const upc = ean('12345');
+      const savedVariant = await client.variant.create({
+        data: { sku: 'MAIN', upc },
+      });
+
+      if (c.attributes) {
+        for (const e of c.attributes) {
+          let found = await client.attribute.findFirst({
+            where: { name: { equals: e.name } },
+          });
+
+          if (found == undefined) {
+            found = await client.attribute.create({ data: { name: e.name } });
+          }
+
+          await client.attributeValue.create({
+            data: { attributeId: found.id, variantId: savedVariant.id },
+          });
+        }
+      }
     } catch {
       //
     }

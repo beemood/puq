@@ -212,8 +212,11 @@ model Attribute {
   /// Attribute category
   category AttributeCategory? @relation(fields: [categoryId], references: [id])
 
-  /// Attribute unites such as "m", "mm", "MB", "GB", "g", "kg" etc
+  /// List of available attribute unites such as "m", "mm", "MB", "GB", "g", "kg" etc
   attributeUnits AttributeUnit[]
+
+  /// List of attribute values
+  attributeValues AttributeValue[]
 }
 
 /// Attribute unit
@@ -226,11 +229,8 @@ model Unit {
   /// Unit symbol such as "m", "$" etc.
   symbol String
 
-  /// List of attributes-unites 
+  /// List of attributes-unites
   attributeUnits AttributeUnit[]
-
-  /// List of attribute values 
-  attributeValues AttributeValue[]
 }
 
 model AttributeUnit {
@@ -238,8 +238,9 @@ model AttributeUnit {
 
   /// Attribute id
   attributeId Int
+
   /// Unit id
-  unitId      Int
+  unitId Int
 
   /// Attribute 
   attribute Attribute @relation(fields: [attributeId], references: [id])
@@ -252,8 +253,8 @@ model AttributeUnit {
 model AttributeValue {
   id Int @id @default(autoincrement())
 
-  /// Unit id
-  unitId Int?
+  /// Attribute id
+  attributeId Int
 
   /// Product variant id
   variantId Int
@@ -270,8 +271,10 @@ model AttributeValue {
   /// Variant 
   variant Variant @relation(fields: [variantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  /// Unit
-  unit Unit? @relation(fields: [unitId], references: [id])
+  /// Attribute 
+  attribute Attribute @relation(fields: [attributeId], references: [id])
+
+  @@unique([attributeId, variantId])
 }
 
 model Currency {
@@ -326,7 +329,8 @@ model PriceLevel {
 
 /// Product/Variant price
 model Price {
-  id        Int @id @default(autoincrement())
+  id Int @id @default(autoincrement())
+
   /// Variant id
   variantId Int
 
@@ -397,6 +401,7 @@ model SerialNumber {
   store Store @relation(fields: [storeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
+/// Discount/promotion table
 model Discount {
   id Int @id @default(autoincrement())
 
@@ -509,7 +514,7 @@ model WarrantyPolicy {
   productWarranties ProductWarranty[]
 }
 
-//// Product/variant warranty table
+/// Product/variant warranty table
 model ProductWarranty {
   id Int @id @default(autoincrement())
 
