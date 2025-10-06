@@ -245,67 +245,6 @@ export type SupplierQuery = z.infer<typeof SupplierQuerySchema>;
 
 
 
-// ---------- PaymentTerm Schemas ----------
-
-
-export const PaymentTermSchema = z.object({
-  id: z.number().int(),
-  code: z.string(),
-  description: z.string(),
-  daysDue: z.number().int(),
-  discountDays: z.number().int(),
-  discountPercent: z.number(),
-});
-
-export const PaymentTermCreateSchema = z.object({
-  code: z.string(),
-  description: z.string(),
-  daysDue: z.number().int(),
-  discountDays: z.number().int(),
-  discountPercent: z.number(),
-});
-
-export const PaymentTermUpdateSchema = z.object({
-  id: z.number().int().optional(),
-  code: z.string().optional(),
-  description: z.string().optional(),
-  daysDue: z.number().int().optional(),
-  discountDays: z.number().int().optional(),
-  discountPercent: z.number().optional(),
-});
-
-export const PaymentTermWhereSchema = toWhereQuerySchema(PaymentTermSchema);
-
-export const PaymentTermOrderSchema =  toOrderBySchema(PaymentTermSchema);
-
-export const PaymentTermSelectSchema = z.object({
-  id: z.boolean().optional(),
-  code: z.boolean().optional(),
-  description: z.boolean().optional(),
-  daysDue: z.boolean().optional(),
-  discountDays: z.boolean().optional(),
-  discountPercent: z.boolean().optional(),
-});
-
-export const PaymentTermQuerySchema = z.object({
-  take: z.coerce.number().int().min(1), 
-  skip: z.coerce.number().int().min(0), 
-  where: PaymentTermWhereSchema.optional(),
-  orderBy: PaymentTermOrderSchema.optional(),
-  select: PaymentTermSelectSchema.optional()
-});
-
-export type PaymentTerm = z.infer<typeof PaymentTermSchema>;
-export type PaymentTermCreate = z.infer<typeof PaymentTermCreateSchema>;
-export type PaymentTermUpdate = z.infer<typeof PaymentTermUpdateSchema>;
-export type PaymentTermWhere = z.infer<typeof PaymentTermWhereSchema>;
-export type PaymentTermOrder = z.infer<typeof PaymentTermOrderSchema>;
-export type PaymentTermSelect = z.infer<typeof PaymentTermSelectSchema>;
-export type PaymentTermQuery = z.infer<typeof PaymentTermQuerySchema>;
-
-
-
-
 // ---------- ProductCategory Schemas ----------
 
 
