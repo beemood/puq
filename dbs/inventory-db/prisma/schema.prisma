@@ -66,7 +66,7 @@ model Product {
   slug String @unique
 
   /// Product description
-  description String?
+  description String? @default("No description")
 
   /// List of product variants 
   variants Variant[]
@@ -101,7 +101,7 @@ model Image {
   order Int @default(0)
 
   /// Image description such as "from-left", "from-right", "top", "bottom"
-  description String?
+  description String? @default("No description")
 
   /// Product 
   product Product @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -121,7 +121,7 @@ model Supplier {
   supplierSku String
 
   /// Product cost 
-  supplierCost Decimal?
+  supplierCost Decimal? @db.Decimal(10, 2)
 
   /// How long does it takes to get the products
   leadTimeDays Int?
@@ -207,7 +207,7 @@ model Attribute {
   name String @unique
 
   /// Attribute description such as "The capacity of the storeage (harddisk-capacity)"
-  description String?
+  description String? @default("No description")
 
   /// Attribute category
   category AttributeCategory? @relation(fields: [categoryId], references: [id])
@@ -338,13 +338,13 @@ model Price {
   priceLevelId Int
 
   /// Sales price
-  price Decimal
+  price Decimal @db.Decimal(10, 2)
 
   /// Cost
-  cost Decimal
+  cost Decimal @db.Decimal(10, 2)
 
   /// Price description
-  description String?
+  description String? @default("No description")
 
   /// Variant 
   variant Variant @relation(fields: [variantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -479,7 +479,7 @@ model Store {
   slug String @unique
 
   /// Store description
-  description String?
+  description String? @default("No description")
 
   /// Default price level details
   priceLevel PriceLevel @relation(fields: [priceLevelId], references: [id])
@@ -502,7 +502,7 @@ model WarrantyPolicy {
   name String @unique
 
   /// Warranty policy description 
-  description String?
+  description String? @default("No description")
 
   /// Warranty duration such as 1 (YEAR), 6 (MONTH) etc. 
   duration Int

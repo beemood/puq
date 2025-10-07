@@ -11,7 +11,7 @@ async function create(item) {
   const parsedItem = Zod.UnitCreateSchema.parse(item);
   try {
     return await client.unit.create({ data: parsedItem });
-  } catch (err) {
+  } catch {
     return await client.unit.findFirst({
       where: { name: { equals: item.name } },
     });

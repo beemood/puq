@@ -28,6 +28,7 @@ export async function seedProducts() {
       description: c.description,
       slug: slugify(c.name),
     });
+
     try {
       await client.productCategory.create({
         data: { productId: saved.id, categoryId: category.id },
@@ -39,7 +40,7 @@ export async function seedProducts() {
     try {
       const upc = ean('12345');
       const savedVariant = await client.variant.create({
-        data: { sku: 'MAIN', upc },
+        data: { sku: saved.name.toUpperCase(), upc, productId: saved.id },
       });
 
       if (c.attributes) {
@@ -53,7 +54,11 @@ export async function seedProducts() {
           }
 
           await client.attributeValue.create({
-            data: { attributeId: found.id, variantId: savedVariant.id },
+            data: {
+              textValue: e.value,
+              attributeId: found.id,
+              variantId: savedVariant.id,
+            },
           });
         }
       }

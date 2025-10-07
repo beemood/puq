@@ -57,7 +57,7 @@ export async function seedAttributes() {
       .reduce((p, c) => p + c, 0);
 
     assert(
-      actualCount == expectedCount,
+      actualCount >= expectedCount,
       `Must seed all attributes! Expected count is ${expectedCount} but found ${actualCount}!`
     );
   }

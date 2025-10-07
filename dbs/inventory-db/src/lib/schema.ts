@@ -64,7 +64,6 @@ export type CategoryQuery = z.infer<typeof CategoryQuerySchema>;
 
 export const ProductSchema = z.object({
   id: z.number().int(),
-  warrantyId: z.number().int().nullish(),
   uuid: z.string(),
   name: z.string(),
   slug: z.string(),
@@ -72,7 +71,6 @@ export const ProductSchema = z.object({
 });
 
 export const ProductCreateSchema = z.object({
-  warrantyId: z.number().int().nullish(),
   name: z.string(),
   slug: z.string(),
   description: z.string().nullish(),
@@ -80,7 +78,6 @@ export const ProductCreateSchema = z.object({
 
 export const ProductUpdateSchema = z.object({
   id: z.number().int().optional(),
-  warrantyId: z.number().int().nullish().optional(),
   uuid: z.string().optional(),
   name: z.string().optional(),
   slug: z.string().optional(),
@@ -93,7 +90,6 @@ export const ProductOrderSchema =  toOrderBySchema(ProductSchema);
 
 export const ProductSelectSchema = z.object({
   id: z.boolean().optional(),
-  warrantyId: z.boolean().optional(),
   uuid: z.boolean().optional(),
   name: z.boolean().optional(),
   slug: z.boolean().optional(),
@@ -103,7 +99,7 @@ export const ProductSelectSchema = z.object({
   images: z.boolean().optional(),
   suppliers: z.boolean().optional(),
   discounts: z.boolean().optional(),
-  warranty: z.boolean().optional(),
+  productWarranties: z.boolean().optional(),
 });
 
 export const ProductQuerySchema = z.object({
@@ -188,7 +184,7 @@ export type ImageQuery = z.infer<typeof ImageQuerySchema>;
 
 export const SupplierSchema = z.object({
   id: z.number().int(),
-  orgId: z.string(),
+  uuid: z.string(),
   productId: z.number().int().nullish(),
   supplierSku: z.string(),
   supplierCost: z.number().nullish(),
@@ -196,7 +192,6 @@ export const SupplierSchema = z.object({
 });
 
 export const SupplierCreateSchema = z.object({
-  orgId: z.string(),
   productId: z.number().int().nullish(),
   supplierSku: z.string(),
   supplierCost: z.number().nullish(),
@@ -205,7 +200,7 @@ export const SupplierCreateSchema = z.object({
 
 export const SupplierUpdateSchema = z.object({
   id: z.number().int().optional(),
-  orgId: z.string().optional(),
+  uuid: z.string().optional(),
   productId: z.number().int().nullish().optional(),
   supplierSku: z.string().optional(),
   supplierCost: z.number().nullish().optional(),
@@ -218,7 +213,7 @@ export const SupplierOrderSchema =  toOrderBySchema(SupplierSchema);
 
 export const SupplierSelectSchema = z.object({
   id: z.boolean().optional(),
-  orgId: z.boolean().optional(),
+  uuid: z.boolean().optional(),
   productId: z.boolean().optional(),
   supplierSku: z.boolean().optional(),
   supplierCost: z.boolean().optional(),
@@ -303,14 +298,12 @@ export const VariantSchema = z.object({
   id: z.number().int(),
   uuid: z.string(),
   productId: z.number().int(),
-  warrantyId: z.number().int().nullish(),
   sku: z.string(),
   upc: z.string(),
 });
 
 export const VariantCreateSchema = z.object({
   productId: z.number().int(),
-  warrantyId: z.number().int().nullish(),
   sku: z.string(),
   upc: z.string(),
 });
@@ -319,7 +312,6 @@ export const VariantUpdateSchema = z.object({
   id: z.number().int().optional(),
   uuid: z.string().optional(),
   productId: z.number().int().optional(),
-  warrantyId: z.number().int().nullish().optional(),
   sku: z.string().optional(),
   upc: z.string().optional(),
 });
@@ -332,7 +324,6 @@ export const VariantSelectSchema = z.object({
   id: z.boolean().optional(),
   uuid: z.boolean().optional(),
   productId: z.boolean().optional(),
-  warrantyId: z.boolean().optional(),
   sku: z.boolean().optional(),
   upc: z.boolean().optional(),
   product: z.boolean().optional(),
@@ -341,7 +332,7 @@ export const VariantSelectSchema = z.object({
   quantities: z.boolean().optional(),
   discounts: z.boolean().optional(),
   serrialNumbers: z.boolean().optional(),
-  warranty: z.boolean().optional(),
+  variantWarranties: z.boolean().optional(),
 });
 
 export const VariantQuerySchema = z.object({
@@ -447,6 +438,7 @@ export const AttributeSelectSchema = z.object({
   description: z.boolean().optional(),
   category: z.boolean().optional(),
   attributeUnits: z.boolean().optional(),
+  attributeValues: z.boolean().optional(),
 });
 
 export const AttributeQuerySchema = z.object({
@@ -497,7 +489,6 @@ export const UnitSelectSchema = z.object({
   name: z.boolean().optional(),
   symbol: z.boolean().optional(),
   attributeUnits: z.boolean().optional(),
-  attributeValues: z.boolean().optional(),
 });
 
 export const UnitQuerySchema = z.object({
@@ -575,7 +566,7 @@ export type AttributeUnitQuery = z.infer<typeof AttributeUnitQuerySchema>;
 
 export const AttributeValueSchema = z.object({
   id: z.number().int(),
-  unitId: z.number().int().nullish(),
+  attributeId: z.number().int(),
   variantId: z.number().int(),
   textValue: z.string().nullish(),
   booleanValue: z.boolean().nullish(),
@@ -583,7 +574,7 @@ export const AttributeValueSchema = z.object({
 });
 
 export const AttributeValueCreateSchema = z.object({
-  unitId: z.number().int().nullish(),
+  attributeId: z.number().int(),
   variantId: z.number().int(),
   textValue: z.string().nullish(),
   booleanValue: z.boolean().nullish(),
@@ -592,7 +583,7 @@ export const AttributeValueCreateSchema = z.object({
 
 export const AttributeValueUpdateSchema = z.object({
   id: z.number().int().optional(),
-  unitId: z.number().int().nullish().optional(),
+  attributeId: z.number().int().optional(),
   variantId: z.number().int().optional(),
   textValue: z.string().nullish().optional(),
   booleanValue: z.boolean().nullish().optional(),
@@ -605,13 +596,13 @@ export const AttributeValueOrderSchema =  toOrderBySchema(AttributeValueSchema);
 
 export const AttributeValueSelectSchema = z.object({
   id: z.boolean().optional(),
-  unitId: z.boolean().optional(),
+  attributeId: z.boolean().optional(),
   variantId: z.boolean().optional(),
   textValue: z.boolean().optional(),
   booleanValue: z.boolean().optional(),
   floatValue: z.boolean().optional(),
   variant: z.boolean().optional(),
-  unit: z.boolean().optional(),
+  attribute: z.boolean().optional(),
 });
 
 export const AttributeValueQuerySchema = z.object({
@@ -640,17 +631,20 @@ export const CurrencySchema = z.object({
   id: z.number().int(),
   name: z.string(),
   code: z.string(),
+  symbol: z.string().nullish(),
 });
 
 export const CurrencyCreateSchema = z.object({
   name: z.string(),
   code: z.string(),
+  symbol: z.string().nullish(),
 });
 
 export const CurrencyUpdateSchema = z.object({
   id: z.number().int().optional(),
   name: z.string().optional(),
   code: z.string().optional(),
+  symbol: z.string().nullish().optional(),
 });
 
 export const CurrencyWhereSchema = toWhereQuerySchema(CurrencySchema);
@@ -661,6 +655,7 @@ export const CurrencySelectSchema = z.object({
   id: z.boolean().optional(),
   name: z.boolean().optional(),
   code: z.boolean().optional(),
+  symbol: z.boolean().optional(),
   priceLevels: z.boolean().optional(),
 });
 
@@ -1133,20 +1128,23 @@ export const WarrantyPolicySchema = z.object({
   id: z.number().int(),
   name: z.string(),
   description: z.string().nullish(),
-  durationDays: z.number().int(),
+  duration: z.number().int(),
+  durationUnit: z.any(),
 });
 
 export const WarrantyPolicyCreateSchema = z.object({
   name: z.string(),
   description: z.string().nullish(),
-  durationDays: z.number().int(),
+  duration: z.number().int(),
+  durationUnit: z.any(),
 });
 
 export const WarrantyPolicyUpdateSchema = z.object({
   id: z.number().int().optional(),
   name: z.string().optional(),
   description: z.string().nullish().optional(),
-  durationDays: z.number().int().optional(),
+  duration: z.number().int().optional(),
+  durationUnit: z.any().optional(),
 });
 
 export const WarrantyPolicyWhereSchema = toWhereQuerySchema(WarrantyPolicySchema);
@@ -1157,9 +1155,9 @@ export const WarrantyPolicySelectSchema = z.object({
   id: z.boolean().optional(),
   name: z.boolean().optional(),
   description: z.boolean().optional(),
-  durationDays: z.boolean().optional(),
-  products: z.boolean().optional(),
-  variants: z.boolean().optional(),
+  duration: z.boolean().optional(),
+  durationUnit: z.boolean().optional(),
+  productWarranties: z.boolean().optional(),
 });
 
 export const WarrantyPolicyQuerySchema = z.object({
@@ -1177,5 +1175,61 @@ export type WarrantyPolicyWhere = z.infer<typeof WarrantyPolicyWhereSchema>;
 export type WarrantyPolicyOrder = z.infer<typeof WarrantyPolicyOrderSchema>;
 export type WarrantyPolicySelect = z.infer<typeof WarrantyPolicySelectSchema>;
 export type WarrantyPolicyQuery = z.infer<typeof WarrantyPolicyQuerySchema>;
+
+
+
+
+// ---------- ProductWarranty Schemas ----------
+
+
+export const ProductWarrantySchema = z.object({
+  id: z.number().int(),
+  productId: z.number().int().nullish(),
+  variantId: z.number().int().nullish(),
+  policyId: z.number().int(),
+});
+
+export const ProductWarrantyCreateSchema = z.object({
+  productId: z.number().int().nullish(),
+  variantId: z.number().int().nullish(),
+  policyId: z.number().int(),
+});
+
+export const ProductWarrantyUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  productId: z.number().int().nullish().optional(),
+  variantId: z.number().int().nullish().optional(),
+  policyId: z.number().int().optional(),
+});
+
+export const ProductWarrantyWhereSchema = toWhereQuerySchema(ProductWarrantySchema);
+
+export const ProductWarrantyOrderSchema =  toOrderBySchema(ProductWarrantySchema);
+
+export const ProductWarrantySelectSchema = z.object({
+  id: z.boolean().optional(),
+  productId: z.boolean().optional(),
+  variantId: z.boolean().optional(),
+  policyId: z.boolean().optional(),
+  product: z.boolean().optional(),
+  variant: z.boolean().optional(),
+  policy: z.boolean().optional(),
+});
+
+export const ProductWarrantyQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: ProductWarrantyWhereSchema.optional(),
+  orderBy: ProductWarrantyOrderSchema.optional(),
+  select: ProductWarrantySelectSchema.optional()
+});
+
+export type ProductWarranty = z.infer<typeof ProductWarrantySchema>;
+export type ProductWarrantyCreate = z.infer<typeof ProductWarrantyCreateSchema>;
+export type ProductWarrantyUpdate = z.infer<typeof ProductWarrantyUpdateSchema>;
+export type ProductWarrantyWhere = z.infer<typeof ProductWarrantyWhereSchema>;
+export type ProductWarrantyOrder = z.infer<typeof ProductWarrantyOrderSchema>;
+export type ProductWarrantySelect = z.infer<typeof ProductWarrantySelectSchema>;
+export type ProductWarrantyQuery = z.infer<typeof ProductWarrantyQuerySchema>;
 
 
