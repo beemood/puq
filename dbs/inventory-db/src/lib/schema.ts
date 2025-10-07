@@ -97,8 +97,6 @@ export const ProductSelectSchema = z.object({
   description: z.boolean().optional(),
   variants: z.boolean().optional(),
   categories: z.boolean().optional(),
-  images: z.boolean().optional(),
-  suppliers: z.boolean().optional(),
   discounts: z.boolean().optional(),
   warranties: z.boolean().optional(),
 });
@@ -118,125 +116,6 @@ export type ProductWhere = z.infer<typeof ProductWhereSchema>;
 export type ProductOrder = z.infer<typeof ProductOrderSchema>;
 export type ProductSelect = z.infer<typeof ProductSelectSchema>;
 export type ProductQuery = z.infer<typeof ProductQuerySchema>;
-
-
-
-
-// ---------- Image Schemas ----------
-
-
-export const ImageSchema = z.object({
-  id: z.number().int(),
-  productId: z.number().int(),
-  url: z.string(),
-  order: z.number().int(),
-  description: z.string().nullish(),
-});
-
-export const ImageCreateSchema = z.object({
-  productId: z.number().int(),
-  url: z.string(),
-  order: z.number().int(),
-  description: z.string().nullish(),
-});
-
-export const ImageUpdateSchema = z.object({
-  id: z.number().int().optional(),
-  productId: z.number().int().optional(),
-  url: z.string().optional(),
-  order: z.number().int().optional(),
-  description: z.string().nullish().optional(),
-});
-
-export const ImageWhereSchema = toWhereQuerySchema(ImageSchema);
-
-export const ImageOrderSchema =  toOrderBySchema(ImageSchema);
-
-export const ImageSelectSchema = z.object({
-  id: z.boolean().optional(),
-  productId: z.boolean().optional(),
-  url: z.boolean().optional(),
-  order: z.boolean().optional(),
-  description: z.boolean().optional(),
-  product: z.boolean().optional(),
-});
-
-export const ImageQuerySchema = z.object({
-  take: z.coerce.number().int().min(1), 
-  skip: z.coerce.number().int().min(0), 
-  where: ImageWhereSchema.optional(),
-  orderBy: ImageOrderSchema.optional(),
-  select: ImageSelectSchema.optional()
-});
-
-export type Image = z.infer<typeof ImageSchema>;
-export type ImageCreate = z.infer<typeof ImageCreateSchema>;
-export type ImageUpdate = z.infer<typeof ImageUpdateSchema>;
-export type ImageWhere = z.infer<typeof ImageWhereSchema>;
-export type ImageOrder = z.infer<typeof ImageOrderSchema>;
-export type ImageSelect = z.infer<typeof ImageSelectSchema>;
-export type ImageQuery = z.infer<typeof ImageQuerySchema>;
-
-
-
-
-// ---------- Supplier Schemas ----------
-
-
-export const SupplierSchema = z.object({
-  id: z.number().int(),
-  uuid: z.string(),
-  productId: z.number().int().nullish(),
-  supplierSku: z.string(),
-  supplierCost: z.number().nullish(),
-  leadTimeDays: z.number().int().nullish(),
-});
-
-export const SupplierCreateSchema = z.object({
-  productId: z.number().int().nullish(),
-  supplierSku: z.string(),
-  supplierCost: z.number().nullish(),
-  leadTimeDays: z.number().int().nullish(),
-});
-
-export const SupplierUpdateSchema = z.object({
-  id: z.number().int().optional(),
-  uuid: z.string().optional(),
-  productId: z.number().int().nullish().optional(),
-  supplierSku: z.string().optional(),
-  supplierCost: z.number().nullish().optional(),
-  leadTimeDays: z.number().int().nullish().optional(),
-});
-
-export const SupplierWhereSchema = toWhereQuerySchema(SupplierSchema);
-
-export const SupplierOrderSchema =  toOrderBySchema(SupplierSchema);
-
-export const SupplierSelectSchema = z.object({
-  id: z.boolean().optional(),
-  uuid: z.boolean().optional(),
-  productId: z.boolean().optional(),
-  supplierSku: z.boolean().optional(),
-  supplierCost: z.boolean().optional(),
-  leadTimeDays: z.boolean().optional(),
-  product: z.boolean().optional(),
-});
-
-export const SupplierQuerySchema = z.object({
-  take: z.coerce.number().int().min(1), 
-  skip: z.coerce.number().int().min(0), 
-  where: SupplierWhereSchema.optional(),
-  orderBy: SupplierOrderSchema.optional(),
-  select: SupplierSelectSchema.optional()
-});
-
-export type Supplier = z.infer<typeof SupplierSchema>;
-export type SupplierCreate = z.infer<typeof SupplierCreateSchema>;
-export type SupplierUpdate = z.infer<typeof SupplierUpdateSchema>;
-export type SupplierWhere = z.infer<typeof SupplierWhereSchema>;
-export type SupplierOrder = z.infer<typeof SupplierOrderSchema>;
-export type SupplierSelect = z.infer<typeof SupplierSelectSchema>;
-export type SupplierQuery = z.infer<typeof SupplierQuerySchema>;
 
 
 

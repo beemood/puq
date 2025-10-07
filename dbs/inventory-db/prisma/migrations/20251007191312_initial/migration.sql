@@ -29,29 +29,6 @@ CREATE TABLE "public"."Product" (
 );
 
 -- CreateTable
-CREATE TABLE "public"."Image" (
-    "id" SERIAL NOT NULL,
-    "productId" INTEGER NOT NULL,
-    "url" TEXT NOT NULL,
-    "order" INTEGER NOT NULL DEFAULT 0,
-    "description" TEXT DEFAULT 'No description',
-
-    CONSTRAINT "Image_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "public"."Supplier" (
-    "id" SERIAL NOT NULL,
-    "uuid" TEXT NOT NULL,
-    "productId" INTEGER,
-    "supplierSku" TEXT NOT NULL,
-    "supplierCost" DECIMAL(10,2),
-    "leadTimeDays" INTEGER,
-
-    CONSTRAINT "Supplier_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "public"."ProductCategory" (
     "id" SERIAL NOT NULL,
     "productId" INTEGER NOT NULL,
@@ -256,9 +233,6 @@ CREATE UNIQUE INDEX "Product_name_key" ON "public"."Product"("name");
 CREATE UNIQUE INDEX "Product_slug_key" ON "public"."Product"("slug");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Supplier_uuid_key" ON "public"."Supplier"("uuid");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Variant_uuid_key" ON "public"."Variant"("uuid");
 
 -- CreateIndex
@@ -314,12 +288,6 @@ CREATE UNIQUE INDEX "WarrantyPolicy_name_key" ON "public"."WarrantyPolicy"("name
 
 -- AddForeignKey
 ALTER TABLE "public"."Category" ADD CONSTRAINT "Category_parentId_fkey" FOREIGN KEY ("parentId") REFERENCES "public"."Category"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "public"."Image" ADD CONSTRAINT "Image_productId_fkey" FOREIGN KEY ("productId") REFERENCES "public"."Product"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "public"."Supplier" ADD CONSTRAINT "Supplier_productId_fkey" FOREIGN KEY ("productId") REFERENCES "public"."Product"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "public"."ProductCategory" ADD CONSTRAINT "ProductCategory_productId_fkey" FOREIGN KEY ("productId") REFERENCES "public"."Product"("id") ON DELETE CASCADE ON UPDATE CASCADE;
