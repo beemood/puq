@@ -1,3 +1,32 @@
+## 0.19.0 (2025-10-07)
+
+### 🚀 Features
+
+- improved inventory and contact database design . ([2e15ebd](https://github.com/beemood/puq/commit/2e15ebd))
+- created hr databse ([2779975](https://github.com/beemood/puq/commit/2779975))
+- created asset-db ([4e670b3](https://github.com/beemood/puq/commit/4e670b3))
+- refiend teh asset database by remove external features such as maintance, tasks and supplier info. They will be implemented internal rotuine service ([bfbbca9](https://github.com/beemood/puq/commit/bfbbca9))
+- improved teh asset database by adding employee references ([6f87a25](https://github.com/beemood/puq/commit/6f87a25))
+- last touch to the asset database ([88b7384](https://github.com/beemood/puq/commit/88b7384))
+- clean up the old migration files ([0effff0](https://github.com/beemood/puq/commit/0effff0))
+- generated schemas ([77bf667](https://github.com/beemood/puq/commit/77bf667))
+- seeding and testing databases ([3dbf009](https://github.com/beemood/puq/commit/3dbf009))
+- seeding and testing inventory database ([d65967f](https://github.com/beemood/puq/commit/d65967f))
+- creatd barcode generartor ([942c1b0](https://github.com/beemood/puq/commit/942c1b0))
+- generated the inventory-db zod schemas ([8fa980c](https://github.com/beemood/puq/commit/8fa980c))
+- seeded the product ([879b871](https://github.com/beemood/puq/commit/879b871))
+- added default description value in inventory database ([9956753](https://github.com/beemood/puq/commit/9956753))
+- last touch for inventory database design ([97a3a9b](https://github.com/beemood/puq/commit/97a3a9b))
+- last touch for inventory database design ([fa570ef](https://github.com/beemood/puq/commit/fa570ef))
+- clean up the old migration scrips ([5964747](https://github.com/beemood/puq/commit/5964747))
+- removed docuemnt models from inventory databse ([93b5801](https://github.com/beemood/puq/commit/93b5801))
+- improved the contact and hr databases ([0f04189](https://github.com/beemood/puq/commit/0f04189))
+- improved the contact and hr databases ([2b3af6a](https://github.com/beemood/puq/commit/2b3af6a))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.18.0 (2025-09-30)
 
 ### 🚀 Features
