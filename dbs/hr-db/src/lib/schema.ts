@@ -37,7 +37,7 @@ export const DepartmentSelectSchema = z.object({
   slug: z.boolean().optional(),
   parent: z.boolean().optional(),
   children: z.boolean().optional(),
-  positions: z.boolean().optional(),
+  titles: z.boolean().optional(),
 });
 
 export const DepartmentQuerySchema = z.object({
@@ -59,10 +59,10 @@ export type DepartmentQuery = z.infer<typeof DepartmentQuerySchema>;
 
 
 
-// ---------- Position Schemas ----------
+// ---------- Title Schemas ----------
 
 
-export const PositionSchema = z.object({
+export const TitleSchema = z.object({
   id: z.number().int(),
   departmentId: z.number().int(),
   name: z.string(),
@@ -70,14 +70,14 @@ export const PositionSchema = z.object({
   description: z.string().nullish(),
 });
 
-export const PositionCreateSchema = z.object({
+export const TitleCreateSchema = z.object({
   departmentId: z.number().int(),
   name: z.string(),
   slug: z.string(),
   description: z.string().nullish(),
 });
 
-export const PositionUpdateSchema = z.object({
+export const TitleUpdateSchema = z.object({
   id: z.number().int().optional(),
   departmentId: z.number().int().optional(),
   name: z.string().optional(),
@@ -85,11 +85,11 @@ export const PositionUpdateSchema = z.object({
   description: z.string().nullish().optional(),
 });
 
-export const PositionWhereSchema = toWhereQuerySchema(PositionSchema);
+export const TitleWhereSchema = toWhereQuerySchema(TitleSchema);
 
-export const PositionOrderSchema =  toOrderBySchema(PositionSchema);
+export const TitleOrderSchema =  toOrderBySchema(TitleSchema);
 
-export const PositionSelectSchema = z.object({
+export const TitleSelectSchema = z.object({
   id: z.boolean().optional(),
   departmentId: z.boolean().optional(),
   name: z.boolean().optional(),
@@ -100,21 +100,21 @@ export const PositionSelectSchema = z.object({
   histories: z.boolean().optional(),
 });
 
-export const PositionQuerySchema = z.object({
+export const TitleQuerySchema = z.object({
   take: z.coerce.number().int().min(1), 
   skip: z.coerce.number().int().min(0), 
-  where: PositionWhereSchema.optional(),
-  orderBy: PositionOrderSchema.optional(),
-  select: PositionSelectSchema.optional()
+  where: TitleWhereSchema.optional(),
+  orderBy: TitleOrderSchema.optional(),
+  select: TitleSelectSchema.optional()
 });
 
-export type Position = z.infer<typeof PositionSchema>;
-export type PositionCreate = z.infer<typeof PositionCreateSchema>;
-export type PositionUpdate = z.infer<typeof PositionUpdateSchema>;
-export type PositionWhere = z.infer<typeof PositionWhereSchema>;
-export type PositionOrder = z.infer<typeof PositionOrderSchema>;
-export type PositionSelect = z.infer<typeof PositionSelectSchema>;
-export type PositionQuery = z.infer<typeof PositionQuerySchema>;
+export type Title = z.infer<typeof TitleSchema>;
+export type TitleCreate = z.infer<typeof TitleCreateSchema>;
+export type TitleUpdate = z.infer<typeof TitleUpdateSchema>;
+export type TitleWhere = z.infer<typeof TitleWhereSchema>;
+export type TitleOrder = z.infer<typeof TitleOrderSchema>;
+export type TitleSelect = z.infer<typeof TitleSelectSchema>;
+export type TitleQuery = z.infer<typeof TitleQuerySchema>;
 
 
 
@@ -125,40 +125,20 @@ export type PositionQuery = z.infer<typeof PositionQuerySchema>;
 export const EmployeeSchema = z.object({
   id: z.number().int(),
   uuid: z.string(),
-  positionId: z.number().int(),
-  firstName: z.string(),
-  middleName: z.string().nullish(),
-  lastName: z.string(),
-  preferedName: z.string().nullish(),
-  fullName: z.string(),
-  gender: z.any(),
-  slug: z.string(),
+  titleId: z.number().int(),
   status: z.any(),
 });
 
 export const EmployeeCreateSchema = z.object({
-  positionId: z.number().int(),
-  firstName: z.string(),
-  middleName: z.string().nullish(),
-  lastName: z.string(),
-  preferedName: z.string().nullish(),
-  fullName: z.string(),
-  gender: z.any(),
-  slug: z.string(),
+  uuid: z.string(),
+  titleId: z.number().int(),
   status: z.any(),
 });
 
 export const EmployeeUpdateSchema = z.object({
   id: z.number().int().optional(),
   uuid: z.string().optional(),
-  positionId: z.number().int().optional(),
-  firstName: z.string().optional(),
-  middleName: z.string().nullish().optional(),
-  lastName: z.string().optional(),
-  preferedName: z.string().nullish().optional(),
-  fullName: z.string().optional(),
-  gender: z.any().optional(),
-  slug: z.string().optional(),
+  titleId: z.number().int().optional(),
   status: z.any().optional(),
 });
 
@@ -169,29 +149,21 @@ export const EmployeeOrderSchema =  toOrderBySchema(EmployeeSchema);
 export const EmployeeSelectSchema = z.object({
   id: z.boolean().optional(),
   uuid: z.boolean().optional(),
-  positionId: z.boolean().optional(),
-  firstName: z.boolean().optional(),
-  middleName: z.boolean().optional(),
-  lastName: z.boolean().optional(),
-  preferedName: z.boolean().optional(),
-  fullName: z.boolean().optional(),
-  gender: z.boolean().optional(),
-  slug: z.boolean().optional(),
+  titleId: z.boolean().optional(),
   status: z.boolean().optional(),
-  position: z.boolean().optional(),
-  personalInfo: z.boolean().optional(),
+  title: z.boolean().optional(),
   leadTeams: z.boolean().optional(),
   memberships: z.boolean().optional(),
-  compensation: z.boolean().optional(),
-  compensationHistory: z.boolean().optional(),
-  contact: z.boolean().optional(),
+  salary: z.boolean().optional(),
+  salaryHistory: z.boolean().optional(),
   benefits: z.boolean().optional(),
-  positionHistory: z.boolean().optional(),
+  titleHistory: z.boolean().optional(),
   timeOffBalances: z.boolean().optional(),
   timeOffRequests: z.boolean().optional(),
-  approvedTimeOffs: z.boolean().optional(),
-  reviewedPerformances: z.boolean().optional(),
-  performanceReviews: z.boolean().optional(),
+  resolvedTimeOffs: z.boolean().optional(),
+  clockIns: z.boolean().optional(),
+  payments: z.boolean().optional(),
+  resolvedPayments: z.boolean().optional(),
 });
 
 export const EmployeeQuerySchema = z.object({
@@ -209,72 +181,6 @@ export type EmployeeWhere = z.infer<typeof EmployeeWhereSchema>;
 export type EmployeeOrder = z.infer<typeof EmployeeOrderSchema>;
 export type EmployeeSelect = z.infer<typeof EmployeeSelectSchema>;
 export type EmployeeQuery = z.infer<typeof EmployeeQuerySchema>;
-
-
-
-
-// ---------- PersonalInfo Schemas ----------
-
-
-export const PersonalInfoSchema = z.object({
-  id: z.number().int(),
-  employeeId: z.number().int(),
-  dateOfBirth: z.date(),
-  maritalStatus: z.any().nullish(),
-  nationality: z.string().nullish(),
-  ssnLast4: z.string().nullish(),
-  note: z.string().nullish(),
-});
-
-export const PersonalInfoCreateSchema = z.object({
-  employeeId: z.number().int(),
-  dateOfBirth: z.date(),
-  maritalStatus: z.any().nullish(),
-  nationality: z.string().nullish(),
-  ssnLast4: z.string().nullish(),
-  note: z.string().nullish(),
-});
-
-export const PersonalInfoUpdateSchema = z.object({
-  id: z.number().int().optional(),
-  employeeId: z.number().int().optional(),
-  dateOfBirth: z.date().optional(),
-  maritalStatus: z.any().nullish().optional(),
-  nationality: z.string().nullish().optional(),
-  ssnLast4: z.string().nullish().optional(),
-  note: z.string().nullish().optional(),
-});
-
-export const PersonalInfoWhereSchema = toWhereQuerySchema(PersonalInfoSchema);
-
-export const PersonalInfoOrderSchema =  toOrderBySchema(PersonalInfoSchema);
-
-export const PersonalInfoSelectSchema = z.object({
-  id: z.boolean().optional(),
-  employeeId: z.boolean().optional(),
-  dateOfBirth: z.boolean().optional(),
-  maritalStatus: z.boolean().optional(),
-  nationality: z.boolean().optional(),
-  ssnLast4: z.boolean().optional(),
-  note: z.boolean().optional(),
-  employee: z.boolean().optional(),
-});
-
-export const PersonalInfoQuerySchema = z.object({
-  take: z.coerce.number().int().min(1), 
-  skip: z.coerce.number().int().min(0), 
-  where: PersonalInfoWhereSchema.optional(),
-  orderBy: PersonalInfoOrderSchema.optional(),
-  select: PersonalInfoSelectSchema.optional()
-});
-
-export type PersonalInfo = z.infer<typeof PersonalInfoSchema>;
-export type PersonalInfoCreate = z.infer<typeof PersonalInfoCreateSchema>;
-export type PersonalInfoUpdate = z.infer<typeof PersonalInfoUpdateSchema>;
-export type PersonalInfoWhere = z.infer<typeof PersonalInfoWhereSchema>;
-export type PersonalInfoOrder = z.infer<typeof PersonalInfoOrderSchema>;
-export type PersonalInfoSelect = z.infer<typeof PersonalInfoSelectSchema>;
-export type PersonalInfoQuery = z.infer<typeof PersonalInfoQuerySchema>;
 
 
 
@@ -381,72 +287,68 @@ export type TeamMemberQuery = z.infer<typeof TeamMemberQuerySchema>;
 
 
 
-// ---------- Compensation Schemas ----------
+// ---------- Salary Schemas ----------
 
 
-export const CompensationSchema = z.object({
+export const SalarySchema = z.object({
   id: z.number().int(),
   employeeId: z.number().int(),
   salary: z.number(),
-  payFrequency: z.any(),
-  isHourly: z.boolean(),
-  lastReviewDate: z.date(),
+  frequency: z.any(),
+  lastReviewDate: z.date().nullish(),
 });
 
-export const CompensationCreateSchema = z.object({
+export const SalaryCreateSchema = z.object({
   employeeId: z.number().int(),
   salary: z.number(),
-  payFrequency: z.any(),
-  isHourly: z.boolean(),
-  lastReviewDate: z.date(),
+  frequency: z.any(),
+  lastReviewDate: z.date().nullish(),
 });
 
-export const CompensationUpdateSchema = z.object({
+export const SalaryUpdateSchema = z.object({
   id: z.number().int().optional(),
   employeeId: z.number().int().optional(),
   salary: z.number().optional(),
-  payFrequency: z.any().optional(),
-  isHourly: z.boolean().optional(),
-  lastReviewDate: z.date().optional(),
+  frequency: z.any().optional(),
+  lastReviewDate: z.date().nullish().optional(),
 });
 
-export const CompensationWhereSchema = toWhereQuerySchema(CompensationSchema);
+export const SalaryWhereSchema = toWhereQuerySchema(SalarySchema);
 
-export const CompensationOrderSchema =  toOrderBySchema(CompensationSchema);
+export const SalaryOrderSchema =  toOrderBySchema(SalarySchema);
 
-export const CompensationSelectSchema = z.object({
+export const SalarySelectSchema = z.object({
   id: z.boolean().optional(),
   employeeId: z.boolean().optional(),
   salary: z.boolean().optional(),
-  payFrequency: z.boolean().optional(),
-  isHourly: z.boolean().optional(),
+  frequency: z.boolean().optional(),
   lastReviewDate: z.boolean().optional(),
   employee: z.boolean().optional(),
 });
 
-export const CompensationQuerySchema = z.object({
+export const SalaryQuerySchema = z.object({
   take: z.coerce.number().int().min(1), 
   skip: z.coerce.number().int().min(0), 
-  where: CompensationWhereSchema.optional(),
-  orderBy: CompensationOrderSchema.optional(),
-  select: CompensationSelectSchema.optional()
+  where: SalaryWhereSchema.optional(),
+  orderBy: SalaryOrderSchema.optional(),
+  select: SalarySelectSchema.optional()
 });
 
-export type Compensation = z.infer<typeof CompensationSchema>;
-export type CompensationCreate = z.infer<typeof CompensationCreateSchema>;
-export type CompensationUpdate = z.infer<typeof CompensationUpdateSchema>;
-export type CompensationWhere = z.infer<typeof CompensationWhereSchema>;
-export type CompensationOrder = z.infer<typeof CompensationOrderSchema>;
-export type CompensationSelect = z.infer<typeof CompensationSelectSchema>;
-export type CompensationQuery = z.infer<typeof CompensationQuerySchema>;
+export type Salary = z.infer<typeof SalarySchema>;
+export type SalaryCreate = z.infer<typeof SalaryCreateSchema>;
+export type SalaryUpdate = z.infer<typeof SalaryUpdateSchema>;
+export type SalaryWhere = z.infer<typeof SalaryWhereSchema>;
+export type SalaryOrder = z.infer<typeof SalaryOrderSchema>;
+export type SalarySelect = z.infer<typeof SalarySelectSchema>;
+export type SalaryQuery = z.infer<typeof SalaryQuerySchema>;
 
 
 
 
-// ---------- CompensationHistory Schemas ----------
+// ---------- SalaryHistory Schemas ----------
 
 
-export const CompensationHistorySchema = z.object({
+export const SalaryHistorySchema = z.object({
   id: z.number().int(),
   employeeId: z.number().int(),
   changeDate: z.date(),
@@ -455,7 +357,7 @@ export const CompensationHistorySchema = z.object({
   reason: z.string().nullish(),
 });
 
-export const CompensationHistoryCreateSchema = z.object({
+export const SalaryHistoryCreateSchema = z.object({
   employeeId: z.number().int(),
   changeDate: z.date(),
   oldSalary: z.number(),
@@ -463,7 +365,7 @@ export const CompensationHistoryCreateSchema = z.object({
   reason: z.string().nullish(),
 });
 
-export const CompensationHistoryUpdateSchema = z.object({
+export const SalaryHistoryUpdateSchema = z.object({
   id: z.number().int().optional(),
   employeeId: z.number().int().optional(),
   changeDate: z.date().optional(),
@@ -472,11 +374,11 @@ export const CompensationHistoryUpdateSchema = z.object({
   reason: z.string().nullish().optional(),
 });
 
-export const CompensationHistoryWhereSchema = toWhereQuerySchema(CompensationHistorySchema);
+export const SalaryHistoryWhereSchema = toWhereQuerySchema(SalaryHistorySchema);
 
-export const CompensationHistoryOrderSchema =  toOrderBySchema(CompensationHistorySchema);
+export const SalaryHistoryOrderSchema =  toOrderBySchema(SalaryHistorySchema);
 
-export const CompensationHistorySelectSchema = z.object({
+export const SalaryHistorySelectSchema = z.object({
   id: z.boolean().optional(),
   employeeId: z.boolean().optional(),
   changeDate: z.boolean().optional(),
@@ -486,183 +388,21 @@ export const CompensationHistorySelectSchema = z.object({
   employee: z.boolean().optional(),
 });
 
-export const CompensationHistoryQuerySchema = z.object({
+export const SalaryHistoryQuerySchema = z.object({
   take: z.coerce.number().int().min(1), 
   skip: z.coerce.number().int().min(0), 
-  where: CompensationHistoryWhereSchema.optional(),
-  orderBy: CompensationHistoryOrderSchema.optional(),
-  select: CompensationHistorySelectSchema.optional()
+  where: SalaryHistoryWhereSchema.optional(),
+  orderBy: SalaryHistoryOrderSchema.optional(),
+  select: SalaryHistorySelectSchema.optional()
 });
 
-export type CompensationHistory = z.infer<typeof CompensationHistorySchema>;
-export type CompensationHistoryCreate = z.infer<typeof CompensationHistoryCreateSchema>;
-export type CompensationHistoryUpdate = z.infer<typeof CompensationHistoryUpdateSchema>;
-export type CompensationHistoryWhere = z.infer<typeof CompensationHistoryWhereSchema>;
-export type CompensationHistoryOrder = z.infer<typeof CompensationHistoryOrderSchema>;
-export type CompensationHistorySelect = z.infer<typeof CompensationHistorySelectSchema>;
-export type CompensationHistoryQuery = z.infer<typeof CompensationHistoryQuerySchema>;
-
-
-
-
-// ---------- Contact Schemas ----------
-
-
-export const ContactSchema = z.object({
-  id: z.number().int(),
-  employeeId: z.number().int(),
-});
-
-export const ContactCreateSchema = z.object({
-  employeeId: z.number().int(),
-});
-
-export const ContactUpdateSchema = z.object({
-  id: z.number().int().optional(),
-  employeeId: z.number().int().optional(),
-});
-
-export const ContactWhereSchema = toWhereQuerySchema(ContactSchema);
-
-export const ContactOrderSchema =  toOrderBySchema(ContactSchema);
-
-export const ContactSelectSchema = z.object({
-  id: z.boolean().optional(),
-  employeeId: z.boolean().optional(),
-  employee: z.boolean().optional(),
-  emails: z.boolean().optional(),
-  phones: z.boolean().optional(),
-});
-
-export const ContactQuerySchema = z.object({
-  take: z.coerce.number().int().min(1), 
-  skip: z.coerce.number().int().min(0), 
-  where: ContactWhereSchema.optional(),
-  orderBy: ContactOrderSchema.optional(),
-  select: ContactSelectSchema.optional()
-});
-
-export type Contact = z.infer<typeof ContactSchema>;
-export type ContactCreate = z.infer<typeof ContactCreateSchema>;
-export type ContactUpdate = z.infer<typeof ContactUpdateSchema>;
-export type ContactWhere = z.infer<typeof ContactWhereSchema>;
-export type ContactOrder = z.infer<typeof ContactOrderSchema>;
-export type ContactSelect = z.infer<typeof ContactSelectSchema>;
-export type ContactQuery = z.infer<typeof ContactQuerySchema>;
-
-
-
-
-// ---------- Email Schemas ----------
-
-
-export const EmailSchema = z.object({
-  id: z.number().int(),
-  contactId: z.number().int(),
-  type: z.any().nullish(),
-  email: z.string(),
-  order: z.number().int(),
-});
-
-export const EmailCreateSchema = z.object({
-  contactId: z.number().int(),
-  type: z.any().nullish(),
-  email: z.string(),
-});
-
-export const EmailUpdateSchema = z.object({
-  id: z.number().int().optional(),
-  contactId: z.number().int().optional(),
-  type: z.any().nullish().optional(),
-  email: z.string().optional(),
-  order: z.number().int().optional(),
-});
-
-export const EmailWhereSchema = toWhereQuerySchema(EmailSchema);
-
-export const EmailOrderSchema =  toOrderBySchema(EmailSchema);
-
-export const EmailSelectSchema = z.object({
-  id: z.boolean().optional(),
-  contactId: z.boolean().optional(),
-  type: z.boolean().optional(),
-  email: z.boolean().optional(),
-  contact: z.boolean().optional(),
-  order: z.boolean().optional(),
-});
-
-export const EmailQuerySchema = z.object({
-  take: z.coerce.number().int().min(1), 
-  skip: z.coerce.number().int().min(0), 
-  where: EmailWhereSchema.optional(),
-  orderBy: EmailOrderSchema.optional(),
-  select: EmailSelectSchema.optional()
-});
-
-export type Email = z.infer<typeof EmailSchema>;
-export type EmailCreate = z.infer<typeof EmailCreateSchema>;
-export type EmailUpdate = z.infer<typeof EmailUpdateSchema>;
-export type EmailWhere = z.infer<typeof EmailWhereSchema>;
-export type EmailOrder = z.infer<typeof EmailOrderSchema>;
-export type EmailSelect = z.infer<typeof EmailSelectSchema>;
-export type EmailQuery = z.infer<typeof EmailQuerySchema>;
-
-
-
-
-// ---------- Phone Schemas ----------
-
-
-export const PhoneSchema = z.object({
-  id: z.number().int(),
-  contactId: z.number().int(),
-  type: z.any().nullish(),
-  phone: z.string(),
-  order: z.number().int(),
-});
-
-export const PhoneCreateSchema = z.object({
-  contactId: z.number().int(),
-  type: z.any().nullish(),
-  phone: z.string(),
-});
-
-export const PhoneUpdateSchema = z.object({
-  id: z.number().int().optional(),
-  contactId: z.number().int().optional(),
-  type: z.any().nullish().optional(),
-  phone: z.string().optional(),
-  order: z.number().int().optional(),
-});
-
-export const PhoneWhereSchema = toWhereQuerySchema(PhoneSchema);
-
-export const PhoneOrderSchema =  toOrderBySchema(PhoneSchema);
-
-export const PhoneSelectSchema = z.object({
-  id: z.boolean().optional(),
-  contactId: z.boolean().optional(),
-  type: z.boolean().optional(),
-  phone: z.boolean().optional(),
-  contact: z.boolean().optional(),
-  order: z.boolean().optional(),
-});
-
-export const PhoneQuerySchema = z.object({
-  take: z.coerce.number().int().min(1), 
-  skip: z.coerce.number().int().min(0), 
-  where: PhoneWhereSchema.optional(),
-  orderBy: PhoneOrderSchema.optional(),
-  select: PhoneSelectSchema.optional()
-});
-
-export type Phone = z.infer<typeof PhoneSchema>;
-export type PhoneCreate = z.infer<typeof PhoneCreateSchema>;
-export type PhoneUpdate = z.infer<typeof PhoneUpdateSchema>;
-export type PhoneWhere = z.infer<typeof PhoneWhereSchema>;
-export type PhoneOrder = z.infer<typeof PhoneOrderSchema>;
-export type PhoneSelect = z.infer<typeof PhoneSelectSchema>;
-export type PhoneQuery = z.infer<typeof PhoneQuerySchema>;
+export type SalaryHistory = z.infer<typeof SalaryHistorySchema>;
+export type SalaryHistoryCreate = z.infer<typeof SalaryHistoryCreateSchema>;
+export type SalaryHistoryUpdate = z.infer<typeof SalaryHistoryUpdateSchema>;
+export type SalaryHistoryWhere = z.infer<typeof SalaryHistoryWhereSchema>;
+export type SalaryHistoryOrder = z.infer<typeof SalaryHistoryOrderSchema>;
+export type SalaryHistorySelect = z.infer<typeof SalaryHistorySelectSchema>;
+export type SalaryHistoryQuery = z.infer<typeof SalaryHistoryQuerySchema>;
 
 
 
@@ -726,14 +466,14 @@ export type BenefitQuery = z.infer<typeof BenefitQuerySchema>;
 
 export const BenefitEnrolmentSchema = z.object({
   id: z.number().int(),
-  benefitId: z.number().int(),
+  bid: z.number().int(),
   employeeId: z.number().int(),
   startDate: z.date(),
   status: z.any(),
 });
 
 export const BenefitEnrolmentCreateSchema = z.object({
-  benefitId: z.number().int(),
+  bid: z.number().int(),
   employeeId: z.number().int(),
   startDate: z.date(),
   status: z.any(),
@@ -741,7 +481,7 @@ export const BenefitEnrolmentCreateSchema = z.object({
 
 export const BenefitEnrolmentUpdateSchema = z.object({
   id: z.number().int().optional(),
-  benefitId: z.number().int().optional(),
+  bid: z.number().int().optional(),
   employeeId: z.number().int().optional(),
   startDate: z.date().optional(),
   status: z.any().optional(),
@@ -753,7 +493,7 @@ export const BenefitEnrolmentOrderSchema =  toOrderBySchema(BenefitEnrolmentSche
 
 export const BenefitEnrolmentSelectSchema = z.object({
   id: z.boolean().optional(),
-  benefitId: z.boolean().optional(),
+  bid: z.boolean().optional(),
   employeeId: z.boolean().optional(),
   startDate: z.boolean().optional(),
   status: z.boolean().optional(),
@@ -780,69 +520,69 @@ export type BenefitEnrolmentQuery = z.infer<typeof BenefitEnrolmentQuerySchema>;
 
 
 
-// ---------- PositionHistory Schemas ----------
+// ---------- TitleHistory Schemas ----------
 
 
-export const PositionHistorySchema = z.object({
+export const TitleHistorySchema = z.object({
   id: z.number().int(),
   employeeId: z.number().int(),
-  positionId: z.number().int(),
+  titleId: z.number().int(),
   type: z.any(),
-  justification: z.string().nullish(),
+  reason: z.string().nullish(),
   startDate: z.date(),
   endDate: z.date().nullish(),
 });
 
-export const PositionHistoryCreateSchema = z.object({
+export const TitleHistoryCreateSchema = z.object({
   employeeId: z.number().int(),
-  positionId: z.number().int(),
+  titleId: z.number().int(),
   type: z.any(),
-  justification: z.string().nullish(),
+  reason: z.string().nullish(),
   startDate: z.date(),
   endDate: z.date().nullish(),
 });
 
-export const PositionHistoryUpdateSchema = z.object({
+export const TitleHistoryUpdateSchema = z.object({
   id: z.number().int().optional(),
   employeeId: z.number().int().optional(),
-  positionId: z.number().int().optional(),
+  titleId: z.number().int().optional(),
   type: z.any().optional(),
-  justification: z.string().nullish().optional(),
+  reason: z.string().nullish().optional(),
   startDate: z.date().optional(),
   endDate: z.date().nullish().optional(),
 });
 
-export const PositionHistoryWhereSchema = toWhereQuerySchema(PositionHistorySchema);
+export const TitleHistoryWhereSchema = toWhereQuerySchema(TitleHistorySchema);
 
-export const PositionHistoryOrderSchema =  toOrderBySchema(PositionHistorySchema);
+export const TitleHistoryOrderSchema =  toOrderBySchema(TitleHistorySchema);
 
-export const PositionHistorySelectSchema = z.object({
+export const TitleHistorySelectSchema = z.object({
   id: z.boolean().optional(),
   employeeId: z.boolean().optional(),
-  positionId: z.boolean().optional(),
+  titleId: z.boolean().optional(),
   type: z.boolean().optional(),
-  justification: z.boolean().optional(),
+  reason: z.boolean().optional(),
   startDate: z.boolean().optional(),
   endDate: z.boolean().optional(),
   employee: z.boolean().optional(),
-  position: z.boolean().optional(),
+  title: z.boolean().optional(),
 });
 
-export const PositionHistoryQuerySchema = z.object({
+export const TitleHistoryQuerySchema = z.object({
   take: z.coerce.number().int().min(1), 
   skip: z.coerce.number().int().min(0), 
-  where: PositionHistoryWhereSchema.optional(),
-  orderBy: PositionHistoryOrderSchema.optional(),
-  select: PositionHistorySelectSchema.optional()
+  where: TitleHistoryWhereSchema.optional(),
+  orderBy: TitleHistoryOrderSchema.optional(),
+  select: TitleHistorySelectSchema.optional()
 });
 
-export type PositionHistory = z.infer<typeof PositionHistorySchema>;
-export type PositionHistoryCreate = z.infer<typeof PositionHistoryCreateSchema>;
-export type PositionHistoryUpdate = z.infer<typeof PositionHistoryUpdateSchema>;
-export type PositionHistoryWhere = z.infer<typeof PositionHistoryWhereSchema>;
-export type PositionHistoryOrder = z.infer<typeof PositionHistoryOrderSchema>;
-export type PositionHistorySelect = z.infer<typeof PositionHistorySelectSchema>;
-export type PositionHistoryQuery = z.infer<typeof PositionHistoryQuerySchema>;
+export type TitleHistory = z.infer<typeof TitleHistorySchema>;
+export type TitleHistoryCreate = z.infer<typeof TitleHistoryCreateSchema>;
+export type TitleHistoryUpdate = z.infer<typeof TitleHistoryUpdateSchema>;
+export type TitleHistoryWhere = z.infer<typeof TitleHistoryWhereSchema>;
+export type TitleHistoryOrder = z.infer<typeof TitleHistoryOrderSchema>;
+export type TitleHistorySelect = z.infer<typeof TitleHistorySelectSchema>;
+export type TitleHistoryQuery = z.infer<typeof TitleHistoryQuerySchema>;
 
 
 
@@ -853,27 +593,27 @@ export type PositionHistoryQuery = z.infer<typeof PositionHistoryQuerySchema>;
 export const TimeOffPolicySchema = z.object({
   id: z.number().int(),
   name: z.string(),
-  timeOffType: z.any(),
+  type: z.any(),
   accrualRate: z.number(),
   maxRollover: z.number(),
-  policyDetails: z.string().nullish(),
+  description: z.string().nullish(),
 });
 
 export const TimeOffPolicyCreateSchema = z.object({
   name: z.string(),
-  timeOffType: z.any(),
+  type: z.any(),
   accrualRate: z.number(),
   maxRollover: z.number(),
-  policyDetails: z.string().nullish(),
+  description: z.string().nullish(),
 });
 
 export const TimeOffPolicyUpdateSchema = z.object({
   id: z.number().int().optional(),
   name: z.string().optional(),
-  timeOffType: z.any().optional(),
+  type: z.any().optional(),
   accrualRate: z.number().optional(),
   maxRollover: z.number().optional(),
-  policyDetails: z.string().nullish().optional(),
+  description: z.string().nullish().optional(),
 });
 
 export const TimeOffPolicyWhereSchema = toWhereQuerySchema(TimeOffPolicySchema);
@@ -883,12 +623,12 @@ export const TimeOffPolicyOrderSchema =  toOrderBySchema(TimeOffPolicySchema);
 export const TimeOffPolicySelectSchema = z.object({
   id: z.boolean().optional(),
   name: z.boolean().optional(),
-  timeOffType: z.boolean().optional(),
+  type: z.boolean().optional(),
   accrualRate: z.boolean().optional(),
   maxRollover: z.boolean().optional(),
-  policyDetails: z.boolean().optional(),
+  description: z.boolean().optional(),
   balances: z.boolean().optional(),
-  TimeOffRequest: z.boolean().optional(),
+  requests: z.boolean().optional(),
 });
 
 export const TimeOffPolicyQuerySchema = z.object({
@@ -981,7 +721,7 @@ export const TimeOffRequestSchema = z.object({
   id: z.number().int(),
   employeeId: z.number().int(),
   policyId: z.number().int(),
-  approverId: z.number().int().nullish(),
+  resolverId: z.number().int().nullish(),
   status: z.any(),
   startDate: z.date(),
   endDate: z.date(),
@@ -990,7 +730,7 @@ export const TimeOffRequestSchema = z.object({
 export const TimeOffRequestCreateSchema = z.object({
   employeeId: z.number().int(),
   policyId: z.number().int(),
-  approverId: z.number().int().nullish(),
+  resolverId: z.number().int().nullish(),
   status: z.any(),
   startDate: z.date(),
   endDate: z.date(),
@@ -1000,7 +740,7 @@ export const TimeOffRequestUpdateSchema = z.object({
   id: z.number().int().optional(),
   employeeId: z.number().int().optional(),
   policyId: z.number().int().optional(),
-  approverId: z.number().int().nullish().optional(),
+  resolverId: z.number().int().nullish().optional(),
   status: z.any().optional(),
   startDate: z.date().optional(),
   endDate: z.date().optional(),
@@ -1014,13 +754,13 @@ export const TimeOffRequestSelectSchema = z.object({
   id: z.boolean().optional(),
   employeeId: z.boolean().optional(),
   policyId: z.boolean().optional(),
-  approverId: z.boolean().optional(),
+  resolverId: z.boolean().optional(),
   status: z.boolean().optional(),
   startDate: z.boolean().optional(),
   endDate: z.boolean().optional(),
   employee: z.boolean().optional(),
   policy: z.boolean().optional(),
-  approver: z.boolean().optional(),
+  resolver: z.boolean().optional(),
   transaction: z.boolean().optional(),
 });
 
@@ -1048,20 +788,20 @@ export type TimeOffRequestQuery = z.infer<typeof TimeOffRequestQuerySchema>;
 
 export const TimeOffTransactionSchema = z.object({
   id: z.number().int(),
-  timeOffBalanceId: z.number().int(),
+  balanceId: z.number().int(),
   requestId: z.number().int().nullish(),
   amount: z.number(),
 });
 
 export const TimeOffTransactionCreateSchema = z.object({
-  timeOffBalanceId: z.number().int(),
+  balanceId: z.number().int(),
   requestId: z.number().int().nullish(),
   amount: z.number(),
 });
 
 export const TimeOffTransactionUpdateSchema = z.object({
   id: z.number().int().optional(),
-  timeOffBalanceId: z.number().int().optional(),
+  balanceId: z.number().int().optional(),
   requestId: z.number().int().nullish().optional(),
   amount: z.number().optional(),
 });
@@ -1072,7 +812,7 @@ export const TimeOffTransactionOrderSchema =  toOrderBySchema(TimeOffTransaction
 
 export const TimeOffTransactionSelectSchema = z.object({
   id: z.boolean().optional(),
-  timeOffBalanceId: z.boolean().optional(),
+  balanceId: z.boolean().optional(),
   requestId: z.boolean().optional(),
   amount: z.boolean().optional(),
   balance: z.boolean().optional(),
@@ -1098,127 +838,119 @@ export type TimeOffTransactionQuery = z.infer<typeof TimeOffTransactionQuerySche
 
 
 
-// ---------- ReviewCycle Schemas ----------
+// ---------- ClockIn Schemas ----------
 
 
-export const ReviewCycleSchema = z.object({
-  id: z.number().int(),
-  name: z.string(),
-  startDate: z.date(),
-  endDate: z.date(),
-});
-
-export const ReviewCycleCreateSchema = z.object({
-  name: z.string(),
-  startDate: z.date(),
-  endDate: z.date(),
-});
-
-export const ReviewCycleUpdateSchema = z.object({
-  id: z.number().int().optional(),
-  name: z.string().optional(),
-  startDate: z.date().optional(),
-  endDate: z.date().optional(),
-});
-
-export const ReviewCycleWhereSchema = toWhereQuerySchema(ReviewCycleSchema);
-
-export const ReviewCycleOrderSchema =  toOrderBySchema(ReviewCycleSchema);
-
-export const ReviewCycleSelectSchema = z.object({
-  id: z.boolean().optional(),
-  name: z.boolean().optional(),
-  startDate: z.boolean().optional(),
-  endDate: z.boolean().optional(),
-  reviews: z.boolean().optional(),
-});
-
-export const ReviewCycleQuerySchema = z.object({
-  take: z.coerce.number().int().min(1), 
-  skip: z.coerce.number().int().min(0), 
-  where: ReviewCycleWhereSchema.optional(),
-  orderBy: ReviewCycleOrderSchema.optional(),
-  select: ReviewCycleSelectSchema.optional()
-});
-
-export type ReviewCycle = z.infer<typeof ReviewCycleSchema>;
-export type ReviewCycleCreate = z.infer<typeof ReviewCycleCreateSchema>;
-export type ReviewCycleUpdate = z.infer<typeof ReviewCycleUpdateSchema>;
-export type ReviewCycleWhere = z.infer<typeof ReviewCycleWhereSchema>;
-export type ReviewCycleOrder = z.infer<typeof ReviewCycleOrderSchema>;
-export type ReviewCycleSelect = z.infer<typeof ReviewCycleSelectSchema>;
-export type ReviewCycleQuery = z.infer<typeof ReviewCycleQuerySchema>;
-
-
-
-
-// ---------- PerformanceReview Schemas ----------
-
-
-export const PerformanceReviewSchema = z.object({
+export const ClockInSchema = z.object({
   id: z.number().int(),
   employeeId: z.number().int(),
-  reviewerId: z.number().int(),
-  cycleId: z.number().int(),
-  reviewDate: z.date(),
-  rating: z.number().int().nullish(),
-  summary: z.string().nullish(),
-  goals: z.string().nullish(),
+  paymentId: z.number().int().nullish(),
+  clockIn: z.date(),
+  clockOut: z.date().nullish(),
 });
 
-export const PerformanceReviewCreateSchema = z.object({
+export const ClockInCreateSchema = z.object({
   employeeId: z.number().int(),
-  reviewerId: z.number().int(),
-  cycleId: z.number().int(),
-  reviewDate: z.date(),
-  rating: z.number().int().nullish(),
-  summary: z.string().nullish(),
-  goals: z.string().nullish(),
+  paymentId: z.number().int().nullish(),
+  clockOut: z.date().nullish(),
 });
 
-export const PerformanceReviewUpdateSchema = z.object({
+export const ClockInUpdateSchema = z.object({
   id: z.number().int().optional(),
   employeeId: z.number().int().optional(),
-  reviewerId: z.number().int().optional(),
-  cycleId: z.number().int().optional(),
-  reviewDate: z.date().optional(),
-  rating: z.number().int().nullish().optional(),
-  summary: z.string().nullish().optional(),
-  goals: z.string().nullish().optional(),
+  paymentId: z.number().int().nullish().optional(),
+  clockIn: z.date().optional(),
+  clockOut: z.date().nullish().optional(),
 });
 
-export const PerformanceReviewWhereSchema = toWhereQuerySchema(PerformanceReviewSchema);
+export const ClockInWhereSchema = toWhereQuerySchema(ClockInSchema);
 
-export const PerformanceReviewOrderSchema =  toOrderBySchema(PerformanceReviewSchema);
+export const ClockInOrderSchema =  toOrderBySchema(ClockInSchema);
 
-export const PerformanceReviewSelectSchema = z.object({
+export const ClockInSelectSchema = z.object({
   id: z.boolean().optional(),
   employeeId: z.boolean().optional(),
-  reviewerId: z.boolean().optional(),
-  cycleId: z.boolean().optional(),
-  reviewDate: z.boolean().optional(),
-  rating: z.boolean().optional(),
-  summary: z.boolean().optional(),
-  goals: z.boolean().optional(),
+  paymentId: z.boolean().optional(),
+  clockIn: z.boolean().optional(),
+  clockOut: z.boolean().optional(),
   employee: z.boolean().optional(),
-  reviewer: z.boolean().optional(),
-  cycle: z.boolean().optional(),
+  payment: z.boolean().optional(),
 });
 
-export const PerformanceReviewQuerySchema = z.object({
+export const ClockInQuerySchema = z.object({
   take: z.coerce.number().int().min(1), 
   skip: z.coerce.number().int().min(0), 
-  where: PerformanceReviewWhereSchema.optional(),
-  orderBy: PerformanceReviewOrderSchema.optional(),
-  select: PerformanceReviewSelectSchema.optional()
+  where: ClockInWhereSchema.optional(),
+  orderBy: ClockInOrderSchema.optional(),
+  select: ClockInSelectSchema.optional()
 });
 
-export type PerformanceReview = z.infer<typeof PerformanceReviewSchema>;
-export type PerformanceReviewCreate = z.infer<typeof PerformanceReviewCreateSchema>;
-export type PerformanceReviewUpdate = z.infer<typeof PerformanceReviewUpdateSchema>;
-export type PerformanceReviewWhere = z.infer<typeof PerformanceReviewWhereSchema>;
-export type PerformanceReviewOrder = z.infer<typeof PerformanceReviewOrderSchema>;
-export type PerformanceReviewSelect = z.infer<typeof PerformanceReviewSelectSchema>;
-export type PerformanceReviewQuery = z.infer<typeof PerformanceReviewQuerySchema>;
+export type ClockIn = z.infer<typeof ClockInSchema>;
+export type ClockInCreate = z.infer<typeof ClockInCreateSchema>;
+export type ClockInUpdate = z.infer<typeof ClockInUpdateSchema>;
+export type ClockInWhere = z.infer<typeof ClockInWhereSchema>;
+export type ClockInOrder = z.infer<typeof ClockInOrderSchema>;
+export type ClockInSelect = z.infer<typeof ClockInSelectSchema>;
+export type ClockInQuery = z.infer<typeof ClockInQuerySchema>;
+
+
+
+
+// ---------- Payment Schemas ----------
+
+
+export const PaymentSchema = z.object({
+  id: z.number().int(),
+  employeeId: z.number().int(),
+  resolverId: z.number().int(),
+  type: z.any(),
+  status: z.any(),
+});
+
+export const PaymentCreateSchema = z.object({
+  employeeId: z.number().int(),
+  resolverId: z.number().int(),
+  type: z.any(),
+  status: z.any(),
+});
+
+export const PaymentUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  employeeId: z.number().int().optional(),
+  resolverId: z.number().int().optional(),
+  type: z.any().optional(),
+  status: z.any().optional(),
+});
+
+export const PaymentWhereSchema = toWhereQuerySchema(PaymentSchema);
+
+export const PaymentOrderSchema =  toOrderBySchema(PaymentSchema);
+
+export const PaymentSelectSchema = z.object({
+  id: z.boolean().optional(),
+  employeeId: z.boolean().optional(),
+  resolverId: z.boolean().optional(),
+  type: z.boolean().optional(),
+  status: z.boolean().optional(),
+  employee: z.boolean().optional(),
+  resolvedBy: z.boolean().optional(),
+  hours: z.boolean().optional(),
+});
+
+export const PaymentQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: PaymentWhereSchema.optional(),
+  orderBy: PaymentOrderSchema.optional(),
+  select: PaymentSelectSchema.optional()
+});
+
+export type Payment = z.infer<typeof PaymentSchema>;
+export type PaymentCreate = z.infer<typeof PaymentCreateSchema>;
+export type PaymentUpdate = z.infer<typeof PaymentUpdateSchema>;
+export type PaymentWhere = z.infer<typeof PaymentWhereSchema>;
+export type PaymentOrder = z.infer<typeof PaymentOrderSchema>;
+export type PaymentSelect = z.infer<typeof PaymentSelectSchema>;
+export type PaymentQuery = z.infer<typeof PaymentQuerySchema>;
 
 

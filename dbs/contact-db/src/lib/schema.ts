@@ -140,7 +140,7 @@ export const OrgIndustrySelectSchema = z.object({
   orgId: z.boolean().optional(),
   industryId: z.boolean().optional(),
   industry: z.boolean().optional(),
-  organization: z.boolean().optional(),
+  org: z.boolean().optional(),
 });
 
 export const OrgIndustryQuerySchema = z.object({
@@ -168,17 +168,20 @@ export type OrgIndustryQuery = z.infer<typeof OrgIndustryQuerySchema>;
 export const OccupationSchema = z.object({
   id: z.number().int(),
   name: z.string(),
+  slug: z.string(),
   description: z.string().nullish(),
 });
 
 export const OccupationCreateSchema = z.object({
   name: z.string(),
+  slug: z.string(),
   description: z.string().nullish(),
 });
 
 export const OccupationUpdateSchema = z.object({
   id: z.number().int().optional(),
   name: z.string().optional(),
+  slug: z.string().optional(),
   description: z.string().nullish().optional(),
 });
 
@@ -189,6 +192,7 @@ export const OccupationOrderSchema =  toOrderBySchema(OccupationSchema);
 export const OccupationSelectSchema = z.object({
   id: z.boolean().optional(),
   name: z.boolean().optional(),
+  slug: z.boolean().optional(),
   description: z.boolean().optional(),
   agents: z.boolean().optional(),
 });
@@ -293,8 +297,8 @@ export type AgentQuery = z.infer<typeof AgentQuerySchema>;
 
 export const ContactSchema = z.object({
   id: z.number().int(),
-  agentId: z.number().int(),
   uuid: z.string(),
+  agentId: z.number().int(),
   type: z.any(),
   order: z.number().int().nullish(),
 });
@@ -307,8 +311,8 @@ export const ContactCreateSchema = z.object({
 
 export const ContactUpdateSchema = z.object({
   id: z.number().int().optional(),
-  agentId: z.number().int().optional(),
   uuid: z.string().optional(),
+  agentId: z.number().int().optional(),
   type: z.any().optional(),
   order: z.number().int().nullish().optional(),
 });
@@ -319,15 +323,15 @@ export const ContactOrderSchema =  toOrderBySchema(ContactSchema);
 
 export const ContactSelectSchema = z.object({
   id: z.boolean().optional(),
-  agentId: z.boolean().optional(),
   uuid: z.boolean().optional(),
+  agentId: z.boolean().optional(),
   type: z.boolean().optional(),
+  order: z.boolean().optional(),
   emails: z.boolean().optional(),
   phones: z.boolean().optional(),
   addresses: z.boolean().optional(),
   websites: z.boolean().optional(),
   agent: z.boolean().optional(),
-  order: z.boolean().optional(),
 });
 
 export const ContactQuerySchema = z.object({
@@ -409,18 +413,18 @@ export type StateQuery = z.infer<typeof StateQuerySchema>;
 
 export const CountrySchema = z.object({
   id: z.number().int(),
-  country: z.string(),
+  name: z.string(),
   code: z.string(),
 });
 
 export const CountryCreateSchema = z.object({
-  country: z.string(),
+  name: z.string(),
   code: z.string(),
 });
 
 export const CountryUpdateSchema = z.object({
   id: z.number().int().optional(),
-  country: z.string().optional(),
+  name: z.string().optional(),
   code: z.string().optional(),
 });
 
@@ -430,7 +434,7 @@ export const CountryOrderSchema =  toOrderBySchema(CountrySchema);
 
 export const CountrySelectSchema = z.object({
   id: z.boolean().optional(),
-  country: z.boolean().optional(),
+  name: z.boolean().optional(),
   code: z.boolean().optional(),
   states: z.boolean().optional(),
 });
@@ -460,18 +464,18 @@ export type CountryQuery = z.infer<typeof CountryQuerySchema>;
 export const CitySchema = z.object({
   id: z.number().int(),
   stateId: z.number().int(),
-  city: z.string(),
+  name: z.string(),
 });
 
 export const CityCreateSchema = z.object({
   stateId: z.number().int(),
-  city: z.string(),
+  name: z.string(),
 });
 
 export const CityUpdateSchema = z.object({
   id: z.number().int().optional(),
   stateId: z.number().int().optional(),
-  city: z.string().optional(),
+  name: z.string().optional(),
 });
 
 export const CityWhereSchema = toWhereQuerySchema(CitySchema);
@@ -481,7 +485,7 @@ export const CityOrderSchema =  toOrderBySchema(CitySchema);
 export const CitySelectSchema = z.object({
   id: z.boolean().optional(),
   stateId: z.boolean().optional(),
-  city: z.boolean().optional(),
+  name: z.boolean().optional(),
   state: z.boolean().optional(),
   addresses: z.boolean().optional(),
 });
@@ -544,9 +548,9 @@ export const AddressSelectSchema = z.object({
   cityId: z.boolean().optional(),
   street: z.boolean().optional(),
   zip: z.boolean().optional(),
+  order: z.boolean().optional(),
   city: z.boolean().optional(),
   contact: z.boolean().optional(),
-  order: z.boolean().optional(),
 });
 
 export const AddressQuerySchema = z.object({
@@ -599,8 +603,8 @@ export const EmailSelectSchema = z.object({
   id: z.boolean().optional(),
   contactId: z.boolean().optional(),
   email: z.boolean().optional(),
-  contact: z.boolean().optional(),
   order: z.boolean().optional(),
+  contact: z.boolean().optional(),
 });
 
 export const EmailQuerySchema = z.object({
@@ -653,8 +657,8 @@ export const PhoneSelectSchema = z.object({
   id: z.boolean().optional(),
   contactId: z.boolean().optional(),
   phone: z.boolean().optional(),
-  contact: z.boolean().optional(),
   order: z.boolean().optional(),
+  contact: z.boolean().optional(),
 });
 
 export const PhoneQuerySchema = z.object({
@@ -707,8 +711,8 @@ export const WebsiteSelectSchema = z.object({
   id: z.boolean().optional(),
   contactId: z.boolean().optional(),
   url: z.boolean().optional(),
-  contact: z.boolean().optional(),
   order: z.boolean().optional(),
+  contact: z.boolean().optional(),
 });
 
 export const WebsiteQuerySchema = z.object({
