@@ -8,16 +8,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/// Discount type 
-enum DiscountType {
-  /// Such as 10% discount
+/// Discount value type percent or fixed
+enum DiscountValueType {
+  /// Enforce percent value between 0 between 100
   PERCENT
 
-  /// Such as $10
-  FIXED_AMOUNT
+  /// Enforce currency between 0 to maximum allowed discount
+  FIXED
+}
 
-  /// Buy one get one
-  BOGO
+/// Discount type  VOLUME, FREE_SHIPPING, ORDER_TOTAL
+enum DiscountType {
+  /// Discount applied directly to target without any volume or amount condition
+  SIMPLE
+
+  /// Volumne discount such as 10 or more items %10 discount
+  VOLUME
+
+  /// Free shipping service discount
+  FREE_SHIPPING
+
+  /// Apply discount when it reaches out to to a certain amount such as %10 discount for $200 total
+  ORDER_TOTAL
 }
 
 enum TimeUnit {
@@ -32,7 +44,8 @@ enum TimeUnit {
 
 /// Product category to group products 
 model Category {
-  id       Int  @id @default(autoincrement())
+  id Int @id @default(autoincrement())
+
   /// Categories might have parent category
   parentId Int?
 
@@ -50,6 +63,9 @@ model Category {
 
   /// List of products in this category
   products ProductCategory[]
+
+  /// List of discounts for this category
+  discountTargets DiscountTarget[]
 }
 
 /// Main common product table
@@ -84,7 +100,7 @@ model Product {
   discounts DiscountTarget[]
 
   /// List of warranties that the product falls into.
-  productWarranties ProductWarranty[]
+  warranties ProductWarranty[]
 }
 
 /// Product image
@@ -182,7 +198,7 @@ model Variant {
   serrialNumbers SerialNumber[]
 
   /// List of warranties applicable to this product/variant
-  variantWarranties ProductWarranty[]
+  warranties ProductWarranty[]
 }
 
 model AttributeCategory {
@@ -194,6 +210,7 @@ model AttributeCategory {
   /// Unique url friend attribute-category name
   slug String @unique
 
+  /// List of attribute under this attribute category
   attributes Attribute[]
 }
 
@@ -213,10 +230,10 @@ model Attribute {
   category AttributeCategory? @relation(fields: [categoryId], references: [id])
 
   /// List of available attribute unites such as "m", "mm", "MB", "GB", "g", "kg" etc
-  attributeUnits AttributeUnit[]
+  unites AttributeUnit[]
 
   /// List of attribute values
-  attributeValues AttributeValue[]
+  values AttributeValue[]
 }
 
 /// Attribute unit
@@ -229,8 +246,8 @@ model Unit {
   /// Unit symbol such as "m", "$" etc.
   symbol String
 
-  /// List of attributes-unites
-  attributeUnits AttributeUnit[]
+  /// List of attributes-units
+  attributes AttributeUnit[]
 }
 
 model AttributeUnit {
@@ -394,10 +411,10 @@ model SerialNumber {
   /// In stock or not
   inStock Boolean
 
-  /// Variant 
+  /// Variant details
   variant Variant @relation(fields: [variantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  /// Store
+  /// Store details
   store Store @relation(fields: [storeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
@@ -408,23 +425,38 @@ model Discount {
   ///	The unique promotional code (e.g., "FALL20", "BUY2GET1").
   code String @unique
 
-  /// String	Crucial: Defines how the discount is applied (PERCENT, FIXED_AMOUNT, BOGO - Buy One Get One).
+  /// Discount type (VOLUME, FREE_SHIPPING, ORDER_TOTAL)
   type DiscountType
 
-  ///	The amount or percentage to discount (e.g., 0.20 for 20% or 10.00 for a $10 off).
-  value Decimal
+  /// Discount value type (FIXED, PERCENT)
+  valueType DiscountValueType
 
-  ///	Minimum items required to trigger (e.g., must buy 2 shirts).
+  ///	The amount or percentage to discount (e.g., 0.20 for 20% or 10.00 for a $10 off).
+  value Decimal? @db.Decimal(10, 2)
+
+  ///	Minimum number of items required to apply the discount
   minQuantity Int?
 
+  /// Maximum number of items required to apply the discount
+  maxQuantity Int?
+
+  /// Minimum order total amount required to apply the discount
+  minOrderTotal Decimal? @db.Decimal(10, 2)
+
+  /// Maximum order total amount required to apply the discount
+  maxOrderTotal Decimal? @db.Decimal(10, 2)
+
   ///	When the promotion becomes active.
-  startDate DateTime
+  startDate DateTime?
 
   ///	When the promotion expires.
-  endDate DateTime
+  endDate DateTime?
 
-  ///	Maximum number of times the code can be used globally.
-  maxUses Int?
+  ///	Maximum number of times this discount can be used
+  usageLimit Int?
+
+  /// Number of times this discount is applied
+  usageCount Int @default(0)
 
   /// List of product/variant targets that have this discount
   targets DiscountTarget[]
@@ -449,6 +481,9 @@ model DiscountTarget {
   /// Optional price-level id when you want to discount only in a single price-level group such as "family-price", "friend-price", "employee-price", "wholesale-price" etc.
   priceLevelId Int?
 
+  /// Optional category when you want to discount all products under this category 
+  categoryId Int?
+
   /// Dicount details
   discount Discount @relation(fields: [discountId], references: [id])
 
@@ -463,6 +498,11 @@ model DiscountTarget {
 
   /// Price level details
   priceLevel PriceLevel? @relation(fields: [priceLevelId], references: [id])
+
+  /// Category details
+  category Category? @relation(fields: [categoryId], references: [id])
+
+  @@unique([discountId, productId, variantId, storeId, priceLevelId, categoryId])
 }
 
 /// Store 
@@ -511,7 +551,7 @@ model WarrantyPolicy {
   durationUnit TimeUnit @default(YEAR)
 
   /// List of products that have this wrranty policy
-  productWarranties ProductWarranty[]
+  products ProductWarranty[]
 }
 
 /// Product/variant warranty table
