@@ -8,238 +8,496 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// Request status PENDING , APPROVED , REJECTED , CANCELED , 
 enum RequestStatus {
+  /// Request is made but not approved, rejected, or canceled
   PENDING
+
+  /// Requeset is approved
   APPROVED
+
+  /// Request is rejected by manager
   REJECTED
+
+  /// Request is canceled by the requester
   CANCELED
 }
 
+/// Root attribute table that stores room attributes such as size, wall color, type.
 model RoomAttribute {
-  id     Int                  @id @default(autoincrement())
-  name   String               @unique
+  id Int @id @default(autoincrement())
+
+  /// Root attribute name such as size, color, shape
+  name String @unique
+
+  /// List of room attribute values created for this attribute name
   values RoomAttributeValue[]
 }
 
+/// Root attribue value table
 model RoomAttributeValue {
-  id          Int    @id @default(autoincrement())
-  roomId      Int
-  attributeId Int
-  value       String
+  id Int @id @default(autoincrement())
 
+  /// Room id
+  roomId Int
+
+  /// Attribute id
+  attributeId Int
+
+  /// Attribute value
+  value String
+
+  /// Attribute details
   attribute RoomAttribute @relation(fields: [attributeId], references: [id])
-  room      Room          @relation(fields: [roomId], references: [id])
+
+  /// Rooom details 
+  room Room @relation(fields: [roomId], references: [id])
 
   @@unique([roomId, attributeId])
 }
 
+/// Item/Equipment attribue table 
 model ItemAttribute {
-  id     Int                  @id @default(autoincrement())
-  name   String               @unique
+  id Int @id @default(autoincrement())
+
+  /// Attribute name 
+  name String @unique
+
+  /// List of attribute values created for this attribute name
   values ItemAttributeValue[]
 }
 
+/// Item attribue value table 
 model ItemAttributeValue {
-  id          Int    @id @default(autoincrement())
-  itemId      Int
-  attributeId Int
-  value       String
+  id Int @id @default(autoincrement())
 
+  /// Item id
+  itemId Int
+
+  /// Attribute id
+  attributeId Int
+
+  /// Attribute value
+  value String
+
+  /// Attribute details
   attribute ItemAttribute @relation(fields: [attributeId], references: [id])
-  item      Item          @relation(fields: [itemId], references: [id])
+
+  /// Item details
+  item Item @relation(fields: [itemId], references: [id])
 
   @@unique([itemId, attributeId])
 }
 
+/// Category table 
 model Category {
-  id       Int    @id @default(autoincrement())
-  parentId Int?
-  name     String @unique
+  id Int @id @default(autoincrement())
 
-  parent   Category?  @relation("children", fields: [parentId], references: [id], onDelete: SetNull)
+  /// parent category id
+  parentId Int?
+
+  /// Unique category name
+  name String @unique
+
+  /// Parent category details 
+  parent Category? @relation("children", fields: [parentId], references: [id], onDelete: SetNull)
+
+  /// List of sub categories
   children Category[] @relation("children")
-  items    Item[]
+
+  /// List of items that under this category 
+  items Item[]
 }
 
+/// Building table
 model Building {
-  id   Int    @id @default(autoincrement())
+  id Int @id @default(autoincrement())
+
+  /// Unique building name 
   name String @unique
+
+  /// Unique short building code
   code String @unique
 
+  /// List of rooms in this building 
   rooms Room[]
 }
 
+/// Room table 
 model Room {
-  id         Int    @id @default(autoincrement())
-  uuid       String @unique @default(uuid())
-  buildingId Int
-  name       String
-  code       String @unique
-  floor      Int    @default(0)
+  id Int @id @default(autoincrement())
 
-  building             Building              @relation(fields: [buildingId], references: [id])
-  attributes           RoomAttributeValue[]
-  quantities           Quantity[]
-  serials              SerialNumber[]
-  employeeRooms        EmployeeRoom[]
+  /// Unique uuid for external usage
+  uuid String @unique @default(uuid())
+
+  /// Building id 
+  buildingId Int
+
+  /// Room name 
+  name String @unique
+
+  /// Unique room code 
+  code String @unique
+
+  /// Room floor
+  floor Int @default(0)
+
+  /// Building details 
+  building Building @relation(fields: [buildingId], references: [id])
+
+  /// List of room attributes
+  attributes RoomAttributeValue[]
+
+  /// List of items quantities in this room
+  quantities Quantity[]
+
+  /// List of item serial-numbers in this room
+  serials SerialNumber[]
+
+  /// List of employees in this room 
+  employeeRooms EmployeeRoom[]
+
+  /// List of requests made by employees for this rooom
   employeeRoomRequests EmployeeRoomRequest[]
 }
 
+/// Item/Equipment table 
 model Item {
-  id               Int    @id @default(autoincrement())
-  uuid             String @unique @default(uuid())
-  categoryId       Int?
-  name             String @unique
-  description      String @default("")
-  quantityTreshold Int    @default(0)
+  id Int @id @default(autoincrement())
 
-  category   Category?            @relation(fields: [categoryId], references: [id])
+  /// Unqiue uuid for external usage
+  uuid String @unique @default(uuid())
+
+  /// Item category id
+  categoryId Int?
+
+  /// Unique item name
+  name String @unique
+
+  /// Optional item description 
+  description String? @default("No Description")
+
+  /// The minimum required available quantity
+  minQuantity Int @default(0)
+
+  /// Item category 
+  category Category? @relation(fields: [categoryId], references: [id])
+
+  /// List of attributes 
   attributes ItemAttributeValue[]
+
+  /// List of quantities that this item in rooms
   quantities Quantity[]
-  serials    SerialNumber[]
+
+  /// List of serial-numbers that this item in rooms
+  serials SerialNumber[]
 }
 
+/// Item quantity table 
 model Quantity {
-  id               Int @id @default(autoincrement())
-  roomId           Int
-  itemId           Int
-  quantity         Int @default(1)
-  quantityTreshold Int @default(0)
+  id Int @id @default(autoincrement())
 
+  /// Room id
+  roomId Int
+
+  /// Item id
+  itemId Int
+
+  /// Quantity 
+  quantity Int @default(1)
+
+  /// Minimum required avaialble quqntity 
+  minQuantity Int @default(0)
+
+  /// Item details
   item Item @relation(fields: [itemId], references: [id])
+
+  /// Room details 
   room Room @relation(fields: [roomId], references: [id])
 
+  /// List of quantity move request 
   quantityMoveSources QuantityMoveRequest[] @relation("quantityMoveSources")
+
+  /// List of quantity move request 
   quantityMoveTargets QuantityMoveRequest[] @relation("quantityMoveTargets")
 
   @@unique([roomId, itemId])
 }
 
+/// Item serial number table
 model SerialNumber {
-  id           Int    @id @default(autoincrement())
-  uuid         String @unique @default(uuid())
-  serialNumber String @unique
-  itemId       Int
-  roomId       Int
+  id Int @id @default(autoincrement())
 
+  /// Unqiue uuid for external usage
+  uuid String @unique @default(uuid())
+
+  /// Item serial number
+  serialNumber String @unique
+
+  /// Item id
+  itemId Int
+
+  /// Room id
+  roomId Int
+
+  /// Item details
   item Item @relation(fields: [itemId], references: [id])
+
+  /// Room details 
   room Room @relation(fields: [roomId], references: [id])
 
+  /// List of move requests
   serialMoveSources SerialMoveRequest[] @relation("serialMoveSources")
+
+  /// List of move requests
   serialMoveTargets SerialMoveRequest[] @relation("serialMoveTargets")
 
+  /// List of employee item requests
   employeeItemRequests EmployeeItemRequest[]
-  EmployeeItem         EmployeeItem[]
+
+  /// List of employee items
+  employeeItems EmployeeItem[]
 }
 
+/// Move request by quantity table
 model QuantityMoveRequest {
-  id            Int           @id @default(autoincrement())
-  sourceId      Int
-  targetId      Int
+  id Int @id @default(autoincrement())
+
+  /// Source room id
+  sourceId Int
+
+  /// Target room id
+  targetId Int
+
+  /// Requester ( employee ) id
   requestedById Int
-  approvedById  Int?
-  quantity      Int
-  reason        String        @default("Not mentioned")
-  status        RequestStatus @default(PENDING)
 
-  requestedAt DateTime  @default(now())
-  approvedAt  DateTime?
+  /// Approver ( manager ) id
+  resolvedById Int?
 
+  /// Number of quantities to be request to move
+  quantity Int
+
+  /// Reson for the request
+  reason String @default("Not mentioned")
+
+  /// Request status
+  status RequestStatus @default(PENDING)
+
+  /// The time the request is created
+  requestedAt DateTime @default(now())
+
+  /// The time the request is resolved
+  resolvedAt DateTime?
+
+  /// Source quantity to move items from 
   source Quantity @relation("quantityMoveSources", fields: [sourceId], references: [id])
+
+  /// The target quantity to move items to
   target Quantity @relation("quantityMoveTargets", fields: [targetId], references: [id])
 
-  requestedBy Employee  @relation("quantityMoveRequesters", fields: [requestedById], references: [id])
-  approvedBy  Employee? @relation("quantityMoveApprovers", fields: [approvedById], references: [id])
+  /// The employee details who made this request 
+  requestedBy Employee @relation("quantityMoveRequesters", fields: [requestedById], references: [id])
+
+  /// The employee(manager) details who resolved this request
+  resolvedBy Employee? @relation("quantityMoveResolvers", fields: [resolvedById], references: [id])
 }
 
+/// Move request by serial number table 
 model SerialMoveRequest {
-  id            Int           @id @default(autoincrement())
-  sourceId      Int
-  targetId      Int
-  requestedById Int
-  approvedById  Int?
-  reason        String        @default("Not mentioned")
-  status        RequestStatus @default(PENDING)
-  requestedAt   DateTime      @default(now())
-  approvedAt    DateTime?
+  id Int @id @default(autoincrement())
 
+  /// Source serial number entry
+  sourceId Int
+
+  /// Target serial number entry
+  targetId Int
+
+  /// The id of the employee who made this request 
+  requestedById Int
+
+  /// The id of the employee (manager) who made resvoled this request 
+  resolvedById Int?
+
+  /// Request reson
+  reason String @default("Not mentioned")
+
+  /// Request statues
+  status RequestStatus @default(PENDING)
+
+  /// The time the request is created
+  requestedAt DateTime @default(now())
+
+  /// The time the request is resolved
+  resolvedAt DateTime?
+
+  /// The serial number source to move from 
   source SerialNumber @relation("serialMoveSources", fields: [sourceId], references: [id])
+
+  /// The serial number source to move to 
   target SerialNumber @relation("serialMoveTargets", fields: [targetId], references: [id])
 
-  requestedBy Employee  @relation("serialMoveRequesters", fields: [requestedById], references: [id])
-  approvedBy  Employee? @relation("serialMoveApprovers", fields: [approvedById], references: [id])
+  /// The employee who made this request 
+  requestedBy Employee @relation("serialMoveRequesters", fields: [requestedById], references: [id])
+
+  /// The employee who resovled this request
+  resolvedBy Employee? @relation("serialMoveResolvers", fields: [resolvedById], references: [id])
 }
 
+/// Employee table 
 model Employee {
-  id   Int    @id @default(autoincrement())
+  id Int @id @default(autoincrement())
+
+  /// Unique employee uuid. The asset database does not manage employee record.
   uuid String @unique
 
+  /// List of rooms asigned to this employee 
   rooms EmployeeRoom[]
+
+  /// List of items asigned to this employee 
   items EmployeeItem[]
 
-  itemRequesters         EmployeeItemRequest[] @relation("itemRequesters")
-  itemApprovers          EmployeeItemRequest[] @relation("itemApprovers")
-  roomRequesters         EmployeeRoomRequest[] @relation("roomRequesters")
-  roomApprovers          EmployeeRoomRequest[] @relation("roomApprovers")
-  serialMoveRequesters   SerialMoveRequest[]   @relation("serialMoveRequesters")
-  serialMoveApprovers    SerialMoveRequest[]   @relation("serialMoveApprovers")
+  /// List of item requests made by this employee 
+  itemRequesters EmployeeItemRequest[] @relation("itemRequesters")
+
+  /// List of item requests resolved by this employee 
+  itemResolvers EmployeeItemRequest[] @relation("itemResolvers")
+
+  /// List of room requests made by this employee 
+  roomRequesters EmployeeRoomRequest[] @relation("roomRequesters")
+
+  /// List of room requests resolved by this employee 
+  roomResolvers EmployeeRoomRequest[] @relation("roomResolvers")
+
+  /// List of serial  move requests made by this employee 
+  serialMoveRequesters SerialMoveRequest[] @relation("serialMoveRequesters")
+
+  /// List of serial move requests resolved by this employee 
+  serialMoveResolvers SerialMoveRequest[] @relation("serialMoveResolvers")
+
+  /// List of quantity move requests made by this employee 
   quantityMoveRequesters QuantityMoveRequest[] @relation("quantityMoveRequesters")
-  quantityMoveApprovers  QuantityMoveRequest[] @relation("quantityMoveApprovers")
+
+  /// List of quantity move requests resolved by this employee 
+  quantityMoveResolvers QuantityMoveRequest[] @relation("quantityMoveResolvers")
 }
 
+/// Employee room table 
 model EmployeeRoom {
-  id         Int       @id @default(autoincrement())
-  employeeId Int
-  roomId     Int
-  givenAt    DateTime  @default(now())
-  takenAt    DateTime?
+  id Int @id @default(autoincrement())
 
-  room     Room     @relation(fields: [roomId], references: [id])
+  /// Employee id
+  employeeId Int
+
+  /// Room id 
+  roomId Int
+
+  /// The time this room is given to this employee 
+  givenAt DateTime @default(now())
+
+  /// Time time this room is taken from this employee 
+  takenAt DateTime?
+
+  /// Room details 
+  room Room @relation(fields: [roomId], references: [id])
+
+  /// Employee details 
   employee Employee @relation(fields: [employeeId], references: [id])
 
   @@unique([roomId, givenAt])
 }
 
+/// Employee items table 
 model EmployeeItem {
-  id             Int @id @default(autoincrement())
-  employeeId     Int
+  id Int @id @default(autoincrement())
+
+  /// Employee id
+  employeeId Int
+
+  /// Item serial number id
   serialNumberId Int
 
-  givenAt DateTime  @default(now())
+  /// The time the item is given to this employee
+  givenAt DateTime @default(now())
+
+  /// The time the item is taken from this employee
   takenAt DateTime?
 
+  /// Item serial number details 
   serialNumber SerialNumber @relation(fields: [serialNumberId], references: [id])
-  employee     Employee     @relation(fields: [employeeId], references: [id])
+
+  /// Employee details
+  employee Employee @relation(fields: [employeeId], references: [id])
 
   @@unique([employeeId, serialNumberId, givenAt])
 }
 
+/// Employee rooom request table
 model EmployeeRoomRequest {
-  id            Int           @id @default(autoincrement())
-  roomId        Int?
-  requestedById Int
-  approvedById  Int?
-  requestedAt   DateTime      @default(now())
-  approvedAt    DateTime?
-  status        RequestStatus @default(PENDING)
-  note          String        @default("")
+  id Int @id @default(autoincrement())
 
-  room        Room?     @relation(fields: [roomId], references: [id])
-  requestedBy Employee  @relation("roomRequesters", fields: [requestedById], references: [id])
-  approvedBy  Employee? @relation("roomApprovers", fields: [approvedById], references: [id])
+  /// Rooom id 
+  roomId Int?
+
+  /// Employee id who made this request
+  requestedById Int
+
+  /// Employee (manager) id who resolved this request
+  resolvedById Int?
+
+  /// The time the request is created
+  requestedAt DateTime @default(now())
+
+  /// The time the request is resolved
+  resolvedAt DateTime?
+
+  /// Request status
+  status RequestStatus @default(PENDING)
+
+  /// Notes
+  note String?
+
+  /// Room details 
+  room Room? @relation(fields: [roomId], references: [id])
+
+  /// The employee, who made this request, details
+  requestedBy Employee @relation("roomRequesters", fields: [requestedById], references: [id])
+
+  /// The employee (manager), who resolved this request, details
+  resolvedBy Employee? @relation("roomResolvers", fields: [resolvedById], references: [id])
 }
 
+/// Employee item request 
 model EmployeeItemRequest {
-  id             Int           @id @default(autoincrement())
-  requestedById  Int
-  approvedById   Int?
-  requestedAt    DateTime      @default(now())
-  approvedAt     DateTime?
-  serialNumberId Int?
-  status         RequestStatus @default(PENDING)
-  note           String        @default("")
+  id Int @id @default(autoincrement())
 
+  /// Employee id who made this request 
+  requestedById Int
+
+  /// Employee id who resolved this request 
+  resolvedById Int?
+
+  /// The time the request is created
+  requestedAt DateTime @default(now())
+
+  /// The time the request is resolved
+  resolvedAt DateTime?
+
+  /// Item serial number 
+  serialNumberId Int?
+
+  /// Request status
+  status RequestStatus @default(PENDING)
+
+  /// Notes
+  note String?
+
+  /// Item serial number details 
   serialNumber SerialNumber? @relation(fields: [serialNumberId], references: [id])
-  requestedBy  Employee      @relation("itemRequesters", fields: [requestedById], references: [id])
-  approvedBy   Employee?     @relation("itemApprovers", fields: [approvedById], references: [id])
+
+  /// Employee, who made this request, details
+  requestedBy Employee @relation("itemRequesters", fields: [requestedById], references: [id])
+
+  /// Employee, who resolved this request, details
+  resolvedBy Employee? @relation("itemResolvers", fields: [resolvedById], references: [id])
 }

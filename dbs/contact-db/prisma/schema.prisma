@@ -8,167 +8,327 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Industry {
-  id          Int     @id @default(autoincrement())
-  name        String  @unique
-  slug        String  @unique
-  description String?
-
-  orgs OrgIndustry[]
+enum ContactType {
+  WORK
+  HOME
+  EMERGENCY
 }
 
-model Org {
-  id   Int    @id @default(autoincrement())
-  uuid String @default(uuid())
-  name String @unique
-  slug String @unique
-
-  agents     Agent[]
-  industries OrgIndustry[]
-}
-
-model OrgIndustry {
-  id         Int @id @default(autoincrement())
-  orgId      Int
-  industryId Int
-
-  industry     Industry @relation(fields: [industryId], references: [id])
-  organization Org      @relation(fields: [orgId], references: [id])
-
-  @@unique([orgId, industryId])
-}
-
+/// Agent gender
 enum Gender {
   MALE
   FEMALE
 }
 
-model Occupation {
-  id          Int     @id @default(autoincrement())
-  name        String  @unique
-  description String?
+/// Industries table
+model Industry {
+  id Int @id @default(autoincrement())
 
-  agents Agent[]
+  /// Unique industry name such as Information Technology, Health Care
+  name String @unique
+
+  /// Unique url friend name 
+  slug String @unique
+
+  /// Industry description
+  description String? @default("No description")
+
+  /// List of companyanization in this industry
+  companys CompanyIndustry[]
 }
 
-model Agent {
-  id           Int     @id @default(autoincrement())
-  orgId        Int?
-  occupationId Int?
-  firstName    String
-  middleName   String?
-  lastName     String
-  gender       Gender?
-  slug         String  @unique
+/// Companyanizaitons table
+model Company {
+  id Int @id @default(autoincrement())
 
+  /// Unique companyanization id for external usage
+  uuid String @default(uuid())
+
+  /// Unique companyanizaiton name
+  name String @unique
+
+  /// Unique url friend companyanization name
+  slug String @unique
+
+  /// List of agents working for this companyanization
+  agents Agent[]
+
+  /// List of industrires that this companyanization in
+  industries CompanyIndustry[]
+}
+
+/// Company industry table
+model CompanyIndustry {
+  id Int @id @default(autoincrement())
+
+  /// Companyanizaiton id
+  companyId Int
+
+  /// Idustry id
+  industryId Int
+
+  /// Industry details
+  industry Industry @relation(fields: [industryId], references: [id])
+
+  // Company details
+  company Company @relation(fields: [companyId], references: [id])
+
+  @@unique([companyId, industryId])
+}
+
+model Department {
+  id Int @id @default(autoincrement())
+
+  /// Parent department id
+  parentId Int?
+
+  /// Unique department name
+  name String @unique
+
+  //// Unique url friendly department name
+  slug String @unique
+
+  /// Parent department details 
+  parent Department? @relation("children", fields: [parentId], references: [id])
+
+  /// List of sub department details
+  children Department[] @relation("children")
+
+  /// List of postions under this department
+  titles Title[]
+}
+
+/// Title table
+model Title {
+  id Int @id @default(autoincrement())
+
+  /// Department id
+  departmentId Int?
+
+  /// Unique title name 
+  name String @unique
+
+  /// Unique url friend title name
+  slug String @unique
+
+  /// Title description
+  description String? @default("No description")
+
+  /// List of agents that has this title
+  agents Agent[]
+
+  /// Department details
+  department Department? @relation(fields: [departmentId], references: [id])
+}
+
+/// Agents table 
+model Agent {
+  id Int @id @default(autoincrement())
+
+  /// Company id
+  companyId Int?
+
+  /// Title id
+  titleId Int?
+
+  /// First/Given name
+  firstName String
+
+  /// Optional middle name
+  middleName String?
+
+  /// Last name/surname
+  lastName String
+
+  /// Any preferred name for this agent
+  preferedName String?
+
+  /// Gender 
+  gender Gender?
+
+  /// Unqiue url friendly agent name
+  slug String @unique
+
+  /// Agent notes 
   note String?
 
-  org        Org?        @relation(fields: [orgId], references: [id])
-  contacts   Contact[]
-  occupation Occupation? @relation(fields: [occupationId], references: [id])
+  /// Company details 
+  company Company? @relation(fields: [companyId], references: [id])
+
+  /// List of contact details
+  contacts Contact[]
+
+  /// Title details
+  title Title? @relation(fields: [titleId], references: [id])
 }
 
-enum ContactType {
-  WORK
-  HOME
-  PRIMARY
-}
-
+/// Contact table 
 model Contact {
-  id      Int         @id @default(autoincrement())
+  id Int @id @default(autoincrement())
+
+  /// Unqiue uuid for external usage
+  uuid String @unique @default(uuid())
+
+  /// Agent id, contact owner
   agentId Int
-  uuid    String      @unique @default(uuid())
-  type    ContactType
 
-  emails    Email[]
-  phones    Phone[]
+  /// Contact type 
+  type ContactType
+
+  /// Contact priority first, second thrid (1,2,3) 
+  order Int? @default(0)
+
+  /// List of emails 
+  emails Email[]
+
+  /// List of phones
+  phones Phone[]
+
+  /// List of addresses
   addresses Address[]
-  websites  Website[]
-  agent     Agent     @relation(fields: [agentId], references: [id])
 
-  order Int?
+  /// List of websites
+  websites Website[]
+
+  /// Agent details 
+  agent Agent @relation(fields: [agentId], references: [id])
 
   @@unique([agentId, order])
 }
 
 model State {
-  id        Int    @id @default(autoincrement())
-  countryId Int
-  state     String
-  code      String
+  id Int @id @default(autoincrement())
 
+  /// Country id
+  countryId Int
+
+  /// State name
+  state String @unique
+
+  /// Short state code 
+  code String @unique
+
+  /// Country details
   country Country @relation(fields: [countryId], references: [id])
-  cities  City[]
+
+  /// List of cities in this state
+  cities City[]
 }
 
+/// Country table
 model Country {
-  id      Int    @id @default(autoincrement())
-  country String
-  code    String
+  id Int @id @default(autoincrement())
 
+  /// Country name
+  name String @unique
+
+  /// Short coutry code
+  code String @unique
+
+  /// list of states in this country 
   states State[]
 }
 
+/// City table 
 model City {
-  id      Int    @id @default(autoincrement())
-  stateId Int
-  city    String
+  id Int @id @default(autoincrement())
 
-  state     State     @relation(fields: [stateId], references: [id])
+  /// State id 
+  stateId Int
+
+  /// City name
+  name String
+
+  /// State details
+  state State @relation(fields: [stateId], references: [id])
+
+  /// list of addresses in this city 
   addresses Address[]
+
+  @@unique([stateId, name])
 }
 
+/// Local address table 
 model Address {
-  id        Int    @id @default(autoincrement())
+  id Int @id @default(autoincrement())
+
+  /// Contact id 
   contactId Int
-  cityId    Int
-  street    String
-  zip       String
 
-  city    City    @relation(fields: [cityId], references: [id])
-  contact Contact @relation(fields: [contactId], references: [id])
+  /// City id
+  cityId Int
 
+  /// Street name
+  street String
+
+  /// Zip/postal code
+  zip String
+
+  /// Address priority primary, secondary (1, 2, 3)
   order Int?
 
-  @@unique([contactId, order])
+  /// City details 
+  city City @relation(fields: [cityId], references: [id])
+
+  /// Contact details 
+  contact Contact @relation(fields: [contactId], references: [id])
+
   @@unique([contactId, cityId, street])
 }
 
+/// Email table
 model Email {
-  id        Int    @id @default(autoincrement())
+  id Int @id @default(autoincrement())
+
+  /// Contact id
   contactId Int
-  email     String
 
-  contact Contact @relation(fields: [contactId], references: [id])
+  /// Email 
+  email String
 
+  /// Email priority 
   order Int?
 
-  @@unique([contactId, order])
+  /// Contact details
+  contact Contact @relation(fields: [contactId], references: [id])
+
   @@unique([contactId, email])
 }
 
+/// Phone table 
 model Phone {
-  id        Int    @id @default(autoincrement())
+  id Int @id @default(autoincrement())
+
+  /// Contact id 
   contactId Int
-  phone     String
 
-  contact Contact @relation(fields: [contactId], references: [id])
+  /// Phone number 
+  phone String
 
+  /// Phone priority
   order Int?
 
-  @@unique([contactId, order])
+  /// Contact details 
+  contact Contact @relation(fields: [contactId], references: [id])
+
   @@unique([contactId, phone])
 }
 
+/// Website table 
 model Website {
-  id        Int    @id @default(autoincrement())
+  id Int @id @default(autoincrement())
+
+  /// Contact id
   contactId Int
-  url       String
 
-  contact Contact @relation(fields: [contactId], references: [id])
+  /// Website url
+  url String
 
+  /// Website priority
   order Int?
 
-  @@unique([contactId, order])
+  /// Contact details
+  contact Contact @relation(fields: [contactId], references: [id])
+
   @@unique([contactId, url])
 }
