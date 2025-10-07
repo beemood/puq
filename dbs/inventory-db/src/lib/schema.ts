@@ -38,6 +38,7 @@ export const CategorySelectSchema = z.object({
   parent: z.boolean().optional(),
   children: z.boolean().optional(),
   products: z.boolean().optional(),
+  discountTargets: z.boolean().optional(),
 });
 
 export const CategoryQuerySchema = z.object({
@@ -99,7 +100,7 @@ export const ProductSelectSchema = z.object({
   images: z.boolean().optional(),
   suppliers: z.boolean().optional(),
   discounts: z.boolean().optional(),
-  productWarranties: z.boolean().optional(),
+  warranties: z.boolean().optional(),
 });
 
 export const ProductQuerySchema = z.object({
@@ -332,7 +333,7 @@ export const VariantSelectSchema = z.object({
   quantities: z.boolean().optional(),
   discounts: z.boolean().optional(),
   serrialNumbers: z.boolean().optional(),
-  variantWarranties: z.boolean().optional(),
+  warranties: z.boolean().optional(),
 });
 
 export const VariantQuerySchema = z.object({
@@ -437,8 +438,8 @@ export const AttributeSelectSchema = z.object({
   name: z.boolean().optional(),
   description: z.boolean().optional(),
   category: z.boolean().optional(),
-  attributeUnits: z.boolean().optional(),
-  attributeValues: z.boolean().optional(),
+  unites: z.boolean().optional(),
+  values: z.boolean().optional(),
 });
 
 export const AttributeQuerySchema = z.object({
@@ -488,7 +489,7 @@ export const UnitSelectSchema = z.object({
   id: z.boolean().optional(),
   name: z.boolean().optional(),
   symbol: z.boolean().optional(),
-  attributeUnits: z.boolean().optional(),
+  attributes: z.boolean().optional(),
 });
 
 export const UnitQuerySchema = z.object({
@@ -931,32 +932,47 @@ export const DiscountSchema = z.object({
   id: z.number().int(),
   code: z.string(),
   type: z.any(),
-  value: z.number(),
+  valueType: z.any(),
+  value: z.number().nullish(),
   minQuantity: z.number().int().nullish(),
-  startDate: z.date(),
-  endDate: z.date(),
-  maxUses: z.number().int().nullish(),
+  maxQuantity: z.number().int().nullish(),
+  minOrderTotal: z.number().nullish(),
+  maxOrderTotal: z.number().nullish(),
+  startDate: z.date().nullish(),
+  endDate: z.date().nullish(),
+  usageLimit: z.number().int().nullish(),
+  usageCount: z.number().int(),
 });
 
 export const DiscountCreateSchema = z.object({
   code: z.string(),
   type: z.any(),
-  value: z.number(),
+  valueType: z.any(),
+  value: z.number().nullish(),
   minQuantity: z.number().int().nullish(),
-  startDate: z.date(),
-  endDate: z.date(),
-  maxUses: z.number().int().nullish(),
+  maxQuantity: z.number().int().nullish(),
+  minOrderTotal: z.number().nullish(),
+  maxOrderTotal: z.number().nullish(),
+  startDate: z.date().nullish(),
+  endDate: z.date().nullish(),
+  usageLimit: z.number().int().nullish(),
+  usageCount: z.number().int(),
 });
 
 export const DiscountUpdateSchema = z.object({
   id: z.number().int().optional(),
   code: z.string().optional(),
   type: z.any().optional(),
-  value: z.number().optional(),
+  valueType: z.any().optional(),
+  value: z.number().nullish().optional(),
   minQuantity: z.number().int().nullish().optional(),
-  startDate: z.date().optional(),
-  endDate: z.date().optional(),
-  maxUses: z.number().int().nullish().optional(),
+  maxQuantity: z.number().int().nullish().optional(),
+  minOrderTotal: z.number().nullish().optional(),
+  maxOrderTotal: z.number().nullish().optional(),
+  startDate: z.date().nullish().optional(),
+  endDate: z.date().nullish().optional(),
+  usageLimit: z.number().int().nullish().optional(),
+  usageCount: z.number().int().optional(),
 });
 
 export const DiscountWhereSchema = toWhereQuerySchema(DiscountSchema);
@@ -967,11 +983,16 @@ export const DiscountSelectSchema = z.object({
   id: z.boolean().optional(),
   code: z.boolean().optional(),
   type: z.boolean().optional(),
+  valueType: z.boolean().optional(),
   value: z.boolean().optional(),
   minQuantity: z.boolean().optional(),
+  maxQuantity: z.boolean().optional(),
+  minOrderTotal: z.boolean().optional(),
+  maxOrderTotal: z.boolean().optional(),
   startDate: z.boolean().optional(),
   endDate: z.boolean().optional(),
-  maxUses: z.boolean().optional(),
+  usageLimit: z.boolean().optional(),
+  usageCount: z.boolean().optional(),
   targets: z.boolean().optional(),
 });
 
@@ -1004,6 +1025,7 @@ export const DiscountTargetSchema = z.object({
   variantId: z.number().int().nullish(),
   storeId: z.number().int().nullish(),
   priceLevelId: z.number().int().nullish(),
+  categoryId: z.number().int().nullish(),
 });
 
 export const DiscountTargetCreateSchema = z.object({
@@ -1012,6 +1034,7 @@ export const DiscountTargetCreateSchema = z.object({
   variantId: z.number().int().nullish(),
   storeId: z.number().int().nullish(),
   priceLevelId: z.number().int().nullish(),
+  categoryId: z.number().int().nullish(),
 });
 
 export const DiscountTargetUpdateSchema = z.object({
@@ -1021,6 +1044,7 @@ export const DiscountTargetUpdateSchema = z.object({
   variantId: z.number().int().nullish().optional(),
   storeId: z.number().int().nullish().optional(),
   priceLevelId: z.number().int().nullish().optional(),
+  categoryId: z.number().int().nullish().optional(),
 });
 
 export const DiscountTargetWhereSchema = toWhereQuerySchema(DiscountTargetSchema);
@@ -1034,11 +1058,13 @@ export const DiscountTargetSelectSchema = z.object({
   variantId: z.boolean().optional(),
   storeId: z.boolean().optional(),
   priceLevelId: z.boolean().optional(),
+  categoryId: z.boolean().optional(),
   discount: z.boolean().optional(),
   product: z.boolean().optional(),
   variant: z.boolean().optional(),
   store: z.boolean().optional(),
   priceLevel: z.boolean().optional(),
+  category: z.boolean().optional(),
 });
 
 export const DiscountTargetQuerySchema = z.object({
@@ -1157,7 +1183,7 @@ export const WarrantyPolicySelectSchema = z.object({
   description: z.boolean().optional(),
   duration: z.boolean().optional(),
   durationUnit: z.boolean().optional(),
-  productWarranties: z.boolean().optional(),
+  products: z.boolean().optional(),
 });
 
 export const WarrantyPolicyQuerySchema = z.object({
