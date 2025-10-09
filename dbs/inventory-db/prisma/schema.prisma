@@ -8,8 +8,56 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/// Discount value type percent or fixed
-enum DiscountValueType {
+/**
+ * **Store**: When STORE type is selected, the DiscountTarget model requires a unique [discountId, storeId] data
+ * **PRICE_LEVEL**: When PRICE-LEVEL type is selected, the DiscountTarget model requires a unique [discountId, priceLevelId] data
+ * **CATEGORY**: When CATEGORY type is selected, the DiscountTarget model requires a unique [discountId, categoryId] data
+ * **PRODUCT**: When PRODUCT type is selected, the DiscountTarget model requires a unique [discountId, productId] data
+ * **VARIANT**: When VARIANT type is selected, the DiscountTarget model requires a unique [discountId, variantId] data
+ * **STORE_CATEGORY**: When STORE_CATEGORY type is selected, the DiscountTarget model requires a unique [discountId, storeId, categoryId] data
+ * **STORE_PRODUCT**: When STORE_PRODUCT type is selected, the DiscountTarget model requires a unique [discountId, storeId, productId] data
+ * **STORE_VARIANT**: When STORE_VARIANT type is selected, the DiscountTarget model requires a unique [discountId, storeId, variantId] data
+ * **PRICE_LEVEL_CATEGORY**: When PRICE_LEVEL_CATEGORY type is selected, the DiscountTarget model requires a unique [discountId, priceLevelId, categoryId] data
+ * **PRICE_LEVEL_PRODUCT**: When PRICE_LEVEL_PRODUCT type is selected, the DiscountTarget model requires a unique [discountId, priceLevelId, productId] data
+ * **PRICE_LEVEL_VARIANT**: When PRICE_LEVEL_VARIANT type is selected, the DiscountTarget model requires a unique [discountId, priceLevelId, variantId] data
+ */
+enum DiscountTargetType {
+  /// Apply discount to all products in a store
+  STORE
+
+  /// Apply discount to all products selling by a price-level
+  PRICE_LEVEL
+
+  /// Apply discount to all products under a category
+  CATEGORY
+
+  /// Apply discount to a product
+  PRODUCT
+
+  /// Apply discount to a variant
+  VARIANT
+
+  /// Apply discount to all products in a store and under a category
+  STORE_CATEGORY
+
+  /// Apply discount to a product in a store
+  STORE_PRODUCT
+
+  /// Apply discount to a variant in a store
+  STORE_VARIANT
+
+  /// Apply discount to all products selling by a price-level and under a category
+  PRICE_LEVEL_CATEGORY
+
+  /// Apply discount to a product selling by a price-level
+  PRICE_LEVEL_PRODUCT
+
+  /// Apply discount to a variant selling by a price-level
+  PRICE_LEVEL_VARIANT
+}
+
+/// PERCENT or FIXED
+enum ValueType {
   /// Enforce percent value between 0 between 100
   PERCENT
 
@@ -40,6 +88,7 @@ enum TimeUnit {
   MONTH
   YEAR
   DECADE
+  LIFE_TIME
 }
 
 /// Product category to group products 
@@ -107,11 +156,13 @@ model ProductCategory {
   /// Category id
   categoryId Int
 
-  /// Product 
+  /// Product details
   product Product @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  /// Category
+  /// Category details
   category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([productId, categoryId])
 }
 
 /// Product variant 
@@ -215,6 +266,8 @@ model AttributeUnit {
 
   /// Unit
   unit Unit @relation(fields: [unitId], references: [id])
+
+  @@unique([attributeId, unitId])
 }
 
 /// Attribute value
@@ -249,18 +302,16 @@ model Currency {
   id Int @id @default(autoincrement())
 
   /// Currency name suchas "American Dolor"
-  name String
+  name String @unique
 
   /// Currency code such as "USD"
-  code String
+  code String @unique
 
   /// Currency symbol such as "$"
   symbol String?
 
   /// List of price levels that uses this currency type
   priceLevels PriceLevel[]
-
-  @@unique([name, code])
 }
 
 /// Price levels. Price levels allows us to create multiple prices based on differnt taxrate, vip customers, or any other specific conditions such as family-price, friend-price, veteran-price, none-profit-price etc.
@@ -319,6 +370,8 @@ model Price {
 
   /// Price level
   priceLevel PriceLevel @relation(fields: [priceLevelId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([variantId, priceLevelId])
 }
 
 /// Product/Variant quantity 
@@ -367,6 +420,8 @@ model SerialNumber {
 
   /// Store details
   store Store @relation(fields: [storeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([variantId, storeId])
 }
 
 /// Discount/promotion table
@@ -380,7 +435,7 @@ model Discount {
   type DiscountType
 
   /// Discount value type (FIXED, PERCENT)
-  valueType DiscountValueType
+  valueType ValueType
 
   ///	The amount or percentage to discount (e.g., 0.20 for 20% or 10.00 for a $10 off).
   value Decimal? @db.Decimal(10, 2)
@@ -417,26 +472,39 @@ model Discount {
 model DiscountTarget {
   id Int @id @default(autoincrement())
 
+  /// Discount target to define discount group 
+
+  type DiscountTargetType
+
   /// Discount id
   discountId Int
 
-  // Optional product id when you want to discount all variant of the product
-  productId Int?
-
-  // Optional variant id when you want to discount only a single product variant
-  variantId Int?
-
-  /// Optional store id when you want to discount only in a single store
+  /// Apply discount to all products in the given store
   storeId Int?
 
-  /// Optional price-level id when you want to discount only in a single price-level group such as "family-price", "friend-price", "employee-price", "wholesale-price" etc.
+  // Apply discount to the given product and all its variants
+  productId Int?
+
+  // Apply discount to the given product variant
+  variantId Int?
+
+  /// Apply discount to the items selling by the given price-level
   priceLevelId Int?
 
-  /// Optional category when you want to discount all products under this category 
+  /// Apply discount to the items under the given category
   categoryId Int?
 
   /// Dicount details
-  discount Discount @relation(fields: [discountId], references: [id])
+  discount Discount @relation(fields: [discountId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  /// Store details
+  store Store? @relation(fields: [storeId], references: [id])
+
+  /// Category details
+  category Category? @relation(fields: [categoryId], references: [id])
+
+  /// Price level details
+  priceLevel PriceLevel? @relation(fields: [priceLevelId], references: [id])
 
   /// Product details
   product Product? @relation(fields: [productId], references: [id])
@@ -444,16 +512,7 @@ model DiscountTarget {
   /// Variant details
   variant Variant? @relation(fields: [variantId], references: [id])
 
-  /// Store details
-  store Store? @relation(fields: [storeId], references: [id])
-
-  /// Price level details
-  priceLevel PriceLevel? @relation(fields: [priceLevelId], references: [id])
-
-  /// Category details
-  category Category? @relation(fields: [categoryId], references: [id])
-
-  @@unique([discountId, productId, variantId, storeId, priceLevelId, categoryId])
+  @@unique([discountId, storeId, priceLevelId, categoryId, productId, variantId])
 }
 
 /// Store 

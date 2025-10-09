@@ -2,7 +2,7 @@
   "name": "@puq/asset-db",
   "version": "0.19.0",
   "license": "MIT",
-  "description": "asset-db prisma client",
+  "description": "Manage internal company equipments, services, and facilities",
   "publishConfig": {
     "access": "public",
     "tag": "latest"

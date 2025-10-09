@@ -34,7 +34,7 @@ model Industry {
   description String? @default("No description")
 
   /// List of companyanization in this industry
-  companys CompanyIndustry[]
+  companies CompanyIndustry[]
 }
 
 /// Companyanizaitons table
@@ -191,7 +191,7 @@ model Contact {
   websites Website[]
 
   /// Agent details 
-  agent Agent @relation(fields: [agentId], references: [id])
+  agent Agent @relation(fields: [agentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@unique([agentId, order])
 }

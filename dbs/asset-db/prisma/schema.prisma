@@ -404,7 +404,7 @@ model EmployeeRoom {
   /// Employee details 
   employee Employee @relation(fields: [employeeId], references: [id])
 
-  @@unique([roomId, givenAt])
+  @@unique([employeeId, roomId, givenAt])
 }
 
 /// Employee items table 
@@ -465,6 +465,8 @@ model EmployeeRoomRequest {
 
   /// The employee (manager), who resolved this request, details
   resolvedBy Employee? @relation("roomResolvers", fields: [resolvedById], references: [id])
+
+  @@unique([requestedById, roomId])
 }
 
 /// Employee item request 
@@ -500,4 +502,6 @@ model EmployeeItemRequest {
 
   /// Employee, who resolved this request, details
   resolvedBy Employee? @relation("itemResolvers", fields: [resolvedById], references: [id])
+
+  @@unique([requestedById, serialNumberId])
 }
