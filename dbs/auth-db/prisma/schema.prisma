@@ -1,0 +1,248 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+
+  /// Each user/employee/customer has a uuid generated when the HR/CRM record is created. Optain this uuid from the HR database
+  uuid String @unique
+
+  /// Unique username
+  username String @unique
+
+  /// Strong hashed password
+  password String
+
+  // List of user sessions
+  sessions Session[]
+
+  /// List of permissions 
+  permissions UserPermission[]
+  AccessToken AccessToken[]
+}
+
+model AccessToken {
+  id                    Int                     @id @default(autoincrement())
+  name                  String
+  userId                Int
+  user                  User                    @relation(fields: [userId], references: [id])
+  AccessTokenPermission AccessTokenPermission[]
+}
+
+model Scope {
+  id Int @id @default(autoincrement())
+
+  /// Unique scope name such as inventory service, project-service, hr-service etc.
+  name String @unique
+
+  /// List of permissions under this scope
+  permissions Permission[]
+}
+
+model Resource {
+  id Int @id @default(autoincrement())
+
+  /// Unique resource name
+  name String @unique
+
+  /// List of activities of this resource
+  activities Activity[]
+}
+
+model Operation {
+  id Int @id @default(autoincrement())
+
+  /// Unqiue operation name such as READ, WRITE, SOME_THING
+  name String @unique
+
+  /// List of activities of this operation
+  activities Activity[]
+}
+
+/// Activity table defines operation details by operation, resource, and unique name such as WRITE:PRODUCT
+model Activity {
+  id Int @id @default(autoincrement())
+
+  /// Combined name of operation and resouce such as WRITE:PRODUCT
+  name String @unique
+
+  /// Resource id
+  resourceId Int
+
+  /// Operation id
+  operationId Int
+
+  /// Target resource
+  resouce Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  /// Target operation
+  operation Operation @relation(fields: [operationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  /// List of permissions of this activity
+  permissions Permission[]
+
+  logs ActivityLog[]
+
+  @@unique([resourceId, operationId])
+}
+
+/// Permision table defines an executable operation under a scope by unqiuely combining activity and scope details
+model Permission {
+  id Int @id @default(autoincrement())
+
+  /// Scope id
+  scopeId Int
+
+  /// Activity id
+  activityId Int
+
+  /// Scope details
+  scope Scope @relation(fields: [scopeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  /// Activity details
+  activity Activity @relation(fields: [activityId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  /// List of roles that have this permission
+  roles                 RolePermission[]
+  UserPermission        UserPermission[]
+  AccessTokenPermission AccessTokenPermission[]
+
+  @@unique([scopeId, activityId])
+}
+
+model Role {
+  id Int @id @default(autoincrement())
+
+  /// Unique role name
+  name String @unique
+
+  /// List of permissions given to this role
+  permissions RolePermission[]
+}
+
+model RolePermission {
+  id Int @id @default(autoincrement())
+
+  /// The role that has the permission
+  roleId Int
+
+  /// The permission id that owned by the role
+  permissionId Int
+
+  /// Role details  
+  role Role @relation(fields: [roleId], references: [id])
+
+  /// Permission details 
+  permission Permission @relation(fields: [permissionId], references: [id])
+
+  @@unique([roleId, permissionId])
+}
+
+/// Session status (ACTIVE, EXPIRED, REVOKED)
+enum SessionStatus {
+  /// Active session 
+  ACTIVE
+
+  /// Expired session 
+  EXPIRED
+
+  /// Session is revoked by administration
+  REVOKED
+}
+
+/**
+ * There are two types of sessions, user session and access-token session.
+ * User session is created upon successful login request.
+ * Access token session is created by a user with an active session.
+ * Users can create access-token sessions with the same or lees priviledges of themseleves.
+ * Each user is responsibe for the access-tokens created by them.
+ * All activiites of user-sessions and access-token sessions are loged in activity-log table
+ */
+model Session {
+  id Int @id @default(autoincrement())
+
+  /// User id
+  userId Int
+
+  /// Session description (when the user creates )
+  description String @default("No Description")
+
+  /// Session status
+  status SessionStatus @default(ACTIVE)
+
+  /// Session start timesamp
+  startDate DateTime @default(now())
+
+  /// Session expiration/end date timestamp
+  endDate DateTime
+
+  /// User details
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  /// List of sessions activity logs
+  logs ActivityLog[]
+}
+
+model ActivityLog {
+  id Int @id @default(autoincrement())
+
+  /// Session id
+  sessionId Int
+
+  /// Activity id
+  activityId Int
+
+  /// Created at
+  createdAt DateTime @default(now())
+
+  /// Notes
+  notes String?
+
+  /// Activity details 
+  activity Activity @relation(fields: [activityId], references: [id])
+
+  /// Session details 
+  session Session @relation(fields: [sessionId], references: [id])
+
+  @@unique([sessionId, activityId, createdAt])
+}
+
+/// User permissions table
+model UserPermission {
+  id Int @id @default(autoincrement())
+
+  /// User id
+  userId Int
+
+  /// Permission id
+  permissionId Int
+
+  /// User detailsF
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  /// Permission details
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model AccessTokenPermission {
+  id Int @id @default(autoincrement())
+
+  /// Permission id
+  permissionId Int
+
+  /// Access token ids
+  accessTokenId Int
+
+  /// Permission details
+  permission Permission @relation(fields: [permissionId], references: [id])
+
+  /// Access token details
+  accessToken AccessToken @relation(fields: [accessTokenId], references: [id])
+}

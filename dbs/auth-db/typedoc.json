@@ -1,0 +1,6 @@
+{
+  "name": "auth-db",
+  "favicon": "./favicon.png",
+  "entryPoints": ["./src/index.ts"],
+  "out": "../../public/dbs/auth-db"
+}

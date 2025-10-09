@@ -54,5 +54,8 @@
     {
       "path": "./libs/barcode"
     },
+    {
+      "path": "./dbs/auth-db"
+    }
   ]
 }
