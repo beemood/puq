@@ -17,21 +17,50 @@ model User {
   /// Display name/Nick name for the employee 
   displayName String
 
-  /// List of comments made by this user
-  comments Comment[]
+  /// User title such as dba, senior backend engineer, front-end developer, security analist, project manager etc.
+  title String
+
+  /// List of tasks assigned to this user
+  assignments Assignment[]
+
+  /// List of teams that this user manages
+  managedTeams TeamManager[]
+
+  /// List of temas that this user is in
+  memberships TeamMember[]
+
+  /// List of projects created by this user
+  createdProjects Project[]
+
+  /// List of sprints created by this user
+  createdSprints Sprint[]
 
   /// List of tasks created by this user
   createdTasks Task[]
 
-  /// List of tasks assigned to this user
-  assignments UserTask[]
+  /// List of comments made by this user
+  createdComments Comment[]
 
-  /// List of teams that this user manages
-  leadTeams TeamManager[]
+  /// List of assignments taken from this user
+  takenAssignments AssignmentHistory[] @relation("takenAssignments")
 
-  /// List of temas that this user is in
-  teams   TeamMember[]
-  Project Project[]
+  /// List of assignments taken from someone and given to this user
+  givenAssignments AssignmentHistory[] @relation("givenAssignments")
+
+  /// List of assignements-histories created by this user
+  changedAssignments AssignmentHistory[] @relation("changedAssignments")
+
+  /// List of priorities changed by this user
+  changedPriorities PriorityHistory[] @relation("changedPriorities")
+
+  /// List of statues chagned by this user
+  changedStatuses StatusHistory[] @relation("changedStatuses")
+
+  /// List of points changed by this user
+  changedPoints PointHistory[] @relation("changedPoints")
+
+  /// List of team-history entry this user changed
+  changedTeams TeamHistory[] @relation("changedTeams")
 }
 
 model Team {
@@ -48,18 +77,24 @@ model Team {
 
   /// List of members of this team
   members TeamMember[]
+
+  /// Team history
+  takenTeams TeamHistory[] @relation("takenTeams")
+
+  /// Team history
+  givenTeams TeamHistory[] @relation("givenTeams")
 }
 
 model TeamManager {
   id Int @id @default(autoincrement())
 
-  /// Manager id
+  /// TeamManager id
   managerId Int
 
   /// Team id
   teamId Int
 
-  /// Manager details
+  /// TeamManager details
   manager User @relation(fields: [managerId], references: [id])
 
   /// Team details
@@ -75,22 +110,28 @@ model TeamMember {
   teamId Int
 
   /// Member id
-  memeberId Int
+  memberId Int
 
   /// Team details
   team Team @relation(fields: [teamId], references: [id])
 
   /// Member details
-  memeber User @relation(fields: [memeberId], references: [id])
+  member User @relation(fields: [memberId], references: [id])
 
-  @@unique([teamId, memeberId])
+  @@unique([teamId, memberId])
 }
 
 model Project {
   id Int @id @default(autoincrement())
 
-  /// Created by id
+  /// The id of the user who created this entry
   createdById Int
+
+  /// The parent project id
+  parentId Int?
+
+  /// Parent project details
+  parent Project? @relation("projects", fields: [parentId], references: [id], onDelete: Cascade)
 
   /// Unqiue project name 
   name String @unique
@@ -110,8 +151,32 @@ model Project {
   /// List of project sprints
   sprints Sprint[]
 
-  /// The details of the user who created this project
+  /// The details of the user who created this entry
   createdBy User @relation(fields: [createdById], references: [id])
+
+  /// List of tags used in this project
+  tags ProjectTaskTag[]
+
+  /// List of statuses used in this project
+  statuses ProjectTaskStatus[]
+
+  /// List of prioritites used in this project
+  priorities ProjectTaskPriority[]
+
+  /// List of assignement history
+  assignmentHistory AssignmentHistory[] @relation("assignmentHistory")
+
+  /// List of priority history
+  priorityHistory PriorityHistory[] @relation("priorityHistory")
+
+  /// List of status history
+  statusHistory StatusHistory[] @relation("statusHistory")
+
+  /// List of point history
+  pointHistory PointHistory[] @relation("pointHistory")
+
+  /// List of child projects
+  projects Project[] @relation("projects")
 }
 
 model Tag {
@@ -120,8 +185,14 @@ model Tag {
   /// Unique tag name such as documentation
   name String @unique
 
+  /// Is default or custom tag
+  isDefault Boolean @default(true)
+
   /// List of tasks having this tag.
   tasks TaskTag[]
+
+  /// List of projects using this tag
+  projects ProjectTaskTag[]
 }
 
 model Category {
@@ -136,6 +207,9 @@ model Category {
   /// Category description
   description String?
 
+  /// Is default or custom category
+  isDefault Boolean @default(true)
+
   /// Parent category details
   parent Category? @relation("categories", fields: [parentId], references: [id])
 
@@ -148,6 +222,9 @@ model Category {
 
 model Sprint {
   id Int @id @default(autoincrement())
+
+  /// The id of the user who created this entry
+  createdById Int
 
   /// Project id 
   projectId Int?
@@ -164,6 +241,9 @@ model Sprint {
   /// List of tasks under this sprint
   tasks Task[]
 
+  /// The details of the user who created this entry
+  createdBy User @relation(fields: [createdById], references: [id])
+
   @@unique([projectId, name])
 }
 
@@ -176,8 +256,20 @@ model Priority {
   /// Priority description
   description String?
 
+  /// Is default or custom priority
+  isDefault Boolean @default(true)
+
   /// List of tasks under this priority
-  tasks TaskPriority[]
+  tasks Task[]
+
+  /// List of projects using this priority
+  projects ProjectTaskPriority[]
+
+  /// Priority history
+  takenPriorities PriorityHistory[] @relation("takenPriorities")
+
+  /// Priority history
+  givenPriorities PriorityHistory[] @relation("givenPriorities")
 }
 
 model Status {
@@ -189,8 +281,43 @@ model Status {
   /// Status description 
   description String?
 
+  /// Is default or custom status
+  isDefault Boolean @default(true)
+
   /// List of tasks under this status
-  tasks TaskStatus[]
+  tasks Task[]
+
+  /// list of projects using this status
+  projects ProjectTaskStatus[]
+
+  /// Status history
+  takenStatuses StatusHistory[] @relation("takenStatuses")
+
+  /// Status history
+  givenStatuses StatusHistory[] @relation("givenStatuses")
+}
+
+/// Task difficulty/score 
+model Point {
+  id Int @id @default(autoincrement())
+
+  /// Unqiue point name such as Basic, Medium, Hard, Impossible
+  name String @unique
+
+  /// The given integer value to the point
+  point Int @unique
+
+  /// Point description 
+  description String @default("Add description")
+
+  /// List of tasks given this point
+  tasks Task[]
+
+  /// Point history 
+  takenPointes PointHistory[] @relation("takenPointes")
+
+  /// Point history 
+  givenPointes PointHistory[] @relation("givenPointes")
 }
 
 model Task {
@@ -199,14 +326,23 @@ model Task {
   /// Sprint id
   sprintId Int?
 
-  /// Created at
+  /// The date this entry is created at (internal)
   createdAt DateTime @default(now())
 
-  /// Updated at 
+  /// The date this entry is last updated at
   updatedAt DateTime @updatedAt
 
-  /// Created by 
+  /// The id of the user who created this entry
   createdById Int
+
+  /// Priority id
+  priorityId Int?
+
+  /// Point id
+  pointId Int
+
+  /// Status id
+  statusId Int?
 
   /// Parent task id
   parentId Int?
@@ -232,11 +368,11 @@ model Task {
   /// List of child tasks 
   tasks Task[] @relation("tasks")
 
-  /// Details of the user who created this task
+  /// The details of the user who created this entry
   createdBy User @relation(fields: [createdById], references: [id])
 
   /// List of users that are responsible for this task
-  assignees UserTask[]
+  assignments Assignment[]
 
   /// List of tags given to this task
   tags TaskTag[]
@@ -244,22 +380,214 @@ model Task {
   /// List of categories given to this task
   categories TaskCategory[]
 
-  /// List of priorities given to this task
-  prioritites TaskPriority[]
+  /// Task point/difficulty/score
+  point Point @relation(fields: [pointId], references: [id])
 
-  /// List of statuses given to this task
-  statuses TaskStatus[]
+  /// Priority 
+  priority Priority? @relation(fields: [priorityId], references: [id])
+
+  /// Status
+  status Status? @relation(fields: [statusId], references: [id])
 
   /// Sprint details
   sprint Sprint? @relation(fields: [sprintId], references: [id], onDelete: SetNull)
 
-  @@unique([sprintId, title])
+  /// List of assignment histories
+  assignmentHistory AssignmentHistory[]
+
+  /// List of status histories
+  statusHistory StatusHistory[]
+
+  /// List of priority history
+  priorityHistory PriorityHistory[]
+
+  /// List of point history
+  pointHistory PointHistory[]
+}
+
+model AssignmentHistory {
+  id Int @id @default(autoincrement())
+
+  /// The id of the user who created this entry
+  createdById Int
+
+  /// The date this entry is created at (internal)
+  createdAt DateTime @default(now())
+
+  /// The date this entry is last updated at
+  updatedAt DateTime @updatedAt
+
+  // The project id related to this entry
+  projectId Int
+
+  /// The task id related to this entry
+  taskId Int
+
+  /// Previous user id
+  oldUserId Int
+
+  /// New user id
+  newUserId Int
+
+  /// Previous user details
+  oldUser User @relation("takenAssignments", fields: [oldUserId], references: [id])
+
+  /// New user details
+  newUser User @relation("givenAssignments", fields: [newUserId], references: [id])
+
+  /// The details of the user who created this entry
+  createdBy User @relation("changedAssignments", fields: [createdById], references: [id])
+
+  /// Task details 
+  task Task @relation(fields: [taskId], references: [id])
+
+  /// Project details
+  project Project @relation("assignmentHistory", fields: [projectId], references: [id])
+}
+
+model PriorityHistory {
+  id Int @id @default(autoincrement())
+
+  /// The id of the user who created this entry
+  createdById Int
+
+  /// The date this entry is created at (internal)
+  createdAt DateTime @default(now())
+
+  /// The date this entry is last updated at
+  updatedAt DateTime @updatedAt
+
+  /// The project id
+  projectId Int
+
+  /// The task id related to this entry
+  taskId Int
+
+  /// Old priority id 
+  oldPriorityId Int?
+
+  /// New priority id
+  newPriorityId Int
+
+  /// Old priority details
+  oldPriority Priority? @relation("takenPriorities", fields: [oldPriorityId], references: [id])
+
+  /// New priority details
+  newPriority Priority @relation("givenPriorities", fields: [newPriorityId], references: [id])
+
+  /// The details of the user who created this entry
+  createdBy User @relation("changedPriorities", fields: [createdById], references: [id])
+
+  /// Task details 
+  task Task @relation(fields: [taskId], references: [id])
+
+  /// Project details
+  project Project @relation("priorityHistory", fields: [projectId], references: [id])
+}
+
+model StatusHistory {
+  id Int @id @default(autoincrement())
+
+  /// The date the entry is created at
+  createdAt DateTime @default(now())
+
+  /// The id of the user who created this status history
+  createdById Int
+
+  /// Old status id
+  oldStatusId Int?
+
+  /// new status id
+  newStatusId Int
+
+  /// The project id
+  projectId Int
+
+  /// The task id related to this entry
+  taskId Int
+
+  /// Task details
+  task Task @relation(fields: [taskId], references: [id])
+
+  /// Previous old status or null
+  oldStatus Status? @relation("takenStatuses", fields: [oldStatusId], references: [id])
+
+  /// New status
+  newStatus Status @relation("givenStatuses", fields: [newStatusId], references: [id])
+
+  /// The details fo the user who created this status history 
+  createdBy User @relation("changedStatuses", fields: [createdById], references: [id])
+
+  /// The project details
+  project Project @relation("statusHistory", fields: [projectId], references: [id])
+}
+
+model PointHistory {
+  id Int @id @default(autoincrement())
+
+  /// The date the entry is created at
+  createdAt DateTime @default(now())
+
+  /// The id of the user who created this status history
+  createdById Int
+
+  /// Old status id
+  oldPointId Int?
+
+  /// new status id
+  newPointId Int
+
+  /// The project id 
+  projectId Int
+
+  /// The task id related to this entry
+  taskId Int
+
+  /// Task details
+  task Task @relation(fields: [taskId], references: [id])
+
+  /// Previous old status or null
+  oldPoint Point? @relation("takenPointes", fields: [oldPointId], references: [id])
+
+  /// New status
+  newPoint Point @relation("givenPointes", fields: [newPointId], references: [id])
+
+  /// The details fo the user who created this status history 
+  createdBy User @relation("changedPoints", fields: [createdById], references: [id])
+
+  /// The project details
+  project Project @relation("pointHistory", fields: [projectId], references: [id])
+}
+
+model TeamHistory {
+  id Int @id @default(autoincrement())
+
+  /// The date this entry is created at (internal)
+  createdAt DateTime @default(now())
+
+  /// The date this entry is created at (internal)
+  createdById Int
+
+  /// The old team id
+  oldTeamId Int?
+
+  /// The new team id
+  newTeamId Int
+
+  /// Old team details 
+  oldTeam Team? @relation("takenTeams", fields: [oldTeamId], references: [id])
+
+  /// New team details
+  newTeam Team @relation("givenTeams", fields: [newTeamId], references: [id])
+
+  /// The details of the user who created this entry
+  createdBy User @relation("changedTeams", fields: [createdById], references: [id])
 }
 
 model TaskTag {
   id Int @id @default(autoincrement())
 
-  /// Task id
+  /// The task id related to this entry
   taskId Int
 
   /// Tag id
@@ -280,7 +608,7 @@ model TaskCategory {
   /// Category id
   categoryId Int
 
-  /// Task id
+  /// The task id related to this entry
   taskId Int
 
   /// Task details 
@@ -292,91 +620,116 @@ model TaskCategory {
   @@unique([taskId, categoryId])
 }
 
-model TaskStatus {
+/// Task assignment
+model Assignment {
   id Int @id @default(autoincrement())
 
-  /// Status id
-  statusId Int
+  /// The date the entry is created at
+  createdAt DateTime @default(now())
 
-  /// Task id
-  taskId Int
-
-  /// Status details
-  status Status @relation(fields: [statusId], references: [id])
-
-  /// Task details 
-  task Task @relation(fields: [taskId], references: [id])
-
-  @@unique([statusId, taskId])
-}
-
-model TaskPriority {
-  id Int @id @default(autoincrement())
-
-  /// Task id
-  taskId Int
-
-  /// Priority id
-  priorityId Int
-
-  /// task details
-  task Task @relation(fields: [taskId], references: [id])
-
-  /// Priority details 
-  priority Priority @relation(fields: [priorityId], references: [id])
-
-  @@unique([taskId, priorityId])
-}
-
-/// Tasks assigned to the users
-model UserTask {
-  id Int @id @default(autoincrement())
+  /// The date the entry is updated at
+  updatedAt DateTime @updatedAt
 
   /// User id
-  userId Int
+  assigneeId Int
 
-  /// task id
+  /// The task id related to this entry
   taskId Int
 
   /// Task details
   task Task @relation(fields: [taskId], references: [id])
 
   /// User details
-  user User @relation(fields: [userId], references: [id])
+  assignee User @relation(fields: [assigneeId], references: [id])
 
-  @@unique([userId, taskId])
+  @@unique([assigneeId, taskId])
 }
 
 model Comment {
   id Int @id @default(autoincrement())
 
-  /// Created at 
+  /// The date this entry is created at (internal)
   createdAt DateTime @default(now())
 
-  /// Updated at
+  /// The date this entry is last updated at
   updatedAt DateTime @updatedAt
 
   /// Parent comment id
   parentId Int?
 
-  /// User id
+  /// The id of the user who created this entry
   createdById Int
 
-  /// task id
+  /// The task id related to this entry
   taskId Int
 
   /// Comment 
   comment String
 
   /// Parent commnet details
-  parent Comment? @relation("comments", fields: [parentId], references: [id])
+  parent Comment? @relation("comments", fields: [parentId], references: [id], onDelete: Cascade)
 
-  /// List of child comments
+  /// List of comments to this comment
   comments Comment[] @relation("comments")
 
-  /// User details 
+  /// The details of the user who created this entry
   createdBy User @relation(fields: [createdById], references: [id])
 
   /// Task details
   task Task @relation(fields: [taskId], references: [id])
+}
+
+/// Tags used in the project
+model ProjectTaskTag {
+  id Int @id @default(autoincrement())
+
+  /// Project id
+  projectId Int
+
+  /// Tag id
+  tagId Int
+
+  /// Tag details 
+  tag Tag @relation(fields: [tagId], references: [id])
+
+  /// Project details
+  project Project @relation(fields: [projectId], references: [id])
+
+  @@unique([projectId, tagId])
+}
+
+model ProjectTaskStatus {
+  id Int @id @default(autoincrement())
+
+  /// Project id
+  projectId Int
+
+  /// Status id
+  statusId Int
+
+  /// Project details
+  project Project @relation(fields: [projectId], references: [id])
+
+  /// Status details 
+  status Status @relation(fields: [statusId], references: [id])
+
+  @@unique([projectId, statusId])
+}
+
+model ProjectTaskPriority {
+  id Int @id @default(autoincrement())
+
+  /// Project id
+  projectId Int
+
+  /// Status id
+  priorityId Int
+
+  /// Project details
+  project Project @relation(fields: [projectId], references: [id])
+
+  /// Status details 
+  priority Priority @relation(fields: [priorityId], references: [id])
+
+  @@unique([projectId, priorityId])
 }
