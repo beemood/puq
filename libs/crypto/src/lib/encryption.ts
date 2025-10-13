@@ -167,13 +167,4 @@ export class Encryption {
   public static generateKey(): Buffer {
     return randomBytes(this.KEY_LENGTH);
   }
-
-  /**
-   * Retrieves an encryption key from environment variables using a provided name suffix.
-   * @param name The suffix for the environment variable (e.g., 'DEV' for ENCRYPTION_KEY_DEV).
-   * @returns The key string from the environment variable, or undefined.
-   */
-  public static getKeyFromEnv(name: string): string | undefined {
-    return process.env[`ENCRYPTION_KEY_${name}`];
-  }
 }
