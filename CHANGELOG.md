@@ -1,3 +1,22 @@
+## 0.20.0 (2025-10-13)
+
+### 🚀 Features
+
+- improved inventory and contact db schemas ([f4a4114](https://github.com/beemood/puq/commit/f4a4114))
+- created user authentication and autorization database ([13f0d01](https://github.com/beemood/puq/commit/13f0d01))
+- created project management database ([d5fe80d](https://github.com/beemood/puq/commit/d5fe80d))
+- created project management database ([b05c3e1](https://github.com/beemood/puq/commit/b05c3e1))
+- improved the project management database ([0116906](https://github.com/beemood/puq/commit/0116906))
+- created app database ([55f7892](https://github.com/beemood/puq/commit/55f7892))
+- created app database ([382ab5c](https://github.com/beemood/puq/commit/382ab5c))
+- Created encription and hashing library ([1c6e595](https://github.com/beemood/puq/commit/1c6e595))
+- Created encription and hashing library ([0c784ea](https://github.com/beemood/puq/commit/0c784ea))
+- Created encription and hashing library ([f36b4e8](https://github.com/beemood/puq/commit/f36b4e8))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.19.0 (2025-10-07)
 
 ### 🚀 Features

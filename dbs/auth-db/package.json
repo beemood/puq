@@ -1,6 +1,6 @@
 {
   "name": "@puq/auth-db",
-  "version": "0.19.0",
+  "version": "0.20.0",
   "license": "MIT",
   "description": "User credentials, roles, permissions, and activity log database",
   "publishConfig": {

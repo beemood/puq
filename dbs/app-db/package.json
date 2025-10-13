@@ -1,6 +1,6 @@
 {
   "name": "@puq/app-db",
-  "version": "0.18.0",
+  "version": "0.20.0",
   "license": "MIT",
   "description": "app-db prisma client",
   "publishConfig": {
