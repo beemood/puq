@@ -3,7 +3,7 @@ import type { CipherGCM, DecipherGCM } from 'crypto';
 import { createCipheriv, createDecipheriv, randomBytes } from 'crypto';
 import { Readable } from 'stream';
 
-export type DecryptedParts = {
+export type EncriptionParts = {
   version: string;
   iv: string;
   authTag: string;
@@ -91,7 +91,12 @@ export class Encryption {
     });
   }
 
-  public static decryptParts(encryptedData: string): DecryptedParts {
+  /**
+   * Split the encripted string by the delimeter and return the parts as object
+   * @param encryptedData encrypted string
+   * @returns parts {@link EncriptionParts}
+   */
+  public static parts(encryptedData: string): EncriptionParts {
     const parts = encryptedData.split(delimeter);
     if (parts.length != 4) {
       throw new Error(`Invalid encripted data!`);
@@ -121,7 +126,7 @@ export class Encryption {
       ? key
       : Buffer.from(key, this.ENCODING);
 
-    const { authTag, content, iv } = this.decryptParts(encryptedData);
+    const { authTag, content, iv } = this.parts(encryptedData);
 
     // 2. Convert hex parts back to Buffers
     const ivBuffer: Buffer = Buffer.from(iv, this.ENCODING);

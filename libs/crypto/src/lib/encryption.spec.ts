@@ -11,5 +11,6 @@ describe('encryption', () => {
 
     const decrypedData = await Encryption.decrypt(encryptedData, key);
     console.log(`DecryptedData: "${decrypedData}"`);
+    const parts = await Encryption.parts(encryptedData);
   });
 });
