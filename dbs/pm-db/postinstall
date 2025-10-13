@@ -1,0 +1,17 @@
+#!/bin/bash
+
+DIR="./generated/schema.prisma"
+
+if [ -f "$DIR" ]; then
+
+  echo "@puq/pm-db prisma client already exists"
+
+else
+
+  echo "Generating @puq/pm-db prisma client"
+
+  npx prisma migrate dev --name updated
+
+  npx prisma generate
+  
+fi

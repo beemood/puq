@@ -1,0 +1,382 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+
+  /// Unique employee indentifier accross the system
+  uuid String @unique
+
+  /// Display name/Nick name for the employee 
+  displayName String
+
+  /// List of comments made by this user
+  comments Comment[]
+
+  /// List of tasks created by this user
+  createdTasks Task[]
+
+  /// List of tasks assigned to this user
+  assignments UserTask[]
+
+  /// List of teams that this user manages
+  leadTeams TeamManager[]
+
+  /// List of temas that this user is in
+  teams   TeamMember[]
+  Project Project[]
+}
+
+model Team {
+  id Int @id @default(autoincrement())
+
+  /// Unqiue team name
+  name String @unique
+
+  /// Team description
+  description String?
+
+  /// Team managers of this team
+  managers TeamManager[]
+
+  /// List of members of this team
+  members TeamMember[]
+}
+
+model TeamManager {
+  id Int @id @default(autoincrement())
+
+  /// Manager id
+  managerId Int
+
+  /// Team id
+  teamId Int
+
+  /// Manager details
+  manager User @relation(fields: [managerId], references: [id])
+
+  /// Team details
+  team Team @relation(fields: [teamId], references: [id])
+
+  @@unique([managerId, teamId])
+}
+
+model TeamMember {
+  id Int @id @default(autoincrement())
+
+  /// Team id
+  teamId Int
+
+  /// Member id
+  memeberId Int
+
+  /// Team details
+  team Team @relation(fields: [teamId], references: [id])
+
+  /// Member details
+  memeber User @relation(fields: [memeberId], references: [id])
+
+  @@unique([teamId, memeberId])
+}
+
+model Project {
+  id Int @id @default(autoincrement())
+
+  /// Created by id
+  createdById Int
+
+  /// Unqiue project name 
+  name String @unique
+
+  /// Project description 
+  description String?
+
+  /// Start date
+  startDate DateTime?
+
+  // Expected due date
+  dueDate DateTime?
+
+  /// End Date
+  endDate DateTime?
+
+  /// List of project sprints
+  sprints Sprint[]
+
+  /// The details of the user who created this project
+  createdBy User @relation(fields: [createdById], references: [id])
+}
+
+model Tag {
+  id Int @id @default(autoincrement())
+
+  /// Unique tag name such as documentation
+  name String @unique
+
+  /// List of tasks having this tag.
+  tasks TaskTag[]
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+
+  /// Parent category id
+  parentId Int?
+
+  /// Unique category name such as IT, 
+  name String @unique
+
+  /// Category description
+  description String?
+
+  /// Parent category details
+  parent Category? @relation("categories", fields: [parentId], references: [id])
+
+  /// List of sub categories
+  categories Category[] @relation("categories")
+
+  /// List of tasks under this category
+  tasks TaskCategory[]
+}
+
+model Sprint {
+  id Int @id @default(autoincrement())
+
+  /// Project id 
+  projectId Int?
+
+  /// Unique sprint name
+  name String
+
+  /// Sprint description
+  description String?
+
+  /// Project details 
+  project Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+
+  /// List of tasks under this sprint
+  tasks Task[]
+
+  @@unique([projectId, name])
+}
+
+model Priority {
+  id Int @id @default(autoincrement())
+
+  /// Unique status name
+  name String @unique
+
+  /// Priority description
+  description String?
+
+  /// List of tasks under this priority
+  tasks TaskPriority[]
+}
+
+model Status {
+  id Int @id @default(autoincrement())
+
+  /// Unique status name
+  name String @unique
+
+  /// Status description 
+  description String?
+
+  /// List of tasks under this status
+  tasks TaskStatus[]
+}
+
+model Task {
+  id Int @id @default(autoincrement())
+
+  /// Sprint id
+  sprintId Int?
+
+  /// Created at
+  createdAt DateTime @default(now())
+
+  /// Updated at 
+  updatedAt DateTime @updatedAt
+
+  /// Created by 
+  createdById Int
+
+  /// Parent task id
+  parentId Int?
+
+  /// Task title 
+  title String
+
+  /// Task description 
+  description String?
+
+  /// Expected date to resolve this task
+  due DateTime?
+
+  /// The time the tasks is resolved
+  resolvedAt DateTime?
+
+  /// Task comments 
+  comments Comment[]
+
+  /// Parent task details 
+  parent Task? @relation("tasks", fields: [parentId], references: [id])
+
+  /// List of child tasks 
+  tasks Task[] @relation("tasks")
+
+  /// Details of the user who created this task
+  createdBy User @relation(fields: [createdById], references: [id])
+
+  /// List of users that are responsible for this task
+  assignees UserTask[]
+
+  /// List of tags given to this task
+  tags TaskTag[]
+
+  /// List of categories given to this task
+  categories TaskCategory[]
+
+  /// List of priorities given to this task
+  prioritites TaskPriority[]
+
+  /// List of statuses given to this task
+  statuses TaskStatus[]
+
+  /// Sprint details
+  sprint Sprint? @relation(fields: [sprintId], references: [id], onDelete: SetNull)
+
+  @@unique([sprintId, title])
+}
+
+model TaskTag {
+  id Int @id @default(autoincrement())
+
+  /// Task id
+  taskId Int
+
+  /// Tag id
+  tagId Int
+
+  /// Task details
+  task Task @relation(fields: [taskId], references: [id])
+
+  /// Tag details
+  tag Tag @relation(fields: [tagId], references: [id])
+
+  @@unique([taskId, tagId])
+}
+
+model TaskCategory {
+  id Int @id @default(autoincrement())
+
+  /// Category id
+  categoryId Int
+
+  /// Task id
+  taskId Int
+
+  /// Task details 
+  task Task @relation(fields: [taskId], references: [id])
+
+  /// Cateogry details 
+  category Category @relation(fields: [categoryId], references: [id])
+
+  @@unique([taskId, categoryId])
+}
+
+model TaskStatus {
+  id Int @id @default(autoincrement())
+
+  /// Status id
+  statusId Int
+
+  /// Task id
+  taskId Int
+
+  /// Status details
+  status Status @relation(fields: [statusId], references: [id])
+
+  /// Task details 
+  task Task @relation(fields: [taskId], references: [id])
+
+  @@unique([statusId, taskId])
+}
+
+model TaskPriority {
+  id Int @id @default(autoincrement())
+
+  /// Task id
+  taskId Int
+
+  /// Priority id
+  priorityId Int
+
+  /// task details
+  task Task @relation(fields: [taskId], references: [id])
+
+  /// Priority details 
+  priority Priority @relation(fields: [priorityId], references: [id])
+
+  @@unique([taskId, priorityId])
+}
+
+/// Tasks assigned to the users
+model UserTask {
+  id Int @id @default(autoincrement())
+
+  /// User id
+  userId Int
+
+  /// task id
+  taskId Int
+
+  /// Task details
+  task Task @relation(fields: [taskId], references: [id])
+
+  /// User details
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, taskId])
+}
+
+model Comment {
+  id Int @id @default(autoincrement())
+
+  /// Created at 
+  createdAt DateTime @default(now())
+
+  /// Updated at
+  updatedAt DateTime @updatedAt
+
+  /// Parent comment id
+  parentId Int?
+
+  /// User id
+  createdById Int
+
+  /// task id
+  taskId Int
+
+  /// Comment 
+  comment String
+
+  /// Parent commnet details
+  parent Comment? @relation("comments", fields: [parentId], references: [id])
+
+  /// List of child comments
+  comments Comment[] @relation("comments")
+
+  /// User details 
+  createdBy User @relation(fields: [createdById], references: [id])
+
+  /// Task details
+  task Task @relation(fields: [taskId], references: [id])
+}

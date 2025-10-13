@@ -285,6 +285,37 @@ importers:
         specifier: ^6.16.2
         version: 6.16.2(magicast@0.3.5)(typescript@5.9.2)
 
+  dbs/pm-db:
+    dependencies:
+      '@puq/names':
+        specifier: workspace:*
+        version: link:../../libs/names
+      '@puq/prisma-schema':
+        specifier: workspace:*
+        version: link:../../libs/prisma-schema
+      '@puq/types':
+        specifier: workspace:*
+        version: link:../../libs/types
+      '@puq/zod':
+        specifier: workspace:*
+        version: link:../../libs/zod
+      '@swc/helpers':
+        specifier: ~0.5.11
+        version: 0.5.17
+      zod:
+        specifier: ^4.1.11
+        version: 4.1.11
+    devDependencies:
+      '@prisma/client':
+        specifier: 6.16.2
+        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.2))(typescript@5.9.2)
+      '@puq/inventory-db':
+        specifier: workspace:*
+        version: link:../inventory-db
+      prisma:
+        specifier: ^6.16.2
+        version: 6.16.2(magicast@0.3.5)(typescript@5.9.2)
+
   libs/barcode:
     dependencies:
       '@swc/helpers':

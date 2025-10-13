@@ -36,6 +36,23 @@ enum PaymentType {
   OTHER
 }
 
+/// Federal income tax filing status
+enum TaxFilingStatus {
+  SINGLE
+  MARRIED_FILING_JOINTLY
+  MARRIED_FILING_SEPARATELY
+  HEAD_OF_HOUSEHOLD
+  QUALIFYING_WIDOW
+}
+
+/// Type of deduction (Pre-Tax, Post-Tax, Garnishment)
+enum DeductionType {
+  PRE_TAX_STATUTORY // e.g., Retirement (401k), Health Savings Account (HSA)
+  PRE_TAX_NON_STATUTORY // e.g., Health Insurance premiums
+  POST_TAX // e.g., Roth 401k, Life Insurance
+  GARNISHMENT // e.g., Child support, IRS levy
+}
+
 /// Employee status (INCOMMING, ACTIVE, INACTIVE, LEFT, TERMINATED)
 enum EmployeeStatus {
   /// Employees are comming in the next business cycle
@@ -106,7 +123,7 @@ enum TimeOffType {
   PERSONAL
 
   /// Family related emergencies
-  BEREAVEMENT
+  EMERGENCY
 }
 
 enum RequestStatus {
@@ -191,11 +208,29 @@ model Title {
 model Employee {
   id Int @id @default(autoincrement())
 
-  /// Unique employee uuid for external usage such as contact, auth, and inventory services
+  /// Unique employee uuid for external usage such as contact, auth, and inventory services to identify the user
   uuid String @unique @default(uuid())
 
   /// Employee title id 
   titleId Int
+
+  /// firstName 
+  firstName String
+
+  /// middleName 
+  middleName String?
+
+  /// lastName 
+  lastName String
+
+  /// preferedName 
+  preferedName String?
+
+  /// Gender 
+  gender Gender
+
+  /// Date of birth 
+  dob DateTime
 
   /// Empmloyee status
   status EmployeeStatus @default(INCOMMING)
@@ -238,6 +273,8 @@ model Employee {
 
   /// List of payments resolved by this employee
   resolvedPayments Payment[] @relation("resolvedBy")
+
+  taxData EmployeeTaxData?
 }
 
 model Team {
@@ -272,7 +309,7 @@ model TeamMember {
   team Team @relation(fields: [teamId], references: [id])
 }
 
-/// Employee salary table
+/// Employee salary
 model Salary {
   id Int @id @default(autoincrement())
 
@@ -394,6 +431,9 @@ model TimeOffPolicy {
   /// Unique time off policy name
   name String @unique
 
+  /// Policy description 
+  description String? @default("No description")
+
   /// Time off type 
   type TimeOffType
 
@@ -402,9 +442,6 @@ model TimeOffPolicy {
 
   /// Maximum time-off hours can be used in the following business cycle
   maxRollover Decimal @db.Decimal(5, 2)
-
-  /// Policy description 
-  description String? @default("No description")
 
   /// List of employees time-off balance
   balances TimeOffBalance[]
@@ -546,4 +583,88 @@ model Payment {
 
   /// List of working hours will be paid with this payment process
   hours ClockIn[]
+}
+
+/// Stores employee tax withholding settings from Form W-4 and state forms
+model EmployeeTaxData {
+  id Int @id @default(autoincrement())
+
+  /// Employee ID (1:1 relationship)
+  employeeId Int @unique
+
+  // --- FEDERAL TAX SETTINGS ---
+  federalStatus TaxFilingStatus @default(SINGLE)
+
+  /// Total dollar amount from W-4 Step 3 (Claim Dependents)
+  dependentsCredit Decimal @default(0.00) @db.Decimal(10, 2)
+
+  /// Flag indicating multiple jobs checked on W-4 Step 2
+  multipleJobs Boolean @default(false)
+
+  /// Total dollar amount from W-4 Step 4(a) (Other Income)
+  otherIncome Decimal @default(0.00) @db.Decimal(10, 2)
+
+  /// Total dollar amount from W-4 Step 4(b) (Deductions)
+  deductionsAmount Decimal @default(0.00) @db.Decimal(10, 2)
+
+  /// Additional flat amount to withhold per pay period (W-4 Step 4(c))
+  extraWithholding Decimal @default(0.00) @db.Decimal(10, 2)
+
+  /// Flag for employees exempt from federal income tax withholding
+  isExempt Boolean @default(false)
+
+  /// Flag for Non-Resident Alien status (affects special withholding rules)
+  isNonResidentAlien Boolean @default(false)
+
+  // --- STATE AND LOCAL TAX SETTINGS ---
+  /// Tax configurations for specific states/localities
+  stateTaxes StateTaxWithholding[]
+  localTaxes LocalTaxWithholding[]
+
+  employee Employee @relation(fields: [employeeId], references: [id])
+}
+
+/// Stores state-specific withholding details
+model StateTaxWithholding {
+  id Int @id @default(autoincrement())
+
+  /// Link to the main EmployeeTaxData record
+  taxDataId Int
+
+  /// State code (e.g., 'IL', 'CA')
+  stateCode String
+
+  /// State-specific filing status/marital status
+  stateStatus String?
+
+  /// Number of state-level allowances/exemptions claimed
+  allowances Int @default(0)
+
+  /// Additional state withholding amount
+  extraWithholding Decimal @default(0.00) @db.Decimal(10, 2)
+
+  taxData EmployeeTaxData @relation(fields: [taxDataId], references: [id])
+
+  @@unique([taxDataId, stateCode])
+}
+
+/// Stores local/city/school district withholding details
+model LocalTaxWithholding {
+  id Int @id @default(autoincrement())
+
+  /// Link to the main EmployeeTaxData record
+  taxDataId Int
+
+  /// Jurisdiction name or ID (e.g., City of Chicago, School District 186)
+  jurisdiction String
+
+  /// Local filing status/allowances
+  localStatus String?
+
+  /// Additional local withholding amount
+  extraWithholding Decimal @default(0.00) @db.Decimal(10, 2)
+  
+  taxData EmployeeTaxData @relation(fields: [taxDataId], references: [id])
+
+  @@unique([taxDataId, jurisdiction])
 }
