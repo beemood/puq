@@ -59,6 +59,9 @@
     },
     {
       "path": "./dbs/pm-db"
+    },
+    {
+      "path": "./dbs/app-db"
     }
   ]
 }

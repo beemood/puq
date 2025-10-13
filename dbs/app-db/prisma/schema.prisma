@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model App {
+  id Int @id @default(autoincrement())
+
+  /// Unique app name
+  name String @unique
+
+  // App description 
+  description String?
+
+  /// App version 
+  version String?
+
+  /// Host/IP address
+  host String
+
+  /// Port 
+  port String
+
+  /// List of app history
+  history AppHistory[]
+
+  @@unique([host, port])
+}
+
+model AppHistory {
+  id Int @id @default(autoincrement())
+
+  /// App id
+  appId Int
+
+  /// Started at
+  startedAt DateTime @default(now())
+
+  /// Stopped at 
+  stopeedAt DateTime?
+
+  /// App details
+  app App @relation(fields: [appId], references: [id])
+}
