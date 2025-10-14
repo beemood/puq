@@ -65,6 +65,60 @@ export type AppQuery = z.infer<typeof AppQuerySchema>;
 
 
 
+// ---------- Secret Schemas ----------
+
+
+export const SecretSchema = z.object({
+  id: z.number().int(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+  version: z.string(),
+  secret: z.string(),
+});
+
+export const SecretCreateSchema = z.object({
+  secret: z.string(),
+});
+
+export const SecretUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
+  version: z.string().optional(),
+  secret: z.string().optional(),
+});
+
+export const SecretWhereSchema = toWhereQuerySchema(SecretSchema);
+
+export const SecretOrderSchema =  toOrderBySchema(SecretSchema);
+
+export const SecretSelectSchema = z.object({
+  id: z.boolean().optional(),
+  createdAt: z.boolean().optional(),
+  updatedAt: z.boolean().optional(),
+  version: z.boolean().optional(),
+  secret: z.boolean().optional(),
+});
+
+export const SecretQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: SecretWhereSchema.optional(),
+  orderBy: SecretOrderSchema.optional(),
+  select: SecretSelectSchema.optional()
+});
+
+export type Secret = z.infer<typeof SecretSchema>;
+export type SecretCreate = z.infer<typeof SecretCreateSchema>;
+export type SecretUpdate = z.infer<typeof SecretUpdateSchema>;
+export type SecretWhere = z.infer<typeof SecretWhereSchema>;
+export type SecretOrder = z.infer<typeof SecretOrderSchema>;
+export type SecretSelect = z.infer<typeof SecretSelectSchema>;
+export type SecretQuery = z.infer<typeof SecretQuerySchema>;
+
+
+
+
 // ---------- AppHistory Schemas ----------
 
 

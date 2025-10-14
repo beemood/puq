@@ -35,7 +35,7 @@ export const IndustrySelectSchema = z.object({
   name: z.boolean().optional(),
   slug: z.boolean().optional(),
   description: z.boolean().optional(),
-  orgs: z.boolean().optional(),
+  companies: z.boolean().optional(),
 });
 
 export const IndustryQuerySchema = z.object({
@@ -57,33 +57,33 @@ export type IndustryQuery = z.infer<typeof IndustryQuerySchema>;
 
 
 
-// ---------- Org Schemas ----------
+// ---------- Company Schemas ----------
 
 
-export const OrgSchema = z.object({
+export const CompanySchema = z.object({
   id: z.number().int(),
   uuid: z.string(),
   name: z.string(),
   slug: z.string(),
 });
 
-export const OrgCreateSchema = z.object({
+export const CompanyCreateSchema = z.object({
   name: z.string(),
   slug: z.string(),
 });
 
-export const OrgUpdateSchema = z.object({
+export const CompanyUpdateSchema = z.object({
   id: z.number().int().optional(),
   uuid: z.string().optional(),
   name: z.string().optional(),
   slug: z.string().optional(),
 });
 
-export const OrgWhereSchema = toWhereQuerySchema(OrgSchema);
+export const CompanyWhereSchema = toWhereQuerySchema(CompanySchema);
 
-export const OrgOrderSchema =  toOrderBySchema(OrgSchema);
+export const CompanyOrderSchema =  toOrderBySchema(CompanySchema);
 
-export const OrgSelectSchema = z.object({
+export const CompanySelectSchema = z.object({
   id: z.boolean().optional(),
   uuid: z.boolean().optional(),
   name: z.boolean().optional(),
@@ -92,126 +92,187 @@ export const OrgSelectSchema = z.object({
   industries: z.boolean().optional(),
 });
 
-export const OrgQuerySchema = z.object({
+export const CompanyQuerySchema = z.object({
   take: z.coerce.number().int().min(1), 
   skip: z.coerce.number().int().min(0), 
-  where: OrgWhereSchema.optional(),
-  orderBy: OrgOrderSchema.optional(),
-  select: OrgSelectSchema.optional()
+  where: CompanyWhereSchema.optional(),
+  orderBy: CompanyOrderSchema.optional(),
+  select: CompanySelectSchema.optional()
 });
 
-export type Org = z.infer<typeof OrgSchema>;
-export type OrgCreate = z.infer<typeof OrgCreateSchema>;
-export type OrgUpdate = z.infer<typeof OrgUpdateSchema>;
-export type OrgWhere = z.infer<typeof OrgWhereSchema>;
-export type OrgOrder = z.infer<typeof OrgOrderSchema>;
-export type OrgSelect = z.infer<typeof OrgSelectSchema>;
-export type OrgQuery = z.infer<typeof OrgQuerySchema>;
+export type Company = z.infer<typeof CompanySchema>;
+export type CompanyCreate = z.infer<typeof CompanyCreateSchema>;
+export type CompanyUpdate = z.infer<typeof CompanyUpdateSchema>;
+export type CompanyWhere = z.infer<typeof CompanyWhereSchema>;
+export type CompanyOrder = z.infer<typeof CompanyOrderSchema>;
+export type CompanySelect = z.infer<typeof CompanySelectSchema>;
+export type CompanyQuery = z.infer<typeof CompanyQuerySchema>;
 
 
 
 
-// ---------- OrgIndustry Schemas ----------
+// ---------- CompanyIndustry Schemas ----------
 
 
-export const OrgIndustrySchema = z.object({
+export const CompanyIndustrySchema = z.object({
   id: z.number().int(),
-  orgId: z.number().int(),
+  companyId: z.number().int(),
   industryId: z.number().int(),
 });
 
-export const OrgIndustryCreateSchema = z.object({
-  orgId: z.number().int(),
+export const CompanyIndustryCreateSchema = z.object({
+  companyId: z.number().int(),
   industryId: z.number().int(),
 });
 
-export const OrgIndustryUpdateSchema = z.object({
+export const CompanyIndustryUpdateSchema = z.object({
   id: z.number().int().optional(),
-  orgId: z.number().int().optional(),
+  companyId: z.number().int().optional(),
   industryId: z.number().int().optional(),
 });
 
-export const OrgIndustryWhereSchema = toWhereQuerySchema(OrgIndustrySchema);
+export const CompanyIndustryWhereSchema = toWhereQuerySchema(CompanyIndustrySchema);
 
-export const OrgIndustryOrderSchema =  toOrderBySchema(OrgIndustrySchema);
+export const CompanyIndustryOrderSchema =  toOrderBySchema(CompanyIndustrySchema);
 
-export const OrgIndustrySelectSchema = z.object({
+export const CompanyIndustrySelectSchema = z.object({
   id: z.boolean().optional(),
-  orgId: z.boolean().optional(),
+  companyId: z.boolean().optional(),
   industryId: z.boolean().optional(),
   industry: z.boolean().optional(),
-  org: z.boolean().optional(),
+  company: z.boolean().optional(),
 });
 
-export const OrgIndustryQuerySchema = z.object({
+export const CompanyIndustryQuerySchema = z.object({
   take: z.coerce.number().int().min(1), 
   skip: z.coerce.number().int().min(0), 
-  where: OrgIndustryWhereSchema.optional(),
-  orderBy: OrgIndustryOrderSchema.optional(),
-  select: OrgIndustrySelectSchema.optional()
+  where: CompanyIndustryWhereSchema.optional(),
+  orderBy: CompanyIndustryOrderSchema.optional(),
+  select: CompanyIndustrySelectSchema.optional()
 });
 
-export type OrgIndustry = z.infer<typeof OrgIndustrySchema>;
-export type OrgIndustryCreate = z.infer<typeof OrgIndustryCreateSchema>;
-export type OrgIndustryUpdate = z.infer<typeof OrgIndustryUpdateSchema>;
-export type OrgIndustryWhere = z.infer<typeof OrgIndustryWhereSchema>;
-export type OrgIndustryOrder = z.infer<typeof OrgIndustryOrderSchema>;
-export type OrgIndustrySelect = z.infer<typeof OrgIndustrySelectSchema>;
-export type OrgIndustryQuery = z.infer<typeof OrgIndustryQuerySchema>;
+export type CompanyIndustry = z.infer<typeof CompanyIndustrySchema>;
+export type CompanyIndustryCreate = z.infer<typeof CompanyIndustryCreateSchema>;
+export type CompanyIndustryUpdate = z.infer<typeof CompanyIndustryUpdateSchema>;
+export type CompanyIndustryWhere = z.infer<typeof CompanyIndustryWhereSchema>;
+export type CompanyIndustryOrder = z.infer<typeof CompanyIndustryOrderSchema>;
+export type CompanyIndustrySelect = z.infer<typeof CompanyIndustrySelectSchema>;
+export type CompanyIndustryQuery = z.infer<typeof CompanyIndustryQuerySchema>;
 
 
 
 
-// ---------- Occupation Schemas ----------
+// ---------- Department Schemas ----------
 
 
-export const OccupationSchema = z.object({
+export const DepartmentSchema = z.object({
   id: z.number().int(),
+  parentId: z.number().int().nullish(),
   name: z.string(),
   slug: z.string(),
-  description: z.string().nullish(),
 });
 
-export const OccupationCreateSchema = z.object({
+export const DepartmentCreateSchema = z.object({
+  parentId: z.number().int().nullish(),
   name: z.string(),
   slug: z.string(),
-  description: z.string().nullish(),
 });
 
-export const OccupationUpdateSchema = z.object({
+export const DepartmentUpdateSchema = z.object({
   id: z.number().int().optional(),
+  parentId: z.number().int().nullish().optional(),
+  name: z.string().optional(),
+  slug: z.string().optional(),
+});
+
+export const DepartmentWhereSchema = toWhereQuerySchema(DepartmentSchema);
+
+export const DepartmentOrderSchema =  toOrderBySchema(DepartmentSchema);
+
+export const DepartmentSelectSchema = z.object({
+  id: z.boolean().optional(),
+  parentId: z.boolean().optional(),
+  name: z.boolean().optional(),
+  slug: z.boolean().optional(),
+  parent: z.boolean().optional(),
+  children: z.boolean().optional(),
+  titles: z.boolean().optional(),
+});
+
+export const DepartmentQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: DepartmentWhereSchema.optional(),
+  orderBy: DepartmentOrderSchema.optional(),
+  select: DepartmentSelectSchema.optional()
+});
+
+export type Department = z.infer<typeof DepartmentSchema>;
+export type DepartmentCreate = z.infer<typeof DepartmentCreateSchema>;
+export type DepartmentUpdate = z.infer<typeof DepartmentUpdateSchema>;
+export type DepartmentWhere = z.infer<typeof DepartmentWhereSchema>;
+export type DepartmentOrder = z.infer<typeof DepartmentOrderSchema>;
+export type DepartmentSelect = z.infer<typeof DepartmentSelectSchema>;
+export type DepartmentQuery = z.infer<typeof DepartmentQuerySchema>;
+
+
+
+
+// ---------- Title Schemas ----------
+
+
+export const TitleSchema = z.object({
+  id: z.number().int(),
+  departmentId: z.number().int().nullish(),
+  name: z.string(),
+  slug: z.string(),
+  description: z.string().nullish(),
+});
+
+export const TitleCreateSchema = z.object({
+  departmentId: z.number().int().nullish(),
+  name: z.string(),
+  slug: z.string(),
+  description: z.string().nullish(),
+});
+
+export const TitleUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  departmentId: z.number().int().nullish().optional(),
   name: z.string().optional(),
   slug: z.string().optional(),
   description: z.string().nullish().optional(),
 });
 
-export const OccupationWhereSchema = toWhereQuerySchema(OccupationSchema);
+export const TitleWhereSchema = toWhereQuerySchema(TitleSchema);
 
-export const OccupationOrderSchema =  toOrderBySchema(OccupationSchema);
+export const TitleOrderSchema =  toOrderBySchema(TitleSchema);
 
-export const OccupationSelectSchema = z.object({
+export const TitleSelectSchema = z.object({
   id: z.boolean().optional(),
+  departmentId: z.boolean().optional(),
   name: z.boolean().optional(),
   slug: z.boolean().optional(),
   description: z.boolean().optional(),
   agents: z.boolean().optional(),
+  department: z.boolean().optional(),
 });
 
-export const OccupationQuerySchema = z.object({
+export const TitleQuerySchema = z.object({
   take: z.coerce.number().int().min(1), 
   skip: z.coerce.number().int().min(0), 
-  where: OccupationWhereSchema.optional(),
-  orderBy: OccupationOrderSchema.optional(),
-  select: OccupationSelectSchema.optional()
+  where: TitleWhereSchema.optional(),
+  orderBy: TitleOrderSchema.optional(),
+  select: TitleSelectSchema.optional()
 });
 
-export type Occupation = z.infer<typeof OccupationSchema>;
-export type OccupationCreate = z.infer<typeof OccupationCreateSchema>;
-export type OccupationUpdate = z.infer<typeof OccupationUpdateSchema>;
-export type OccupationWhere = z.infer<typeof OccupationWhereSchema>;
-export type OccupationOrder = z.infer<typeof OccupationOrderSchema>;
-export type OccupationSelect = z.infer<typeof OccupationSelectSchema>;
-export type OccupationQuery = z.infer<typeof OccupationQuerySchema>;
+export type Title = z.infer<typeof TitleSchema>;
+export type TitleCreate = z.infer<typeof TitleCreateSchema>;
+export type TitleUpdate = z.infer<typeof TitleUpdateSchema>;
+export type TitleWhere = z.infer<typeof TitleWhereSchema>;
+export type TitleOrder = z.infer<typeof TitleOrderSchema>;
+export type TitleSelect = z.infer<typeof TitleSelectSchema>;
+export type TitleQuery = z.infer<typeof TitleQuerySchema>;
 
 
 
@@ -221,22 +282,24 @@ export type OccupationQuery = z.infer<typeof OccupationQuerySchema>;
 
 export const AgentSchema = z.object({
   id: z.number().int(),
-  orgId: z.number().int().nullish(),
-  occupationId: z.number().int().nullish(),
+  companyId: z.number().int().nullish(),
+  titleId: z.number().int().nullish(),
   firstName: z.string(),
   middleName: z.string().nullish(),
   lastName: z.string(),
+  preferedName: z.string().nullish(),
   gender: z.any().nullish(),
   slug: z.string(),
   note: z.string().nullish(),
 });
 
 export const AgentCreateSchema = z.object({
-  orgId: z.number().int().nullish(),
-  occupationId: z.number().int().nullish(),
+  companyId: z.number().int().nullish(),
+  titleId: z.number().int().nullish(),
   firstName: z.string(),
   middleName: z.string().nullish(),
   lastName: z.string(),
+  preferedName: z.string().nullish(),
   gender: z.any().nullish(),
   slug: z.string(),
   note: z.string().nullish(),
@@ -244,11 +307,12 @@ export const AgentCreateSchema = z.object({
 
 export const AgentUpdateSchema = z.object({
   id: z.number().int().optional(),
-  orgId: z.number().int().nullish().optional(),
-  occupationId: z.number().int().nullish().optional(),
+  companyId: z.number().int().nullish().optional(),
+  titleId: z.number().int().nullish().optional(),
   firstName: z.string().optional(),
   middleName: z.string().nullish().optional(),
   lastName: z.string().optional(),
+  preferedName: z.string().nullish().optional(),
   gender: z.any().nullish().optional(),
   slug: z.string().optional(),
   note: z.string().nullish().optional(),
@@ -260,17 +324,18 @@ export const AgentOrderSchema =  toOrderBySchema(AgentSchema);
 
 export const AgentSelectSchema = z.object({
   id: z.boolean().optional(),
-  orgId: z.boolean().optional(),
-  occupationId: z.boolean().optional(),
+  companyId: z.boolean().optional(),
+  titleId: z.boolean().optional(),
   firstName: z.boolean().optional(),
   middleName: z.boolean().optional(),
   lastName: z.boolean().optional(),
+  preferedName: z.boolean().optional(),
   gender: z.boolean().optional(),
   slug: z.boolean().optional(),
   note: z.boolean().optional(),
-  org: z.boolean().optional(),
+  company: z.boolean().optional(),
   contacts: z.boolean().optional(),
-  occupation: z.boolean().optional(),
+  title: z.boolean().optional(),
 });
 
 export const AgentQuerySchema = z.object({

@@ -10,17 +10,23 @@ export const UserSchema = z.object({
   id: z.number().int(),
   uuid: z.string(),
   displayName: z.string(),
+  slug: z.string(),
+  title: z.string(),
 });
 
 export const UserCreateSchema = z.object({
   uuid: z.string(),
   displayName: z.string(),
+  slug: z.string(),
+  title: z.string(),
 });
 
 export const UserUpdateSchema = z.object({
   id: z.number().int().optional(),
   uuid: z.string().optional(),
   displayName: z.string().optional(),
+  slug: z.string().optional(),
+  title: z.string().optional(),
 });
 
 export const UserWhereSchema = toWhereQuerySchema(UserSchema);
@@ -31,12 +37,22 @@ export const UserSelectSchema = z.object({
   id: z.boolean().optional(),
   uuid: z.boolean().optional(),
   displayName: z.boolean().optional(),
-  comments: z.boolean().optional(),
-  createdTasks: z.boolean().optional(),
+  slug: z.boolean().optional(),
+  title: z.boolean().optional(),
   assignments: z.boolean().optional(),
-  leadTeams: z.boolean().optional(),
-  teams: z.boolean().optional(),
-  Project: z.boolean().optional(),
+  managedTeams: z.boolean().optional(),
+  memberships: z.boolean().optional(),
+  createdProjects: z.boolean().optional(),
+  createdSprints: z.boolean().optional(),
+  createdTasks: z.boolean().optional(),
+  createdComments: z.boolean().optional(),
+  takenAssignments: z.boolean().optional(),
+  givenAssignments: z.boolean().optional(),
+  changedAssignments: z.boolean().optional(),
+  changedPriorities: z.boolean().optional(),
+  changedStatuses: z.boolean().optional(),
+  changedPoints: z.boolean().optional(),
+  changedTeams: z.boolean().optional(),
 });
 
 export const UserQuerySchema = z.object({
@@ -64,17 +80,20 @@ export type UserQuery = z.infer<typeof UserQuerySchema>;
 export const TeamSchema = z.object({
   id: z.number().int(),
   name: z.string(),
+  slug: z.string(),
   description: z.string().nullish(),
 });
 
 export const TeamCreateSchema = z.object({
   name: z.string(),
+  slug: z.string(),
   description: z.string().nullish(),
 });
 
 export const TeamUpdateSchema = z.object({
   id: z.number().int().optional(),
   name: z.string().optional(),
+  slug: z.string().optional(),
   description: z.string().nullish().optional(),
 });
 
@@ -85,9 +104,12 @@ export const TeamOrderSchema =  toOrderBySchema(TeamSchema);
 export const TeamSelectSchema = z.object({
   id: z.boolean().optional(),
   name: z.boolean().optional(),
+  slug: z.boolean().optional(),
   description: z.boolean().optional(),
   managers: z.boolean().optional(),
   members: z.boolean().optional(),
+  takenTeams: z.boolean().optional(),
+  givenTeams: z.boolean().optional(),
 });
 
 export const TeamQuerySchema = z.object({
@@ -166,18 +188,18 @@ export type TeamManagerQuery = z.infer<typeof TeamManagerQuerySchema>;
 export const TeamMemberSchema = z.object({
   id: z.number().int(),
   teamId: z.number().int(),
-  memeberId: z.number().int(),
+  memberId: z.number().int(),
 });
 
 export const TeamMemberCreateSchema = z.object({
   teamId: z.number().int(),
-  memeberId: z.number().int(),
+  memberId: z.number().int(),
 });
 
 export const TeamMemberUpdateSchema = z.object({
   id: z.number().int().optional(),
   teamId: z.number().int().optional(),
-  memeberId: z.number().int().optional(),
+  memberId: z.number().int().optional(),
 });
 
 export const TeamMemberWhereSchema = toWhereQuerySchema(TeamMemberSchema);
@@ -187,9 +209,9 @@ export const TeamMemberOrderSchema =  toOrderBySchema(TeamMemberSchema);
 export const TeamMemberSelectSchema = z.object({
   id: z.boolean().optional(),
   teamId: z.boolean().optional(),
-  memeberId: z.boolean().optional(),
+  memberId: z.boolean().optional(),
   team: z.boolean().optional(),
-  memeber: z.boolean().optional(),
+  member: z.boolean().optional(),
 });
 
 export const TeamMemberQuerySchema = z.object({
@@ -217,7 +239,9 @@ export type TeamMemberQuery = z.infer<typeof TeamMemberQuerySchema>;
 export const ProjectSchema = z.object({
   id: z.number().int(),
   createdById: z.number().int(),
+  parentId: z.number().int().nullish(),
   name: z.string(),
+  slug: z.string(),
   description: z.string().nullish(),
   startDate: z.date().nullish(),
   dueDate: z.date().nullish(),
@@ -226,7 +250,9 @@ export const ProjectSchema = z.object({
 
 export const ProjectCreateSchema = z.object({
   createdById: z.number().int(),
+  parentId: z.number().int().nullish(),
   name: z.string(),
+  slug: z.string(),
   description: z.string().nullish(),
   startDate: z.date().nullish(),
   dueDate: z.date().nullish(),
@@ -236,7 +262,9 @@ export const ProjectCreateSchema = z.object({
 export const ProjectUpdateSchema = z.object({
   id: z.number().int().optional(),
   createdById: z.number().int().optional(),
+  parentId: z.number().int().nullish().optional(),
   name: z.string().optional(),
+  slug: z.string().optional(),
   description: z.string().nullish().optional(),
   startDate: z.date().nullish().optional(),
   dueDate: z.date().nullish().optional(),
@@ -250,13 +278,24 @@ export const ProjectOrderSchema =  toOrderBySchema(ProjectSchema);
 export const ProjectSelectSchema = z.object({
   id: z.boolean().optional(),
   createdById: z.boolean().optional(),
+  parentId: z.boolean().optional(),
+  parent: z.boolean().optional(),
   name: z.boolean().optional(),
+  slug: z.boolean().optional(),
   description: z.boolean().optional(),
   startDate: z.boolean().optional(),
   dueDate: z.boolean().optional(),
   endDate: z.boolean().optional(),
   sprints: z.boolean().optional(),
   createdBy: z.boolean().optional(),
+  tags: z.boolean().optional(),
+  statuses: z.boolean().optional(),
+  priorities: z.boolean().optional(),
+  assignmentHistory: z.boolean().optional(),
+  priorityHistory: z.boolean().optional(),
+  statusHistory: z.boolean().optional(),
+  pointHistory: z.boolean().optional(),
+  projects: z.boolean().optional(),
 });
 
 export const ProjectQuerySchema = z.object({
@@ -284,15 +323,18 @@ export type ProjectQuery = z.infer<typeof ProjectQuerySchema>;
 export const TagSchema = z.object({
   id: z.number().int(),
   name: z.string(),
+  isDefault: z.boolean(),
 });
 
 export const TagCreateSchema = z.object({
   name: z.string(),
+  isDefault: z.boolean(),
 });
 
 export const TagUpdateSchema = z.object({
   id: z.number().int().optional(),
   name: z.string().optional(),
+  isDefault: z.boolean().optional(),
 });
 
 export const TagWhereSchema = toWhereQuerySchema(TagSchema);
@@ -302,7 +344,9 @@ export const TagOrderSchema =  toOrderBySchema(TagSchema);
 export const TagSelectSchema = z.object({
   id: z.boolean().optional(),
   name: z.boolean().optional(),
+  isDefault: z.boolean().optional(),
   tasks: z.boolean().optional(),
+  projects: z.boolean().optional(),
 });
 
 export const TagQuerySchema = z.object({
@@ -332,12 +376,14 @@ export const CategorySchema = z.object({
   parentId: z.number().int().nullish(),
   name: z.string(),
   description: z.string().nullish(),
+  isDefault: z.boolean(),
 });
 
 export const CategoryCreateSchema = z.object({
   parentId: z.number().int().nullish(),
   name: z.string(),
   description: z.string().nullish(),
+  isDefault: z.boolean(),
 });
 
 export const CategoryUpdateSchema = z.object({
@@ -345,6 +391,7 @@ export const CategoryUpdateSchema = z.object({
   parentId: z.number().int().nullish().optional(),
   name: z.string().optional(),
   description: z.string().nullish().optional(),
+  isDefault: z.boolean().optional(),
 });
 
 export const CategoryWhereSchema = toWhereQuerySchema(CategorySchema);
@@ -356,6 +403,7 @@ export const CategorySelectSchema = z.object({
   parentId: z.boolean().optional(),
   name: z.boolean().optional(),
   description: z.boolean().optional(),
+  isDefault: z.boolean().optional(),
   parent: z.boolean().optional(),
   categories: z.boolean().optional(),
   tasks: z.boolean().optional(),
@@ -385,21 +433,27 @@ export type CategoryQuery = z.infer<typeof CategoryQuerySchema>;
 
 export const SprintSchema = z.object({
   id: z.number().int(),
+  createdById: z.number().int(),
   projectId: z.number().int().nullish(),
   name: z.string(),
+  slug: z.string(),
   description: z.string().nullish(),
 });
 
 export const SprintCreateSchema = z.object({
+  createdById: z.number().int(),
   projectId: z.number().int().nullish(),
   name: z.string(),
+  slug: z.string(),
   description: z.string().nullish(),
 });
 
 export const SprintUpdateSchema = z.object({
   id: z.number().int().optional(),
+  createdById: z.number().int().optional(),
   projectId: z.number().int().nullish().optional(),
   name: z.string().optional(),
+  slug: z.string().optional(),
   description: z.string().nullish().optional(),
 });
 
@@ -409,11 +463,14 @@ export const SprintOrderSchema =  toOrderBySchema(SprintSchema);
 
 export const SprintSelectSchema = z.object({
   id: z.boolean().optional(),
+  createdById: z.boolean().optional(),
   projectId: z.boolean().optional(),
   name: z.boolean().optional(),
+  slug: z.boolean().optional(),
   description: z.boolean().optional(),
   project: z.boolean().optional(),
   tasks: z.boolean().optional(),
+  createdBy: z.boolean().optional(),
 });
 
 export const SprintQuerySchema = z.object({
@@ -442,17 +499,20 @@ export const PrioritySchema = z.object({
   id: z.number().int(),
   name: z.string(),
   description: z.string().nullish(),
+  isDefault: z.boolean(),
 });
 
 export const PriorityCreateSchema = z.object({
   name: z.string(),
   description: z.string().nullish(),
+  isDefault: z.boolean(),
 });
 
 export const PriorityUpdateSchema = z.object({
   id: z.number().int().optional(),
   name: z.string().optional(),
   description: z.string().nullish().optional(),
+  isDefault: z.boolean().optional(),
 });
 
 export const PriorityWhereSchema = toWhereQuerySchema(PrioritySchema);
@@ -463,7 +523,11 @@ export const PrioritySelectSchema = z.object({
   id: z.boolean().optional(),
   name: z.boolean().optional(),
   description: z.boolean().optional(),
+  isDefault: z.boolean().optional(),
   tasks: z.boolean().optional(),
+  projects: z.boolean().optional(),
+  takenPriorities: z.boolean().optional(),
+  givenPriorities: z.boolean().optional(),
 });
 
 export const PriorityQuerySchema = z.object({
@@ -492,17 +556,20 @@ export const StatusSchema = z.object({
   id: z.number().int(),
   name: z.string(),
   description: z.string().nullish(),
+  isDefault: z.boolean(),
 });
 
 export const StatusCreateSchema = z.object({
   name: z.string(),
   description: z.string().nullish(),
+  isDefault: z.boolean(),
 });
 
 export const StatusUpdateSchema = z.object({
   id: z.number().int().optional(),
   name: z.string().optional(),
   description: z.string().nullish().optional(),
+  isDefault: z.boolean().optional(),
 });
 
 export const StatusWhereSchema = toWhereQuerySchema(StatusSchema);
@@ -513,7 +580,11 @@ export const StatusSelectSchema = z.object({
   id: z.boolean().optional(),
   name: z.boolean().optional(),
   description: z.boolean().optional(),
+  isDefault: z.boolean().optional(),
   tasks: z.boolean().optional(),
+  projects: z.boolean().optional(),
+  takenStatuses: z.boolean().optional(),
+  givenStatuses: z.boolean().optional(),
 });
 
 export const StatusQuerySchema = z.object({
@@ -535,6 +606,62 @@ export type StatusQuery = z.infer<typeof StatusQuerySchema>;
 
 
 
+// ---------- Point Schemas ----------
+
+
+export const PointSchema = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  point: z.number().int(),
+  description: z.string(),
+});
+
+export const PointCreateSchema = z.object({
+  name: z.string(),
+  point: z.number().int(),
+  description: z.string(),
+});
+
+export const PointUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  name: z.string().optional(),
+  point: z.number().int().optional(),
+  description: z.string().optional(),
+});
+
+export const PointWhereSchema = toWhereQuerySchema(PointSchema);
+
+export const PointOrderSchema =  toOrderBySchema(PointSchema);
+
+export const PointSelectSchema = z.object({
+  id: z.boolean().optional(),
+  name: z.boolean().optional(),
+  point: z.boolean().optional(),
+  description: z.boolean().optional(),
+  tasks: z.boolean().optional(),
+  takenPointes: z.boolean().optional(),
+  givenPointes: z.boolean().optional(),
+});
+
+export const PointQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: PointWhereSchema.optional(),
+  orderBy: PointOrderSchema.optional(),
+  select: PointSelectSchema.optional()
+});
+
+export type Point = z.infer<typeof PointSchema>;
+export type PointCreate = z.infer<typeof PointCreateSchema>;
+export type PointUpdate = z.infer<typeof PointUpdateSchema>;
+export type PointWhere = z.infer<typeof PointWhereSchema>;
+export type PointOrder = z.infer<typeof PointOrderSchema>;
+export type PointSelect = z.infer<typeof PointSelectSchema>;
+export type PointQuery = z.infer<typeof PointQuerySchema>;
+
+
+
+
 // ---------- Task Schemas ----------
 
 
@@ -544,8 +671,12 @@ export const TaskSchema = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   createdById: z.number().int(),
+  priorityId: z.number().int().nullish(),
+  pointId: z.number().int(),
+  statusId: z.number().int().nullish(),
   parentId: z.number().int().nullish(),
   title: z.string(),
+  slug: z.string(),
   description: z.string().nullish(),
   due: z.date().nullish(),
   resolvedAt: z.date().nullish(),
@@ -554,8 +685,12 @@ export const TaskSchema = z.object({
 export const TaskCreateSchema = z.object({
   sprintId: z.number().int().nullish(),
   createdById: z.number().int(),
+  priorityId: z.number().int().nullish(),
+  pointId: z.number().int(),
+  statusId: z.number().int().nullish(),
   parentId: z.number().int().nullish(),
   title: z.string(),
+  slug: z.string(),
   description: z.string().nullish(),
   due: z.date().nullish(),
   resolvedAt: z.date().nullish(),
@@ -567,8 +702,12 @@ export const TaskUpdateSchema = z.object({
   createdAt: z.date().optional(),
   updatedAt: z.date().optional(),
   createdById: z.number().int().optional(),
+  priorityId: z.number().int().nullish().optional(),
+  pointId: z.number().int().optional(),
+  statusId: z.number().int().nullish().optional(),
   parentId: z.number().int().nullish().optional(),
   title: z.string().optional(),
+  slug: z.string().optional(),
   description: z.string().nullish().optional(),
   due: z.date().nullish().optional(),
   resolvedAt: z.date().nullish().optional(),
@@ -584,8 +723,12 @@ export const TaskSelectSchema = z.object({
   createdAt: z.boolean().optional(),
   updatedAt: z.boolean().optional(),
   createdById: z.boolean().optional(),
+  priorityId: z.boolean().optional(),
+  pointId: z.boolean().optional(),
+  statusId: z.boolean().optional(),
   parentId: z.boolean().optional(),
   title: z.boolean().optional(),
+  slug: z.boolean().optional(),
   description: z.boolean().optional(),
   due: z.boolean().optional(),
   resolvedAt: z.boolean().optional(),
@@ -593,12 +736,17 @@ export const TaskSelectSchema = z.object({
   parent: z.boolean().optional(),
   tasks: z.boolean().optional(),
   createdBy: z.boolean().optional(),
-  assignees: z.boolean().optional(),
+  assignments: z.boolean().optional(),
   tags: z.boolean().optional(),
   categories: z.boolean().optional(),
-  prioritites: z.boolean().optional(),
-  statuses: z.boolean().optional(),
+  point: z.boolean().optional(),
+  priority: z.boolean().optional(),
+  status: z.boolean().optional(),
   sprint: z.boolean().optional(),
+  assignmentHistory: z.boolean().optional(),
+  statusHistory: z.boolean().optional(),
+  priorityHistory: z.boolean().optional(),
+  pointHistory: z.boolean().optional(),
 });
 
 export const TaskQuerySchema = z.object({
@@ -616,6 +764,347 @@ export type TaskWhere = z.infer<typeof TaskWhereSchema>;
 export type TaskOrder = z.infer<typeof TaskOrderSchema>;
 export type TaskSelect = z.infer<typeof TaskSelectSchema>;
 export type TaskQuery = z.infer<typeof TaskQuerySchema>;
+
+
+
+
+// ---------- AssignmentHistory Schemas ----------
+
+
+export const AssignmentHistorySchema = z.object({
+  id: z.number().int(),
+  createdById: z.number().int(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+  projectId: z.number().int(),
+  taskId: z.number().int(),
+  oldUserId: z.number().int(),
+  newUserId: z.number().int(),
+});
+
+export const AssignmentHistoryCreateSchema = z.object({
+  createdById: z.number().int(),
+  projectId: z.number().int(),
+  taskId: z.number().int(),
+  oldUserId: z.number().int(),
+  newUserId: z.number().int(),
+});
+
+export const AssignmentHistoryUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  createdById: z.number().int().optional(),
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
+  projectId: z.number().int().optional(),
+  taskId: z.number().int().optional(),
+  oldUserId: z.number().int().optional(),
+  newUserId: z.number().int().optional(),
+});
+
+export const AssignmentHistoryWhereSchema = toWhereQuerySchema(AssignmentHistorySchema);
+
+export const AssignmentHistoryOrderSchema =  toOrderBySchema(AssignmentHistorySchema);
+
+export const AssignmentHistorySelectSchema = z.object({
+  id: z.boolean().optional(),
+  createdById: z.boolean().optional(),
+  createdAt: z.boolean().optional(),
+  updatedAt: z.boolean().optional(),
+  projectId: z.boolean().optional(),
+  taskId: z.boolean().optional(),
+  oldUserId: z.boolean().optional(),
+  newUserId: z.boolean().optional(),
+  oldUser: z.boolean().optional(),
+  newUser: z.boolean().optional(),
+  createdBy: z.boolean().optional(),
+  task: z.boolean().optional(),
+  project: z.boolean().optional(),
+});
+
+export const AssignmentHistoryQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: AssignmentHistoryWhereSchema.optional(),
+  orderBy: AssignmentHistoryOrderSchema.optional(),
+  select: AssignmentHistorySelectSchema.optional()
+});
+
+export type AssignmentHistory = z.infer<typeof AssignmentHistorySchema>;
+export type AssignmentHistoryCreate = z.infer<typeof AssignmentHistoryCreateSchema>;
+export type AssignmentHistoryUpdate = z.infer<typeof AssignmentHistoryUpdateSchema>;
+export type AssignmentHistoryWhere = z.infer<typeof AssignmentHistoryWhereSchema>;
+export type AssignmentHistoryOrder = z.infer<typeof AssignmentHistoryOrderSchema>;
+export type AssignmentHistorySelect = z.infer<typeof AssignmentHistorySelectSchema>;
+export type AssignmentHistoryQuery = z.infer<typeof AssignmentHistoryQuerySchema>;
+
+
+
+
+// ---------- PriorityHistory Schemas ----------
+
+
+export const PriorityHistorySchema = z.object({
+  id: z.number().int(),
+  createdById: z.number().int(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+  projectId: z.number().int(),
+  taskId: z.number().int(),
+  oldPriorityId: z.number().int().nullish(),
+  newPriorityId: z.number().int(),
+});
+
+export const PriorityHistoryCreateSchema = z.object({
+  createdById: z.number().int(),
+  projectId: z.number().int(),
+  taskId: z.number().int(),
+  oldPriorityId: z.number().int().nullish(),
+  newPriorityId: z.number().int(),
+});
+
+export const PriorityHistoryUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  createdById: z.number().int().optional(),
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
+  projectId: z.number().int().optional(),
+  taskId: z.number().int().optional(),
+  oldPriorityId: z.number().int().nullish().optional(),
+  newPriorityId: z.number().int().optional(),
+});
+
+export const PriorityHistoryWhereSchema = toWhereQuerySchema(PriorityHistorySchema);
+
+export const PriorityHistoryOrderSchema =  toOrderBySchema(PriorityHistorySchema);
+
+export const PriorityHistorySelectSchema = z.object({
+  id: z.boolean().optional(),
+  createdById: z.boolean().optional(),
+  createdAt: z.boolean().optional(),
+  updatedAt: z.boolean().optional(),
+  projectId: z.boolean().optional(),
+  taskId: z.boolean().optional(),
+  oldPriorityId: z.boolean().optional(),
+  newPriorityId: z.boolean().optional(),
+  oldPriority: z.boolean().optional(),
+  newPriority: z.boolean().optional(),
+  createdBy: z.boolean().optional(),
+  task: z.boolean().optional(),
+  project: z.boolean().optional(),
+});
+
+export const PriorityHistoryQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: PriorityHistoryWhereSchema.optional(),
+  orderBy: PriorityHistoryOrderSchema.optional(),
+  select: PriorityHistorySelectSchema.optional()
+});
+
+export type PriorityHistory = z.infer<typeof PriorityHistorySchema>;
+export type PriorityHistoryCreate = z.infer<typeof PriorityHistoryCreateSchema>;
+export type PriorityHistoryUpdate = z.infer<typeof PriorityHistoryUpdateSchema>;
+export type PriorityHistoryWhere = z.infer<typeof PriorityHistoryWhereSchema>;
+export type PriorityHistoryOrder = z.infer<typeof PriorityHistoryOrderSchema>;
+export type PriorityHistorySelect = z.infer<typeof PriorityHistorySelectSchema>;
+export type PriorityHistoryQuery = z.infer<typeof PriorityHistoryQuerySchema>;
+
+
+
+
+// ---------- StatusHistory Schemas ----------
+
+
+export const StatusHistorySchema = z.object({
+  id: z.number().int(),
+  createdAt: z.date(),
+  createdById: z.number().int(),
+  oldStatusId: z.number().int().nullish(),
+  newStatusId: z.number().int(),
+  projectId: z.number().int(),
+  taskId: z.number().int(),
+});
+
+export const StatusHistoryCreateSchema = z.object({
+  createdById: z.number().int(),
+  oldStatusId: z.number().int().nullish(),
+  newStatusId: z.number().int(),
+  projectId: z.number().int(),
+  taskId: z.number().int(),
+});
+
+export const StatusHistoryUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  createdAt: z.date().optional(),
+  createdById: z.number().int().optional(),
+  oldStatusId: z.number().int().nullish().optional(),
+  newStatusId: z.number().int().optional(),
+  projectId: z.number().int().optional(),
+  taskId: z.number().int().optional(),
+});
+
+export const StatusHistoryWhereSchema = toWhereQuerySchema(StatusHistorySchema);
+
+export const StatusHistoryOrderSchema =  toOrderBySchema(StatusHistorySchema);
+
+export const StatusHistorySelectSchema = z.object({
+  id: z.boolean().optional(),
+  createdAt: z.boolean().optional(),
+  createdById: z.boolean().optional(),
+  oldStatusId: z.boolean().optional(),
+  newStatusId: z.boolean().optional(),
+  projectId: z.boolean().optional(),
+  taskId: z.boolean().optional(),
+  task: z.boolean().optional(),
+  oldStatus: z.boolean().optional(),
+  newStatus: z.boolean().optional(),
+  createdBy: z.boolean().optional(),
+  project: z.boolean().optional(),
+});
+
+export const StatusHistoryQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: StatusHistoryWhereSchema.optional(),
+  orderBy: StatusHistoryOrderSchema.optional(),
+  select: StatusHistorySelectSchema.optional()
+});
+
+export type StatusHistory = z.infer<typeof StatusHistorySchema>;
+export type StatusHistoryCreate = z.infer<typeof StatusHistoryCreateSchema>;
+export type StatusHistoryUpdate = z.infer<typeof StatusHistoryUpdateSchema>;
+export type StatusHistoryWhere = z.infer<typeof StatusHistoryWhereSchema>;
+export type StatusHistoryOrder = z.infer<typeof StatusHistoryOrderSchema>;
+export type StatusHistorySelect = z.infer<typeof StatusHistorySelectSchema>;
+export type StatusHistoryQuery = z.infer<typeof StatusHistoryQuerySchema>;
+
+
+
+
+// ---------- PointHistory Schemas ----------
+
+
+export const PointHistorySchema = z.object({
+  id: z.number().int(),
+  createdAt: z.date(),
+  createdById: z.number().int(),
+  oldPointId: z.number().int().nullish(),
+  newPointId: z.number().int(),
+  projectId: z.number().int(),
+  taskId: z.number().int(),
+});
+
+export const PointHistoryCreateSchema = z.object({
+  createdById: z.number().int(),
+  oldPointId: z.number().int().nullish(),
+  newPointId: z.number().int(),
+  projectId: z.number().int(),
+  taskId: z.number().int(),
+});
+
+export const PointHistoryUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  createdAt: z.date().optional(),
+  createdById: z.number().int().optional(),
+  oldPointId: z.number().int().nullish().optional(),
+  newPointId: z.number().int().optional(),
+  projectId: z.number().int().optional(),
+  taskId: z.number().int().optional(),
+});
+
+export const PointHistoryWhereSchema = toWhereQuerySchema(PointHistorySchema);
+
+export const PointHistoryOrderSchema =  toOrderBySchema(PointHistorySchema);
+
+export const PointHistorySelectSchema = z.object({
+  id: z.boolean().optional(),
+  createdAt: z.boolean().optional(),
+  createdById: z.boolean().optional(),
+  oldPointId: z.boolean().optional(),
+  newPointId: z.boolean().optional(),
+  projectId: z.boolean().optional(),
+  taskId: z.boolean().optional(),
+  task: z.boolean().optional(),
+  oldPoint: z.boolean().optional(),
+  newPoint: z.boolean().optional(),
+  createdBy: z.boolean().optional(),
+  project: z.boolean().optional(),
+});
+
+export const PointHistoryQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: PointHistoryWhereSchema.optional(),
+  orderBy: PointHistoryOrderSchema.optional(),
+  select: PointHistorySelectSchema.optional()
+});
+
+export type PointHistory = z.infer<typeof PointHistorySchema>;
+export type PointHistoryCreate = z.infer<typeof PointHistoryCreateSchema>;
+export type PointHistoryUpdate = z.infer<typeof PointHistoryUpdateSchema>;
+export type PointHistoryWhere = z.infer<typeof PointHistoryWhereSchema>;
+export type PointHistoryOrder = z.infer<typeof PointHistoryOrderSchema>;
+export type PointHistorySelect = z.infer<typeof PointHistorySelectSchema>;
+export type PointHistoryQuery = z.infer<typeof PointHistoryQuerySchema>;
+
+
+
+
+// ---------- TeamHistory Schemas ----------
+
+
+export const TeamHistorySchema = z.object({
+  id: z.number().int(),
+  createdAt: z.date(),
+  createdById: z.number().int(),
+  oldTeamId: z.number().int().nullish(),
+  newTeamId: z.number().int(),
+});
+
+export const TeamHistoryCreateSchema = z.object({
+  createdById: z.number().int(),
+  oldTeamId: z.number().int().nullish(),
+  newTeamId: z.number().int(),
+});
+
+export const TeamHistoryUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  createdAt: z.date().optional(),
+  createdById: z.number().int().optional(),
+  oldTeamId: z.number().int().nullish().optional(),
+  newTeamId: z.number().int().optional(),
+});
+
+export const TeamHistoryWhereSchema = toWhereQuerySchema(TeamHistorySchema);
+
+export const TeamHistoryOrderSchema =  toOrderBySchema(TeamHistorySchema);
+
+export const TeamHistorySelectSchema = z.object({
+  id: z.boolean().optional(),
+  createdAt: z.boolean().optional(),
+  createdById: z.boolean().optional(),
+  oldTeamId: z.boolean().optional(),
+  newTeamId: z.boolean().optional(),
+  oldTeam: z.boolean().optional(),
+  newTeam: z.boolean().optional(),
+  createdBy: z.boolean().optional(),
+});
+
+export const TeamHistoryQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: TeamHistoryWhereSchema.optional(),
+  orderBy: TeamHistoryOrderSchema.optional(),
+  select: TeamHistorySelectSchema.optional()
+});
+
+export type TeamHistory = z.infer<typeof TeamHistorySchema>;
+export type TeamHistoryCreate = z.infer<typeof TeamHistoryCreateSchema>;
+export type TeamHistoryUpdate = z.infer<typeof TeamHistoryUpdateSchema>;
+export type TeamHistoryWhere = z.infer<typeof TeamHistoryWhereSchema>;
+export type TeamHistoryOrder = z.infer<typeof TeamHistoryOrderSchema>;
+export type TeamHistorySelect = z.infer<typeof TeamHistorySelectSchema>;
+export type TeamHistoryQuery = z.infer<typeof TeamHistoryQuerySchema>;
 
 
 
@@ -722,155 +1211,59 @@ export type TaskCategoryQuery = z.infer<typeof TaskCategoryQuerySchema>;
 
 
 
-// ---------- TaskStatus Schemas ----------
+// ---------- Assignment Schemas ----------
 
 
-export const TaskStatusSchema = z.object({
+export const AssignmentSchema = z.object({
   id: z.number().int(),
-  statusId: z.number().int(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+  assigneeId: z.number().int(),
   taskId: z.number().int(),
 });
 
-export const TaskStatusCreateSchema = z.object({
-  statusId: z.number().int(),
+export const AssignmentCreateSchema = z.object({
+  assigneeId: z.number().int(),
   taskId: z.number().int(),
 });
 
-export const TaskStatusUpdateSchema = z.object({
+export const AssignmentUpdateSchema = z.object({
   id: z.number().int().optional(),
-  statusId: z.number().int().optional(),
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
+  assigneeId: z.number().int().optional(),
   taskId: z.number().int().optional(),
 });
 
-export const TaskStatusWhereSchema = toWhereQuerySchema(TaskStatusSchema);
+export const AssignmentWhereSchema = toWhereQuerySchema(AssignmentSchema);
 
-export const TaskStatusOrderSchema =  toOrderBySchema(TaskStatusSchema);
+export const AssignmentOrderSchema =  toOrderBySchema(AssignmentSchema);
 
-export const TaskStatusSelectSchema = z.object({
+export const AssignmentSelectSchema = z.object({
   id: z.boolean().optional(),
-  statusId: z.boolean().optional(),
-  taskId: z.boolean().optional(),
-  status: z.boolean().optional(),
-  task: z.boolean().optional(),
-});
-
-export const TaskStatusQuerySchema = z.object({
-  take: z.coerce.number().int().min(1), 
-  skip: z.coerce.number().int().min(0), 
-  where: TaskStatusWhereSchema.optional(),
-  orderBy: TaskStatusOrderSchema.optional(),
-  select: TaskStatusSelectSchema.optional()
-});
-
-export type TaskStatus = z.infer<typeof TaskStatusSchema>;
-export type TaskStatusCreate = z.infer<typeof TaskStatusCreateSchema>;
-export type TaskStatusUpdate = z.infer<typeof TaskStatusUpdateSchema>;
-export type TaskStatusWhere = z.infer<typeof TaskStatusWhereSchema>;
-export type TaskStatusOrder = z.infer<typeof TaskStatusOrderSchema>;
-export type TaskStatusSelect = z.infer<typeof TaskStatusSelectSchema>;
-export type TaskStatusQuery = z.infer<typeof TaskStatusQuerySchema>;
-
-
-
-
-// ---------- TaskPriority Schemas ----------
-
-
-export const TaskPrioritySchema = z.object({
-  id: z.number().int(),
-  taskId: z.number().int(),
-  priorityId: z.number().int(),
-});
-
-export const TaskPriorityCreateSchema = z.object({
-  taskId: z.number().int(),
-  priorityId: z.number().int(),
-});
-
-export const TaskPriorityUpdateSchema = z.object({
-  id: z.number().int().optional(),
-  taskId: z.number().int().optional(),
-  priorityId: z.number().int().optional(),
-});
-
-export const TaskPriorityWhereSchema = toWhereQuerySchema(TaskPrioritySchema);
-
-export const TaskPriorityOrderSchema =  toOrderBySchema(TaskPrioritySchema);
-
-export const TaskPrioritySelectSchema = z.object({
-  id: z.boolean().optional(),
-  taskId: z.boolean().optional(),
-  priorityId: z.boolean().optional(),
-  task: z.boolean().optional(),
-  priority: z.boolean().optional(),
-});
-
-export const TaskPriorityQuerySchema = z.object({
-  take: z.coerce.number().int().min(1), 
-  skip: z.coerce.number().int().min(0), 
-  where: TaskPriorityWhereSchema.optional(),
-  orderBy: TaskPriorityOrderSchema.optional(),
-  select: TaskPrioritySelectSchema.optional()
-});
-
-export type TaskPriority = z.infer<typeof TaskPrioritySchema>;
-export type TaskPriorityCreate = z.infer<typeof TaskPriorityCreateSchema>;
-export type TaskPriorityUpdate = z.infer<typeof TaskPriorityUpdateSchema>;
-export type TaskPriorityWhere = z.infer<typeof TaskPriorityWhereSchema>;
-export type TaskPriorityOrder = z.infer<typeof TaskPriorityOrderSchema>;
-export type TaskPrioritySelect = z.infer<typeof TaskPrioritySelectSchema>;
-export type TaskPriorityQuery = z.infer<typeof TaskPriorityQuerySchema>;
-
-
-
-
-// ---------- UserTask Schemas ----------
-
-
-export const UserTaskSchema = z.object({
-  id: z.number().int(),
-  userId: z.number().int(),
-  taskId: z.number().int(),
-});
-
-export const UserTaskCreateSchema = z.object({
-  userId: z.number().int(),
-  taskId: z.number().int(),
-});
-
-export const UserTaskUpdateSchema = z.object({
-  id: z.number().int().optional(),
-  userId: z.number().int().optional(),
-  taskId: z.number().int().optional(),
-});
-
-export const UserTaskWhereSchema = toWhereQuerySchema(UserTaskSchema);
-
-export const UserTaskOrderSchema =  toOrderBySchema(UserTaskSchema);
-
-export const UserTaskSelectSchema = z.object({
-  id: z.boolean().optional(),
-  userId: z.boolean().optional(),
+  createdAt: z.boolean().optional(),
+  updatedAt: z.boolean().optional(),
+  assigneeId: z.boolean().optional(),
   taskId: z.boolean().optional(),
   task: z.boolean().optional(),
-  user: z.boolean().optional(),
+  assignee: z.boolean().optional(),
 });
 
-export const UserTaskQuerySchema = z.object({
+export const AssignmentQuerySchema = z.object({
   take: z.coerce.number().int().min(1), 
   skip: z.coerce.number().int().min(0), 
-  where: UserTaskWhereSchema.optional(),
-  orderBy: UserTaskOrderSchema.optional(),
-  select: UserTaskSelectSchema.optional()
+  where: AssignmentWhereSchema.optional(),
+  orderBy: AssignmentOrderSchema.optional(),
+  select: AssignmentSelectSchema.optional()
 });
 
-export type UserTask = z.infer<typeof UserTaskSchema>;
-export type UserTaskCreate = z.infer<typeof UserTaskCreateSchema>;
-export type UserTaskUpdate = z.infer<typeof UserTaskUpdateSchema>;
-export type UserTaskWhere = z.infer<typeof UserTaskWhereSchema>;
-export type UserTaskOrder = z.infer<typeof UserTaskOrderSchema>;
-export type UserTaskSelect = z.infer<typeof UserTaskSelectSchema>;
-export type UserTaskQuery = z.infer<typeof UserTaskQuerySchema>;
+export type Assignment = z.infer<typeof AssignmentSchema>;
+export type AssignmentCreate = z.infer<typeof AssignmentCreateSchema>;
+export type AssignmentUpdate = z.infer<typeof AssignmentUpdateSchema>;
+export type AssignmentWhere = z.infer<typeof AssignmentWhereSchema>;
+export type AssignmentOrder = z.infer<typeof AssignmentOrderSchema>;
+export type AssignmentSelect = z.infer<typeof AssignmentSelectSchema>;
+export type AssignmentQuery = z.infer<typeof AssignmentQuerySchema>;
 
 
 
@@ -938,5 +1331,158 @@ export type CommentWhere = z.infer<typeof CommentWhereSchema>;
 export type CommentOrder = z.infer<typeof CommentOrderSchema>;
 export type CommentSelect = z.infer<typeof CommentSelectSchema>;
 export type CommentQuery = z.infer<typeof CommentQuerySchema>;
+
+
+
+
+// ---------- ProjectTaskTag Schemas ----------
+
+
+export const ProjectTaskTagSchema = z.object({
+  id: z.number().int(),
+  projectId: z.number().int(),
+  tagId: z.number().int(),
+});
+
+export const ProjectTaskTagCreateSchema = z.object({
+  projectId: z.number().int(),
+  tagId: z.number().int(),
+});
+
+export const ProjectTaskTagUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  projectId: z.number().int().optional(),
+  tagId: z.number().int().optional(),
+});
+
+export const ProjectTaskTagWhereSchema = toWhereQuerySchema(ProjectTaskTagSchema);
+
+export const ProjectTaskTagOrderSchema =  toOrderBySchema(ProjectTaskTagSchema);
+
+export const ProjectTaskTagSelectSchema = z.object({
+  id: z.boolean().optional(),
+  projectId: z.boolean().optional(),
+  tagId: z.boolean().optional(),
+  tag: z.boolean().optional(),
+  project: z.boolean().optional(),
+});
+
+export const ProjectTaskTagQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: ProjectTaskTagWhereSchema.optional(),
+  orderBy: ProjectTaskTagOrderSchema.optional(),
+  select: ProjectTaskTagSelectSchema.optional()
+});
+
+export type ProjectTaskTag = z.infer<typeof ProjectTaskTagSchema>;
+export type ProjectTaskTagCreate = z.infer<typeof ProjectTaskTagCreateSchema>;
+export type ProjectTaskTagUpdate = z.infer<typeof ProjectTaskTagUpdateSchema>;
+export type ProjectTaskTagWhere = z.infer<typeof ProjectTaskTagWhereSchema>;
+export type ProjectTaskTagOrder = z.infer<typeof ProjectTaskTagOrderSchema>;
+export type ProjectTaskTagSelect = z.infer<typeof ProjectTaskTagSelectSchema>;
+export type ProjectTaskTagQuery = z.infer<typeof ProjectTaskTagQuerySchema>;
+
+
+
+
+// ---------- ProjectTaskStatus Schemas ----------
+
+
+export const ProjectTaskStatusSchema = z.object({
+  id: z.number().int(),
+  projectId: z.number().int(),
+  statusId: z.number().int(),
+});
+
+export const ProjectTaskStatusCreateSchema = z.object({
+  projectId: z.number().int(),
+  statusId: z.number().int(),
+});
+
+export const ProjectTaskStatusUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  projectId: z.number().int().optional(),
+  statusId: z.number().int().optional(),
+});
+
+export const ProjectTaskStatusWhereSchema = toWhereQuerySchema(ProjectTaskStatusSchema);
+
+export const ProjectTaskStatusOrderSchema =  toOrderBySchema(ProjectTaskStatusSchema);
+
+export const ProjectTaskStatusSelectSchema = z.object({
+  id: z.boolean().optional(),
+  projectId: z.boolean().optional(),
+  statusId: z.boolean().optional(),
+  project: z.boolean().optional(),
+  status: z.boolean().optional(),
+});
+
+export const ProjectTaskStatusQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: ProjectTaskStatusWhereSchema.optional(),
+  orderBy: ProjectTaskStatusOrderSchema.optional(),
+  select: ProjectTaskStatusSelectSchema.optional()
+});
+
+export type ProjectTaskStatus = z.infer<typeof ProjectTaskStatusSchema>;
+export type ProjectTaskStatusCreate = z.infer<typeof ProjectTaskStatusCreateSchema>;
+export type ProjectTaskStatusUpdate = z.infer<typeof ProjectTaskStatusUpdateSchema>;
+export type ProjectTaskStatusWhere = z.infer<typeof ProjectTaskStatusWhereSchema>;
+export type ProjectTaskStatusOrder = z.infer<typeof ProjectTaskStatusOrderSchema>;
+export type ProjectTaskStatusSelect = z.infer<typeof ProjectTaskStatusSelectSchema>;
+export type ProjectTaskStatusQuery = z.infer<typeof ProjectTaskStatusQuerySchema>;
+
+
+
+
+// ---------- ProjectTaskPriority Schemas ----------
+
+
+export const ProjectTaskPrioritySchema = z.object({
+  id: z.number().int(),
+  projectId: z.number().int(),
+  priorityId: z.number().int(),
+});
+
+export const ProjectTaskPriorityCreateSchema = z.object({
+  projectId: z.number().int(),
+  priorityId: z.number().int(),
+});
+
+export const ProjectTaskPriorityUpdateSchema = z.object({
+  id: z.number().int().optional(),
+  projectId: z.number().int().optional(),
+  priorityId: z.number().int().optional(),
+});
+
+export const ProjectTaskPriorityWhereSchema = toWhereQuerySchema(ProjectTaskPrioritySchema);
+
+export const ProjectTaskPriorityOrderSchema =  toOrderBySchema(ProjectTaskPrioritySchema);
+
+export const ProjectTaskPrioritySelectSchema = z.object({
+  id: z.boolean().optional(),
+  projectId: z.boolean().optional(),
+  priorityId: z.boolean().optional(),
+  project: z.boolean().optional(),
+  priority: z.boolean().optional(),
+});
+
+export const ProjectTaskPriorityQuerySchema = z.object({
+  take: z.coerce.number().int().min(1), 
+  skip: z.coerce.number().int().min(0), 
+  where: ProjectTaskPriorityWhereSchema.optional(),
+  orderBy: ProjectTaskPriorityOrderSchema.optional(),
+  select: ProjectTaskPrioritySelectSchema.optional()
+});
+
+export type ProjectTaskPriority = z.infer<typeof ProjectTaskPrioritySchema>;
+export type ProjectTaskPriorityCreate = z.infer<typeof ProjectTaskPriorityCreateSchema>;
+export type ProjectTaskPriorityUpdate = z.infer<typeof ProjectTaskPriorityUpdateSchema>;
+export type ProjectTaskPriorityWhere = z.infer<typeof ProjectTaskPriorityWhereSchema>;
+export type ProjectTaskPriorityOrder = z.infer<typeof ProjectTaskPriorityOrderSchema>;
+export type ProjectTaskPrioritySelect = z.infer<typeof ProjectTaskPrioritySelectSchema>;
+export type ProjectTaskPriorityQuery = z.infer<typeof ProjectTaskPriorityQuerySchema>;
 
 

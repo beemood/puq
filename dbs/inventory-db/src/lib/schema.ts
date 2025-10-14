@@ -899,29 +899,32 @@ export type DiscountQuery = z.infer<typeof DiscountQuerySchema>;
 
 export const DiscountTargetSchema = z.object({
   id: z.number().int(),
+  type: z.any(),
   discountId: z.number().int(),
+  storeId: z.number().int().nullish(),
   productId: z.number().int().nullish(),
   variantId: z.number().int().nullish(),
-  storeId: z.number().int().nullish(),
   priceLevelId: z.number().int().nullish(),
   categoryId: z.number().int().nullish(),
 });
 
 export const DiscountTargetCreateSchema = z.object({
+  type: z.any(),
   discountId: z.number().int(),
+  storeId: z.number().int().nullish(),
   productId: z.number().int().nullish(),
   variantId: z.number().int().nullish(),
-  storeId: z.number().int().nullish(),
   priceLevelId: z.number().int().nullish(),
   categoryId: z.number().int().nullish(),
 });
 
 export const DiscountTargetUpdateSchema = z.object({
   id: z.number().int().optional(),
+  type: z.any().optional(),
   discountId: z.number().int().optional(),
+  storeId: z.number().int().nullish().optional(),
   productId: z.number().int().nullish().optional(),
   variantId: z.number().int().nullish().optional(),
-  storeId: z.number().int().nullish().optional(),
   priceLevelId: z.number().int().nullish().optional(),
   categoryId: z.number().int().nullish().optional(),
 });
@@ -932,18 +935,19 @@ export const DiscountTargetOrderSchema =  toOrderBySchema(DiscountTargetSchema);
 
 export const DiscountTargetSelectSchema = z.object({
   id: z.boolean().optional(),
+  type: z.boolean().optional(),
   discountId: z.boolean().optional(),
+  storeId: z.boolean().optional(),
   productId: z.boolean().optional(),
   variantId: z.boolean().optional(),
-  storeId: z.boolean().optional(),
   priceLevelId: z.boolean().optional(),
   categoryId: z.boolean().optional(),
   discount: z.boolean().optional(),
+  store: z.boolean().optional(),
+  category: z.boolean().optional(),
+  priceLevel: z.boolean().optional(),
   product: z.boolean().optional(),
   variant: z.boolean().optional(),
-  store: z.boolean().optional(),
-  priceLevel: z.boolean().optional(),
-  category: z.boolean().optional(),
 });
 
 export const DiscountTargetQuerySchema = z.object({

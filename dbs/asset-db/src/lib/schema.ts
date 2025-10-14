@@ -381,15 +381,15 @@ export const ItemSchema = z.object({
   uuid: z.string(),
   categoryId: z.number().int().nullish(),
   name: z.string(),
-  description: z.string(),
-  quantityTreshold: z.number().int(),
+  description: z.string().nullish(),
+  minQuantity: z.number().int(),
 });
 
 export const ItemCreateSchema = z.object({
   categoryId: z.number().int().nullish(),
   name: z.string(),
-  description: z.string(),
-  quantityTreshold: z.number().int(),
+  description: z.string().nullish(),
+  minQuantity: z.number().int(),
 });
 
 export const ItemUpdateSchema = z.object({
@@ -397,8 +397,8 @@ export const ItemUpdateSchema = z.object({
   uuid: z.string().optional(),
   categoryId: z.number().int().nullish().optional(),
   name: z.string().optional(),
-  description: z.string().optional(),
-  quantityTreshold: z.number().int().optional(),
+  description: z.string().nullish().optional(),
+  minQuantity: z.number().int().optional(),
 });
 
 export const ItemWhereSchema = toWhereQuerySchema(ItemSchema);
@@ -411,7 +411,7 @@ export const ItemSelectSchema = z.object({
   categoryId: z.boolean().optional(),
   name: z.boolean().optional(),
   description: z.boolean().optional(),
-  quantityTreshold: z.boolean().optional(),
+  minQuantity: z.boolean().optional(),
   category: z.boolean().optional(),
   attributes: z.boolean().optional(),
   quantities: z.boolean().optional(),
@@ -445,14 +445,14 @@ export const QuantitySchema = z.object({
   roomId: z.number().int(),
   itemId: z.number().int(),
   quantity: z.number().int(),
-  quantityTreshold: z.number().int(),
+  minQuantity: z.number().int(),
 });
 
 export const QuantityCreateSchema = z.object({
   roomId: z.number().int(),
   itemId: z.number().int(),
   quantity: z.number().int(),
-  quantityTreshold: z.number().int(),
+  minQuantity: z.number().int(),
 });
 
 export const QuantityUpdateSchema = z.object({
@@ -460,7 +460,7 @@ export const QuantityUpdateSchema = z.object({
   roomId: z.number().int().optional(),
   itemId: z.number().int().optional(),
   quantity: z.number().int().optional(),
-  quantityTreshold: z.number().int().optional(),
+  minQuantity: z.number().int().optional(),
 });
 
 export const QuantityWhereSchema = toWhereQuerySchema(QuantitySchema);
@@ -472,7 +472,7 @@ export const QuantitySelectSchema = z.object({
   roomId: z.boolean().optional(),
   itemId: z.boolean().optional(),
   quantity: z.boolean().optional(),
-  quantityTreshold: z.boolean().optional(),
+  minQuantity: z.boolean().optional(),
   item: z.boolean().optional(),
   room: z.boolean().optional(),
   quantityMoveSources: z.boolean().optional(),
@@ -538,7 +538,7 @@ export const SerialNumberSelectSchema = z.object({
   serialMoveSources: z.boolean().optional(),
   serialMoveTargets: z.boolean().optional(),
   employeeItemRequests: z.boolean().optional(),
-  EmployeeItem: z.boolean().optional(),
+  employeeItems: z.boolean().optional(),
 });
 
 export const SerialNumberQuerySchema = z.object({
@@ -568,23 +568,23 @@ export const QuantityMoveRequestSchema = z.object({
   sourceId: z.number().int(),
   targetId: z.number().int(),
   requestedById: z.number().int(),
-  approvedById: z.number().int().nullish(),
+  resolvedById: z.number().int().nullish(),
   quantity: z.number().int(),
   reason: z.string(),
   status: z.any(),
   requestedAt: z.date(),
-  approvedAt: z.date().nullish(),
+  resolvedAt: z.date().nullish(),
 });
 
 export const QuantityMoveRequestCreateSchema = z.object({
   sourceId: z.number().int(),
   targetId: z.number().int(),
   requestedById: z.number().int(),
-  approvedById: z.number().int().nullish(),
+  resolvedById: z.number().int().nullish(),
   quantity: z.number().int(),
   reason: z.string(),
   status: z.any(),
-  approvedAt: z.date().nullish(),
+  resolvedAt: z.date().nullish(),
 });
 
 export const QuantityMoveRequestUpdateSchema = z.object({
@@ -592,12 +592,12 @@ export const QuantityMoveRequestUpdateSchema = z.object({
   sourceId: z.number().int().optional(),
   targetId: z.number().int().optional(),
   requestedById: z.number().int().optional(),
-  approvedById: z.number().int().nullish().optional(),
+  resolvedById: z.number().int().nullish().optional(),
   quantity: z.number().int().optional(),
   reason: z.string().optional(),
   status: z.any().optional(),
   requestedAt: z.date().optional(),
-  approvedAt: z.date().nullish().optional(),
+  resolvedAt: z.date().nullish().optional(),
 });
 
 export const QuantityMoveRequestWhereSchema = toWhereQuerySchema(QuantityMoveRequestSchema);
@@ -609,16 +609,16 @@ export const QuantityMoveRequestSelectSchema = z.object({
   sourceId: z.boolean().optional(),
   targetId: z.boolean().optional(),
   requestedById: z.boolean().optional(),
-  approvedById: z.boolean().optional(),
+  resolvedById: z.boolean().optional(),
   quantity: z.boolean().optional(),
   reason: z.boolean().optional(),
   status: z.boolean().optional(),
   requestedAt: z.boolean().optional(),
-  approvedAt: z.boolean().optional(),
+  resolvedAt: z.boolean().optional(),
   source: z.boolean().optional(),
   target: z.boolean().optional(),
   requestedBy: z.boolean().optional(),
-  approvedBy: z.boolean().optional(),
+  resolvedBy: z.boolean().optional(),
 });
 
 export const QuantityMoveRequestQuerySchema = z.object({
@@ -648,21 +648,21 @@ export const SerialMoveRequestSchema = z.object({
   sourceId: z.number().int(),
   targetId: z.number().int(),
   requestedById: z.number().int(),
-  approvedById: z.number().int().nullish(),
+  resolvedById: z.number().int().nullish(),
   reason: z.string(),
   status: z.any(),
   requestedAt: z.date(),
-  approvedAt: z.date().nullish(),
+  resolvedAt: z.date().nullish(),
 });
 
 export const SerialMoveRequestCreateSchema = z.object({
   sourceId: z.number().int(),
   targetId: z.number().int(),
   requestedById: z.number().int(),
-  approvedById: z.number().int().nullish(),
+  resolvedById: z.number().int().nullish(),
   reason: z.string(),
   status: z.any(),
-  approvedAt: z.date().nullish(),
+  resolvedAt: z.date().nullish(),
 });
 
 export const SerialMoveRequestUpdateSchema = z.object({
@@ -670,11 +670,11 @@ export const SerialMoveRequestUpdateSchema = z.object({
   sourceId: z.number().int().optional(),
   targetId: z.number().int().optional(),
   requestedById: z.number().int().optional(),
-  approvedById: z.number().int().nullish().optional(),
+  resolvedById: z.number().int().nullish().optional(),
   reason: z.string().optional(),
   status: z.any().optional(),
   requestedAt: z.date().optional(),
-  approvedAt: z.date().nullish().optional(),
+  resolvedAt: z.date().nullish().optional(),
 });
 
 export const SerialMoveRequestWhereSchema = toWhereQuerySchema(SerialMoveRequestSchema);
@@ -686,15 +686,15 @@ export const SerialMoveRequestSelectSchema = z.object({
   sourceId: z.boolean().optional(),
   targetId: z.boolean().optional(),
   requestedById: z.boolean().optional(),
-  approvedById: z.boolean().optional(),
+  resolvedById: z.boolean().optional(),
   reason: z.boolean().optional(),
   status: z.boolean().optional(),
   requestedAt: z.boolean().optional(),
-  approvedAt: z.boolean().optional(),
+  resolvedAt: z.boolean().optional(),
   source: z.boolean().optional(),
   target: z.boolean().optional(),
   requestedBy: z.boolean().optional(),
-  approvedBy: z.boolean().optional(),
+  resolvedBy: z.boolean().optional(),
 });
 
 export const SerialMoveRequestQuerySchema = z.object({
@@ -743,13 +743,13 @@ export const EmployeeSelectSchema = z.object({
   rooms: z.boolean().optional(),
   items: z.boolean().optional(),
   itemRequesters: z.boolean().optional(),
-  itemApprovers: z.boolean().optional(),
+  itemResolvers: z.boolean().optional(),
   roomRequesters: z.boolean().optional(),
-  roomApprovers: z.boolean().optional(),
+  roomResolvers: z.boolean().optional(),
   serialMoveRequesters: z.boolean().optional(),
-  serialMoveApprovers: z.boolean().optional(),
+  serialMoveResolvers: z.boolean().optional(),
   quantityMoveRequesters: z.boolean().optional(),
-  quantityMoveApprovers: z.boolean().optional(),
+  quantityMoveResolvers: z.boolean().optional(),
 });
 
 export const EmployeeQuerySchema = z.object({
@@ -894,31 +894,31 @@ export const EmployeeRoomRequestSchema = z.object({
   id: z.number().int(),
   roomId: z.number().int().nullish(),
   requestedById: z.number().int(),
-  approvedById: z.number().int().nullish(),
+  resolvedById: z.number().int().nullish(),
   requestedAt: z.date(),
-  approvedAt: z.date().nullish(),
+  resolvedAt: z.date().nullish(),
   status: z.any(),
-  note: z.string(),
+  note: z.string().nullish(),
 });
 
 export const EmployeeRoomRequestCreateSchema = z.object({
   roomId: z.number().int().nullish(),
   requestedById: z.number().int(),
-  approvedById: z.number().int().nullish(),
-  approvedAt: z.date().nullish(),
+  resolvedById: z.number().int().nullish(),
+  resolvedAt: z.date().nullish(),
   status: z.any(),
-  note: z.string(),
+  note: z.string().nullish(),
 });
 
 export const EmployeeRoomRequestUpdateSchema = z.object({
   id: z.number().int().optional(),
   roomId: z.number().int().nullish().optional(),
   requestedById: z.number().int().optional(),
-  approvedById: z.number().int().nullish().optional(),
+  resolvedById: z.number().int().nullish().optional(),
   requestedAt: z.date().optional(),
-  approvedAt: z.date().nullish().optional(),
+  resolvedAt: z.date().nullish().optional(),
   status: z.any().optional(),
-  note: z.string().optional(),
+  note: z.string().nullish().optional(),
 });
 
 export const EmployeeRoomRequestWhereSchema = toWhereQuerySchema(EmployeeRoomRequestSchema);
@@ -929,14 +929,14 @@ export const EmployeeRoomRequestSelectSchema = z.object({
   id: z.boolean().optional(),
   roomId: z.boolean().optional(),
   requestedById: z.boolean().optional(),
-  approvedById: z.boolean().optional(),
+  resolvedById: z.boolean().optional(),
   requestedAt: z.boolean().optional(),
-  approvedAt: z.boolean().optional(),
+  resolvedAt: z.boolean().optional(),
   status: z.boolean().optional(),
   note: z.boolean().optional(),
   room: z.boolean().optional(),
   requestedBy: z.boolean().optional(),
-  approvedBy: z.boolean().optional(),
+  resolvedBy: z.boolean().optional(),
 });
 
 export const EmployeeRoomRequestQuerySchema = z.object({
@@ -964,32 +964,32 @@ export type EmployeeRoomRequestQuery = z.infer<typeof EmployeeRoomRequestQuerySc
 export const EmployeeItemRequestSchema = z.object({
   id: z.number().int(),
   requestedById: z.number().int(),
-  approvedById: z.number().int().nullish(),
+  resolvedById: z.number().int().nullish(),
   requestedAt: z.date(),
-  approvedAt: z.date().nullish(),
+  resolvedAt: z.date().nullish(),
   serialNumberId: z.number().int().nullish(),
   status: z.any(),
-  note: z.string(),
+  note: z.string().nullish(),
 });
 
 export const EmployeeItemRequestCreateSchema = z.object({
   requestedById: z.number().int(),
-  approvedById: z.number().int().nullish(),
-  approvedAt: z.date().nullish(),
+  resolvedById: z.number().int().nullish(),
+  resolvedAt: z.date().nullish(),
   serialNumberId: z.number().int().nullish(),
   status: z.any(),
-  note: z.string(),
+  note: z.string().nullish(),
 });
 
 export const EmployeeItemRequestUpdateSchema = z.object({
   id: z.number().int().optional(),
   requestedById: z.number().int().optional(),
-  approvedById: z.number().int().nullish().optional(),
+  resolvedById: z.number().int().nullish().optional(),
   requestedAt: z.date().optional(),
-  approvedAt: z.date().nullish().optional(),
+  resolvedAt: z.date().nullish().optional(),
   serialNumberId: z.number().int().nullish().optional(),
   status: z.any().optional(),
-  note: z.string().optional(),
+  note: z.string().nullish().optional(),
 });
 
 export const EmployeeItemRequestWhereSchema = toWhereQuerySchema(EmployeeItemRequestSchema);
@@ -999,15 +999,15 @@ export const EmployeeItemRequestOrderSchema =  toOrderBySchema(EmployeeItemReque
 export const EmployeeItemRequestSelectSchema = z.object({
   id: z.boolean().optional(),
   requestedById: z.boolean().optional(),
-  approvedById: z.boolean().optional(),
+  resolvedById: z.boolean().optional(),
   requestedAt: z.boolean().optional(),
-  approvedAt: z.boolean().optional(),
+  resolvedAt: z.boolean().optional(),
   serialNumberId: z.boolean().optional(),
   status: z.boolean().optional(),
   note: z.boolean().optional(),
   serialNumber: z.boolean().optional(),
   requestedBy: z.boolean().optional(),
-  approvedBy: z.boolean().optional(),
+  resolvedBy: z.boolean().optional(),
 });
 
 export const EmployeeItemRequestQuerySchema = z.object({
