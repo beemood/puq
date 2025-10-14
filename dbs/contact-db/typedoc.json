@@ -1,6 +1,8 @@
 {
   "name": "contact-db",
   "favicon": "./favicon.png",
-  "entryPoints": ["./src/index.ts"],
-  "out": "../../public/dbs/contact-db"
+  "entryPoints": [
+    "./src/index.ts"
+  ],
+  "out": "../../../beemood.github.io/public/dbs/contact-db"
 }

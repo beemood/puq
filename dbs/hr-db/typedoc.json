@@ -1,6 +1,8 @@
 {
   "name": "hr-db",
   "favicon": "./favicon.png",
-  "entryPoints": ["./src/index.ts"],
-  "out": "../../public/dbs/hr-db"
+  "entryPoints": [
+    "./src/index.ts"
+  ],
+  "out": "../../../beemood.github.io/public/dbs/hr-db"
 }

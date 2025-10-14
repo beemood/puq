@@ -1,3 +1,8 @@
+/**
+ * Generate Ean barcode
+ * @param prefix organization prefix
+ * @returns
+ */
 export function ean(prefix = '00'): string {
   // FIX: Set default value here. If 'undefined' is passed, it becomes '00'.
   if (prefix === undefined) {

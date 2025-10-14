@@ -1,6 +1,8 @@
 {
   "name": "barcode",
   "favicon": "./favicon.png",
-  "entryPoints": ["./src/index.ts"],
-  "out": "../../public/libs/barcode"
+  "entryPoints": [
+    "./src/index.ts"
+  ],
+  "out": "../../../beemood.github.io/public/libs/barcode"
 }
