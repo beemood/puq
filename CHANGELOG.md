@@ -1,3 +1,14 @@
+## 0.21.0 (2025-10-14)
+
+### 🚀 Features
+
+- added the encription routation functionality to the app database ([27e3ab4](https://github.com/beemood/puq/commit/27e3ab4))
+- configured the HR Contact tables ([980fe31](https://github.com/beemood/puq/commit/980fe31))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.20.0 (2025-10-13)
 
 ### 🚀 Features
