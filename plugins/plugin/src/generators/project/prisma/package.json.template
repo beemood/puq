@@ -18,6 +18,7 @@
   "types": "./generated/index.d.ts",
   "browser": "./generated/default.js",
   "files": [
+    "dist",
     "prisma",
     "postinstall",
     ".env",
