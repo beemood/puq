@@ -1,3 +1,13 @@
+## 0.23.0 (2025-10-14)
+
+### 🩹 Fixes
+
+- included dist directory for publiscation ([f60ce8c](https://github.com/beemood/puq/commit/f60ce8c))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.22.0 (2025-10-14)
 
 ### 🚀 Features
