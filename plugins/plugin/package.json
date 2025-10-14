@@ -1,6 +1,6 @@
 {
   "name": "@puq/plugin",
-  "version": "0.23.0",
+  "version": "0.24.0",
   "license": "MIT",
   "description": "NX plugin that contains project, project part, resource generators, and common cli tools",
   "keywords": [
