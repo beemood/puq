@@ -8,32 +8,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum ContactType {
+  /// This contact information is used for filing taxes
+  RESIDENCE_ADDRESS
+
+  /// Any other work contact
+  WORK
+
+  /// Emergency 
+  EMERGENCY
+
+  /// Other
+  OTHER
+}
+
 /// Person gender
 enum Gender {
   MALE
   FEMALE
+  OTHER
 }
 
 /// Signle or married
 enum MaritalStatus {
   SINGLE
   MARRIED
-}
-
-enum PaymentStatus {
-  PENDING
-  PAID
-  DELAYED
-}
-
-/// Payment types (HANDED_CHECK,HANDED_CACHE,MAILED_CHECK,MAILED_CACHE,DIRECT_DEPOSIT,OTHER)
-enum PaymentType {
-  HANDED_CHECK
-  HANDED_CACHE
-  MAILED_CHECK
-  MAILED_CACHE
-  DIRECT_DEPOSIT
-  OTHER
 }
 
 /// Federal income tax filing status
@@ -47,8 +46,8 @@ enum TaxFilingStatus {
 
 /// Type of deduction (Pre-Tax, Post-Tax, Garnishment)
 enum DeductionType {
-  PRE_TAX_STATUTORY // e.g., Retirement (401k), Health Savings Account (HSA)
-  PRE_TAX_NON_STATUTORY // e.g., Health Insurance premiums
+  STATUTORY_PRE_TAX // e.g., Retirement (401k), Health Savings Account (HSA)
+  NON_STATUTORY_PRE_TAX // e.g., Health Insurance premiums
   POST_TAX // e.g., Roth 401k, Life Insurance
   GARNISHMENT // e.g., Child support, IRS levy
 }
@@ -110,20 +109,9 @@ enum TitleChangeType {
 
   /// When employee is moving to a same ranked title or low ranked title
   TRANSFER
-}
 
-enum TimeOffType {
-  /// Timely defined vacation policy
-  VACATION
-
-  /// Health resons
-  SICK
-
-  /// Accumulated time offs
-  PERSONAL
-
-  /// Family related emergencies
-  EMERGENCY
+  /// When employee is moving to a same ranked title or low ranked title
+  OTHER
 }
 
 enum RequestStatus {
@@ -157,6 +145,22 @@ enum BenefitStatus {
   ENROLLED
 }
 
+enum PayrollStatus {
+  DRAFT
+  CALCULATED
+  APPROVED
+  PAID
+  CLOSED
+}
+
+enum TimeOffTransactionType {
+  ACCRUAL
+  USED_REQUEST
+  ROLLOVER
+  ADJUSTMENT
+  OTHER
+}
+
 model Department {
   id Int @id @default(autoincrement())
 
@@ -169,11 +173,14 @@ model Department {
   //// Unique url friendly department name
   slug String @unique
 
+  /// Is this department active
+  isActive Boolean @default(true)
+
   /// Parent department details 
-  parent Department? @relation("children", fields: [parentId], references: [id])
+  parent Department? @relation("departments", fields: [parentId], references: [id])
 
   /// List of sub department details
-  children Department[] @relation("children")
+  departments Department[] @relation("departments")
 
   /// List of titles under this department
   titles Title[]
@@ -194,6 +201,9 @@ model Title {
   /// Title description
   description String? @default("No Description")
 
+  /// Is this title active?
+  isActive Boolean @default(true)
+
   /// Department details
   department Department @relation(fields: [departmentId], references: [id])
 
@@ -202,6 +212,29 @@ model Title {
 
   /// List of title histories of employees
   histories TitleHistory[]
+}
+
+/// Encripted personal data
+model PersonalData {
+  id Int @id @default(autoincrement())
+
+  /// Employee d
+  employeeId Int @unique
+
+  /// Social security or ein
+  ein String
+
+  /// Gender 
+  gender Gender
+
+  /// Date of birth 
+  dob DateTime @db.Date()
+
+  /// Married or single
+  maritalStatus MaritalStatus
+
+  /// Employee details
+  employee Employee @relation("personalData", fields: [employeeId], references: [id], onDelete: Cascade)
 }
 
 /// Employee table 
@@ -226,23 +259,20 @@ model Employee {
   /// preferedName 
   preferedName String?
 
-  /// Gender 
-  gender Gender
-
-  /// Date of birth 
-  dob DateTime
-
   /// Empmloyee status
   status EmployeeStatus @default(INCOMMING)
 
   /// Employee title details 
   title Title @relation(fields: [titleId], references: [id])
 
-  /// The list of teams that this employee leads
-  leadTeams Team[] @relation("leadTeams")
+  /// The date the employee is hired at
+  hireDate DateTime?
 
-  /// The list of teams that this employee is in
-  memberships TeamMember[]
+  /// The date the employee is terminated at
+  terminationDate DateTime?
+
+  /// Employment type
+  employmentType EmploymentType
 
   /// Salary details
   salary Salary?
@@ -268,29 +298,68 @@ model Employee {
   /// List of clock-ins
   clockIns ClockIn[]
 
-  /// List of payments paid to this employee
-  payments Payment[] @relation("employee")
+  /// Employee encrypted personal data
+  personalData PersonalData? @relation("personalData")
 
-  /// List of payments resolved by this employee
-  resolvedPayments Payment[] @relation("resolvedBy")
+  /// Employee tax data
+  taxData EmployeeTaxData[]
 
-  taxData EmployeeTaxData?
+  /// The list of teams that this employee is in
+  memberships TeamMember[]
+
+  /// List of teams that this employee manages
+  managingTeams TeamManager[]
+
+  /// List of employees managed by this employee
+  managingEmployees Employee[] @relation("managingEmployees")
+
+  /// The employee details of the direct manager of this employee
+  directManager Employee? @relation("managingEmployees", fields: [directManagerId], references: [id])
+
+  /// List of paychecks paid to this employee
+  paychecks Paycheck[]
+
+  directManagerId Int?
+
+  /// List of deductions
+  deductions EmployeeDeduction[]
+
+  /// List of resolved payroll runs
+  resolvedPayrollRuns PayrollRun[]
+
+  /// Contact details
+  contact Contact?
 }
 
 model Team {
   id Int @id @default(autoincrement())
 
-  /// Team manager id
-  managerId Int
-
   /// Unique team name
   name String @unique
 
-  /// Team manager details 
-  manager Employee @relation("leadTeams", fields: [managerId], references: [id])
-
   /// List of team member details
   members TeamMember[]
+
+  /// List of team managers
+  managers TeamManager[]
+}
+
+model TeamManager {
+  id Int @id @default(autoincrement())
+
+  /// Team id
+  teamId Int
+
+  /// Manager id
+  managerId Int
+
+  /// Team details
+  team Team @relation(fields: [teamId], references: [id])
+
+  /// Manager details
+  manager Employee @relation(fields: [managerId], references: [id])
+
+  @@unique([teamId, managerId])
 }
 
 model TeamMember {
@@ -303,7 +372,7 @@ model TeamMember {
   memberId Int
 
   /// Member/employee details
-  employee Employee @relation(fields: [memberId], references: [id])
+  member Employee @relation(fields: [memberId], references: [id])
 
   /// Team details
   team Team @relation(fields: [teamId], references: [id])
@@ -316,14 +385,17 @@ model Salary {
   /// Employee id
   employeeId Int @unique
 
-  /// Salary
-  salary Decimal @db.Decimal(10, 2)
+  /// Gross salary
+  gross Decimal @db.Decimal(10, 2)
+
+  /// Effective date of the salary
+  startDate DateTime @db.Date()
+
+  /// End date of the slary
+  endDate DateTime? @db.Date()
 
   /// Pay frequency such as ANNUAL, WEEKLY, HOURLY etc.
   frequency PayFrequency
-
-  /// Last review date 
-  lastReviewDate DateTime?
 
   /// Employee details
   employee Employee @relation(fields: [employeeId], references: [id])
@@ -337,7 +409,7 @@ model SalaryHistory {
   employeeId Int
 
   /// Salary change date
-  changeDate DateTime
+  createdAt DateTime @default(now())
 
   /// Old salary
   oldSalary Decimal @db.Decimal(10, 2)
@@ -374,7 +446,7 @@ model BenefitEnrolment {
   id Int @id @default(autoincrement())
 
   /// Benefit id
-  bid Int
+  benefitId Int
 
   /// Employee id
   employeeId Int
@@ -386,12 +458,12 @@ model BenefitEnrolment {
   status BenefitStatus @default(PENDING)
 
   /// Benefit details
-  benefit Benefit @relation(fields: [bid], references: [id])
+  benefit Benefit @relation(fields: [benefitId], references: [id])
 
   /// Employee details
   employee Employee @relation(fields: [employeeId], references: [id])
 
-  @@unique([bid, employeeId])
+  @@unique([benefitId, employeeId])
 }
 
 /// Employee title hsitory table
@@ -434,14 +506,11 @@ model TimeOffPolicy {
   /// Policy description 
   description String? @default("No description")
 
-  /// Time off type 
-  type TimeOffType
-
   /// Accrual rate such as 0.04 which means employee earns 0.04 hours for each hour work
-  accrualRate Decimal @db.Decimal(4, 2) // e.g., 0.04 hours per hour worked
+  accrualRate Decimal @db.Decimal(8, 2) // e.g., 0.04 hours per hour worked
 
   /// Maximum time-off hours can be used in the following business cycle
-  maxRollover Decimal @db.Decimal(5, 2)
+  maxRollover Decimal @db.Decimal(8, 2)
 
   /// List of employees time-off balance
   balances TimeOffBalance[]
@@ -461,13 +530,13 @@ model TimeOffBalance {
   employeeId Int
 
   /// Earned time-off hours
-  accruedHours Decimal @db.Decimal(5, 2)
+  accruedHours Decimal @db.Decimal(8, 2)
 
   /// Used time-off hours
-  usedHours Decimal @db.Decimal(5, 2)
+  usedHours Decimal @db.Decimal(8, 2)
 
   /// Available time-off hours
-  availableHours Decimal @db.Decimal(5, 2)
+  availableHours Decimal @db.Decimal(8, 2)
 
   /// Policy details
   policy TimeOffPolicy @relation(fields: [policyId], references: [id])
@@ -485,8 +554,14 @@ model TimeOffBalance {
 model TimeOffRequest {
   id Int @id @default(autoincrement())
 
+  /// The date the entry is created at.
+  createdAt DateTime @default(now())
+
   /// Employee id
   employeeId Int
+
+  /// Reason for the time-off request
+  reason String
 
   /// Policy id
   policyId Int
@@ -498,10 +573,10 @@ model TimeOffRequest {
   status RequestStatus @default(PENDING)
 
   /// Desired start time for the time-off
-  startDate DateTime
+  startDate DateTime @db.Date()
 
   /// Desired end time for the time-off
-  endDate DateTime
+  endDate DateTime @db.Date()
 
   /// Employee details
   employee Employee @relation(fields: [employeeId], references: [id])
@@ -513,21 +588,27 @@ model TimeOffRequest {
   resolver Employee? @relation("resolvedTimeOffs", fields: [resolverId], references: [id])
 
   /// The transaction details for this requst upon if approved.
-  transaction TimeOffTransaction?
+  transactions TimeOffTransaction[]
 }
 
 /// Time-off transaction/log table
 model TimeOffTransaction {
   id Int @id @default(autoincrement())
 
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  type TimeOffTransactionType
+
   /// Employee time-off balance entry id
   balanceId Int
 
   /// Request id
-  requestId Int? @unique
+  requestId Int?
 
   /// Hourly approved amounts
-  amount Decimal @db.Decimal(5, 2)
+  amount Decimal @db.Decimal(8, 2)
 
   /// Balance details
   balance TimeOffBalance @relation(fields: [balanceId], references: [id])
@@ -542,9 +623,6 @@ model ClockIn {
   /// Employee id
   employeeId Int
 
-  // Optional payment id created when the employee paid
-  paymentId Int?
-
   /// Time to enter the office
   clockIn DateTime @default(now())
 
@@ -554,43 +632,122 @@ model ClockIn {
   /// Employee details
   employee Employee @relation(fields: [employeeId], references: [id])
 
-  payment Payment? @relation(fields: [paymentId], references: [id])
-
   @@unique([employeeId, clockIn])
 }
 
 /// Timely payment logs.
-model Payment {
+model Paycheck {
   id Int @id @default(autoincrement())
+
+  /// The date the entiry is created at
+  createdAt DateTime @default(now())
+
+  /// Payrool run id
+  payrollRunId Int
+
+  /// The date the entry is updated at
+  updatedAt DateTime @updatedAt
 
   /// Employee id
   employeeId Int
 
-  /// Resolver (Manager) id
-  resolverId Int
+  /// Gross amount
+  grossAmount Decimal @db.Decimal(10, 2)
 
-  /// Payment type 
-  type PaymentType
-
-  /// Payment status
-  status PaymentStatus @default(PENDING)
+  ///  Net amount
+  netAmount Decimal @db.Decimal(10, 2)
 
   /// Employee details
-  employee Employee @relation("employee", fields: [employeeId], references: [id])
+  employee Employee @relation(fields: [employeeId], references: [id])
 
-  /// Employee (HR/Accounting manager) who resolved this payment
-  resolvedBy Employee @relation("resolvedBy", fields: [resolverId], references: [id])
+  earnings Earning[]
 
-  /// List of working hours will be paid with this payment process
-  hours ClockIn[]
+  paycheckTaxes PaycheckTax[]
+
+  deductions PaycheckDeduction[]
+
+  /// Payroll run details
+  payrollRun PayrollRun @relation(fields: [payrollRunId], references: [id])
+}
+
+enum EarningType {
+  REGULAR
+  BONUS
+  OVERTIME
+  OTHER
+}
+
+model Earning {
+  id         Int         @id @default(autoincrement())
+  type       EarningType
+  hours      Decimal?
+  rate       Decimal
+  amount     Decimal     @db.Decimal(20, 2)
+  paycheckId Int
+  paycheck   Paycheck    @relation(fields: [paycheckId], references: [id])
+}
+
+model PaycheckTax {
+  id Int @id @default(autoincrement())
+
+  paycheckId Int
+
+  taxAuthority String
+
+  amount Decimal @db.Decimal(10, 2)
+
+  paycheck Paycheck @relation(fields: [paycheckId], references: [id])
+}
+
+model DeductionPolicy {
+  id Int @id @default(autoincrement())
+
+  name String
+
+  type DeductionType
+
+  defaultAmount Decimal? @db.Decimal(10, 2)
+
+  defaultPercent Decimal?
+
+  employeeDeductions EmployeeDeduction[]
+}
+
+model EmployeeDeduction {
+  id         Int @id @default(autoincrement())
+  employeeId Int
+  policyId   Int
+
+  employeeAmount Decimal? @db.Decimal(10, 2)
+
+  employee           Employee            @relation(fields: [employeeId], references: [id])
+  policy             DeductionPolicy     @relation(fields: [policyId], references: [id])
+  paycheckDeductions PaycheckDeduction[]
+}
+
+model PaycheckDeduction {
+  id                  Int               @id @default(autoincrement())
+  paycheckId          Int
+  employeeDeductionId Int
+  amount              Decimal           @db.Decimal(10, 2)
+  paycheck            Paycheck          @relation(fields: [paycheckId], references: [id])
+  employeeDeduction   EmployeeDeduction @relation(fields: [employeeDeductionId], references: [id])
 }
 
 /// Stores employee tax withholding settings from Form W-4 and state forms
 model EmployeeTaxData {
   id Int @id @default(autoincrement())
 
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  startDate DateTime @db.Date()
+
+  endDate DateTime? @db.Date()
+
   /// Employee ID (1:1 relationship)
-  employeeId Int @unique
+  employeeId Int
 
   // --- FEDERAL TAX SETTINGS ---
   federalStatus TaxFilingStatus @default(SINGLE)
@@ -619,9 +776,14 @@ model EmployeeTaxData {
   // --- STATE AND LOCAL TAX SETTINGS ---
   /// Tax configurations for specific states/localities
   stateTaxes StateTaxWithholding[]
+
+  /// List of local taxes
   localTaxes LocalTaxWithholding[]
 
+  /// Employee details
   employee Employee @relation(fields: [employeeId], references: [id])
+
+  @@unique([employeeId, createdAt])
 }
 
 /// Stores state-specific withholding details
@@ -643,6 +805,7 @@ model StateTaxWithholding {
   /// Additional state withholding amount
   extraWithholding Decimal @default(0.00) @db.Decimal(10, 2)
 
+  /// Employee tax data details
   taxData EmployeeTaxData @relation(fields: [taxDataId], references: [id])
 
   @@unique([taxDataId, stateCode])
@@ -663,8 +826,168 @@ model LocalTaxWithholding {
 
   /// Additional local withholding amount
   extraWithholding Decimal @default(0.00) @db.Decimal(10, 2)
-  
+
+  /// employee tax data details
   taxData EmployeeTaxData @relation(fields: [taxDataId], references: [id])
 
   @@unique([taxDataId, jurisdiction])
+}
+
+model PayrollRun {
+  id Int @id @default(autoincrement())
+
+  resolverId Int
+
+  startDate DateTime @db.Date()
+
+  endDate DateTime @db.Date()
+
+  payDate DateTime @db.Date()
+
+  status PayrollStatus @default(DRAFT)
+
+  approvedBy Employee @relation(fields: [resolverId], references: [id])
+
+  paychecks Paycheck[]
+}
+
+model Contact {
+  id Int @id @default(autoincrement())
+
+  employeeId Int @unique
+
+  /// Employee details
+  employee Employee @relation(fields: [employeeId], references: [id])
+
+  /// List of emails
+  emails Email[]
+
+  /// List of phones
+  phones Phone[]
+
+  /// List of addresses
+  addresses Address[]
+
+  primaryEmail PrimaryEmail?
+
+  primaryPhone PrimaryPhone?
+
+  primaryAddress PrimaryAddress?
+}
+
+model Country {
+  id Int @id @default(autoincrement())
+
+  name String
+
+  code String
+
+  states State[]
+}
+
+model State {
+  id Int @id @default(autoincrement())
+
+  countryId Int
+
+  name String
+
+  code String
+
+  country Country @relation(fields: [countryId], references: [id])
+
+  addresses Address[]
+
+  @@unique([countryId, name])
+}
+
+model Address {
+  id Int @id @default(autoincrement())
+
+  type ContactType
+
+  contactId Int
+
+  stateId Int
+
+  street String
+
+  zip String
+
+  city String
+
+  state State @relation(fields: [stateId], references: [id])
+
+  contact Contact @relation(fields: [contactId], references: [id])
+
+  primary PrimaryAddress?
+
+  @@unique([contactId, street, city, stateId, zip])
+}
+
+model Email {
+  id Int @id @default(autoincrement())
+
+  type ContactType
+
+  contactId Int
+
+  email String
+
+  contact Contact @relation(fields: [contactId], references: [id])
+
+  primary PrimaryEmail?
+
+  @@unique([contactId, email])
+}
+
+model Phone {
+  id Int @id @default(autoincrement())
+
+  type ContactType
+
+  contactId Int
+
+  phone String
+
+  contact Contact @relation(fields: [contactId], references: [id])
+
+  primary PrimaryPhone?
+
+  @@unique([contactId, phone])
+}
+
+model PrimaryEmail {
+  id Int @id @default(autoincrement())
+
+  emailId Int @unique
+
+  contactId Int @unique
+
+  email Email @relation(fields: [emailId], references: [id])
+
+  contact Contact @relation(fields: [contactId], references: [id])
+}
+
+model PrimaryPhone {
+  id Int @id @default(autoincrement())
+
+  phoneId Int @unique
+
+  contactId Int @unique
+
+  phone Phone @relation(fields: [phoneId], references: [id])
+
+  contact Contact @relation(fields: [contactId], references: [id])
+}
+
+// 1. Re-add PrimaryAddress model
+model PrimaryAddress {
+  id Int @id @default(autoincrement())
+
+  addressId Int @unique // FK to the Address record being selected
+  contactId Int @unique // FK to the employee's Contact record
+
+  address Address @relation(fields: [addressId], references: [id])
+  contact Contact @relation(fields: [contactId], references: [id])
 }

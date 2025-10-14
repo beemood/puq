@@ -17,6 +17,9 @@ model User {
   /// Display name/Nick name for the employee 
   displayName String
 
+  /// Unique url friendly user display name
+  slug String @unique
+
   /// User title such as dba, senior backend engineer, front-end developer, security analist, project manager etc.
   title String
 
@@ -68,6 +71,9 @@ model Team {
 
   /// Unqiue team name
   name String @unique
+
+  /// Unqiue url frirnedly team name
+  slug String @unique
 
   /// Team description
   description String?
@@ -135,6 +141,9 @@ model Project {
 
   /// Unqiue project name 
   name String @unique
+
+  /// Unqiue url friendly project name
+  slug String @unique
 
   /// Project description 
   description String?
@@ -231,6 +240,9 @@ model Sprint {
 
   /// Unique sprint name
   name String
+
+  /// Unique url friendly sprint name
+  slug String @unique
 
   /// Sprint description
   description String?
@@ -349,6 +361,9 @@ model Task {
 
   /// Task title 
   title String
+
+  /// Unique url friendly task title
+  slug String @unique
 
   /// Task description 
   description String?
