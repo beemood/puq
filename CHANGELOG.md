@@ -1,3 +1,14 @@
+## 0.22.0 (2025-10-14)
+
+### 🚀 Features
+
+- generated schemas ([eb40e6c](https://github.com/beemood/puq/commit/eb40e6c))
+- initial migrations ([a6d4145](https://github.com/beemood/puq/commit/a6d4145))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.21.0 (2025-10-14)
 
 ### 🚀 Features
