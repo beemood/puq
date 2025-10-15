@@ -252,7 +252,7 @@
         "executor": "nx:run-commands",
         "options": {
           "commands": [
-            "npx prisma migrate reset",
+            "npx prisma migrate reset --force",
             "npx prisma migrate dev --name updated",
             "npx prisma generate"
           ],
