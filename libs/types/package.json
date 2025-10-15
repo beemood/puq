@@ -1,6 +1,6 @@
 {
   "name": "@puq/types",
-  "version": "0.26.0",
+  "version": "0.27.0",
   "license": "MIT",
   "displayName": "Common Types",
   "description": "Common utility and model types utilized accross the `puq` project.",

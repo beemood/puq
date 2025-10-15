@@ -151,7 +151,7 @@ export function generateSlugExtension(model: DMMF.Model) {
 
 export function generateZodSchemas(datamodel: DMMF.Datamodel) {
   const importList: string[] = [
-    `import PZ from '@puq/zod';`,
+    `import * as PZ from '@puq/zod';`,
     `import { z } from 'zod';`,
   ];
   const firstResult: string[] = [];

@@ -1,4 +1,4 @@
-import PZ from '@puq/zod';
+import * as PZ from '@puq/zod';
 import { z } from 'zod';
 
 export const AppOwnProjectionSchema = z
