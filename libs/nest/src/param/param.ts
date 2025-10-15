@@ -1,10 +1,24 @@
 import type { ParamDecoratorEnhancer } from '@nestjs/common';
 import { Param as NestParam } from '@nestjs/common';
-import type { ZodObject } from 'zod';
+import type { ZodType } from 'zod';
 import { ZodValidationPipe } from '../zod/zod-validation.pipe.js';
 
-export function Param(schema: ZodObject): ParamDecoratorEnhancer {
+/**
+ * Inject request parameters into the method parameters
+ * @param schema Zod type for input validation and transformation
+ * @returns
+ *
+ * ### Example
+ * ````typescript
+ *      method(@Param(ParamSchema) params){ }
+ * ````
+ */
+export function Param<T extends ZodType>(schema?: T): ParamDecoratorEnhancer {
   return (...args) => {
-    NestParam(new ZodValidationPipe(schema))(...args);
+    if (schema) {
+      NestParam(new ZodValidationPipe(schema))(...args);
+    } else {
+      NestParam()(...args);
+    }
   };
 }

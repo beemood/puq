@@ -1,14 +1,17 @@
 // src/common/filters/zod-exception.filter.ts
 import type { ExceptionFilter } from '@nestjs/common';
 import {
-    Catch,
-    NotFoundException,
-    UnprocessableEntityException,
+  Catch,
+  NotFoundException,
+  UnprocessableEntityException,
 } from '@nestjs/common';
 import type { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import type { Any } from '@puq/types';
 import type { ZodError } from 'zod';
 
+/**
+ * Catch all exception and clasify them and throw errors.
+ */
 @Catch()
 export class AllExceptionFilter implements ExceptionFilter {
   catch(exception: Any) {

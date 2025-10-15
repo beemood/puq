@@ -14,7 +14,7 @@ export const __PageExamples: ApiQueryOptions['examples'] = {
 export const __ProjectionExamples: ApiQueryOptions['examples'] = {
   'Omit id property': {
     value: {
-      select: { id: true },
+      omit: { id: true },
     },
   },
   'Select id property only': {
@@ -76,6 +76,7 @@ export const __FinOneQueryOptions: ApiQueryOptions = {
     ...__ProjectionExamples,
     ...__WhereExamples,
   },
+  required: false,
 };
 
 function apiQueryOptions(
@@ -87,6 +88,7 @@ function apiQueryOptions(
     examples: {
       ...examples,
     },
+    required: false,
   };
 }
 
@@ -174,6 +176,7 @@ export function SwaggerApiParams(): MethodDecorator {
       case 'deleteOneBy':
       case 'deleteMany':
       case 'deleteManyBy': {
+        // These one-by operations only need projections such as select, omit.
         ApiQuery(apiQueryOptions({ ...__ProjectionExamples }))(...args);
         break;
       }
@@ -188,6 +191,7 @@ export function SwaggerApiParams(): MethodDecorator {
       case 'updateOneById':
       case 'updateMany':
       case 'updateManyBy': {
+        // Only these operation require body
         ApiBody({
           required: true,
           schema: {
@@ -212,6 +216,7 @@ export function SwaggerApiParams(): MethodDecorator {
       case 'deleteOneById':
       case 'deleteMany':
       case 'deleteManyBy': {
+        //  There is no body for this operations
         break;
       }
     }
