@@ -1,3 +1,17 @@
+## 0.27.1 (2025-10-15)
+
+### 🚀 Features
+
+- Added JSON parser capability to the ZodValidationPipe so it tries to parse json string safely then run the schema parse method ([0f44b3a](https://github.com/beemood/puq/commit/0f44b3a))
+
+### 🩹 Fixes
+
+- fixed exception filter. Removed the all-exception-filter form the globals ([09d49a4](https://github.com/beemood/puq/commit/09d49a4))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.27.0 (2025-10-15)
 
 This was a version bump only, there were no code changes.
