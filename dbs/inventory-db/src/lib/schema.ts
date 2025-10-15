@@ -10,8 +10,6 @@ export const DiscountTypeSchema = z.enum(["SIMPLE","VOLUME","FREE_SHIPPING","ORD
 
 export const TimeUnitSchema = z.enum(["SECOND","MINUTE","HOUR","DAY","MONTH","YEAR","DECADE","LIFE_TIME"])
 
-export const ProductTypeSchema = z.enum(["STORABLE","EATABLE","HOT"])
-
 
       export const CategoryOwnProjectionSchema = z.object({ 
           id: z.boolean(),
@@ -31,7 +29,6 @@ discountTargets: z.boolean()
 createdAt: z.boolean(),
 updatedAt: z.boolean(),
 isActive: z.boolean(),
-type: z.boolean(),
 uuid: z.boolean(),
 name: z.boolean(),
 slug: z.boolean(),
@@ -274,7 +271,6 @@ slug:PZ.StringFilterSchema
 createdAt:PZ.DateTimeFilterSchema,
 updatedAt:PZ.DateTimeFilterSchema,
 isActive:PZ.BooleanFilterSchema,
-type:ProductTypeSchema,
 uuid:PZ.StringFilterSchema,
 name:PZ.StringFilterSchema,
 slug:PZ.StringFilterSchema,
@@ -885,7 +881,6 @@ discountTargets: DiscountTargetOwnQuerySchema
 
     export const ProductCreateSchema = z.object({ 
       isActive:z.boolean().optional(),
-type:ProductTypeSchema,
 name:z.string(),
 slug:z.string().optional(),
 description:z.string().optional()
@@ -904,7 +899,6 @@ description:z.string().optional()
 
     export const ProductUpdateSchema = z.object({ 
         isActive:z.boolean().optional().optional(),
-type:ProductTypeSchema.optional(),
 name:z.string().optional(),
 slug:z.string().optional().optional(),
 description:z.string().optional().optional()
@@ -939,7 +933,6 @@ description: PZ.OrderDirectionSchema
 createdAt: PZ.DateTimeFilterSchema,
 updatedAt: PZ.DateTimeFilterSchema,
 isActive: PZ.BooleanFilterSchema,
-type: ProductTypeSchema,
 uuid: PZ.StringFilterSchema,
 name: PZ.StringFilterSchema,
 slug: PZ.StringFilterSchema,
@@ -973,7 +966,6 @@ warranties: z.object({
 createdAt: z.boolean(),
 updatedAt: z.boolean(),
 isActive: z.boolean(),
-type: z.boolean(),
 uuid: z.boolean(),
 name: z.boolean(),
 slug: z.boolean(),
