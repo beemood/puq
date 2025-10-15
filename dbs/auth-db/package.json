@@ -1,6 +1,6 @@
 {
   "name": "@puq/auth-db",
-  "version": "0.27.1",
+  "version": "0.27.2",
   "license": "MIT",
   "description": "User credentials, roles, permissions, and activity log database",
   "publishConfig": {
@@ -33,7 +33,6 @@
   "scripts": {
     "postinstall": "sh ./postinstall"
   },
-  
   "exports": {
     "./package.json": "./package.json",
     "./zod": {
