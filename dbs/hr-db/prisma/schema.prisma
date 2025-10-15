@@ -985,8 +985,11 @@ model PrimaryPhone {
 model PrimaryAddress {
   id Int @id @default(autoincrement())
 
-  addressId Int @unique // FK to the Address record being selected
-  contactId Int @unique // FK to the employee's Contact record
+  // FK to the Address record being selected
+  addressId Int @unique
+
+  // FK to the employee's Contact record
+  contactId Int @unique
 
   address Address @relation(fields: [addressId], references: [id])
   contact Contact @relation(fields: [contactId], references: [id])
