@@ -112,9 +112,7 @@
     },
     "./wasm": {
       "types": "./generated/wasm.d.ts",
-      "require": "./generated/wasm.js",
-      "import": "./generated/wasm.mjs",
-      "default": "./generated/wasm.mjs"
+      "require": "./generated/wasm.js"
     },
     "./runtime/client": {
       "types": "./generated/runtime/client.d.ts",
@@ -122,33 +120,23 @@
         "require": "./generated/runtime/client.js",
         "default": "./generated/runtime/client.js"
       },
-      "require": "./generated/runtime/client.js",
-      "import": "./generated/runtime/client.mjs",
-      "default": "./generated/runtime/client.mjs"
+      "require": "./generated/runtime/client.js"
     },
     "./runtime/library": {
       "types": "./generated/runtime/library.d.ts",
-      "require": "./generated/runtime/library.js",
-      "import": "./generated/runtime/library.mjs",
-      "default": "./generated/runtime/library.mjs"
+      "require": "./generated/runtime/library.js"
     },
     "./runtime/binary": {
       "types": "./generated/runtime/binary.d.ts",
-      "require": "./generated/runtime/binary.js",
-      "import": "./generated/runtime/binary.mjs",
-      "default": "./generated/runtime/binary.mjs"
+      "require": "./generated/runtime/binary.js"
     },
     "./runtime/wasm-engine-edge": {
       "types": "./generated/runtime/wasm-engine-edge.d.ts",
-      "require": "./generated/runtime/wasm-engine-edge.js",
-      "import": "./generated/runtime/wasm-engine-edge.mjs",
-      "default": "./generated/runtime/wasm-engine-edge.mjs"
+      "require": "./generated/runtime/wasm-engine-edge.js"
     },
     "./runtime/wasm-compiler-edge": {
       "types": "./generated/runtime/wasm-compiler-edge.d.ts",
-      "require": "./generated/runtime/wasm-compiler-edge.js",
-      "import": "./generated/runtime/wasm-compiler-edge.mjs",
-      "default": "./generated/runtime/wasm-compiler-edge.mjs"
+      "require": "./generated/runtime/wasm-compiler-edge.js"
     },
     "./runtime/edge": {
       "types": "./generated/runtime/edge.d.ts",
@@ -164,9 +152,7 @@
     },
     "./runtime/index-browser": {
       "types": "./generated/runtime/index-browser.d.ts",
-      "require": "./generated/runtime/index-browser.js",
-      "import": "./generated/runtime/index-browser.mjs",
-      "default": "./generated/runtime/index-browser.mjs"
+      "require": "./generated/runtime/index-browser.js"
     },
     "./generator-build": {
       "require": "./generated/generator-build/index.js",
@@ -180,9 +166,7 @@
         "default": "./generated/sql.js"
       },
       "import": {
-        "types": "./generated/sql.d.ts",
-        "node": "./generated/sql.mjs",
-        "default": "./generated/sql.mjs"
+        "types": "./generated/sql.d.ts"
       },
       "default": "./generated/sql.js"
     },
@@ -190,12 +174,7 @@
   },
   "sideEffects": false,
   "imports": {
-    "#wasm-engine-loader": {
-      "edge-light": "./generated/wasm-edge-light-loader.mjs",
-      "workerd": "./generated/wasm-worker-loader.mjs",
-      "worker": "./generated/wasm-worker-loader.mjs",
-      "default": "./generated/wasm-worker-loader.mjs"
-    },
+    "#wasm-engine-loader": {},
     "#main-entry-point": {
       "require": {
         "node": "./generated/index.js",
