@@ -1,3 +1,13 @@
+## 0.25.0 (2025-10-15)
+
+### 🚀 Features
+
+- improved the prisma schema generator ([a85c60e](https://github.com/beemood/puq/commit/a85c60e))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.24.0 (2025-10-14)
 
 This was a version bump only, there were no code changes.
