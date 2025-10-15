@@ -3,6 +3,7 @@ import { Test } from '@nestjs/testing';
 import { getClientToken } from './client.provider.js';
 import { PrismaModule } from './prisma.module.js';
 import { getRepositoryToken } from './repository.provider.js';
+
 describe('PrismaModule', () => {
   let module: TestingModule;
 

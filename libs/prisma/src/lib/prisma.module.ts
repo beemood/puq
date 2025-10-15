@@ -1,5 +1,6 @@
 import type { DynamicModule, Type } from '@nestjs/common';
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { getClientToken, provideClient } from './client.provider.js';
 import {
   getRepositoryToken,
@@ -22,6 +23,7 @@ export class PrismaModule {
     return {
       global: true,
       module: PrismaModule,
+      imports: [ConfigModule.forFeature(() => ({}))],
       providers: [provideClient(options.datasourceName, options.prismaClient)],
       exports: [getClientToken(options.datasourceName)],
     };
