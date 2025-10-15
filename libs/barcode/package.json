@@ -1,6 +1,6 @@
 {
   "name": "@puq/barcode",
-  "version": "0.25.1",
+  "version": "0.26.0",
   "license": "MIT",
   "displayName": "Ean Barcode Generator",
   "description": "Ean barcode geneartor",

@@ -1,6 +1,6 @@
 {
   "name": "@puq/hr-db",
-  "version": "0.25.1",
+  "version": "0.26.0",
   "license": "MIT",
   "displayName": "Human Resource Database | Prisma Client And Zod Schemas",
   "description": "Human Resource database to manage employees, paychecks, working hours, and tax",

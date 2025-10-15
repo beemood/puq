@@ -1,3 +1,13 @@
+## 0.26.0 (2025-10-15)
+
+### 🚀 Features
+
+- added database-url param to the prisma-client module ([c4cbca1](https://github.com/beemood/puq/commit/c4cbca1))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.25.1 (2025-10-15)
 
 ### 🚀 Features
