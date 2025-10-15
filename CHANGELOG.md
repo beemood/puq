@@ -1,3 +1,18 @@
+## 0.25.1 (2025-10-15)
+
+### 🚀 Features
+
+- update scripts ([52f9bf6](https://github.com/beemood/puq/commit/52f9bf6))
+- added prettier script to format the genreated schemas ([4e2d8db](https://github.com/beemood/puq/commit/4e2d8db))
+- generated and format schemas ([e1151d5](https://github.com/beemood/puq/commit/e1151d5))
+- optimied prisma reset command ([a91264b](https://github.com/beemood/puq/commit/a91264b))
+- fixed the prisma-reset command ([9ae55d3](https://github.com/beemood/puq/commit/9ae55d3))
+- fixed the prisma-reset and migreate scripts ([39be5cd](https://github.com/beemood/puq/commit/39be5cd))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.25.0 (2025-10-15)
 
 ### 🚀 Features
