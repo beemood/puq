@@ -7,10 +7,8 @@ import {
 } from '@nestjs/common';
 import type { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
-export function createPrismaExceptionFilter(
-  prismaClientKnownRequestError: Type
-) {
-  @Catch(prismaClientKnownRequestError)
+export function createPrismaExceptionFilter(errorClass: Type) {
+  @Catch(errorClass)
   class PrismaExceptionFilter implements ExceptionFilter {
     catch(exception: PrismaClientKnownRequestError) {
       switch (exception.code) {
