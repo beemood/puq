@@ -6,7 +6,7 @@
 
 barcode
 
-[Contact us](mailto:robert.brightline@gmail.com?subject=@puq/barcode)
+[Contact us](mailto:robert.brightline+barcode@gmail.com?subject=@puq/barcode)
 
 ## Install
 

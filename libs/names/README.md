@@ -4,7 +4,7 @@
 
 The library provides highly useful methods that keep resouce naming concistent. It provides commonly used resource names, prefixes, suffixes, and corresponding rest api paths that keep the code base consistent and prevent the code from naming bugs.
 
-[Contact us](mailto:robert.brightline@gmail.com?subject=@puq/names)
+[Contact us](mailto:robert.brightline+names@gmail.com?subject=@puq/names)
 
 ## Install
 

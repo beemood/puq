@@ -2,7 +2,8 @@
   "name": "@puq/asset-db",
   "version": "0.25.0",
   "license": "MIT",
-  "description": "Manage internal company equipments, services, and facilities",
+  "displayName": "Asset Database | Prisma Client And Zod Schemas",
+  "description": "Asset database to manage company assets such as buildings, rooms, equipments, and asset assignments",
   "publishConfig": {
     "access": "public",
     "tag": "latest"
@@ -238,10 +239,21 @@
           "cwd": "{projectRoot}"
         }
       },
-      "prisma": {
+      "prisma-migrate": {
         "executor": "nx:run-commands",
         "options": {
           "commands": [
+            "npx prisma migrate dev --name updated",
+            "npx prisma generate"
+          ],
+          "cwd": "{projectRoot}"
+        }
+      },
+      "prisma-reset": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npx prisma migrate reset",
             "npx prisma migrate dev --name updated",
             "npx prisma generate"
           ],

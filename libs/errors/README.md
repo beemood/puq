@@ -4,7 +4,7 @@
 
 Error classes utilized accross the `@puq/*` project
 
-[Contact us](mailto:robert.brightline@gmail.com?subject=@puq/errors)
+[Contact us](mailto:robert.brightline+errors@gmail.com?subject=@puq/errors)
 
 ## Install
 

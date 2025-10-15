@@ -4,7 +4,7 @@
 
 The project is a wrapper around nestjs decorators. It provides combined decorators to keep code base clean and consistent. The project follows the common standard implementaions pattern of nestjs, swagger, zod, and prisma orm.
 
-[Contact us](mailto:robert.brightline@gmail.com?subject=@puq/nest)
+[Contact us](mailto:robert.brightline+nest@gmail.com?subject=@puq/nest)
 
 ## Install
 

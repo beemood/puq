@@ -6,7 +6,7 @@
 
 Generate zod schemas from prisma schema
 
-[Contact us](mailto:robert.brightline@gmail.com?subject=@puq/prisma-schema)
+[Contact us](mailto:robert.brightline+prisma-schema@gmail.com?subject=@puq/prisma-schema)
 
 ## Install
 

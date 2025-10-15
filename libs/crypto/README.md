@@ -6,7 +6,7 @@
 
 crypto
 
-[Contact us](mailto:robert.brightline@gmail.com?subject=@puq/crypto)
+[Contact us](mailto:robert.brightline+crypto@gmail.com?subject=@puq/crypto)
 
 ## Install
 

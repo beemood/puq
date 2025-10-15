@@ -2,7 +2,8 @@
   "name": "@puq/inventory-db",
   "version": "0.25.0",
   "license": "MIT",
-  "description": "Inventory database client",
+  "displayName": "Inventory Database | Prisma Client And Zod Schemas",
+  "description": "Inventory database to manage products, price, quantity",
   "publishConfig": {
     "access": "public",
     "tag": "latest"
@@ -218,15 +219,6 @@
   "nx": {
     "sourceRoot": "dbs/inventory-db/src",
     "targets": {
-      "generate-schemas": {
-        "executor": "nx:run-commands",
-        "options": {
-          "commands": [
-            "node ./generate-schemas.js"
-          ],
-          "cwd": "{projectRoot}"
-        }
-      },
       "build": {
         "executor": "@nx/js:swc",
         "outputs": [
@@ -243,21 +235,41 @@
           "generate-schemas"
         ]
       },
-      "doc": {
+      "generate-schemas": {
         "executor": "nx:run-commands",
         "options": {
           "commands": [
-            "npx typedoc"
+            "node ./generate-schemas.js"
           ],
           "cwd": "{projectRoot}"
         }
       },
-      "prisma": {
+      "prisma-migrate": {
         "executor": "nx:run-commands",
         "options": {
           "commands": [
             "npx prisma migrate dev --name updated",
             "npx prisma generate"
+          ],
+          "cwd": "{projectRoot}"
+        }
+      },
+      "prisma-reset": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npx prisma migrate reset",
+            "npx prisma migrate dev --name updated",
+            "npx prisma generate"
+          ],
+          "cwd": "{projectRoot}"
+        }
+      },
+      "doc": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npx typedoc"
           ],
           "cwd": "{projectRoot}"
         }

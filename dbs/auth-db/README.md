@@ -26,6 +26,6 @@ Thank you for using the library. It's an open-source project, and maintaining it
 
 - **General maintenance** to keep the library running smoothly and securely.
 
-[Contact to the developer:](mailto:robert.brightline@gmail.com?subject=Inquiry From Readme)
+[Contact to the developer:](mailto:robert.brightline+auth-db@gmail.com?subject=auth-db)
 
 [Support the developer](https://cash.app/$puqlib)

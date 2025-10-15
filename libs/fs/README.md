@@ -4,7 +4,7 @@
 
 Extended file system library that provides text(utf-8), json, yaml, and directory operations
 
-[Contact us](mailto:robert.brightline@gmail.com?subject=@puq/fs)
+[Contact us](mailto:robert.brightline+fs@gmail.com?subject=@puq/fs)
 
 ## Install
 

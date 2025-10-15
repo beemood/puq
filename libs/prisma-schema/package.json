@@ -2,7 +2,8 @@
   "name": "@puq/prisma-schema",
   "version": "0.25.0",
   "license": "MIT",
-  "description": "Generate zod schemas from prisma schema",
+  "displayName": "Zod Schema Generator For Prisma",
+  "description": "Generate zod schemas from prisma client metadata. It generates create, update, query, projection schemas which are fully compatible to the prisma-client repository.",
   "publishConfig": {
     "access": "public",
     "tag": "latest"

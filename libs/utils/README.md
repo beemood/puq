@@ -4,7 +4,7 @@
 
 The project provides common utility functions for arrays, strings, and objects.
 
-[Contact us](mailto:robert.brightline@gmail.com?subject=@puq/utils)
+[Contact us](mailto:robert.brightline+utils@gmail.com?subject=@puq/utils)
 
 ## Install
 

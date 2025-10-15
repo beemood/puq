@@ -4,7 +4,7 @@
 
 Common utility and model types utilized accross the `puq` project.
 
-[Contact us](mailto:robert.brightline@gmail.com?subject=@puq/types)
+[Contact us](mailto:robert.brightline+types@gmail.com?subject=@puq/types)
 
 ## Install
 

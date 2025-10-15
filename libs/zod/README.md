@@ -4,7 +4,7 @@
 
 The project provides common zod schemas and utilities.
 
-[Contact us](mailto:robert.brightline@gmail.com?subject=@puq/zod)
+[Contact us](mailto:robert.brightline+zod@gmail.com?subject=@puq/zod)
 
 ## Install
 

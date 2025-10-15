@@ -4,7 +4,7 @@
 
 Inventory database client
 
-[Contact us](mailto:robert.brightline@gmail.com?subject=@puq/inventory-db)
+[Contact us](mailto:robert.brightline+inventory-db@gmail.com?subject=inventory-db)
 
 ## Install
 

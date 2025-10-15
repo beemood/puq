@@ -4,7 +4,7 @@
 
 NX plugin that contains project, project part, resource generators, and common cli tools
 
-[Contact us](mailto:robert.brightline@gmail.com?subject=@puq/plugin)
+[Contact us](mailto:robert.brightline+plugin@gmail.com?subject=@puq/plugin)
 
 ## Install
 

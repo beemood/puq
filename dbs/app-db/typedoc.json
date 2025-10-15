@@ -1,8 +1,6 @@
 {
   "name": "app-db",
   "favicon": "./favicon.png",
-  "entryPoints": [
-    "./src/index.ts"
-  ],
+  "entryPoints": ["./src/index.ts"],
   "out": "../../../beemood.github.io/public/dbs/app-db"
 }

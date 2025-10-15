@@ -2,7 +2,8 @@
   "name": "@puq/names",
   "version": "0.25.0",
   "license": "MIT",
-  "description": "The library provides highly useful methods that keep resouce naming concistent. It provides commonly used resource names, prefixes, suffixes, and corresponding rest api paths that keep the code base consistent and prevent the code from naming bugs.",
+  "displayName": "Names",
+  "description": "The library provides a useful function to create all casing variants of a given string value such as title-case, pascal-case, snake-case and so more.",
   "publishConfig": {
     "access": "public",
     "tag": "latest"

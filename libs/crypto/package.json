@@ -2,7 +2,8 @@
   "name": "@puq/crypto",
   "version": "0.25.0",
   "license": "MIT",
-  "description": "Encription and hashing functions",
+  "displayName": "Encription & Hashing",
+  "description": "Encription and hashing",
   "publishConfig": {
     "access": "public",
     "tag": "latest"

@@ -2,7 +2,8 @@
   "name": "@puq/barcode",
   "version": "0.25.0",
   "license": "MIT",
-  "description": "barcode",
+  "displayName": "Ean Barcode Generator",
+  "description": "Ean barcode geneartor",
   "publishConfig": {
     "access": "public",
     "tag": "latest"

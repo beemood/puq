@@ -238,10 +238,21 @@
           "cwd": "{projectRoot}"
         }
       },
-      "prisma": {
+      "prisma-migrate": {
         "executor": "nx:run-commands",
         "options": {
           "commands": [
+            "npx prisma migrate dev --name updated",
+            "npx prisma generate"
+          ],
+          "cwd": "{projectRoot}"
+        }
+      },
+      "prisma-reset": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npx prisma migrate reset",
             "npx prisma migrate dev --name updated",
             "npx prisma generate"
           ],

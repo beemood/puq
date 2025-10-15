@@ -4,7 +4,7 @@
 
 The project provides a nestjs module that flawlessly integrates the project with prisma orm by providing repositories, database client, providers, and injectrors.
 
-[Contact us](mailto:robert.brightline@gmail.com?subject=@puq/prisma)
+[Contact us](mailto:robert.brightline+prisma@gmail.com?subject=@puq/prisma)
 
 ## Install
 

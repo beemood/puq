@@ -4,7 +4,7 @@
 
 Common testing utilities
 
-[Contact us](mailto:robert.brightline@gmail.com?subject=@puq/testing)
+[Contact us](mailto:robert.brightline+testing@gmail.com?subject=@puq/testing)
 
 ## Install
 
