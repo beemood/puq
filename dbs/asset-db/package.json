@@ -1,6 +1,6 @@
 {
   "name": "@puq/asset-db",
-  "version": "0.27.2",
+  "version": "0.28.0",
   "license": "MIT",
   "displayName": "Asset Database | Prisma Client And Zod Schemas",
   "description": "Asset database to manage company assets such as buildings, rooms, equipments, and asset assignments",

@@ -1,3 +1,14 @@
+## 0.28.0 (2025-10-15)
+
+### 🩹 Fixes
+
+- fixed packages-json exports ([5574972](https://github.com/beemood/puq/commit/5574972))
+- fixed packages-json exports ([3deeb07](https://github.com/beemood/puq/commit/3deeb07))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.27.1 (2025-10-15)
 
 ### 🚀 Features

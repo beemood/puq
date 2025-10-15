@@ -1,6 +1,6 @@
 {
   "name": "@puq/names",
-  "version": "0.27.2",
+  "version": "0.28.0",
   "license": "MIT",
   "displayName": "Names",
   "description": "The library provides a useful function to create all casing variants of a given string value such as title-case, pascal-case, snake-case and so more.",
