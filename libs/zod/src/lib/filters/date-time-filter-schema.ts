@@ -10,7 +10,7 @@ const shape = {
   notIn: z.iso.datetime().array(),
 };
 
-export const DatetimeFilterSchema = z
+export const DateTimeFilterSchema = z
   .object({ ...shape, not: z.object(shape) })
   .partial()
-  .describe('DatetimeFilterSchema');
+  .describe('DateTimeFilterSchema');

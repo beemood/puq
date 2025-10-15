@@ -28,7 +28,7 @@ describe('to-where-query-schema', () => {
       'BooleanFilterSchema'
     );
     expect(whereSchema.shape.datetime.description).toEqual(
-      'DatetimeFilterSchema'
+      'DateTimeFilterSchema'
     );
   });
 });

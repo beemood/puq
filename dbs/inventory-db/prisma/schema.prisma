@@ -121,6 +121,15 @@ model Category {
 model Product {
   id Int @id @default(autoincrement())
 
+  /// The date the product is created
+  createdAt DateTime @default(now())
+
+  /// The date the product is udpated
+  updatedAt DateTime @updatedAt
+
+  /// Is product active or not
+  isActive Boolean @default(true)
+
   /// Product uuid for external identification
   uuid String @unique @default(uuid())
 
