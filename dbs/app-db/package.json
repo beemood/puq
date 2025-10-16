@@ -36,13 +36,7 @@
   },
   "exports": {
     "./package.json": "./package.json",
-    "./zod": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "node": "./dist/index.js"
-      }
-    },
-    "./client": {
+    ".": {
       "require": {
         "node": "./generated/index.js",
         "edge-light": "./generated/wasm.js",
@@ -61,7 +55,13 @@
       },
       "default": "./generated/index.js"
     },
-    ".": {
+    "./zod": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "node": "./dist/index.js"
+      }
+    },
+    "./client": {
       "require": {
         "node": "./generated/index.js",
         "edge-light": "./generated/wasm.js",
