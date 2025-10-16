@@ -123,7 +123,11 @@
     },
     "./runtime/library": {
       "types": "./generated/runtime/library.d.ts",
-      "require": "./generated/runtime/library.js"
+      "require": "./generated/runtime/library.js",
+      "import": {
+        "types": "./generated/runtime/library.d.ts",
+        "node": "./generated/runtime/library.js"
+      }
     },
     "./runtime/binary": {
       "types": "./generated/runtime/binary.d.ts",

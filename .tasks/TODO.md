@@ -3,7 +3,7 @@
 - [x] update the readme `favicon.png` path. Remove the `puq` part becuase the documents are under the libs, dbs,apps, and samples directories NOT puq. 
 
 
-- [ ] The runtime/library does not support "imports", add the import options to it. 
+- [x] The runtime/library does not support "imports", add the import options to it. 
 ````json
 "./runtime/library": {
    "import": {"types": "./generated/runtime/library.d.ts","node": "./generated/runtime/library.js"}
