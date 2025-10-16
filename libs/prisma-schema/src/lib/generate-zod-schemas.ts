@@ -87,30 +87,34 @@ export function isGenerated(field: DMMF.Field) {
 export function pickSchalarWhereSchema(field: DMMF.Field) {
   switch (field.kind) {
     case 'object': {
-      return `z.object({ 
-        some: ${field.type}OwnWhereSchema,
-        every: ${field.type}OwnWhereSchema,
-        none: ${field.type}OwnWhereSchema,
-      }).partial()`;
+      if (field.isList) {
+        return `z.object({ 
+          some: ${field.type}OwnWhereSchema,
+          every: ${field.type}OwnWhereSchema,
+          none: ${field.type}OwnWhereSchema,
+          }).partial()`;
+      } else {
+        return `${field.type}OwnWhereSchema`;
+      }
     }
     case 'scalar': {
       switch (field.type) {
         case 'String': {
-          return 'PZ.StringFilterSchema';
+          return 'z.string().or(PZ.StringFilterSchema)';
         }
         case 'Float':
         case 'Decimal': {
-          return 'PZ.NumberFilterSchema';
+          return 'z.coerce.number().or(PZ.NumberFilterSchema)';
         }
         case 'Int': {
-          return 'PZ.IntegerFilterSchema';
+          return 'z.coerce.number().int().or(PZ.IntegerFilterSchema)';
         }
         case 'Boolean': {
-          return 'PZ.BooleanFilterSchema';
+          return 'z.coerce.boolean().or(PZ.BooleanFilterSchema)';
         }
         case 'Date':
         case 'DateTime': {
-          return 'PZ.DateTimeFilterSchema';
+          return 'z.string().or(PZ.DateTimeFilterSchema)';
         }
       }
       return '{}';
@@ -260,12 +264,14 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
     const updateFields: DMMF.Field[] = [];
     const orderFields: DMMF.Field[] = [];
     const whereFields: DMMF.Field[] = [];
-    const projectionFields: DMMF.Field[] = [];
+    const selectFields: DMMF.Field[] = [];
     const relationFields: DMMF.Field[] = [];
+    const distinctFields: DMMF.Field[] = [];
 
     for (const field of model.fields) {
-      projectionFields.push(field);
+      selectFields.push(field);
       whereFields.push(field);
+      distinctFields.push(field);
 
       if (isCreteField(field)) {
         createFields.push(field);
@@ -312,6 +318,13 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
     })${slugTransformer}
     `;
 
+    const distinctFieldsString = distinctFields
+      .map((e) => `"${e.name}"`)
+      .join(',');
+    const distinctFieldsSchema = `
+    export const ${model.name}DistinctFieldsSchema = z.enum([ ${distinctFieldsString} ])
+    `;
+
     const orderBySchemaFields = orderFields
       .map((e) => `${e.name}: PZ.OrderDirectionSchema`)
       .join(',\n');
@@ -323,15 +336,15 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
     export const ${model.name}OrderBySchemaJson = z.preprocess(jsonParser, ${model.name}OrderBySchema);
     `;
 
-    const ownProjectionFields = projectionFields
+    const ownSelectFieldsFields = selectFields
       .map((e) => `${e.name}: z.boolean()`)
       .join(',\n');
-    const ownProjectionSchema = `
-      export const ${model.name}OwnProjectionSchema = z.object({ 
-          ${ownProjectionFields}
+    const ownSelectFieldsSchema = `
+      export const ${model.name}OwnSelectFieldsSchema = z.object({ 
+          ${ownSelectFieldsFields}
       }).partial()
       
-      export const ${model.name}OwnProjectionSchemaJson = z.preprocess(jsonParser, ${model.name}OwnProjectionSchema);
+      export const ${model.name}OwnSelectFieldsSchemaJson = z.preprocess(jsonParser, ${model.name}OwnSelectFieldsSchema);
       `;
 
     const ownWhereSchemaFields = whereFields
@@ -348,21 +361,15 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
 
     const ownQuerySchema = `
     export const ${model.name}OwnQuerySchema = z.object({ 
-      take:takeSchema.clone(),
-      skip:skipSchema.clone(),
-      where: ${model.name}OwnWhereSchemaJson,
-      select: ${model.name}OwnProjectionSchemaJson, 
-      omit: ${model.name}OwnProjectionSchemaJson,
-      include: ${model.name}OwnIncludeSchemaJson
+      where: ${model.name}OwnWhereSchemaJson, 
+      distinct: ${model.name}DistinctFieldsSchema 
     }).partial()
     `;
 
     const ownQueryOneSchema = `
     export const ${model.name}OwnQueryOneSchema = z.object({ 
-        where:${model.name}OwnWhereSchemaJson, 
-        select: ${model.name}OwnProjectionSchemaJson, 
-        omit: ${model.name}OwnProjectionSchemaJson, 
-        include: ${model.name}OwnIncludeSchemaJson
+        where:${model.name}OwnWhereSchemaJson,
+        distinct: ${model.name}DistinctFieldsSchema
     }).partial()
     `;
 
@@ -410,24 +417,18 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
     const queryOneSchema = `
     export const ${model.name}QueryOneSchema = z.object({ 
       where: ${model.name}WhereSchemaJson,
-      select:${model.name}ProjectionSchemaJson, 
-      omit:${model.name}ProjectionSchemaJson,
-      include: ${model.name}IncludeSchemaJson
+      distinct: ${model.name}DistinctFieldsSchema
     }).partial()
     `;
 
     const querySchema = `
     export const ${model.name}QuerySchema = z.object({ 
-      take:takeSchema.clone(),
-      skip:skipSchema.clone(),
       where: ${model.name}WhereSchemaJson, 
-      select: ${model.name}ProjectionSchemaJson, 
-      omit: ${model.name}ProjectionSchemaJson, 
-      include: ${model.name}IncludeSchemaJson
+      distinct: ${model.name}DistinctFieldsSchema
     }).partial()
     `;
 
-    const projectionSchemaFields = projectionFields
+    const selectFieldSchemaFields = selectFields
       .map((e) => {
         if (e.relationName) {
           if (e.isList) {
@@ -440,15 +441,38 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
       })
       .join(',\n');
 
-    const projectionSchema = `
-    export const ${model.name}ProjectionSchema = z.object({ 
-          ${projectionSchemaFields}
+    const selectFieldsSchema = `
+    export const ${model.name}SelectFieldsSchema = z.object({ 
+          ${selectFieldSchemaFields}
      }).partial()
 
-    export const ${model.name}ProjectionSchemaJson = z.preprocess(jsonParser, ${model.name}ProjectionSchema);
+    export const ${model.name}SelectFieldsSchemaJson = z.preprocess(jsonParser, ${model.name}SelectFieldsSchema);
      `;
 
-    firstResult.push(ownProjectionSchema);
+    const projectionSchema = `
+     export const ${model.name}ProjectionSchema = z.union([
+      z
+        .object({
+          omit: ${model.name}SelectFieldsSchemaJson
+        })
+        .optional(),
+      z
+        .object({
+          select: ${model.name}SelectFieldsSchemaJson
+        })
+        .optional(),
+
+      z
+        .object({
+          include: ${model.name}IncludeSchemaJson,
+        })
+        .optional(),
+      ]);
+     
+     `;
+
+    firstResult.push(ownSelectFieldsSchema);
+    firstResult.push(distinctFieldsSchema);
     secondResult.push(ownWhereSchema);
     thirdResult.push(ownIncludeSchema);
     thirdResult.push(ownQueryOneSchema);
@@ -458,8 +482,10 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
     result.push(updateSchema);
     result.push(orderBySchema);
     result.push(whereSchema);
-    result.push(projectionSchema);
+    // result.push(selectFieldsSchema);
+    result.push(selectFieldsSchema);
     result.push(includeSchema);
+    result.push(projectionSchema);
     postResult.push(queryOneSchema);
     postResult.push(querySchema);
 
@@ -470,7 +496,7 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
 
     export type  ${model.name}OrderBy = z.infer<typeof ${model.name}OrderBySchema>;
 
-    export type  ${model.name}OwnProjection = z.infer<typeof ${model.name}OwnProjectionSchema>;
+    export type  ${model.name}OwnSelectFields = z.infer<typeof ${model.name}OwnSelectFieldsSchema>;
 
     export type  ${model.name}OwnWhere = z.infer<typeof ${model.name}OwnWhereSchema>;
 
@@ -485,6 +511,8 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
     export type  ${model.name}QueryOne = z.infer<typeof ${model.name}QueryOneSchema>;
 
     export type  ${model.name}Query = z.infer<typeof ${model.name}QuerySchema>;
+
+    export type  ${model.name}SelectFields = z.infer<typeof ${model.name}SelectFieldsSchema>;
 
     export type  ${model.name}Projection = z.infer<typeof ${model.name}ProjectionSchema>;
 

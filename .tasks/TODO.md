@@ -41,11 +41,11 @@
 
 ````
 
-- [ ] When request contains two of select, omit, and include, the system throw Internal Error (PrismaClientValidationError), optimaize the Zod schemas so that it throws Unprocessable Entity error
+- [x] When request contains two of select, omit, and include, the system throw Internal Error (PrismaClientValidationError), optimaize the Zod schemas so that it throws Unprocessable Entity error
 
-- [ ] Grouped Projection schema is missing, the `create` opteration needs such a schema like `{ select: ..., omit:..., include:... }` but the system only provides `QueryOneSchema` which includes where property!. Create a seperate `ModelNameProjectionSchema` that includes `{select,omit, and include}`
+- [x] Grouped Projection schema is missing, the `create` opteration needs such a schema like `{ select: ..., omit:..., include:... }` but the system only provides `QueryOneSchema` which includes where property!. Create a seperate `ModelNameProjectionSchema` that includes `{select,omit, and include}`
 
-- [ ]  `distinct: [.... ] ` option does not exist in QuerySchemas and QueryOneSchema! Create the distict option which is an enum schema that including all of model property names.
+- [x]  `distinct: [.... ] ` option does not exist in QuerySchemas and QueryOneSchema! Create the distict option which is an enum schema that including all of model property names.
 
 
 
