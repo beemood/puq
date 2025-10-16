@@ -1,3 +1,25 @@
+## 0.29.1 (2025-10-16)
+
+### 🚀 Features
+
+- created tasks ([52bc0aa](https://github.com/beemood/puq/commit/52bc0aa))
+- created update script ([d9c216e](https://github.com/beemood/puq/commit/d9c216e))
+- added common builtin zod schemas for special fields and implemented in the prisma-schema generator ([904514d](https://github.com/beemood/puq/commit/904514d))
+- genearted schemas ([0b8b528](https://github.com/beemood/puq/commit/0b8b528))
+
+### 🩹 Fixes
+
+- fixed the favicon path in the README.md files ([974ed47](https://github.com/beemood/puq/commit/974ed47))
+- updated the runtime/library exports. Added esm support by adding imports, types, and node" ([a23749d](https://github.com/beemood/puq/commit/a23749d))
+- fixed and standardized the prisma and zod validation errors ([b9a5d9b](https://github.com/beemood/puq/commit/b9a5d9b))
+- fixed the where-schemas and added distinct option ([5997761](https://github.com/beemood/puq/commit/5997761))
+- fixed the where-schemas and added distinct option ([16b7b36](https://github.com/beemood/puq/commit/16b7b36))
+- fixed the abstract resource controller class, optimized and minimized the zod schemas and configured the  abstract resouce controller accordingly. ([cb18a12](https://github.com/beemood/puq/commit/cb18a12))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.29.0 (2025-10-16)
 
 ### 🚀 Features
