@@ -1,6 +1,6 @@
 {
   "name": "@puq/utils",
-  "version": "0.29.2",
+  "version": "0.29.3",
   "license": "MIT",
   "displayName": "Common Utilities",
   "description": "The project provides common utility functions for arrays, strings, and objects.",
