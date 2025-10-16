@@ -59,11 +59,9 @@ export const RoomAttributeOwnSelectFieldsSchemaJson = z.preprocess(
   RoomAttributeOwnSelectFieldsSchema
 );
 
-export const RoomAttributeDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'values',
-]);
+export const RoomAttributeDistinctFieldsSchema = z
+  .enum(['id', 'name', 'values'])
+  .array();
 
 export const RoomAttributeValueOwnSelectFieldsSchema = z
   .object({
@@ -81,14 +79,9 @@ export const RoomAttributeValueOwnSelectFieldsSchemaJson = z.preprocess(
   RoomAttributeValueOwnSelectFieldsSchema
 );
 
-export const RoomAttributeValueDistinctFieldsSchema = z.enum([
-  'id',
-  'roomId',
-  'attributeId',
-  'value',
-  'attribute',
-  'room',
-]);
+export const RoomAttributeValueDistinctFieldsSchema = z
+  .enum(['id', 'roomId', 'attributeId', 'value', 'attribute', 'room'])
+  .array();
 
 export const ItemAttributeOwnSelectFieldsSchema = z
   .object({
@@ -103,11 +96,9 @@ export const ItemAttributeOwnSelectFieldsSchemaJson = z.preprocess(
   ItemAttributeOwnSelectFieldsSchema
 );
 
-export const ItemAttributeDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'values',
-]);
+export const ItemAttributeDistinctFieldsSchema = z
+  .enum(['id', 'name', 'values'])
+  .array();
 
 export const ItemAttributeValueOwnSelectFieldsSchema = z
   .object({
@@ -125,14 +116,9 @@ export const ItemAttributeValueOwnSelectFieldsSchemaJson = z.preprocess(
   ItemAttributeValueOwnSelectFieldsSchema
 );
 
-export const ItemAttributeValueDistinctFieldsSchema = z.enum([
-  'id',
-  'itemId',
-  'attributeId',
-  'value',
-  'attribute',
-  'item',
-]);
+export const ItemAttributeValueDistinctFieldsSchema = z
+  .enum(['id', 'itemId', 'attributeId', 'value', 'attribute', 'item'])
+  .array();
 
 export const CategoryOwnSelectFieldsSchema = z
   .object({
@@ -150,14 +136,9 @@ export const CategoryOwnSelectFieldsSchemaJson = z.preprocess(
   CategoryOwnSelectFieldsSchema
 );
 
-export const CategoryDistinctFieldsSchema = z.enum([
-  'id',
-  'parentId',
-  'name',
-  'parent',
-  'children',
-  'items',
-]);
+export const CategoryDistinctFieldsSchema = z
+  .enum(['id', 'parentId', 'name', 'parent', 'children', 'items'])
+  .array();
 
 export const BuildingOwnSelectFieldsSchema = z
   .object({
@@ -173,12 +154,9 @@ export const BuildingOwnSelectFieldsSchemaJson = z.preprocess(
   BuildingOwnSelectFieldsSchema
 );
 
-export const BuildingDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'code',
-  'rooms',
-]);
+export const BuildingDistinctFieldsSchema = z
+  .enum(['id', 'name', 'code', 'rooms'])
+  .array();
 
 export const RoomOwnSelectFieldsSchema = z
   .object({
@@ -202,20 +180,22 @@ export const RoomOwnSelectFieldsSchemaJson = z.preprocess(
   RoomOwnSelectFieldsSchema
 );
 
-export const RoomDistinctFieldsSchema = z.enum([
-  'id',
-  'uuid',
-  'buildingId',
-  'name',
-  'code',
-  'floor',
-  'building',
-  'attributes',
-  'quantities',
-  'serials',
-  'employeeRooms',
-  'employeeRoomRequests',
-]);
+export const RoomDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'uuid',
+    'buildingId',
+    'name',
+    'code',
+    'floor',
+    'building',
+    'attributes',
+    'quantities',
+    'serials',
+    'employeeRooms',
+    'employeeRoomRequests',
+  ])
+  .array();
 
 export const ItemOwnSelectFieldsSchema = z
   .object({
@@ -237,18 +217,20 @@ export const ItemOwnSelectFieldsSchemaJson = z.preprocess(
   ItemOwnSelectFieldsSchema
 );
 
-export const ItemDistinctFieldsSchema = z.enum([
-  'id',
-  'uuid',
-  'categoryId',
-  'name',
-  'description',
-  'minQuantity',
-  'category',
-  'attributes',
-  'quantities',
-  'serials',
-]);
+export const ItemDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'uuid',
+    'categoryId',
+    'name',
+    'description',
+    'minQuantity',
+    'category',
+    'attributes',
+    'quantities',
+    'serials',
+  ])
+  .array();
 
 export const QuantityOwnSelectFieldsSchema = z
   .object({
@@ -269,17 +251,19 @@ export const QuantityOwnSelectFieldsSchemaJson = z.preprocess(
   QuantityOwnSelectFieldsSchema
 );
 
-export const QuantityDistinctFieldsSchema = z.enum([
-  'id',
-  'roomId',
-  'itemId',
-  'quantity',
-  'minQuantity',
-  'item',
-  'room',
-  'quantityMoveSources',
-  'quantityMoveTargets',
-]);
+export const QuantityDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'roomId',
+    'itemId',
+    'quantity',
+    'minQuantity',
+    'item',
+    'room',
+    'quantityMoveSources',
+    'quantityMoveTargets',
+  ])
+  .array();
 
 export const SerialNumberOwnSelectFieldsSchema = z
   .object({
@@ -302,19 +286,21 @@ export const SerialNumberOwnSelectFieldsSchemaJson = z.preprocess(
   SerialNumberOwnSelectFieldsSchema
 );
 
-export const SerialNumberDistinctFieldsSchema = z.enum([
-  'id',
-  'uuid',
-  'serialNumber',
-  'itemId',
-  'roomId',
-  'item',
-  'room',
-  'serialMoveSources',
-  'serialMoveTargets',
-  'employeeItemRequests',
-  'employeeItems',
-]);
+export const SerialNumberDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'uuid',
+    'serialNumber',
+    'itemId',
+    'roomId',
+    'item',
+    'room',
+    'serialMoveSources',
+    'serialMoveTargets',
+    'employeeItemRequests',
+    'employeeItems',
+  ])
+  .array();
 
 export const QuantityMoveRequestOwnSelectFieldsSchema = z
   .object({
@@ -340,22 +326,24 @@ export const QuantityMoveRequestOwnSelectFieldsSchemaJson = z.preprocess(
   QuantityMoveRequestOwnSelectFieldsSchema
 );
 
-export const QuantityMoveRequestDistinctFieldsSchema = z.enum([
-  'id',
-  'sourceId',
-  'targetId',
-  'requestedById',
-  'resolvedById',
-  'quantity',
-  'reason',
-  'status',
-  'requestedAt',
-  'resolvedAt',
-  'source',
-  'target',
-  'requestedBy',
-  'resolvedBy',
-]);
+export const QuantityMoveRequestDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'sourceId',
+    'targetId',
+    'requestedById',
+    'resolvedById',
+    'quantity',
+    'reason',
+    'status',
+    'requestedAt',
+    'resolvedAt',
+    'source',
+    'target',
+    'requestedBy',
+    'resolvedBy',
+  ])
+  .array();
 
 export const SerialMoveRequestOwnSelectFieldsSchema = z
   .object({
@@ -380,21 +368,23 @@ export const SerialMoveRequestOwnSelectFieldsSchemaJson = z.preprocess(
   SerialMoveRequestOwnSelectFieldsSchema
 );
 
-export const SerialMoveRequestDistinctFieldsSchema = z.enum([
-  'id',
-  'sourceId',
-  'targetId',
-  'requestedById',
-  'resolvedById',
-  'reason',
-  'status',
-  'requestedAt',
-  'resolvedAt',
-  'source',
-  'target',
-  'requestedBy',
-  'resolvedBy',
-]);
+export const SerialMoveRequestDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'sourceId',
+    'targetId',
+    'requestedById',
+    'resolvedById',
+    'reason',
+    'status',
+    'requestedAt',
+    'resolvedAt',
+    'source',
+    'target',
+    'requestedBy',
+    'resolvedBy',
+  ])
+  .array();
 
 export const EmployeeOwnSelectFieldsSchema = z
   .object({
@@ -418,20 +408,22 @@ export const EmployeeOwnSelectFieldsSchemaJson = z.preprocess(
   EmployeeOwnSelectFieldsSchema
 );
 
-export const EmployeeDistinctFieldsSchema = z.enum([
-  'id',
-  'uuid',
-  'rooms',
-  'items',
-  'itemRequesters',
-  'itemResolvers',
-  'roomRequesters',
-  'roomResolvers',
-  'serialMoveRequesters',
-  'serialMoveResolvers',
-  'quantityMoveRequesters',
-  'quantityMoveResolvers',
-]);
+export const EmployeeDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'uuid',
+    'rooms',
+    'items',
+    'itemRequesters',
+    'itemResolvers',
+    'roomRequesters',
+    'roomResolvers',
+    'serialMoveRequesters',
+    'serialMoveResolvers',
+    'quantityMoveRequesters',
+    'quantityMoveResolvers',
+  ])
+  .array();
 
 export const EmployeeRoomOwnSelectFieldsSchema = z
   .object({
@@ -450,15 +442,17 @@ export const EmployeeRoomOwnSelectFieldsSchemaJson = z.preprocess(
   EmployeeRoomOwnSelectFieldsSchema
 );
 
-export const EmployeeRoomDistinctFieldsSchema = z.enum([
-  'id',
-  'employeeId',
-  'roomId',
-  'givenAt',
-  'takenAt',
-  'room',
-  'employee',
-]);
+export const EmployeeRoomDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'employeeId',
+    'roomId',
+    'givenAt',
+    'takenAt',
+    'room',
+    'employee',
+  ])
+  .array();
 
 export const EmployeeItemOwnSelectFieldsSchema = z
   .object({
@@ -477,15 +471,17 @@ export const EmployeeItemOwnSelectFieldsSchemaJson = z.preprocess(
   EmployeeItemOwnSelectFieldsSchema
 );
 
-export const EmployeeItemDistinctFieldsSchema = z.enum([
-  'id',
-  'employeeId',
-  'serialNumberId',
-  'givenAt',
-  'takenAt',
-  'serialNumber',
-  'employee',
-]);
+export const EmployeeItemDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'employeeId',
+    'serialNumberId',
+    'givenAt',
+    'takenAt',
+    'serialNumber',
+    'employee',
+  ])
+  .array();
 
 export const EmployeeRoomRequestOwnSelectFieldsSchema = z
   .object({
@@ -508,19 +504,21 @@ export const EmployeeRoomRequestOwnSelectFieldsSchemaJson = z.preprocess(
   EmployeeRoomRequestOwnSelectFieldsSchema
 );
 
-export const EmployeeRoomRequestDistinctFieldsSchema = z.enum([
-  'id',
-  'roomId',
-  'requestedById',
-  'resolvedById',
-  'requestedAt',
-  'resolvedAt',
-  'status',
-  'note',
-  'room',
-  'requestedBy',
-  'resolvedBy',
-]);
+export const EmployeeRoomRequestDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'roomId',
+    'requestedById',
+    'resolvedById',
+    'requestedAt',
+    'resolvedAt',
+    'status',
+    'note',
+    'room',
+    'requestedBy',
+    'resolvedBy',
+  ])
+  .array();
 
 export const EmployeeItemRequestOwnSelectFieldsSchema = z
   .object({
@@ -543,19 +541,21 @@ export const EmployeeItemRequestOwnSelectFieldsSchemaJson = z.preprocess(
   EmployeeItemRequestOwnSelectFieldsSchema
 );
 
-export const EmployeeItemRequestDistinctFieldsSchema = z.enum([
-  'id',
-  'requestedById',
-  'resolvedById',
-  'requestedAt',
-  'resolvedAt',
-  'serialNumberId',
-  'status',
-  'note',
-  'serialNumber',
-  'requestedBy',
-  'resolvedBy',
-]);
+export const EmployeeItemRequestDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'requestedById',
+    'resolvedById',
+    'requestedAt',
+    'resolvedAt',
+    'serialNumberId',
+    'status',
+    'note',
+    'serialNumber',
+    'requestedBy',
+    'resolvedBy',
+  ])
+  .array();
 
 export const RoomAttributeOwnWhereSchema = z
   .object({

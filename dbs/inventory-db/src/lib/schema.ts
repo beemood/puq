@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { slugify } from '@puq/names';
 import * as PZ from '@puq/zod';
 import { z } from 'zod';
+import { slugify } from '@puq/names';
 
 export const takeSchema = z.coerce.number().int().min(1).default(20).optional();
 export const skipSchema = z.coerce.number().int().min(0).default(0).optional();
@@ -39,21 +39,19 @@ export function slugTransformer(key: string) {
   };
 }
 
-export const DiscountTargetTypeSchema = z
-  .enum([
-    'STORE',
-    'PRICE_LEVEL',
-    'CATEGORY',
-    'PRODUCT',
-    'VARIANT',
-    'STORE_CATEGORY',
-    'STORE_PRODUCT',
-    'STORE_VARIANT',
-    'PRICE_LEVEL_CATEGORY',
-    'PRICE_LEVEL_PRODUCT',
-    'PRICE_LEVEL_VARIANT',
-  ])
-  .array();
+export const DiscountTargetTypeSchema = z.enum([
+  'STORE',
+  'PRICE_LEVEL',
+  'CATEGORY',
+  'PRODUCT',
+  'VARIANT',
+  'STORE_CATEGORY',
+  'STORE_PRODUCT',
+  'STORE_VARIANT',
+  'PRICE_LEVEL_CATEGORY',
+  'PRICE_LEVEL_PRODUCT',
+  'PRICE_LEVEL_VARIANT',
+]);
 
 export const ValueTypeSchema = z.enum(['PERCENT', 'FIXED']);
 

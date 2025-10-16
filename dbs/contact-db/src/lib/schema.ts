@@ -58,13 +58,9 @@ export const IndustryOwnSelectFieldsSchemaJson = z.preprocess(
   IndustryOwnSelectFieldsSchema
 );
 
-export const IndustryDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'slug',
-  'description',
-  'companies',
-]);
+export const IndustryDistinctFieldsSchema = z
+  .enum(['id', 'name', 'slug', 'description', 'companies'])
+  .array();
 
 export const CompanyOwnSelectFieldsSchema = z
   .object({
@@ -82,14 +78,9 @@ export const CompanyOwnSelectFieldsSchemaJson = z.preprocess(
   CompanyOwnSelectFieldsSchema
 );
 
-export const CompanyDistinctFieldsSchema = z.enum([
-  'id',
-  'uuid',
-  'name',
-  'slug',
-  'agents',
-  'industries',
-]);
+export const CompanyDistinctFieldsSchema = z
+  .enum(['id', 'uuid', 'name', 'slug', 'agents', 'industries'])
+  .array();
 
 export const CompanyIndustryOwnSelectFieldsSchema = z
   .object({
@@ -106,13 +97,9 @@ export const CompanyIndustryOwnSelectFieldsSchemaJson = z.preprocess(
   CompanyIndustryOwnSelectFieldsSchema
 );
 
-export const CompanyIndustryDistinctFieldsSchema = z.enum([
-  'id',
-  'companyId',
-  'industryId',
-  'industry',
-  'company',
-]);
+export const CompanyIndustryDistinctFieldsSchema = z
+  .enum(['id', 'companyId', 'industryId', 'industry', 'company'])
+  .array();
 
 export const DepartmentOwnSelectFieldsSchema = z
   .object({
@@ -131,15 +118,9 @@ export const DepartmentOwnSelectFieldsSchemaJson = z.preprocess(
   DepartmentOwnSelectFieldsSchema
 );
 
-export const DepartmentDistinctFieldsSchema = z.enum([
-  'id',
-  'parentId',
-  'name',
-  'slug',
-  'parent',
-  'children',
-  'titles',
-]);
+export const DepartmentDistinctFieldsSchema = z
+  .enum(['id', 'parentId', 'name', 'slug', 'parent', 'children', 'titles'])
+  .array();
 
 export const TitleOwnSelectFieldsSchema = z
   .object({
@@ -158,15 +139,17 @@ export const TitleOwnSelectFieldsSchemaJson = z.preprocess(
   TitleOwnSelectFieldsSchema
 );
 
-export const TitleDistinctFieldsSchema = z.enum([
-  'id',
-  'departmentId',
-  'name',
-  'slug',
-  'description',
-  'agents',
-  'department',
-]);
+export const TitleDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'departmentId',
+    'name',
+    'slug',
+    'description',
+    'agents',
+    'department',
+  ])
+  .array();
 
 export const AgentOwnSelectFieldsSchema = z
   .object({
@@ -191,21 +174,23 @@ export const AgentOwnSelectFieldsSchemaJson = z.preprocess(
   AgentOwnSelectFieldsSchema
 );
 
-export const AgentDistinctFieldsSchema = z.enum([
-  'id',
-  'companyId',
-  'titleId',
-  'firstName',
-  'middleName',
-  'lastName',
-  'preferedName',
-  'gender',
-  'slug',
-  'note',
-  'company',
-  'contacts',
-  'title',
-]);
+export const AgentDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'companyId',
+    'titleId',
+    'firstName',
+    'middleName',
+    'lastName',
+    'preferedName',
+    'gender',
+    'slug',
+    'note',
+    'company',
+    'contacts',
+    'title',
+  ])
+  .array();
 
 export const ContactOwnSelectFieldsSchema = z
   .object({
@@ -227,18 +212,20 @@ export const ContactOwnSelectFieldsSchemaJson = z.preprocess(
   ContactOwnSelectFieldsSchema
 );
 
-export const ContactDistinctFieldsSchema = z.enum([
-  'id',
-  'uuid',
-  'agentId',
-  'type',
-  'order',
-  'emails',
-  'phones',
-  'addresses',
-  'websites',
-  'agent',
-]);
+export const ContactDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'uuid',
+    'agentId',
+    'type',
+    'order',
+    'emails',
+    'phones',
+    'addresses',
+    'websites',
+    'agent',
+  ])
+  .array();
 
 export const StateOwnSelectFieldsSchema = z
   .object({
@@ -256,14 +243,9 @@ export const StateOwnSelectFieldsSchemaJson = z.preprocess(
   StateOwnSelectFieldsSchema
 );
 
-export const StateDistinctFieldsSchema = z.enum([
-  'id',
-  'countryId',
-  'state',
-  'code',
-  'country',
-  'cities',
-]);
+export const StateDistinctFieldsSchema = z
+  .enum(['id', 'countryId', 'state', 'code', 'country', 'cities'])
+  .array();
 
 export const CountryOwnSelectFieldsSchema = z
   .object({
@@ -279,12 +261,9 @@ export const CountryOwnSelectFieldsSchemaJson = z.preprocess(
   CountryOwnSelectFieldsSchema
 );
 
-export const CountryDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'code',
-  'states',
-]);
+export const CountryDistinctFieldsSchema = z
+  .enum(['id', 'name', 'code', 'states'])
+  .array();
 
 export const CityOwnSelectFieldsSchema = z
   .object({
@@ -301,13 +280,9 @@ export const CityOwnSelectFieldsSchemaJson = z.preprocess(
   CityOwnSelectFieldsSchema
 );
 
-export const CityDistinctFieldsSchema = z.enum([
-  'id',
-  'stateId',
-  'name',
-  'state',
-  'addresses',
-]);
+export const CityDistinctFieldsSchema = z
+  .enum(['id', 'stateId', 'name', 'state', 'addresses'])
+  .array();
 
 export const AddressOwnSelectFieldsSchema = z
   .object({
@@ -327,16 +302,18 @@ export const AddressOwnSelectFieldsSchemaJson = z.preprocess(
   AddressOwnSelectFieldsSchema
 );
 
-export const AddressDistinctFieldsSchema = z.enum([
-  'id',
-  'contactId',
-  'cityId',
-  'street',
-  'zip',
-  'order',
-  'city',
-  'contact',
-]);
+export const AddressDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'contactId',
+    'cityId',
+    'street',
+    'zip',
+    'order',
+    'city',
+    'contact',
+  ])
+  .array();
 
 export const EmailOwnSelectFieldsSchema = z
   .object({
@@ -353,13 +330,9 @@ export const EmailOwnSelectFieldsSchemaJson = z.preprocess(
   EmailOwnSelectFieldsSchema
 );
 
-export const EmailDistinctFieldsSchema = z.enum([
-  'id',
-  'contactId',
-  'email',
-  'order',
-  'contact',
-]);
+export const EmailDistinctFieldsSchema = z
+  .enum(['id', 'contactId', 'email', 'order', 'contact'])
+  .array();
 
 export const PhoneOwnSelectFieldsSchema = z
   .object({
@@ -376,13 +349,9 @@ export const PhoneOwnSelectFieldsSchemaJson = z.preprocess(
   PhoneOwnSelectFieldsSchema
 );
 
-export const PhoneDistinctFieldsSchema = z.enum([
-  'id',
-  'contactId',
-  'phone',
-  'order',
-  'contact',
-]);
+export const PhoneDistinctFieldsSchema = z
+  .enum(['id', 'contactId', 'phone', 'order', 'contact'])
+  .array();
 
 export const WebsiteOwnSelectFieldsSchema = z
   .object({
@@ -399,13 +368,9 @@ export const WebsiteOwnSelectFieldsSchemaJson = z.preprocess(
   WebsiteOwnSelectFieldsSchema
 );
 
-export const WebsiteDistinctFieldsSchema = z.enum([
-  'id',
-  'contactId',
-  'url',
-  'order',
-  'contact',
-]);
+export const WebsiteDistinctFieldsSchema = z
+  .enum(['id', 'contactId', 'url', 'order', 'contact'])
+  .array();
 
 export const IndustryOwnWhereSchema = z
   .object({

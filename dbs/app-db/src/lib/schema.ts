@@ -56,15 +56,9 @@ export const AppOwnSelectFieldsSchemaJson = z.preprocess(
   AppOwnSelectFieldsSchema
 );
 
-export const AppDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'description',
-  'version',
-  'host',
-  'port',
-  'history',
-]);
+export const AppDistinctFieldsSchema = z
+  .enum(['id', 'name', 'description', 'version', 'host', 'port', 'history'])
+  .array();
 
 export const SecretOwnSelectFieldsSchema = z
   .object({
@@ -81,13 +75,9 @@ export const SecretOwnSelectFieldsSchemaJson = z.preprocess(
   SecretOwnSelectFieldsSchema
 );
 
-export const SecretDistinctFieldsSchema = z.enum([
-  'id',
-  'createdAt',
-  'updatedAt',
-  'version',
-  'secret',
-]);
+export const SecretDistinctFieldsSchema = z
+  .enum(['id', 'createdAt', 'updatedAt', 'version', 'secret'])
+  .array();
 
 export const AppHistoryOwnSelectFieldsSchema = z
   .object({
@@ -104,13 +94,9 @@ export const AppHistoryOwnSelectFieldsSchemaJson = z.preprocess(
   AppHistoryOwnSelectFieldsSchema
 );
 
-export const AppHistoryDistinctFieldsSchema = z.enum([
-  'id',
-  'appId',
-  'startedAt',
-  'stopeedAt',
-  'app',
-]);
+export const AppHistoryDistinctFieldsSchema = z
+  .enum(['id', 'appId', 'startedAt', 'stopeedAt', 'app'])
+  .array();
 
 export const AppOwnWhereSchema = z
   .object({

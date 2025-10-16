@@ -68,27 +68,29 @@ export const UserOwnSelectFieldsSchemaJson = z.preprocess(
   UserOwnSelectFieldsSchema
 );
 
-export const UserDistinctFieldsSchema = z.enum([
-  'id',
-  'uuid',
-  'displayName',
-  'slug',
-  'title',
-  'assignments',
-  'managedTeams',
-  'memberships',
-  'createdProjects',
-  'createdSprints',
-  'createdTasks',
-  'createdComments',
-  'takenAssignments',
-  'givenAssignments',
-  'changedAssignments',
-  'changedPriorities',
-  'changedStatuses',
-  'changedPoints',
-  'changedTeams',
-]);
+export const UserDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'uuid',
+    'displayName',
+    'slug',
+    'title',
+    'assignments',
+    'managedTeams',
+    'memberships',
+    'createdProjects',
+    'createdSprints',
+    'createdTasks',
+    'createdComments',
+    'takenAssignments',
+    'givenAssignments',
+    'changedAssignments',
+    'changedPriorities',
+    'changedStatuses',
+    'changedPoints',
+    'changedTeams',
+  ])
+  .array();
 
 export const TeamOwnSelectFieldsSchema = z
   .object({
@@ -108,16 +110,18 @@ export const TeamOwnSelectFieldsSchemaJson = z.preprocess(
   TeamOwnSelectFieldsSchema
 );
 
-export const TeamDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'slug',
-  'description',
-  'managers',
-  'members',
-  'takenTeams',
-  'givenTeams',
-]);
+export const TeamDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'name',
+    'slug',
+    'description',
+    'managers',
+    'members',
+    'takenTeams',
+    'givenTeams',
+  ])
+  .array();
 
 export const TeamManagerOwnSelectFieldsSchema = z
   .object({
@@ -134,13 +138,9 @@ export const TeamManagerOwnSelectFieldsSchemaJson = z.preprocess(
   TeamManagerOwnSelectFieldsSchema
 );
 
-export const TeamManagerDistinctFieldsSchema = z.enum([
-  'id',
-  'managerId',
-  'teamId',
-  'manager',
-  'team',
-]);
+export const TeamManagerDistinctFieldsSchema = z
+  .enum(['id', 'managerId', 'teamId', 'manager', 'team'])
+  .array();
 
 export const TeamMemberOwnSelectFieldsSchema = z
   .object({
@@ -157,13 +157,9 @@ export const TeamMemberOwnSelectFieldsSchemaJson = z.preprocess(
   TeamMemberOwnSelectFieldsSchema
 );
 
-export const TeamMemberDistinctFieldsSchema = z.enum([
-  'id',
-  'teamId',
-  'memberId',
-  'team',
-  'member',
-]);
+export const TeamMemberDistinctFieldsSchema = z
+  .enum(['id', 'teamId', 'memberId', 'team', 'member'])
+  .array();
 
 export const ProjectOwnSelectFieldsSchema = z
   .object({
@@ -195,28 +191,30 @@ export const ProjectOwnSelectFieldsSchemaJson = z.preprocess(
   ProjectOwnSelectFieldsSchema
 );
 
-export const ProjectDistinctFieldsSchema = z.enum([
-  'id',
-  'createdById',
-  'parentId',
-  'parent',
-  'name',
-  'slug',
-  'description',
-  'startDate',
-  'dueDate',
-  'endDate',
-  'sprints',
-  'createdBy',
-  'tags',
-  'statuses',
-  'priorities',
-  'assignmentHistory',
-  'priorityHistory',
-  'statusHistory',
-  'pointHistory',
-  'projects',
-]);
+export const ProjectDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'createdById',
+    'parentId',
+    'parent',
+    'name',
+    'slug',
+    'description',
+    'startDate',
+    'dueDate',
+    'endDate',
+    'sprints',
+    'createdBy',
+    'tags',
+    'statuses',
+    'priorities',
+    'assignmentHistory',
+    'priorityHistory',
+    'statusHistory',
+    'pointHistory',
+    'projects',
+  ])
+  .array();
 
 export const TagOwnSelectFieldsSchema = z
   .object({
@@ -233,13 +231,9 @@ export const TagOwnSelectFieldsSchemaJson = z.preprocess(
   TagOwnSelectFieldsSchema
 );
 
-export const TagDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'isDefault',
-  'tasks',
-  'projects',
-]);
+export const TagDistinctFieldsSchema = z
+  .enum(['id', 'name', 'isDefault', 'tasks', 'projects'])
+  .array();
 
 export const CategoryOwnSelectFieldsSchema = z
   .object({
@@ -259,16 +253,18 @@ export const CategoryOwnSelectFieldsSchemaJson = z.preprocess(
   CategoryOwnSelectFieldsSchema
 );
 
-export const CategoryDistinctFieldsSchema = z.enum([
-  'id',
-  'parentId',
-  'name',
-  'description',
-  'isDefault',
-  'parent',
-  'categories',
-  'tasks',
-]);
+export const CategoryDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'parentId',
+    'name',
+    'description',
+    'isDefault',
+    'parent',
+    'categories',
+    'tasks',
+  ])
+  .array();
 
 export const SprintOwnSelectFieldsSchema = z
   .object({
@@ -289,17 +285,19 @@ export const SprintOwnSelectFieldsSchemaJson = z.preprocess(
   SprintOwnSelectFieldsSchema
 );
 
-export const SprintDistinctFieldsSchema = z.enum([
-  'id',
-  'createdById',
-  'projectId',
-  'name',
-  'slug',
-  'description',
-  'project',
-  'tasks',
-  'createdBy',
-]);
+export const SprintDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'createdById',
+    'projectId',
+    'name',
+    'slug',
+    'description',
+    'project',
+    'tasks',
+    'createdBy',
+  ])
+  .array();
 
 export const PriorityOwnSelectFieldsSchema = z
   .object({
@@ -319,16 +317,18 @@ export const PriorityOwnSelectFieldsSchemaJson = z.preprocess(
   PriorityOwnSelectFieldsSchema
 );
 
-export const PriorityDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'description',
-  'isDefault',
-  'tasks',
-  'projects',
-  'takenPriorities',
-  'givenPriorities',
-]);
+export const PriorityDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'name',
+    'description',
+    'isDefault',
+    'tasks',
+    'projects',
+    'takenPriorities',
+    'givenPriorities',
+  ])
+  .array();
 
 export const StatusOwnSelectFieldsSchema = z
   .object({
@@ -348,16 +348,18 @@ export const StatusOwnSelectFieldsSchemaJson = z.preprocess(
   StatusOwnSelectFieldsSchema
 );
 
-export const StatusDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'description',
-  'isDefault',
-  'tasks',
-  'projects',
-  'takenStatuses',
-  'givenStatuses',
-]);
+export const StatusDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'name',
+    'description',
+    'isDefault',
+    'tasks',
+    'projects',
+    'takenStatuses',
+    'givenStatuses',
+  ])
+  .array();
 
 export const PointOwnSelectFieldsSchema = z
   .object({
@@ -376,15 +378,17 @@ export const PointOwnSelectFieldsSchemaJson = z.preprocess(
   PointOwnSelectFieldsSchema
 );
 
-export const PointDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'point',
-  'description',
-  'tasks',
-  'takenPointes',
-  'givenPointes',
-]);
+export const PointDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'name',
+    'point',
+    'description',
+    'tasks',
+    'takenPointes',
+    'givenPointes',
+  ])
+  .array();
 
 export const TaskOwnSelectFieldsSchema = z
   .object({
@@ -425,37 +429,39 @@ export const TaskOwnSelectFieldsSchemaJson = z.preprocess(
   TaskOwnSelectFieldsSchema
 );
 
-export const TaskDistinctFieldsSchema = z.enum([
-  'id',
-  'sprintId',
-  'createdAt',
-  'updatedAt',
-  'createdById',
-  'priorityId',
-  'pointId',
-  'statusId',
-  'parentId',
-  'title',
-  'slug',
-  'description',
-  'due',
-  'resolvedAt',
-  'comments',
-  'parent',
-  'tasks',
-  'createdBy',
-  'assignments',
-  'tags',
-  'categories',
-  'point',
-  'priority',
-  'status',
-  'sprint',
-  'assignmentHistory',
-  'statusHistory',
-  'priorityHistory',
-  'pointHistory',
-]);
+export const TaskDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'sprintId',
+    'createdAt',
+    'updatedAt',
+    'createdById',
+    'priorityId',
+    'pointId',
+    'statusId',
+    'parentId',
+    'title',
+    'slug',
+    'description',
+    'due',
+    'resolvedAt',
+    'comments',
+    'parent',
+    'tasks',
+    'createdBy',
+    'assignments',
+    'tags',
+    'categories',
+    'point',
+    'priority',
+    'status',
+    'sprint',
+    'assignmentHistory',
+    'statusHistory',
+    'priorityHistory',
+    'pointHistory',
+  ])
+  .array();
 
 export const AssignmentHistoryOwnSelectFieldsSchema = z
   .object({
@@ -480,21 +486,23 @@ export const AssignmentHistoryOwnSelectFieldsSchemaJson = z.preprocess(
   AssignmentHistoryOwnSelectFieldsSchema
 );
 
-export const AssignmentHistoryDistinctFieldsSchema = z.enum([
-  'id',
-  'createdById',
-  'createdAt',
-  'updatedAt',
-  'projectId',
-  'taskId',
-  'oldUserId',
-  'newUserId',
-  'oldUser',
-  'newUser',
-  'createdBy',
-  'task',
-  'project',
-]);
+export const AssignmentHistoryDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'createdById',
+    'createdAt',
+    'updatedAt',
+    'projectId',
+    'taskId',
+    'oldUserId',
+    'newUserId',
+    'oldUser',
+    'newUser',
+    'createdBy',
+    'task',
+    'project',
+  ])
+  .array();
 
 export const PriorityHistoryOwnSelectFieldsSchema = z
   .object({
@@ -519,21 +527,23 @@ export const PriorityHistoryOwnSelectFieldsSchemaJson = z.preprocess(
   PriorityHistoryOwnSelectFieldsSchema
 );
 
-export const PriorityHistoryDistinctFieldsSchema = z.enum([
-  'id',
-  'createdById',
-  'createdAt',
-  'updatedAt',
-  'projectId',
-  'taskId',
-  'oldPriorityId',
-  'newPriorityId',
-  'oldPriority',
-  'newPriority',
-  'createdBy',
-  'task',
-  'project',
-]);
+export const PriorityHistoryDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'createdById',
+    'createdAt',
+    'updatedAt',
+    'projectId',
+    'taskId',
+    'oldPriorityId',
+    'newPriorityId',
+    'oldPriority',
+    'newPriority',
+    'createdBy',
+    'task',
+    'project',
+  ])
+  .array();
 
 export const StatusHistoryOwnSelectFieldsSchema = z
   .object({
@@ -557,20 +567,22 @@ export const StatusHistoryOwnSelectFieldsSchemaJson = z.preprocess(
   StatusHistoryOwnSelectFieldsSchema
 );
 
-export const StatusHistoryDistinctFieldsSchema = z.enum([
-  'id',
-  'createdAt',
-  'createdById',
-  'oldStatusId',
-  'newStatusId',
-  'projectId',
-  'taskId',
-  'task',
-  'oldStatus',
-  'newStatus',
-  'createdBy',
-  'project',
-]);
+export const StatusHistoryDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'createdAt',
+    'createdById',
+    'oldStatusId',
+    'newStatusId',
+    'projectId',
+    'taskId',
+    'task',
+    'oldStatus',
+    'newStatus',
+    'createdBy',
+    'project',
+  ])
+  .array();
 
 export const PointHistoryOwnSelectFieldsSchema = z
   .object({
@@ -594,20 +606,22 @@ export const PointHistoryOwnSelectFieldsSchemaJson = z.preprocess(
   PointHistoryOwnSelectFieldsSchema
 );
 
-export const PointHistoryDistinctFieldsSchema = z.enum([
-  'id',
-  'createdAt',
-  'createdById',
-  'oldPointId',
-  'newPointId',
-  'projectId',
-  'taskId',
-  'task',
-  'oldPoint',
-  'newPoint',
-  'createdBy',
-  'project',
-]);
+export const PointHistoryDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'createdAt',
+    'createdById',
+    'oldPointId',
+    'newPointId',
+    'projectId',
+    'taskId',
+    'task',
+    'oldPoint',
+    'newPoint',
+    'createdBy',
+    'project',
+  ])
+  .array();
 
 export const TeamHistoryOwnSelectFieldsSchema = z
   .object({
@@ -627,16 +641,18 @@ export const TeamHistoryOwnSelectFieldsSchemaJson = z.preprocess(
   TeamHistoryOwnSelectFieldsSchema
 );
 
-export const TeamHistoryDistinctFieldsSchema = z.enum([
-  'id',
-  'createdAt',
-  'createdById',
-  'oldTeamId',
-  'newTeamId',
-  'oldTeam',
-  'newTeam',
-  'createdBy',
-]);
+export const TeamHistoryDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'createdAt',
+    'createdById',
+    'oldTeamId',
+    'newTeamId',
+    'oldTeam',
+    'newTeam',
+    'createdBy',
+  ])
+  .array();
 
 export const TaskTagOwnSelectFieldsSchema = z
   .object({
@@ -653,13 +669,9 @@ export const TaskTagOwnSelectFieldsSchemaJson = z.preprocess(
   TaskTagOwnSelectFieldsSchema
 );
 
-export const TaskTagDistinctFieldsSchema = z.enum([
-  'id',
-  'taskId',
-  'tagId',
-  'task',
-  'tag',
-]);
+export const TaskTagDistinctFieldsSchema = z
+  .enum(['id', 'taskId', 'tagId', 'task', 'tag'])
+  .array();
 
 export const TaskCategoryOwnSelectFieldsSchema = z
   .object({
@@ -676,13 +688,9 @@ export const TaskCategoryOwnSelectFieldsSchemaJson = z.preprocess(
   TaskCategoryOwnSelectFieldsSchema
 );
 
-export const TaskCategoryDistinctFieldsSchema = z.enum([
-  'id',
-  'categoryId',
-  'taskId',
-  'task',
-  'category',
-]);
+export const TaskCategoryDistinctFieldsSchema = z
+  .enum(['id', 'categoryId', 'taskId', 'task', 'category'])
+  .array();
 
 export const AssignmentOwnSelectFieldsSchema = z
   .object({
@@ -701,15 +709,17 @@ export const AssignmentOwnSelectFieldsSchemaJson = z.preprocess(
   AssignmentOwnSelectFieldsSchema
 );
 
-export const AssignmentDistinctFieldsSchema = z.enum([
-  'id',
-  'createdAt',
-  'updatedAt',
-  'assigneeId',
-  'taskId',
-  'task',
-  'assignee',
-]);
+export const AssignmentDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'createdAt',
+    'updatedAt',
+    'assigneeId',
+    'taskId',
+    'task',
+    'assignee',
+  ])
+  .array();
 
 export const CommentOwnSelectFieldsSchema = z
   .object({
@@ -732,19 +742,21 @@ export const CommentOwnSelectFieldsSchemaJson = z.preprocess(
   CommentOwnSelectFieldsSchema
 );
 
-export const CommentDistinctFieldsSchema = z.enum([
-  'id',
-  'createdAt',
-  'updatedAt',
-  'parentId',
-  'createdById',
-  'taskId',
-  'comment',
-  'parent',
-  'comments',
-  'createdBy',
-  'task',
-]);
+export const CommentDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'createdAt',
+    'updatedAt',
+    'parentId',
+    'createdById',
+    'taskId',
+    'comment',
+    'parent',
+    'comments',
+    'createdBy',
+    'task',
+  ])
+  .array();
 
 export const ProjectTaskTagOwnSelectFieldsSchema = z
   .object({
@@ -761,13 +773,9 @@ export const ProjectTaskTagOwnSelectFieldsSchemaJson = z.preprocess(
   ProjectTaskTagOwnSelectFieldsSchema
 );
 
-export const ProjectTaskTagDistinctFieldsSchema = z.enum([
-  'id',
-  'projectId',
-  'tagId',
-  'tag',
-  'project',
-]);
+export const ProjectTaskTagDistinctFieldsSchema = z
+  .enum(['id', 'projectId', 'tagId', 'tag', 'project'])
+  .array();
 
 export const ProjectTaskStatusOwnSelectFieldsSchema = z
   .object({
@@ -784,13 +792,9 @@ export const ProjectTaskStatusOwnSelectFieldsSchemaJson = z.preprocess(
   ProjectTaskStatusOwnSelectFieldsSchema
 );
 
-export const ProjectTaskStatusDistinctFieldsSchema = z.enum([
-  'id',
-  'projectId',
-  'statusId',
-  'project',
-  'status',
-]);
+export const ProjectTaskStatusDistinctFieldsSchema = z
+  .enum(['id', 'projectId', 'statusId', 'project', 'status'])
+  .array();
 
 export const ProjectTaskPriorityOwnSelectFieldsSchema = z
   .object({
@@ -807,13 +811,9 @@ export const ProjectTaskPriorityOwnSelectFieldsSchemaJson = z.preprocess(
   ProjectTaskPriorityOwnSelectFieldsSchema
 );
 
-export const ProjectTaskPriorityDistinctFieldsSchema = z.enum([
-  'id',
-  'projectId',
-  'priorityId',
-  'project',
-  'priority',
-]);
+export const ProjectTaskPriorityDistinctFieldsSchema = z
+  .enum(['id', 'projectId', 'priorityId', 'project', 'priority'])
+  .array();
 
 export const UserOwnWhereSchema = z
   .object({

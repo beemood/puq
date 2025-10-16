@@ -58,15 +58,17 @@ export const UserOwnSelectFieldsSchemaJson = z.preprocess(
   UserOwnSelectFieldsSchema
 );
 
-export const UserDistinctFieldsSchema = z.enum([
-  'id',
-  'uuid',
-  'username',
-  'password',
-  'sessions',
-  'permissions',
-  'AccessToken',
-]);
+export const UserDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'uuid',
+    'username',
+    'password',
+    'sessions',
+    'permissions',
+    'AccessToken',
+  ])
+  .array();
 
 export const AccessTokenOwnSelectFieldsSchema = z
   .object({
@@ -83,13 +85,9 @@ export const AccessTokenOwnSelectFieldsSchemaJson = z.preprocess(
   AccessTokenOwnSelectFieldsSchema
 );
 
-export const AccessTokenDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'userId',
-  'user',
-  'AccessTokenPermission',
-]);
+export const AccessTokenDistinctFieldsSchema = z
+  .enum(['id', 'name', 'userId', 'user', 'AccessTokenPermission'])
+  .array();
 
 export const ScopeOwnSelectFieldsSchema = z
   .object({
@@ -104,7 +102,9 @@ export const ScopeOwnSelectFieldsSchemaJson = z.preprocess(
   ScopeOwnSelectFieldsSchema
 );
 
-export const ScopeDistinctFieldsSchema = z.enum(['id', 'name', 'permissions']);
+export const ScopeDistinctFieldsSchema = z
+  .enum(['id', 'name', 'permissions'])
+  .array();
 
 export const ResourceOwnSelectFieldsSchema = z
   .object({
@@ -119,11 +119,9 @@ export const ResourceOwnSelectFieldsSchemaJson = z.preprocess(
   ResourceOwnSelectFieldsSchema
 );
 
-export const ResourceDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'activities',
-]);
+export const ResourceDistinctFieldsSchema = z
+  .enum(['id', 'name', 'activities'])
+  .array();
 
 export const OperationOwnSelectFieldsSchema = z
   .object({
@@ -138,11 +136,9 @@ export const OperationOwnSelectFieldsSchemaJson = z.preprocess(
   OperationOwnSelectFieldsSchema
 );
 
-export const OperationDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'activities',
-]);
+export const OperationDistinctFieldsSchema = z
+  .enum(['id', 'name', 'activities'])
+  .array();
 
 export const ActivityOwnSelectFieldsSchema = z
   .object({
@@ -162,16 +158,18 @@ export const ActivityOwnSelectFieldsSchemaJson = z.preprocess(
   ActivityOwnSelectFieldsSchema
 );
 
-export const ActivityDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'resourceId',
-  'operationId',
-  'resouce',
-  'operation',
-  'permissions',
-  'logs',
-]);
+export const ActivityDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'name',
+    'resourceId',
+    'operationId',
+    'resouce',
+    'operation',
+    'permissions',
+    'logs',
+  ])
+  .array();
 
 export const PermissionOwnSelectFieldsSchema = z
   .object({
@@ -191,16 +189,18 @@ export const PermissionOwnSelectFieldsSchemaJson = z.preprocess(
   PermissionOwnSelectFieldsSchema
 );
 
-export const PermissionDistinctFieldsSchema = z.enum([
-  'id',
-  'scopeId',
-  'activityId',
-  'scope',
-  'activity',
-  'roles',
-  'UserPermission',
-  'AccessTokenPermission',
-]);
+export const PermissionDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'scopeId',
+    'activityId',
+    'scope',
+    'activity',
+    'roles',
+    'UserPermission',
+    'AccessTokenPermission',
+  ])
+  .array();
 
 export const RoleOwnSelectFieldsSchema = z
   .object({
@@ -215,7 +215,9 @@ export const RoleOwnSelectFieldsSchemaJson = z.preprocess(
   RoleOwnSelectFieldsSchema
 );
 
-export const RoleDistinctFieldsSchema = z.enum(['id', 'name', 'permissions']);
+export const RoleDistinctFieldsSchema = z
+  .enum(['id', 'name', 'permissions'])
+  .array();
 
 export const RolePermissionOwnSelectFieldsSchema = z
   .object({
@@ -232,13 +234,9 @@ export const RolePermissionOwnSelectFieldsSchemaJson = z.preprocess(
   RolePermissionOwnSelectFieldsSchema
 );
 
-export const RolePermissionDistinctFieldsSchema = z.enum([
-  'id',
-  'roleId',
-  'permissionId',
-  'role',
-  'permission',
-]);
+export const RolePermissionDistinctFieldsSchema = z
+  .enum(['id', 'roleId', 'permissionId', 'role', 'permission'])
+  .array();
 
 export const SessionOwnSelectFieldsSchema = z
   .object({
@@ -258,16 +256,18 @@ export const SessionOwnSelectFieldsSchemaJson = z.preprocess(
   SessionOwnSelectFieldsSchema
 );
 
-export const SessionDistinctFieldsSchema = z.enum([
-  'id',
-  'userId',
-  'description',
-  'status',
-  'startDate',
-  'endDate',
-  'user',
-  'logs',
-]);
+export const SessionDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'userId',
+    'description',
+    'status',
+    'startDate',
+    'endDate',
+    'user',
+    'logs',
+  ])
+  .array();
 
 export const ActivityLogOwnSelectFieldsSchema = z
   .object({
@@ -286,15 +286,17 @@ export const ActivityLogOwnSelectFieldsSchemaJson = z.preprocess(
   ActivityLogOwnSelectFieldsSchema
 );
 
-export const ActivityLogDistinctFieldsSchema = z.enum([
-  'id',
-  'sessionId',
-  'activityId',
-  'createdAt',
-  'notes',
-  'activity',
-  'session',
-]);
+export const ActivityLogDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'sessionId',
+    'activityId',
+    'createdAt',
+    'notes',
+    'activity',
+    'session',
+  ])
+  .array();
 
 export const UserPermissionOwnSelectFieldsSchema = z
   .object({
@@ -311,13 +313,9 @@ export const UserPermissionOwnSelectFieldsSchemaJson = z.preprocess(
   UserPermissionOwnSelectFieldsSchema
 );
 
-export const UserPermissionDistinctFieldsSchema = z.enum([
-  'id',
-  'userId',
-  'permissionId',
-  'user',
-  'permission',
-]);
+export const UserPermissionDistinctFieldsSchema = z
+  .enum(['id', 'userId', 'permissionId', 'user', 'permission'])
+  .array();
 
 export const AccessTokenPermissionOwnSelectFieldsSchema = z
   .object({
@@ -334,13 +332,9 @@ export const AccessTokenPermissionOwnSelectFieldsSchemaJson = z.preprocess(
   AccessTokenPermissionOwnSelectFieldsSchema
 );
 
-export const AccessTokenPermissionDistinctFieldsSchema = z.enum([
-  'id',
-  'permissionId',
-  'accessTokenId',
-  'permission',
-  'accessToken',
-]);
+export const AccessTokenPermissionDistinctFieldsSchema = z
+  .enum(['id', 'permissionId', 'accessTokenId', 'permission', 'accessToken'])
+  .array();
 
 export const UserOwnWhereSchema = z
   .object({
