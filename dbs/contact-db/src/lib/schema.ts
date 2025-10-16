@@ -2340,8 +2340,10 @@ export const IndustryQueryOneSchema = z
 
 export const IndustryQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: IndustryWhereSchemaJson,
     distinct: IndustryDistinctFieldsSchema,
+    orderBy: IndustryOrderBySchemaJson,
   })
   .partial();
 
@@ -2382,8 +2384,10 @@ export const CompanyQueryOneSchema = z
 
 export const CompanyQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: CompanyWhereSchemaJson,
     distinct: CompanyDistinctFieldsSchema,
+    orderBy: CompanyOrderBySchemaJson,
   })
   .partial();
 
@@ -2424,8 +2428,10 @@ export const CompanyIndustryQueryOneSchema = z
 
 export const CompanyIndustryQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: CompanyIndustryWhereSchemaJson,
     distinct: CompanyIndustryDistinctFieldsSchema,
+    orderBy: CompanyIndustryOrderBySchemaJson,
   })
   .partial();
 
@@ -2482,8 +2488,10 @@ export const DepartmentQueryOneSchema = z
 
 export const DepartmentQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: DepartmentWhereSchemaJson,
     distinct: DepartmentDistinctFieldsSchema,
+    orderBy: DepartmentOrderBySchemaJson,
   })
   .partial();
 
@@ -2526,8 +2534,10 @@ export const TitleQueryOneSchema = z
 
 export const TitleQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: TitleWhereSchemaJson,
     distinct: TitleDistinctFieldsSchema,
+    orderBy: TitleOrderBySchemaJson,
   })
   .partial();
 
@@ -2566,8 +2576,10 @@ export const AgentQueryOneSchema = z
 
 export const AgentQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: AgentWhereSchemaJson,
     distinct: AgentDistinctFieldsSchema,
+    orderBy: AgentOrderBySchemaJson,
   })
   .partial();
 
@@ -2606,8 +2618,10 @@ export const ContactQueryOneSchema = z
 
 export const ContactQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: ContactWhereSchemaJson,
     distinct: ContactDistinctFieldsSchema,
+    orderBy: ContactOrderBySchemaJson,
   })
   .partial();
 
@@ -2648,8 +2662,10 @@ export const StateQueryOneSchema = z
 
 export const StateQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: StateWhereSchemaJson,
     distinct: StateDistinctFieldsSchema,
+    orderBy: StateOrderBySchemaJson,
   })
   .partial();
 
@@ -2688,8 +2704,10 @@ export const CountryQueryOneSchema = z
 
 export const CountryQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: CountryWhereSchemaJson,
     distinct: CountryDistinctFieldsSchema,
+    orderBy: CountryOrderBySchemaJson,
   })
   .partial();
 
@@ -2730,8 +2748,10 @@ export const CityQueryOneSchema = z
 
 export const CityQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: CityWhereSchemaJson,
     distinct: CityDistinctFieldsSchema,
+    orderBy: CityOrderBySchemaJson,
   })
   .partial();
 
@@ -2770,8 +2790,10 @@ export const AddressQueryOneSchema = z
 
 export const AddressQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: AddressWhereSchemaJson,
     distinct: AddressDistinctFieldsSchema,
+    orderBy: AddressOrderBySchemaJson,
   })
   .partial();
 
@@ -2812,8 +2834,10 @@ export const EmailQueryOneSchema = z
 
 export const EmailQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: EmailWhereSchemaJson,
     distinct: EmailDistinctFieldsSchema,
+    orderBy: EmailOrderBySchemaJson,
   })
   .partial();
 
@@ -2852,8 +2876,10 @@ export const PhoneQueryOneSchema = z
 
 export const PhoneQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: PhoneWhereSchemaJson,
     distinct: PhoneDistinctFieldsSchema,
+    orderBy: PhoneOrderBySchemaJson,
   })
   .partial();
 
@@ -2892,8 +2918,10 @@ export const WebsiteQueryOneSchema = z
 
 export const WebsiteQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: WebsiteWhereSchemaJson,
     distinct: WebsiteDistinctFieldsSchema,
+    orderBy: WebsiteOrderBySchemaJson,
   })
   .partial();
 

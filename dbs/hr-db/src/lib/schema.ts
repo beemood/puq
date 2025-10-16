@@ -6366,8 +6366,10 @@ export const DepartmentQueryOneSchema = z
 
 export const DepartmentQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: DepartmentWhereSchemaJson,
     distinct: DepartmentDistinctFieldsSchema,
+    orderBy: DepartmentOrderBySchemaJson,
   })
   .partial();
 
@@ -6410,8 +6412,10 @@ export const TitleQueryOneSchema = z
 
 export const TitleQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: TitleWhereSchemaJson,
     distinct: TitleDistinctFieldsSchema,
+    orderBy: TitleOrderBySchemaJson,
   })
   .partial();
 
@@ -6450,8 +6454,10 @@ export const PersonalDataQueryOneSchema = z
 
 export const PersonalDataQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: PersonalDataWhereSchemaJson,
     distinct: PersonalDataDistinctFieldsSchema,
+    orderBy: PersonalDataOrderBySchemaJson,
   })
   .partial();
 
@@ -6498,8 +6504,10 @@ export const EmployeeQueryOneSchema = z
 
 export const EmployeeQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: EmployeeWhereSchemaJson,
     distinct: EmployeeDistinctFieldsSchema,
+    orderBy: EmployeeOrderBySchemaJson,
   })
   .partial();
 
@@ -6540,8 +6548,10 @@ export const TeamQueryOneSchema = z
 
 export const TeamQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: TeamWhereSchemaJson,
     distinct: TeamDistinctFieldsSchema,
+    orderBy: TeamOrderBySchemaJson,
   })
   .partial();
 
@@ -6580,8 +6590,10 @@ export const TeamManagerQueryOneSchema = z
 
 export const TeamManagerQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: TeamManagerWhereSchemaJson,
     distinct: TeamManagerDistinctFieldsSchema,
+    orderBy: TeamManagerOrderBySchemaJson,
   })
   .partial();
 
@@ -6626,8 +6638,10 @@ export const TeamMemberQueryOneSchema = z
 
 export const TeamMemberQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: TeamMemberWhereSchemaJson,
     distinct: TeamMemberDistinctFieldsSchema,
+    orderBy: TeamMemberOrderBySchemaJson,
   })
   .partial();
 
@@ -6670,8 +6684,10 @@ export const SalaryQueryOneSchema = z
 
 export const SalaryQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: SalaryWhereSchemaJson,
     distinct: SalaryDistinctFieldsSchema,
+    orderBy: SalaryOrderBySchemaJson,
   })
   .partial();
 
@@ -6710,8 +6726,10 @@ export const SalaryHistoryQueryOneSchema = z
 
 export const SalaryHistoryQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: SalaryHistoryWhereSchemaJson,
     distinct: SalaryHistoryDistinctFieldsSchema,
+    orderBy: SalaryHistoryOrderBySchemaJson,
   })
   .partial();
 
@@ -6758,8 +6776,10 @@ export const BenefitQueryOneSchema = z
 
 export const BenefitQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: BenefitWhereSchemaJson,
     distinct: BenefitDistinctFieldsSchema,
+    orderBy: BenefitOrderBySchemaJson,
   })
   .partial();
 
@@ -6800,8 +6820,10 @@ export const BenefitEnrolmentQueryOneSchema = z
 
 export const BenefitEnrolmentQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: BenefitEnrolmentWhereSchemaJson,
     distinct: BenefitEnrolmentDistinctFieldsSchema,
+    orderBy: BenefitEnrolmentOrderBySchemaJson,
   })
   .partial();
 
@@ -6862,8 +6884,10 @@ export const TitleHistoryQueryOneSchema = z
 
 export const TitleHistoryQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: TitleHistoryWhereSchemaJson,
     distinct: TitleHistoryDistinctFieldsSchema,
+    orderBy: TitleHistoryOrderBySchemaJson,
   })
   .partial();
 
@@ -6910,8 +6934,10 @@ export const TimeOffPolicyQueryOneSchema = z
 
 export const TimeOffPolicyQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: TimeOffPolicyWhereSchemaJson,
     distinct: TimeOffPolicyDistinctFieldsSchema,
+    orderBy: TimeOffPolicyOrderBySchemaJson,
   })
   .partial();
 
@@ -6958,8 +6984,10 @@ export const TimeOffBalanceQueryOneSchema = z
 
 export const TimeOffBalanceQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: TimeOffBalanceWhereSchemaJson,
     distinct: TimeOffBalanceDistinctFieldsSchema,
+    orderBy: TimeOffBalanceOrderBySchemaJson,
   })
   .partial();
 
@@ -7012,8 +7040,10 @@ export const TimeOffRequestQueryOneSchema = z
 
 export const TimeOffRequestQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: TimeOffRequestWhereSchemaJson,
     distinct: TimeOffRequestDistinctFieldsSchema,
+    orderBy: TimeOffRequestOrderBySchemaJson,
   })
   .partial();
 
@@ -7066,8 +7096,10 @@ export const TimeOffTransactionQueryOneSchema = z
 
 export const TimeOffTransactionQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: TimeOffTransactionWhereSchemaJson,
     distinct: TimeOffTransactionDistinctFieldsSchema,
+    orderBy: TimeOffTransactionOrderBySchemaJson,
   })
   .partial();
 
@@ -7132,8 +7164,10 @@ export const ClockInQueryOneSchema = z
 
 export const ClockInQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: ClockInWhereSchemaJson,
     distinct: ClockInDistinctFieldsSchema,
+    orderBy: ClockInOrderBySchemaJson,
   })
   .partial();
 
@@ -7174,8 +7208,10 @@ export const PaycheckQueryOneSchema = z
 
 export const PaycheckQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: PaycheckWhereSchemaJson,
     distinct: PaycheckDistinctFieldsSchema,
+    orderBy: PaycheckOrderBySchemaJson,
   })
   .partial();
 
@@ -7216,8 +7252,10 @@ export const EarningQueryOneSchema = z
 
 export const EarningQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: EarningWhereSchemaJson,
     distinct: EarningDistinctFieldsSchema,
+    orderBy: EarningOrderBySchemaJson,
   })
   .partial();
 
@@ -7258,8 +7296,10 @@ export const PaycheckTaxQueryOneSchema = z
 
 export const PaycheckTaxQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: PaycheckTaxWhereSchemaJson,
     distinct: PaycheckTaxDistinctFieldsSchema,
+    orderBy: PaycheckTaxOrderBySchemaJson,
   })
   .partial();
 
@@ -7304,8 +7344,10 @@ export const DeductionPolicyQueryOneSchema = z
 
 export const DeductionPolicyQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: DeductionPolicyWhereSchemaJson,
     distinct: DeductionPolicyDistinctFieldsSchema,
+    orderBy: DeductionPolicyOrderBySchemaJson,
   })
   .partial();
 
@@ -7362,8 +7404,10 @@ export const EmployeeDeductionQueryOneSchema = z
 
 export const EmployeeDeductionQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: EmployeeDeductionWhereSchemaJson,
     distinct: EmployeeDeductionDistinctFieldsSchema,
+    orderBy: EmployeeDeductionOrderBySchemaJson,
   })
   .partial();
 
@@ -7428,8 +7472,10 @@ export const PaycheckDeductionQueryOneSchema = z
 
 export const PaycheckDeductionQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: PaycheckDeductionWhereSchemaJson,
     distinct: PaycheckDeductionDistinctFieldsSchema,
+    orderBy: PaycheckDeductionOrderBySchemaJson,
   })
   .partial();
 
@@ -7494,8 +7540,10 @@ export const EmployeeTaxDataQueryOneSchema = z
 
 export const EmployeeTaxDataQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: EmployeeTaxDataWhereSchemaJson,
     distinct: EmployeeTaxDataDistinctFieldsSchema,
+    orderBy: EmployeeTaxDataOrderBySchemaJson,
   })
   .partial();
 
@@ -7552,8 +7600,10 @@ export const StateTaxWithholdingQueryOneSchema = z
 
 export const StateTaxWithholdingQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: StateTaxWithholdingWhereSchemaJson,
     distinct: StateTaxWithholdingDistinctFieldsSchema,
+    orderBy: StateTaxWithholdingOrderBySchemaJson,
   })
   .partial();
 
@@ -7618,8 +7668,10 @@ export const LocalTaxWithholdingQueryOneSchema = z
 
 export const LocalTaxWithholdingQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: LocalTaxWithholdingWhereSchemaJson,
     distinct: LocalTaxWithholdingDistinctFieldsSchema,
+    orderBy: LocalTaxWithholdingOrderBySchemaJson,
   })
   .partial();
 
@@ -7684,8 +7736,10 @@ export const PayrollRunQueryOneSchema = z
 
 export const PayrollRunQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: PayrollRunWhereSchemaJson,
     distinct: PayrollRunDistinctFieldsSchema,
+    orderBy: PayrollRunOrderBySchemaJson,
   })
   .partial();
 
@@ -7728,8 +7782,10 @@ export const ContactQueryOneSchema = z
 
 export const ContactQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: ContactWhereSchemaJson,
     distinct: ContactDistinctFieldsSchema,
+    orderBy: ContactOrderBySchemaJson,
   })
   .partial();
 
@@ -7770,8 +7826,10 @@ export const CountryQueryOneSchema = z
 
 export const CountryQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: CountryWhereSchemaJson,
     distinct: CountryDistinctFieldsSchema,
+    orderBy: CountryOrderBySchemaJson,
   })
   .partial();
 
@@ -7812,8 +7870,10 @@ export const StateQueryOneSchema = z
 
 export const StateQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: StateWhereSchemaJson,
     distinct: StateDistinctFieldsSchema,
+    orderBy: StateOrderBySchemaJson,
   })
   .partial();
 
@@ -7852,8 +7912,10 @@ export const AddressQueryOneSchema = z
 
 export const AddressQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: AddressWhereSchemaJson,
     distinct: AddressDistinctFieldsSchema,
+    orderBy: AddressOrderBySchemaJson,
   })
   .partial();
 
@@ -7894,8 +7956,10 @@ export const EmailQueryOneSchema = z
 
 export const EmailQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: EmailWhereSchemaJson,
     distinct: EmailDistinctFieldsSchema,
+    orderBy: EmailOrderBySchemaJson,
   })
   .partial();
 
@@ -7934,8 +7998,10 @@ export const PhoneQueryOneSchema = z
 
 export const PhoneQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: PhoneWhereSchemaJson,
     distinct: PhoneDistinctFieldsSchema,
+    orderBy: PhoneOrderBySchemaJson,
   })
   .partial();
 
@@ -7974,8 +8040,10 @@ export const PrimaryEmailQueryOneSchema = z
 
 export const PrimaryEmailQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: PrimaryEmailWhereSchemaJson,
     distinct: PrimaryEmailDistinctFieldsSchema,
+    orderBy: PrimaryEmailOrderBySchemaJson,
   })
   .partial();
 
@@ -8022,8 +8090,10 @@ export const PrimaryPhoneQueryOneSchema = z
 
 export const PrimaryPhoneQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: PrimaryPhoneWhereSchemaJson,
     distinct: PrimaryPhoneDistinctFieldsSchema,
+    orderBy: PrimaryPhoneOrderBySchemaJson,
   })
   .partial();
 
@@ -8070,8 +8140,10 @@ export const PrimaryAddressQueryOneSchema = z
 
 export const PrimaryAddressQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: PrimaryAddressWhereSchemaJson,
     distinct: PrimaryAddressDistinctFieldsSchema,
+    orderBy: PrimaryAddressOrderBySchemaJson,
   })
   .partial();
 

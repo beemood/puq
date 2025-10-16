@@ -2046,8 +2046,10 @@ export const UserQueryOneSchema = z
 
 export const UserQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: UserWhereSchemaJson,
     distinct: UserDistinctFieldsSchema,
+    orderBy: UserOrderBySchemaJson,
   })
   .partial();
 
@@ -2086,8 +2088,10 @@ export const AccessTokenQueryOneSchema = z
 
 export const AccessTokenQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: AccessTokenWhereSchemaJson,
     distinct: AccessTokenDistinctFieldsSchema,
+    orderBy: AccessTokenOrderBySchemaJson,
   })
   .partial();
 
@@ -2132,8 +2136,10 @@ export const ScopeQueryOneSchema = z
 
 export const ScopeQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: ScopeWhereSchemaJson,
     distinct: ScopeDistinctFieldsSchema,
+    orderBy: ScopeOrderBySchemaJson,
   })
   .partial();
 
@@ -2172,8 +2178,10 @@ export const ResourceQueryOneSchema = z
 
 export const ResourceQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: ResourceWhereSchemaJson,
     distinct: ResourceDistinctFieldsSchema,
+    orderBy: ResourceOrderBySchemaJson,
   })
   .partial();
 
@@ -2214,8 +2222,10 @@ export const OperationQueryOneSchema = z
 
 export const OperationQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: OperationWhereSchemaJson,
     distinct: OperationDistinctFieldsSchema,
+    orderBy: OperationOrderBySchemaJson,
   })
   .partial();
 
@@ -2256,8 +2266,10 @@ export const ActivityQueryOneSchema = z
 
 export const ActivityQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: ActivityWhereSchemaJson,
     distinct: ActivityDistinctFieldsSchema,
+    orderBy: ActivityOrderBySchemaJson,
   })
   .partial();
 
@@ -2298,8 +2310,10 @@ export const PermissionQueryOneSchema = z
 
 export const PermissionQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: PermissionWhereSchemaJson,
     distinct: PermissionDistinctFieldsSchema,
+    orderBy: PermissionOrderBySchemaJson,
   })
   .partial();
 
@@ -2342,8 +2356,10 @@ export const RoleQueryOneSchema = z
 
 export const RoleQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: RoleWhereSchemaJson,
     distinct: RoleDistinctFieldsSchema,
+    orderBy: RoleOrderBySchemaJson,
   })
   .partial();
 
@@ -2382,8 +2398,10 @@ export const RolePermissionQueryOneSchema = z
 
 export const RolePermissionQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: RolePermissionWhereSchemaJson,
     distinct: RolePermissionDistinctFieldsSchema,
+    orderBy: RolePermissionOrderBySchemaJson,
   })
   .partial();
 
@@ -2436,8 +2454,10 @@ export const SessionQueryOneSchema = z
 
 export const SessionQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: SessionWhereSchemaJson,
     distinct: SessionDistinctFieldsSchema,
+    orderBy: SessionOrderBySchemaJson,
   })
   .partial();
 
@@ -2478,8 +2498,10 @@ export const ActivityLogQueryOneSchema = z
 
 export const ActivityLogQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: ActivityLogWhereSchemaJson,
     distinct: ActivityLogDistinctFieldsSchema,
+    orderBy: ActivityLogOrderBySchemaJson,
   })
   .partial();
 
@@ -2524,8 +2546,10 @@ export const UserPermissionQueryOneSchema = z
 
 export const UserPermissionQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: UserPermissionWhereSchemaJson,
     distinct: UserPermissionDistinctFieldsSchema,
+    orderBy: UserPermissionOrderBySchemaJson,
   })
   .partial();
 
@@ -2578,8 +2602,10 @@ export const AccessTokenPermissionQueryOneSchema = z
 
 export const AccessTokenPermissionQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: AccessTokenPermissionWhereSchemaJson,
     distinct: AccessTokenPermissionDistinctFieldsSchema,
+    orderBy: AccessTokenPermissionOrderBySchemaJson,
   })
   .partial();
 

@@ -4623,8 +4623,10 @@ export const UserQueryOneSchema = z
 
 export const UserQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: UserWhereSchemaJson,
     distinct: UserDistinctFieldsSchema,
+    orderBy: UserOrderBySchemaJson,
   })
   .partial();
 
@@ -4663,8 +4665,10 @@ export const TeamQueryOneSchema = z
 
 export const TeamQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: TeamWhereSchemaJson,
     distinct: TeamDistinctFieldsSchema,
+    orderBy: TeamOrderBySchemaJson,
   })
   .partial();
 
@@ -4703,8 +4707,10 @@ export const TeamManagerQueryOneSchema = z
 
 export const TeamManagerQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: TeamManagerWhereSchemaJson,
     distinct: TeamManagerDistinctFieldsSchema,
+    orderBy: TeamManagerOrderBySchemaJson,
   })
   .partial();
 
@@ -4749,8 +4755,10 @@ export const TeamMemberQueryOneSchema = z
 
 export const TeamMemberQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: TeamMemberWhereSchemaJson,
     distinct: TeamMemberDistinctFieldsSchema,
+    orderBy: TeamMemberOrderBySchemaJson,
   })
   .partial();
 
@@ -4793,8 +4801,10 @@ export const ProjectQueryOneSchema = z
 
 export const ProjectQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: ProjectWhereSchemaJson,
     distinct: ProjectDistinctFieldsSchema,
+    orderBy: ProjectOrderBySchemaJson,
   })
   .partial();
 
@@ -4835,8 +4845,10 @@ export const TagQueryOneSchema = z
 
 export const TagQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: TagWhereSchemaJson,
     distinct: TagDistinctFieldsSchema,
+    orderBy: TagOrderBySchemaJson,
   })
   .partial();
 
@@ -4875,8 +4887,10 @@ export const CategoryQueryOneSchema = z
 
 export const CategoryQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: CategoryWhereSchemaJson,
     distinct: CategoryDistinctFieldsSchema,
+    orderBy: CategoryOrderBySchemaJson,
   })
   .partial();
 
@@ -4917,8 +4931,10 @@ export const SprintQueryOneSchema = z
 
 export const SprintQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: SprintWhereSchemaJson,
     distinct: SprintDistinctFieldsSchema,
+    orderBy: SprintOrderBySchemaJson,
   })
   .partial();
 
@@ -4957,8 +4973,10 @@ export const PriorityQueryOneSchema = z
 
 export const PriorityQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: PriorityWhereSchemaJson,
     distinct: PriorityDistinctFieldsSchema,
+    orderBy: PriorityOrderBySchemaJson,
   })
   .partial();
 
@@ -4999,8 +5017,10 @@ export const StatusQueryOneSchema = z
 
 export const StatusQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: StatusWhereSchemaJson,
     distinct: StatusDistinctFieldsSchema,
+    orderBy: StatusOrderBySchemaJson,
   })
   .partial();
 
@@ -5039,8 +5059,10 @@ export const PointQueryOneSchema = z
 
 export const PointQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: PointWhereSchemaJson,
     distinct: PointDistinctFieldsSchema,
+    orderBy: PointOrderBySchemaJson,
   })
   .partial();
 
@@ -5079,8 +5101,10 @@ export const TaskQueryOneSchema = z
 
 export const TaskQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: TaskWhereSchemaJson,
     distinct: TaskDistinctFieldsSchema,
+    orderBy: TaskOrderBySchemaJson,
   })
   .partial();
 
@@ -5119,8 +5143,10 @@ export const AssignmentHistoryQueryOneSchema = z
 
 export const AssignmentHistoryQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: AssignmentHistoryWhereSchemaJson,
     distinct: AssignmentHistoryDistinctFieldsSchema,
+    orderBy: AssignmentHistoryOrderBySchemaJson,
   })
   .partial();
 
@@ -5185,8 +5211,10 @@ export const PriorityHistoryQueryOneSchema = z
 
 export const PriorityHistoryQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: PriorityHistoryWhereSchemaJson,
     distinct: PriorityHistoryDistinctFieldsSchema,
+    orderBy: PriorityHistoryOrderBySchemaJson,
   })
   .partial();
 
@@ -5243,8 +5271,10 @@ export const StatusHistoryQueryOneSchema = z
 
 export const StatusHistoryQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: StatusHistoryWhereSchemaJson,
     distinct: StatusHistoryDistinctFieldsSchema,
+    orderBy: StatusHistoryOrderBySchemaJson,
   })
   .partial();
 
@@ -5291,8 +5321,10 @@ export const PointHistoryQueryOneSchema = z
 
 export const PointHistoryQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: PointHistoryWhereSchemaJson,
     distinct: PointHistoryDistinctFieldsSchema,
+    orderBy: PointHistoryOrderBySchemaJson,
   })
   .partial();
 
@@ -5339,8 +5371,10 @@ export const TeamHistoryQueryOneSchema = z
 
 export const TeamHistoryQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: TeamHistoryWhereSchemaJson,
     distinct: TeamHistoryDistinctFieldsSchema,
+    orderBy: TeamHistoryOrderBySchemaJson,
   })
   .partial();
 
@@ -5385,8 +5419,10 @@ export const TaskTagQueryOneSchema = z
 
 export const TaskTagQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: TaskTagWhereSchemaJson,
     distinct: TaskTagDistinctFieldsSchema,
+    orderBy: TaskTagOrderBySchemaJson,
   })
   .partial();
 
@@ -5427,8 +5463,10 @@ export const TaskCategoryQueryOneSchema = z
 
 export const TaskCategoryQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: TaskCategoryWhereSchemaJson,
     distinct: TaskCategoryDistinctFieldsSchema,
+    orderBy: TaskCategoryOrderBySchemaJson,
   })
   .partial();
 
@@ -5475,8 +5513,10 @@ export const AssignmentQueryOneSchema = z
 
 export const AssignmentQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: AssignmentWhereSchemaJson,
     distinct: AssignmentDistinctFieldsSchema,
+    orderBy: AssignmentOrderBySchemaJson,
   })
   .partial();
 
@@ -5519,8 +5559,10 @@ export const CommentQueryOneSchema = z
 
 export const CommentQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: CommentWhereSchemaJson,
     distinct: CommentDistinctFieldsSchema,
+    orderBy: CommentOrderBySchemaJson,
   })
   .partial();
 
@@ -5561,8 +5603,10 @@ export const ProjectTaskTagQueryOneSchema = z
 
 export const ProjectTaskTagQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: ProjectTaskTagWhereSchemaJson,
     distinct: ProjectTaskTagDistinctFieldsSchema,
+    orderBy: ProjectTaskTagOrderBySchemaJson,
   })
   .partial();
 
@@ -5615,8 +5659,10 @@ export const ProjectTaskStatusQueryOneSchema = z
 
 export const ProjectTaskStatusQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: ProjectTaskStatusWhereSchemaJson,
     distinct: ProjectTaskStatusDistinctFieldsSchema,
+    orderBy: ProjectTaskStatusOrderBySchemaJson,
   })
   .partial();
 
@@ -5681,8 +5727,10 @@ export const ProjectTaskPriorityQueryOneSchema = z
 
 export const ProjectTaskPriorityQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: ProjectTaskPriorityWhereSchemaJson,
     distinct: ProjectTaskPriorityDistinctFieldsSchema,
+    orderBy: ProjectTaskPriorityOrderBySchemaJson,
   })
   .partial();
 

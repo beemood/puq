@@ -49,15 +49,15 @@
 
 
 
-- [ ] Where proeprty queries does not allow the scalar values but require the FilterObject (IntFilterScheam, StringFilterSchema, ...). Fix the where schemas so that they allow scalar values withtout object schema such as for a string filter, I should be able to just say "some string" instead of providing an object `{ equals:"some string" }`
+- [x] Where proeprty queries does not allow the scalar values but require the FilterObject (IntFilterScheam, StringFilterSchema, ...). Fix the where schemas so that they allow scalar values withtout object schema such as for a string filter, I should be able to just say "some string" instead of providing an object `{ equals:"some string" }`
 
 
-- [ ] The where property in the `QuerySchema and QueryOneSchema` such as `CategoryQuerySchema, CategoryQueryOneSchema` has issue. The x-to-one relations' where options are suppoed to be the target' models' OwnWhereSchema but it has `{ some: WhereSchem, every: WhereSchema, none: WhereSchema }`, which is correct for the x-to-many relations but not one. One must be just `whereSchema` not the some,every, none object.
+- [x] The where property in the `QuerySchema and QueryOneSchema` such as `CategoryQuerySchema, CategoryQueryOneSchema` has issue. The x-to-one relations' where options are suppoed to be the target' models' OwnWhereSchema but it has `{ some: WhereSchem, every: WhereSchema, none: WhereSchema }`, which is correct for the x-to-many relations but not one. One must be just `whereSchema` not the some,every, none object.
 
 
 
 
-- [ ] Optimize the zod error object. The current response is as follows. Make sure to throw Unprocessable entity error as an object 
+- [x] Optimize the zod error object. The current response is as follows. Make sure to throw Unprocessable entity error as an object 
 
 ````json 
 {
@@ -67,7 +67,7 @@
 ````
 
 
-- [ ] Remove the "findOneBy" ("api/products/:property/:value") operation! It can be done by "findOne" advance query operation GET ("api/product?query....) or (api/products?query....)
+- [x] Remove the "findOneBy" ("api/products/:property/:value") operation! It can be done by "findOne" advance query operation GET ("api/product?query....) or (api/products?query....)
 
 
 

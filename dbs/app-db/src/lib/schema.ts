@@ -493,8 +493,10 @@ export const AppQueryOneSchema = z
 
 export const AppQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: AppWhereSchemaJson,
     distinct: AppDistinctFieldsSchema,
+    orderBy: AppOrderBySchemaJson,
   })
   .partial();
 
@@ -533,8 +535,10 @@ export const SecretQueryOneSchema = z
 
 export const SecretQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: SecretWhereSchemaJson,
     distinct: SecretDistinctFieldsSchema,
+    orderBy: SecretOrderBySchemaJson,
   })
   .partial();
 
@@ -573,8 +577,10 @@ export const AppHistoryQueryOneSchema = z
 
 export const AppHistoryQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: AppHistoryWhereSchemaJson,
     distinct: AppHistoryDistinctFieldsSchema,
+    orderBy: AppHistoryOrderBySchemaJson,
   })
   .partial();
 

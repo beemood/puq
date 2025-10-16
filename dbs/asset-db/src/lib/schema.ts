@@ -3115,8 +3115,10 @@ export const RoomAttributeQueryOneSchema = z
 
 export const RoomAttributeQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: RoomAttributeWhereSchemaJson,
     distinct: RoomAttributeDistinctFieldsSchema,
+    orderBy: RoomAttributeOrderBySchemaJson,
   })
   .partial();
 
@@ -3163,8 +3165,10 @@ export const RoomAttributeValueQueryOneSchema = z
 
 export const RoomAttributeValueQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: RoomAttributeValueWhereSchemaJson,
     distinct: RoomAttributeValueDistinctFieldsSchema,
+    orderBy: RoomAttributeValueOrderBySchemaJson,
   })
   .partial();
 
@@ -3229,8 +3233,10 @@ export const ItemAttributeQueryOneSchema = z
 
 export const ItemAttributeQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: ItemAttributeWhereSchemaJson,
     distinct: ItemAttributeDistinctFieldsSchema,
+    orderBy: ItemAttributeOrderBySchemaJson,
   })
   .partial();
 
@@ -3277,8 +3283,10 @@ export const ItemAttributeValueQueryOneSchema = z
 
 export const ItemAttributeValueQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: ItemAttributeValueWhereSchemaJson,
     distinct: ItemAttributeValueDistinctFieldsSchema,
+    orderBy: ItemAttributeValueOrderBySchemaJson,
   })
   .partial();
 
@@ -3343,8 +3351,10 @@ export const CategoryQueryOneSchema = z
 
 export const CategoryQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: CategoryWhereSchemaJson,
     distinct: CategoryDistinctFieldsSchema,
+    orderBy: CategoryOrderBySchemaJson,
   })
   .partial();
 
@@ -3385,8 +3395,10 @@ export const BuildingQueryOneSchema = z
 
 export const BuildingQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: BuildingWhereSchemaJson,
     distinct: BuildingDistinctFieldsSchema,
+    orderBy: BuildingOrderBySchemaJson,
   })
   .partial();
 
@@ -3427,8 +3439,10 @@ export const RoomQueryOneSchema = z
 
 export const RoomQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: RoomWhereSchemaJson,
     distinct: RoomDistinctFieldsSchema,
+    orderBy: RoomOrderBySchemaJson,
   })
   .partial();
 
@@ -3467,8 +3481,10 @@ export const ItemQueryOneSchema = z
 
 export const ItemQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: ItemWhereSchemaJson,
     distinct: ItemDistinctFieldsSchema,
+    orderBy: ItemOrderBySchemaJson,
   })
   .partial();
 
@@ -3507,8 +3523,10 @@ export const QuantityQueryOneSchema = z
 
 export const QuantityQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: QuantityWhereSchemaJson,
     distinct: QuantityDistinctFieldsSchema,
+    orderBy: QuantityOrderBySchemaJson,
   })
   .partial();
 
@@ -3549,8 +3567,10 @@ export const SerialNumberQueryOneSchema = z
 
 export const SerialNumberQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: SerialNumberWhereSchemaJson,
     distinct: SerialNumberDistinctFieldsSchema,
+    orderBy: SerialNumberOrderBySchemaJson,
   })
   .partial();
 
@@ -3597,8 +3617,10 @@ export const QuantityMoveRequestQueryOneSchema = z
 
 export const QuantityMoveRequestQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: QuantityMoveRequestWhereSchemaJson,
     distinct: QuantityMoveRequestDistinctFieldsSchema,
+    orderBy: QuantityMoveRequestOrderBySchemaJson,
   })
   .partial();
 
@@ -3663,8 +3685,10 @@ export const SerialMoveRequestQueryOneSchema = z
 
 export const SerialMoveRequestQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: SerialMoveRequestWhereSchemaJson,
     distinct: SerialMoveRequestDistinctFieldsSchema,
+    orderBy: SerialMoveRequestOrderBySchemaJson,
   })
   .partial();
 
@@ -3729,8 +3753,10 @@ export const EmployeeQueryOneSchema = z
 
 export const EmployeeQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: EmployeeWhereSchemaJson,
     distinct: EmployeeDistinctFieldsSchema,
+    orderBy: EmployeeOrderBySchemaJson,
   })
   .partial();
 
@@ -3771,8 +3797,10 @@ export const EmployeeRoomQueryOneSchema = z
 
 export const EmployeeRoomQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: EmployeeRoomWhereSchemaJson,
     distinct: EmployeeRoomDistinctFieldsSchema,
+    orderBy: EmployeeRoomOrderBySchemaJson,
   })
   .partial();
 
@@ -3819,8 +3847,10 @@ export const EmployeeItemQueryOneSchema = z
 
 export const EmployeeItemQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: EmployeeItemWhereSchemaJson,
     distinct: EmployeeItemDistinctFieldsSchema,
+    orderBy: EmployeeItemOrderBySchemaJson,
   })
   .partial();
 
@@ -3867,8 +3897,10 @@ export const EmployeeRoomRequestQueryOneSchema = z
 
 export const EmployeeRoomRequestQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: EmployeeRoomRequestWhereSchemaJson,
     distinct: EmployeeRoomRequestDistinctFieldsSchema,
+    orderBy: EmployeeRoomRequestOrderBySchemaJson,
   })
   .partial();
 
@@ -3933,8 +3965,10 @@ export const EmployeeItemRequestQueryOneSchema = z
 
 export const EmployeeItemRequestQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: EmployeeItemRequestWhereSchemaJson,
     distinct: EmployeeItemRequestDistinctFieldsSchema,
+    orderBy: EmployeeItemRequestOrderBySchemaJson,
   })
   .partial();
 

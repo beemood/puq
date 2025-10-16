@@ -423,8 +423,10 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
 
     const querySchema = `
     export const ${model.name}QuerySchema = z.object({ 
+      ...PaginationSchema.shape,
       where: ${model.name}WhereSchemaJson, 
-      distinct: ${model.name}DistinctFieldsSchema
+      distinct: ${model.name}DistinctFieldsSchema, 
+      orderBy: ${model.name}OrderBySchemaJson,
     }).partial()
     `;
 

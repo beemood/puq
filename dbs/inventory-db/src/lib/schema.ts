@@ -3439,8 +3439,10 @@ export const CategoryQueryOneSchema = z
 
 export const CategoryQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: CategoryWhereSchemaJson,
     distinct: CategoryDistinctFieldsSchema,
+    orderBy: CategoryOrderBySchemaJson,
   })
   .partial();
 
@@ -3481,8 +3483,10 @@ export const ProductQueryOneSchema = z
 
 export const ProductQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: ProductWhereSchemaJson,
     distinct: ProductDistinctFieldsSchema,
+    orderBy: ProductOrderBySchemaJson,
   })
   .partial();
 
@@ -3523,8 +3527,10 @@ export const ProductCategoryQueryOneSchema = z
 
 export const ProductCategoryQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: ProductCategoryWhereSchemaJson,
     distinct: ProductCategoryDistinctFieldsSchema,
+    orderBy: ProductCategoryOrderBySchemaJson,
   })
   .partial();
 
@@ -3581,8 +3587,10 @@ export const VariantQueryOneSchema = z
 
 export const VariantQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: VariantWhereSchemaJson,
     distinct: VariantDistinctFieldsSchema,
+    orderBy: VariantOrderBySchemaJson,
   })
   .partial();
 
@@ -3623,8 +3631,10 @@ export const AttributeCategoryQueryOneSchema = z
 
 export const AttributeCategoryQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: AttributeCategoryWhereSchemaJson,
     distinct: AttributeCategoryDistinctFieldsSchema,
+    orderBy: AttributeCategoryOrderBySchemaJson,
   })
   .partial();
 
@@ -3689,8 +3699,10 @@ export const AttributeQueryOneSchema = z
 
 export const AttributeQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: AttributeWhereSchemaJson,
     distinct: AttributeDistinctFieldsSchema,
+    orderBy: AttributeOrderBySchemaJson,
   })
   .partial();
 
@@ -3731,8 +3743,10 @@ export const UnitQueryOneSchema = z
 
 export const UnitQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: UnitWhereSchemaJson,
     distinct: UnitDistinctFieldsSchema,
+    orderBy: UnitOrderBySchemaJson,
   })
   .partial();
 
@@ -3771,8 +3785,10 @@ export const AttributeUnitQueryOneSchema = z
 
 export const AttributeUnitQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: AttributeUnitWhereSchemaJson,
     distinct: AttributeUnitDistinctFieldsSchema,
+    orderBy: AttributeUnitOrderBySchemaJson,
   })
   .partial();
 
@@ -3819,8 +3835,10 @@ export const AttributeValueQueryOneSchema = z
 
 export const AttributeValueQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: AttributeValueWhereSchemaJson,
     distinct: AttributeValueDistinctFieldsSchema,
+    orderBy: AttributeValueOrderBySchemaJson,
   })
   .partial();
 
@@ -3873,8 +3891,10 @@ export const CurrencyQueryOneSchema = z
 
 export const CurrencyQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: CurrencyWhereSchemaJson,
     distinct: CurrencyDistinctFieldsSchema,
+    orderBy: CurrencyOrderBySchemaJson,
   })
   .partial();
 
@@ -3915,8 +3935,10 @@ export const PriceLevelQueryOneSchema = z
 
 export const PriceLevelQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: PriceLevelWhereSchemaJson,
     distinct: PriceLevelDistinctFieldsSchema,
+    orderBy: PriceLevelOrderBySchemaJson,
   })
   .partial();
 
@@ -3959,8 +3981,10 @@ export const PriceQueryOneSchema = z
 
 export const PriceQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: PriceWhereSchemaJson,
     distinct: PriceDistinctFieldsSchema,
+    orderBy: PriceOrderBySchemaJson,
   })
   .partial();
 
@@ -3999,8 +4023,10 @@ export const QuantityQueryOneSchema = z
 
 export const QuantityQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: QuantityWhereSchemaJson,
     distinct: QuantityDistinctFieldsSchema,
+    orderBy: QuantityOrderBySchemaJson,
   })
   .partial();
 
@@ -4041,8 +4067,10 @@ export const SerialNumberQueryOneSchema = z
 
 export const SerialNumberQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: SerialNumberWhereSchemaJson,
     distinct: SerialNumberDistinctFieldsSchema,
+    orderBy: SerialNumberOrderBySchemaJson,
   })
   .partial();
 
@@ -4089,8 +4117,10 @@ export const DiscountQueryOneSchema = z
 
 export const DiscountQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: DiscountWhereSchemaJson,
     distinct: DiscountDistinctFieldsSchema,
+    orderBy: DiscountOrderBySchemaJson,
   })
   .partial();
 
@@ -4131,8 +4161,10 @@ export const DiscountTargetQueryOneSchema = z
 
 export const DiscountTargetQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: DiscountTargetWhereSchemaJson,
     distinct: DiscountTargetDistinctFieldsSchema,
+    orderBy: DiscountTargetOrderBySchemaJson,
   })
   .partial();
 
@@ -4185,8 +4217,10 @@ export const StoreQueryOneSchema = z
 
 export const StoreQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: StoreWhereSchemaJson,
     distinct: StoreDistinctFieldsSchema,
+    orderBy: StoreOrderBySchemaJson,
   })
   .partial();
 
@@ -4225,8 +4259,10 @@ export const WarrantyPolicyQueryOneSchema = z
 
 export const WarrantyPolicyQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: WarrantyPolicyWhereSchemaJson,
     distinct: WarrantyPolicyDistinctFieldsSchema,
+    orderBy: WarrantyPolicyOrderBySchemaJson,
   })
   .partial();
 
@@ -4279,8 +4315,10 @@ export const ProductWarrantyQueryOneSchema = z
 
 export const ProductWarrantyQuerySchema = z
   .object({
+    ...PaginationSchema.shape,
     where: ProductWarrantyWhereSchemaJson,
     distinct: ProductWarrantyDistinctFieldsSchema,
+    orderBy: ProductWarrantyOrderBySchemaJson,
   })
   .partial();
 

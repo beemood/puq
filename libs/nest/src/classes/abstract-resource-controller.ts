@@ -9,17 +9,17 @@ export abstract class AbstractResourceController
   /**
    *
    * 🤣 Save a single entity to the database and projection
-   * @param body
-   * @param projection
+   * @param data Request body
+   * @param projection Options such as select, omit fields, and include relations
    */
-  saveOne(body: Any, projection: Any): Any {
-    throw new NIE(`saveOne is not implemented: ${{ body, projection }}`);
+  saveOne(data: Any, projection: Any): Any {
+    throw new NIE(`saveOne is not implemented: ${{ data, projection }}`);
   }
 
   /**
-   * 🤣 Find a single entity by id
+   * 🤣 Find a single entity by id.
    * @param id Unqiue id
-   * @param query query and projection options
+   * @param projection Options such as select, omit fields, and include relations
    */
   findOneById(id: number, projection: Any): Any {
     throw new NIE(`findOneById is not implemented: ${{ id, projection }}`);
@@ -27,28 +27,29 @@ export abstract class AbstractResourceController
 
   /**
    * 🤣 Find items by advance query filters, orders, and projections
-   * @param query query and projection options
+   * @param query Advance query options
+   * @param projection Options such as select, omit fields, and include relations
    */
-  findMany(query: Any): Any {
-    throw new NIE(`findMany is not implemented: ${query}`);
+  findMany(query: Any, projection: Any): Any {
+    throw new NIE(`findMany is not implemented: ${{ query, projection }}`);
   }
 
   /**
    * 🤣 Update an entity by id and projection the result
-   * @param id
-   * @param projection
-   * @param body
+   * @param id Entity id
+   * @param projection Options such as select, omit fields, and include relations
+   * @param data Request body
    */
-  updateOneById(id: number, projection: Any, body: Any): Any {
+  updateOneById(id: number, projection: Any, data: Any): Any {
     throw new NIE(
-      `updateOneById is not implemented: ${{ id, projection, body }}`
+      `updateOneById is not implemented: ${{ id, projection, data }}`
     );
   }
 
   /**
    * 🤣 Delete a single entity by id and projection
    * @param id
-   * @param projection
+   * @param projection Options such as select, omit fields, and include relations
    */
   deleteOneById(id: number, projection: Any): Any {
     throw new NIE(`deleteOneById is not implemented: ${{ id, projection }}`);
@@ -56,17 +57,18 @@ export abstract class AbstractResourceController
 
   /**
    * 😱 Find a single entity by advance query and projection
-   * @param query query and projection options
+   * @param query Advance query options
+   * @param projection Options such as select, omit fields, and include relations
    */
-  findOne(query: Any): Any {
-    throw new NIE(`findOne is not implemented: ${query}`);
+  findOne(query: Any, projection: Any): Any {
+    throw new NIE(`findOne is not implemented: ${{ query, projection }}`);
   }
 
   /**
    * 😱 Find a single entity by exact property and value match
    * @deprecated Do not implement this method, use the findOne or findMany instead.
-   * @param params
-   * @param query query and projection options
+   * @param params Property and value parameters
+   * @param projection Options such as select, omit fields, and include relations
    */
   findOneBy(params: PropertyValueParam, projection: Any): Any {
     throw new NIE(`findOneBy is not implemented: ${{ params, projection }}`);
@@ -76,7 +78,7 @@ export abstract class AbstractResourceController
    * 😱 Find items by exact property and value match and projection
    * @deprecated Do not implement this method, use findMany instead
    * @param params
-   * @param projection
+   * @param projection Options such as select, omit fields, and include relations
    */
   findManyBy(params: PropertyValueParam, projection: Any): Any {
     throw new NIE(`findManyBy is not implemented: ${{ params, projection }}`);
@@ -84,21 +86,24 @@ export abstract class AbstractResourceController
 
   /**
    * 😱 Save items to the database and projection
-   * @param body
-   * @param projection
+   * @param data Request body
+   * @param projection Options such as select, omit fields, and include relations
    */
-  saveMany(body: Any, projection: Any): Any {
-    throw new NIE(`saveMany is not implemented: ${{ body, projection }}`);
+  saveMany(data: Any, projection: Any): Any {
+    throw new NIE(`saveMany is not implemented: ${{ data, projection }}`);
   }
 
   /**
    * 😱 Udpate a single entity in database by the advance query and projection
    * @deprecated Not recommended. user `updateById` operation instead
-   * @param query query and projection options
-   * @param body
+   * @param query Advance query options
+   * @param projection Options such as select, omit fields, and include relations
+   * @param data Request body
    */
-  updateOne(query: Any, body: Any): Any {
-    throw new NIE(`updateOne is not implemented: ${{ query, body }}`);
+  updateOne(query: Any, projection: Any, data: Any): Any {
+    throw new NIE(
+      `updateOne is not implemented: ${{ query, projection, data }}`
+    );
   }
 
   /**
@@ -106,67 +111,84 @@ export abstract class AbstractResourceController
    * Not recommended use update by id operation instead
    * @param params
    * @param projection
-   * @param body
+   * @param data Request body
    */
-  updateOneBy(params: PropertyValueParam, projection: Any, body: Any): Any {
+  updateOneBy(params: PropertyValueParam, projection: Any, data: Any): Any {
     throw new NIE(
-      `updateOneBy is not implemented: ${{ params, projection, body }}`
+      `updateOneBy is not implemented: ${{ params, projection, data }}`
     );
   }
 
   /**
    * 😱 Update many entities by advance query and projections
-   * @param query query and projection options
-   * @param body
+   * @param query query and options
+   * @param projection Options such as select, omit fields, and include relations
+   * @param data Request body
    */
-  updateMany(query: Any, body: Any): Any {
-    throw new NIE(`updateMany is not implemented: ${{ query, body }}`);
+  updateMany(query: Any, projection: Any, data: Any): Any {
+    throw new NIE(
+      `updateMany is not implemented: ${{ query, projection, data }}`
+    );
   }
 
   /**
    * Update many entities by exact property and value
    * @param params
-   * @param query query and projection options
-   * @param body
+   * @param query query and options
+   * @param projection Options such as select, omit fields, and include relations
+   * @param data Request body
    */
-  updateManyBy(params: PropertyValueParam, query: Any, body: Any): Any {
+  updateManyBy(
+    params: PropertyValueParam,
+    query: Any,
+    projection: Any,
+    data: Any
+  ): Any {
     throw new NIE(
-      `updateManyBy is not implemented: ${{ params, query, body }}`
+      `updateManyBy is not implemented: ${{ params, query, projection, data }}`
     );
   }
 
   /**
    * Delete a single entity by advance query and projection
-   * @param query query and projection options
+   * @param query query and options
+   * @param projection Options such as select, omit fields, and include relations
    */
-  deleteOne(query: Any): Any {
-    throw new NIE(`deleteOne is not implemented: ${query}`);
+  deleteOne(query: Any, projection: Any): Any {
+    throw new NIE(`deleteOne is not implemented: ${{ query, projection }}`);
   }
 
   /**
    * Delete a single entity by exact property and value match and projection
    * @param params
-   * @param query query and projection options
+   * @param query query and options
+   * @param projection Options such as select, omit fields, and include relations
    */
-  deleteOneBy(params: PropertyValueParam, query: Any): Any {
-    throw new NIE(`deleteOneBy is not implemented: ${{ params, query }}`);
+  deleteOneBy(params: PropertyValueParam, query: Any, projection: Any): Any {
+    throw new NIE(
+      `deleteOneBy is not implemented: ${{ params, query, projection }}`
+    );
   }
   /**
    * Delete many entities by advance query and projection
    * @deprecated use `deleteOneById` operation whenever possible
-   * @param query query and projection options
+   * @param query query and options
+   * @param projection Options such as select, omit fields, and include relationsF
    */
-  deleteMany(query: Any): Any {
-    throw new NIE(`deleteMany is not implemented: ${query}`);
+  deleteMany(query: Any, projection: Any): Any {
+    throw new NIE(`deleteMany is not implemented: ${{ query, projection }}`);
   }
 
   /**
    * Delete many entities by exact property and value match
    * @deprecated use `deleteOneById` operation whenever possible
    * @param params
-   * @param query query and projection options
+   * @param query Advance query options
+   * @param projection Options such as select, omit fields, and include relations
    */
-  deleteManyBy(params: PropertyValueParam, query: Any): Any {
-    throw new NIE(`deleteManyBy is not implemented: ${{ params, query }}`);
+  deleteManyBy(params: PropertyValueParam, query: Any, projection: Any): Any {
+    throw new NIE(
+      `deleteManyBy is not implemented: ${{ params, query, projection }}`
+    );
   }
 }
