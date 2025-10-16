@@ -1,5 +1,36 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as PZ from '@puq/zod';
 import { z } from 'zod';
+import { slugify } from '@puq/names';
+
+export const takeSchema = z.coerce.number().int().min(1).default(20).optional();
+export const skipSchema = z.coerce.number().int().min(0).default(0).optional();
+
+export const PaginationSchema = z
+  .object({
+    take: takeSchema,
+    skip: skipSchema,
+  })
+  .partial();
+
+export function jsonParser<T>(value: T) {
+  if (typeof value === 'string') {
+    return JSON.parse(value);
+  }
+  return value;
+}
+
+export function slugTransformer(key: string) {
+  return (value: any) => {
+    if (value.slug == undefined && value[key] != undefined) {
+      return {
+        ...value,
+        slug: value[key] ? slugify(value[key].toString()) : null,
+      };
+    }
+    return value;
+  };
+}
 
 export const AppOwnProjectionSchema = z
   .object({
@@ -13,6 +44,11 @@ export const AppOwnProjectionSchema = z
   })
   .partial();
 
+export const AppOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  AppOwnProjectionSchema
+);
+
 export const SecretOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -23,6 +59,11 @@ export const SecretOwnProjectionSchema = z
   })
   .partial();
 
+export const SecretOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  SecretOwnProjectionSchema
+);
+
 export const AppHistoryOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -32,6 +73,11 @@ export const AppHistoryOwnProjectionSchema = z
     app: z.boolean(),
   })
   .partial();
+
+export const AppHistoryOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  AppHistoryOwnProjectionSchema
+);
 
 export const AppOwnWhereSchema = z
   .object({
@@ -44,6 +90,11 @@ export const AppOwnWhereSchema = z
   })
   .partial();
 
+export const AppOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  AppOwnWhereSchema
+);
+
 export const SecretOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -54,6 +105,11 @@ export const SecretOwnWhereSchema = z
   })
   .partial();
 
+export const SecretOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  SecretOwnWhereSchema
+);
+
 export const AppHistoryOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -63,57 +119,97 @@ export const AppHistoryOwnWhereSchema = z
   })
   .partial();
 
+export const AppHistoryOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  AppHistoryOwnWhereSchema
+);
+
+export const AppOwnIncludeSchema = z
+  .object({
+    history: z.boolean(),
+  })
+  .partial();
+
+export const AppOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  AppOwnIncludeSchema
+);
+
 export const AppOwnQueryOneSchema = z
   .object({
-    where: AppOwnWhereSchema,
-    select: AppOwnProjectionSchema,
-    omit: AppOwnProjectionSchema,
+    where: AppOwnWhereSchemaJson,
+    select: AppOwnProjectionSchemaJson,
+    omit: AppOwnProjectionSchemaJson,
+    include: AppOwnIncludeSchemaJson,
   })
   .partial();
 
 export const AppOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: AppOwnWhereSchema,
-    select: AppOwnProjectionSchema,
-    omit: AppOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: AppOwnWhereSchemaJson,
+    select: AppOwnProjectionSchemaJson,
+    omit: AppOwnProjectionSchemaJson,
+    include: AppOwnIncludeSchemaJson,
   })
   .partial();
 
+export const SecretOwnIncludeSchema = z.object({}).partial();
+
+export const SecretOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  SecretOwnIncludeSchema
+);
+
 export const SecretOwnQueryOneSchema = z
   .object({
-    where: SecretOwnWhereSchema,
-    select: SecretOwnProjectionSchema,
-    omit: SecretOwnProjectionSchema,
+    where: SecretOwnWhereSchemaJson,
+    select: SecretOwnProjectionSchemaJson,
+    omit: SecretOwnProjectionSchemaJson,
+    include: SecretOwnIncludeSchemaJson,
   })
   .partial();
 
 export const SecretOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: SecretOwnWhereSchema,
-    select: SecretOwnProjectionSchema,
-    omit: SecretOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: SecretOwnWhereSchemaJson,
+    select: SecretOwnProjectionSchemaJson,
+    omit: SecretOwnProjectionSchemaJson,
+    include: SecretOwnIncludeSchemaJson,
   })
   .partial();
 
+export const AppHistoryOwnIncludeSchema = z
+  .object({
+    app: z.boolean(),
+  })
+  .partial();
+
+export const AppHistoryOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  AppHistoryOwnIncludeSchema
+);
+
 export const AppHistoryOwnQueryOneSchema = z
   .object({
-    where: AppHistoryOwnWhereSchema,
-    select: AppHistoryOwnProjectionSchema,
-    omit: AppHistoryOwnProjectionSchema,
+    where: AppHistoryOwnWhereSchemaJson,
+    select: AppHistoryOwnProjectionSchemaJson,
+    omit: AppHistoryOwnProjectionSchemaJson,
+    include: AppHistoryOwnIncludeSchemaJson,
   })
   .partial();
 
 export const AppHistoryOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: AppHistoryOwnWhereSchema,
-    select: AppHistoryOwnProjectionSchema,
-    omit: AppHistoryOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: AppHistoryOwnWhereSchemaJson,
+    select: AppHistoryOwnProjectionSchemaJson,
+    omit: AppHistoryOwnProjectionSchemaJson,
+    include: AppHistoryOwnIncludeSchemaJson,
   })
   .partial();
 
@@ -144,6 +240,8 @@ export const AppOrderBySchema = z
   })
   .partial();
 
+export const AppOrderBySchemaJson = z.preprocess(jsonParser, AppOrderBySchema);
+
 export const AppWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -162,6 +260,8 @@ export const AppWhereSchema = z
   })
   .partial();
 
+export const AppWhereSchemaJson = z.preprocess(jsonParser, AppWhereSchema);
+
 export const AppProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -170,27 +270,22 @@ export const AppProjectionSchema = z
     version: z.boolean(),
     host: z.boolean(),
     port: z.boolean(),
-    history: AppHistoryOwnQuerySchema,
+    history: z.boolean().or(AppHistoryOwnQuerySchema),
   })
   .partial();
 
-export const AppQueryOneSchema = z
+export const AppProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  AppProjectionSchema
+);
+
+export const AppIncludeSchema = z
   .object({
-    where: AppWhereSchema,
-    select: AppProjectionSchema,
-    omit: AppProjectionSchema,
+    history: z.boolean().or(AppHistoryOwnQuerySchema),
   })
   .partial();
 
-export const AppQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: AppWhereSchema,
-    select: AppProjectionSchema,
-    omit: AppProjectionSchema,
-  })
-  .partial();
+export const AppIncludeSchemaJson = z.preprocess(jsonParser, AppIncludeSchema);
 
 export const SecretCreateSchema = z.object({
   secret: z.string(),
@@ -210,6 +305,11 @@ export const SecretOrderBySchema = z
   })
   .partial();
 
+export const SecretOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  SecretOrderBySchema
+);
+
 export const SecretWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -219,6 +319,11 @@ export const SecretWhereSchema = z
     secret: PZ.StringFilterSchema,
   })
   .partial();
+
+export const SecretWhereSchemaJson = z.preprocess(
+  jsonParser,
+  SecretWhereSchema
+);
 
 export const SecretProjectionSchema = z
   .object({
@@ -230,23 +335,17 @@ export const SecretProjectionSchema = z
   })
   .partial();
 
-export const SecretQueryOneSchema = z
-  .object({
-    where: SecretWhereSchema,
-    select: SecretProjectionSchema,
-    omit: SecretProjectionSchema,
-  })
-  .partial();
+export const SecretProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  SecretProjectionSchema
+);
 
-export const SecretQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: SecretWhereSchema,
-    select: SecretProjectionSchema,
-    omit: SecretProjectionSchema,
-  })
-  .partial();
+export const SecretIncludeSchema = z.object({}).partial();
+
+export const SecretIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  SecretIncludeSchema
+);
 
 export const AppHistoryCreateSchema = z.object({
   appId: z.int(),
@@ -267,6 +366,11 @@ export const AppHistoryOrderBySchema = z
   })
   .partial();
 
+export const AppHistoryOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  AppHistoryOrderBySchema
+);
+
 export const AppHistoryWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -283,31 +387,54 @@ export const AppHistoryWhereSchema = z
   })
   .partial();
 
+export const AppHistoryWhereSchemaJson = z.preprocess(
+  jsonParser,
+  AppHistoryWhereSchema
+);
+
 export const AppHistoryProjectionSchema = z
   .object({
     id: z.boolean(),
     appId: z.boolean(),
     startedAt: z.boolean(),
     stopeedAt: z.boolean(),
-    app: AppOwnQueryOneSchema,
+    app: z.boolean().or(AppOwnQueryOneSchema),
   })
   .partial();
 
-export const AppHistoryQueryOneSchema = z
+export const AppHistoryProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  AppHistoryProjectionSchema
+);
+
+export const AppHistoryIncludeSchema = z
   .object({
-    where: AppHistoryWhereSchema,
-    select: AppHistoryProjectionSchema,
-    omit: AppHistoryProjectionSchema,
+    app: z.boolean().or(AppOwnQueryOneSchema),
   })
   .partial();
 
-export const AppHistoryQuerySchema = z
+export const AppHistoryIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  AppHistoryIncludeSchema
+);
+
+export const AppQueryOneSchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: AppHistoryWhereSchema,
-    select: AppHistoryProjectionSchema,
-    omit: AppHistoryProjectionSchema,
+    where: AppWhereSchemaJson,
+    select: AppProjectionSchemaJson,
+    omit: AppProjectionSchemaJson,
+    include: AppIncludeSchemaJson,
+  })
+  .partial();
+
+export const AppQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: AppWhereSchemaJson,
+    select: AppProjectionSchemaJson,
+    omit: AppProjectionSchemaJson,
+    include: AppIncludeSchemaJson,
   })
   .partial();
 
@@ -327,11 +454,33 @@ export type AppOwnQueryOne = z.infer<typeof AppOwnQueryOneSchema>;
 
 export type AppWhere = z.infer<typeof AppWhereSchema>;
 
+export type AppInclude = z.infer<typeof AppIncludeSchema>;
+
 export type AppQueryOne = z.infer<typeof AppQueryOneSchema>;
 
 export type AppQuery = z.infer<typeof AppQuerySchema>;
 
 export type AppProjection = z.infer<typeof AppProjectionSchema>;
+
+export const SecretQueryOneSchema = z
+  .object({
+    where: SecretWhereSchemaJson,
+    select: SecretProjectionSchemaJson,
+    omit: SecretProjectionSchemaJson,
+    include: SecretIncludeSchemaJson,
+  })
+  .partial();
+
+export const SecretQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: SecretWhereSchemaJson,
+    select: SecretProjectionSchemaJson,
+    omit: SecretProjectionSchemaJson,
+    include: SecretIncludeSchemaJson,
+  })
+  .partial();
 
 export type SecretCreate = z.infer<typeof SecretCreateSchema>;
 
@@ -349,11 +498,33 @@ export type SecretOwnQueryOne = z.infer<typeof SecretOwnQueryOneSchema>;
 
 export type SecretWhere = z.infer<typeof SecretWhereSchema>;
 
+export type SecretInclude = z.infer<typeof SecretIncludeSchema>;
+
 export type SecretQueryOne = z.infer<typeof SecretQueryOneSchema>;
 
 export type SecretQuery = z.infer<typeof SecretQuerySchema>;
 
 export type SecretProjection = z.infer<typeof SecretProjectionSchema>;
+
+export const AppHistoryQueryOneSchema = z
+  .object({
+    where: AppHistoryWhereSchemaJson,
+    select: AppHistoryProjectionSchemaJson,
+    omit: AppHistoryProjectionSchemaJson,
+    include: AppHistoryIncludeSchemaJson,
+  })
+  .partial();
+
+export const AppHistoryQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: AppHistoryWhereSchemaJson,
+    select: AppHistoryProjectionSchemaJson,
+    omit: AppHistoryProjectionSchemaJson,
+    include: AppHistoryIncludeSchemaJson,
+  })
+  .partial();
 
 export type AppHistoryCreate = z.infer<typeof AppHistoryCreateSchema>;
 
@@ -372,6 +543,8 @@ export type AppHistoryOwnQuery = z.infer<typeof AppHistoryOwnQuerySchema>;
 export type AppHistoryOwnQueryOne = z.infer<typeof AppHistoryOwnQueryOneSchema>;
 
 export type AppHistoryWhere = z.infer<typeof AppHistoryWhereSchema>;
+
+export type AppHistoryInclude = z.infer<typeof AppHistoryIncludeSchema>;
 
 export type AppHistoryQueryOne = z.infer<typeof AppHistoryQueryOneSchema>;
 

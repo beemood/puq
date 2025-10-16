@@ -98,6 +98,7 @@ export function pickSchalarWhereSchema(field: DMMF.Field) {
         case 'String': {
           return 'PZ.StringFilterSchema';
         }
+        case 'Float':
         case 'Decimal': {
           return 'PZ.NumberFilterSchema';
         }
@@ -107,6 +108,7 @@ export function pickSchalarWhereSchema(field: DMMF.Field) {
         case 'Boolean': {
           return 'PZ.BooleanFilterSchema';
         }
+        case 'Date':
         case 'DateTime': {
           return 'PZ.DateTimeFilterSchema';
         }
@@ -132,17 +134,7 @@ export function generateSlugExtension(model: DMMF.Model) {
     })?.name;
 
     if (sluggingFieldName) {
-      return `.transform((value)=>{ 
-        
-      
-      if(value.slug==undefined && value.${sluggingFieldName}!=undefined){ 
-        return { 
-          ...value, 
-          slug: slugify(value.${sluggingFieldName}) 
-          }
-          }
-      return value 
-      })`;
+      return `.transform(slugTransformer("${sluggingFieldName}"))`;
     }
   }
 
@@ -151,8 +143,10 @@ export function generateSlugExtension(model: DMMF.Model) {
 
 export function generateZodSchemas(datamodel: DMMF.Datamodel) {
   const importList: string[] = [
+    '/* eslint-disable @typescript-eslint/no-explicit-any */',
     `import * as PZ from '@puq/zod';`,
     `import { z } from 'zod';`,
+    `import { slugify } from '@puq/names';`
   ];
   const firstResult: string[] = [];
   const secondResult: string[] = [];
@@ -240,7 +234,7 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
     const orderFields: DMMF.Field[] = [];
     const whereFields: DMMF.Field[] = [];
     const projectionFields: DMMF.Field[] = [];
-    const relationProjectionFields: DMMF.Field[] = [];
+    const relationFields: DMMF.Field[] = [];
 
     for (const field of model.fields) {
       projectionFields.push(field);
@@ -255,7 +249,7 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
       }
 
       if (field.relationName) {
-        relationProjectionFields.push(field);
+        relationFields.push(field);
       }
 
       if (field.kind === 'scalar') {
@@ -279,7 +273,8 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
     const createSchema = `
     export const ${model.name}CreateSchema = z.object({ 
       ${createSchemaFields}
-    })${slugTransformer}`;
+    })${slugTransformer}
+    `;
 
     const updateSchema = `
     export const ${model.name}UpdateSchema = z.object({ 
@@ -287,86 +282,121 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
           .map(toZodPropertyDefinition)
           .map((e) => e + '.optional()')
           .join(',\n')}
-    })${slugTransformer}`;
+    })${slugTransformer}
+    `;
 
     const orderBySchemaFields = orderFields
       .map((e) => `${e.name}: PZ.OrderDirectionSchema`)
       .join(',\n');
-
     const orderBySchema = `
     export const ${model.name}OrderBySchema = z.object({
         ${orderBySchemaFields}
     }).partial()
+
+    export const ${model.name}OrderBySchemaJson = z.preprocess(jsonParser, ${model.name}OrderBySchema);
     `;
 
     const ownProjectionFields = projectionFields
-      .map((e) => {
-        return `${e.name}: z.boolean()`;
-      })
+      .map((e) => `${e.name}: z.boolean()`)
       .join(',\n');
-
     const ownProjectionSchema = `
       export const ${model.name}OwnProjectionSchema = z.object({ 
           ${ownProjectionFields}
       }).partial()
+      
+      export const ${model.name}OwnProjectionSchemaJson = z.preprocess(jsonParser, ${model.name}OwnProjectionSchema);
       `;
 
     const ownWhereSchemaFields = whereFields
       .filter((e) => !e.relationName)
-      .map((e) => {
-        return `${e.name}:${pickSchalarWhereSchema(e)}`;
-      })
+      .map((e) => `${e.name}:${pickSchalarWhereSchema(e)}`)
       .join(',\n');
-
     const ownWhereSchema = `
     export const ${model.name}OwnWhereSchema = z.object({ 
       ${ownWhereSchemaFields}
-    }).partial()`;
+    }).partial()
+
+    export const ${model.name}OwnWhereSchemaJson = z.preprocess(jsonParser, ${model.name}OwnWhereSchema);
+    `;
 
     const ownQuerySchema = `
     export const ${model.name}OwnQuerySchema = z.object({ 
-      take: z.int().min(1).default(20),
-      skip: z.int().min(0).default(0),
-      where: ${model.name}OwnWhereSchema,
-      select: ${model.name}OwnProjectionSchema, 
-      omit: ${model.name}OwnProjectionSchema, 
+      take:takeSchema.clone(),
+      skip:skipSchema.clone(),
+      where: ${model.name}OwnWhereSchemaJson,
+      select: ${model.name}OwnProjectionSchemaJson, 
+      omit: ${model.name}OwnProjectionSchemaJson,
+      include: ${model.name}OwnIncludeSchemaJson
     }).partial()
     `;
 
     const ownQueryOneSchema = `
     export const ${model.name}OwnQueryOneSchema = z.object({ 
-        where:${model.name}OwnWhereSchema, 
-        select: ${model.name}OwnProjectionSchema, 
-        omit: ${model.name}OwnProjectionSchema, 
+        where:${model.name}OwnWhereSchemaJson, 
+        select: ${model.name}OwnProjectionSchemaJson, 
+        omit: ${model.name}OwnProjectionSchemaJson, 
+        include: ${model.name}OwnIncludeSchemaJson
     }).partial()
     `;
 
     const whereSchemaFields = whereFields
-      .map((e) => {
-        return `${e.name}: ${pickSchalarWhereSchema(e)}`;
-      })
+      .map((e) => `${e.name}: ${pickSchalarWhereSchema(e)}`)
       .join(',\n');
     const whereSchema = `
     export const ${model.name}WhereSchema = z.object({ 
         ${whereSchemaFields}
     }).partial()
+
+    export const ${model.name}WhereSchemaJson = z.preprocess(jsonParser, ${model.name}WhereSchema);
+    `;
+
+    const ownIncludeSchemaFields = relationFields
+      .map((e) => {
+        return `${e.name}: z.boolean()`;
+      })
+      .join(',\n');
+    const ownIncludeSchema = `
+    export const ${model.name}OwnIncludeSchema = z.object({ 
+      ${ownIncludeSchemaFields}
+    }).partial()
+
+    export const ${model.name}OwnIncludeSchemaJson = z.preprocess(jsonParser, ${model.name}OwnIncludeSchema);
+    `;
+
+    const includeSchemaFields = relationFields
+      .map((e) => {
+        if (e.isList) {
+          return `${e.name}: z.boolean().or(${e.type}OwnQuerySchema)`;
+        } else {
+          return `${e.name}: z.boolean().or(${e.type}OwnQueryOneSchema)`;
+        }
+      })
+      .join(',\n');
+    const includeSchema = `
+    export const ${model.name}IncludeSchema = z.object({ 
+      ${includeSchemaFields}
+    }).partial()
+
+    export const ${model.name}IncludeSchemaJson = z.preprocess(jsonParser, ${model.name}IncludeSchema);
     `;
 
     const queryOneSchema = `
     export const ${model.name}QueryOneSchema = z.object({ 
-      where: ${model.name}WhereSchema,
-      select:${model.name}ProjectionSchema, 
-      omit:${model.name}ProjectionSchema
+      where: ${model.name}WhereSchemaJson,
+      select:${model.name}ProjectionSchemaJson, 
+      omit:${model.name}ProjectionSchemaJson,
+      include: ${model.name}IncludeSchemaJson
     }).partial()
     `;
 
     const querySchema = `
     export const ${model.name}QuerySchema = z.object({ 
-      take: z.int().min(1).default(20),
-      skip: z.int().min(0).default(0),
-      where: ${model.name}WhereSchema, 
-      select: ${model.name}ProjectionSchema, 
-      omit: ${model.name}ProjectionSchema
+      take:takeSchema.clone(),
+      skip:skipSchema.clone(),
+      where: ${model.name}WhereSchemaJson, 
+      select: ${model.name}ProjectionSchemaJson, 
+      omit: ${model.name}ProjectionSchemaJson, 
+      include: ${model.name}IncludeSchemaJson
     }).partial()
     `;
 
@@ -374,9 +404,9 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
       .map((e) => {
         if (e.relationName) {
           if (e.isList) {
-            return `${e.name}: ${e.type}OwnQuerySchema`;
+            return `${e.name}: z.boolean().or(${e.type}OwnQuerySchema)`;
           } else {
-            return `${e.name}: ${e.type}OwnQueryOneSchema`;
+            return `${e.name}: z.boolean().or(${e.type}OwnQueryOneSchema)`;
           }
         }
         return `${e.name}: z.boolean()`;
@@ -387,10 +417,13 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
     export const ${model.name}ProjectionSchema = z.object({ 
           ${projectionSchemaFields}
      }).partial()
+
+    export const ${model.name}ProjectionSchemaJson = z.preprocess(jsonParser, ${model.name}ProjectionSchema);
      `;
 
     firstResult.push(ownProjectionSchema);
     secondResult.push(ownWhereSchema);
+    thirdResult.push(ownIncludeSchema);
     thirdResult.push(ownQueryOneSchema);
     thirdResult.push(ownQuerySchema);
 
@@ -399,39 +432,81 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
     result.push(orderBySchema);
     result.push(whereSchema);
     result.push(projectionSchema);
-    result.push(queryOneSchema);
-    result.push(querySchema);
+    result.push(includeSchema);
+    postResult.push(queryOneSchema);
+    postResult.push(querySchema);
 
     const allTypes = `
-export type  ${model.name}Create = z.infer<typeof ${model.name}CreateSchema>; 
+    export type  ${model.name}Create = z.infer<typeof ${model.name}CreateSchema>;
 
-export type  ${model.name}Update = z.infer<typeof ${model.name}UpdateSchema>; 
+    export type  ${model.name}Update = z.infer<typeof ${model.name}UpdateSchema>;
 
-export type  ${model.name}OrderBy = z.infer<typeof ${model.name}OrderBySchema>; 
+    export type  ${model.name}OrderBy = z.infer<typeof ${model.name}OrderBySchema>;
 
-export type  ${model.name}OwnProjection = z.infer<typeof ${model.name}OwnProjectionSchema>; 
+    export type  ${model.name}OwnProjection = z.infer<typeof ${model.name}OwnProjectionSchema>;
 
-export type  ${model.name}OwnWhere = z.infer<typeof ${model.name}OwnWhereSchema>; 
+    export type  ${model.name}OwnWhere = z.infer<typeof ${model.name}OwnWhereSchema>;
 
-export type  ${model.name}OwnQuery = z.infer<typeof ${model.name}OwnQuerySchema>; 
+    export type  ${model.name}OwnQuery = z.infer<typeof ${model.name}OwnQuerySchema>;
 
-export type  ${model.name}OwnQueryOne = z.infer<typeof ${model.name}OwnQueryOneSchema>; 
+    export type  ${model.name}OwnQueryOne = z.infer<typeof ${model.name}OwnQueryOneSchema>;
 
-export type  ${model.name}Where = z.infer<typeof ${model.name}WhereSchema>; 
+    export type  ${model.name}Where = z.infer<typeof ${model.name}WhereSchema>;
 
-export type  ${model.name}QueryOne = z.infer<typeof ${model.name}QueryOneSchema>; 
+    export type ${model.name}Include = z.infer<typeof ${model.name}IncludeSchema>;
 
-export type  ${model.name}Query = z.infer<typeof ${model.name}QuerySchema>; 
+    export type  ${model.name}QueryOne = z.infer<typeof ${model.name}QueryOneSchema>;
 
-export type  ${model.name}Projection = z.infer<typeof ${model.name}ProjectionSchema>; 
+    export type  ${model.name}Query = z.infer<typeof ${model.name}QuerySchema>;
 
-    `;
+    export type  ${model.name}Projection = z.infer<typeof ${model.name}ProjectionSchema>;
+
+        `;
 
     postResult.push(allTypes);
   }
 
+  const commonCode = [
+    `
+export const takeSchema = z.coerce.number().int().min(1).default(20).optional();
+export const skipSchema = z.coerce.number().int().min(0).default(0).optional();
+
+
+
+export const PaginationSchema = z.object({ 
+  take: takeSchema, 
+  skip: skipSchema 
+}).partial()
+
+
+
+export function jsonParser<T>(value: T) {
+  if (typeof value === 'string') {
+    return JSON.parse(value);
+  }
+  return value;
+};
+
+`,
+    `
+export function slugTransformer(key: string) {
+  return (value: any) => {
+    if (value.slug == undefined && value[key] != undefined) {
+      return {
+        ...value,
+        slug: value[key] ? slugify(value[key].toString()) : null,
+      };
+    }
+    return value;
+  };
+}
+
+  `,
+  ];
+
   return [
     importList.join('\n'),
+    commonCode.join('\n'),
     firstResult.join('\n\n'),
     secondResult.join('\n\n'),
     thirdResult.join('\n\n'),

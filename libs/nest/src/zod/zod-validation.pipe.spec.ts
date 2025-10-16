@@ -5,11 +5,7 @@ describe('ZodValidationPipe', () => {
   it('should be compatible with objects', () => {
     const pipe = new ZodValidationPipe(z.object({ name: z.string() }));
     expect(pipe).toBeDefined();
-
     expect(pipe.transform({ name: 'some' })).toEqual({ name: 'some' });
-    expect(pipe.transform(JSON.stringify({ name: 'some' }))).toEqual({
-      name: 'some',
-    });
   });
 
   it('should be compatible with scalers', () => {

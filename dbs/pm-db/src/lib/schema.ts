@@ -1,6 +1,36 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as PZ from '@puq/zod';
 import { z } from 'zod';
 import { slugify } from '@puq/names';
+
+export const takeSchema = z.coerce.number().int().min(1).default(20).optional();
+export const skipSchema = z.coerce.number().int().min(0).default(0).optional();
+
+export const PaginationSchema = z
+  .object({
+    take: takeSchema,
+    skip: skipSchema,
+  })
+  .partial();
+
+export function jsonParser<T>(value: T) {
+  if (typeof value === 'string') {
+    return JSON.parse(value);
+  }
+  return value;
+}
+
+export function slugTransformer(key: string) {
+  return (value: any) => {
+    if (value.slug == undefined && value[key] != undefined) {
+      return {
+        ...value,
+        slug: value[key] ? slugify(value[key].toString()) : null,
+      };
+    }
+    return value;
+  };
+}
 
 export const UserOwnProjectionSchema = z
   .object({
@@ -26,6 +56,11 @@ export const UserOwnProjectionSchema = z
   })
   .partial();
 
+export const UserOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  UserOwnProjectionSchema
+);
+
 export const TeamOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -39,6 +74,11 @@ export const TeamOwnProjectionSchema = z
   })
   .partial();
 
+export const TeamOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TeamOwnProjectionSchema
+);
+
 export const TeamManagerOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -49,6 +89,11 @@ export const TeamManagerOwnProjectionSchema = z
   })
   .partial();
 
+export const TeamManagerOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TeamManagerOwnProjectionSchema
+);
+
 export const TeamMemberOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -58,6 +103,11 @@ export const TeamMemberOwnProjectionSchema = z
     member: z.boolean(),
   })
   .partial();
+
+export const TeamMemberOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TeamMemberOwnProjectionSchema
+);
 
 export const ProjectOwnProjectionSchema = z
   .object({
@@ -84,6 +134,11 @@ export const ProjectOwnProjectionSchema = z
   })
   .partial();
 
+export const ProjectOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectOwnProjectionSchema
+);
+
 export const TagOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -93,6 +148,11 @@ export const TagOwnProjectionSchema = z
     projects: z.boolean(),
   })
   .partial();
+
+export const TagOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TagOwnProjectionSchema
+);
 
 export const CategoryOwnProjectionSchema = z
   .object({
@@ -106,6 +166,11 @@ export const CategoryOwnProjectionSchema = z
     tasks: z.boolean(),
   })
   .partial();
+
+export const CategoryOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  CategoryOwnProjectionSchema
+);
 
 export const SprintOwnProjectionSchema = z
   .object({
@@ -121,6 +186,11 @@ export const SprintOwnProjectionSchema = z
   })
   .partial();
 
+export const SprintOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  SprintOwnProjectionSchema
+);
+
 export const PriorityOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -133,6 +203,11 @@ export const PriorityOwnProjectionSchema = z
     givenPriorities: z.boolean(),
   })
   .partial();
+
+export const PriorityOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PriorityOwnProjectionSchema
+);
 
 export const StatusOwnProjectionSchema = z
   .object({
@@ -147,6 +222,11 @@ export const StatusOwnProjectionSchema = z
   })
   .partial();
 
+export const StatusOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  StatusOwnProjectionSchema
+);
+
 export const PointOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -158,6 +238,11 @@ export const PointOwnProjectionSchema = z
     givenPointes: z.boolean(),
   })
   .partial();
+
+export const PointOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PointOwnProjectionSchema
+);
 
 export const TaskOwnProjectionSchema = z
   .object({
@@ -193,6 +278,11 @@ export const TaskOwnProjectionSchema = z
   })
   .partial();
 
+export const TaskOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TaskOwnProjectionSchema
+);
+
 export const AssignmentHistoryOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -210,6 +300,11 @@ export const AssignmentHistoryOwnProjectionSchema = z
     project: z.boolean(),
   })
   .partial();
+
+export const AssignmentHistoryOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  AssignmentHistoryOwnProjectionSchema
+);
 
 export const PriorityHistoryOwnProjectionSchema = z
   .object({
@@ -229,6 +324,11 @@ export const PriorityHistoryOwnProjectionSchema = z
   })
   .partial();
 
+export const PriorityHistoryOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PriorityHistoryOwnProjectionSchema
+);
+
 export const StatusHistoryOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -245,6 +345,11 @@ export const StatusHistoryOwnProjectionSchema = z
     project: z.boolean(),
   })
   .partial();
+
+export const StatusHistoryOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  StatusHistoryOwnProjectionSchema
+);
 
 export const PointHistoryOwnProjectionSchema = z
   .object({
@@ -263,6 +368,11 @@ export const PointHistoryOwnProjectionSchema = z
   })
   .partial();
 
+export const PointHistoryOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PointHistoryOwnProjectionSchema
+);
+
 export const TeamHistoryOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -276,6 +386,11 @@ export const TeamHistoryOwnProjectionSchema = z
   })
   .partial();
 
+export const TeamHistoryOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TeamHistoryOwnProjectionSchema
+);
+
 export const TaskTagOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -286,6 +401,11 @@ export const TaskTagOwnProjectionSchema = z
   })
   .partial();
 
+export const TaskTagOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TaskTagOwnProjectionSchema
+);
+
 export const TaskCategoryOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -295,6 +415,11 @@ export const TaskCategoryOwnProjectionSchema = z
     category: z.boolean(),
   })
   .partial();
+
+export const TaskCategoryOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TaskCategoryOwnProjectionSchema
+);
 
 export const AssignmentOwnProjectionSchema = z
   .object({
@@ -307,6 +432,11 @@ export const AssignmentOwnProjectionSchema = z
     assignee: z.boolean(),
   })
   .partial();
+
+export const AssignmentOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  AssignmentOwnProjectionSchema
+);
 
 export const CommentOwnProjectionSchema = z
   .object({
@@ -324,6 +454,11 @@ export const CommentOwnProjectionSchema = z
   })
   .partial();
 
+export const CommentOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  CommentOwnProjectionSchema
+);
+
 export const ProjectTaskTagOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -333,6 +468,11 @@ export const ProjectTaskTagOwnProjectionSchema = z
     project: z.boolean(),
   })
   .partial();
+
+export const ProjectTaskTagOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectTaskTagOwnProjectionSchema
+);
 
 export const ProjectTaskStatusOwnProjectionSchema = z
   .object({
@@ -344,6 +484,11 @@ export const ProjectTaskStatusOwnProjectionSchema = z
   })
   .partial();
 
+export const ProjectTaskStatusOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectTaskStatusOwnProjectionSchema
+);
+
 export const ProjectTaskPriorityOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -353,6 +498,11 @@ export const ProjectTaskPriorityOwnProjectionSchema = z
     priority: z.boolean(),
   })
   .partial();
+
+export const ProjectTaskPriorityOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectTaskPriorityOwnProjectionSchema
+);
 
 export const UserOwnWhereSchema = z
   .object({
@@ -364,6 +514,11 @@ export const UserOwnWhereSchema = z
   })
   .partial();
 
+export const UserOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  UserOwnWhereSchema
+);
+
 export const TeamOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -373,6 +528,11 @@ export const TeamOwnWhereSchema = z
   })
   .partial();
 
+export const TeamOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TeamOwnWhereSchema
+);
+
 export const TeamManagerOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -381,6 +541,11 @@ export const TeamManagerOwnWhereSchema = z
   })
   .partial();
 
+export const TeamManagerOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TeamManagerOwnWhereSchema
+);
+
 export const TeamMemberOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -388,6 +553,11 @@ export const TeamMemberOwnWhereSchema = z
     memberId: PZ.IntegerFilterSchema,
   })
   .partial();
+
+export const TeamMemberOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TeamMemberOwnWhereSchema
+);
 
 export const ProjectOwnWhereSchema = z
   .object({
@@ -403,6 +573,11 @@ export const ProjectOwnWhereSchema = z
   })
   .partial();
 
+export const ProjectOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectOwnWhereSchema
+);
+
 export const TagOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -410,6 +585,11 @@ export const TagOwnWhereSchema = z
     isDefault: PZ.BooleanFilterSchema,
   })
   .partial();
+
+export const TagOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TagOwnWhereSchema
+);
 
 export const CategoryOwnWhereSchema = z
   .object({
@@ -420,6 +600,11 @@ export const CategoryOwnWhereSchema = z
     isDefault: PZ.BooleanFilterSchema,
   })
   .partial();
+
+export const CategoryOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  CategoryOwnWhereSchema
+);
 
 export const SprintOwnWhereSchema = z
   .object({
@@ -432,6 +617,11 @@ export const SprintOwnWhereSchema = z
   })
   .partial();
 
+export const SprintOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  SprintOwnWhereSchema
+);
+
 export const PriorityOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -440,6 +630,11 @@ export const PriorityOwnWhereSchema = z
     isDefault: PZ.BooleanFilterSchema,
   })
   .partial();
+
+export const PriorityOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PriorityOwnWhereSchema
+);
 
 export const StatusOwnWhereSchema = z
   .object({
@@ -450,6 +645,11 @@ export const StatusOwnWhereSchema = z
   })
   .partial();
 
+export const StatusOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  StatusOwnWhereSchema
+);
+
 export const PointOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -458,6 +658,11 @@ export const PointOwnWhereSchema = z
     description: PZ.StringFilterSchema,
   })
   .partial();
+
+export const PointOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PointOwnWhereSchema
+);
 
 export const TaskOwnWhereSchema = z
   .object({
@@ -478,6 +683,11 @@ export const TaskOwnWhereSchema = z
   })
   .partial();
 
+export const TaskOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TaskOwnWhereSchema
+);
+
 export const AssignmentHistoryOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -490,6 +700,11 @@ export const AssignmentHistoryOwnWhereSchema = z
     newUserId: PZ.IntegerFilterSchema,
   })
   .partial();
+
+export const AssignmentHistoryOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  AssignmentHistoryOwnWhereSchema
+);
 
 export const PriorityHistoryOwnWhereSchema = z
   .object({
@@ -504,6 +719,11 @@ export const PriorityHistoryOwnWhereSchema = z
   })
   .partial();
 
+export const PriorityHistoryOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PriorityHistoryOwnWhereSchema
+);
+
 export const StatusHistoryOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -515,6 +735,11 @@ export const StatusHistoryOwnWhereSchema = z
     taskId: PZ.IntegerFilterSchema,
   })
   .partial();
+
+export const StatusHistoryOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  StatusHistoryOwnWhereSchema
+);
 
 export const PointHistoryOwnWhereSchema = z
   .object({
@@ -528,6 +753,11 @@ export const PointHistoryOwnWhereSchema = z
   })
   .partial();
 
+export const PointHistoryOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PointHistoryOwnWhereSchema
+);
+
 export const TeamHistoryOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -538,6 +768,11 @@ export const TeamHistoryOwnWhereSchema = z
   })
   .partial();
 
+export const TeamHistoryOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TeamHistoryOwnWhereSchema
+);
+
 export const TaskTagOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -546,6 +781,11 @@ export const TaskTagOwnWhereSchema = z
   })
   .partial();
 
+export const TaskTagOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TaskTagOwnWhereSchema
+);
+
 export const TaskCategoryOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -553,6 +793,11 @@ export const TaskCategoryOwnWhereSchema = z
     taskId: PZ.IntegerFilterSchema,
   })
   .partial();
+
+export const TaskCategoryOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TaskCategoryOwnWhereSchema
+);
 
 export const AssignmentOwnWhereSchema = z
   .object({
@@ -563,6 +808,11 @@ export const AssignmentOwnWhereSchema = z
     taskId: PZ.IntegerFilterSchema,
   })
   .partial();
+
+export const AssignmentOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  AssignmentOwnWhereSchema
+);
 
 export const CommentOwnWhereSchema = z
   .object({
@@ -576,6 +826,11 @@ export const CommentOwnWhereSchema = z
   })
   .partial();
 
+export const CommentOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  CommentOwnWhereSchema
+);
+
 export const ProjectTaskTagOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -583,6 +838,11 @@ export const ProjectTaskTagOwnWhereSchema = z
     tagId: PZ.IntegerFilterSchema,
   })
   .partial();
+
+export const ProjectTaskTagOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectTaskTagOwnWhereSchema
+);
 
 export const ProjectTaskStatusOwnWhereSchema = z
   .object({
@@ -592,6 +852,11 @@ export const ProjectTaskStatusOwnWhereSchema = z
   })
   .partial();
 
+export const ProjectTaskStatusOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectTaskStatusOwnWhereSchema
+);
+
 export const ProjectTaskPriorityOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -600,435 +865,834 @@ export const ProjectTaskPriorityOwnWhereSchema = z
   })
   .partial();
 
+export const ProjectTaskPriorityOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectTaskPriorityOwnWhereSchema
+);
+
+export const UserOwnIncludeSchema = z
+  .object({
+    assignments: z.boolean(),
+    managedTeams: z.boolean(),
+    memberships: z.boolean(),
+    createdProjects: z.boolean(),
+    createdSprints: z.boolean(),
+    createdTasks: z.boolean(),
+    createdComments: z.boolean(),
+    takenAssignments: z.boolean(),
+    givenAssignments: z.boolean(),
+    changedAssignments: z.boolean(),
+    changedPriorities: z.boolean(),
+    changedStatuses: z.boolean(),
+    changedPoints: z.boolean(),
+    changedTeams: z.boolean(),
+  })
+  .partial();
+
+export const UserOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  UserOwnIncludeSchema
+);
+
 export const UserOwnQueryOneSchema = z
   .object({
-    where: UserOwnWhereSchema,
-    select: UserOwnProjectionSchema,
-    omit: UserOwnProjectionSchema,
+    where: UserOwnWhereSchemaJson,
+    select: UserOwnProjectionSchemaJson,
+    omit: UserOwnProjectionSchemaJson,
+    include: UserOwnIncludeSchemaJson,
   })
   .partial();
 
 export const UserOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: UserOwnWhereSchema,
-    select: UserOwnProjectionSchema,
-    omit: UserOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: UserOwnWhereSchemaJson,
+    select: UserOwnProjectionSchemaJson,
+    omit: UserOwnProjectionSchemaJson,
+    include: UserOwnIncludeSchemaJson,
   })
   .partial();
 
+export const TeamOwnIncludeSchema = z
+  .object({
+    managers: z.boolean(),
+    members: z.boolean(),
+    takenTeams: z.boolean(),
+    givenTeams: z.boolean(),
+  })
+  .partial();
+
+export const TeamOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TeamOwnIncludeSchema
+);
+
 export const TeamOwnQueryOneSchema = z
   .object({
-    where: TeamOwnWhereSchema,
-    select: TeamOwnProjectionSchema,
-    omit: TeamOwnProjectionSchema,
+    where: TeamOwnWhereSchemaJson,
+    select: TeamOwnProjectionSchemaJson,
+    omit: TeamOwnProjectionSchemaJson,
+    include: TeamOwnIncludeSchemaJson,
   })
   .partial();
 
 export const TeamOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TeamOwnWhereSchema,
-    select: TeamOwnProjectionSchema,
-    omit: TeamOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TeamOwnWhereSchemaJson,
+    select: TeamOwnProjectionSchemaJson,
+    omit: TeamOwnProjectionSchemaJson,
+    include: TeamOwnIncludeSchemaJson,
   })
   .partial();
 
+export const TeamManagerOwnIncludeSchema = z
+  .object({
+    manager: z.boolean(),
+    team: z.boolean(),
+  })
+  .partial();
+
+export const TeamManagerOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TeamManagerOwnIncludeSchema
+);
+
 export const TeamManagerOwnQueryOneSchema = z
   .object({
-    where: TeamManagerOwnWhereSchema,
-    select: TeamManagerOwnProjectionSchema,
-    omit: TeamManagerOwnProjectionSchema,
+    where: TeamManagerOwnWhereSchemaJson,
+    select: TeamManagerOwnProjectionSchemaJson,
+    omit: TeamManagerOwnProjectionSchemaJson,
+    include: TeamManagerOwnIncludeSchemaJson,
   })
   .partial();
 
 export const TeamManagerOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TeamManagerOwnWhereSchema,
-    select: TeamManagerOwnProjectionSchema,
-    omit: TeamManagerOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TeamManagerOwnWhereSchemaJson,
+    select: TeamManagerOwnProjectionSchemaJson,
+    omit: TeamManagerOwnProjectionSchemaJson,
+    include: TeamManagerOwnIncludeSchemaJson,
   })
   .partial();
 
+export const TeamMemberOwnIncludeSchema = z
+  .object({
+    team: z.boolean(),
+    member: z.boolean(),
+  })
+  .partial();
+
+export const TeamMemberOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TeamMemberOwnIncludeSchema
+);
+
 export const TeamMemberOwnQueryOneSchema = z
   .object({
-    where: TeamMemberOwnWhereSchema,
-    select: TeamMemberOwnProjectionSchema,
-    omit: TeamMemberOwnProjectionSchema,
+    where: TeamMemberOwnWhereSchemaJson,
+    select: TeamMemberOwnProjectionSchemaJson,
+    omit: TeamMemberOwnProjectionSchemaJson,
+    include: TeamMemberOwnIncludeSchemaJson,
   })
   .partial();
 
 export const TeamMemberOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TeamMemberOwnWhereSchema,
-    select: TeamMemberOwnProjectionSchema,
-    omit: TeamMemberOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TeamMemberOwnWhereSchemaJson,
+    select: TeamMemberOwnProjectionSchemaJson,
+    omit: TeamMemberOwnProjectionSchemaJson,
+    include: TeamMemberOwnIncludeSchemaJson,
   })
   .partial();
 
+export const ProjectOwnIncludeSchema = z
+  .object({
+    parent: z.boolean(),
+    sprints: z.boolean(),
+    createdBy: z.boolean(),
+    tags: z.boolean(),
+    statuses: z.boolean(),
+    priorities: z.boolean(),
+    assignmentHistory: z.boolean(),
+    priorityHistory: z.boolean(),
+    statusHistory: z.boolean(),
+    pointHistory: z.boolean(),
+    projects: z.boolean(),
+  })
+  .partial();
+
+export const ProjectOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectOwnIncludeSchema
+);
+
 export const ProjectOwnQueryOneSchema = z
   .object({
-    where: ProjectOwnWhereSchema,
-    select: ProjectOwnProjectionSchema,
-    omit: ProjectOwnProjectionSchema,
+    where: ProjectOwnWhereSchemaJson,
+    select: ProjectOwnProjectionSchemaJson,
+    omit: ProjectOwnProjectionSchemaJson,
+    include: ProjectOwnIncludeSchemaJson,
   })
   .partial();
 
 export const ProjectOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ProjectOwnWhereSchema,
-    select: ProjectOwnProjectionSchema,
-    omit: ProjectOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ProjectOwnWhereSchemaJson,
+    select: ProjectOwnProjectionSchemaJson,
+    omit: ProjectOwnProjectionSchemaJson,
+    include: ProjectOwnIncludeSchemaJson,
   })
   .partial();
 
+export const TagOwnIncludeSchema = z
+  .object({
+    tasks: z.boolean(),
+    projects: z.boolean(),
+  })
+  .partial();
+
+export const TagOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TagOwnIncludeSchema
+);
+
 export const TagOwnQueryOneSchema = z
   .object({
-    where: TagOwnWhereSchema,
-    select: TagOwnProjectionSchema,
-    omit: TagOwnProjectionSchema,
+    where: TagOwnWhereSchemaJson,
+    select: TagOwnProjectionSchemaJson,
+    omit: TagOwnProjectionSchemaJson,
+    include: TagOwnIncludeSchemaJson,
   })
   .partial();
 
 export const TagOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TagOwnWhereSchema,
-    select: TagOwnProjectionSchema,
-    omit: TagOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TagOwnWhereSchemaJson,
+    select: TagOwnProjectionSchemaJson,
+    omit: TagOwnProjectionSchemaJson,
+    include: TagOwnIncludeSchemaJson,
   })
   .partial();
 
+export const CategoryOwnIncludeSchema = z
+  .object({
+    parent: z.boolean(),
+    categories: z.boolean(),
+    tasks: z.boolean(),
+  })
+  .partial();
+
+export const CategoryOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  CategoryOwnIncludeSchema
+);
+
 export const CategoryOwnQueryOneSchema = z
   .object({
-    where: CategoryOwnWhereSchema,
-    select: CategoryOwnProjectionSchema,
-    omit: CategoryOwnProjectionSchema,
+    where: CategoryOwnWhereSchemaJson,
+    select: CategoryOwnProjectionSchemaJson,
+    omit: CategoryOwnProjectionSchemaJson,
+    include: CategoryOwnIncludeSchemaJson,
   })
   .partial();
 
 export const CategoryOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: CategoryOwnWhereSchema,
-    select: CategoryOwnProjectionSchema,
-    omit: CategoryOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: CategoryOwnWhereSchemaJson,
+    select: CategoryOwnProjectionSchemaJson,
+    omit: CategoryOwnProjectionSchemaJson,
+    include: CategoryOwnIncludeSchemaJson,
   })
   .partial();
 
+export const SprintOwnIncludeSchema = z
+  .object({
+    project: z.boolean(),
+    tasks: z.boolean(),
+    createdBy: z.boolean(),
+  })
+  .partial();
+
+export const SprintOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  SprintOwnIncludeSchema
+);
+
 export const SprintOwnQueryOneSchema = z
   .object({
-    where: SprintOwnWhereSchema,
-    select: SprintOwnProjectionSchema,
-    omit: SprintOwnProjectionSchema,
+    where: SprintOwnWhereSchemaJson,
+    select: SprintOwnProjectionSchemaJson,
+    omit: SprintOwnProjectionSchemaJson,
+    include: SprintOwnIncludeSchemaJson,
   })
   .partial();
 
 export const SprintOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: SprintOwnWhereSchema,
-    select: SprintOwnProjectionSchema,
-    omit: SprintOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: SprintOwnWhereSchemaJson,
+    select: SprintOwnProjectionSchemaJson,
+    omit: SprintOwnProjectionSchemaJson,
+    include: SprintOwnIncludeSchemaJson,
   })
   .partial();
 
+export const PriorityOwnIncludeSchema = z
+  .object({
+    tasks: z.boolean(),
+    projects: z.boolean(),
+    takenPriorities: z.boolean(),
+    givenPriorities: z.boolean(),
+  })
+  .partial();
+
+export const PriorityOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PriorityOwnIncludeSchema
+);
+
 export const PriorityOwnQueryOneSchema = z
   .object({
-    where: PriorityOwnWhereSchema,
-    select: PriorityOwnProjectionSchema,
-    omit: PriorityOwnProjectionSchema,
+    where: PriorityOwnWhereSchemaJson,
+    select: PriorityOwnProjectionSchemaJson,
+    omit: PriorityOwnProjectionSchemaJson,
+    include: PriorityOwnIncludeSchemaJson,
   })
   .partial();
 
 export const PriorityOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PriorityOwnWhereSchema,
-    select: PriorityOwnProjectionSchema,
-    omit: PriorityOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PriorityOwnWhereSchemaJson,
+    select: PriorityOwnProjectionSchemaJson,
+    omit: PriorityOwnProjectionSchemaJson,
+    include: PriorityOwnIncludeSchemaJson,
   })
   .partial();
 
+export const StatusOwnIncludeSchema = z
+  .object({
+    tasks: z.boolean(),
+    projects: z.boolean(),
+    takenStatuses: z.boolean(),
+    givenStatuses: z.boolean(),
+  })
+  .partial();
+
+export const StatusOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  StatusOwnIncludeSchema
+);
+
 export const StatusOwnQueryOneSchema = z
   .object({
-    where: StatusOwnWhereSchema,
-    select: StatusOwnProjectionSchema,
-    omit: StatusOwnProjectionSchema,
+    where: StatusOwnWhereSchemaJson,
+    select: StatusOwnProjectionSchemaJson,
+    omit: StatusOwnProjectionSchemaJson,
+    include: StatusOwnIncludeSchemaJson,
   })
   .partial();
 
 export const StatusOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: StatusOwnWhereSchema,
-    select: StatusOwnProjectionSchema,
-    omit: StatusOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: StatusOwnWhereSchemaJson,
+    select: StatusOwnProjectionSchemaJson,
+    omit: StatusOwnProjectionSchemaJson,
+    include: StatusOwnIncludeSchemaJson,
   })
   .partial();
 
+export const PointOwnIncludeSchema = z
+  .object({
+    tasks: z.boolean(),
+    takenPointes: z.boolean(),
+    givenPointes: z.boolean(),
+  })
+  .partial();
+
+export const PointOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PointOwnIncludeSchema
+);
+
 export const PointOwnQueryOneSchema = z
   .object({
-    where: PointOwnWhereSchema,
-    select: PointOwnProjectionSchema,
-    omit: PointOwnProjectionSchema,
+    where: PointOwnWhereSchemaJson,
+    select: PointOwnProjectionSchemaJson,
+    omit: PointOwnProjectionSchemaJson,
+    include: PointOwnIncludeSchemaJson,
   })
   .partial();
 
 export const PointOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PointOwnWhereSchema,
-    select: PointOwnProjectionSchema,
-    omit: PointOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PointOwnWhereSchemaJson,
+    select: PointOwnProjectionSchemaJson,
+    omit: PointOwnProjectionSchemaJson,
+    include: PointOwnIncludeSchemaJson,
   })
   .partial();
 
+export const TaskOwnIncludeSchema = z
+  .object({
+    comments: z.boolean(),
+    parent: z.boolean(),
+    tasks: z.boolean(),
+    createdBy: z.boolean(),
+    assignments: z.boolean(),
+    tags: z.boolean(),
+    categories: z.boolean(),
+    point: z.boolean(),
+    priority: z.boolean(),
+    status: z.boolean(),
+    sprint: z.boolean(),
+    assignmentHistory: z.boolean(),
+    statusHistory: z.boolean(),
+    priorityHistory: z.boolean(),
+    pointHistory: z.boolean(),
+  })
+  .partial();
+
+export const TaskOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TaskOwnIncludeSchema
+);
+
 export const TaskOwnQueryOneSchema = z
   .object({
-    where: TaskOwnWhereSchema,
-    select: TaskOwnProjectionSchema,
-    omit: TaskOwnProjectionSchema,
+    where: TaskOwnWhereSchemaJson,
+    select: TaskOwnProjectionSchemaJson,
+    omit: TaskOwnProjectionSchemaJson,
+    include: TaskOwnIncludeSchemaJson,
   })
   .partial();
 
 export const TaskOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TaskOwnWhereSchema,
-    select: TaskOwnProjectionSchema,
-    omit: TaskOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TaskOwnWhereSchemaJson,
+    select: TaskOwnProjectionSchemaJson,
+    omit: TaskOwnProjectionSchemaJson,
+    include: TaskOwnIncludeSchemaJson,
   })
   .partial();
 
+export const AssignmentHistoryOwnIncludeSchema = z
+  .object({
+    oldUser: z.boolean(),
+    newUser: z.boolean(),
+    createdBy: z.boolean(),
+    task: z.boolean(),
+    project: z.boolean(),
+  })
+  .partial();
+
+export const AssignmentHistoryOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  AssignmentHistoryOwnIncludeSchema
+);
+
 export const AssignmentHistoryOwnQueryOneSchema = z
   .object({
-    where: AssignmentHistoryOwnWhereSchema,
-    select: AssignmentHistoryOwnProjectionSchema,
-    omit: AssignmentHistoryOwnProjectionSchema,
+    where: AssignmentHistoryOwnWhereSchemaJson,
+    select: AssignmentHistoryOwnProjectionSchemaJson,
+    omit: AssignmentHistoryOwnProjectionSchemaJson,
+    include: AssignmentHistoryOwnIncludeSchemaJson,
   })
   .partial();
 
 export const AssignmentHistoryOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: AssignmentHistoryOwnWhereSchema,
-    select: AssignmentHistoryOwnProjectionSchema,
-    omit: AssignmentHistoryOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: AssignmentHistoryOwnWhereSchemaJson,
+    select: AssignmentHistoryOwnProjectionSchemaJson,
+    omit: AssignmentHistoryOwnProjectionSchemaJson,
+    include: AssignmentHistoryOwnIncludeSchemaJson,
   })
   .partial();
 
+export const PriorityHistoryOwnIncludeSchema = z
+  .object({
+    oldPriority: z.boolean(),
+    newPriority: z.boolean(),
+    createdBy: z.boolean(),
+    task: z.boolean(),
+    project: z.boolean(),
+  })
+  .partial();
+
+export const PriorityHistoryOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PriorityHistoryOwnIncludeSchema
+);
+
 export const PriorityHistoryOwnQueryOneSchema = z
   .object({
-    where: PriorityHistoryOwnWhereSchema,
-    select: PriorityHistoryOwnProjectionSchema,
-    omit: PriorityHistoryOwnProjectionSchema,
+    where: PriorityHistoryOwnWhereSchemaJson,
+    select: PriorityHistoryOwnProjectionSchemaJson,
+    omit: PriorityHistoryOwnProjectionSchemaJson,
+    include: PriorityHistoryOwnIncludeSchemaJson,
   })
   .partial();
 
 export const PriorityHistoryOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PriorityHistoryOwnWhereSchema,
-    select: PriorityHistoryOwnProjectionSchema,
-    omit: PriorityHistoryOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PriorityHistoryOwnWhereSchemaJson,
+    select: PriorityHistoryOwnProjectionSchemaJson,
+    omit: PriorityHistoryOwnProjectionSchemaJson,
+    include: PriorityHistoryOwnIncludeSchemaJson,
   })
   .partial();
 
+export const StatusHistoryOwnIncludeSchema = z
+  .object({
+    task: z.boolean(),
+    oldStatus: z.boolean(),
+    newStatus: z.boolean(),
+    createdBy: z.boolean(),
+    project: z.boolean(),
+  })
+  .partial();
+
+export const StatusHistoryOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  StatusHistoryOwnIncludeSchema
+);
+
 export const StatusHistoryOwnQueryOneSchema = z
   .object({
-    where: StatusHistoryOwnWhereSchema,
-    select: StatusHistoryOwnProjectionSchema,
-    omit: StatusHistoryOwnProjectionSchema,
+    where: StatusHistoryOwnWhereSchemaJson,
+    select: StatusHistoryOwnProjectionSchemaJson,
+    omit: StatusHistoryOwnProjectionSchemaJson,
+    include: StatusHistoryOwnIncludeSchemaJson,
   })
   .partial();
 
 export const StatusHistoryOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: StatusHistoryOwnWhereSchema,
-    select: StatusHistoryOwnProjectionSchema,
-    omit: StatusHistoryOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: StatusHistoryOwnWhereSchemaJson,
+    select: StatusHistoryOwnProjectionSchemaJson,
+    omit: StatusHistoryOwnProjectionSchemaJson,
+    include: StatusHistoryOwnIncludeSchemaJson,
   })
   .partial();
 
+export const PointHistoryOwnIncludeSchema = z
+  .object({
+    task: z.boolean(),
+    oldPoint: z.boolean(),
+    newPoint: z.boolean(),
+    createdBy: z.boolean(),
+    project: z.boolean(),
+  })
+  .partial();
+
+export const PointHistoryOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PointHistoryOwnIncludeSchema
+);
+
 export const PointHistoryOwnQueryOneSchema = z
   .object({
-    where: PointHistoryOwnWhereSchema,
-    select: PointHistoryOwnProjectionSchema,
-    omit: PointHistoryOwnProjectionSchema,
+    where: PointHistoryOwnWhereSchemaJson,
+    select: PointHistoryOwnProjectionSchemaJson,
+    omit: PointHistoryOwnProjectionSchemaJson,
+    include: PointHistoryOwnIncludeSchemaJson,
   })
   .partial();
 
 export const PointHistoryOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PointHistoryOwnWhereSchema,
-    select: PointHistoryOwnProjectionSchema,
-    omit: PointHistoryOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PointHistoryOwnWhereSchemaJson,
+    select: PointHistoryOwnProjectionSchemaJson,
+    omit: PointHistoryOwnProjectionSchemaJson,
+    include: PointHistoryOwnIncludeSchemaJson,
   })
   .partial();
 
+export const TeamHistoryOwnIncludeSchema = z
+  .object({
+    oldTeam: z.boolean(),
+    newTeam: z.boolean(),
+    createdBy: z.boolean(),
+  })
+  .partial();
+
+export const TeamHistoryOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TeamHistoryOwnIncludeSchema
+);
+
 export const TeamHistoryOwnQueryOneSchema = z
   .object({
-    where: TeamHistoryOwnWhereSchema,
-    select: TeamHistoryOwnProjectionSchema,
-    omit: TeamHistoryOwnProjectionSchema,
+    where: TeamHistoryOwnWhereSchemaJson,
+    select: TeamHistoryOwnProjectionSchemaJson,
+    omit: TeamHistoryOwnProjectionSchemaJson,
+    include: TeamHistoryOwnIncludeSchemaJson,
   })
   .partial();
 
 export const TeamHistoryOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TeamHistoryOwnWhereSchema,
-    select: TeamHistoryOwnProjectionSchema,
-    omit: TeamHistoryOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TeamHistoryOwnWhereSchemaJson,
+    select: TeamHistoryOwnProjectionSchemaJson,
+    omit: TeamHistoryOwnProjectionSchemaJson,
+    include: TeamHistoryOwnIncludeSchemaJson,
   })
   .partial();
 
+export const TaskTagOwnIncludeSchema = z
+  .object({
+    task: z.boolean(),
+    tag: z.boolean(),
+  })
+  .partial();
+
+export const TaskTagOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TaskTagOwnIncludeSchema
+);
+
 export const TaskTagOwnQueryOneSchema = z
   .object({
-    where: TaskTagOwnWhereSchema,
-    select: TaskTagOwnProjectionSchema,
-    omit: TaskTagOwnProjectionSchema,
+    where: TaskTagOwnWhereSchemaJson,
+    select: TaskTagOwnProjectionSchemaJson,
+    omit: TaskTagOwnProjectionSchemaJson,
+    include: TaskTagOwnIncludeSchemaJson,
   })
   .partial();
 
 export const TaskTagOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TaskTagOwnWhereSchema,
-    select: TaskTagOwnProjectionSchema,
-    omit: TaskTagOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TaskTagOwnWhereSchemaJson,
+    select: TaskTagOwnProjectionSchemaJson,
+    omit: TaskTagOwnProjectionSchemaJson,
+    include: TaskTagOwnIncludeSchemaJson,
   })
   .partial();
 
+export const TaskCategoryOwnIncludeSchema = z
+  .object({
+    task: z.boolean(),
+    category: z.boolean(),
+  })
+  .partial();
+
+export const TaskCategoryOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TaskCategoryOwnIncludeSchema
+);
+
 export const TaskCategoryOwnQueryOneSchema = z
   .object({
-    where: TaskCategoryOwnWhereSchema,
-    select: TaskCategoryOwnProjectionSchema,
-    omit: TaskCategoryOwnProjectionSchema,
+    where: TaskCategoryOwnWhereSchemaJson,
+    select: TaskCategoryOwnProjectionSchemaJson,
+    omit: TaskCategoryOwnProjectionSchemaJson,
+    include: TaskCategoryOwnIncludeSchemaJson,
   })
   .partial();
 
 export const TaskCategoryOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TaskCategoryOwnWhereSchema,
-    select: TaskCategoryOwnProjectionSchema,
-    omit: TaskCategoryOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TaskCategoryOwnWhereSchemaJson,
+    select: TaskCategoryOwnProjectionSchemaJson,
+    omit: TaskCategoryOwnProjectionSchemaJson,
+    include: TaskCategoryOwnIncludeSchemaJson,
   })
   .partial();
 
+export const AssignmentOwnIncludeSchema = z
+  .object({
+    task: z.boolean(),
+    assignee: z.boolean(),
+  })
+  .partial();
+
+export const AssignmentOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  AssignmentOwnIncludeSchema
+);
+
 export const AssignmentOwnQueryOneSchema = z
   .object({
-    where: AssignmentOwnWhereSchema,
-    select: AssignmentOwnProjectionSchema,
-    omit: AssignmentOwnProjectionSchema,
+    where: AssignmentOwnWhereSchemaJson,
+    select: AssignmentOwnProjectionSchemaJson,
+    omit: AssignmentOwnProjectionSchemaJson,
+    include: AssignmentOwnIncludeSchemaJson,
   })
   .partial();
 
 export const AssignmentOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: AssignmentOwnWhereSchema,
-    select: AssignmentOwnProjectionSchema,
-    omit: AssignmentOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: AssignmentOwnWhereSchemaJson,
+    select: AssignmentOwnProjectionSchemaJson,
+    omit: AssignmentOwnProjectionSchemaJson,
+    include: AssignmentOwnIncludeSchemaJson,
   })
   .partial();
 
+export const CommentOwnIncludeSchema = z
+  .object({
+    parent: z.boolean(),
+    comments: z.boolean(),
+    createdBy: z.boolean(),
+    task: z.boolean(),
+  })
+  .partial();
+
+export const CommentOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  CommentOwnIncludeSchema
+);
+
 export const CommentOwnQueryOneSchema = z
   .object({
-    where: CommentOwnWhereSchema,
-    select: CommentOwnProjectionSchema,
-    omit: CommentOwnProjectionSchema,
+    where: CommentOwnWhereSchemaJson,
+    select: CommentOwnProjectionSchemaJson,
+    omit: CommentOwnProjectionSchemaJson,
+    include: CommentOwnIncludeSchemaJson,
   })
   .partial();
 
 export const CommentOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: CommentOwnWhereSchema,
-    select: CommentOwnProjectionSchema,
-    omit: CommentOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: CommentOwnWhereSchemaJson,
+    select: CommentOwnProjectionSchemaJson,
+    omit: CommentOwnProjectionSchemaJson,
+    include: CommentOwnIncludeSchemaJson,
   })
   .partial();
 
+export const ProjectTaskTagOwnIncludeSchema = z
+  .object({
+    tag: z.boolean(),
+    project: z.boolean(),
+  })
+  .partial();
+
+export const ProjectTaskTagOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectTaskTagOwnIncludeSchema
+);
+
 export const ProjectTaskTagOwnQueryOneSchema = z
   .object({
-    where: ProjectTaskTagOwnWhereSchema,
-    select: ProjectTaskTagOwnProjectionSchema,
-    omit: ProjectTaskTagOwnProjectionSchema,
+    where: ProjectTaskTagOwnWhereSchemaJson,
+    select: ProjectTaskTagOwnProjectionSchemaJson,
+    omit: ProjectTaskTagOwnProjectionSchemaJson,
+    include: ProjectTaskTagOwnIncludeSchemaJson,
   })
   .partial();
 
 export const ProjectTaskTagOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ProjectTaskTagOwnWhereSchema,
-    select: ProjectTaskTagOwnProjectionSchema,
-    omit: ProjectTaskTagOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ProjectTaskTagOwnWhereSchemaJson,
+    select: ProjectTaskTagOwnProjectionSchemaJson,
+    omit: ProjectTaskTagOwnProjectionSchemaJson,
+    include: ProjectTaskTagOwnIncludeSchemaJson,
   })
   .partial();
 
+export const ProjectTaskStatusOwnIncludeSchema = z
+  .object({
+    project: z.boolean(),
+    status: z.boolean(),
+  })
+  .partial();
+
+export const ProjectTaskStatusOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectTaskStatusOwnIncludeSchema
+);
+
 export const ProjectTaskStatusOwnQueryOneSchema = z
   .object({
-    where: ProjectTaskStatusOwnWhereSchema,
-    select: ProjectTaskStatusOwnProjectionSchema,
-    omit: ProjectTaskStatusOwnProjectionSchema,
+    where: ProjectTaskStatusOwnWhereSchemaJson,
+    select: ProjectTaskStatusOwnProjectionSchemaJson,
+    omit: ProjectTaskStatusOwnProjectionSchemaJson,
+    include: ProjectTaskStatusOwnIncludeSchemaJson,
   })
   .partial();
 
 export const ProjectTaskStatusOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ProjectTaskStatusOwnWhereSchema,
-    select: ProjectTaskStatusOwnProjectionSchema,
-    omit: ProjectTaskStatusOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ProjectTaskStatusOwnWhereSchemaJson,
+    select: ProjectTaskStatusOwnProjectionSchemaJson,
+    omit: ProjectTaskStatusOwnProjectionSchemaJson,
+    include: ProjectTaskStatusOwnIncludeSchemaJson,
   })
   .partial();
 
+export const ProjectTaskPriorityOwnIncludeSchema = z
+  .object({
+    project: z.boolean(),
+    priority: z.boolean(),
+  })
+  .partial();
+
+export const ProjectTaskPriorityOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectTaskPriorityOwnIncludeSchema
+);
+
 export const ProjectTaskPriorityOwnQueryOneSchema = z
   .object({
-    where: ProjectTaskPriorityOwnWhereSchema,
-    select: ProjectTaskPriorityOwnProjectionSchema,
-    omit: ProjectTaskPriorityOwnProjectionSchema,
+    where: ProjectTaskPriorityOwnWhereSchemaJson,
+    select: ProjectTaskPriorityOwnProjectionSchemaJson,
+    omit: ProjectTaskPriorityOwnProjectionSchemaJson,
+    include: ProjectTaskPriorityOwnIncludeSchemaJson,
   })
   .partial();
 
 export const ProjectTaskPriorityOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ProjectTaskPriorityOwnWhereSchema,
-    select: ProjectTaskPriorityOwnProjectionSchema,
-    omit: ProjectTaskPriorityOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ProjectTaskPriorityOwnWhereSchemaJson,
+    select: ProjectTaskPriorityOwnProjectionSchemaJson,
+    omit: ProjectTaskPriorityOwnProjectionSchemaJson,
+    include: ProjectTaskPriorityOwnIncludeSchemaJson,
   })
   .partial();
 
@@ -1039,15 +1703,7 @@ export const UserCreateSchema = z
     slug: z.string().optional(),
     title: z.string(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.title != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.title),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('title'));
 
 export const UserUpdateSchema = z
   .object({
@@ -1056,15 +1712,7 @@ export const UserUpdateSchema = z
     slug: z.string().optional().optional(),
     title: z.string().optional(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.title != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.title),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('title'));
 
 export const UserOrderBySchema = z
   .object({
@@ -1075,6 +1723,11 @@ export const UserOrderBySchema = z
     title: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const UserOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  UserOrderBySchema
+);
 
 export const UserWhereSchema = z
   .object({
@@ -1184,6 +1837,8 @@ export const UserWhereSchema = z
   })
   .partial();
 
+export const UserWhereSchemaJson = z.preprocess(jsonParser, UserWhereSchema);
+
 export const UserProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -1191,40 +1846,51 @@ export const UserProjectionSchema = z
     displayName: z.boolean(),
     slug: z.boolean(),
     title: z.boolean(),
-    assignments: AssignmentOwnQuerySchema,
-    managedTeams: TeamManagerOwnQuerySchema,
-    memberships: TeamMemberOwnQuerySchema,
-    createdProjects: ProjectOwnQuerySchema,
-    createdSprints: SprintOwnQuerySchema,
-    createdTasks: TaskOwnQuerySchema,
-    createdComments: CommentOwnQuerySchema,
-    takenAssignments: AssignmentHistoryOwnQuerySchema,
-    givenAssignments: AssignmentHistoryOwnQuerySchema,
-    changedAssignments: AssignmentHistoryOwnQuerySchema,
-    changedPriorities: PriorityHistoryOwnQuerySchema,
-    changedStatuses: StatusHistoryOwnQuerySchema,
-    changedPoints: PointHistoryOwnQuerySchema,
-    changedTeams: TeamHistoryOwnQuerySchema,
+    assignments: z.boolean().or(AssignmentOwnQuerySchema),
+    managedTeams: z.boolean().or(TeamManagerOwnQuerySchema),
+    memberships: z.boolean().or(TeamMemberOwnQuerySchema),
+    createdProjects: z.boolean().or(ProjectOwnQuerySchema),
+    createdSprints: z.boolean().or(SprintOwnQuerySchema),
+    createdTasks: z.boolean().or(TaskOwnQuerySchema),
+    createdComments: z.boolean().or(CommentOwnQuerySchema),
+    takenAssignments: z.boolean().or(AssignmentHistoryOwnQuerySchema),
+    givenAssignments: z.boolean().or(AssignmentHistoryOwnQuerySchema),
+    changedAssignments: z.boolean().or(AssignmentHistoryOwnQuerySchema),
+    changedPriorities: z.boolean().or(PriorityHistoryOwnQuerySchema),
+    changedStatuses: z.boolean().or(StatusHistoryOwnQuerySchema),
+    changedPoints: z.boolean().or(PointHistoryOwnQuerySchema),
+    changedTeams: z.boolean().or(TeamHistoryOwnQuerySchema),
   })
   .partial();
 
-export const UserQueryOneSchema = z
+export const UserProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  UserProjectionSchema
+);
+
+export const UserIncludeSchema = z
   .object({
-    where: UserWhereSchema,
-    select: UserProjectionSchema,
-    omit: UserProjectionSchema,
+    assignments: z.boolean().or(AssignmentOwnQuerySchema),
+    managedTeams: z.boolean().or(TeamManagerOwnQuerySchema),
+    memberships: z.boolean().or(TeamMemberOwnQuerySchema),
+    createdProjects: z.boolean().or(ProjectOwnQuerySchema),
+    createdSprints: z.boolean().or(SprintOwnQuerySchema),
+    createdTasks: z.boolean().or(TaskOwnQuerySchema),
+    createdComments: z.boolean().or(CommentOwnQuerySchema),
+    takenAssignments: z.boolean().or(AssignmentHistoryOwnQuerySchema),
+    givenAssignments: z.boolean().or(AssignmentHistoryOwnQuerySchema),
+    changedAssignments: z.boolean().or(AssignmentHistoryOwnQuerySchema),
+    changedPriorities: z.boolean().or(PriorityHistoryOwnQuerySchema),
+    changedStatuses: z.boolean().or(StatusHistoryOwnQuerySchema),
+    changedPoints: z.boolean().or(PointHistoryOwnQuerySchema),
+    changedTeams: z.boolean().or(TeamHistoryOwnQuerySchema),
   })
   .partial();
 
-export const UserQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: UserWhereSchema,
-    select: UserProjectionSchema,
-    omit: UserProjectionSchema,
-  })
-  .partial();
+export const UserIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  UserIncludeSchema
+);
 
 export const TeamCreateSchema = z
   .object({
@@ -1232,15 +1898,7 @@ export const TeamCreateSchema = z
     slug: z.string().optional(),
     description: z.string().optional(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.name != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.name),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('name'));
 
 export const TeamUpdateSchema = z
   .object({
@@ -1248,15 +1906,7 @@ export const TeamUpdateSchema = z
     slug: z.string().optional().optional(),
     description: z.string().optional().optional(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.name != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.name),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('name'));
 
 export const TeamOrderBySchema = z
   .object({
@@ -1266,6 +1916,11 @@ export const TeamOrderBySchema = z
     description: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const TeamOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  TeamOrderBySchema
+);
 
 export const TeamWhereSchema = z
   .object({
@@ -1304,36 +1959,39 @@ export const TeamWhereSchema = z
   })
   .partial();
 
+export const TeamWhereSchemaJson = z.preprocess(jsonParser, TeamWhereSchema);
+
 export const TeamProjectionSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
     slug: z.boolean(),
     description: z.boolean(),
-    managers: TeamManagerOwnQuerySchema,
-    members: TeamMemberOwnQuerySchema,
-    takenTeams: TeamHistoryOwnQuerySchema,
-    givenTeams: TeamHistoryOwnQuerySchema,
+    managers: z.boolean().or(TeamManagerOwnQuerySchema),
+    members: z.boolean().or(TeamMemberOwnQuerySchema),
+    takenTeams: z.boolean().or(TeamHistoryOwnQuerySchema),
+    givenTeams: z.boolean().or(TeamHistoryOwnQuerySchema),
   })
   .partial();
 
-export const TeamQueryOneSchema = z
+export const TeamProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TeamProjectionSchema
+);
+
+export const TeamIncludeSchema = z
   .object({
-    where: TeamWhereSchema,
-    select: TeamProjectionSchema,
-    omit: TeamProjectionSchema,
+    managers: z.boolean().or(TeamManagerOwnQuerySchema),
+    members: z.boolean().or(TeamMemberOwnQuerySchema),
+    takenTeams: z.boolean().or(TeamHistoryOwnQuerySchema),
+    givenTeams: z.boolean().or(TeamHistoryOwnQuerySchema),
   })
   .partial();
 
-export const TeamQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TeamWhereSchema,
-    select: TeamProjectionSchema,
-    omit: TeamProjectionSchema,
-  })
-  .partial();
+export const TeamIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TeamIncludeSchema
+);
 
 export const TeamManagerCreateSchema = z.object({
   managerId: z.int(),
@@ -1352,6 +2010,11 @@ export const TeamManagerOrderBySchema = z
     teamId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const TeamManagerOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  TeamManagerOrderBySchema
+);
 
 export const TeamManagerWhereSchema = z
   .object({
@@ -1375,33 +2038,37 @@ export const TeamManagerWhereSchema = z
   })
   .partial();
 
+export const TeamManagerWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TeamManagerWhereSchema
+);
+
 export const TeamManagerProjectionSchema = z
   .object({
     id: z.boolean(),
     managerId: z.boolean(),
     teamId: z.boolean(),
-    manager: UserOwnQueryOneSchema,
-    team: TeamOwnQueryOneSchema,
+    manager: z.boolean().or(UserOwnQueryOneSchema),
+    team: z.boolean().or(TeamOwnQueryOneSchema),
   })
   .partial();
 
-export const TeamManagerQueryOneSchema = z
+export const TeamManagerProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TeamManagerProjectionSchema
+);
+
+export const TeamManagerIncludeSchema = z
   .object({
-    where: TeamManagerWhereSchema,
-    select: TeamManagerProjectionSchema,
-    omit: TeamManagerProjectionSchema,
+    manager: z.boolean().or(UserOwnQueryOneSchema),
+    team: z.boolean().or(TeamOwnQueryOneSchema),
   })
   .partial();
 
-export const TeamManagerQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TeamManagerWhereSchema,
-    select: TeamManagerProjectionSchema,
-    omit: TeamManagerProjectionSchema,
-  })
-  .partial();
+export const TeamManagerIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TeamManagerIncludeSchema
+);
 
 export const TeamMemberCreateSchema = z.object({
   teamId: z.int(),
@@ -1420,6 +2087,11 @@ export const TeamMemberOrderBySchema = z
     memberId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const TeamMemberOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  TeamMemberOrderBySchema
+);
 
 export const TeamMemberWhereSchema = z
   .object({
@@ -1443,33 +2115,37 @@ export const TeamMemberWhereSchema = z
   })
   .partial();
 
+export const TeamMemberWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TeamMemberWhereSchema
+);
+
 export const TeamMemberProjectionSchema = z
   .object({
     id: z.boolean(),
     teamId: z.boolean(),
     memberId: z.boolean(),
-    team: TeamOwnQueryOneSchema,
-    member: UserOwnQueryOneSchema,
+    team: z.boolean().or(TeamOwnQueryOneSchema),
+    member: z.boolean().or(UserOwnQueryOneSchema),
   })
   .partial();
 
-export const TeamMemberQueryOneSchema = z
+export const TeamMemberProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TeamMemberProjectionSchema
+);
+
+export const TeamMemberIncludeSchema = z
   .object({
-    where: TeamMemberWhereSchema,
-    select: TeamMemberProjectionSchema,
-    omit: TeamMemberProjectionSchema,
+    team: z.boolean().or(TeamOwnQueryOneSchema),
+    member: z.boolean().or(UserOwnQueryOneSchema),
   })
   .partial();
 
-export const TeamMemberQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TeamMemberWhereSchema,
-    select: TeamMemberProjectionSchema,
-    omit: TeamMemberProjectionSchema,
-  })
-  .partial();
+export const TeamMemberIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TeamMemberIncludeSchema
+);
 
 export const ProjectCreateSchema = z
   .object({
@@ -1482,15 +2158,7 @@ export const ProjectCreateSchema = z
     dueDate: z.iso.datetime().optional(),
     endDate: z.iso.datetime().optional(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.name != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.name),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('name'));
 
 export const ProjectUpdateSchema = z
   .object({
@@ -1503,15 +2171,7 @@ export const ProjectUpdateSchema = z
     dueDate: z.iso.datetime().optional().optional(),
     endDate: z.iso.datetime().optional().optional(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.name != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.name),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('name'));
 
 export const ProjectOrderBySchema = z
   .object({
@@ -1526,6 +2186,11 @@ export const ProjectOrderBySchema = z
     endDate: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const ProjectOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  ProjectOrderBySchema
+);
 
 export const ProjectWhereSchema = z
   .object({
@@ -1618,48 +2283,61 @@ export const ProjectWhereSchema = z
   })
   .partial();
 
+export const ProjectWhereSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectWhereSchema
+);
+
 export const ProjectProjectionSchema = z
   .object({
     id: z.boolean(),
     createdById: z.boolean(),
     parentId: z.boolean(),
-    parent: ProjectOwnQueryOneSchema,
+    parent: z.boolean().or(ProjectOwnQueryOneSchema),
     name: z.boolean(),
     slug: z.boolean(),
     description: z.boolean(),
     startDate: z.boolean(),
     dueDate: z.boolean(),
     endDate: z.boolean(),
-    sprints: SprintOwnQuerySchema,
-    createdBy: UserOwnQueryOneSchema,
-    tags: ProjectTaskTagOwnQuerySchema,
-    statuses: ProjectTaskStatusOwnQuerySchema,
-    priorities: ProjectTaskPriorityOwnQuerySchema,
-    assignmentHistory: AssignmentHistoryOwnQuerySchema,
-    priorityHistory: PriorityHistoryOwnQuerySchema,
-    statusHistory: StatusHistoryOwnQuerySchema,
-    pointHistory: PointHistoryOwnQuerySchema,
-    projects: ProjectOwnQuerySchema,
+    sprints: z.boolean().or(SprintOwnQuerySchema),
+    createdBy: z.boolean().or(UserOwnQueryOneSchema),
+    tags: z.boolean().or(ProjectTaskTagOwnQuerySchema),
+    statuses: z.boolean().or(ProjectTaskStatusOwnQuerySchema),
+    priorities: z.boolean().or(ProjectTaskPriorityOwnQuerySchema),
+    assignmentHistory: z.boolean().or(AssignmentHistoryOwnQuerySchema),
+    priorityHistory: z.boolean().or(PriorityHistoryOwnQuerySchema),
+    statusHistory: z.boolean().or(StatusHistoryOwnQuerySchema),
+    pointHistory: z.boolean().or(PointHistoryOwnQuerySchema),
+    projects: z.boolean().or(ProjectOwnQuerySchema),
   })
   .partial();
 
-export const ProjectQueryOneSchema = z
+export const ProjectProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectProjectionSchema
+);
+
+export const ProjectIncludeSchema = z
   .object({
-    where: ProjectWhereSchema,
-    select: ProjectProjectionSchema,
-    omit: ProjectProjectionSchema,
+    parent: z.boolean().or(ProjectOwnQueryOneSchema),
+    sprints: z.boolean().or(SprintOwnQuerySchema),
+    createdBy: z.boolean().or(UserOwnQueryOneSchema),
+    tags: z.boolean().or(ProjectTaskTagOwnQuerySchema),
+    statuses: z.boolean().or(ProjectTaskStatusOwnQuerySchema),
+    priorities: z.boolean().or(ProjectTaskPriorityOwnQuerySchema),
+    assignmentHistory: z.boolean().or(AssignmentHistoryOwnQuerySchema),
+    priorityHistory: z.boolean().or(PriorityHistoryOwnQuerySchema),
+    statusHistory: z.boolean().or(StatusHistoryOwnQuerySchema),
+    pointHistory: z.boolean().or(PointHistoryOwnQuerySchema),
+    projects: z.boolean().or(ProjectOwnQuerySchema),
   })
   .partial();
 
-export const ProjectQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ProjectWhereSchema,
-    select: ProjectProjectionSchema,
-    omit: ProjectProjectionSchema,
-  })
-  .partial();
+export const ProjectIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectIncludeSchema
+);
 
 export const TagCreateSchema = z.object({
   name: z.string(),
@@ -1678,6 +2356,8 @@ export const TagOrderBySchema = z
     isDefault: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const TagOrderBySchemaJson = z.preprocess(jsonParser, TagOrderBySchema);
 
 export const TagWhereSchema = z
   .object({
@@ -1701,33 +2381,31 @@ export const TagWhereSchema = z
   })
   .partial();
 
+export const TagWhereSchemaJson = z.preprocess(jsonParser, TagWhereSchema);
+
 export const TagProjectionSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
     isDefault: z.boolean(),
-    tasks: TaskTagOwnQuerySchema,
-    projects: ProjectTaskTagOwnQuerySchema,
+    tasks: z.boolean().or(TaskTagOwnQuerySchema),
+    projects: z.boolean().or(ProjectTaskTagOwnQuerySchema),
   })
   .partial();
 
-export const TagQueryOneSchema = z
+export const TagProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TagProjectionSchema
+);
+
+export const TagIncludeSchema = z
   .object({
-    where: TagWhereSchema,
-    select: TagProjectionSchema,
-    omit: TagProjectionSchema,
+    tasks: z.boolean().or(TaskTagOwnQuerySchema),
+    projects: z.boolean().or(ProjectTaskTagOwnQuerySchema),
   })
   .partial();
 
-export const TagQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TagWhereSchema,
-    select: TagProjectionSchema,
-    omit: TagProjectionSchema,
-  })
-  .partial();
+export const TagIncludeSchemaJson = z.preprocess(jsonParser, TagIncludeSchema);
 
 export const CategoryCreateSchema = z.object({
   parentId: z.int().optional(),
@@ -1752,6 +2430,11 @@ export const CategoryOrderBySchema = z
     isDefault: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const CategoryOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  CategoryOrderBySchema
+);
 
 export const CategoryWhereSchema = z
   .object({
@@ -1784,6 +2467,11 @@ export const CategoryWhereSchema = z
   })
   .partial();
 
+export const CategoryWhereSchemaJson = z.preprocess(
+  jsonParser,
+  CategoryWhereSchema
+);
+
 export const CategoryProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -1791,29 +2479,29 @@ export const CategoryProjectionSchema = z
     name: z.boolean(),
     description: z.boolean(),
     isDefault: z.boolean(),
-    parent: CategoryOwnQueryOneSchema,
-    categories: CategoryOwnQuerySchema,
-    tasks: TaskCategoryOwnQuerySchema,
+    parent: z.boolean().or(CategoryOwnQueryOneSchema),
+    categories: z.boolean().or(CategoryOwnQuerySchema),
+    tasks: z.boolean().or(TaskCategoryOwnQuerySchema),
   })
   .partial();
 
-export const CategoryQueryOneSchema = z
+export const CategoryProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  CategoryProjectionSchema
+);
+
+export const CategoryIncludeSchema = z
   .object({
-    where: CategoryWhereSchema,
-    select: CategoryProjectionSchema,
-    omit: CategoryProjectionSchema,
+    parent: z.boolean().or(CategoryOwnQueryOneSchema),
+    categories: z.boolean().or(CategoryOwnQuerySchema),
+    tasks: z.boolean().or(TaskCategoryOwnQuerySchema),
   })
   .partial();
 
-export const CategoryQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: CategoryWhereSchema,
-    select: CategoryProjectionSchema,
-    omit: CategoryProjectionSchema,
-  })
-  .partial();
+export const CategoryIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  CategoryIncludeSchema
+);
 
 export const SprintCreateSchema = z
   .object({
@@ -1823,15 +2511,7 @@ export const SprintCreateSchema = z
     slug: z.string().optional(),
     description: z.string().optional(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.name != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.name),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('name'));
 
 export const SprintUpdateSchema = z
   .object({
@@ -1841,15 +2521,7 @@ export const SprintUpdateSchema = z
     slug: z.string().optional().optional(),
     description: z.string().optional().optional(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.name != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.name),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('name'));
 
 export const SprintOrderBySchema = z
   .object({
@@ -1861,6 +2533,11 @@ export const SprintOrderBySchema = z
     description: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const SprintOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  SprintOrderBySchema
+);
 
 export const SprintWhereSchema = z
   .object({
@@ -1894,6 +2571,11 @@ export const SprintWhereSchema = z
   })
   .partial();
 
+export const SprintWhereSchemaJson = z.preprocess(
+  jsonParser,
+  SprintWhereSchema
+);
+
 export const SprintProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -1902,29 +2584,29 @@ export const SprintProjectionSchema = z
     name: z.boolean(),
     slug: z.boolean(),
     description: z.boolean(),
-    project: ProjectOwnQueryOneSchema,
-    tasks: TaskOwnQuerySchema,
-    createdBy: UserOwnQueryOneSchema,
+    project: z.boolean().or(ProjectOwnQueryOneSchema),
+    tasks: z.boolean().or(TaskOwnQuerySchema),
+    createdBy: z.boolean().or(UserOwnQueryOneSchema),
   })
   .partial();
 
-export const SprintQueryOneSchema = z
+export const SprintProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  SprintProjectionSchema
+);
+
+export const SprintIncludeSchema = z
   .object({
-    where: SprintWhereSchema,
-    select: SprintProjectionSchema,
-    omit: SprintProjectionSchema,
+    project: z.boolean().or(ProjectOwnQueryOneSchema),
+    tasks: z.boolean().or(TaskOwnQuerySchema),
+    createdBy: z.boolean().or(UserOwnQueryOneSchema),
   })
   .partial();
 
-export const SprintQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: SprintWhereSchema,
-    select: SprintProjectionSchema,
-    omit: SprintProjectionSchema,
-  })
-  .partial();
+export const SprintIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  SprintIncludeSchema
+);
 
 export const PriorityCreateSchema = z.object({
   name: z.string(),
@@ -1946,6 +2628,11 @@ export const PriorityOrderBySchema = z
     isDefault: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const PriorityOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  PriorityOrderBySchema
+);
 
 export const PriorityWhereSchema = z
   .object({
@@ -1984,36 +2671,42 @@ export const PriorityWhereSchema = z
   })
   .partial();
 
+export const PriorityWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PriorityWhereSchema
+);
+
 export const PriorityProjectionSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
     description: z.boolean(),
     isDefault: z.boolean(),
-    tasks: TaskOwnQuerySchema,
-    projects: ProjectTaskPriorityOwnQuerySchema,
-    takenPriorities: PriorityHistoryOwnQuerySchema,
-    givenPriorities: PriorityHistoryOwnQuerySchema,
+    tasks: z.boolean().or(TaskOwnQuerySchema),
+    projects: z.boolean().or(ProjectTaskPriorityOwnQuerySchema),
+    takenPriorities: z.boolean().or(PriorityHistoryOwnQuerySchema),
+    givenPriorities: z.boolean().or(PriorityHistoryOwnQuerySchema),
   })
   .partial();
 
-export const PriorityQueryOneSchema = z
+export const PriorityProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PriorityProjectionSchema
+);
+
+export const PriorityIncludeSchema = z
   .object({
-    where: PriorityWhereSchema,
-    select: PriorityProjectionSchema,
-    omit: PriorityProjectionSchema,
+    tasks: z.boolean().or(TaskOwnQuerySchema),
+    projects: z.boolean().or(ProjectTaskPriorityOwnQuerySchema),
+    takenPriorities: z.boolean().or(PriorityHistoryOwnQuerySchema),
+    givenPriorities: z.boolean().or(PriorityHistoryOwnQuerySchema),
   })
   .partial();
 
-export const PriorityQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PriorityWhereSchema,
-    select: PriorityProjectionSchema,
-    omit: PriorityProjectionSchema,
-  })
-  .partial();
+export const PriorityIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PriorityIncludeSchema
+);
 
 export const StatusCreateSchema = z.object({
   name: z.string(),
@@ -2035,6 +2728,11 @@ export const StatusOrderBySchema = z
     isDefault: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const StatusOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  StatusOrderBySchema
+);
 
 export const StatusWhereSchema = z
   .object({
@@ -2073,36 +2771,42 @@ export const StatusWhereSchema = z
   })
   .partial();
 
+export const StatusWhereSchemaJson = z.preprocess(
+  jsonParser,
+  StatusWhereSchema
+);
+
 export const StatusProjectionSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
     description: z.boolean(),
     isDefault: z.boolean(),
-    tasks: TaskOwnQuerySchema,
-    projects: ProjectTaskStatusOwnQuerySchema,
-    takenStatuses: StatusHistoryOwnQuerySchema,
-    givenStatuses: StatusHistoryOwnQuerySchema,
+    tasks: z.boolean().or(TaskOwnQuerySchema),
+    projects: z.boolean().or(ProjectTaskStatusOwnQuerySchema),
+    takenStatuses: z.boolean().or(StatusHistoryOwnQuerySchema),
+    givenStatuses: z.boolean().or(StatusHistoryOwnQuerySchema),
   })
   .partial();
 
-export const StatusQueryOneSchema = z
+export const StatusProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  StatusProjectionSchema
+);
+
+export const StatusIncludeSchema = z
   .object({
-    where: StatusWhereSchema,
-    select: StatusProjectionSchema,
-    omit: StatusProjectionSchema,
+    tasks: z.boolean().or(TaskOwnQuerySchema),
+    projects: z.boolean().or(ProjectTaskStatusOwnQuerySchema),
+    takenStatuses: z.boolean().or(StatusHistoryOwnQuerySchema),
+    givenStatuses: z.boolean().or(StatusHistoryOwnQuerySchema),
   })
   .partial();
 
-export const StatusQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: StatusWhereSchema,
-    select: StatusProjectionSchema,
-    omit: StatusProjectionSchema,
-  })
-  .partial();
+export const StatusIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  StatusIncludeSchema
+);
 
 export const PointCreateSchema = z.object({
   name: z.string(),
@@ -2124,6 +2828,11 @@ export const PointOrderBySchema = z
     description: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const PointOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  PointOrderBySchema
+);
 
 export const PointWhereSchema = z
   .object({
@@ -2155,35 +2864,37 @@ export const PointWhereSchema = z
   })
   .partial();
 
+export const PointWhereSchemaJson = z.preprocess(jsonParser, PointWhereSchema);
+
 export const PointProjectionSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
     point: z.boolean(),
     description: z.boolean(),
-    tasks: TaskOwnQuerySchema,
-    takenPointes: PointHistoryOwnQuerySchema,
-    givenPointes: PointHistoryOwnQuerySchema,
+    tasks: z.boolean().or(TaskOwnQuerySchema),
+    takenPointes: z.boolean().or(PointHistoryOwnQuerySchema),
+    givenPointes: z.boolean().or(PointHistoryOwnQuerySchema),
   })
   .partial();
 
-export const PointQueryOneSchema = z
+export const PointProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PointProjectionSchema
+);
+
+export const PointIncludeSchema = z
   .object({
-    where: PointWhereSchema,
-    select: PointProjectionSchema,
-    omit: PointProjectionSchema,
+    tasks: z.boolean().or(TaskOwnQuerySchema),
+    takenPointes: z.boolean().or(PointHistoryOwnQuerySchema),
+    givenPointes: z.boolean().or(PointHistoryOwnQuerySchema),
   })
   .partial();
 
-export const PointQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PointWhereSchema,
-    select: PointProjectionSchema,
-    omit: PointProjectionSchema,
-  })
-  .partial();
+export const PointIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PointIncludeSchema
+);
 
 export const TaskCreateSchema = z
   .object({
@@ -2199,15 +2910,7 @@ export const TaskCreateSchema = z
     due: z.iso.datetime().optional(),
     resolvedAt: z.iso.datetime().optional(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.title != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.title),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('title'));
 
 export const TaskUpdateSchema = z
   .object({
@@ -2223,15 +2926,7 @@ export const TaskUpdateSchema = z
     due: z.iso.datetime().optional().optional(),
     resolvedAt: z.iso.datetime().optional().optional(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.title != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.title),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('title'));
 
 export const TaskOrderBySchema = z
   .object({
@@ -2251,6 +2946,11 @@ export const TaskOrderBySchema = z
     resolvedAt: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const TaskOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  TaskOrderBySchema
+);
 
 export const TaskWhereSchema = z
   .object({
@@ -2376,6 +3076,8 @@ export const TaskWhereSchema = z
   })
   .partial();
 
+export const TaskWhereSchemaJson = z.preprocess(jsonParser, TaskWhereSchema);
+
 export const TaskProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -2392,41 +3094,53 @@ export const TaskProjectionSchema = z
     description: z.boolean(),
     due: z.boolean(),
     resolvedAt: z.boolean(),
-    comments: CommentOwnQuerySchema,
-    parent: TaskOwnQueryOneSchema,
-    tasks: TaskOwnQuerySchema,
-    createdBy: UserOwnQueryOneSchema,
-    assignments: AssignmentOwnQuerySchema,
-    tags: TaskTagOwnQuerySchema,
-    categories: TaskCategoryOwnQuerySchema,
-    point: PointOwnQueryOneSchema,
-    priority: PriorityOwnQueryOneSchema,
-    status: StatusOwnQueryOneSchema,
-    sprint: SprintOwnQueryOneSchema,
-    assignmentHistory: AssignmentHistoryOwnQuerySchema,
-    statusHistory: StatusHistoryOwnQuerySchema,
-    priorityHistory: PriorityHistoryOwnQuerySchema,
-    pointHistory: PointHistoryOwnQuerySchema,
+    comments: z.boolean().or(CommentOwnQuerySchema),
+    parent: z.boolean().or(TaskOwnQueryOneSchema),
+    tasks: z.boolean().or(TaskOwnQuerySchema),
+    createdBy: z.boolean().or(UserOwnQueryOneSchema),
+    assignments: z.boolean().or(AssignmentOwnQuerySchema),
+    tags: z.boolean().or(TaskTagOwnQuerySchema),
+    categories: z.boolean().or(TaskCategoryOwnQuerySchema),
+    point: z.boolean().or(PointOwnQueryOneSchema),
+    priority: z.boolean().or(PriorityOwnQueryOneSchema),
+    status: z.boolean().or(StatusOwnQueryOneSchema),
+    sprint: z.boolean().or(SprintOwnQueryOneSchema),
+    assignmentHistory: z.boolean().or(AssignmentHistoryOwnQuerySchema),
+    statusHistory: z.boolean().or(StatusHistoryOwnQuerySchema),
+    priorityHistory: z.boolean().or(PriorityHistoryOwnQuerySchema),
+    pointHistory: z.boolean().or(PointHistoryOwnQuerySchema),
   })
   .partial();
 
-export const TaskQueryOneSchema = z
+export const TaskProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TaskProjectionSchema
+);
+
+export const TaskIncludeSchema = z
   .object({
-    where: TaskWhereSchema,
-    select: TaskProjectionSchema,
-    omit: TaskProjectionSchema,
+    comments: z.boolean().or(CommentOwnQuerySchema),
+    parent: z.boolean().or(TaskOwnQueryOneSchema),
+    tasks: z.boolean().or(TaskOwnQuerySchema),
+    createdBy: z.boolean().or(UserOwnQueryOneSchema),
+    assignments: z.boolean().or(AssignmentOwnQuerySchema),
+    tags: z.boolean().or(TaskTagOwnQuerySchema),
+    categories: z.boolean().or(TaskCategoryOwnQuerySchema),
+    point: z.boolean().or(PointOwnQueryOneSchema),
+    priority: z.boolean().or(PriorityOwnQueryOneSchema),
+    status: z.boolean().or(StatusOwnQueryOneSchema),
+    sprint: z.boolean().or(SprintOwnQueryOneSchema),
+    assignmentHistory: z.boolean().or(AssignmentHistoryOwnQuerySchema),
+    statusHistory: z.boolean().or(StatusHistoryOwnQuerySchema),
+    priorityHistory: z.boolean().or(PriorityHistoryOwnQuerySchema),
+    pointHistory: z.boolean().or(PointHistoryOwnQuerySchema),
   })
   .partial();
 
-export const TaskQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TaskWhereSchema,
-    select: TaskProjectionSchema,
-    omit: TaskProjectionSchema,
-  })
-  .partial();
+export const TaskIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TaskIncludeSchema
+);
 
 export const AssignmentHistoryCreateSchema = z.object({
   createdById: z.int(),
@@ -2456,6 +3170,11 @@ export const AssignmentHistoryOrderBySchema = z
     newUserId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const AssignmentHistoryOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  AssignmentHistoryOrderBySchema
+);
 
 export const AssignmentHistoryWhereSchema = z
   .object({
@@ -2505,6 +3224,11 @@ export const AssignmentHistoryWhereSchema = z
   })
   .partial();
 
+export const AssignmentHistoryWhereSchemaJson = z.preprocess(
+  jsonParser,
+  AssignmentHistoryWhereSchema
+);
+
 export const AssignmentHistoryProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -2515,31 +3239,33 @@ export const AssignmentHistoryProjectionSchema = z
     taskId: z.boolean(),
     oldUserId: z.boolean(),
     newUserId: z.boolean(),
-    oldUser: UserOwnQueryOneSchema,
-    newUser: UserOwnQueryOneSchema,
-    createdBy: UserOwnQueryOneSchema,
-    task: TaskOwnQueryOneSchema,
-    project: ProjectOwnQueryOneSchema,
+    oldUser: z.boolean().or(UserOwnQueryOneSchema),
+    newUser: z.boolean().or(UserOwnQueryOneSchema),
+    createdBy: z.boolean().or(UserOwnQueryOneSchema),
+    task: z.boolean().or(TaskOwnQueryOneSchema),
+    project: z.boolean().or(ProjectOwnQueryOneSchema),
   })
   .partial();
 
-export const AssignmentHistoryQueryOneSchema = z
+export const AssignmentHistoryProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  AssignmentHistoryProjectionSchema
+);
+
+export const AssignmentHistoryIncludeSchema = z
   .object({
-    where: AssignmentHistoryWhereSchema,
-    select: AssignmentHistoryProjectionSchema,
-    omit: AssignmentHistoryProjectionSchema,
+    oldUser: z.boolean().or(UserOwnQueryOneSchema),
+    newUser: z.boolean().or(UserOwnQueryOneSchema),
+    createdBy: z.boolean().or(UserOwnQueryOneSchema),
+    task: z.boolean().or(TaskOwnQueryOneSchema),
+    project: z.boolean().or(ProjectOwnQueryOneSchema),
   })
   .partial();
 
-export const AssignmentHistoryQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: AssignmentHistoryWhereSchema,
-    select: AssignmentHistoryProjectionSchema,
-    omit: AssignmentHistoryProjectionSchema,
-  })
-  .partial();
+export const AssignmentHistoryIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  AssignmentHistoryIncludeSchema
+);
 
 export const PriorityHistoryCreateSchema = z.object({
   createdById: z.int(),
@@ -2569,6 +3295,11 @@ export const PriorityHistoryOrderBySchema = z
     newPriorityId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const PriorityHistoryOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  PriorityHistoryOrderBySchema
+);
 
 export const PriorityHistoryWhereSchema = z
   .object({
@@ -2618,6 +3349,11 @@ export const PriorityHistoryWhereSchema = z
   })
   .partial();
 
+export const PriorityHistoryWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PriorityHistoryWhereSchema
+);
+
 export const PriorityHistoryProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -2628,31 +3364,33 @@ export const PriorityHistoryProjectionSchema = z
     taskId: z.boolean(),
     oldPriorityId: z.boolean(),
     newPriorityId: z.boolean(),
-    oldPriority: PriorityOwnQueryOneSchema,
-    newPriority: PriorityOwnQueryOneSchema,
-    createdBy: UserOwnQueryOneSchema,
-    task: TaskOwnQueryOneSchema,
-    project: ProjectOwnQueryOneSchema,
+    oldPriority: z.boolean().or(PriorityOwnQueryOneSchema),
+    newPriority: z.boolean().or(PriorityOwnQueryOneSchema),
+    createdBy: z.boolean().or(UserOwnQueryOneSchema),
+    task: z.boolean().or(TaskOwnQueryOneSchema),
+    project: z.boolean().or(ProjectOwnQueryOneSchema),
   })
   .partial();
 
-export const PriorityHistoryQueryOneSchema = z
+export const PriorityHistoryProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PriorityHistoryProjectionSchema
+);
+
+export const PriorityHistoryIncludeSchema = z
   .object({
-    where: PriorityHistoryWhereSchema,
-    select: PriorityHistoryProjectionSchema,
-    omit: PriorityHistoryProjectionSchema,
+    oldPriority: z.boolean().or(PriorityOwnQueryOneSchema),
+    newPriority: z.boolean().or(PriorityOwnQueryOneSchema),
+    createdBy: z.boolean().or(UserOwnQueryOneSchema),
+    task: z.boolean().or(TaskOwnQueryOneSchema),
+    project: z.boolean().or(ProjectOwnQueryOneSchema),
   })
   .partial();
 
-export const PriorityHistoryQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PriorityHistoryWhereSchema,
-    select: PriorityHistoryProjectionSchema,
-    omit: PriorityHistoryProjectionSchema,
-  })
-  .partial();
+export const PriorityHistoryIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PriorityHistoryIncludeSchema
+);
 
 export const StatusHistoryCreateSchema = z.object({
   createdById: z.int(),
@@ -2681,6 +3419,11 @@ export const StatusHistoryOrderBySchema = z
     taskId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const StatusHistoryOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  StatusHistoryOrderBySchema
+);
 
 export const StatusHistoryWhereSchema = z
   .object({
@@ -2729,6 +3472,11 @@ export const StatusHistoryWhereSchema = z
   })
   .partial();
 
+export const StatusHistoryWhereSchemaJson = z.preprocess(
+  jsonParser,
+  StatusHistoryWhereSchema
+);
+
 export const StatusHistoryProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -2738,31 +3486,33 @@ export const StatusHistoryProjectionSchema = z
     newStatusId: z.boolean(),
     projectId: z.boolean(),
     taskId: z.boolean(),
-    task: TaskOwnQueryOneSchema,
-    oldStatus: StatusOwnQueryOneSchema,
-    newStatus: StatusOwnQueryOneSchema,
-    createdBy: UserOwnQueryOneSchema,
-    project: ProjectOwnQueryOneSchema,
+    task: z.boolean().or(TaskOwnQueryOneSchema),
+    oldStatus: z.boolean().or(StatusOwnQueryOneSchema),
+    newStatus: z.boolean().or(StatusOwnQueryOneSchema),
+    createdBy: z.boolean().or(UserOwnQueryOneSchema),
+    project: z.boolean().or(ProjectOwnQueryOneSchema),
   })
   .partial();
 
-export const StatusHistoryQueryOneSchema = z
+export const StatusHistoryProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  StatusHistoryProjectionSchema
+);
+
+export const StatusHistoryIncludeSchema = z
   .object({
-    where: StatusHistoryWhereSchema,
-    select: StatusHistoryProjectionSchema,
-    omit: StatusHistoryProjectionSchema,
+    task: z.boolean().or(TaskOwnQueryOneSchema),
+    oldStatus: z.boolean().or(StatusOwnQueryOneSchema),
+    newStatus: z.boolean().or(StatusOwnQueryOneSchema),
+    createdBy: z.boolean().or(UserOwnQueryOneSchema),
+    project: z.boolean().or(ProjectOwnQueryOneSchema),
   })
   .partial();
 
-export const StatusHistoryQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: StatusHistoryWhereSchema,
-    select: StatusHistoryProjectionSchema,
-    omit: StatusHistoryProjectionSchema,
-  })
-  .partial();
+export const StatusHistoryIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  StatusHistoryIncludeSchema
+);
 
 export const PointHistoryCreateSchema = z.object({
   createdById: z.int(),
@@ -2791,6 +3541,11 @@ export const PointHistoryOrderBySchema = z
     taskId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const PointHistoryOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  PointHistoryOrderBySchema
+);
 
 export const PointHistoryWhereSchema = z
   .object({
@@ -2839,6 +3594,11 @@ export const PointHistoryWhereSchema = z
   })
   .partial();
 
+export const PointHistoryWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PointHistoryWhereSchema
+);
+
 export const PointHistoryProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -2848,31 +3608,33 @@ export const PointHistoryProjectionSchema = z
     newPointId: z.boolean(),
     projectId: z.boolean(),
     taskId: z.boolean(),
-    task: TaskOwnQueryOneSchema,
-    oldPoint: PointOwnQueryOneSchema,
-    newPoint: PointOwnQueryOneSchema,
-    createdBy: UserOwnQueryOneSchema,
-    project: ProjectOwnQueryOneSchema,
+    task: z.boolean().or(TaskOwnQueryOneSchema),
+    oldPoint: z.boolean().or(PointOwnQueryOneSchema),
+    newPoint: z.boolean().or(PointOwnQueryOneSchema),
+    createdBy: z.boolean().or(UserOwnQueryOneSchema),
+    project: z.boolean().or(ProjectOwnQueryOneSchema),
   })
   .partial();
 
-export const PointHistoryQueryOneSchema = z
+export const PointHistoryProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PointHistoryProjectionSchema
+);
+
+export const PointHistoryIncludeSchema = z
   .object({
-    where: PointHistoryWhereSchema,
-    select: PointHistoryProjectionSchema,
-    omit: PointHistoryProjectionSchema,
+    task: z.boolean().or(TaskOwnQueryOneSchema),
+    oldPoint: z.boolean().or(PointOwnQueryOneSchema),
+    newPoint: z.boolean().or(PointOwnQueryOneSchema),
+    createdBy: z.boolean().or(UserOwnQueryOneSchema),
+    project: z.boolean().or(ProjectOwnQueryOneSchema),
   })
   .partial();
 
-export const PointHistoryQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PointHistoryWhereSchema,
-    select: PointHistoryProjectionSchema,
-    omit: PointHistoryProjectionSchema,
-  })
-  .partial();
+export const PointHistoryIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PointHistoryIncludeSchema
+);
 
 export const TeamHistoryCreateSchema = z.object({
   createdById: z.int(),
@@ -2895,6 +3657,11 @@ export const TeamHistoryOrderBySchema = z
     newTeamId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const TeamHistoryOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  TeamHistoryOrderBySchema
+);
 
 export const TeamHistoryWhereSchema = z
   .object({
@@ -2927,6 +3694,11 @@ export const TeamHistoryWhereSchema = z
   })
   .partial();
 
+export const TeamHistoryWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TeamHistoryWhereSchema
+);
+
 export const TeamHistoryProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -2934,29 +3706,29 @@ export const TeamHistoryProjectionSchema = z
     createdById: z.boolean(),
     oldTeamId: z.boolean(),
     newTeamId: z.boolean(),
-    oldTeam: TeamOwnQueryOneSchema,
-    newTeam: TeamOwnQueryOneSchema,
-    createdBy: UserOwnQueryOneSchema,
+    oldTeam: z.boolean().or(TeamOwnQueryOneSchema),
+    newTeam: z.boolean().or(TeamOwnQueryOneSchema),
+    createdBy: z.boolean().or(UserOwnQueryOneSchema),
   })
   .partial();
 
-export const TeamHistoryQueryOneSchema = z
+export const TeamHistoryProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TeamHistoryProjectionSchema
+);
+
+export const TeamHistoryIncludeSchema = z
   .object({
-    where: TeamHistoryWhereSchema,
-    select: TeamHistoryProjectionSchema,
-    omit: TeamHistoryProjectionSchema,
+    oldTeam: z.boolean().or(TeamOwnQueryOneSchema),
+    newTeam: z.boolean().or(TeamOwnQueryOneSchema),
+    createdBy: z.boolean().or(UserOwnQueryOneSchema),
   })
   .partial();
 
-export const TeamHistoryQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TeamHistoryWhereSchema,
-    select: TeamHistoryProjectionSchema,
-    omit: TeamHistoryProjectionSchema,
-  })
-  .partial();
+export const TeamHistoryIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TeamHistoryIncludeSchema
+);
 
 export const TaskTagCreateSchema = z.object({
   taskId: z.int(),
@@ -2975,6 +3747,11 @@ export const TaskTagOrderBySchema = z
     tagId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const TaskTagOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  TaskTagOrderBySchema
+);
 
 export const TaskTagWhereSchema = z
   .object({
@@ -2998,33 +3775,37 @@ export const TaskTagWhereSchema = z
   })
   .partial();
 
+export const TaskTagWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TaskTagWhereSchema
+);
+
 export const TaskTagProjectionSchema = z
   .object({
     id: z.boolean(),
     taskId: z.boolean(),
     tagId: z.boolean(),
-    task: TaskOwnQueryOneSchema,
-    tag: TagOwnQueryOneSchema,
+    task: z.boolean().or(TaskOwnQueryOneSchema),
+    tag: z.boolean().or(TagOwnQueryOneSchema),
   })
   .partial();
 
-export const TaskTagQueryOneSchema = z
+export const TaskTagProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TaskTagProjectionSchema
+);
+
+export const TaskTagIncludeSchema = z
   .object({
-    where: TaskTagWhereSchema,
-    select: TaskTagProjectionSchema,
-    omit: TaskTagProjectionSchema,
+    task: z.boolean().or(TaskOwnQueryOneSchema),
+    tag: z.boolean().or(TagOwnQueryOneSchema),
   })
   .partial();
 
-export const TaskTagQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TaskTagWhereSchema,
-    select: TaskTagProjectionSchema,
-    omit: TaskTagProjectionSchema,
-  })
-  .partial();
+export const TaskTagIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TaskTagIncludeSchema
+);
 
 export const TaskCategoryCreateSchema = z.object({
   categoryId: z.int(),
@@ -3043,6 +3824,11 @@ export const TaskCategoryOrderBySchema = z
     taskId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const TaskCategoryOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  TaskCategoryOrderBySchema
+);
 
 export const TaskCategoryWhereSchema = z
   .object({
@@ -3066,33 +3852,37 @@ export const TaskCategoryWhereSchema = z
   })
   .partial();
 
+export const TaskCategoryWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TaskCategoryWhereSchema
+);
+
 export const TaskCategoryProjectionSchema = z
   .object({
     id: z.boolean(),
     categoryId: z.boolean(),
     taskId: z.boolean(),
-    task: TaskOwnQueryOneSchema,
-    category: CategoryOwnQueryOneSchema,
+    task: z.boolean().or(TaskOwnQueryOneSchema),
+    category: z.boolean().or(CategoryOwnQueryOneSchema),
   })
   .partial();
 
-export const TaskCategoryQueryOneSchema = z
+export const TaskCategoryProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TaskCategoryProjectionSchema
+);
+
+export const TaskCategoryIncludeSchema = z
   .object({
-    where: TaskCategoryWhereSchema,
-    select: TaskCategoryProjectionSchema,
-    omit: TaskCategoryProjectionSchema,
+    task: z.boolean().or(TaskOwnQueryOneSchema),
+    category: z.boolean().or(CategoryOwnQueryOneSchema),
   })
   .partial();
 
-export const TaskCategoryQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TaskCategoryWhereSchema,
-    select: TaskCategoryProjectionSchema,
-    omit: TaskCategoryProjectionSchema,
-  })
-  .partial();
+export const TaskCategoryIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TaskCategoryIncludeSchema
+);
 
 export const AssignmentCreateSchema = z.object({
   assigneeId: z.int(),
@@ -3113,6 +3903,11 @@ export const AssignmentOrderBySchema = z
     taskId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const AssignmentOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  AssignmentOrderBySchema
+);
 
 export const AssignmentWhereSchema = z
   .object({
@@ -3138,6 +3933,11 @@ export const AssignmentWhereSchema = z
   })
   .partial();
 
+export const AssignmentWhereSchemaJson = z.preprocess(
+  jsonParser,
+  AssignmentWhereSchema
+);
+
 export const AssignmentProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -3145,28 +3945,27 @@ export const AssignmentProjectionSchema = z
     updatedAt: z.boolean(),
     assigneeId: z.boolean(),
     taskId: z.boolean(),
-    task: TaskOwnQueryOneSchema,
-    assignee: UserOwnQueryOneSchema,
+    task: z.boolean().or(TaskOwnQueryOneSchema),
+    assignee: z.boolean().or(UserOwnQueryOneSchema),
   })
   .partial();
 
-export const AssignmentQueryOneSchema = z
+export const AssignmentProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  AssignmentProjectionSchema
+);
+
+export const AssignmentIncludeSchema = z
   .object({
-    where: AssignmentWhereSchema,
-    select: AssignmentProjectionSchema,
-    omit: AssignmentProjectionSchema,
+    task: z.boolean().or(TaskOwnQueryOneSchema),
+    assignee: z.boolean().or(UserOwnQueryOneSchema),
   })
   .partial();
 
-export const AssignmentQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: AssignmentWhereSchema,
-    select: AssignmentProjectionSchema,
-    omit: AssignmentProjectionSchema,
-  })
-  .partial();
+export const AssignmentIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  AssignmentIncludeSchema
+);
 
 export const CommentCreateSchema = z.object({
   parentId: z.int().optional(),
@@ -3193,6 +3992,11 @@ export const CommentOrderBySchema = z
     comment: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const CommentOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  CommentOrderBySchema
+);
 
 export const CommentWhereSchema = z
   .object({
@@ -3234,6 +4038,11 @@ export const CommentWhereSchema = z
   })
   .partial();
 
+export const CommentWhereSchemaJson = z.preprocess(
+  jsonParser,
+  CommentWhereSchema
+);
+
 export const CommentProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -3243,30 +4052,31 @@ export const CommentProjectionSchema = z
     createdById: z.boolean(),
     taskId: z.boolean(),
     comment: z.boolean(),
-    parent: CommentOwnQueryOneSchema,
-    comments: CommentOwnQuerySchema,
-    createdBy: UserOwnQueryOneSchema,
-    task: TaskOwnQueryOneSchema,
+    parent: z.boolean().or(CommentOwnQueryOneSchema),
+    comments: z.boolean().or(CommentOwnQuerySchema),
+    createdBy: z.boolean().or(UserOwnQueryOneSchema),
+    task: z.boolean().or(TaskOwnQueryOneSchema),
   })
   .partial();
 
-export const CommentQueryOneSchema = z
+export const CommentProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  CommentProjectionSchema
+);
+
+export const CommentIncludeSchema = z
   .object({
-    where: CommentWhereSchema,
-    select: CommentProjectionSchema,
-    omit: CommentProjectionSchema,
+    parent: z.boolean().or(CommentOwnQueryOneSchema),
+    comments: z.boolean().or(CommentOwnQuerySchema),
+    createdBy: z.boolean().or(UserOwnQueryOneSchema),
+    task: z.boolean().or(TaskOwnQueryOneSchema),
   })
   .partial();
 
-export const CommentQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: CommentWhereSchema,
-    select: CommentProjectionSchema,
-    omit: CommentProjectionSchema,
-  })
-  .partial();
+export const CommentIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  CommentIncludeSchema
+);
 
 export const ProjectTaskTagCreateSchema = z.object({
   projectId: z.int(),
@@ -3285,6 +4095,11 @@ export const ProjectTaskTagOrderBySchema = z
     tagId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const ProjectTaskTagOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  ProjectTaskTagOrderBySchema
+);
 
 export const ProjectTaskTagWhereSchema = z
   .object({
@@ -3308,33 +4123,37 @@ export const ProjectTaskTagWhereSchema = z
   })
   .partial();
 
+export const ProjectTaskTagWhereSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectTaskTagWhereSchema
+);
+
 export const ProjectTaskTagProjectionSchema = z
   .object({
     id: z.boolean(),
     projectId: z.boolean(),
     tagId: z.boolean(),
-    tag: TagOwnQueryOneSchema,
-    project: ProjectOwnQueryOneSchema,
+    tag: z.boolean().or(TagOwnQueryOneSchema),
+    project: z.boolean().or(ProjectOwnQueryOneSchema),
   })
   .partial();
 
-export const ProjectTaskTagQueryOneSchema = z
+export const ProjectTaskTagProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectTaskTagProjectionSchema
+);
+
+export const ProjectTaskTagIncludeSchema = z
   .object({
-    where: ProjectTaskTagWhereSchema,
-    select: ProjectTaskTagProjectionSchema,
-    omit: ProjectTaskTagProjectionSchema,
+    tag: z.boolean().or(TagOwnQueryOneSchema),
+    project: z.boolean().or(ProjectOwnQueryOneSchema),
   })
   .partial();
 
-export const ProjectTaskTagQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ProjectTaskTagWhereSchema,
-    select: ProjectTaskTagProjectionSchema,
-    omit: ProjectTaskTagProjectionSchema,
-  })
-  .partial();
+export const ProjectTaskTagIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectTaskTagIncludeSchema
+);
 
 export const ProjectTaskStatusCreateSchema = z.object({
   projectId: z.int(),
@@ -3353,6 +4172,11 @@ export const ProjectTaskStatusOrderBySchema = z
     statusId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const ProjectTaskStatusOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  ProjectTaskStatusOrderBySchema
+);
 
 export const ProjectTaskStatusWhereSchema = z
   .object({
@@ -3376,33 +4200,37 @@ export const ProjectTaskStatusWhereSchema = z
   })
   .partial();
 
+export const ProjectTaskStatusWhereSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectTaskStatusWhereSchema
+);
+
 export const ProjectTaskStatusProjectionSchema = z
   .object({
     id: z.boolean(),
     projectId: z.boolean(),
     statusId: z.boolean(),
-    project: ProjectOwnQueryOneSchema,
-    status: StatusOwnQueryOneSchema,
+    project: z.boolean().or(ProjectOwnQueryOneSchema),
+    status: z.boolean().or(StatusOwnQueryOneSchema),
   })
   .partial();
 
-export const ProjectTaskStatusQueryOneSchema = z
+export const ProjectTaskStatusProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectTaskStatusProjectionSchema
+);
+
+export const ProjectTaskStatusIncludeSchema = z
   .object({
-    where: ProjectTaskStatusWhereSchema,
-    select: ProjectTaskStatusProjectionSchema,
-    omit: ProjectTaskStatusProjectionSchema,
+    project: z.boolean().or(ProjectOwnQueryOneSchema),
+    status: z.boolean().or(StatusOwnQueryOneSchema),
   })
   .partial();
 
-export const ProjectTaskStatusQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ProjectTaskStatusWhereSchema,
-    select: ProjectTaskStatusProjectionSchema,
-    omit: ProjectTaskStatusProjectionSchema,
-  })
-  .partial();
+export const ProjectTaskStatusIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectTaskStatusIncludeSchema
+);
 
 export const ProjectTaskPriorityCreateSchema = z.object({
   projectId: z.int(),
@@ -3421,6 +4249,11 @@ export const ProjectTaskPriorityOrderBySchema = z
     priorityId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const ProjectTaskPriorityOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  ProjectTaskPriorityOrderBySchema
+);
 
 export const ProjectTaskPriorityWhereSchema = z
   .object({
@@ -3444,31 +4277,55 @@ export const ProjectTaskPriorityWhereSchema = z
   })
   .partial();
 
+export const ProjectTaskPriorityWhereSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectTaskPriorityWhereSchema
+);
+
 export const ProjectTaskPriorityProjectionSchema = z
   .object({
     id: z.boolean(),
     projectId: z.boolean(),
     priorityId: z.boolean(),
-    project: ProjectOwnQueryOneSchema,
-    priority: PriorityOwnQueryOneSchema,
+    project: z.boolean().or(ProjectOwnQueryOneSchema),
+    priority: z.boolean().or(PriorityOwnQueryOneSchema),
   })
   .partial();
 
-export const ProjectTaskPriorityQueryOneSchema = z
+export const ProjectTaskPriorityProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectTaskPriorityProjectionSchema
+);
+
+export const ProjectTaskPriorityIncludeSchema = z
   .object({
-    where: ProjectTaskPriorityWhereSchema,
-    select: ProjectTaskPriorityProjectionSchema,
-    omit: ProjectTaskPriorityProjectionSchema,
+    project: z.boolean().or(ProjectOwnQueryOneSchema),
+    priority: z.boolean().or(PriorityOwnQueryOneSchema),
   })
   .partial();
 
-export const ProjectTaskPriorityQuerySchema = z
+export const ProjectTaskPriorityIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ProjectTaskPriorityIncludeSchema
+);
+
+export const UserQueryOneSchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ProjectTaskPriorityWhereSchema,
-    select: ProjectTaskPriorityProjectionSchema,
-    omit: ProjectTaskPriorityProjectionSchema,
+    where: UserWhereSchemaJson,
+    select: UserProjectionSchemaJson,
+    omit: UserProjectionSchemaJson,
+    include: UserIncludeSchemaJson,
+  })
+  .partial();
+
+export const UserQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: UserWhereSchemaJson,
+    select: UserProjectionSchemaJson,
+    omit: UserProjectionSchemaJson,
+    include: UserIncludeSchemaJson,
   })
   .partial();
 
@@ -3488,11 +4345,33 @@ export type UserOwnQueryOne = z.infer<typeof UserOwnQueryOneSchema>;
 
 export type UserWhere = z.infer<typeof UserWhereSchema>;
 
+export type UserInclude = z.infer<typeof UserIncludeSchema>;
+
 export type UserQueryOne = z.infer<typeof UserQueryOneSchema>;
 
 export type UserQuery = z.infer<typeof UserQuerySchema>;
 
 export type UserProjection = z.infer<typeof UserProjectionSchema>;
+
+export const TeamQueryOneSchema = z
+  .object({
+    where: TeamWhereSchemaJson,
+    select: TeamProjectionSchemaJson,
+    omit: TeamProjectionSchemaJson,
+    include: TeamIncludeSchemaJson,
+  })
+  .partial();
+
+export const TeamQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TeamWhereSchemaJson,
+    select: TeamProjectionSchemaJson,
+    omit: TeamProjectionSchemaJson,
+    include: TeamIncludeSchemaJson,
+  })
+  .partial();
 
 export type TeamCreate = z.infer<typeof TeamCreateSchema>;
 
@@ -3510,11 +4389,33 @@ export type TeamOwnQueryOne = z.infer<typeof TeamOwnQueryOneSchema>;
 
 export type TeamWhere = z.infer<typeof TeamWhereSchema>;
 
+export type TeamInclude = z.infer<typeof TeamIncludeSchema>;
+
 export type TeamQueryOne = z.infer<typeof TeamQueryOneSchema>;
 
 export type TeamQuery = z.infer<typeof TeamQuerySchema>;
 
 export type TeamProjection = z.infer<typeof TeamProjectionSchema>;
+
+export const TeamManagerQueryOneSchema = z
+  .object({
+    where: TeamManagerWhereSchemaJson,
+    select: TeamManagerProjectionSchemaJson,
+    omit: TeamManagerProjectionSchemaJson,
+    include: TeamManagerIncludeSchemaJson,
+  })
+  .partial();
+
+export const TeamManagerQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TeamManagerWhereSchemaJson,
+    select: TeamManagerProjectionSchemaJson,
+    omit: TeamManagerProjectionSchemaJson,
+    include: TeamManagerIncludeSchemaJson,
+  })
+  .partial();
 
 export type TeamManagerCreate = z.infer<typeof TeamManagerCreateSchema>;
 
@@ -3536,11 +4437,33 @@ export type TeamManagerOwnQueryOne = z.infer<
 
 export type TeamManagerWhere = z.infer<typeof TeamManagerWhereSchema>;
 
+export type TeamManagerInclude = z.infer<typeof TeamManagerIncludeSchema>;
+
 export type TeamManagerQueryOne = z.infer<typeof TeamManagerQueryOneSchema>;
 
 export type TeamManagerQuery = z.infer<typeof TeamManagerQuerySchema>;
 
 export type TeamManagerProjection = z.infer<typeof TeamManagerProjectionSchema>;
+
+export const TeamMemberQueryOneSchema = z
+  .object({
+    where: TeamMemberWhereSchemaJson,
+    select: TeamMemberProjectionSchemaJson,
+    omit: TeamMemberProjectionSchemaJson,
+    include: TeamMemberIncludeSchemaJson,
+  })
+  .partial();
+
+export const TeamMemberQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TeamMemberWhereSchemaJson,
+    select: TeamMemberProjectionSchemaJson,
+    omit: TeamMemberProjectionSchemaJson,
+    include: TeamMemberIncludeSchemaJson,
+  })
+  .partial();
 
 export type TeamMemberCreate = z.infer<typeof TeamMemberCreateSchema>;
 
@@ -3560,11 +4483,33 @@ export type TeamMemberOwnQueryOne = z.infer<typeof TeamMemberOwnQueryOneSchema>;
 
 export type TeamMemberWhere = z.infer<typeof TeamMemberWhereSchema>;
 
+export type TeamMemberInclude = z.infer<typeof TeamMemberIncludeSchema>;
+
 export type TeamMemberQueryOne = z.infer<typeof TeamMemberQueryOneSchema>;
 
 export type TeamMemberQuery = z.infer<typeof TeamMemberQuerySchema>;
 
 export type TeamMemberProjection = z.infer<typeof TeamMemberProjectionSchema>;
+
+export const ProjectQueryOneSchema = z
+  .object({
+    where: ProjectWhereSchemaJson,
+    select: ProjectProjectionSchemaJson,
+    omit: ProjectProjectionSchemaJson,
+    include: ProjectIncludeSchemaJson,
+  })
+  .partial();
+
+export const ProjectQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ProjectWhereSchemaJson,
+    select: ProjectProjectionSchemaJson,
+    omit: ProjectProjectionSchemaJson,
+    include: ProjectIncludeSchemaJson,
+  })
+  .partial();
 
 export type ProjectCreate = z.infer<typeof ProjectCreateSchema>;
 
@@ -3582,11 +4527,33 @@ export type ProjectOwnQueryOne = z.infer<typeof ProjectOwnQueryOneSchema>;
 
 export type ProjectWhere = z.infer<typeof ProjectWhereSchema>;
 
+export type ProjectInclude = z.infer<typeof ProjectIncludeSchema>;
+
 export type ProjectQueryOne = z.infer<typeof ProjectQueryOneSchema>;
 
 export type ProjectQuery = z.infer<typeof ProjectQuerySchema>;
 
 export type ProjectProjection = z.infer<typeof ProjectProjectionSchema>;
+
+export const TagQueryOneSchema = z
+  .object({
+    where: TagWhereSchemaJson,
+    select: TagProjectionSchemaJson,
+    omit: TagProjectionSchemaJson,
+    include: TagIncludeSchemaJson,
+  })
+  .partial();
+
+export const TagQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TagWhereSchemaJson,
+    select: TagProjectionSchemaJson,
+    omit: TagProjectionSchemaJson,
+    include: TagIncludeSchemaJson,
+  })
+  .partial();
 
 export type TagCreate = z.infer<typeof TagCreateSchema>;
 
@@ -3604,11 +4571,33 @@ export type TagOwnQueryOne = z.infer<typeof TagOwnQueryOneSchema>;
 
 export type TagWhere = z.infer<typeof TagWhereSchema>;
 
+export type TagInclude = z.infer<typeof TagIncludeSchema>;
+
 export type TagQueryOne = z.infer<typeof TagQueryOneSchema>;
 
 export type TagQuery = z.infer<typeof TagQuerySchema>;
 
 export type TagProjection = z.infer<typeof TagProjectionSchema>;
+
+export const CategoryQueryOneSchema = z
+  .object({
+    where: CategoryWhereSchemaJson,
+    select: CategoryProjectionSchemaJson,
+    omit: CategoryProjectionSchemaJson,
+    include: CategoryIncludeSchemaJson,
+  })
+  .partial();
+
+export const CategoryQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: CategoryWhereSchemaJson,
+    select: CategoryProjectionSchemaJson,
+    omit: CategoryProjectionSchemaJson,
+    include: CategoryIncludeSchemaJson,
+  })
+  .partial();
 
 export type CategoryCreate = z.infer<typeof CategoryCreateSchema>;
 
@@ -3626,11 +4615,33 @@ export type CategoryOwnQueryOne = z.infer<typeof CategoryOwnQueryOneSchema>;
 
 export type CategoryWhere = z.infer<typeof CategoryWhereSchema>;
 
+export type CategoryInclude = z.infer<typeof CategoryIncludeSchema>;
+
 export type CategoryQueryOne = z.infer<typeof CategoryQueryOneSchema>;
 
 export type CategoryQuery = z.infer<typeof CategoryQuerySchema>;
 
 export type CategoryProjection = z.infer<typeof CategoryProjectionSchema>;
+
+export const SprintQueryOneSchema = z
+  .object({
+    where: SprintWhereSchemaJson,
+    select: SprintProjectionSchemaJson,
+    omit: SprintProjectionSchemaJson,
+    include: SprintIncludeSchemaJson,
+  })
+  .partial();
+
+export const SprintQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: SprintWhereSchemaJson,
+    select: SprintProjectionSchemaJson,
+    omit: SprintProjectionSchemaJson,
+    include: SprintIncludeSchemaJson,
+  })
+  .partial();
 
 export type SprintCreate = z.infer<typeof SprintCreateSchema>;
 
@@ -3648,11 +4659,33 @@ export type SprintOwnQueryOne = z.infer<typeof SprintOwnQueryOneSchema>;
 
 export type SprintWhere = z.infer<typeof SprintWhereSchema>;
 
+export type SprintInclude = z.infer<typeof SprintIncludeSchema>;
+
 export type SprintQueryOne = z.infer<typeof SprintQueryOneSchema>;
 
 export type SprintQuery = z.infer<typeof SprintQuerySchema>;
 
 export type SprintProjection = z.infer<typeof SprintProjectionSchema>;
+
+export const PriorityQueryOneSchema = z
+  .object({
+    where: PriorityWhereSchemaJson,
+    select: PriorityProjectionSchemaJson,
+    omit: PriorityProjectionSchemaJson,
+    include: PriorityIncludeSchemaJson,
+  })
+  .partial();
+
+export const PriorityQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PriorityWhereSchemaJson,
+    select: PriorityProjectionSchemaJson,
+    omit: PriorityProjectionSchemaJson,
+    include: PriorityIncludeSchemaJson,
+  })
+  .partial();
 
 export type PriorityCreate = z.infer<typeof PriorityCreateSchema>;
 
@@ -3670,11 +4703,33 @@ export type PriorityOwnQueryOne = z.infer<typeof PriorityOwnQueryOneSchema>;
 
 export type PriorityWhere = z.infer<typeof PriorityWhereSchema>;
 
+export type PriorityInclude = z.infer<typeof PriorityIncludeSchema>;
+
 export type PriorityQueryOne = z.infer<typeof PriorityQueryOneSchema>;
 
 export type PriorityQuery = z.infer<typeof PriorityQuerySchema>;
 
 export type PriorityProjection = z.infer<typeof PriorityProjectionSchema>;
+
+export const StatusQueryOneSchema = z
+  .object({
+    where: StatusWhereSchemaJson,
+    select: StatusProjectionSchemaJson,
+    omit: StatusProjectionSchemaJson,
+    include: StatusIncludeSchemaJson,
+  })
+  .partial();
+
+export const StatusQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: StatusWhereSchemaJson,
+    select: StatusProjectionSchemaJson,
+    omit: StatusProjectionSchemaJson,
+    include: StatusIncludeSchemaJson,
+  })
+  .partial();
 
 export type StatusCreate = z.infer<typeof StatusCreateSchema>;
 
@@ -3692,11 +4747,33 @@ export type StatusOwnQueryOne = z.infer<typeof StatusOwnQueryOneSchema>;
 
 export type StatusWhere = z.infer<typeof StatusWhereSchema>;
 
+export type StatusInclude = z.infer<typeof StatusIncludeSchema>;
+
 export type StatusQueryOne = z.infer<typeof StatusQueryOneSchema>;
 
 export type StatusQuery = z.infer<typeof StatusQuerySchema>;
 
 export type StatusProjection = z.infer<typeof StatusProjectionSchema>;
+
+export const PointQueryOneSchema = z
+  .object({
+    where: PointWhereSchemaJson,
+    select: PointProjectionSchemaJson,
+    omit: PointProjectionSchemaJson,
+    include: PointIncludeSchemaJson,
+  })
+  .partial();
+
+export const PointQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PointWhereSchemaJson,
+    select: PointProjectionSchemaJson,
+    omit: PointProjectionSchemaJson,
+    include: PointIncludeSchemaJson,
+  })
+  .partial();
 
 export type PointCreate = z.infer<typeof PointCreateSchema>;
 
@@ -3714,11 +4791,33 @@ export type PointOwnQueryOne = z.infer<typeof PointOwnQueryOneSchema>;
 
 export type PointWhere = z.infer<typeof PointWhereSchema>;
 
+export type PointInclude = z.infer<typeof PointIncludeSchema>;
+
 export type PointQueryOne = z.infer<typeof PointQueryOneSchema>;
 
 export type PointQuery = z.infer<typeof PointQuerySchema>;
 
 export type PointProjection = z.infer<typeof PointProjectionSchema>;
+
+export const TaskQueryOneSchema = z
+  .object({
+    where: TaskWhereSchemaJson,
+    select: TaskProjectionSchemaJson,
+    omit: TaskProjectionSchemaJson,
+    include: TaskIncludeSchemaJson,
+  })
+  .partial();
+
+export const TaskQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TaskWhereSchemaJson,
+    select: TaskProjectionSchemaJson,
+    omit: TaskProjectionSchemaJson,
+    include: TaskIncludeSchemaJson,
+  })
+  .partial();
 
 export type TaskCreate = z.infer<typeof TaskCreateSchema>;
 
@@ -3736,11 +4835,33 @@ export type TaskOwnQueryOne = z.infer<typeof TaskOwnQueryOneSchema>;
 
 export type TaskWhere = z.infer<typeof TaskWhereSchema>;
 
+export type TaskInclude = z.infer<typeof TaskIncludeSchema>;
+
 export type TaskQueryOne = z.infer<typeof TaskQueryOneSchema>;
 
 export type TaskQuery = z.infer<typeof TaskQuerySchema>;
 
 export type TaskProjection = z.infer<typeof TaskProjectionSchema>;
+
+export const AssignmentHistoryQueryOneSchema = z
+  .object({
+    where: AssignmentHistoryWhereSchemaJson,
+    select: AssignmentHistoryProjectionSchemaJson,
+    omit: AssignmentHistoryProjectionSchemaJson,
+    include: AssignmentHistoryIncludeSchemaJson,
+  })
+  .partial();
+
+export const AssignmentHistoryQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: AssignmentHistoryWhereSchemaJson,
+    select: AssignmentHistoryProjectionSchemaJson,
+    omit: AssignmentHistoryProjectionSchemaJson,
+    include: AssignmentHistoryIncludeSchemaJson,
+  })
+  .partial();
 
 export type AssignmentHistoryCreate = z.infer<
   typeof AssignmentHistoryCreateSchema
@@ -3774,6 +4895,10 @@ export type AssignmentHistoryWhere = z.infer<
   typeof AssignmentHistoryWhereSchema
 >;
 
+export type AssignmentHistoryInclude = z.infer<
+  typeof AssignmentHistoryIncludeSchema
+>;
+
 export type AssignmentHistoryQueryOne = z.infer<
   typeof AssignmentHistoryQueryOneSchema
 >;
@@ -3785,6 +4910,26 @@ export type AssignmentHistoryQuery = z.infer<
 export type AssignmentHistoryProjection = z.infer<
   typeof AssignmentHistoryProjectionSchema
 >;
+
+export const PriorityHistoryQueryOneSchema = z
+  .object({
+    where: PriorityHistoryWhereSchemaJson,
+    select: PriorityHistoryProjectionSchemaJson,
+    omit: PriorityHistoryProjectionSchemaJson,
+    include: PriorityHistoryIncludeSchemaJson,
+  })
+  .partial();
+
+export const PriorityHistoryQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PriorityHistoryWhereSchemaJson,
+    select: PriorityHistoryProjectionSchemaJson,
+    omit: PriorityHistoryProjectionSchemaJson,
+    include: PriorityHistoryIncludeSchemaJson,
+  })
+  .partial();
 
 export type PriorityHistoryCreate = z.infer<typeof PriorityHistoryCreateSchema>;
 
@@ -3812,6 +4957,10 @@ export type PriorityHistoryOwnQueryOne = z.infer<
 
 export type PriorityHistoryWhere = z.infer<typeof PriorityHistoryWhereSchema>;
 
+export type PriorityHistoryInclude = z.infer<
+  typeof PriorityHistoryIncludeSchema
+>;
+
 export type PriorityHistoryQueryOne = z.infer<
   typeof PriorityHistoryQueryOneSchema
 >;
@@ -3821,6 +4970,26 @@ export type PriorityHistoryQuery = z.infer<typeof PriorityHistoryQuerySchema>;
 export type PriorityHistoryProjection = z.infer<
   typeof PriorityHistoryProjectionSchema
 >;
+
+export const StatusHistoryQueryOneSchema = z
+  .object({
+    where: StatusHistoryWhereSchemaJson,
+    select: StatusHistoryProjectionSchemaJson,
+    omit: StatusHistoryProjectionSchemaJson,
+    include: StatusHistoryIncludeSchemaJson,
+  })
+  .partial();
+
+export const StatusHistoryQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: StatusHistoryWhereSchemaJson,
+    select: StatusHistoryProjectionSchemaJson,
+    omit: StatusHistoryProjectionSchemaJson,
+    include: StatusHistoryIncludeSchemaJson,
+  })
+  .partial();
 
 export type StatusHistoryCreate = z.infer<typeof StatusHistoryCreateSchema>;
 
@@ -3842,6 +5011,8 @@ export type StatusHistoryOwnQueryOne = z.infer<
 
 export type StatusHistoryWhere = z.infer<typeof StatusHistoryWhereSchema>;
 
+export type StatusHistoryInclude = z.infer<typeof StatusHistoryIncludeSchema>;
+
 export type StatusHistoryQueryOne = z.infer<typeof StatusHistoryQueryOneSchema>;
 
 export type StatusHistoryQuery = z.infer<typeof StatusHistoryQuerySchema>;
@@ -3849,6 +5020,26 @@ export type StatusHistoryQuery = z.infer<typeof StatusHistoryQuerySchema>;
 export type StatusHistoryProjection = z.infer<
   typeof StatusHistoryProjectionSchema
 >;
+
+export const PointHistoryQueryOneSchema = z
+  .object({
+    where: PointHistoryWhereSchemaJson,
+    select: PointHistoryProjectionSchemaJson,
+    omit: PointHistoryProjectionSchemaJson,
+    include: PointHistoryIncludeSchemaJson,
+  })
+  .partial();
+
+export const PointHistoryQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PointHistoryWhereSchemaJson,
+    select: PointHistoryProjectionSchemaJson,
+    omit: PointHistoryProjectionSchemaJson,
+    include: PointHistoryIncludeSchemaJson,
+  })
+  .partial();
 
 export type PointHistoryCreate = z.infer<typeof PointHistoryCreateSchema>;
 
@@ -3870,6 +5061,8 @@ export type PointHistoryOwnQueryOne = z.infer<
 
 export type PointHistoryWhere = z.infer<typeof PointHistoryWhereSchema>;
 
+export type PointHistoryInclude = z.infer<typeof PointHistoryIncludeSchema>;
+
 export type PointHistoryQueryOne = z.infer<typeof PointHistoryQueryOneSchema>;
 
 export type PointHistoryQuery = z.infer<typeof PointHistoryQuerySchema>;
@@ -3877,6 +5070,26 @@ export type PointHistoryQuery = z.infer<typeof PointHistoryQuerySchema>;
 export type PointHistoryProjection = z.infer<
   typeof PointHistoryProjectionSchema
 >;
+
+export const TeamHistoryQueryOneSchema = z
+  .object({
+    where: TeamHistoryWhereSchemaJson,
+    select: TeamHistoryProjectionSchemaJson,
+    omit: TeamHistoryProjectionSchemaJson,
+    include: TeamHistoryIncludeSchemaJson,
+  })
+  .partial();
+
+export const TeamHistoryQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TeamHistoryWhereSchemaJson,
+    select: TeamHistoryProjectionSchemaJson,
+    omit: TeamHistoryProjectionSchemaJson,
+    include: TeamHistoryIncludeSchemaJson,
+  })
+  .partial();
 
 export type TeamHistoryCreate = z.infer<typeof TeamHistoryCreateSchema>;
 
@@ -3898,11 +5111,33 @@ export type TeamHistoryOwnQueryOne = z.infer<
 
 export type TeamHistoryWhere = z.infer<typeof TeamHistoryWhereSchema>;
 
+export type TeamHistoryInclude = z.infer<typeof TeamHistoryIncludeSchema>;
+
 export type TeamHistoryQueryOne = z.infer<typeof TeamHistoryQueryOneSchema>;
 
 export type TeamHistoryQuery = z.infer<typeof TeamHistoryQuerySchema>;
 
 export type TeamHistoryProjection = z.infer<typeof TeamHistoryProjectionSchema>;
+
+export const TaskTagQueryOneSchema = z
+  .object({
+    where: TaskTagWhereSchemaJson,
+    select: TaskTagProjectionSchemaJson,
+    omit: TaskTagProjectionSchemaJson,
+    include: TaskTagIncludeSchemaJson,
+  })
+  .partial();
+
+export const TaskTagQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TaskTagWhereSchemaJson,
+    select: TaskTagProjectionSchemaJson,
+    omit: TaskTagProjectionSchemaJson,
+    include: TaskTagIncludeSchemaJson,
+  })
+  .partial();
 
 export type TaskTagCreate = z.infer<typeof TaskTagCreateSchema>;
 
@@ -3920,11 +5155,33 @@ export type TaskTagOwnQueryOne = z.infer<typeof TaskTagOwnQueryOneSchema>;
 
 export type TaskTagWhere = z.infer<typeof TaskTagWhereSchema>;
 
+export type TaskTagInclude = z.infer<typeof TaskTagIncludeSchema>;
+
 export type TaskTagQueryOne = z.infer<typeof TaskTagQueryOneSchema>;
 
 export type TaskTagQuery = z.infer<typeof TaskTagQuerySchema>;
 
 export type TaskTagProjection = z.infer<typeof TaskTagProjectionSchema>;
+
+export const TaskCategoryQueryOneSchema = z
+  .object({
+    where: TaskCategoryWhereSchemaJson,
+    select: TaskCategoryProjectionSchemaJson,
+    omit: TaskCategoryProjectionSchemaJson,
+    include: TaskCategoryIncludeSchemaJson,
+  })
+  .partial();
+
+export const TaskCategoryQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TaskCategoryWhereSchemaJson,
+    select: TaskCategoryProjectionSchemaJson,
+    omit: TaskCategoryProjectionSchemaJson,
+    include: TaskCategoryIncludeSchemaJson,
+  })
+  .partial();
 
 export type TaskCategoryCreate = z.infer<typeof TaskCategoryCreateSchema>;
 
@@ -3946,6 +5203,8 @@ export type TaskCategoryOwnQueryOne = z.infer<
 
 export type TaskCategoryWhere = z.infer<typeof TaskCategoryWhereSchema>;
 
+export type TaskCategoryInclude = z.infer<typeof TaskCategoryIncludeSchema>;
+
 export type TaskCategoryQueryOne = z.infer<typeof TaskCategoryQueryOneSchema>;
 
 export type TaskCategoryQuery = z.infer<typeof TaskCategoryQuerySchema>;
@@ -3953,6 +5212,26 @@ export type TaskCategoryQuery = z.infer<typeof TaskCategoryQuerySchema>;
 export type TaskCategoryProjection = z.infer<
   typeof TaskCategoryProjectionSchema
 >;
+
+export const AssignmentQueryOneSchema = z
+  .object({
+    where: AssignmentWhereSchemaJson,
+    select: AssignmentProjectionSchemaJson,
+    omit: AssignmentProjectionSchemaJson,
+    include: AssignmentIncludeSchemaJson,
+  })
+  .partial();
+
+export const AssignmentQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: AssignmentWhereSchemaJson,
+    select: AssignmentProjectionSchemaJson,
+    omit: AssignmentProjectionSchemaJson,
+    include: AssignmentIncludeSchemaJson,
+  })
+  .partial();
 
 export type AssignmentCreate = z.infer<typeof AssignmentCreateSchema>;
 
@@ -3972,11 +5251,33 @@ export type AssignmentOwnQueryOne = z.infer<typeof AssignmentOwnQueryOneSchema>;
 
 export type AssignmentWhere = z.infer<typeof AssignmentWhereSchema>;
 
+export type AssignmentInclude = z.infer<typeof AssignmentIncludeSchema>;
+
 export type AssignmentQueryOne = z.infer<typeof AssignmentQueryOneSchema>;
 
 export type AssignmentQuery = z.infer<typeof AssignmentQuerySchema>;
 
 export type AssignmentProjection = z.infer<typeof AssignmentProjectionSchema>;
+
+export const CommentQueryOneSchema = z
+  .object({
+    where: CommentWhereSchemaJson,
+    select: CommentProjectionSchemaJson,
+    omit: CommentProjectionSchemaJson,
+    include: CommentIncludeSchemaJson,
+  })
+  .partial();
+
+export const CommentQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: CommentWhereSchemaJson,
+    select: CommentProjectionSchemaJson,
+    omit: CommentProjectionSchemaJson,
+    include: CommentIncludeSchemaJson,
+  })
+  .partial();
 
 export type CommentCreate = z.infer<typeof CommentCreateSchema>;
 
@@ -3994,11 +5295,33 @@ export type CommentOwnQueryOne = z.infer<typeof CommentOwnQueryOneSchema>;
 
 export type CommentWhere = z.infer<typeof CommentWhereSchema>;
 
+export type CommentInclude = z.infer<typeof CommentIncludeSchema>;
+
 export type CommentQueryOne = z.infer<typeof CommentQueryOneSchema>;
 
 export type CommentQuery = z.infer<typeof CommentQuerySchema>;
 
 export type CommentProjection = z.infer<typeof CommentProjectionSchema>;
+
+export const ProjectTaskTagQueryOneSchema = z
+  .object({
+    where: ProjectTaskTagWhereSchemaJson,
+    select: ProjectTaskTagProjectionSchemaJson,
+    omit: ProjectTaskTagProjectionSchemaJson,
+    include: ProjectTaskTagIncludeSchemaJson,
+  })
+  .partial();
+
+export const ProjectTaskTagQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ProjectTaskTagWhereSchemaJson,
+    select: ProjectTaskTagProjectionSchemaJson,
+    omit: ProjectTaskTagProjectionSchemaJson,
+    include: ProjectTaskTagIncludeSchemaJson,
+  })
+  .partial();
 
 export type ProjectTaskTagCreate = z.infer<typeof ProjectTaskTagCreateSchema>;
 
@@ -4024,6 +5347,8 @@ export type ProjectTaskTagOwnQueryOne = z.infer<
 
 export type ProjectTaskTagWhere = z.infer<typeof ProjectTaskTagWhereSchema>;
 
+export type ProjectTaskTagInclude = z.infer<typeof ProjectTaskTagIncludeSchema>;
+
 export type ProjectTaskTagQueryOne = z.infer<
   typeof ProjectTaskTagQueryOneSchema
 >;
@@ -4033,6 +5358,26 @@ export type ProjectTaskTagQuery = z.infer<typeof ProjectTaskTagQuerySchema>;
 export type ProjectTaskTagProjection = z.infer<
   typeof ProjectTaskTagProjectionSchema
 >;
+
+export const ProjectTaskStatusQueryOneSchema = z
+  .object({
+    where: ProjectTaskStatusWhereSchemaJson,
+    select: ProjectTaskStatusProjectionSchemaJson,
+    omit: ProjectTaskStatusProjectionSchemaJson,
+    include: ProjectTaskStatusIncludeSchemaJson,
+  })
+  .partial();
+
+export const ProjectTaskStatusQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ProjectTaskStatusWhereSchemaJson,
+    select: ProjectTaskStatusProjectionSchemaJson,
+    omit: ProjectTaskStatusProjectionSchemaJson,
+    include: ProjectTaskStatusIncludeSchemaJson,
+  })
+  .partial();
 
 export type ProjectTaskStatusCreate = z.infer<
   typeof ProjectTaskStatusCreateSchema
@@ -4066,6 +5411,10 @@ export type ProjectTaskStatusWhere = z.infer<
   typeof ProjectTaskStatusWhereSchema
 >;
 
+export type ProjectTaskStatusInclude = z.infer<
+  typeof ProjectTaskStatusIncludeSchema
+>;
+
 export type ProjectTaskStatusQueryOne = z.infer<
   typeof ProjectTaskStatusQueryOneSchema
 >;
@@ -4077,6 +5426,26 @@ export type ProjectTaskStatusQuery = z.infer<
 export type ProjectTaskStatusProjection = z.infer<
   typeof ProjectTaskStatusProjectionSchema
 >;
+
+export const ProjectTaskPriorityQueryOneSchema = z
+  .object({
+    where: ProjectTaskPriorityWhereSchemaJson,
+    select: ProjectTaskPriorityProjectionSchemaJson,
+    omit: ProjectTaskPriorityProjectionSchemaJson,
+    include: ProjectTaskPriorityIncludeSchemaJson,
+  })
+  .partial();
+
+export const ProjectTaskPriorityQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ProjectTaskPriorityWhereSchemaJson,
+    select: ProjectTaskPriorityProjectionSchemaJson,
+    omit: ProjectTaskPriorityProjectionSchemaJson,
+    include: ProjectTaskPriorityIncludeSchemaJson,
+  })
+  .partial();
 
 export type ProjectTaskPriorityCreate = z.infer<
   typeof ProjectTaskPriorityCreateSchema
@@ -4108,6 +5477,10 @@ export type ProjectTaskPriorityOwnQueryOne = z.infer<
 
 export type ProjectTaskPriorityWhere = z.infer<
   typeof ProjectTaskPriorityWhereSchema
+>;
+
+export type ProjectTaskPriorityInclude = z.infer<
+  typeof ProjectTaskPriorityIncludeSchema
 >;
 
 export type ProjectTaskPriorityQueryOne = z.infer<

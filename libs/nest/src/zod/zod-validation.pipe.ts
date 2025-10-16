@@ -10,17 +10,6 @@ import type { ZodType } from 'zod';
 export class ZodValidationPipe<T extends ZodType> implements PipeTransform {
   constructor(private schema: T) {}
   transform(value: unknown) {
-    if (typeof value === 'string') {
-      try {
-        const jsonObject = JSON.parse(value);
-        if (typeof jsonObject === 'object') {
-          return this.schema.parse(jsonObject);
-        }
-      } catch {
-        return this.schema.parse(value);
-      }
-    }
-
     return this.schema.parse(value);
   }
 }

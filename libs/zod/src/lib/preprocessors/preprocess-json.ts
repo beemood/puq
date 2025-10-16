@@ -4,7 +4,7 @@ import z from 'zod';
 import { jsonPreprocessor } from './json-preprocessor.js';
 
 /**
- * Pipe json transformer {@link jsonPreprocessor} to the given {@link schema}.
+ * Pipe json transformer {@link jsonPreprocessor} to the given {@link schema} so the json input is parsed by JSON.parse before the schema parser
  *
  * @group Preprocessers
  * @param schema

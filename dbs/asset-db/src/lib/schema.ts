@@ -1,5 +1,36 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as PZ from '@puq/zod';
 import { z } from 'zod';
+import { slugify } from '@puq/names';
+
+export const takeSchema = z.coerce.number().int().min(1).default(20).optional();
+export const skipSchema = z.coerce.number().int().min(0).default(0).optional();
+
+export const PaginationSchema = z
+  .object({
+    take: takeSchema,
+    skip: skipSchema,
+  })
+  .partial();
+
+export function jsonParser<T>(value: T) {
+  if (typeof value === 'string') {
+    return JSON.parse(value);
+  }
+  return value;
+}
+
+export function slugTransformer(key: string) {
+  return (value: any) => {
+    if (value.slug == undefined && value[key] != undefined) {
+      return {
+        ...value,
+        slug: value[key] ? slugify(value[key].toString()) : null,
+      };
+    }
+    return value;
+  };
+}
 
 export const RequestStatusSchema = z.enum([
   'PENDING',
@@ -16,6 +47,11 @@ export const RoomAttributeOwnProjectionSchema = z
   })
   .partial();
 
+export const RoomAttributeOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  RoomAttributeOwnProjectionSchema
+);
+
 export const RoomAttributeValueOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -27,6 +63,11 @@ export const RoomAttributeValueOwnProjectionSchema = z
   })
   .partial();
 
+export const RoomAttributeValueOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  RoomAttributeValueOwnProjectionSchema
+);
+
 export const ItemAttributeOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -34,6 +75,11 @@ export const ItemAttributeOwnProjectionSchema = z
     values: z.boolean(),
   })
   .partial();
+
+export const ItemAttributeOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ItemAttributeOwnProjectionSchema
+);
 
 export const ItemAttributeValueOwnProjectionSchema = z
   .object({
@@ -46,6 +92,11 @@ export const ItemAttributeValueOwnProjectionSchema = z
   })
   .partial();
 
+export const ItemAttributeValueOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ItemAttributeValueOwnProjectionSchema
+);
+
 export const CategoryOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -57,6 +108,11 @@ export const CategoryOwnProjectionSchema = z
   })
   .partial();
 
+export const CategoryOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  CategoryOwnProjectionSchema
+);
+
 export const BuildingOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -65,6 +121,11 @@ export const BuildingOwnProjectionSchema = z
     rooms: z.boolean(),
   })
   .partial();
+
+export const BuildingOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  BuildingOwnProjectionSchema
+);
 
 export const RoomOwnProjectionSchema = z
   .object({
@@ -83,6 +144,11 @@ export const RoomOwnProjectionSchema = z
   })
   .partial();
 
+export const RoomOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  RoomOwnProjectionSchema
+);
+
 export const ItemOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -98,6 +164,11 @@ export const ItemOwnProjectionSchema = z
   })
   .partial();
 
+export const ItemOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ItemOwnProjectionSchema
+);
+
 export const QuantityOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -111,6 +182,11 @@ export const QuantityOwnProjectionSchema = z
     quantityMoveTargets: z.boolean(),
   })
   .partial();
+
+export const QuantityOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  QuantityOwnProjectionSchema
+);
 
 export const SerialNumberOwnProjectionSchema = z
   .object({
@@ -127,6 +203,11 @@ export const SerialNumberOwnProjectionSchema = z
     employeeItems: z.boolean(),
   })
   .partial();
+
+export const SerialNumberOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  SerialNumberOwnProjectionSchema
+);
 
 export const QuantityMoveRequestOwnProjectionSchema = z
   .object({
@@ -147,6 +228,11 @@ export const QuantityMoveRequestOwnProjectionSchema = z
   })
   .partial();
 
+export const QuantityMoveRequestOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  QuantityMoveRequestOwnProjectionSchema
+);
+
 export const SerialMoveRequestOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -165,6 +251,11 @@ export const SerialMoveRequestOwnProjectionSchema = z
   })
   .partial();
 
+export const SerialMoveRequestOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  SerialMoveRequestOwnProjectionSchema
+);
+
 export const EmployeeOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -182,6 +273,11 @@ export const EmployeeOwnProjectionSchema = z
   })
   .partial();
 
+export const EmployeeOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeOwnProjectionSchema
+);
+
 export const EmployeeRoomOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -194,6 +290,11 @@ export const EmployeeRoomOwnProjectionSchema = z
   })
   .partial();
 
+export const EmployeeRoomOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeRoomOwnProjectionSchema
+);
+
 export const EmployeeItemOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -205,6 +306,11 @@ export const EmployeeItemOwnProjectionSchema = z
     employee: z.boolean(),
   })
   .partial();
+
+export const EmployeeItemOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeItemOwnProjectionSchema
+);
 
 export const EmployeeRoomRequestOwnProjectionSchema = z
   .object({
@@ -222,6 +328,11 @@ export const EmployeeRoomRequestOwnProjectionSchema = z
   })
   .partial();
 
+export const EmployeeRoomRequestOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeRoomRequestOwnProjectionSchema
+);
+
 export const EmployeeItemRequestOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -238,12 +349,22 @@ export const EmployeeItemRequestOwnProjectionSchema = z
   })
   .partial();
 
+export const EmployeeItemRequestOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeItemRequestOwnProjectionSchema
+);
+
 export const RoomAttributeOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
     name: PZ.StringFilterSchema,
   })
   .partial();
+
+export const RoomAttributeOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  RoomAttributeOwnWhereSchema
+);
 
 export const RoomAttributeValueOwnWhereSchema = z
   .object({
@@ -254,12 +375,22 @@ export const RoomAttributeValueOwnWhereSchema = z
   })
   .partial();
 
+export const RoomAttributeValueOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  RoomAttributeValueOwnWhereSchema
+);
+
 export const ItemAttributeOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
     name: PZ.StringFilterSchema,
   })
   .partial();
+
+export const ItemAttributeOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  ItemAttributeOwnWhereSchema
+);
 
 export const ItemAttributeValueOwnWhereSchema = z
   .object({
@@ -270,6 +401,11 @@ export const ItemAttributeValueOwnWhereSchema = z
   })
   .partial();
 
+export const ItemAttributeValueOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  ItemAttributeValueOwnWhereSchema
+);
+
 export const CategoryOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -278,6 +414,11 @@ export const CategoryOwnWhereSchema = z
   })
   .partial();
 
+export const CategoryOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  CategoryOwnWhereSchema
+);
+
 export const BuildingOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -285,6 +426,11 @@ export const BuildingOwnWhereSchema = z
     code: PZ.StringFilterSchema,
   })
   .partial();
+
+export const BuildingOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  BuildingOwnWhereSchema
+);
 
 export const RoomOwnWhereSchema = z
   .object({
@@ -297,6 +443,11 @@ export const RoomOwnWhereSchema = z
   })
   .partial();
 
+export const RoomOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  RoomOwnWhereSchema
+);
+
 export const ItemOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -308,6 +459,11 @@ export const ItemOwnWhereSchema = z
   })
   .partial();
 
+export const ItemOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  ItemOwnWhereSchema
+);
+
 export const QuantityOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -318,6 +474,11 @@ export const QuantityOwnWhereSchema = z
   })
   .partial();
 
+export const QuantityOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  QuantityOwnWhereSchema
+);
+
 export const SerialNumberOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -327,6 +488,11 @@ export const SerialNumberOwnWhereSchema = z
     roomId: PZ.IntegerFilterSchema,
   })
   .partial();
+
+export const SerialNumberOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  SerialNumberOwnWhereSchema
+);
 
 export const QuantityMoveRequestOwnWhereSchema = z
   .object({
@@ -343,6 +509,11 @@ export const QuantityMoveRequestOwnWhereSchema = z
   })
   .partial();
 
+export const QuantityMoveRequestOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  QuantityMoveRequestOwnWhereSchema
+);
+
 export const SerialMoveRequestOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -357,12 +528,22 @@ export const SerialMoveRequestOwnWhereSchema = z
   })
   .partial();
 
+export const SerialMoveRequestOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  SerialMoveRequestOwnWhereSchema
+);
+
 export const EmployeeOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
     uuid: PZ.StringFilterSchema,
   })
   .partial();
+
+export const EmployeeOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeOwnWhereSchema
+);
 
 export const EmployeeRoomOwnWhereSchema = z
   .object({
@@ -374,6 +555,11 @@ export const EmployeeRoomOwnWhereSchema = z
   })
   .partial();
 
+export const EmployeeRoomOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeRoomOwnWhereSchema
+);
+
 export const EmployeeItemOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -383,6 +569,11 @@ export const EmployeeItemOwnWhereSchema = z
     takenAt: PZ.DateTimeFilterSchema,
   })
   .partial();
+
+export const EmployeeItemOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeItemOwnWhereSchema
+);
 
 export const EmployeeRoomRequestOwnWhereSchema = z
   .object({
@@ -397,6 +588,11 @@ export const EmployeeRoomRequestOwnWhereSchema = z
   })
   .partial();
 
+export const EmployeeRoomRequestOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeRoomRequestOwnWhereSchema
+);
+
 export const EmployeeItemRequestOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -410,309 +606,576 @@ export const EmployeeItemRequestOwnWhereSchema = z
   })
   .partial();
 
+export const EmployeeItemRequestOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeItemRequestOwnWhereSchema
+);
+
+export const RoomAttributeOwnIncludeSchema = z
+  .object({
+    values: z.boolean(),
+  })
+  .partial();
+
+export const RoomAttributeOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  RoomAttributeOwnIncludeSchema
+);
+
 export const RoomAttributeOwnQueryOneSchema = z
   .object({
-    where: RoomAttributeOwnWhereSchema,
-    select: RoomAttributeOwnProjectionSchema,
-    omit: RoomAttributeOwnProjectionSchema,
+    where: RoomAttributeOwnWhereSchemaJson,
+    select: RoomAttributeOwnProjectionSchemaJson,
+    omit: RoomAttributeOwnProjectionSchemaJson,
+    include: RoomAttributeOwnIncludeSchemaJson,
   })
   .partial();
 
 export const RoomAttributeOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: RoomAttributeOwnWhereSchema,
-    select: RoomAttributeOwnProjectionSchema,
-    omit: RoomAttributeOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: RoomAttributeOwnWhereSchemaJson,
+    select: RoomAttributeOwnProjectionSchemaJson,
+    omit: RoomAttributeOwnProjectionSchemaJson,
+    include: RoomAttributeOwnIncludeSchemaJson,
   })
   .partial();
 
+export const RoomAttributeValueOwnIncludeSchema = z
+  .object({
+    attribute: z.boolean(),
+    room: z.boolean(),
+  })
+  .partial();
+
+export const RoomAttributeValueOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  RoomAttributeValueOwnIncludeSchema
+);
+
 export const RoomAttributeValueOwnQueryOneSchema = z
   .object({
-    where: RoomAttributeValueOwnWhereSchema,
-    select: RoomAttributeValueOwnProjectionSchema,
-    omit: RoomAttributeValueOwnProjectionSchema,
+    where: RoomAttributeValueOwnWhereSchemaJson,
+    select: RoomAttributeValueOwnProjectionSchemaJson,
+    omit: RoomAttributeValueOwnProjectionSchemaJson,
+    include: RoomAttributeValueOwnIncludeSchemaJson,
   })
   .partial();
 
 export const RoomAttributeValueOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: RoomAttributeValueOwnWhereSchema,
-    select: RoomAttributeValueOwnProjectionSchema,
-    omit: RoomAttributeValueOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: RoomAttributeValueOwnWhereSchemaJson,
+    select: RoomAttributeValueOwnProjectionSchemaJson,
+    omit: RoomAttributeValueOwnProjectionSchemaJson,
+    include: RoomAttributeValueOwnIncludeSchemaJson,
   })
   .partial();
 
+export const ItemAttributeOwnIncludeSchema = z
+  .object({
+    values: z.boolean(),
+  })
+  .partial();
+
+export const ItemAttributeOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ItemAttributeOwnIncludeSchema
+);
+
 export const ItemAttributeOwnQueryOneSchema = z
   .object({
-    where: ItemAttributeOwnWhereSchema,
-    select: ItemAttributeOwnProjectionSchema,
-    omit: ItemAttributeOwnProjectionSchema,
+    where: ItemAttributeOwnWhereSchemaJson,
+    select: ItemAttributeOwnProjectionSchemaJson,
+    omit: ItemAttributeOwnProjectionSchemaJson,
+    include: ItemAttributeOwnIncludeSchemaJson,
   })
   .partial();
 
 export const ItemAttributeOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ItemAttributeOwnWhereSchema,
-    select: ItemAttributeOwnProjectionSchema,
-    omit: ItemAttributeOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ItemAttributeOwnWhereSchemaJson,
+    select: ItemAttributeOwnProjectionSchemaJson,
+    omit: ItemAttributeOwnProjectionSchemaJson,
+    include: ItemAttributeOwnIncludeSchemaJson,
   })
   .partial();
 
+export const ItemAttributeValueOwnIncludeSchema = z
+  .object({
+    attribute: z.boolean(),
+    item: z.boolean(),
+  })
+  .partial();
+
+export const ItemAttributeValueOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ItemAttributeValueOwnIncludeSchema
+);
+
 export const ItemAttributeValueOwnQueryOneSchema = z
   .object({
-    where: ItemAttributeValueOwnWhereSchema,
-    select: ItemAttributeValueOwnProjectionSchema,
-    omit: ItemAttributeValueOwnProjectionSchema,
+    where: ItemAttributeValueOwnWhereSchemaJson,
+    select: ItemAttributeValueOwnProjectionSchemaJson,
+    omit: ItemAttributeValueOwnProjectionSchemaJson,
+    include: ItemAttributeValueOwnIncludeSchemaJson,
   })
   .partial();
 
 export const ItemAttributeValueOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ItemAttributeValueOwnWhereSchema,
-    select: ItemAttributeValueOwnProjectionSchema,
-    omit: ItemAttributeValueOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ItemAttributeValueOwnWhereSchemaJson,
+    select: ItemAttributeValueOwnProjectionSchemaJson,
+    omit: ItemAttributeValueOwnProjectionSchemaJson,
+    include: ItemAttributeValueOwnIncludeSchemaJson,
   })
   .partial();
 
+export const CategoryOwnIncludeSchema = z
+  .object({
+    parent: z.boolean(),
+    children: z.boolean(),
+    items: z.boolean(),
+  })
+  .partial();
+
+export const CategoryOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  CategoryOwnIncludeSchema
+);
+
 export const CategoryOwnQueryOneSchema = z
   .object({
-    where: CategoryOwnWhereSchema,
-    select: CategoryOwnProjectionSchema,
-    omit: CategoryOwnProjectionSchema,
+    where: CategoryOwnWhereSchemaJson,
+    select: CategoryOwnProjectionSchemaJson,
+    omit: CategoryOwnProjectionSchemaJson,
+    include: CategoryOwnIncludeSchemaJson,
   })
   .partial();
 
 export const CategoryOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: CategoryOwnWhereSchema,
-    select: CategoryOwnProjectionSchema,
-    omit: CategoryOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: CategoryOwnWhereSchemaJson,
+    select: CategoryOwnProjectionSchemaJson,
+    omit: CategoryOwnProjectionSchemaJson,
+    include: CategoryOwnIncludeSchemaJson,
   })
   .partial();
 
+export const BuildingOwnIncludeSchema = z
+  .object({
+    rooms: z.boolean(),
+  })
+  .partial();
+
+export const BuildingOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  BuildingOwnIncludeSchema
+);
+
 export const BuildingOwnQueryOneSchema = z
   .object({
-    where: BuildingOwnWhereSchema,
-    select: BuildingOwnProjectionSchema,
-    omit: BuildingOwnProjectionSchema,
+    where: BuildingOwnWhereSchemaJson,
+    select: BuildingOwnProjectionSchemaJson,
+    omit: BuildingOwnProjectionSchemaJson,
+    include: BuildingOwnIncludeSchemaJson,
   })
   .partial();
 
 export const BuildingOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: BuildingOwnWhereSchema,
-    select: BuildingOwnProjectionSchema,
-    omit: BuildingOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: BuildingOwnWhereSchemaJson,
+    select: BuildingOwnProjectionSchemaJson,
+    omit: BuildingOwnProjectionSchemaJson,
+    include: BuildingOwnIncludeSchemaJson,
   })
   .partial();
 
+export const RoomOwnIncludeSchema = z
+  .object({
+    building: z.boolean(),
+    attributes: z.boolean(),
+    quantities: z.boolean(),
+    serials: z.boolean(),
+    employeeRooms: z.boolean(),
+    employeeRoomRequests: z.boolean(),
+  })
+  .partial();
+
+export const RoomOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  RoomOwnIncludeSchema
+);
+
 export const RoomOwnQueryOneSchema = z
   .object({
-    where: RoomOwnWhereSchema,
-    select: RoomOwnProjectionSchema,
-    omit: RoomOwnProjectionSchema,
+    where: RoomOwnWhereSchemaJson,
+    select: RoomOwnProjectionSchemaJson,
+    omit: RoomOwnProjectionSchemaJson,
+    include: RoomOwnIncludeSchemaJson,
   })
   .partial();
 
 export const RoomOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: RoomOwnWhereSchema,
-    select: RoomOwnProjectionSchema,
-    omit: RoomOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: RoomOwnWhereSchemaJson,
+    select: RoomOwnProjectionSchemaJson,
+    omit: RoomOwnProjectionSchemaJson,
+    include: RoomOwnIncludeSchemaJson,
   })
   .partial();
 
+export const ItemOwnIncludeSchema = z
+  .object({
+    category: z.boolean(),
+    attributes: z.boolean(),
+    quantities: z.boolean(),
+    serials: z.boolean(),
+  })
+  .partial();
+
+export const ItemOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ItemOwnIncludeSchema
+);
+
 export const ItemOwnQueryOneSchema = z
   .object({
-    where: ItemOwnWhereSchema,
-    select: ItemOwnProjectionSchema,
-    omit: ItemOwnProjectionSchema,
+    where: ItemOwnWhereSchemaJson,
+    select: ItemOwnProjectionSchemaJson,
+    omit: ItemOwnProjectionSchemaJson,
+    include: ItemOwnIncludeSchemaJson,
   })
   .partial();
 
 export const ItemOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ItemOwnWhereSchema,
-    select: ItemOwnProjectionSchema,
-    omit: ItemOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ItemOwnWhereSchemaJson,
+    select: ItemOwnProjectionSchemaJson,
+    omit: ItemOwnProjectionSchemaJson,
+    include: ItemOwnIncludeSchemaJson,
   })
   .partial();
 
+export const QuantityOwnIncludeSchema = z
+  .object({
+    item: z.boolean(),
+    room: z.boolean(),
+    quantityMoveSources: z.boolean(),
+    quantityMoveTargets: z.boolean(),
+  })
+  .partial();
+
+export const QuantityOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  QuantityOwnIncludeSchema
+);
+
 export const QuantityOwnQueryOneSchema = z
   .object({
-    where: QuantityOwnWhereSchema,
-    select: QuantityOwnProjectionSchema,
-    omit: QuantityOwnProjectionSchema,
+    where: QuantityOwnWhereSchemaJson,
+    select: QuantityOwnProjectionSchemaJson,
+    omit: QuantityOwnProjectionSchemaJson,
+    include: QuantityOwnIncludeSchemaJson,
   })
   .partial();
 
 export const QuantityOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: QuantityOwnWhereSchema,
-    select: QuantityOwnProjectionSchema,
-    omit: QuantityOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: QuantityOwnWhereSchemaJson,
+    select: QuantityOwnProjectionSchemaJson,
+    omit: QuantityOwnProjectionSchemaJson,
+    include: QuantityOwnIncludeSchemaJson,
   })
   .partial();
 
+export const SerialNumberOwnIncludeSchema = z
+  .object({
+    item: z.boolean(),
+    room: z.boolean(),
+    serialMoveSources: z.boolean(),
+    serialMoveTargets: z.boolean(),
+    employeeItemRequests: z.boolean(),
+    employeeItems: z.boolean(),
+  })
+  .partial();
+
+export const SerialNumberOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  SerialNumberOwnIncludeSchema
+);
+
 export const SerialNumberOwnQueryOneSchema = z
   .object({
-    where: SerialNumberOwnWhereSchema,
-    select: SerialNumberOwnProjectionSchema,
-    omit: SerialNumberOwnProjectionSchema,
+    where: SerialNumberOwnWhereSchemaJson,
+    select: SerialNumberOwnProjectionSchemaJson,
+    omit: SerialNumberOwnProjectionSchemaJson,
+    include: SerialNumberOwnIncludeSchemaJson,
   })
   .partial();
 
 export const SerialNumberOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: SerialNumberOwnWhereSchema,
-    select: SerialNumberOwnProjectionSchema,
-    omit: SerialNumberOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: SerialNumberOwnWhereSchemaJson,
+    select: SerialNumberOwnProjectionSchemaJson,
+    omit: SerialNumberOwnProjectionSchemaJson,
+    include: SerialNumberOwnIncludeSchemaJson,
   })
   .partial();
 
+export const QuantityMoveRequestOwnIncludeSchema = z
+  .object({
+    source: z.boolean(),
+    target: z.boolean(),
+    requestedBy: z.boolean(),
+    resolvedBy: z.boolean(),
+  })
+  .partial();
+
+export const QuantityMoveRequestOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  QuantityMoveRequestOwnIncludeSchema
+);
+
 export const QuantityMoveRequestOwnQueryOneSchema = z
   .object({
-    where: QuantityMoveRequestOwnWhereSchema,
-    select: QuantityMoveRequestOwnProjectionSchema,
-    omit: QuantityMoveRequestOwnProjectionSchema,
+    where: QuantityMoveRequestOwnWhereSchemaJson,
+    select: QuantityMoveRequestOwnProjectionSchemaJson,
+    omit: QuantityMoveRequestOwnProjectionSchemaJson,
+    include: QuantityMoveRequestOwnIncludeSchemaJson,
   })
   .partial();
 
 export const QuantityMoveRequestOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: QuantityMoveRequestOwnWhereSchema,
-    select: QuantityMoveRequestOwnProjectionSchema,
-    omit: QuantityMoveRequestOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: QuantityMoveRequestOwnWhereSchemaJson,
+    select: QuantityMoveRequestOwnProjectionSchemaJson,
+    omit: QuantityMoveRequestOwnProjectionSchemaJson,
+    include: QuantityMoveRequestOwnIncludeSchemaJson,
   })
   .partial();
 
+export const SerialMoveRequestOwnIncludeSchema = z
+  .object({
+    source: z.boolean(),
+    target: z.boolean(),
+    requestedBy: z.boolean(),
+    resolvedBy: z.boolean(),
+  })
+  .partial();
+
+export const SerialMoveRequestOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  SerialMoveRequestOwnIncludeSchema
+);
+
 export const SerialMoveRequestOwnQueryOneSchema = z
   .object({
-    where: SerialMoveRequestOwnWhereSchema,
-    select: SerialMoveRequestOwnProjectionSchema,
-    omit: SerialMoveRequestOwnProjectionSchema,
+    where: SerialMoveRequestOwnWhereSchemaJson,
+    select: SerialMoveRequestOwnProjectionSchemaJson,
+    omit: SerialMoveRequestOwnProjectionSchemaJson,
+    include: SerialMoveRequestOwnIncludeSchemaJson,
   })
   .partial();
 
 export const SerialMoveRequestOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: SerialMoveRequestOwnWhereSchema,
-    select: SerialMoveRequestOwnProjectionSchema,
-    omit: SerialMoveRequestOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: SerialMoveRequestOwnWhereSchemaJson,
+    select: SerialMoveRequestOwnProjectionSchemaJson,
+    omit: SerialMoveRequestOwnProjectionSchemaJson,
+    include: SerialMoveRequestOwnIncludeSchemaJson,
   })
   .partial();
 
+export const EmployeeOwnIncludeSchema = z
+  .object({
+    rooms: z.boolean(),
+    items: z.boolean(),
+    itemRequesters: z.boolean(),
+    itemResolvers: z.boolean(),
+    roomRequesters: z.boolean(),
+    roomResolvers: z.boolean(),
+    serialMoveRequesters: z.boolean(),
+    serialMoveResolvers: z.boolean(),
+    quantityMoveRequesters: z.boolean(),
+    quantityMoveResolvers: z.boolean(),
+  })
+  .partial();
+
+export const EmployeeOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeOwnIncludeSchema
+);
+
 export const EmployeeOwnQueryOneSchema = z
   .object({
-    where: EmployeeOwnWhereSchema,
-    select: EmployeeOwnProjectionSchema,
-    omit: EmployeeOwnProjectionSchema,
+    where: EmployeeOwnWhereSchemaJson,
+    select: EmployeeOwnProjectionSchemaJson,
+    omit: EmployeeOwnProjectionSchemaJson,
+    include: EmployeeOwnIncludeSchemaJson,
   })
   .partial();
 
 export const EmployeeOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: EmployeeOwnWhereSchema,
-    select: EmployeeOwnProjectionSchema,
-    omit: EmployeeOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: EmployeeOwnWhereSchemaJson,
+    select: EmployeeOwnProjectionSchemaJson,
+    omit: EmployeeOwnProjectionSchemaJson,
+    include: EmployeeOwnIncludeSchemaJson,
   })
   .partial();
 
+export const EmployeeRoomOwnIncludeSchema = z
+  .object({
+    room: z.boolean(),
+    employee: z.boolean(),
+  })
+  .partial();
+
+export const EmployeeRoomOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeRoomOwnIncludeSchema
+);
+
 export const EmployeeRoomOwnQueryOneSchema = z
   .object({
-    where: EmployeeRoomOwnWhereSchema,
-    select: EmployeeRoomOwnProjectionSchema,
-    omit: EmployeeRoomOwnProjectionSchema,
+    where: EmployeeRoomOwnWhereSchemaJson,
+    select: EmployeeRoomOwnProjectionSchemaJson,
+    omit: EmployeeRoomOwnProjectionSchemaJson,
+    include: EmployeeRoomOwnIncludeSchemaJson,
   })
   .partial();
 
 export const EmployeeRoomOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: EmployeeRoomOwnWhereSchema,
-    select: EmployeeRoomOwnProjectionSchema,
-    omit: EmployeeRoomOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: EmployeeRoomOwnWhereSchemaJson,
+    select: EmployeeRoomOwnProjectionSchemaJson,
+    omit: EmployeeRoomOwnProjectionSchemaJson,
+    include: EmployeeRoomOwnIncludeSchemaJson,
   })
   .partial();
 
+export const EmployeeItemOwnIncludeSchema = z
+  .object({
+    serialNumber: z.boolean(),
+    employee: z.boolean(),
+  })
+  .partial();
+
+export const EmployeeItemOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeItemOwnIncludeSchema
+);
+
 export const EmployeeItemOwnQueryOneSchema = z
   .object({
-    where: EmployeeItemOwnWhereSchema,
-    select: EmployeeItemOwnProjectionSchema,
-    omit: EmployeeItemOwnProjectionSchema,
+    where: EmployeeItemOwnWhereSchemaJson,
+    select: EmployeeItemOwnProjectionSchemaJson,
+    omit: EmployeeItemOwnProjectionSchemaJson,
+    include: EmployeeItemOwnIncludeSchemaJson,
   })
   .partial();
 
 export const EmployeeItemOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: EmployeeItemOwnWhereSchema,
-    select: EmployeeItemOwnProjectionSchema,
-    omit: EmployeeItemOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: EmployeeItemOwnWhereSchemaJson,
+    select: EmployeeItemOwnProjectionSchemaJson,
+    omit: EmployeeItemOwnProjectionSchemaJson,
+    include: EmployeeItemOwnIncludeSchemaJson,
   })
   .partial();
 
+export const EmployeeRoomRequestOwnIncludeSchema = z
+  .object({
+    room: z.boolean(),
+    requestedBy: z.boolean(),
+    resolvedBy: z.boolean(),
+  })
+  .partial();
+
+export const EmployeeRoomRequestOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeRoomRequestOwnIncludeSchema
+);
+
 export const EmployeeRoomRequestOwnQueryOneSchema = z
   .object({
-    where: EmployeeRoomRequestOwnWhereSchema,
-    select: EmployeeRoomRequestOwnProjectionSchema,
-    omit: EmployeeRoomRequestOwnProjectionSchema,
+    where: EmployeeRoomRequestOwnWhereSchemaJson,
+    select: EmployeeRoomRequestOwnProjectionSchemaJson,
+    omit: EmployeeRoomRequestOwnProjectionSchemaJson,
+    include: EmployeeRoomRequestOwnIncludeSchemaJson,
   })
   .partial();
 
 export const EmployeeRoomRequestOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: EmployeeRoomRequestOwnWhereSchema,
-    select: EmployeeRoomRequestOwnProjectionSchema,
-    omit: EmployeeRoomRequestOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: EmployeeRoomRequestOwnWhereSchemaJson,
+    select: EmployeeRoomRequestOwnProjectionSchemaJson,
+    omit: EmployeeRoomRequestOwnProjectionSchemaJson,
+    include: EmployeeRoomRequestOwnIncludeSchemaJson,
   })
   .partial();
 
+export const EmployeeItemRequestOwnIncludeSchema = z
+  .object({
+    serialNumber: z.boolean(),
+    requestedBy: z.boolean(),
+    resolvedBy: z.boolean(),
+  })
+  .partial();
+
+export const EmployeeItemRequestOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeItemRequestOwnIncludeSchema
+);
+
 export const EmployeeItemRequestOwnQueryOneSchema = z
   .object({
-    where: EmployeeItemRequestOwnWhereSchema,
-    select: EmployeeItemRequestOwnProjectionSchema,
-    omit: EmployeeItemRequestOwnProjectionSchema,
+    where: EmployeeItemRequestOwnWhereSchemaJson,
+    select: EmployeeItemRequestOwnProjectionSchemaJson,
+    omit: EmployeeItemRequestOwnProjectionSchemaJson,
+    include: EmployeeItemRequestOwnIncludeSchemaJson,
   })
   .partial();
 
 export const EmployeeItemRequestOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: EmployeeItemRequestOwnWhereSchema,
-    select: EmployeeItemRequestOwnProjectionSchema,
-    omit: EmployeeItemRequestOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: EmployeeItemRequestOwnWhereSchemaJson,
+    select: EmployeeItemRequestOwnProjectionSchemaJson,
+    omit: EmployeeItemRequestOwnProjectionSchemaJson,
+    include: EmployeeItemRequestOwnIncludeSchemaJson,
   })
   .partial();
 
@@ -731,6 +1194,11 @@ export const RoomAttributeOrderBySchema = z
   })
   .partial();
 
+export const RoomAttributeOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  RoomAttributeOrderBySchema
+);
+
 export const RoomAttributeWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -745,31 +1213,34 @@ export const RoomAttributeWhereSchema = z
   })
   .partial();
 
+export const RoomAttributeWhereSchemaJson = z.preprocess(
+  jsonParser,
+  RoomAttributeWhereSchema
+);
+
 export const RoomAttributeProjectionSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
-    values: RoomAttributeValueOwnQuerySchema,
+    values: z.boolean().or(RoomAttributeValueOwnQuerySchema),
   })
   .partial();
 
-export const RoomAttributeQueryOneSchema = z
+export const RoomAttributeProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  RoomAttributeProjectionSchema
+);
+
+export const RoomAttributeIncludeSchema = z
   .object({
-    where: RoomAttributeWhereSchema,
-    select: RoomAttributeProjectionSchema,
-    omit: RoomAttributeProjectionSchema,
+    values: z.boolean().or(RoomAttributeValueOwnQuerySchema),
   })
   .partial();
 
-export const RoomAttributeQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: RoomAttributeWhereSchema,
-    select: RoomAttributeProjectionSchema,
-    omit: RoomAttributeProjectionSchema,
-  })
-  .partial();
+export const RoomAttributeIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  RoomAttributeIncludeSchema
+);
 
 export const RoomAttributeValueCreateSchema = z.object({
   roomId: z.int(),
@@ -791,6 +1262,11 @@ export const RoomAttributeValueOrderBySchema = z
     value: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const RoomAttributeValueOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  RoomAttributeValueOrderBySchema
+);
 
 export const RoomAttributeValueWhereSchema = z
   .object({
@@ -815,34 +1291,38 @@ export const RoomAttributeValueWhereSchema = z
   })
   .partial();
 
+export const RoomAttributeValueWhereSchemaJson = z.preprocess(
+  jsonParser,
+  RoomAttributeValueWhereSchema
+);
+
 export const RoomAttributeValueProjectionSchema = z
   .object({
     id: z.boolean(),
     roomId: z.boolean(),
     attributeId: z.boolean(),
     value: z.boolean(),
-    attribute: RoomAttributeOwnQueryOneSchema,
-    room: RoomOwnQueryOneSchema,
+    attribute: z.boolean().or(RoomAttributeOwnQueryOneSchema),
+    room: z.boolean().or(RoomOwnQueryOneSchema),
   })
   .partial();
 
-export const RoomAttributeValueQueryOneSchema = z
+export const RoomAttributeValueProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  RoomAttributeValueProjectionSchema
+);
+
+export const RoomAttributeValueIncludeSchema = z
   .object({
-    where: RoomAttributeValueWhereSchema,
-    select: RoomAttributeValueProjectionSchema,
-    omit: RoomAttributeValueProjectionSchema,
+    attribute: z.boolean().or(RoomAttributeOwnQueryOneSchema),
+    room: z.boolean().or(RoomOwnQueryOneSchema),
   })
   .partial();
 
-export const RoomAttributeValueQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: RoomAttributeValueWhereSchema,
-    select: RoomAttributeValueProjectionSchema,
-    omit: RoomAttributeValueProjectionSchema,
-  })
-  .partial();
+export const RoomAttributeValueIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  RoomAttributeValueIncludeSchema
+);
 
 export const ItemAttributeCreateSchema = z.object({
   name: z.string(),
@@ -859,6 +1339,11 @@ export const ItemAttributeOrderBySchema = z
   })
   .partial();
 
+export const ItemAttributeOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  ItemAttributeOrderBySchema
+);
+
 export const ItemAttributeWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -873,31 +1358,34 @@ export const ItemAttributeWhereSchema = z
   })
   .partial();
 
+export const ItemAttributeWhereSchemaJson = z.preprocess(
+  jsonParser,
+  ItemAttributeWhereSchema
+);
+
 export const ItemAttributeProjectionSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
-    values: ItemAttributeValueOwnQuerySchema,
+    values: z.boolean().or(ItemAttributeValueOwnQuerySchema),
   })
   .partial();
 
-export const ItemAttributeQueryOneSchema = z
+export const ItemAttributeProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ItemAttributeProjectionSchema
+);
+
+export const ItemAttributeIncludeSchema = z
   .object({
-    where: ItemAttributeWhereSchema,
-    select: ItemAttributeProjectionSchema,
-    omit: ItemAttributeProjectionSchema,
+    values: z.boolean().or(ItemAttributeValueOwnQuerySchema),
   })
   .partial();
 
-export const ItemAttributeQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ItemAttributeWhereSchema,
-    select: ItemAttributeProjectionSchema,
-    omit: ItemAttributeProjectionSchema,
-  })
-  .partial();
+export const ItemAttributeIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ItemAttributeIncludeSchema
+);
 
 export const ItemAttributeValueCreateSchema = z.object({
   itemId: z.int(),
@@ -919,6 +1407,11 @@ export const ItemAttributeValueOrderBySchema = z
     value: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const ItemAttributeValueOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  ItemAttributeValueOrderBySchema
+);
 
 export const ItemAttributeValueWhereSchema = z
   .object({
@@ -943,34 +1436,38 @@ export const ItemAttributeValueWhereSchema = z
   })
   .partial();
 
+export const ItemAttributeValueWhereSchemaJson = z.preprocess(
+  jsonParser,
+  ItemAttributeValueWhereSchema
+);
+
 export const ItemAttributeValueProjectionSchema = z
   .object({
     id: z.boolean(),
     itemId: z.boolean(),
     attributeId: z.boolean(),
     value: z.boolean(),
-    attribute: ItemAttributeOwnQueryOneSchema,
-    item: ItemOwnQueryOneSchema,
+    attribute: z.boolean().or(ItemAttributeOwnQueryOneSchema),
+    item: z.boolean().or(ItemOwnQueryOneSchema),
   })
   .partial();
 
-export const ItemAttributeValueQueryOneSchema = z
+export const ItemAttributeValueProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ItemAttributeValueProjectionSchema
+);
+
+export const ItemAttributeValueIncludeSchema = z
   .object({
-    where: ItemAttributeValueWhereSchema,
-    select: ItemAttributeValueProjectionSchema,
-    omit: ItemAttributeValueProjectionSchema,
+    attribute: z.boolean().or(ItemAttributeOwnQueryOneSchema),
+    item: z.boolean().or(ItemOwnQueryOneSchema),
   })
   .partial();
 
-export const ItemAttributeValueQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ItemAttributeValueWhereSchema,
-    select: ItemAttributeValueProjectionSchema,
-    omit: ItemAttributeValueProjectionSchema,
-  })
-  .partial();
+export const ItemAttributeValueIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ItemAttributeValueIncludeSchema
+);
 
 export const CategoryCreateSchema = z.object({
   parentId: z.int().optional(),
@@ -989,6 +1486,11 @@ export const CategoryOrderBySchema = z
     name: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const CategoryOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  CategoryOrderBySchema
+);
 
 export const CategoryWhereSchema = z
   .object({
@@ -1019,34 +1521,39 @@ export const CategoryWhereSchema = z
   })
   .partial();
 
+export const CategoryWhereSchemaJson = z.preprocess(
+  jsonParser,
+  CategoryWhereSchema
+);
+
 export const CategoryProjectionSchema = z
   .object({
     id: z.boolean(),
     parentId: z.boolean(),
     name: z.boolean(),
-    parent: CategoryOwnQueryOneSchema,
-    children: CategoryOwnQuerySchema,
-    items: ItemOwnQuerySchema,
+    parent: z.boolean().or(CategoryOwnQueryOneSchema),
+    children: z.boolean().or(CategoryOwnQuerySchema),
+    items: z.boolean().or(ItemOwnQuerySchema),
   })
   .partial();
 
-export const CategoryQueryOneSchema = z
+export const CategoryProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  CategoryProjectionSchema
+);
+
+export const CategoryIncludeSchema = z
   .object({
-    where: CategoryWhereSchema,
-    select: CategoryProjectionSchema,
-    omit: CategoryProjectionSchema,
+    parent: z.boolean().or(CategoryOwnQueryOneSchema),
+    children: z.boolean().or(CategoryOwnQuerySchema),
+    items: z.boolean().or(ItemOwnQuerySchema),
   })
   .partial();
 
-export const CategoryQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: CategoryWhereSchema,
-    select: CategoryProjectionSchema,
-    omit: CategoryProjectionSchema,
-  })
-  .partial();
+export const CategoryIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  CategoryIncludeSchema
+);
 
 export const BuildingCreateSchema = z.object({
   name: z.string(),
@@ -1066,6 +1573,11 @@ export const BuildingOrderBySchema = z
   })
   .partial();
 
+export const BuildingOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  BuildingOrderBySchema
+);
+
 export const BuildingWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -1081,32 +1593,35 @@ export const BuildingWhereSchema = z
   })
   .partial();
 
+export const BuildingWhereSchemaJson = z.preprocess(
+  jsonParser,
+  BuildingWhereSchema
+);
+
 export const BuildingProjectionSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
     code: z.boolean(),
-    rooms: RoomOwnQuerySchema,
+    rooms: z.boolean().or(RoomOwnQuerySchema),
   })
   .partial();
 
-export const BuildingQueryOneSchema = z
+export const BuildingProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  BuildingProjectionSchema
+);
+
+export const BuildingIncludeSchema = z
   .object({
-    where: BuildingWhereSchema,
-    select: BuildingProjectionSchema,
-    omit: BuildingProjectionSchema,
+    rooms: z.boolean().or(RoomOwnQuerySchema),
   })
   .partial();
 
-export const BuildingQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: BuildingWhereSchema,
-    select: BuildingProjectionSchema,
-    omit: BuildingProjectionSchema,
-  })
-  .partial();
+export const BuildingIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  BuildingIncludeSchema
+);
 
 export const RoomCreateSchema = z.object({
   buildingId: z.int(),
@@ -1132,6 +1647,11 @@ export const RoomOrderBySchema = z
     floor: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const RoomOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  RoomOrderBySchema
+);
 
 export const RoomWhereSchema = z
   .object({
@@ -1186,6 +1706,8 @@ export const RoomWhereSchema = z
   })
   .partial();
 
+export const RoomWhereSchemaJson = z.preprocess(jsonParser, RoomWhereSchema);
+
 export const RoomProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -1194,32 +1716,35 @@ export const RoomProjectionSchema = z
     name: z.boolean(),
     code: z.boolean(),
     floor: z.boolean(),
-    building: BuildingOwnQueryOneSchema,
-    attributes: RoomAttributeValueOwnQuerySchema,
-    quantities: QuantityOwnQuerySchema,
-    serials: SerialNumberOwnQuerySchema,
-    employeeRooms: EmployeeRoomOwnQuerySchema,
-    employeeRoomRequests: EmployeeRoomRequestOwnQuerySchema,
+    building: z.boolean().or(BuildingOwnQueryOneSchema),
+    attributes: z.boolean().or(RoomAttributeValueOwnQuerySchema),
+    quantities: z.boolean().or(QuantityOwnQuerySchema),
+    serials: z.boolean().or(SerialNumberOwnQuerySchema),
+    employeeRooms: z.boolean().or(EmployeeRoomOwnQuerySchema),
+    employeeRoomRequests: z.boolean().or(EmployeeRoomRequestOwnQuerySchema),
   })
   .partial();
 
-export const RoomQueryOneSchema = z
+export const RoomProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  RoomProjectionSchema
+);
+
+export const RoomIncludeSchema = z
   .object({
-    where: RoomWhereSchema,
-    select: RoomProjectionSchema,
-    omit: RoomProjectionSchema,
+    building: z.boolean().or(BuildingOwnQueryOneSchema),
+    attributes: z.boolean().or(RoomAttributeValueOwnQuerySchema),
+    quantities: z.boolean().or(QuantityOwnQuerySchema),
+    serials: z.boolean().or(SerialNumberOwnQuerySchema),
+    employeeRooms: z.boolean().or(EmployeeRoomOwnQuerySchema),
+    employeeRoomRequests: z.boolean().or(EmployeeRoomRequestOwnQuerySchema),
   })
   .partial();
 
-export const RoomQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: RoomWhereSchema,
-    select: RoomProjectionSchema,
-    omit: RoomProjectionSchema,
-  })
-  .partial();
+export const RoomIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  RoomIncludeSchema
+);
 
 export const ItemCreateSchema = z.object({
   categoryId: z.int().optional(),
@@ -1245,6 +1770,11 @@ export const ItemOrderBySchema = z
     minQuantity: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const ItemOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  ItemOrderBySchema
+);
 
 export const ItemWhereSchema = z
   .object({
@@ -1285,6 +1815,8 @@ export const ItemWhereSchema = z
   })
   .partial();
 
+export const ItemWhereSchemaJson = z.preprocess(jsonParser, ItemWhereSchema);
+
 export const ItemProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -1293,30 +1825,31 @@ export const ItemProjectionSchema = z
     name: z.boolean(),
     description: z.boolean(),
     minQuantity: z.boolean(),
-    category: CategoryOwnQueryOneSchema,
-    attributes: ItemAttributeValueOwnQuerySchema,
-    quantities: QuantityOwnQuerySchema,
-    serials: SerialNumberOwnQuerySchema,
+    category: z.boolean().or(CategoryOwnQueryOneSchema),
+    attributes: z.boolean().or(ItemAttributeValueOwnQuerySchema),
+    quantities: z.boolean().or(QuantityOwnQuerySchema),
+    serials: z.boolean().or(SerialNumberOwnQuerySchema),
   })
   .partial();
 
-export const ItemQueryOneSchema = z
+export const ItemProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ItemProjectionSchema
+);
+
+export const ItemIncludeSchema = z
   .object({
-    where: ItemWhereSchema,
-    select: ItemProjectionSchema,
-    omit: ItemProjectionSchema,
+    category: z.boolean().or(CategoryOwnQueryOneSchema),
+    attributes: z.boolean().or(ItemAttributeValueOwnQuerySchema),
+    quantities: z.boolean().or(QuantityOwnQuerySchema),
+    serials: z.boolean().or(SerialNumberOwnQuerySchema),
   })
   .partial();
 
-export const ItemQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ItemWhereSchema,
-    select: ItemProjectionSchema,
-    omit: ItemProjectionSchema,
-  })
-  .partial();
+export const ItemIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ItemIncludeSchema
+);
 
 export const QuantityCreateSchema = z.object({
   roomId: z.int(),
@@ -1341,6 +1874,11 @@ export const QuantityOrderBySchema = z
     minQuantity: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const QuantityOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  QuantityOrderBySchema
+);
 
 export const QuantityWhereSchema = z
   .object({
@@ -1380,6 +1918,11 @@ export const QuantityWhereSchema = z
   })
   .partial();
 
+export const QuantityWhereSchemaJson = z.preprocess(
+  jsonParser,
+  QuantityWhereSchema
+);
+
 export const QuantityProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -1387,30 +1930,31 @@ export const QuantityProjectionSchema = z
     itemId: z.boolean(),
     quantity: z.boolean(),
     minQuantity: z.boolean(),
-    item: ItemOwnQueryOneSchema,
-    room: RoomOwnQueryOneSchema,
-    quantityMoveSources: QuantityMoveRequestOwnQuerySchema,
-    quantityMoveTargets: QuantityMoveRequestOwnQuerySchema,
+    item: z.boolean().or(ItemOwnQueryOneSchema),
+    room: z.boolean().or(RoomOwnQueryOneSchema),
+    quantityMoveSources: z.boolean().or(QuantityMoveRequestOwnQuerySchema),
+    quantityMoveTargets: z.boolean().or(QuantityMoveRequestOwnQuerySchema),
   })
   .partial();
 
-export const QuantityQueryOneSchema = z
+export const QuantityProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  QuantityProjectionSchema
+);
+
+export const QuantityIncludeSchema = z
   .object({
-    where: QuantityWhereSchema,
-    select: QuantityProjectionSchema,
-    omit: QuantityProjectionSchema,
+    item: z.boolean().or(ItemOwnQueryOneSchema),
+    room: z.boolean().or(RoomOwnQueryOneSchema),
+    quantityMoveSources: z.boolean().or(QuantityMoveRequestOwnQuerySchema),
+    quantityMoveTargets: z.boolean().or(QuantityMoveRequestOwnQuerySchema),
   })
   .partial();
 
-export const QuantityQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: QuantityWhereSchema,
-    select: QuantityProjectionSchema,
-    omit: QuantityProjectionSchema,
-  })
-  .partial();
+export const QuantityIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  QuantityIncludeSchema
+);
 
 export const SerialNumberCreateSchema = z.object({
   serialNumber: z.string(),
@@ -1433,6 +1977,11 @@ export const SerialNumberOrderBySchema = z
     roomId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const SerialNumberOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  SerialNumberOrderBySchema
+);
 
 export const SerialNumberWhereSchema = z
   .object({
@@ -1486,6 +2035,11 @@ export const SerialNumberWhereSchema = z
   })
   .partial();
 
+export const SerialNumberWhereSchemaJson = z.preprocess(
+  jsonParser,
+  SerialNumberWhereSchema
+);
+
 export const SerialNumberProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -1493,32 +2047,35 @@ export const SerialNumberProjectionSchema = z
     serialNumber: z.boolean(),
     itemId: z.boolean(),
     roomId: z.boolean(),
-    item: ItemOwnQueryOneSchema,
-    room: RoomOwnQueryOneSchema,
-    serialMoveSources: SerialMoveRequestOwnQuerySchema,
-    serialMoveTargets: SerialMoveRequestOwnQuerySchema,
-    employeeItemRequests: EmployeeItemRequestOwnQuerySchema,
-    employeeItems: EmployeeItemOwnQuerySchema,
+    item: z.boolean().or(ItemOwnQueryOneSchema),
+    room: z.boolean().or(RoomOwnQueryOneSchema),
+    serialMoveSources: z.boolean().or(SerialMoveRequestOwnQuerySchema),
+    serialMoveTargets: z.boolean().or(SerialMoveRequestOwnQuerySchema),
+    employeeItemRequests: z.boolean().or(EmployeeItemRequestOwnQuerySchema),
+    employeeItems: z.boolean().or(EmployeeItemOwnQuerySchema),
   })
   .partial();
 
-export const SerialNumberQueryOneSchema = z
+export const SerialNumberProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  SerialNumberProjectionSchema
+);
+
+export const SerialNumberIncludeSchema = z
   .object({
-    where: SerialNumberWhereSchema,
-    select: SerialNumberProjectionSchema,
-    omit: SerialNumberProjectionSchema,
+    item: z.boolean().or(ItemOwnQueryOneSchema),
+    room: z.boolean().or(RoomOwnQueryOneSchema),
+    serialMoveSources: z.boolean().or(SerialMoveRequestOwnQuerySchema),
+    serialMoveTargets: z.boolean().or(SerialMoveRequestOwnQuerySchema),
+    employeeItemRequests: z.boolean().or(EmployeeItemRequestOwnQuerySchema),
+    employeeItems: z.boolean().or(EmployeeItemOwnQuerySchema),
   })
   .partial();
 
-export const SerialNumberQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: SerialNumberWhereSchema,
-    select: SerialNumberProjectionSchema,
-    omit: SerialNumberProjectionSchema,
-  })
-  .partial();
+export const SerialNumberIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  SerialNumberIncludeSchema
+);
 
 export const QuantityMoveRequestCreateSchema = z.object({
   sourceId: z.int(),
@@ -1555,6 +2112,11 @@ export const QuantityMoveRequestOrderBySchema = z
     resolvedAt: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const QuantityMoveRequestOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  QuantityMoveRequestOrderBySchema
+);
 
 export const QuantityMoveRequestWhereSchema = z
   .object({
@@ -1599,6 +2161,11 @@ export const QuantityMoveRequestWhereSchema = z
   })
   .partial();
 
+export const QuantityMoveRequestWhereSchemaJson = z.preprocess(
+  jsonParser,
+  QuantityMoveRequestWhereSchema
+);
+
 export const QuantityMoveRequestProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -1611,30 +2178,31 @@ export const QuantityMoveRequestProjectionSchema = z
     status: z.boolean(),
     requestedAt: z.boolean(),
     resolvedAt: z.boolean(),
-    source: QuantityOwnQueryOneSchema,
-    target: QuantityOwnQueryOneSchema,
-    requestedBy: EmployeeOwnQueryOneSchema,
-    resolvedBy: EmployeeOwnQueryOneSchema,
+    source: z.boolean().or(QuantityOwnQueryOneSchema),
+    target: z.boolean().or(QuantityOwnQueryOneSchema),
+    requestedBy: z.boolean().or(EmployeeOwnQueryOneSchema),
+    resolvedBy: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const QuantityMoveRequestQueryOneSchema = z
+export const QuantityMoveRequestProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  QuantityMoveRequestProjectionSchema
+);
+
+export const QuantityMoveRequestIncludeSchema = z
   .object({
-    where: QuantityMoveRequestWhereSchema,
-    select: QuantityMoveRequestProjectionSchema,
-    omit: QuantityMoveRequestProjectionSchema,
+    source: z.boolean().or(QuantityOwnQueryOneSchema),
+    target: z.boolean().or(QuantityOwnQueryOneSchema),
+    requestedBy: z.boolean().or(EmployeeOwnQueryOneSchema),
+    resolvedBy: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const QuantityMoveRequestQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: QuantityMoveRequestWhereSchema,
-    select: QuantityMoveRequestProjectionSchema,
-    omit: QuantityMoveRequestProjectionSchema,
-  })
-  .partial();
+export const QuantityMoveRequestIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  QuantityMoveRequestIncludeSchema
+);
 
 export const SerialMoveRequestCreateSchema = z.object({
   sourceId: z.int(),
@@ -1668,6 +2236,11 @@ export const SerialMoveRequestOrderBySchema = z
     resolvedAt: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const SerialMoveRequestOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  SerialMoveRequestOrderBySchema
+);
 
 export const SerialMoveRequestWhereSchema = z
   .object({
@@ -1711,6 +2284,11 @@ export const SerialMoveRequestWhereSchema = z
   })
   .partial();
 
+export const SerialMoveRequestWhereSchemaJson = z.preprocess(
+  jsonParser,
+  SerialMoveRequestWhereSchema
+);
+
 export const SerialMoveRequestProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -1722,30 +2300,31 @@ export const SerialMoveRequestProjectionSchema = z
     status: z.boolean(),
     requestedAt: z.boolean(),
     resolvedAt: z.boolean(),
-    source: SerialNumberOwnQueryOneSchema,
-    target: SerialNumberOwnQueryOneSchema,
-    requestedBy: EmployeeOwnQueryOneSchema,
-    resolvedBy: EmployeeOwnQueryOneSchema,
+    source: z.boolean().or(SerialNumberOwnQueryOneSchema),
+    target: z.boolean().or(SerialNumberOwnQueryOneSchema),
+    requestedBy: z.boolean().or(EmployeeOwnQueryOneSchema),
+    resolvedBy: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const SerialMoveRequestQueryOneSchema = z
+export const SerialMoveRequestProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  SerialMoveRequestProjectionSchema
+);
+
+export const SerialMoveRequestIncludeSchema = z
   .object({
-    where: SerialMoveRequestWhereSchema,
-    select: SerialMoveRequestProjectionSchema,
-    omit: SerialMoveRequestProjectionSchema,
+    source: z.boolean().or(SerialNumberOwnQueryOneSchema),
+    target: z.boolean().or(SerialNumberOwnQueryOneSchema),
+    requestedBy: z.boolean().or(EmployeeOwnQueryOneSchema),
+    resolvedBy: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const SerialMoveRequestQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: SerialMoveRequestWhereSchema,
-    select: SerialMoveRequestProjectionSchema,
-    omit: SerialMoveRequestProjectionSchema,
-  })
-  .partial();
+export const SerialMoveRequestIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  SerialMoveRequestIncludeSchema
+);
 
 export const EmployeeCreateSchema = z.object({
   uuid: z.string(),
@@ -1761,6 +2340,11 @@ export const EmployeeOrderBySchema = z
     uuid: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const EmployeeOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeOrderBySchema
+);
 
 export const EmployeeWhereSchema = z
   .object({
@@ -1839,40 +2423,52 @@ export const EmployeeWhereSchema = z
   })
   .partial();
 
+export const EmployeeWhereSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeWhereSchema
+);
+
 export const EmployeeProjectionSchema = z
   .object({
     id: z.boolean(),
     uuid: z.boolean(),
-    rooms: EmployeeRoomOwnQuerySchema,
-    items: EmployeeItemOwnQuerySchema,
-    itemRequesters: EmployeeItemRequestOwnQuerySchema,
-    itemResolvers: EmployeeItemRequestOwnQuerySchema,
-    roomRequesters: EmployeeRoomRequestOwnQuerySchema,
-    roomResolvers: EmployeeRoomRequestOwnQuerySchema,
-    serialMoveRequesters: SerialMoveRequestOwnQuerySchema,
-    serialMoveResolvers: SerialMoveRequestOwnQuerySchema,
-    quantityMoveRequesters: QuantityMoveRequestOwnQuerySchema,
-    quantityMoveResolvers: QuantityMoveRequestOwnQuerySchema,
+    rooms: z.boolean().or(EmployeeRoomOwnQuerySchema),
+    items: z.boolean().or(EmployeeItemOwnQuerySchema),
+    itemRequesters: z.boolean().or(EmployeeItemRequestOwnQuerySchema),
+    itemResolvers: z.boolean().or(EmployeeItemRequestOwnQuerySchema),
+    roomRequesters: z.boolean().or(EmployeeRoomRequestOwnQuerySchema),
+    roomResolvers: z.boolean().or(EmployeeRoomRequestOwnQuerySchema),
+    serialMoveRequesters: z.boolean().or(SerialMoveRequestOwnQuerySchema),
+    serialMoveResolvers: z.boolean().or(SerialMoveRequestOwnQuerySchema),
+    quantityMoveRequesters: z.boolean().or(QuantityMoveRequestOwnQuerySchema),
+    quantityMoveResolvers: z.boolean().or(QuantityMoveRequestOwnQuerySchema),
   })
   .partial();
 
-export const EmployeeQueryOneSchema = z
+export const EmployeeProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeProjectionSchema
+);
+
+export const EmployeeIncludeSchema = z
   .object({
-    where: EmployeeWhereSchema,
-    select: EmployeeProjectionSchema,
-    omit: EmployeeProjectionSchema,
+    rooms: z.boolean().or(EmployeeRoomOwnQuerySchema),
+    items: z.boolean().or(EmployeeItemOwnQuerySchema),
+    itemRequesters: z.boolean().or(EmployeeItemRequestOwnQuerySchema),
+    itemResolvers: z.boolean().or(EmployeeItemRequestOwnQuerySchema),
+    roomRequesters: z.boolean().or(EmployeeRoomRequestOwnQuerySchema),
+    roomResolvers: z.boolean().or(EmployeeRoomRequestOwnQuerySchema),
+    serialMoveRequesters: z.boolean().or(SerialMoveRequestOwnQuerySchema),
+    serialMoveResolvers: z.boolean().or(SerialMoveRequestOwnQuerySchema),
+    quantityMoveRequesters: z.boolean().or(QuantityMoveRequestOwnQuerySchema),
+    quantityMoveResolvers: z.boolean().or(QuantityMoveRequestOwnQuerySchema),
   })
   .partial();
 
-export const EmployeeQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: EmployeeWhereSchema,
-    select: EmployeeProjectionSchema,
-    omit: EmployeeProjectionSchema,
-  })
-  .partial();
+export const EmployeeIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeIncludeSchema
+);
 
 export const EmployeeRoomCreateSchema = z.object({
   employeeId: z.int(),
@@ -1895,6 +2491,11 @@ export const EmployeeRoomOrderBySchema = z
     takenAt: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const EmployeeRoomOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeRoomOrderBySchema
+);
 
 export const EmployeeRoomWhereSchema = z
   .object({
@@ -1920,6 +2521,11 @@ export const EmployeeRoomWhereSchema = z
   })
   .partial();
 
+export const EmployeeRoomWhereSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeRoomWhereSchema
+);
+
 export const EmployeeRoomProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -1927,28 +2533,27 @@ export const EmployeeRoomProjectionSchema = z
     roomId: z.boolean(),
     givenAt: z.boolean(),
     takenAt: z.boolean(),
-    room: RoomOwnQueryOneSchema,
-    employee: EmployeeOwnQueryOneSchema,
+    room: z.boolean().or(RoomOwnQueryOneSchema),
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const EmployeeRoomQueryOneSchema = z
+export const EmployeeRoomProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeRoomProjectionSchema
+);
+
+export const EmployeeRoomIncludeSchema = z
   .object({
-    where: EmployeeRoomWhereSchema,
-    select: EmployeeRoomProjectionSchema,
-    omit: EmployeeRoomProjectionSchema,
+    room: z.boolean().or(RoomOwnQueryOneSchema),
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const EmployeeRoomQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: EmployeeRoomWhereSchema,
-    select: EmployeeRoomProjectionSchema,
-    omit: EmployeeRoomProjectionSchema,
-  })
-  .partial();
+export const EmployeeRoomIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeRoomIncludeSchema
+);
 
 export const EmployeeItemCreateSchema = z.object({
   employeeId: z.int(),
@@ -1971,6 +2576,11 @@ export const EmployeeItemOrderBySchema = z
     takenAt: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const EmployeeItemOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeItemOrderBySchema
+);
 
 export const EmployeeItemWhereSchema = z
   .object({
@@ -1996,6 +2606,11 @@ export const EmployeeItemWhereSchema = z
   })
   .partial();
 
+export const EmployeeItemWhereSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeItemWhereSchema
+);
+
 export const EmployeeItemProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -2003,28 +2618,27 @@ export const EmployeeItemProjectionSchema = z
     serialNumberId: z.boolean(),
     givenAt: z.boolean(),
     takenAt: z.boolean(),
-    serialNumber: SerialNumberOwnQueryOneSchema,
-    employee: EmployeeOwnQueryOneSchema,
+    serialNumber: z.boolean().or(SerialNumberOwnQueryOneSchema),
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const EmployeeItemQueryOneSchema = z
+export const EmployeeItemProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeItemProjectionSchema
+);
+
+export const EmployeeItemIncludeSchema = z
   .object({
-    where: EmployeeItemWhereSchema,
-    select: EmployeeItemProjectionSchema,
-    omit: EmployeeItemProjectionSchema,
+    serialNumber: z.boolean().or(SerialNumberOwnQueryOneSchema),
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const EmployeeItemQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: EmployeeItemWhereSchema,
-    select: EmployeeItemProjectionSchema,
-    omit: EmployeeItemProjectionSchema,
-  })
-  .partial();
+export const EmployeeItemIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeItemIncludeSchema
+);
 
 export const EmployeeRoomRequestCreateSchema = z.object({
   roomId: z.int().optional(),
@@ -2055,6 +2669,11 @@ export const EmployeeRoomRequestOrderBySchema = z
     note: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const EmployeeRoomRequestOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeRoomRequestOrderBySchema
+);
 
 export const EmployeeRoomRequestWhereSchema = z
   .object({
@@ -2090,6 +2709,11 @@ export const EmployeeRoomRequestWhereSchema = z
   })
   .partial();
 
+export const EmployeeRoomRequestWhereSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeRoomRequestWhereSchema
+);
+
 export const EmployeeRoomRequestProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -2100,29 +2724,29 @@ export const EmployeeRoomRequestProjectionSchema = z
     resolvedAt: z.boolean(),
     status: z.boolean(),
     note: z.boolean(),
-    room: RoomOwnQueryOneSchema,
-    requestedBy: EmployeeOwnQueryOneSchema,
-    resolvedBy: EmployeeOwnQueryOneSchema,
+    room: z.boolean().or(RoomOwnQueryOneSchema),
+    requestedBy: z.boolean().or(EmployeeOwnQueryOneSchema),
+    resolvedBy: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const EmployeeRoomRequestQueryOneSchema = z
+export const EmployeeRoomRequestProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeRoomRequestProjectionSchema
+);
+
+export const EmployeeRoomRequestIncludeSchema = z
   .object({
-    where: EmployeeRoomRequestWhereSchema,
-    select: EmployeeRoomRequestProjectionSchema,
-    omit: EmployeeRoomRequestProjectionSchema,
+    room: z.boolean().or(RoomOwnQueryOneSchema),
+    requestedBy: z.boolean().or(EmployeeOwnQueryOneSchema),
+    resolvedBy: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const EmployeeRoomRequestQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: EmployeeRoomRequestWhereSchema,
-    select: EmployeeRoomRequestProjectionSchema,
-    omit: EmployeeRoomRequestProjectionSchema,
-  })
-  .partial();
+export const EmployeeRoomRequestIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeRoomRequestIncludeSchema
+);
 
 export const EmployeeItemRequestCreateSchema = z.object({
   requestedById: z.int(),
@@ -2153,6 +2777,11 @@ export const EmployeeItemRequestOrderBySchema = z
     note: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const EmployeeItemRequestOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeItemRequestOrderBySchema
+);
 
 export const EmployeeItemRequestWhereSchema = z
   .object({
@@ -2188,6 +2817,11 @@ export const EmployeeItemRequestWhereSchema = z
   })
   .partial();
 
+export const EmployeeItemRequestWhereSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeItemRequestWhereSchema
+);
+
 export const EmployeeItemRequestProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -2198,27 +2832,47 @@ export const EmployeeItemRequestProjectionSchema = z
     serialNumberId: z.boolean(),
     status: z.boolean(),
     note: z.boolean(),
-    serialNumber: SerialNumberOwnQueryOneSchema,
-    requestedBy: EmployeeOwnQueryOneSchema,
-    resolvedBy: EmployeeOwnQueryOneSchema,
+    serialNumber: z.boolean().or(SerialNumberOwnQueryOneSchema),
+    requestedBy: z.boolean().or(EmployeeOwnQueryOneSchema),
+    resolvedBy: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const EmployeeItemRequestQueryOneSchema = z
+export const EmployeeItemRequestProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeItemRequestProjectionSchema
+);
+
+export const EmployeeItemRequestIncludeSchema = z
   .object({
-    where: EmployeeItemRequestWhereSchema,
-    select: EmployeeItemRequestProjectionSchema,
-    omit: EmployeeItemRequestProjectionSchema,
+    serialNumber: z.boolean().or(SerialNumberOwnQueryOneSchema),
+    requestedBy: z.boolean().or(EmployeeOwnQueryOneSchema),
+    resolvedBy: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const EmployeeItemRequestQuerySchema = z
+export const EmployeeItemRequestIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeItemRequestIncludeSchema
+);
+
+export const RoomAttributeQueryOneSchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: EmployeeItemRequestWhereSchema,
-    select: EmployeeItemRequestProjectionSchema,
-    omit: EmployeeItemRequestProjectionSchema,
+    where: RoomAttributeWhereSchemaJson,
+    select: RoomAttributeProjectionSchemaJson,
+    omit: RoomAttributeProjectionSchemaJson,
+    include: RoomAttributeIncludeSchemaJson,
+  })
+  .partial();
+
+export const RoomAttributeQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: RoomAttributeWhereSchemaJson,
+    select: RoomAttributeProjectionSchemaJson,
+    omit: RoomAttributeProjectionSchemaJson,
+    include: RoomAttributeIncludeSchemaJson,
   })
   .partial();
 
@@ -2242,6 +2896,8 @@ export type RoomAttributeOwnQueryOne = z.infer<
 
 export type RoomAttributeWhere = z.infer<typeof RoomAttributeWhereSchema>;
 
+export type RoomAttributeInclude = z.infer<typeof RoomAttributeIncludeSchema>;
+
 export type RoomAttributeQueryOne = z.infer<typeof RoomAttributeQueryOneSchema>;
 
 export type RoomAttributeQuery = z.infer<typeof RoomAttributeQuerySchema>;
@@ -2249,6 +2905,26 @@ export type RoomAttributeQuery = z.infer<typeof RoomAttributeQuerySchema>;
 export type RoomAttributeProjection = z.infer<
   typeof RoomAttributeProjectionSchema
 >;
+
+export const RoomAttributeValueQueryOneSchema = z
+  .object({
+    where: RoomAttributeValueWhereSchemaJson,
+    select: RoomAttributeValueProjectionSchemaJson,
+    omit: RoomAttributeValueProjectionSchemaJson,
+    include: RoomAttributeValueIncludeSchemaJson,
+  })
+  .partial();
+
+export const RoomAttributeValueQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: RoomAttributeValueWhereSchemaJson,
+    select: RoomAttributeValueProjectionSchemaJson,
+    omit: RoomAttributeValueProjectionSchemaJson,
+    include: RoomAttributeValueIncludeSchemaJson,
+  })
+  .partial();
 
 export type RoomAttributeValueCreate = z.infer<
   typeof RoomAttributeValueCreateSchema
@@ -2282,6 +2958,10 @@ export type RoomAttributeValueWhere = z.infer<
   typeof RoomAttributeValueWhereSchema
 >;
 
+export type RoomAttributeValueInclude = z.infer<
+  typeof RoomAttributeValueIncludeSchema
+>;
+
 export type RoomAttributeValueQueryOne = z.infer<
   typeof RoomAttributeValueQueryOneSchema
 >;
@@ -2293,6 +2973,26 @@ export type RoomAttributeValueQuery = z.infer<
 export type RoomAttributeValueProjection = z.infer<
   typeof RoomAttributeValueProjectionSchema
 >;
+
+export const ItemAttributeQueryOneSchema = z
+  .object({
+    where: ItemAttributeWhereSchemaJson,
+    select: ItemAttributeProjectionSchemaJson,
+    omit: ItemAttributeProjectionSchemaJson,
+    include: ItemAttributeIncludeSchemaJson,
+  })
+  .partial();
+
+export const ItemAttributeQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ItemAttributeWhereSchemaJson,
+    select: ItemAttributeProjectionSchemaJson,
+    omit: ItemAttributeProjectionSchemaJson,
+    include: ItemAttributeIncludeSchemaJson,
+  })
+  .partial();
 
 export type ItemAttributeCreate = z.infer<typeof ItemAttributeCreateSchema>;
 
@@ -2314,6 +3014,8 @@ export type ItemAttributeOwnQueryOne = z.infer<
 
 export type ItemAttributeWhere = z.infer<typeof ItemAttributeWhereSchema>;
 
+export type ItemAttributeInclude = z.infer<typeof ItemAttributeIncludeSchema>;
+
 export type ItemAttributeQueryOne = z.infer<typeof ItemAttributeQueryOneSchema>;
 
 export type ItemAttributeQuery = z.infer<typeof ItemAttributeQuerySchema>;
@@ -2321,6 +3023,26 @@ export type ItemAttributeQuery = z.infer<typeof ItemAttributeQuerySchema>;
 export type ItemAttributeProjection = z.infer<
   typeof ItemAttributeProjectionSchema
 >;
+
+export const ItemAttributeValueQueryOneSchema = z
+  .object({
+    where: ItemAttributeValueWhereSchemaJson,
+    select: ItemAttributeValueProjectionSchemaJson,
+    omit: ItemAttributeValueProjectionSchemaJson,
+    include: ItemAttributeValueIncludeSchemaJson,
+  })
+  .partial();
+
+export const ItemAttributeValueQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ItemAttributeValueWhereSchemaJson,
+    select: ItemAttributeValueProjectionSchemaJson,
+    omit: ItemAttributeValueProjectionSchemaJson,
+    include: ItemAttributeValueIncludeSchemaJson,
+  })
+  .partial();
 
 export type ItemAttributeValueCreate = z.infer<
   typeof ItemAttributeValueCreateSchema
@@ -2354,6 +3076,10 @@ export type ItemAttributeValueWhere = z.infer<
   typeof ItemAttributeValueWhereSchema
 >;
 
+export type ItemAttributeValueInclude = z.infer<
+  typeof ItemAttributeValueIncludeSchema
+>;
+
 export type ItemAttributeValueQueryOne = z.infer<
   typeof ItemAttributeValueQueryOneSchema
 >;
@@ -2365,6 +3091,26 @@ export type ItemAttributeValueQuery = z.infer<
 export type ItemAttributeValueProjection = z.infer<
   typeof ItemAttributeValueProjectionSchema
 >;
+
+export const CategoryQueryOneSchema = z
+  .object({
+    where: CategoryWhereSchemaJson,
+    select: CategoryProjectionSchemaJson,
+    omit: CategoryProjectionSchemaJson,
+    include: CategoryIncludeSchemaJson,
+  })
+  .partial();
+
+export const CategoryQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: CategoryWhereSchemaJson,
+    select: CategoryProjectionSchemaJson,
+    omit: CategoryProjectionSchemaJson,
+    include: CategoryIncludeSchemaJson,
+  })
+  .partial();
 
 export type CategoryCreate = z.infer<typeof CategoryCreateSchema>;
 
@@ -2382,11 +3128,33 @@ export type CategoryOwnQueryOne = z.infer<typeof CategoryOwnQueryOneSchema>;
 
 export type CategoryWhere = z.infer<typeof CategoryWhereSchema>;
 
+export type CategoryInclude = z.infer<typeof CategoryIncludeSchema>;
+
 export type CategoryQueryOne = z.infer<typeof CategoryQueryOneSchema>;
 
 export type CategoryQuery = z.infer<typeof CategoryQuerySchema>;
 
 export type CategoryProjection = z.infer<typeof CategoryProjectionSchema>;
+
+export const BuildingQueryOneSchema = z
+  .object({
+    where: BuildingWhereSchemaJson,
+    select: BuildingProjectionSchemaJson,
+    omit: BuildingProjectionSchemaJson,
+    include: BuildingIncludeSchemaJson,
+  })
+  .partial();
+
+export const BuildingQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: BuildingWhereSchemaJson,
+    select: BuildingProjectionSchemaJson,
+    omit: BuildingProjectionSchemaJson,
+    include: BuildingIncludeSchemaJson,
+  })
+  .partial();
 
 export type BuildingCreate = z.infer<typeof BuildingCreateSchema>;
 
@@ -2404,11 +3172,33 @@ export type BuildingOwnQueryOne = z.infer<typeof BuildingOwnQueryOneSchema>;
 
 export type BuildingWhere = z.infer<typeof BuildingWhereSchema>;
 
+export type BuildingInclude = z.infer<typeof BuildingIncludeSchema>;
+
 export type BuildingQueryOne = z.infer<typeof BuildingQueryOneSchema>;
 
 export type BuildingQuery = z.infer<typeof BuildingQuerySchema>;
 
 export type BuildingProjection = z.infer<typeof BuildingProjectionSchema>;
+
+export const RoomQueryOneSchema = z
+  .object({
+    where: RoomWhereSchemaJson,
+    select: RoomProjectionSchemaJson,
+    omit: RoomProjectionSchemaJson,
+    include: RoomIncludeSchemaJson,
+  })
+  .partial();
+
+export const RoomQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: RoomWhereSchemaJson,
+    select: RoomProjectionSchemaJson,
+    omit: RoomProjectionSchemaJson,
+    include: RoomIncludeSchemaJson,
+  })
+  .partial();
 
 export type RoomCreate = z.infer<typeof RoomCreateSchema>;
 
@@ -2426,11 +3216,33 @@ export type RoomOwnQueryOne = z.infer<typeof RoomOwnQueryOneSchema>;
 
 export type RoomWhere = z.infer<typeof RoomWhereSchema>;
 
+export type RoomInclude = z.infer<typeof RoomIncludeSchema>;
+
 export type RoomQueryOne = z.infer<typeof RoomQueryOneSchema>;
 
 export type RoomQuery = z.infer<typeof RoomQuerySchema>;
 
 export type RoomProjection = z.infer<typeof RoomProjectionSchema>;
+
+export const ItemQueryOneSchema = z
+  .object({
+    where: ItemWhereSchemaJson,
+    select: ItemProjectionSchemaJson,
+    omit: ItemProjectionSchemaJson,
+    include: ItemIncludeSchemaJson,
+  })
+  .partial();
+
+export const ItemQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ItemWhereSchemaJson,
+    select: ItemProjectionSchemaJson,
+    omit: ItemProjectionSchemaJson,
+    include: ItemIncludeSchemaJson,
+  })
+  .partial();
 
 export type ItemCreate = z.infer<typeof ItemCreateSchema>;
 
@@ -2448,11 +3260,33 @@ export type ItemOwnQueryOne = z.infer<typeof ItemOwnQueryOneSchema>;
 
 export type ItemWhere = z.infer<typeof ItemWhereSchema>;
 
+export type ItemInclude = z.infer<typeof ItemIncludeSchema>;
+
 export type ItemQueryOne = z.infer<typeof ItemQueryOneSchema>;
 
 export type ItemQuery = z.infer<typeof ItemQuerySchema>;
 
 export type ItemProjection = z.infer<typeof ItemProjectionSchema>;
+
+export const QuantityQueryOneSchema = z
+  .object({
+    where: QuantityWhereSchemaJson,
+    select: QuantityProjectionSchemaJson,
+    omit: QuantityProjectionSchemaJson,
+    include: QuantityIncludeSchemaJson,
+  })
+  .partial();
+
+export const QuantityQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: QuantityWhereSchemaJson,
+    select: QuantityProjectionSchemaJson,
+    omit: QuantityProjectionSchemaJson,
+    include: QuantityIncludeSchemaJson,
+  })
+  .partial();
 
 export type QuantityCreate = z.infer<typeof QuantityCreateSchema>;
 
@@ -2470,11 +3304,33 @@ export type QuantityOwnQueryOne = z.infer<typeof QuantityOwnQueryOneSchema>;
 
 export type QuantityWhere = z.infer<typeof QuantityWhereSchema>;
 
+export type QuantityInclude = z.infer<typeof QuantityIncludeSchema>;
+
 export type QuantityQueryOne = z.infer<typeof QuantityQueryOneSchema>;
 
 export type QuantityQuery = z.infer<typeof QuantityQuerySchema>;
 
 export type QuantityProjection = z.infer<typeof QuantityProjectionSchema>;
+
+export const SerialNumberQueryOneSchema = z
+  .object({
+    where: SerialNumberWhereSchemaJson,
+    select: SerialNumberProjectionSchemaJson,
+    omit: SerialNumberProjectionSchemaJson,
+    include: SerialNumberIncludeSchemaJson,
+  })
+  .partial();
+
+export const SerialNumberQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: SerialNumberWhereSchemaJson,
+    select: SerialNumberProjectionSchemaJson,
+    omit: SerialNumberProjectionSchemaJson,
+    include: SerialNumberIncludeSchemaJson,
+  })
+  .partial();
 
 export type SerialNumberCreate = z.infer<typeof SerialNumberCreateSchema>;
 
@@ -2496,6 +3352,8 @@ export type SerialNumberOwnQueryOne = z.infer<
 
 export type SerialNumberWhere = z.infer<typeof SerialNumberWhereSchema>;
 
+export type SerialNumberInclude = z.infer<typeof SerialNumberIncludeSchema>;
+
 export type SerialNumberQueryOne = z.infer<typeof SerialNumberQueryOneSchema>;
 
 export type SerialNumberQuery = z.infer<typeof SerialNumberQuerySchema>;
@@ -2503,6 +3361,26 @@ export type SerialNumberQuery = z.infer<typeof SerialNumberQuerySchema>;
 export type SerialNumberProjection = z.infer<
   typeof SerialNumberProjectionSchema
 >;
+
+export const QuantityMoveRequestQueryOneSchema = z
+  .object({
+    where: QuantityMoveRequestWhereSchemaJson,
+    select: QuantityMoveRequestProjectionSchemaJson,
+    omit: QuantityMoveRequestProjectionSchemaJson,
+    include: QuantityMoveRequestIncludeSchemaJson,
+  })
+  .partial();
+
+export const QuantityMoveRequestQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: QuantityMoveRequestWhereSchemaJson,
+    select: QuantityMoveRequestProjectionSchemaJson,
+    omit: QuantityMoveRequestProjectionSchemaJson,
+    include: QuantityMoveRequestIncludeSchemaJson,
+  })
+  .partial();
 
 export type QuantityMoveRequestCreate = z.infer<
   typeof QuantityMoveRequestCreateSchema
@@ -2536,6 +3414,10 @@ export type QuantityMoveRequestWhere = z.infer<
   typeof QuantityMoveRequestWhereSchema
 >;
 
+export type QuantityMoveRequestInclude = z.infer<
+  typeof QuantityMoveRequestIncludeSchema
+>;
+
 export type QuantityMoveRequestQueryOne = z.infer<
   typeof QuantityMoveRequestQueryOneSchema
 >;
@@ -2547,6 +3429,26 @@ export type QuantityMoveRequestQuery = z.infer<
 export type QuantityMoveRequestProjection = z.infer<
   typeof QuantityMoveRequestProjectionSchema
 >;
+
+export const SerialMoveRequestQueryOneSchema = z
+  .object({
+    where: SerialMoveRequestWhereSchemaJson,
+    select: SerialMoveRequestProjectionSchemaJson,
+    omit: SerialMoveRequestProjectionSchemaJson,
+    include: SerialMoveRequestIncludeSchemaJson,
+  })
+  .partial();
+
+export const SerialMoveRequestQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: SerialMoveRequestWhereSchemaJson,
+    select: SerialMoveRequestProjectionSchemaJson,
+    omit: SerialMoveRequestProjectionSchemaJson,
+    include: SerialMoveRequestIncludeSchemaJson,
+  })
+  .partial();
 
 export type SerialMoveRequestCreate = z.infer<
   typeof SerialMoveRequestCreateSchema
@@ -2580,6 +3482,10 @@ export type SerialMoveRequestWhere = z.infer<
   typeof SerialMoveRequestWhereSchema
 >;
 
+export type SerialMoveRequestInclude = z.infer<
+  typeof SerialMoveRequestIncludeSchema
+>;
+
 export type SerialMoveRequestQueryOne = z.infer<
   typeof SerialMoveRequestQueryOneSchema
 >;
@@ -2591,6 +3497,26 @@ export type SerialMoveRequestQuery = z.infer<
 export type SerialMoveRequestProjection = z.infer<
   typeof SerialMoveRequestProjectionSchema
 >;
+
+export const EmployeeQueryOneSchema = z
+  .object({
+    where: EmployeeWhereSchemaJson,
+    select: EmployeeProjectionSchemaJson,
+    omit: EmployeeProjectionSchemaJson,
+    include: EmployeeIncludeSchemaJson,
+  })
+  .partial();
+
+export const EmployeeQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: EmployeeWhereSchemaJson,
+    select: EmployeeProjectionSchemaJson,
+    omit: EmployeeProjectionSchemaJson,
+    include: EmployeeIncludeSchemaJson,
+  })
+  .partial();
 
 export type EmployeeCreate = z.infer<typeof EmployeeCreateSchema>;
 
@@ -2608,11 +3534,33 @@ export type EmployeeOwnQueryOne = z.infer<typeof EmployeeOwnQueryOneSchema>;
 
 export type EmployeeWhere = z.infer<typeof EmployeeWhereSchema>;
 
+export type EmployeeInclude = z.infer<typeof EmployeeIncludeSchema>;
+
 export type EmployeeQueryOne = z.infer<typeof EmployeeQueryOneSchema>;
 
 export type EmployeeQuery = z.infer<typeof EmployeeQuerySchema>;
 
 export type EmployeeProjection = z.infer<typeof EmployeeProjectionSchema>;
+
+export const EmployeeRoomQueryOneSchema = z
+  .object({
+    where: EmployeeRoomWhereSchemaJson,
+    select: EmployeeRoomProjectionSchemaJson,
+    omit: EmployeeRoomProjectionSchemaJson,
+    include: EmployeeRoomIncludeSchemaJson,
+  })
+  .partial();
+
+export const EmployeeRoomQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: EmployeeRoomWhereSchemaJson,
+    select: EmployeeRoomProjectionSchemaJson,
+    omit: EmployeeRoomProjectionSchemaJson,
+    include: EmployeeRoomIncludeSchemaJson,
+  })
+  .partial();
 
 export type EmployeeRoomCreate = z.infer<typeof EmployeeRoomCreateSchema>;
 
@@ -2634,6 +3582,8 @@ export type EmployeeRoomOwnQueryOne = z.infer<
 
 export type EmployeeRoomWhere = z.infer<typeof EmployeeRoomWhereSchema>;
 
+export type EmployeeRoomInclude = z.infer<typeof EmployeeRoomIncludeSchema>;
+
 export type EmployeeRoomQueryOne = z.infer<typeof EmployeeRoomQueryOneSchema>;
 
 export type EmployeeRoomQuery = z.infer<typeof EmployeeRoomQuerySchema>;
@@ -2641,6 +3591,26 @@ export type EmployeeRoomQuery = z.infer<typeof EmployeeRoomQuerySchema>;
 export type EmployeeRoomProjection = z.infer<
   typeof EmployeeRoomProjectionSchema
 >;
+
+export const EmployeeItemQueryOneSchema = z
+  .object({
+    where: EmployeeItemWhereSchemaJson,
+    select: EmployeeItemProjectionSchemaJson,
+    omit: EmployeeItemProjectionSchemaJson,
+    include: EmployeeItemIncludeSchemaJson,
+  })
+  .partial();
+
+export const EmployeeItemQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: EmployeeItemWhereSchemaJson,
+    select: EmployeeItemProjectionSchemaJson,
+    omit: EmployeeItemProjectionSchemaJson,
+    include: EmployeeItemIncludeSchemaJson,
+  })
+  .partial();
 
 export type EmployeeItemCreate = z.infer<typeof EmployeeItemCreateSchema>;
 
@@ -2662,6 +3632,8 @@ export type EmployeeItemOwnQueryOne = z.infer<
 
 export type EmployeeItemWhere = z.infer<typeof EmployeeItemWhereSchema>;
 
+export type EmployeeItemInclude = z.infer<typeof EmployeeItemIncludeSchema>;
+
 export type EmployeeItemQueryOne = z.infer<typeof EmployeeItemQueryOneSchema>;
 
 export type EmployeeItemQuery = z.infer<typeof EmployeeItemQuerySchema>;
@@ -2669,6 +3641,26 @@ export type EmployeeItemQuery = z.infer<typeof EmployeeItemQuerySchema>;
 export type EmployeeItemProjection = z.infer<
   typeof EmployeeItemProjectionSchema
 >;
+
+export const EmployeeRoomRequestQueryOneSchema = z
+  .object({
+    where: EmployeeRoomRequestWhereSchemaJson,
+    select: EmployeeRoomRequestProjectionSchemaJson,
+    omit: EmployeeRoomRequestProjectionSchemaJson,
+    include: EmployeeRoomRequestIncludeSchemaJson,
+  })
+  .partial();
+
+export const EmployeeRoomRequestQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: EmployeeRoomRequestWhereSchemaJson,
+    select: EmployeeRoomRequestProjectionSchemaJson,
+    omit: EmployeeRoomRequestProjectionSchemaJson,
+    include: EmployeeRoomRequestIncludeSchemaJson,
+  })
+  .partial();
 
 export type EmployeeRoomRequestCreate = z.infer<
   typeof EmployeeRoomRequestCreateSchema
@@ -2702,6 +3694,10 @@ export type EmployeeRoomRequestWhere = z.infer<
   typeof EmployeeRoomRequestWhereSchema
 >;
 
+export type EmployeeRoomRequestInclude = z.infer<
+  typeof EmployeeRoomRequestIncludeSchema
+>;
+
 export type EmployeeRoomRequestQueryOne = z.infer<
   typeof EmployeeRoomRequestQueryOneSchema
 >;
@@ -2713,6 +3709,26 @@ export type EmployeeRoomRequestQuery = z.infer<
 export type EmployeeRoomRequestProjection = z.infer<
   typeof EmployeeRoomRequestProjectionSchema
 >;
+
+export const EmployeeItemRequestQueryOneSchema = z
+  .object({
+    where: EmployeeItemRequestWhereSchemaJson,
+    select: EmployeeItemRequestProjectionSchemaJson,
+    omit: EmployeeItemRequestProjectionSchemaJson,
+    include: EmployeeItemRequestIncludeSchemaJson,
+  })
+  .partial();
+
+export const EmployeeItemRequestQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: EmployeeItemRequestWhereSchemaJson,
+    select: EmployeeItemRequestProjectionSchemaJson,
+    omit: EmployeeItemRequestProjectionSchemaJson,
+    include: EmployeeItemRequestIncludeSchemaJson,
+  })
+  .partial();
 
 export type EmployeeItemRequestCreate = z.infer<
   typeof EmployeeItemRequestCreateSchema
@@ -2744,6 +3760,10 @@ export type EmployeeItemRequestOwnQueryOne = z.infer<
 
 export type EmployeeItemRequestWhere = z.infer<
   typeof EmployeeItemRequestWhereSchema
+>;
+
+export type EmployeeItemRequestInclude = z.infer<
+  typeof EmployeeItemRequestIncludeSchema
 >;
 
 export type EmployeeItemRequestQueryOne = z.infer<

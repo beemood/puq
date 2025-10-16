@@ -1,6 +1,36 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as PZ from '@puq/zod';
 import { z } from 'zod';
 import { slugify } from '@puq/names';
+
+export const takeSchema = z.coerce.number().int().min(1).default(20).optional();
+export const skipSchema = z.coerce.number().int().min(0).default(0).optional();
+
+export const PaginationSchema = z
+  .object({
+    take: takeSchema,
+    skip: skipSchema,
+  })
+  .partial();
+
+export function jsonParser<T>(value: T) {
+  if (typeof value === 'string') {
+    return JSON.parse(value);
+  }
+  return value;
+}
+
+export function slugTransformer(key: string) {
+  return (value: any) => {
+    if (value.slug == undefined && value[key] != undefined) {
+      return {
+        ...value,
+        slug: value[key] ? slugify(value[key].toString()) : null,
+      };
+    }
+    return value;
+  };
+}
 
 export const DiscountTargetTypeSchema = z.enum([
   'STORE',
@@ -49,6 +79,11 @@ export const CategoryOwnProjectionSchema = z
   })
   .partial();
 
+export const CategoryOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  CategoryOwnProjectionSchema
+);
+
 export const ProductOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -66,6 +101,11 @@ export const ProductOwnProjectionSchema = z
   })
   .partial();
 
+export const ProductOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ProductOwnProjectionSchema
+);
+
 export const ProductCategoryOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -75,6 +115,11 @@ export const ProductCategoryOwnProjectionSchema = z
     category: z.boolean(),
   })
   .partial();
+
+export const ProductCategoryOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ProductCategoryOwnProjectionSchema
+);
 
 export const VariantOwnProjectionSchema = z
   .object({
@@ -93,6 +138,11 @@ export const VariantOwnProjectionSchema = z
   })
   .partial();
 
+export const VariantOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  VariantOwnProjectionSchema
+);
+
 export const AttributeCategoryOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -101,6 +151,11 @@ export const AttributeCategoryOwnProjectionSchema = z
     attributes: z.boolean(),
   })
   .partial();
+
+export const AttributeCategoryOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeCategoryOwnProjectionSchema
+);
 
 export const AttributeOwnProjectionSchema = z
   .object({
@@ -114,6 +169,11 @@ export const AttributeOwnProjectionSchema = z
   })
   .partial();
 
+export const AttributeOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeOwnProjectionSchema
+);
+
 export const UnitOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -122,6 +182,11 @@ export const UnitOwnProjectionSchema = z
     attributes: z.boolean(),
   })
   .partial();
+
+export const UnitOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  UnitOwnProjectionSchema
+);
 
 export const AttributeUnitOwnProjectionSchema = z
   .object({
@@ -132,6 +197,11 @@ export const AttributeUnitOwnProjectionSchema = z
     unit: z.boolean(),
   })
   .partial();
+
+export const AttributeUnitOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeUnitOwnProjectionSchema
+);
 
 export const AttributeValueOwnProjectionSchema = z
   .object({
@@ -146,6 +216,11 @@ export const AttributeValueOwnProjectionSchema = z
   })
   .partial();
 
+export const AttributeValueOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeValueOwnProjectionSchema
+);
+
 export const CurrencyOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -155,6 +230,11 @@ export const CurrencyOwnProjectionSchema = z
     priceLevels: z.boolean(),
   })
   .partial();
+
+export const CurrencyOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  CurrencyOwnProjectionSchema
+);
 
 export const PriceLevelOwnProjectionSchema = z
   .object({
@@ -171,6 +251,11 @@ export const PriceLevelOwnProjectionSchema = z
   })
   .partial();
 
+export const PriceLevelOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PriceLevelOwnProjectionSchema
+);
+
 export const PriceOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -184,6 +269,11 @@ export const PriceOwnProjectionSchema = z
   })
   .partial();
 
+export const PriceOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PriceOwnProjectionSchema
+);
+
 export const QuantityOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -196,6 +286,11 @@ export const QuantityOwnProjectionSchema = z
   })
   .partial();
 
+export const QuantityOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  QuantityOwnProjectionSchema
+);
+
 export const SerialNumberOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -207,6 +302,11 @@ export const SerialNumberOwnProjectionSchema = z
     store: z.boolean(),
   })
   .partial();
+
+export const SerialNumberOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  SerialNumberOwnProjectionSchema
+);
 
 export const DiscountOwnProjectionSchema = z
   .object({
@@ -227,6 +327,11 @@ export const DiscountOwnProjectionSchema = z
   })
   .partial();
 
+export const DiscountOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  DiscountOwnProjectionSchema
+);
+
 export const DiscountTargetOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -246,6 +351,11 @@ export const DiscountTargetOwnProjectionSchema = z
   })
   .partial();
 
+export const DiscountTargetOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  DiscountTargetOwnProjectionSchema
+);
+
 export const StoreOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -260,6 +370,11 @@ export const StoreOwnProjectionSchema = z
   })
   .partial();
 
+export const StoreOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  StoreOwnProjectionSchema
+);
+
 export const WarrantyPolicyOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -270,6 +385,11 @@ export const WarrantyPolicyOwnProjectionSchema = z
     products: z.boolean(),
   })
   .partial();
+
+export const WarrantyPolicyOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  WarrantyPolicyOwnProjectionSchema
+);
 
 export const ProductWarrantyOwnProjectionSchema = z
   .object({
@@ -283,6 +403,11 @@ export const ProductWarrantyOwnProjectionSchema = z
   })
   .partial();
 
+export const ProductWarrantyOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ProductWarrantyOwnProjectionSchema
+);
+
 export const CategoryOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -291,6 +416,11 @@ export const CategoryOwnWhereSchema = z
     slug: PZ.StringFilterSchema,
   })
   .partial();
+
+export const CategoryOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  CategoryOwnWhereSchema
+);
 
 export const ProductOwnWhereSchema = z
   .object({
@@ -305,6 +435,11 @@ export const ProductOwnWhereSchema = z
   })
   .partial();
 
+export const ProductOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  ProductOwnWhereSchema
+);
+
 export const ProductCategoryOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -312,6 +447,11 @@ export const ProductCategoryOwnWhereSchema = z
     categoryId: PZ.IntegerFilterSchema,
   })
   .partial();
+
+export const ProductCategoryOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  ProductCategoryOwnWhereSchema
+);
 
 export const VariantOwnWhereSchema = z
   .object({
@@ -323,6 +463,11 @@ export const VariantOwnWhereSchema = z
   })
   .partial();
 
+export const VariantOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  VariantOwnWhereSchema
+);
+
 export const AttributeCategoryOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -330,6 +475,11 @@ export const AttributeCategoryOwnWhereSchema = z
     slug: PZ.StringFilterSchema,
   })
   .partial();
+
+export const AttributeCategoryOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeCategoryOwnWhereSchema
+);
 
 export const AttributeOwnWhereSchema = z
   .object({
@@ -340,6 +490,11 @@ export const AttributeOwnWhereSchema = z
   })
   .partial();
 
+export const AttributeOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeOwnWhereSchema
+);
+
 export const UnitOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -347,6 +502,11 @@ export const UnitOwnWhereSchema = z
     symbol: PZ.StringFilterSchema,
   })
   .partial();
+
+export const UnitOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  UnitOwnWhereSchema
+);
 
 export const AttributeUnitOwnWhereSchema = z
   .object({
@@ -356,6 +516,11 @@ export const AttributeUnitOwnWhereSchema = z
   })
   .partial();
 
+export const AttributeUnitOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeUnitOwnWhereSchema
+);
+
 export const AttributeValueOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -363,9 +528,14 @@ export const AttributeValueOwnWhereSchema = z
     variantId: PZ.IntegerFilterSchema,
     textValue: PZ.StringFilterSchema,
     booleanValue: PZ.BooleanFilterSchema,
-    floatValue: {},
+    floatValue: PZ.NumberFilterSchema,
   })
   .partial();
+
+export const AttributeValueOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeValueOwnWhereSchema
+);
 
 export const CurrencyOwnWhereSchema = z
   .object({
@@ -375,6 +545,11 @@ export const CurrencyOwnWhereSchema = z
     symbol: PZ.StringFilterSchema,
   })
   .partial();
+
+export const CurrencyOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  CurrencyOwnWhereSchema
+);
 
 export const PriceLevelOwnWhereSchema = z
   .object({
@@ -387,6 +562,11 @@ export const PriceLevelOwnWhereSchema = z
   })
   .partial();
 
+export const PriceLevelOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PriceLevelOwnWhereSchema
+);
+
 export const PriceOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -398,6 +578,11 @@ export const PriceOwnWhereSchema = z
   })
   .partial();
 
+export const PriceOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PriceOwnWhereSchema
+);
+
 export const QuantityOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -408,6 +593,11 @@ export const QuantityOwnWhereSchema = z
   })
   .partial();
 
+export const QuantityOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  QuantityOwnWhereSchema
+);
+
 export const SerialNumberOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -417,6 +607,11 @@ export const SerialNumberOwnWhereSchema = z
     inStock: PZ.BooleanFilterSchema,
   })
   .partial();
+
+export const SerialNumberOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  SerialNumberOwnWhereSchema
+);
 
 export const DiscountOwnWhereSchema = z
   .object({
@@ -436,6 +631,11 @@ export const DiscountOwnWhereSchema = z
   })
   .partial();
 
+export const DiscountOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  DiscountOwnWhereSchema
+);
+
 export const DiscountTargetOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -449,6 +649,11 @@ export const DiscountTargetOwnWhereSchema = z
   })
   .partial();
 
+export const DiscountTargetOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  DiscountTargetOwnWhereSchema
+);
+
 export const StoreOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -458,6 +663,11 @@ export const StoreOwnWhereSchema = z
     description: PZ.StringFilterSchema,
   })
   .partial();
+
+export const StoreOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  StoreOwnWhereSchema
+);
 
 export const WarrantyPolicyOwnWhereSchema = z
   .object({
@@ -469,6 +679,11 @@ export const WarrantyPolicyOwnWhereSchema = z
   })
   .partial();
 
+export const WarrantyPolicyOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  WarrantyPolicyOwnWhereSchema
+);
+
 export const ProductWarrantyOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -478,345 +693,630 @@ export const ProductWarrantyOwnWhereSchema = z
   })
   .partial();
 
+export const ProductWarrantyOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  ProductWarrantyOwnWhereSchema
+);
+
+export const CategoryOwnIncludeSchema = z
+  .object({
+    parent: z.boolean(),
+    children: z.boolean(),
+    products: z.boolean(),
+    discountTargets: z.boolean(),
+  })
+  .partial();
+
+export const CategoryOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  CategoryOwnIncludeSchema
+);
+
 export const CategoryOwnQueryOneSchema = z
   .object({
-    where: CategoryOwnWhereSchema,
-    select: CategoryOwnProjectionSchema,
-    omit: CategoryOwnProjectionSchema,
+    where: CategoryOwnWhereSchemaJson,
+    select: CategoryOwnProjectionSchemaJson,
+    omit: CategoryOwnProjectionSchemaJson,
+    include: CategoryOwnIncludeSchemaJson,
   })
   .partial();
 
 export const CategoryOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: CategoryOwnWhereSchema,
-    select: CategoryOwnProjectionSchema,
-    omit: CategoryOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: CategoryOwnWhereSchemaJson,
+    select: CategoryOwnProjectionSchemaJson,
+    omit: CategoryOwnProjectionSchemaJson,
+    include: CategoryOwnIncludeSchemaJson,
   })
   .partial();
 
+export const ProductOwnIncludeSchema = z
+  .object({
+    variants: z.boolean(),
+    categories: z.boolean(),
+    discounts: z.boolean(),
+    warranties: z.boolean(),
+  })
+  .partial();
+
+export const ProductOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ProductOwnIncludeSchema
+);
+
 export const ProductOwnQueryOneSchema = z
   .object({
-    where: ProductOwnWhereSchema,
-    select: ProductOwnProjectionSchema,
-    omit: ProductOwnProjectionSchema,
+    where: ProductOwnWhereSchemaJson,
+    select: ProductOwnProjectionSchemaJson,
+    omit: ProductOwnProjectionSchemaJson,
+    include: ProductOwnIncludeSchemaJson,
   })
   .partial();
 
 export const ProductOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ProductOwnWhereSchema,
-    select: ProductOwnProjectionSchema,
-    omit: ProductOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ProductOwnWhereSchemaJson,
+    select: ProductOwnProjectionSchemaJson,
+    omit: ProductOwnProjectionSchemaJson,
+    include: ProductOwnIncludeSchemaJson,
   })
   .partial();
 
+export const ProductCategoryOwnIncludeSchema = z
+  .object({
+    product: z.boolean(),
+    category: z.boolean(),
+  })
+  .partial();
+
+export const ProductCategoryOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ProductCategoryOwnIncludeSchema
+);
+
 export const ProductCategoryOwnQueryOneSchema = z
   .object({
-    where: ProductCategoryOwnWhereSchema,
-    select: ProductCategoryOwnProjectionSchema,
-    omit: ProductCategoryOwnProjectionSchema,
+    where: ProductCategoryOwnWhereSchemaJson,
+    select: ProductCategoryOwnProjectionSchemaJson,
+    omit: ProductCategoryOwnProjectionSchemaJson,
+    include: ProductCategoryOwnIncludeSchemaJson,
   })
   .partial();
 
 export const ProductCategoryOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ProductCategoryOwnWhereSchema,
-    select: ProductCategoryOwnProjectionSchema,
-    omit: ProductCategoryOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ProductCategoryOwnWhereSchemaJson,
+    select: ProductCategoryOwnProjectionSchemaJson,
+    omit: ProductCategoryOwnProjectionSchemaJson,
+    include: ProductCategoryOwnIncludeSchemaJson,
   })
   .partial();
 
+export const VariantOwnIncludeSchema = z
+  .object({
+    product: z.boolean(),
+    attributes: z.boolean(),
+    prices: z.boolean(),
+    quantities: z.boolean(),
+    discounts: z.boolean(),
+    serrialNumbers: z.boolean(),
+    warranties: z.boolean(),
+  })
+  .partial();
+
+export const VariantOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  VariantOwnIncludeSchema
+);
+
 export const VariantOwnQueryOneSchema = z
   .object({
-    where: VariantOwnWhereSchema,
-    select: VariantOwnProjectionSchema,
-    omit: VariantOwnProjectionSchema,
+    where: VariantOwnWhereSchemaJson,
+    select: VariantOwnProjectionSchemaJson,
+    omit: VariantOwnProjectionSchemaJson,
+    include: VariantOwnIncludeSchemaJson,
   })
   .partial();
 
 export const VariantOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: VariantOwnWhereSchema,
-    select: VariantOwnProjectionSchema,
-    omit: VariantOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: VariantOwnWhereSchemaJson,
+    select: VariantOwnProjectionSchemaJson,
+    omit: VariantOwnProjectionSchemaJson,
+    include: VariantOwnIncludeSchemaJson,
   })
   .partial();
 
+export const AttributeCategoryOwnIncludeSchema = z
+  .object({
+    attributes: z.boolean(),
+  })
+  .partial();
+
+export const AttributeCategoryOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeCategoryOwnIncludeSchema
+);
+
 export const AttributeCategoryOwnQueryOneSchema = z
   .object({
-    where: AttributeCategoryOwnWhereSchema,
-    select: AttributeCategoryOwnProjectionSchema,
-    omit: AttributeCategoryOwnProjectionSchema,
+    where: AttributeCategoryOwnWhereSchemaJson,
+    select: AttributeCategoryOwnProjectionSchemaJson,
+    omit: AttributeCategoryOwnProjectionSchemaJson,
+    include: AttributeCategoryOwnIncludeSchemaJson,
   })
   .partial();
 
 export const AttributeCategoryOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: AttributeCategoryOwnWhereSchema,
-    select: AttributeCategoryOwnProjectionSchema,
-    omit: AttributeCategoryOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: AttributeCategoryOwnWhereSchemaJson,
+    select: AttributeCategoryOwnProjectionSchemaJson,
+    omit: AttributeCategoryOwnProjectionSchemaJson,
+    include: AttributeCategoryOwnIncludeSchemaJson,
   })
   .partial();
 
+export const AttributeOwnIncludeSchema = z
+  .object({
+    category: z.boolean(),
+    unites: z.boolean(),
+    values: z.boolean(),
+  })
+  .partial();
+
+export const AttributeOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeOwnIncludeSchema
+);
+
 export const AttributeOwnQueryOneSchema = z
   .object({
-    where: AttributeOwnWhereSchema,
-    select: AttributeOwnProjectionSchema,
-    omit: AttributeOwnProjectionSchema,
+    where: AttributeOwnWhereSchemaJson,
+    select: AttributeOwnProjectionSchemaJson,
+    omit: AttributeOwnProjectionSchemaJson,
+    include: AttributeOwnIncludeSchemaJson,
   })
   .partial();
 
 export const AttributeOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: AttributeOwnWhereSchema,
-    select: AttributeOwnProjectionSchema,
-    omit: AttributeOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: AttributeOwnWhereSchemaJson,
+    select: AttributeOwnProjectionSchemaJson,
+    omit: AttributeOwnProjectionSchemaJson,
+    include: AttributeOwnIncludeSchemaJson,
   })
   .partial();
 
+export const UnitOwnIncludeSchema = z
+  .object({
+    attributes: z.boolean(),
+  })
+  .partial();
+
+export const UnitOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  UnitOwnIncludeSchema
+);
+
 export const UnitOwnQueryOneSchema = z
   .object({
-    where: UnitOwnWhereSchema,
-    select: UnitOwnProjectionSchema,
-    omit: UnitOwnProjectionSchema,
+    where: UnitOwnWhereSchemaJson,
+    select: UnitOwnProjectionSchemaJson,
+    omit: UnitOwnProjectionSchemaJson,
+    include: UnitOwnIncludeSchemaJson,
   })
   .partial();
 
 export const UnitOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: UnitOwnWhereSchema,
-    select: UnitOwnProjectionSchema,
-    omit: UnitOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: UnitOwnWhereSchemaJson,
+    select: UnitOwnProjectionSchemaJson,
+    omit: UnitOwnProjectionSchemaJson,
+    include: UnitOwnIncludeSchemaJson,
   })
   .partial();
 
+export const AttributeUnitOwnIncludeSchema = z
+  .object({
+    attribute: z.boolean(),
+    unit: z.boolean(),
+  })
+  .partial();
+
+export const AttributeUnitOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeUnitOwnIncludeSchema
+);
+
 export const AttributeUnitOwnQueryOneSchema = z
   .object({
-    where: AttributeUnitOwnWhereSchema,
-    select: AttributeUnitOwnProjectionSchema,
-    omit: AttributeUnitOwnProjectionSchema,
+    where: AttributeUnitOwnWhereSchemaJson,
+    select: AttributeUnitOwnProjectionSchemaJson,
+    omit: AttributeUnitOwnProjectionSchemaJson,
+    include: AttributeUnitOwnIncludeSchemaJson,
   })
   .partial();
 
 export const AttributeUnitOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: AttributeUnitOwnWhereSchema,
-    select: AttributeUnitOwnProjectionSchema,
-    omit: AttributeUnitOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: AttributeUnitOwnWhereSchemaJson,
+    select: AttributeUnitOwnProjectionSchemaJson,
+    omit: AttributeUnitOwnProjectionSchemaJson,
+    include: AttributeUnitOwnIncludeSchemaJson,
   })
   .partial();
 
+export const AttributeValueOwnIncludeSchema = z
+  .object({
+    variant: z.boolean(),
+    attribute: z.boolean(),
+  })
+  .partial();
+
+export const AttributeValueOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeValueOwnIncludeSchema
+);
+
 export const AttributeValueOwnQueryOneSchema = z
   .object({
-    where: AttributeValueOwnWhereSchema,
-    select: AttributeValueOwnProjectionSchema,
-    omit: AttributeValueOwnProjectionSchema,
+    where: AttributeValueOwnWhereSchemaJson,
+    select: AttributeValueOwnProjectionSchemaJson,
+    omit: AttributeValueOwnProjectionSchemaJson,
+    include: AttributeValueOwnIncludeSchemaJson,
   })
   .partial();
 
 export const AttributeValueOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: AttributeValueOwnWhereSchema,
-    select: AttributeValueOwnProjectionSchema,
-    omit: AttributeValueOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: AttributeValueOwnWhereSchemaJson,
+    select: AttributeValueOwnProjectionSchemaJson,
+    omit: AttributeValueOwnProjectionSchemaJson,
+    include: AttributeValueOwnIncludeSchemaJson,
   })
   .partial();
 
+export const CurrencyOwnIncludeSchema = z
+  .object({
+    priceLevels: z.boolean(),
+  })
+  .partial();
+
+export const CurrencyOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  CurrencyOwnIncludeSchema
+);
+
 export const CurrencyOwnQueryOneSchema = z
   .object({
-    where: CurrencyOwnWhereSchema,
-    select: CurrencyOwnProjectionSchema,
-    omit: CurrencyOwnProjectionSchema,
+    where: CurrencyOwnWhereSchemaJson,
+    select: CurrencyOwnProjectionSchemaJson,
+    omit: CurrencyOwnProjectionSchemaJson,
+    include: CurrencyOwnIncludeSchemaJson,
   })
   .partial();
 
 export const CurrencyOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: CurrencyOwnWhereSchema,
-    select: CurrencyOwnProjectionSchema,
-    omit: CurrencyOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: CurrencyOwnWhereSchemaJson,
+    select: CurrencyOwnProjectionSchemaJson,
+    omit: CurrencyOwnProjectionSchemaJson,
+    include: CurrencyOwnIncludeSchemaJson,
   })
   .partial();
 
+export const PriceLevelOwnIncludeSchema = z
+  .object({
+    currency: z.boolean(),
+    stores: z.boolean(),
+    prices: z.boolean(),
+    discounts: z.boolean(),
+  })
+  .partial();
+
+export const PriceLevelOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PriceLevelOwnIncludeSchema
+);
+
 export const PriceLevelOwnQueryOneSchema = z
   .object({
-    where: PriceLevelOwnWhereSchema,
-    select: PriceLevelOwnProjectionSchema,
-    omit: PriceLevelOwnProjectionSchema,
+    where: PriceLevelOwnWhereSchemaJson,
+    select: PriceLevelOwnProjectionSchemaJson,
+    omit: PriceLevelOwnProjectionSchemaJson,
+    include: PriceLevelOwnIncludeSchemaJson,
   })
   .partial();
 
 export const PriceLevelOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PriceLevelOwnWhereSchema,
-    select: PriceLevelOwnProjectionSchema,
-    omit: PriceLevelOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PriceLevelOwnWhereSchemaJson,
+    select: PriceLevelOwnProjectionSchemaJson,
+    omit: PriceLevelOwnProjectionSchemaJson,
+    include: PriceLevelOwnIncludeSchemaJson,
   })
   .partial();
 
+export const PriceOwnIncludeSchema = z
+  .object({
+    variant: z.boolean(),
+    priceLevel: z.boolean(),
+  })
+  .partial();
+
+export const PriceOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PriceOwnIncludeSchema
+);
+
 export const PriceOwnQueryOneSchema = z
   .object({
-    where: PriceOwnWhereSchema,
-    select: PriceOwnProjectionSchema,
-    omit: PriceOwnProjectionSchema,
+    where: PriceOwnWhereSchemaJson,
+    select: PriceOwnProjectionSchemaJson,
+    omit: PriceOwnProjectionSchemaJson,
+    include: PriceOwnIncludeSchemaJson,
   })
   .partial();
 
 export const PriceOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PriceOwnWhereSchema,
-    select: PriceOwnProjectionSchema,
-    omit: PriceOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PriceOwnWhereSchemaJson,
+    select: PriceOwnProjectionSchemaJson,
+    omit: PriceOwnProjectionSchemaJson,
+    include: PriceOwnIncludeSchemaJson,
   })
   .partial();
 
+export const QuantityOwnIncludeSchema = z
+  .object({
+    variant: z.boolean(),
+    store: z.boolean(),
+  })
+  .partial();
+
+export const QuantityOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  QuantityOwnIncludeSchema
+);
+
 export const QuantityOwnQueryOneSchema = z
   .object({
-    where: QuantityOwnWhereSchema,
-    select: QuantityOwnProjectionSchema,
-    omit: QuantityOwnProjectionSchema,
+    where: QuantityOwnWhereSchemaJson,
+    select: QuantityOwnProjectionSchemaJson,
+    omit: QuantityOwnProjectionSchemaJson,
+    include: QuantityOwnIncludeSchemaJson,
   })
   .partial();
 
 export const QuantityOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: QuantityOwnWhereSchema,
-    select: QuantityOwnProjectionSchema,
-    omit: QuantityOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: QuantityOwnWhereSchemaJson,
+    select: QuantityOwnProjectionSchemaJson,
+    omit: QuantityOwnProjectionSchemaJson,
+    include: QuantityOwnIncludeSchemaJson,
   })
   .partial();
 
+export const SerialNumberOwnIncludeSchema = z
+  .object({
+    variant: z.boolean(),
+    store: z.boolean(),
+  })
+  .partial();
+
+export const SerialNumberOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  SerialNumberOwnIncludeSchema
+);
+
 export const SerialNumberOwnQueryOneSchema = z
   .object({
-    where: SerialNumberOwnWhereSchema,
-    select: SerialNumberOwnProjectionSchema,
-    omit: SerialNumberOwnProjectionSchema,
+    where: SerialNumberOwnWhereSchemaJson,
+    select: SerialNumberOwnProjectionSchemaJson,
+    omit: SerialNumberOwnProjectionSchemaJson,
+    include: SerialNumberOwnIncludeSchemaJson,
   })
   .partial();
 
 export const SerialNumberOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: SerialNumberOwnWhereSchema,
-    select: SerialNumberOwnProjectionSchema,
-    omit: SerialNumberOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: SerialNumberOwnWhereSchemaJson,
+    select: SerialNumberOwnProjectionSchemaJson,
+    omit: SerialNumberOwnProjectionSchemaJson,
+    include: SerialNumberOwnIncludeSchemaJson,
   })
   .partial();
 
+export const DiscountOwnIncludeSchema = z
+  .object({
+    targets: z.boolean(),
+  })
+  .partial();
+
+export const DiscountOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  DiscountOwnIncludeSchema
+);
+
 export const DiscountOwnQueryOneSchema = z
   .object({
-    where: DiscountOwnWhereSchema,
-    select: DiscountOwnProjectionSchema,
-    omit: DiscountOwnProjectionSchema,
+    where: DiscountOwnWhereSchemaJson,
+    select: DiscountOwnProjectionSchemaJson,
+    omit: DiscountOwnProjectionSchemaJson,
+    include: DiscountOwnIncludeSchemaJson,
   })
   .partial();
 
 export const DiscountOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: DiscountOwnWhereSchema,
-    select: DiscountOwnProjectionSchema,
-    omit: DiscountOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: DiscountOwnWhereSchemaJson,
+    select: DiscountOwnProjectionSchemaJson,
+    omit: DiscountOwnProjectionSchemaJson,
+    include: DiscountOwnIncludeSchemaJson,
   })
   .partial();
 
+export const DiscountTargetOwnIncludeSchema = z
+  .object({
+    discount: z.boolean(),
+    store: z.boolean(),
+    category: z.boolean(),
+    priceLevel: z.boolean(),
+    product: z.boolean(),
+    variant: z.boolean(),
+  })
+  .partial();
+
+export const DiscountTargetOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  DiscountTargetOwnIncludeSchema
+);
+
 export const DiscountTargetOwnQueryOneSchema = z
   .object({
-    where: DiscountTargetOwnWhereSchema,
-    select: DiscountTargetOwnProjectionSchema,
-    omit: DiscountTargetOwnProjectionSchema,
+    where: DiscountTargetOwnWhereSchemaJson,
+    select: DiscountTargetOwnProjectionSchemaJson,
+    omit: DiscountTargetOwnProjectionSchemaJson,
+    include: DiscountTargetOwnIncludeSchemaJson,
   })
   .partial();
 
 export const DiscountTargetOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: DiscountTargetOwnWhereSchema,
-    select: DiscountTargetOwnProjectionSchema,
-    omit: DiscountTargetOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: DiscountTargetOwnWhereSchemaJson,
+    select: DiscountTargetOwnProjectionSchemaJson,
+    omit: DiscountTargetOwnProjectionSchemaJson,
+    include: DiscountTargetOwnIncludeSchemaJson,
   })
   .partial();
 
+export const StoreOwnIncludeSchema = z
+  .object({
+    priceLevel: z.boolean(),
+    quantities: z.boolean(),
+    discounts: z.boolean(),
+    serialNumbers: z.boolean(),
+  })
+  .partial();
+
+export const StoreOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  StoreOwnIncludeSchema
+);
+
 export const StoreOwnQueryOneSchema = z
   .object({
-    where: StoreOwnWhereSchema,
-    select: StoreOwnProjectionSchema,
-    omit: StoreOwnProjectionSchema,
+    where: StoreOwnWhereSchemaJson,
+    select: StoreOwnProjectionSchemaJson,
+    omit: StoreOwnProjectionSchemaJson,
+    include: StoreOwnIncludeSchemaJson,
   })
   .partial();
 
 export const StoreOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: StoreOwnWhereSchema,
-    select: StoreOwnProjectionSchema,
-    omit: StoreOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: StoreOwnWhereSchemaJson,
+    select: StoreOwnProjectionSchemaJson,
+    omit: StoreOwnProjectionSchemaJson,
+    include: StoreOwnIncludeSchemaJson,
   })
   .partial();
 
+export const WarrantyPolicyOwnIncludeSchema = z
+  .object({
+    products: z.boolean(),
+  })
+  .partial();
+
+export const WarrantyPolicyOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  WarrantyPolicyOwnIncludeSchema
+);
+
 export const WarrantyPolicyOwnQueryOneSchema = z
   .object({
-    where: WarrantyPolicyOwnWhereSchema,
-    select: WarrantyPolicyOwnProjectionSchema,
-    omit: WarrantyPolicyOwnProjectionSchema,
+    where: WarrantyPolicyOwnWhereSchemaJson,
+    select: WarrantyPolicyOwnProjectionSchemaJson,
+    omit: WarrantyPolicyOwnProjectionSchemaJson,
+    include: WarrantyPolicyOwnIncludeSchemaJson,
   })
   .partial();
 
 export const WarrantyPolicyOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: WarrantyPolicyOwnWhereSchema,
-    select: WarrantyPolicyOwnProjectionSchema,
-    omit: WarrantyPolicyOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: WarrantyPolicyOwnWhereSchemaJson,
+    select: WarrantyPolicyOwnProjectionSchemaJson,
+    omit: WarrantyPolicyOwnProjectionSchemaJson,
+    include: WarrantyPolicyOwnIncludeSchemaJson,
   })
   .partial();
 
+export const ProductWarrantyOwnIncludeSchema = z
+  .object({
+    product: z.boolean(),
+    variant: z.boolean(),
+    policy: z.boolean(),
+  })
+  .partial();
+
+export const ProductWarrantyOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ProductWarrantyOwnIncludeSchema
+);
+
 export const ProductWarrantyOwnQueryOneSchema = z
   .object({
-    where: ProductWarrantyOwnWhereSchema,
-    select: ProductWarrantyOwnProjectionSchema,
-    omit: ProductWarrantyOwnProjectionSchema,
+    where: ProductWarrantyOwnWhereSchemaJson,
+    select: ProductWarrantyOwnProjectionSchemaJson,
+    omit: ProductWarrantyOwnProjectionSchemaJson,
+    include: ProductWarrantyOwnIncludeSchemaJson,
   })
   .partial();
 
 export const ProductWarrantyOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ProductWarrantyOwnWhereSchema,
-    select: ProductWarrantyOwnProjectionSchema,
-    omit: ProductWarrantyOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ProductWarrantyOwnWhereSchemaJson,
+    select: ProductWarrantyOwnProjectionSchemaJson,
+    omit: ProductWarrantyOwnProjectionSchemaJson,
+    include: ProductWarrantyOwnIncludeSchemaJson,
   })
   .partial();
 
@@ -826,15 +1326,7 @@ export const CategoryCreateSchema = z
     name: z.string(),
     slug: z.string().optional(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.name != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.name),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('name'));
 
 export const CategoryUpdateSchema = z
   .object({
@@ -842,15 +1334,7 @@ export const CategoryUpdateSchema = z
     name: z.string().optional(),
     slug: z.string().optional().optional(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.name != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.name),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('name'));
 
 export const CategoryOrderBySchema = z
   .object({
@@ -860,6 +1344,11 @@ export const CategoryOrderBySchema = z
     slug: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const CategoryOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  CategoryOrderBySchema
+);
 
 export const CategoryWhereSchema = z
   .object({
@@ -898,36 +1387,42 @@ export const CategoryWhereSchema = z
   })
   .partial();
 
+export const CategoryWhereSchemaJson = z.preprocess(
+  jsonParser,
+  CategoryWhereSchema
+);
+
 export const CategoryProjectionSchema = z
   .object({
     id: z.boolean(),
     parentId: z.boolean(),
     name: z.boolean(),
     slug: z.boolean(),
-    parent: CategoryOwnQueryOneSchema,
-    children: CategoryOwnQuerySchema,
-    products: ProductCategoryOwnQuerySchema,
-    discountTargets: DiscountTargetOwnQuerySchema,
+    parent: z.boolean().or(CategoryOwnQueryOneSchema),
+    children: z.boolean().or(CategoryOwnQuerySchema),
+    products: z.boolean().or(ProductCategoryOwnQuerySchema),
+    discountTargets: z.boolean().or(DiscountTargetOwnQuerySchema),
   })
   .partial();
 
-export const CategoryQueryOneSchema = z
+export const CategoryProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  CategoryProjectionSchema
+);
+
+export const CategoryIncludeSchema = z
   .object({
-    where: CategoryWhereSchema,
-    select: CategoryProjectionSchema,
-    omit: CategoryProjectionSchema,
+    parent: z.boolean().or(CategoryOwnQueryOneSchema),
+    children: z.boolean().or(CategoryOwnQuerySchema),
+    products: z.boolean().or(ProductCategoryOwnQuerySchema),
+    discountTargets: z.boolean().or(DiscountTargetOwnQuerySchema),
   })
   .partial();
 
-export const CategoryQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: CategoryWhereSchema,
-    select: CategoryProjectionSchema,
-    omit: CategoryProjectionSchema,
-  })
-  .partial();
+export const CategoryIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  CategoryIncludeSchema
+);
 
 export const ProductCreateSchema = z
   .object({
@@ -936,15 +1431,7 @@ export const ProductCreateSchema = z
     slug: z.string().optional(),
     description: z.string().optional(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.name != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.name),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('name'));
 
 export const ProductUpdateSchema = z
   .object({
@@ -953,15 +1440,7 @@ export const ProductUpdateSchema = z
     slug: z.string().optional().optional(),
     description: z.string().optional().optional(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.name != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.name),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('name'));
 
 export const ProductOrderBySchema = z
   .object({
@@ -975,6 +1454,11 @@ export const ProductOrderBySchema = z
     description: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const ProductOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  ProductOrderBySchema
+);
 
 export const ProductWhereSchema = z
   .object({
@@ -1017,6 +1501,11 @@ export const ProductWhereSchema = z
   })
   .partial();
 
+export const ProductWhereSchemaJson = z.preprocess(
+  jsonParser,
+  ProductWhereSchema
+);
+
 export const ProductProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -1027,30 +1516,31 @@ export const ProductProjectionSchema = z
     name: z.boolean(),
     slug: z.boolean(),
     description: z.boolean(),
-    variants: VariantOwnQuerySchema,
-    categories: ProductCategoryOwnQuerySchema,
-    discounts: DiscountTargetOwnQuerySchema,
-    warranties: ProductWarrantyOwnQuerySchema,
+    variants: z.boolean().or(VariantOwnQuerySchema),
+    categories: z.boolean().or(ProductCategoryOwnQuerySchema),
+    discounts: z.boolean().or(DiscountTargetOwnQuerySchema),
+    warranties: z.boolean().or(ProductWarrantyOwnQuerySchema),
   })
   .partial();
 
-export const ProductQueryOneSchema = z
+export const ProductProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ProductProjectionSchema
+);
+
+export const ProductIncludeSchema = z
   .object({
-    where: ProductWhereSchema,
-    select: ProductProjectionSchema,
-    omit: ProductProjectionSchema,
+    variants: z.boolean().or(VariantOwnQuerySchema),
+    categories: z.boolean().or(ProductCategoryOwnQuerySchema),
+    discounts: z.boolean().or(DiscountTargetOwnQuerySchema),
+    warranties: z.boolean().or(ProductWarrantyOwnQuerySchema),
   })
   .partial();
 
-export const ProductQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ProductWhereSchema,
-    select: ProductProjectionSchema,
-    omit: ProductProjectionSchema,
-  })
-  .partial();
+export const ProductIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ProductIncludeSchema
+);
 
 export const ProductCategoryCreateSchema = z.object({
   productId: z.int(),
@@ -1069,6 +1559,11 @@ export const ProductCategoryOrderBySchema = z
     categoryId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const ProductCategoryOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  ProductCategoryOrderBySchema
+);
 
 export const ProductCategoryWhereSchema = z
   .object({
@@ -1092,33 +1587,37 @@ export const ProductCategoryWhereSchema = z
   })
   .partial();
 
+export const ProductCategoryWhereSchemaJson = z.preprocess(
+  jsonParser,
+  ProductCategoryWhereSchema
+);
+
 export const ProductCategoryProjectionSchema = z
   .object({
     id: z.boolean(),
     productId: z.boolean(),
     categoryId: z.boolean(),
-    product: ProductOwnQueryOneSchema,
-    category: CategoryOwnQueryOneSchema,
+    product: z.boolean().or(ProductOwnQueryOneSchema),
+    category: z.boolean().or(CategoryOwnQueryOneSchema),
   })
   .partial();
 
-export const ProductCategoryQueryOneSchema = z
+export const ProductCategoryProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ProductCategoryProjectionSchema
+);
+
+export const ProductCategoryIncludeSchema = z
   .object({
-    where: ProductCategoryWhereSchema,
-    select: ProductCategoryProjectionSchema,
-    omit: ProductCategoryProjectionSchema,
+    product: z.boolean().or(ProductOwnQueryOneSchema),
+    category: z.boolean().or(CategoryOwnQueryOneSchema),
   })
   .partial();
 
-export const ProductCategoryQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ProductCategoryWhereSchema,
-    select: ProductCategoryProjectionSchema,
-    omit: ProductCategoryProjectionSchema,
-  })
-  .partial();
+export const ProductCategoryIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ProductCategoryIncludeSchema
+);
 
 export const VariantCreateSchema = z.object({
   productId: z.int(),
@@ -1141,6 +1640,11 @@ export const VariantOrderBySchema = z
     upc: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const VariantOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  VariantOrderBySchema
+);
 
 export const VariantWhereSchema = z
   .object({
@@ -1201,6 +1705,11 @@ export const VariantWhereSchema = z
   })
   .partial();
 
+export const VariantWhereSchemaJson = z.preprocess(
+  jsonParser,
+  VariantWhereSchema
+);
+
 export const VariantProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -1208,63 +1717,51 @@ export const VariantProjectionSchema = z
     productId: z.boolean(),
     sku: z.boolean(),
     upc: z.boolean(),
-    product: ProductOwnQueryOneSchema,
-    attributes: AttributeValueOwnQuerySchema,
-    prices: PriceOwnQuerySchema,
-    quantities: QuantityOwnQuerySchema,
-    discounts: DiscountTargetOwnQuerySchema,
-    serrialNumbers: SerialNumberOwnQuerySchema,
-    warranties: ProductWarrantyOwnQuerySchema,
+    product: z.boolean().or(ProductOwnQueryOneSchema),
+    attributes: z.boolean().or(AttributeValueOwnQuerySchema),
+    prices: z.boolean().or(PriceOwnQuerySchema),
+    quantities: z.boolean().or(QuantityOwnQuerySchema),
+    discounts: z.boolean().or(DiscountTargetOwnQuerySchema),
+    serrialNumbers: z.boolean().or(SerialNumberOwnQuerySchema),
+    warranties: z.boolean().or(ProductWarrantyOwnQuerySchema),
   })
   .partial();
 
-export const VariantQueryOneSchema = z
+export const VariantProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  VariantProjectionSchema
+);
+
+export const VariantIncludeSchema = z
   .object({
-    where: VariantWhereSchema,
-    select: VariantProjectionSchema,
-    omit: VariantProjectionSchema,
+    product: z.boolean().or(ProductOwnQueryOneSchema),
+    attributes: z.boolean().or(AttributeValueOwnQuerySchema),
+    prices: z.boolean().or(PriceOwnQuerySchema),
+    quantities: z.boolean().or(QuantityOwnQuerySchema),
+    discounts: z.boolean().or(DiscountTargetOwnQuerySchema),
+    serrialNumbers: z.boolean().or(SerialNumberOwnQuerySchema),
+    warranties: z.boolean().or(ProductWarrantyOwnQuerySchema),
   })
   .partial();
 
-export const VariantQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: VariantWhereSchema,
-    select: VariantProjectionSchema,
-    omit: VariantProjectionSchema,
-  })
-  .partial();
+export const VariantIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  VariantIncludeSchema
+);
 
 export const AttributeCategoryCreateSchema = z
   .object({
     name: z.string(),
     slug: z.string().optional(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.name != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.name),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('name'));
 
 export const AttributeCategoryUpdateSchema = z
   .object({
     name: z.string().optional(),
     slug: z.string().optional().optional(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.name != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.name),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('name'));
 
 export const AttributeCategoryOrderBySchema = z
   .object({
@@ -1273,6 +1770,11 @@ export const AttributeCategoryOrderBySchema = z
     slug: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const AttributeCategoryOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  AttributeCategoryOrderBySchema
+);
 
 export const AttributeCategoryWhereSchema = z
   .object({
@@ -1289,32 +1791,35 @@ export const AttributeCategoryWhereSchema = z
   })
   .partial();
 
+export const AttributeCategoryWhereSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeCategoryWhereSchema
+);
+
 export const AttributeCategoryProjectionSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
     slug: z.boolean(),
-    attributes: AttributeOwnQuerySchema,
+    attributes: z.boolean().or(AttributeOwnQuerySchema),
   })
   .partial();
 
-export const AttributeCategoryQueryOneSchema = z
+export const AttributeCategoryProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeCategoryProjectionSchema
+);
+
+export const AttributeCategoryIncludeSchema = z
   .object({
-    where: AttributeCategoryWhereSchema,
-    select: AttributeCategoryProjectionSchema,
-    omit: AttributeCategoryProjectionSchema,
+    attributes: z.boolean().or(AttributeOwnQuerySchema),
   })
   .partial();
 
-export const AttributeCategoryQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: AttributeCategoryWhereSchema,
-    select: AttributeCategoryProjectionSchema,
-    omit: AttributeCategoryProjectionSchema,
-  })
-  .partial();
+export const AttributeCategoryIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeCategoryIncludeSchema
+);
 
 export const AttributeCreateSchema = z.object({
   categoryId: z.int().optional(),
@@ -1336,6 +1841,11 @@ export const AttributeOrderBySchema = z
     description: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const AttributeOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  AttributeOrderBySchema
+);
 
 export const AttributeWhereSchema = z
   .object({
@@ -1367,35 +1877,40 @@ export const AttributeWhereSchema = z
   })
   .partial();
 
+export const AttributeWhereSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeWhereSchema
+);
+
 export const AttributeProjectionSchema = z
   .object({
     id: z.boolean(),
     categoryId: z.boolean(),
     name: z.boolean(),
     description: z.boolean(),
-    category: AttributeCategoryOwnQueryOneSchema,
-    unites: AttributeUnitOwnQuerySchema,
-    values: AttributeValueOwnQuerySchema,
+    category: z.boolean().or(AttributeCategoryOwnQueryOneSchema),
+    unites: z.boolean().or(AttributeUnitOwnQuerySchema),
+    values: z.boolean().or(AttributeValueOwnQuerySchema),
   })
   .partial();
 
-export const AttributeQueryOneSchema = z
+export const AttributeProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeProjectionSchema
+);
+
+export const AttributeIncludeSchema = z
   .object({
-    where: AttributeWhereSchema,
-    select: AttributeProjectionSchema,
-    omit: AttributeProjectionSchema,
+    category: z.boolean().or(AttributeCategoryOwnQueryOneSchema),
+    unites: z.boolean().or(AttributeUnitOwnQuerySchema),
+    values: z.boolean().or(AttributeValueOwnQuerySchema),
   })
   .partial();
 
-export const AttributeQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: AttributeWhereSchema,
-    select: AttributeProjectionSchema,
-    omit: AttributeProjectionSchema,
-  })
-  .partial();
+export const AttributeIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeIncludeSchema
+);
 
 export const UnitCreateSchema = z.object({
   name: z.string(),
@@ -1415,6 +1930,11 @@ export const UnitOrderBySchema = z
   })
   .partial();
 
+export const UnitOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  UnitOrderBySchema
+);
+
 export const UnitWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -1430,32 +1950,32 @@ export const UnitWhereSchema = z
   })
   .partial();
 
+export const UnitWhereSchemaJson = z.preprocess(jsonParser, UnitWhereSchema);
+
 export const UnitProjectionSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
     symbol: z.boolean(),
-    attributes: AttributeUnitOwnQuerySchema,
+    attributes: z.boolean().or(AttributeUnitOwnQuerySchema),
   })
   .partial();
 
-export const UnitQueryOneSchema = z
+export const UnitProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  UnitProjectionSchema
+);
+
+export const UnitIncludeSchema = z
   .object({
-    where: UnitWhereSchema,
-    select: UnitProjectionSchema,
-    omit: UnitProjectionSchema,
+    attributes: z.boolean().or(AttributeUnitOwnQuerySchema),
   })
   .partial();
 
-export const UnitQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: UnitWhereSchema,
-    select: UnitProjectionSchema,
-    omit: UnitProjectionSchema,
-  })
-  .partial();
+export const UnitIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  UnitIncludeSchema
+);
 
 export const AttributeUnitCreateSchema = z.object({
   attributeId: z.int(),
@@ -1474,6 +1994,11 @@ export const AttributeUnitOrderBySchema = z
     unitId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const AttributeUnitOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  AttributeUnitOrderBySchema
+);
 
 export const AttributeUnitWhereSchema = z
   .object({
@@ -1497,33 +2022,37 @@ export const AttributeUnitWhereSchema = z
   })
   .partial();
 
+export const AttributeUnitWhereSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeUnitWhereSchema
+);
+
 export const AttributeUnitProjectionSchema = z
   .object({
     id: z.boolean(),
     attributeId: z.boolean(),
     unitId: z.boolean(),
-    attribute: AttributeOwnQueryOneSchema,
-    unit: UnitOwnQueryOneSchema,
+    attribute: z.boolean().or(AttributeOwnQueryOneSchema),
+    unit: z.boolean().or(UnitOwnQueryOneSchema),
   })
   .partial();
 
-export const AttributeUnitQueryOneSchema = z
+export const AttributeUnitProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeUnitProjectionSchema
+);
+
+export const AttributeUnitIncludeSchema = z
   .object({
-    where: AttributeUnitWhereSchema,
-    select: AttributeUnitProjectionSchema,
-    omit: AttributeUnitProjectionSchema,
+    attribute: z.boolean().or(AttributeOwnQueryOneSchema),
+    unit: z.boolean().or(UnitOwnQueryOneSchema),
   })
   .partial();
 
-export const AttributeUnitQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: AttributeUnitWhereSchema,
-    select: AttributeUnitProjectionSchema,
-    omit: AttributeUnitProjectionSchema,
-  })
-  .partial();
+export const AttributeUnitIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeUnitIncludeSchema
+);
 
 export const AttributeValueCreateSchema = z.object({
   attributeId: z.int(),
@@ -1552,6 +2081,11 @@ export const AttributeValueOrderBySchema = z
   })
   .partial();
 
+export const AttributeValueOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  AttributeValueOrderBySchema
+);
+
 export const AttributeValueWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -1559,7 +2093,7 @@ export const AttributeValueWhereSchema = z
     variantId: PZ.IntegerFilterSchema,
     textValue: PZ.StringFilterSchema,
     booleanValue: PZ.BooleanFilterSchema,
-    floatValue: {},
+    floatValue: PZ.NumberFilterSchema,
     variant: z
       .object({
         some: VariantOwnWhereSchema,
@@ -1577,6 +2111,11 @@ export const AttributeValueWhereSchema = z
   })
   .partial();
 
+export const AttributeValueWhereSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeValueWhereSchema
+);
+
 export const AttributeValueProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -1585,28 +2124,27 @@ export const AttributeValueProjectionSchema = z
     textValue: z.boolean(),
     booleanValue: z.boolean(),
     floatValue: z.boolean(),
-    variant: VariantOwnQueryOneSchema,
-    attribute: AttributeOwnQueryOneSchema,
+    variant: z.boolean().or(VariantOwnQueryOneSchema),
+    attribute: z.boolean().or(AttributeOwnQueryOneSchema),
   })
   .partial();
 
-export const AttributeValueQueryOneSchema = z
+export const AttributeValueProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeValueProjectionSchema
+);
+
+export const AttributeValueIncludeSchema = z
   .object({
-    where: AttributeValueWhereSchema,
-    select: AttributeValueProjectionSchema,
-    omit: AttributeValueProjectionSchema,
+    variant: z.boolean().or(VariantOwnQueryOneSchema),
+    attribute: z.boolean().or(AttributeOwnQueryOneSchema),
   })
   .partial();
 
-export const AttributeValueQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: AttributeValueWhereSchema,
-    select: AttributeValueProjectionSchema,
-    omit: AttributeValueProjectionSchema,
-  })
-  .partial();
+export const AttributeValueIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  AttributeValueIncludeSchema
+);
 
 export const CurrencyCreateSchema = z.object({
   name: z.string(),
@@ -1629,6 +2167,11 @@ export const CurrencyOrderBySchema = z
   })
   .partial();
 
+export const CurrencyOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  CurrencyOrderBySchema
+);
+
 export const CurrencyWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -1645,33 +2188,36 @@ export const CurrencyWhereSchema = z
   })
   .partial();
 
+export const CurrencyWhereSchemaJson = z.preprocess(
+  jsonParser,
+  CurrencyWhereSchema
+);
+
 export const CurrencyProjectionSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
     code: z.boolean(),
     symbol: z.boolean(),
-    priceLevels: PriceLevelOwnQuerySchema,
+    priceLevels: z.boolean().or(PriceLevelOwnQuerySchema),
   })
   .partial();
 
-export const CurrencyQueryOneSchema = z
+export const CurrencyProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  CurrencyProjectionSchema
+);
+
+export const CurrencyIncludeSchema = z
   .object({
-    where: CurrencyWhereSchema,
-    select: CurrencyProjectionSchema,
-    omit: CurrencyProjectionSchema,
+    priceLevels: z.boolean().or(PriceLevelOwnQuerySchema),
   })
   .partial();
 
-export const CurrencyQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: CurrencyWhereSchema,
-    select: CurrencyProjectionSchema,
-    omit: CurrencyProjectionSchema,
-  })
-  .partial();
+export const CurrencyIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  CurrencyIncludeSchema
+);
 
 export const PriceLevelCreateSchema = z
   .object({
@@ -1681,15 +2227,7 @@ export const PriceLevelCreateSchema = z
     taxrate: z.number(),
     notes: z.string().optional(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.name != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.name),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('name'));
 
 export const PriceLevelUpdateSchema = z
   .object({
@@ -1699,15 +2237,7 @@ export const PriceLevelUpdateSchema = z
     taxrate: z.number().optional(),
     notes: z.string().optional().optional(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.name != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.name),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('name'));
 
 export const PriceLevelOrderBySchema = z
   .object({
@@ -1719,6 +2249,11 @@ export const PriceLevelOrderBySchema = z
     notes: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const PriceLevelOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  PriceLevelOrderBySchema
+);
 
 export const PriceLevelWhereSchema = z
   .object({
@@ -1759,6 +2294,11 @@ export const PriceLevelWhereSchema = z
   })
   .partial();
 
+export const PriceLevelWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PriceLevelWhereSchema
+);
+
 export const PriceLevelProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -1767,30 +2307,31 @@ export const PriceLevelProjectionSchema = z
     slug: z.boolean(),
     taxrate: z.boolean(),
     notes: z.boolean(),
-    currency: CurrencyOwnQueryOneSchema,
-    stores: StoreOwnQuerySchema,
-    prices: PriceOwnQuerySchema,
-    discounts: DiscountTargetOwnQuerySchema,
+    currency: z.boolean().or(CurrencyOwnQueryOneSchema),
+    stores: z.boolean().or(StoreOwnQuerySchema),
+    prices: z.boolean().or(PriceOwnQuerySchema),
+    discounts: z.boolean().or(DiscountTargetOwnQuerySchema),
   })
   .partial();
 
-export const PriceLevelQueryOneSchema = z
+export const PriceLevelProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PriceLevelProjectionSchema
+);
+
+export const PriceLevelIncludeSchema = z
   .object({
-    where: PriceLevelWhereSchema,
-    select: PriceLevelProjectionSchema,
-    omit: PriceLevelProjectionSchema,
+    currency: z.boolean().or(CurrencyOwnQueryOneSchema),
+    stores: z.boolean().or(StoreOwnQuerySchema),
+    prices: z.boolean().or(PriceOwnQuerySchema),
+    discounts: z.boolean().or(DiscountTargetOwnQuerySchema),
   })
   .partial();
 
-export const PriceLevelQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PriceLevelWhereSchema,
-    select: PriceLevelProjectionSchema,
-    omit: PriceLevelProjectionSchema,
-  })
-  .partial();
+export const PriceLevelIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PriceLevelIncludeSchema
+);
 
 export const PriceCreateSchema = z.object({
   variantId: z.int(),
@@ -1819,6 +2360,11 @@ export const PriceOrderBySchema = z
   })
   .partial();
 
+export const PriceOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  PriceOrderBySchema
+);
+
 export const PriceWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -1844,6 +2390,8 @@ export const PriceWhereSchema = z
   })
   .partial();
 
+export const PriceWhereSchemaJson = z.preprocess(jsonParser, PriceWhereSchema);
+
 export const PriceProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -1852,28 +2400,27 @@ export const PriceProjectionSchema = z
     price: z.boolean(),
     cost: z.boolean(),
     description: z.boolean(),
-    variant: VariantOwnQueryOneSchema,
-    priceLevel: PriceLevelOwnQueryOneSchema,
+    variant: z.boolean().or(VariantOwnQueryOneSchema),
+    priceLevel: z.boolean().or(PriceLevelOwnQueryOneSchema),
   })
   .partial();
 
-export const PriceQueryOneSchema = z
+export const PriceProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PriceProjectionSchema
+);
+
+export const PriceIncludeSchema = z
   .object({
-    where: PriceWhereSchema,
-    select: PriceProjectionSchema,
-    omit: PriceProjectionSchema,
+    variant: z.boolean().or(VariantOwnQueryOneSchema),
+    priceLevel: z.boolean().or(PriceLevelOwnQueryOneSchema),
   })
   .partial();
 
-export const PriceQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PriceWhereSchema,
-    select: PriceProjectionSchema,
-    omit: PriceProjectionSchema,
-  })
-  .partial();
+export const PriceIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PriceIncludeSchema
+);
 
 export const QuantityCreateSchema = z.object({
   variantId: z.int(),
@@ -1899,6 +2446,11 @@ export const QuantityOrderBySchema = z
   })
   .partial();
 
+export const QuantityOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  QuantityOrderBySchema
+);
+
 export const QuantityWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -1923,6 +2475,11 @@ export const QuantityWhereSchema = z
   })
   .partial();
 
+export const QuantityWhereSchemaJson = z.preprocess(
+  jsonParser,
+  QuantityWhereSchema
+);
+
 export const QuantityProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -1930,28 +2487,27 @@ export const QuantityProjectionSchema = z
     storeId: z.boolean(),
     quantity: z.boolean(),
     alertThreshold: z.boolean(),
-    variant: VariantOwnQueryOneSchema,
-    store: StoreOwnQueryOneSchema,
+    variant: z.boolean().or(VariantOwnQueryOneSchema),
+    store: z.boolean().or(StoreOwnQueryOneSchema),
   })
   .partial();
 
-export const QuantityQueryOneSchema = z
+export const QuantityProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  QuantityProjectionSchema
+);
+
+export const QuantityIncludeSchema = z
   .object({
-    where: QuantityWhereSchema,
-    select: QuantityProjectionSchema,
-    omit: QuantityProjectionSchema,
+    variant: z.boolean().or(VariantOwnQueryOneSchema),
+    store: z.boolean().or(StoreOwnQueryOneSchema),
   })
   .partial();
 
-export const QuantityQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: QuantityWhereSchema,
-    select: QuantityProjectionSchema,
-    omit: QuantityProjectionSchema,
-  })
-  .partial();
+export const QuantityIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  QuantityIncludeSchema
+);
 
 export const SerialNumberCreateSchema = z.object({
   variantId: z.int(),
@@ -1977,6 +2533,11 @@ export const SerialNumberOrderBySchema = z
   })
   .partial();
 
+export const SerialNumberOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  SerialNumberOrderBySchema
+);
+
 export const SerialNumberWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -2001,6 +2562,11 @@ export const SerialNumberWhereSchema = z
   })
   .partial();
 
+export const SerialNumberWhereSchemaJson = z.preprocess(
+  jsonParser,
+  SerialNumberWhereSchema
+);
+
 export const SerialNumberProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -2008,28 +2574,27 @@ export const SerialNumberProjectionSchema = z
     storeId: z.boolean(),
     serialNumber: z.boolean(),
     inStock: z.boolean(),
-    variant: VariantOwnQueryOneSchema,
-    store: StoreOwnQueryOneSchema,
+    variant: z.boolean().or(VariantOwnQueryOneSchema),
+    store: z.boolean().or(StoreOwnQueryOneSchema),
   })
   .partial();
 
-export const SerialNumberQueryOneSchema = z
+export const SerialNumberProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  SerialNumberProjectionSchema
+);
+
+export const SerialNumberIncludeSchema = z
   .object({
-    where: SerialNumberWhereSchema,
-    select: SerialNumberProjectionSchema,
-    omit: SerialNumberProjectionSchema,
+    variant: z.boolean().or(VariantOwnQueryOneSchema),
+    store: z.boolean().or(StoreOwnQueryOneSchema),
   })
   .partial();
 
-export const SerialNumberQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: SerialNumberWhereSchema,
-    select: SerialNumberProjectionSchema,
-    omit: SerialNumberProjectionSchema,
-  })
-  .partial();
+export const SerialNumberIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  SerialNumberIncludeSchema
+);
 
 export const DiscountCreateSchema = z.object({
   code: z.string(),
@@ -2077,6 +2642,11 @@ export const DiscountOrderBySchema = z
   })
   .partial();
 
+export const DiscountOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  DiscountOrderBySchema
+);
+
 export const DiscountWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -2102,6 +2672,11 @@ export const DiscountWhereSchema = z
   })
   .partial();
 
+export const DiscountWhereSchemaJson = z.preprocess(
+  jsonParser,
+  DiscountWhereSchema
+);
+
 export const DiscountProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -2117,27 +2692,25 @@ export const DiscountProjectionSchema = z
     endDate: z.boolean(),
     usageLimit: z.boolean(),
     usageCount: z.boolean(),
-    targets: DiscountTargetOwnQuerySchema,
+    targets: z.boolean().or(DiscountTargetOwnQuerySchema),
   })
   .partial();
 
-export const DiscountQueryOneSchema = z
+export const DiscountProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  DiscountProjectionSchema
+);
+
+export const DiscountIncludeSchema = z
   .object({
-    where: DiscountWhereSchema,
-    select: DiscountProjectionSchema,
-    omit: DiscountProjectionSchema,
+    targets: z.boolean().or(DiscountTargetOwnQuerySchema),
   })
   .partial();
 
-export const DiscountQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: DiscountWhereSchema,
-    select: DiscountProjectionSchema,
-    omit: DiscountProjectionSchema,
-  })
-  .partial();
+export const DiscountIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  DiscountIncludeSchema
+);
 
 export const DiscountTargetCreateSchema = z.object({
   type: DiscountTargetTypeSchema,
@@ -2170,6 +2743,11 @@ export const DiscountTargetOrderBySchema = z
     categoryId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const DiscountTargetOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  DiscountTargetOrderBySchema
+);
 
 export const DiscountTargetWhereSchema = z
   .object({
@@ -2226,6 +2804,11 @@ export const DiscountTargetWhereSchema = z
   })
   .partial();
 
+export const DiscountTargetWhereSchemaJson = z.preprocess(
+  jsonParser,
+  DiscountTargetWhereSchema
+);
+
 export const DiscountTargetProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -2236,32 +2819,35 @@ export const DiscountTargetProjectionSchema = z
     variantId: z.boolean(),
     priceLevelId: z.boolean(),
     categoryId: z.boolean(),
-    discount: DiscountOwnQueryOneSchema,
-    store: StoreOwnQueryOneSchema,
-    category: CategoryOwnQueryOneSchema,
-    priceLevel: PriceLevelOwnQueryOneSchema,
-    product: ProductOwnQueryOneSchema,
-    variant: VariantOwnQueryOneSchema,
+    discount: z.boolean().or(DiscountOwnQueryOneSchema),
+    store: z.boolean().or(StoreOwnQueryOneSchema),
+    category: z.boolean().or(CategoryOwnQueryOneSchema),
+    priceLevel: z.boolean().or(PriceLevelOwnQueryOneSchema),
+    product: z.boolean().or(ProductOwnQueryOneSchema),
+    variant: z.boolean().or(VariantOwnQueryOneSchema),
   })
   .partial();
 
-export const DiscountTargetQueryOneSchema = z
+export const DiscountTargetProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  DiscountTargetProjectionSchema
+);
+
+export const DiscountTargetIncludeSchema = z
   .object({
-    where: DiscountTargetWhereSchema,
-    select: DiscountTargetProjectionSchema,
-    omit: DiscountTargetProjectionSchema,
+    discount: z.boolean().or(DiscountOwnQueryOneSchema),
+    store: z.boolean().or(StoreOwnQueryOneSchema),
+    category: z.boolean().or(CategoryOwnQueryOneSchema),
+    priceLevel: z.boolean().or(PriceLevelOwnQueryOneSchema),
+    product: z.boolean().or(ProductOwnQueryOneSchema),
+    variant: z.boolean().or(VariantOwnQueryOneSchema),
   })
   .partial();
 
-export const DiscountTargetQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: DiscountTargetWhereSchema,
-    select: DiscountTargetProjectionSchema,
-    omit: DiscountTargetProjectionSchema,
-  })
-  .partial();
+export const DiscountTargetIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  DiscountTargetIncludeSchema
+);
 
 export const StoreCreateSchema = z
   .object({
@@ -2270,15 +2856,7 @@ export const StoreCreateSchema = z
     slug: z.string().optional(),
     description: z.string().optional(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.name != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.name),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('name'));
 
 export const StoreUpdateSchema = z
   .object({
@@ -2287,15 +2865,7 @@ export const StoreUpdateSchema = z
     slug: z.string().optional().optional(),
     description: z.string().optional().optional(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.name != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.name),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('name'));
 
 export const StoreOrderBySchema = z
   .object({
@@ -2306,6 +2876,11 @@ export const StoreOrderBySchema = z
     description: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const StoreOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  StoreOrderBySchema
+);
 
 export const StoreWhereSchema = z
   .object({
@@ -2345,6 +2920,8 @@ export const StoreWhereSchema = z
   })
   .partial();
 
+export const StoreWhereSchemaJson = z.preprocess(jsonParser, StoreWhereSchema);
+
 export const StoreProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -2352,30 +2929,31 @@ export const StoreProjectionSchema = z
     name: z.boolean(),
     slug: z.boolean(),
     description: z.boolean(),
-    priceLevel: PriceLevelOwnQueryOneSchema,
-    quantities: QuantityOwnQuerySchema,
-    discounts: DiscountTargetOwnQuerySchema,
-    serialNumbers: SerialNumberOwnQuerySchema,
+    priceLevel: z.boolean().or(PriceLevelOwnQueryOneSchema),
+    quantities: z.boolean().or(QuantityOwnQuerySchema),
+    discounts: z.boolean().or(DiscountTargetOwnQuerySchema),
+    serialNumbers: z.boolean().or(SerialNumberOwnQuerySchema),
   })
   .partial();
 
-export const StoreQueryOneSchema = z
+export const StoreProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  StoreProjectionSchema
+);
+
+export const StoreIncludeSchema = z
   .object({
-    where: StoreWhereSchema,
-    select: StoreProjectionSchema,
-    omit: StoreProjectionSchema,
+    priceLevel: z.boolean().or(PriceLevelOwnQueryOneSchema),
+    quantities: z.boolean().or(QuantityOwnQuerySchema),
+    discounts: z.boolean().or(DiscountTargetOwnQuerySchema),
+    serialNumbers: z.boolean().or(SerialNumberOwnQuerySchema),
   })
   .partial();
 
-export const StoreQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: StoreWhereSchema,
-    select: StoreProjectionSchema,
-    omit: StoreProjectionSchema,
-  })
-  .partial();
+export const StoreIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  StoreIncludeSchema
+);
 
 export const WarrantyPolicyCreateSchema = z.object({
   name: z.string(),
@@ -2400,6 +2978,11 @@ export const WarrantyPolicyOrderBySchema = z
   })
   .partial();
 
+export const WarrantyPolicyOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  WarrantyPolicyOrderBySchema
+);
+
 export const WarrantyPolicyWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -2417,6 +3000,11 @@ export const WarrantyPolicyWhereSchema = z
   })
   .partial();
 
+export const WarrantyPolicyWhereSchemaJson = z.preprocess(
+  jsonParser,
+  WarrantyPolicyWhereSchema
+);
+
 export const WarrantyPolicyProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -2424,27 +3012,25 @@ export const WarrantyPolicyProjectionSchema = z
     description: z.boolean(),
     duration: z.boolean(),
     durationUnit: z.boolean(),
-    products: ProductWarrantyOwnQuerySchema,
+    products: z.boolean().or(ProductWarrantyOwnQuerySchema),
   })
   .partial();
 
-export const WarrantyPolicyQueryOneSchema = z
+export const WarrantyPolicyProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  WarrantyPolicyProjectionSchema
+);
+
+export const WarrantyPolicyIncludeSchema = z
   .object({
-    where: WarrantyPolicyWhereSchema,
-    select: WarrantyPolicyProjectionSchema,
-    omit: WarrantyPolicyProjectionSchema,
+    products: z.boolean().or(ProductWarrantyOwnQuerySchema),
   })
   .partial();
 
-export const WarrantyPolicyQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: WarrantyPolicyWhereSchema,
-    select: WarrantyPolicyProjectionSchema,
-    omit: WarrantyPolicyProjectionSchema,
-  })
-  .partial();
+export const WarrantyPolicyIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  WarrantyPolicyIncludeSchema
+);
 
 export const ProductWarrantyCreateSchema = z.object({
   productId: z.int().optional(),
@@ -2466,6 +3052,11 @@ export const ProductWarrantyOrderBySchema = z
     policyId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const ProductWarrantyOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  ProductWarrantyOrderBySchema
+);
 
 export const ProductWarrantyWhereSchema = z
   .object({
@@ -2497,33 +3088,58 @@ export const ProductWarrantyWhereSchema = z
   })
   .partial();
 
+export const ProductWarrantyWhereSchemaJson = z.preprocess(
+  jsonParser,
+  ProductWarrantyWhereSchema
+);
+
 export const ProductWarrantyProjectionSchema = z
   .object({
     id: z.boolean(),
     productId: z.boolean(),
     variantId: z.boolean(),
     policyId: z.boolean(),
-    product: ProductOwnQueryOneSchema,
-    variant: VariantOwnQueryOneSchema,
-    policy: WarrantyPolicyOwnQueryOneSchema,
+    product: z.boolean().or(ProductOwnQueryOneSchema),
+    variant: z.boolean().or(VariantOwnQueryOneSchema),
+    policy: z.boolean().or(WarrantyPolicyOwnQueryOneSchema),
   })
   .partial();
 
-export const ProductWarrantyQueryOneSchema = z
+export const ProductWarrantyProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ProductWarrantyProjectionSchema
+);
+
+export const ProductWarrantyIncludeSchema = z
   .object({
-    where: ProductWarrantyWhereSchema,
-    select: ProductWarrantyProjectionSchema,
-    omit: ProductWarrantyProjectionSchema,
+    product: z.boolean().or(ProductOwnQueryOneSchema),
+    variant: z.boolean().or(VariantOwnQueryOneSchema),
+    policy: z.boolean().or(WarrantyPolicyOwnQueryOneSchema),
   })
   .partial();
 
-export const ProductWarrantyQuerySchema = z
+export const ProductWarrantyIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ProductWarrantyIncludeSchema
+);
+
+export const CategoryQueryOneSchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ProductWarrantyWhereSchema,
-    select: ProductWarrantyProjectionSchema,
-    omit: ProductWarrantyProjectionSchema,
+    where: CategoryWhereSchemaJson,
+    select: CategoryProjectionSchemaJson,
+    omit: CategoryProjectionSchemaJson,
+    include: CategoryIncludeSchemaJson,
+  })
+  .partial();
+
+export const CategoryQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: CategoryWhereSchemaJson,
+    select: CategoryProjectionSchemaJson,
+    omit: CategoryProjectionSchemaJson,
+    include: CategoryIncludeSchemaJson,
   })
   .partial();
 
@@ -2543,11 +3159,33 @@ export type CategoryOwnQueryOne = z.infer<typeof CategoryOwnQueryOneSchema>;
 
 export type CategoryWhere = z.infer<typeof CategoryWhereSchema>;
 
+export type CategoryInclude = z.infer<typeof CategoryIncludeSchema>;
+
 export type CategoryQueryOne = z.infer<typeof CategoryQueryOneSchema>;
 
 export type CategoryQuery = z.infer<typeof CategoryQuerySchema>;
 
 export type CategoryProjection = z.infer<typeof CategoryProjectionSchema>;
+
+export const ProductQueryOneSchema = z
+  .object({
+    where: ProductWhereSchemaJson,
+    select: ProductProjectionSchemaJson,
+    omit: ProductProjectionSchemaJson,
+    include: ProductIncludeSchemaJson,
+  })
+  .partial();
+
+export const ProductQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ProductWhereSchemaJson,
+    select: ProductProjectionSchemaJson,
+    omit: ProductProjectionSchemaJson,
+    include: ProductIncludeSchemaJson,
+  })
+  .partial();
 
 export type ProductCreate = z.infer<typeof ProductCreateSchema>;
 
@@ -2565,11 +3203,33 @@ export type ProductOwnQueryOne = z.infer<typeof ProductOwnQueryOneSchema>;
 
 export type ProductWhere = z.infer<typeof ProductWhereSchema>;
 
+export type ProductInclude = z.infer<typeof ProductIncludeSchema>;
+
 export type ProductQueryOne = z.infer<typeof ProductQueryOneSchema>;
 
 export type ProductQuery = z.infer<typeof ProductQuerySchema>;
 
 export type ProductProjection = z.infer<typeof ProductProjectionSchema>;
+
+export const ProductCategoryQueryOneSchema = z
+  .object({
+    where: ProductCategoryWhereSchemaJson,
+    select: ProductCategoryProjectionSchemaJson,
+    omit: ProductCategoryProjectionSchemaJson,
+    include: ProductCategoryIncludeSchemaJson,
+  })
+  .partial();
+
+export const ProductCategoryQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ProductCategoryWhereSchemaJson,
+    select: ProductCategoryProjectionSchemaJson,
+    omit: ProductCategoryProjectionSchemaJson,
+    include: ProductCategoryIncludeSchemaJson,
+  })
+  .partial();
 
 export type ProductCategoryCreate = z.infer<typeof ProductCategoryCreateSchema>;
 
@@ -2597,6 +3257,10 @@ export type ProductCategoryOwnQueryOne = z.infer<
 
 export type ProductCategoryWhere = z.infer<typeof ProductCategoryWhereSchema>;
 
+export type ProductCategoryInclude = z.infer<
+  typeof ProductCategoryIncludeSchema
+>;
+
 export type ProductCategoryQueryOne = z.infer<
   typeof ProductCategoryQueryOneSchema
 >;
@@ -2606,6 +3270,26 @@ export type ProductCategoryQuery = z.infer<typeof ProductCategoryQuerySchema>;
 export type ProductCategoryProjection = z.infer<
   typeof ProductCategoryProjectionSchema
 >;
+
+export const VariantQueryOneSchema = z
+  .object({
+    where: VariantWhereSchemaJson,
+    select: VariantProjectionSchemaJson,
+    omit: VariantProjectionSchemaJson,
+    include: VariantIncludeSchemaJson,
+  })
+  .partial();
+
+export const VariantQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: VariantWhereSchemaJson,
+    select: VariantProjectionSchemaJson,
+    omit: VariantProjectionSchemaJson,
+    include: VariantIncludeSchemaJson,
+  })
+  .partial();
 
 export type VariantCreate = z.infer<typeof VariantCreateSchema>;
 
@@ -2623,11 +3307,33 @@ export type VariantOwnQueryOne = z.infer<typeof VariantOwnQueryOneSchema>;
 
 export type VariantWhere = z.infer<typeof VariantWhereSchema>;
 
+export type VariantInclude = z.infer<typeof VariantIncludeSchema>;
+
 export type VariantQueryOne = z.infer<typeof VariantQueryOneSchema>;
 
 export type VariantQuery = z.infer<typeof VariantQuerySchema>;
 
 export type VariantProjection = z.infer<typeof VariantProjectionSchema>;
+
+export const AttributeCategoryQueryOneSchema = z
+  .object({
+    where: AttributeCategoryWhereSchemaJson,
+    select: AttributeCategoryProjectionSchemaJson,
+    omit: AttributeCategoryProjectionSchemaJson,
+    include: AttributeCategoryIncludeSchemaJson,
+  })
+  .partial();
+
+export const AttributeCategoryQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: AttributeCategoryWhereSchemaJson,
+    select: AttributeCategoryProjectionSchemaJson,
+    omit: AttributeCategoryProjectionSchemaJson,
+    include: AttributeCategoryIncludeSchemaJson,
+  })
+  .partial();
 
 export type AttributeCategoryCreate = z.infer<
   typeof AttributeCategoryCreateSchema
@@ -2661,6 +3367,10 @@ export type AttributeCategoryWhere = z.infer<
   typeof AttributeCategoryWhereSchema
 >;
 
+export type AttributeCategoryInclude = z.infer<
+  typeof AttributeCategoryIncludeSchema
+>;
+
 export type AttributeCategoryQueryOne = z.infer<
   typeof AttributeCategoryQueryOneSchema
 >;
@@ -2672,6 +3382,26 @@ export type AttributeCategoryQuery = z.infer<
 export type AttributeCategoryProjection = z.infer<
   typeof AttributeCategoryProjectionSchema
 >;
+
+export const AttributeQueryOneSchema = z
+  .object({
+    where: AttributeWhereSchemaJson,
+    select: AttributeProjectionSchemaJson,
+    omit: AttributeProjectionSchemaJson,
+    include: AttributeIncludeSchemaJson,
+  })
+  .partial();
+
+export const AttributeQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: AttributeWhereSchemaJson,
+    select: AttributeProjectionSchemaJson,
+    omit: AttributeProjectionSchemaJson,
+    include: AttributeIncludeSchemaJson,
+  })
+  .partial();
 
 export type AttributeCreate = z.infer<typeof AttributeCreateSchema>;
 
@@ -2691,11 +3421,33 @@ export type AttributeOwnQueryOne = z.infer<typeof AttributeOwnQueryOneSchema>;
 
 export type AttributeWhere = z.infer<typeof AttributeWhereSchema>;
 
+export type AttributeInclude = z.infer<typeof AttributeIncludeSchema>;
+
 export type AttributeQueryOne = z.infer<typeof AttributeQueryOneSchema>;
 
 export type AttributeQuery = z.infer<typeof AttributeQuerySchema>;
 
 export type AttributeProjection = z.infer<typeof AttributeProjectionSchema>;
+
+export const UnitQueryOneSchema = z
+  .object({
+    where: UnitWhereSchemaJson,
+    select: UnitProjectionSchemaJson,
+    omit: UnitProjectionSchemaJson,
+    include: UnitIncludeSchemaJson,
+  })
+  .partial();
+
+export const UnitQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: UnitWhereSchemaJson,
+    select: UnitProjectionSchemaJson,
+    omit: UnitProjectionSchemaJson,
+    include: UnitIncludeSchemaJson,
+  })
+  .partial();
 
 export type UnitCreate = z.infer<typeof UnitCreateSchema>;
 
@@ -2713,11 +3465,33 @@ export type UnitOwnQueryOne = z.infer<typeof UnitOwnQueryOneSchema>;
 
 export type UnitWhere = z.infer<typeof UnitWhereSchema>;
 
+export type UnitInclude = z.infer<typeof UnitIncludeSchema>;
+
 export type UnitQueryOne = z.infer<typeof UnitQueryOneSchema>;
 
 export type UnitQuery = z.infer<typeof UnitQuerySchema>;
 
 export type UnitProjection = z.infer<typeof UnitProjectionSchema>;
+
+export const AttributeUnitQueryOneSchema = z
+  .object({
+    where: AttributeUnitWhereSchemaJson,
+    select: AttributeUnitProjectionSchemaJson,
+    omit: AttributeUnitProjectionSchemaJson,
+    include: AttributeUnitIncludeSchemaJson,
+  })
+  .partial();
+
+export const AttributeUnitQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: AttributeUnitWhereSchemaJson,
+    select: AttributeUnitProjectionSchemaJson,
+    omit: AttributeUnitProjectionSchemaJson,
+    include: AttributeUnitIncludeSchemaJson,
+  })
+  .partial();
 
 export type AttributeUnitCreate = z.infer<typeof AttributeUnitCreateSchema>;
 
@@ -2739,6 +3513,8 @@ export type AttributeUnitOwnQueryOne = z.infer<
 
 export type AttributeUnitWhere = z.infer<typeof AttributeUnitWhereSchema>;
 
+export type AttributeUnitInclude = z.infer<typeof AttributeUnitIncludeSchema>;
+
 export type AttributeUnitQueryOne = z.infer<typeof AttributeUnitQueryOneSchema>;
 
 export type AttributeUnitQuery = z.infer<typeof AttributeUnitQuerySchema>;
@@ -2746,6 +3522,26 @@ export type AttributeUnitQuery = z.infer<typeof AttributeUnitQuerySchema>;
 export type AttributeUnitProjection = z.infer<
   typeof AttributeUnitProjectionSchema
 >;
+
+export const AttributeValueQueryOneSchema = z
+  .object({
+    where: AttributeValueWhereSchemaJson,
+    select: AttributeValueProjectionSchemaJson,
+    omit: AttributeValueProjectionSchemaJson,
+    include: AttributeValueIncludeSchemaJson,
+  })
+  .partial();
+
+export const AttributeValueQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: AttributeValueWhereSchemaJson,
+    select: AttributeValueProjectionSchemaJson,
+    omit: AttributeValueProjectionSchemaJson,
+    include: AttributeValueIncludeSchemaJson,
+  })
+  .partial();
 
 export type AttributeValueCreate = z.infer<typeof AttributeValueCreateSchema>;
 
@@ -2771,6 +3567,8 @@ export type AttributeValueOwnQueryOne = z.infer<
 
 export type AttributeValueWhere = z.infer<typeof AttributeValueWhereSchema>;
 
+export type AttributeValueInclude = z.infer<typeof AttributeValueIncludeSchema>;
+
 export type AttributeValueQueryOne = z.infer<
   typeof AttributeValueQueryOneSchema
 >;
@@ -2780,6 +3578,26 @@ export type AttributeValueQuery = z.infer<typeof AttributeValueQuerySchema>;
 export type AttributeValueProjection = z.infer<
   typeof AttributeValueProjectionSchema
 >;
+
+export const CurrencyQueryOneSchema = z
+  .object({
+    where: CurrencyWhereSchemaJson,
+    select: CurrencyProjectionSchemaJson,
+    omit: CurrencyProjectionSchemaJson,
+    include: CurrencyIncludeSchemaJson,
+  })
+  .partial();
+
+export const CurrencyQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: CurrencyWhereSchemaJson,
+    select: CurrencyProjectionSchemaJson,
+    omit: CurrencyProjectionSchemaJson,
+    include: CurrencyIncludeSchemaJson,
+  })
+  .partial();
 
 export type CurrencyCreate = z.infer<typeof CurrencyCreateSchema>;
 
@@ -2797,11 +3615,33 @@ export type CurrencyOwnQueryOne = z.infer<typeof CurrencyOwnQueryOneSchema>;
 
 export type CurrencyWhere = z.infer<typeof CurrencyWhereSchema>;
 
+export type CurrencyInclude = z.infer<typeof CurrencyIncludeSchema>;
+
 export type CurrencyQueryOne = z.infer<typeof CurrencyQueryOneSchema>;
 
 export type CurrencyQuery = z.infer<typeof CurrencyQuerySchema>;
 
 export type CurrencyProjection = z.infer<typeof CurrencyProjectionSchema>;
+
+export const PriceLevelQueryOneSchema = z
+  .object({
+    where: PriceLevelWhereSchemaJson,
+    select: PriceLevelProjectionSchemaJson,
+    omit: PriceLevelProjectionSchemaJson,
+    include: PriceLevelIncludeSchemaJson,
+  })
+  .partial();
+
+export const PriceLevelQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PriceLevelWhereSchemaJson,
+    select: PriceLevelProjectionSchemaJson,
+    omit: PriceLevelProjectionSchemaJson,
+    include: PriceLevelIncludeSchemaJson,
+  })
+  .partial();
 
 export type PriceLevelCreate = z.infer<typeof PriceLevelCreateSchema>;
 
@@ -2821,11 +3661,33 @@ export type PriceLevelOwnQueryOne = z.infer<typeof PriceLevelOwnQueryOneSchema>;
 
 export type PriceLevelWhere = z.infer<typeof PriceLevelWhereSchema>;
 
+export type PriceLevelInclude = z.infer<typeof PriceLevelIncludeSchema>;
+
 export type PriceLevelQueryOne = z.infer<typeof PriceLevelQueryOneSchema>;
 
 export type PriceLevelQuery = z.infer<typeof PriceLevelQuerySchema>;
 
 export type PriceLevelProjection = z.infer<typeof PriceLevelProjectionSchema>;
+
+export const PriceQueryOneSchema = z
+  .object({
+    where: PriceWhereSchemaJson,
+    select: PriceProjectionSchemaJson,
+    omit: PriceProjectionSchemaJson,
+    include: PriceIncludeSchemaJson,
+  })
+  .partial();
+
+export const PriceQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PriceWhereSchemaJson,
+    select: PriceProjectionSchemaJson,
+    omit: PriceProjectionSchemaJson,
+    include: PriceIncludeSchemaJson,
+  })
+  .partial();
 
 export type PriceCreate = z.infer<typeof PriceCreateSchema>;
 
@@ -2843,11 +3705,33 @@ export type PriceOwnQueryOne = z.infer<typeof PriceOwnQueryOneSchema>;
 
 export type PriceWhere = z.infer<typeof PriceWhereSchema>;
 
+export type PriceInclude = z.infer<typeof PriceIncludeSchema>;
+
 export type PriceQueryOne = z.infer<typeof PriceQueryOneSchema>;
 
 export type PriceQuery = z.infer<typeof PriceQuerySchema>;
 
 export type PriceProjection = z.infer<typeof PriceProjectionSchema>;
+
+export const QuantityQueryOneSchema = z
+  .object({
+    where: QuantityWhereSchemaJson,
+    select: QuantityProjectionSchemaJson,
+    omit: QuantityProjectionSchemaJson,
+    include: QuantityIncludeSchemaJson,
+  })
+  .partial();
+
+export const QuantityQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: QuantityWhereSchemaJson,
+    select: QuantityProjectionSchemaJson,
+    omit: QuantityProjectionSchemaJson,
+    include: QuantityIncludeSchemaJson,
+  })
+  .partial();
 
 export type QuantityCreate = z.infer<typeof QuantityCreateSchema>;
 
@@ -2865,11 +3749,33 @@ export type QuantityOwnQueryOne = z.infer<typeof QuantityOwnQueryOneSchema>;
 
 export type QuantityWhere = z.infer<typeof QuantityWhereSchema>;
 
+export type QuantityInclude = z.infer<typeof QuantityIncludeSchema>;
+
 export type QuantityQueryOne = z.infer<typeof QuantityQueryOneSchema>;
 
 export type QuantityQuery = z.infer<typeof QuantityQuerySchema>;
 
 export type QuantityProjection = z.infer<typeof QuantityProjectionSchema>;
+
+export const SerialNumberQueryOneSchema = z
+  .object({
+    where: SerialNumberWhereSchemaJson,
+    select: SerialNumberProjectionSchemaJson,
+    omit: SerialNumberProjectionSchemaJson,
+    include: SerialNumberIncludeSchemaJson,
+  })
+  .partial();
+
+export const SerialNumberQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: SerialNumberWhereSchemaJson,
+    select: SerialNumberProjectionSchemaJson,
+    omit: SerialNumberProjectionSchemaJson,
+    include: SerialNumberIncludeSchemaJson,
+  })
+  .partial();
 
 export type SerialNumberCreate = z.infer<typeof SerialNumberCreateSchema>;
 
@@ -2891,6 +3797,8 @@ export type SerialNumberOwnQueryOne = z.infer<
 
 export type SerialNumberWhere = z.infer<typeof SerialNumberWhereSchema>;
 
+export type SerialNumberInclude = z.infer<typeof SerialNumberIncludeSchema>;
+
 export type SerialNumberQueryOne = z.infer<typeof SerialNumberQueryOneSchema>;
 
 export type SerialNumberQuery = z.infer<typeof SerialNumberQuerySchema>;
@@ -2898,6 +3806,26 @@ export type SerialNumberQuery = z.infer<typeof SerialNumberQuerySchema>;
 export type SerialNumberProjection = z.infer<
   typeof SerialNumberProjectionSchema
 >;
+
+export const DiscountQueryOneSchema = z
+  .object({
+    where: DiscountWhereSchemaJson,
+    select: DiscountProjectionSchemaJson,
+    omit: DiscountProjectionSchemaJson,
+    include: DiscountIncludeSchemaJson,
+  })
+  .partial();
+
+export const DiscountQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: DiscountWhereSchemaJson,
+    select: DiscountProjectionSchemaJson,
+    omit: DiscountProjectionSchemaJson,
+    include: DiscountIncludeSchemaJson,
+  })
+  .partial();
 
 export type DiscountCreate = z.infer<typeof DiscountCreateSchema>;
 
@@ -2915,11 +3843,33 @@ export type DiscountOwnQueryOne = z.infer<typeof DiscountOwnQueryOneSchema>;
 
 export type DiscountWhere = z.infer<typeof DiscountWhereSchema>;
 
+export type DiscountInclude = z.infer<typeof DiscountIncludeSchema>;
+
 export type DiscountQueryOne = z.infer<typeof DiscountQueryOneSchema>;
 
 export type DiscountQuery = z.infer<typeof DiscountQuerySchema>;
 
 export type DiscountProjection = z.infer<typeof DiscountProjectionSchema>;
+
+export const DiscountTargetQueryOneSchema = z
+  .object({
+    where: DiscountTargetWhereSchemaJson,
+    select: DiscountTargetProjectionSchemaJson,
+    omit: DiscountTargetProjectionSchemaJson,
+    include: DiscountTargetIncludeSchemaJson,
+  })
+  .partial();
+
+export const DiscountTargetQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: DiscountTargetWhereSchemaJson,
+    select: DiscountTargetProjectionSchemaJson,
+    omit: DiscountTargetProjectionSchemaJson,
+    include: DiscountTargetIncludeSchemaJson,
+  })
+  .partial();
 
 export type DiscountTargetCreate = z.infer<typeof DiscountTargetCreateSchema>;
 
@@ -2945,6 +3895,8 @@ export type DiscountTargetOwnQueryOne = z.infer<
 
 export type DiscountTargetWhere = z.infer<typeof DiscountTargetWhereSchema>;
 
+export type DiscountTargetInclude = z.infer<typeof DiscountTargetIncludeSchema>;
+
 export type DiscountTargetQueryOne = z.infer<
   typeof DiscountTargetQueryOneSchema
 >;
@@ -2954,6 +3906,26 @@ export type DiscountTargetQuery = z.infer<typeof DiscountTargetQuerySchema>;
 export type DiscountTargetProjection = z.infer<
   typeof DiscountTargetProjectionSchema
 >;
+
+export const StoreQueryOneSchema = z
+  .object({
+    where: StoreWhereSchemaJson,
+    select: StoreProjectionSchemaJson,
+    omit: StoreProjectionSchemaJson,
+    include: StoreIncludeSchemaJson,
+  })
+  .partial();
+
+export const StoreQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: StoreWhereSchemaJson,
+    select: StoreProjectionSchemaJson,
+    omit: StoreProjectionSchemaJson,
+    include: StoreIncludeSchemaJson,
+  })
+  .partial();
 
 export type StoreCreate = z.infer<typeof StoreCreateSchema>;
 
@@ -2971,11 +3943,33 @@ export type StoreOwnQueryOne = z.infer<typeof StoreOwnQueryOneSchema>;
 
 export type StoreWhere = z.infer<typeof StoreWhereSchema>;
 
+export type StoreInclude = z.infer<typeof StoreIncludeSchema>;
+
 export type StoreQueryOne = z.infer<typeof StoreQueryOneSchema>;
 
 export type StoreQuery = z.infer<typeof StoreQuerySchema>;
 
 export type StoreProjection = z.infer<typeof StoreProjectionSchema>;
+
+export const WarrantyPolicyQueryOneSchema = z
+  .object({
+    where: WarrantyPolicyWhereSchemaJson,
+    select: WarrantyPolicyProjectionSchemaJson,
+    omit: WarrantyPolicyProjectionSchemaJson,
+    include: WarrantyPolicyIncludeSchemaJson,
+  })
+  .partial();
+
+export const WarrantyPolicyQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: WarrantyPolicyWhereSchemaJson,
+    select: WarrantyPolicyProjectionSchemaJson,
+    omit: WarrantyPolicyProjectionSchemaJson,
+    include: WarrantyPolicyIncludeSchemaJson,
+  })
+  .partial();
 
 export type WarrantyPolicyCreate = z.infer<typeof WarrantyPolicyCreateSchema>;
 
@@ -3001,6 +3995,8 @@ export type WarrantyPolicyOwnQueryOne = z.infer<
 
 export type WarrantyPolicyWhere = z.infer<typeof WarrantyPolicyWhereSchema>;
 
+export type WarrantyPolicyInclude = z.infer<typeof WarrantyPolicyIncludeSchema>;
+
 export type WarrantyPolicyQueryOne = z.infer<
   typeof WarrantyPolicyQueryOneSchema
 >;
@@ -3010,6 +4006,26 @@ export type WarrantyPolicyQuery = z.infer<typeof WarrantyPolicyQuerySchema>;
 export type WarrantyPolicyProjection = z.infer<
   typeof WarrantyPolicyProjectionSchema
 >;
+
+export const ProductWarrantyQueryOneSchema = z
+  .object({
+    where: ProductWarrantyWhereSchemaJson,
+    select: ProductWarrantyProjectionSchemaJson,
+    omit: ProductWarrantyProjectionSchemaJson,
+    include: ProductWarrantyIncludeSchemaJson,
+  })
+  .partial();
+
+export const ProductWarrantyQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ProductWarrantyWhereSchemaJson,
+    select: ProductWarrantyProjectionSchemaJson,
+    omit: ProductWarrantyProjectionSchemaJson,
+    include: ProductWarrantyIncludeSchemaJson,
+  })
+  .partial();
 
 export type ProductWarrantyCreate = z.infer<typeof ProductWarrantyCreateSchema>;
 
@@ -3036,6 +4052,10 @@ export type ProductWarrantyOwnQueryOne = z.infer<
 >;
 
 export type ProductWarrantyWhere = z.infer<typeof ProductWarrantyWhereSchema>;
+
+export type ProductWarrantyInclude = z.infer<
+  typeof ProductWarrantyIncludeSchema
+>;
 
 export type ProductWarrantyQueryOne = z.infer<
   typeof ProductWarrantyQueryOneSchema

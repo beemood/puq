@@ -1,6 +1,36 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as PZ from '@puq/zod';
 import { z } from 'zod';
 import { slugify } from '@puq/names';
+
+export const takeSchema = z.coerce.number().int().min(1).default(20).optional();
+export const skipSchema = z.coerce.number().int().min(0).default(0).optional();
+
+export const PaginationSchema = z
+  .object({
+    take: takeSchema,
+    skip: skipSchema,
+  })
+  .partial();
+
+export function jsonParser<T>(value: T) {
+  if (typeof value === 'string') {
+    return JSON.parse(value);
+  }
+  return value;
+}
+
+export function slugTransformer(key: string) {
+  return (value: any) => {
+    if (value.slug == undefined && value[key] != undefined) {
+      return {
+        ...value,
+        slug: value[key] ? slugify(value[key].toString()) : null,
+      };
+    }
+    return value;
+  };
+}
 
 export const ContactTypeSchema = z.enum([
   'RESIDENCE_ADDRESS',
@@ -104,6 +134,11 @@ export const DepartmentOwnProjectionSchema = z
   })
   .partial();
 
+export const DepartmentOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  DepartmentOwnProjectionSchema
+);
+
 export const TitleOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -118,6 +153,11 @@ export const TitleOwnProjectionSchema = z
   })
   .partial();
 
+export const TitleOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TitleOwnProjectionSchema
+);
+
 export const PersonalDataOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -129,6 +169,11 @@ export const PersonalDataOwnProjectionSchema = z
     employee: z.boolean(),
   })
   .partial();
+
+export const PersonalDataOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PersonalDataOwnProjectionSchema
+);
 
 export const EmployeeOwnProjectionSchema = z
   .object({
@@ -166,6 +211,11 @@ export const EmployeeOwnProjectionSchema = z
   })
   .partial();
 
+export const EmployeeOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeOwnProjectionSchema
+);
+
 export const TeamOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -174,6 +224,11 @@ export const TeamOwnProjectionSchema = z
     managers: z.boolean(),
   })
   .partial();
+
+export const TeamOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TeamOwnProjectionSchema
+);
 
 export const TeamManagerOwnProjectionSchema = z
   .object({
@@ -185,6 +240,11 @@ export const TeamManagerOwnProjectionSchema = z
   })
   .partial();
 
+export const TeamManagerOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TeamManagerOwnProjectionSchema
+);
+
 export const TeamMemberOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -194,6 +254,11 @@ export const TeamMemberOwnProjectionSchema = z
     team: z.boolean(),
   })
   .partial();
+
+export const TeamMemberOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TeamMemberOwnProjectionSchema
+);
 
 export const SalaryOwnProjectionSchema = z
   .object({
@@ -207,6 +272,11 @@ export const SalaryOwnProjectionSchema = z
   })
   .partial();
 
+export const SalaryOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  SalaryOwnProjectionSchema
+);
+
 export const SalaryHistoryOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -219,6 +289,11 @@ export const SalaryHistoryOwnProjectionSchema = z
   })
   .partial();
 
+export const SalaryHistoryOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  SalaryHistoryOwnProjectionSchema
+);
+
 export const BenefitOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -228,6 +303,11 @@ export const BenefitOwnProjectionSchema = z
     enrolments: z.boolean(),
   })
   .partial();
+
+export const BenefitOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  BenefitOwnProjectionSchema
+);
 
 export const BenefitEnrolmentOwnProjectionSchema = z
   .object({
@@ -240,6 +320,11 @@ export const BenefitEnrolmentOwnProjectionSchema = z
     employee: z.boolean(),
   })
   .partial();
+
+export const BenefitEnrolmentOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  BenefitEnrolmentOwnProjectionSchema
+);
 
 export const TitleHistoryOwnProjectionSchema = z
   .object({
@@ -255,6 +340,11 @@ export const TitleHistoryOwnProjectionSchema = z
   })
   .partial();
 
+export const TitleHistoryOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TitleHistoryOwnProjectionSchema
+);
+
 export const TimeOffPolicyOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -266,6 +356,11 @@ export const TimeOffPolicyOwnProjectionSchema = z
     requests: z.boolean(),
   })
   .partial();
+
+export const TimeOffPolicyOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffPolicyOwnProjectionSchema
+);
 
 export const TimeOffBalanceOwnProjectionSchema = z
   .object({
@@ -280,6 +375,11 @@ export const TimeOffBalanceOwnProjectionSchema = z
     transactions: z.boolean(),
   })
   .partial();
+
+export const TimeOffBalanceOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffBalanceOwnProjectionSchema
+);
 
 export const TimeOffRequestOwnProjectionSchema = z
   .object({
@@ -299,6 +399,11 @@ export const TimeOffRequestOwnProjectionSchema = z
   })
   .partial();
 
+export const TimeOffRequestOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffRequestOwnProjectionSchema
+);
+
 export const TimeOffTransactionOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -313,6 +418,11 @@ export const TimeOffTransactionOwnProjectionSchema = z
   })
   .partial();
 
+export const TimeOffTransactionOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffTransactionOwnProjectionSchema
+);
+
 export const ClockInOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -322,6 +432,11 @@ export const ClockInOwnProjectionSchema = z
     employee: z.boolean(),
   })
   .partial();
+
+export const ClockInOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ClockInOwnProjectionSchema
+);
 
 export const PaycheckOwnProjectionSchema = z
   .object({
@@ -340,6 +455,11 @@ export const PaycheckOwnProjectionSchema = z
   })
   .partial();
 
+export const PaycheckOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PaycheckOwnProjectionSchema
+);
+
 export const EarningOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -352,6 +472,11 @@ export const EarningOwnProjectionSchema = z
   })
   .partial();
 
+export const EarningOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  EarningOwnProjectionSchema
+);
+
 export const PaycheckTaxOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -361,6 +486,11 @@ export const PaycheckTaxOwnProjectionSchema = z
     paycheck: z.boolean(),
   })
   .partial();
+
+export const PaycheckTaxOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PaycheckTaxOwnProjectionSchema
+);
 
 export const DeductionPolicyOwnProjectionSchema = z
   .object({
@@ -372,6 +502,11 @@ export const DeductionPolicyOwnProjectionSchema = z
     employeeDeductions: z.boolean(),
   })
   .partial();
+
+export const DeductionPolicyOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  DeductionPolicyOwnProjectionSchema
+);
 
 export const EmployeeDeductionOwnProjectionSchema = z
   .object({
@@ -385,6 +520,11 @@ export const EmployeeDeductionOwnProjectionSchema = z
   })
   .partial();
 
+export const EmployeeDeductionOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeDeductionOwnProjectionSchema
+);
+
 export const PaycheckDeductionOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -395,6 +535,11 @@ export const PaycheckDeductionOwnProjectionSchema = z
     employeeDeduction: z.boolean(),
   })
   .partial();
+
+export const PaycheckDeductionOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PaycheckDeductionOwnProjectionSchema
+);
 
 export const EmployeeTaxDataOwnProjectionSchema = z
   .object({
@@ -418,6 +563,11 @@ export const EmployeeTaxDataOwnProjectionSchema = z
   })
   .partial();
 
+export const EmployeeTaxDataOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeTaxDataOwnProjectionSchema
+);
+
 export const StateTaxWithholdingOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -430,6 +580,11 @@ export const StateTaxWithholdingOwnProjectionSchema = z
   })
   .partial();
 
+export const StateTaxWithholdingOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  StateTaxWithholdingOwnProjectionSchema
+);
+
 export const LocalTaxWithholdingOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -440,6 +595,11 @@ export const LocalTaxWithholdingOwnProjectionSchema = z
     taxData: z.boolean(),
   })
   .partial();
+
+export const LocalTaxWithholdingOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  LocalTaxWithholdingOwnProjectionSchema
+);
 
 export const PayrollRunOwnProjectionSchema = z
   .object({
@@ -453,6 +613,11 @@ export const PayrollRunOwnProjectionSchema = z
     paychecks: z.boolean(),
   })
   .partial();
+
+export const PayrollRunOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PayrollRunOwnProjectionSchema
+);
 
 export const ContactOwnProjectionSchema = z
   .object({
@@ -468,6 +633,11 @@ export const ContactOwnProjectionSchema = z
   })
   .partial();
 
+export const ContactOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ContactOwnProjectionSchema
+);
+
 export const CountryOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -476,6 +646,11 @@ export const CountryOwnProjectionSchema = z
     states: z.boolean(),
   })
   .partial();
+
+export const CountryOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  CountryOwnProjectionSchema
+);
 
 export const StateOwnProjectionSchema = z
   .object({
@@ -487,6 +662,11 @@ export const StateOwnProjectionSchema = z
     addresses: z.boolean(),
   })
   .partial();
+
+export const StateOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  StateOwnProjectionSchema
+);
 
 export const AddressOwnProjectionSchema = z
   .object({
@@ -503,6 +683,11 @@ export const AddressOwnProjectionSchema = z
   })
   .partial();
 
+export const AddressOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  AddressOwnProjectionSchema
+);
+
 export const EmailOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -513,6 +698,11 @@ export const EmailOwnProjectionSchema = z
     primary: z.boolean(),
   })
   .partial();
+
+export const EmailOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  EmailOwnProjectionSchema
+);
 
 export const PhoneOwnProjectionSchema = z
   .object({
@@ -525,6 +715,11 @@ export const PhoneOwnProjectionSchema = z
   })
   .partial();
 
+export const PhoneOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PhoneOwnProjectionSchema
+);
+
 export const PrimaryEmailOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -534,6 +729,11 @@ export const PrimaryEmailOwnProjectionSchema = z
     contact: z.boolean(),
   })
   .partial();
+
+export const PrimaryEmailOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PrimaryEmailOwnProjectionSchema
+);
 
 export const PrimaryPhoneOwnProjectionSchema = z
   .object({
@@ -545,6 +745,11 @@ export const PrimaryPhoneOwnProjectionSchema = z
   })
   .partial();
 
+export const PrimaryPhoneOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PrimaryPhoneOwnProjectionSchema
+);
+
 export const PrimaryAddressOwnProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -555,6 +760,11 @@ export const PrimaryAddressOwnProjectionSchema = z
   })
   .partial();
 
+export const PrimaryAddressOwnProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PrimaryAddressOwnProjectionSchema
+);
+
 export const DepartmentOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -564,6 +774,11 @@ export const DepartmentOwnWhereSchema = z
     isActive: PZ.BooleanFilterSchema,
   })
   .partial();
+
+export const DepartmentOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  DepartmentOwnWhereSchema
+);
 
 export const TitleOwnWhereSchema = z
   .object({
@@ -576,6 +791,11 @@ export const TitleOwnWhereSchema = z
   })
   .partial();
 
+export const TitleOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TitleOwnWhereSchema
+);
+
 export const PersonalDataOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -586,6 +806,11 @@ export const PersonalDataOwnWhereSchema = z
     maritalStatus: MaritalStatusSchema,
   })
   .partial();
+
+export const PersonalDataOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PersonalDataOwnWhereSchema
+);
 
 export const EmployeeOwnWhereSchema = z
   .object({
@@ -604,12 +829,22 @@ export const EmployeeOwnWhereSchema = z
   })
   .partial();
 
+export const EmployeeOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeOwnWhereSchema
+);
+
 export const TeamOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
     name: PZ.StringFilterSchema,
   })
   .partial();
+
+export const TeamOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TeamOwnWhereSchema
+);
 
 export const TeamManagerOwnWhereSchema = z
   .object({
@@ -619,6 +854,11 @@ export const TeamManagerOwnWhereSchema = z
   })
   .partial();
 
+export const TeamManagerOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TeamManagerOwnWhereSchema
+);
+
 export const TeamMemberOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -626,6 +866,11 @@ export const TeamMemberOwnWhereSchema = z
     memberId: PZ.IntegerFilterSchema,
   })
   .partial();
+
+export const TeamMemberOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TeamMemberOwnWhereSchema
+);
 
 export const SalaryOwnWhereSchema = z
   .object({
@@ -638,6 +883,11 @@ export const SalaryOwnWhereSchema = z
   })
   .partial();
 
+export const SalaryOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  SalaryOwnWhereSchema
+);
+
 export const SalaryHistoryOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -649,6 +899,11 @@ export const SalaryHistoryOwnWhereSchema = z
   })
   .partial();
 
+export const SalaryHistoryOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  SalaryHistoryOwnWhereSchema
+);
+
 export const BenefitOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -657,6 +912,11 @@ export const BenefitOwnWhereSchema = z
     type: PZ.StringFilterSchema,
   })
   .partial();
+
+export const BenefitOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  BenefitOwnWhereSchema
+);
 
 export const BenefitEnrolmentOwnWhereSchema = z
   .object({
@@ -667,6 +927,11 @@ export const BenefitEnrolmentOwnWhereSchema = z
     status: BenefitStatusSchema,
   })
   .partial();
+
+export const BenefitEnrolmentOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  BenefitEnrolmentOwnWhereSchema
+);
 
 export const TitleHistoryOwnWhereSchema = z
   .object({
@@ -680,6 +945,11 @@ export const TitleHistoryOwnWhereSchema = z
   })
   .partial();
 
+export const TitleHistoryOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TitleHistoryOwnWhereSchema
+);
+
 export const TimeOffPolicyOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -689,6 +959,11 @@ export const TimeOffPolicyOwnWhereSchema = z
     maxRollover: PZ.NumberFilterSchema,
   })
   .partial();
+
+export const TimeOffPolicyOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffPolicyOwnWhereSchema
+);
 
 export const TimeOffBalanceOwnWhereSchema = z
   .object({
@@ -700,6 +975,11 @@ export const TimeOffBalanceOwnWhereSchema = z
     availableHours: PZ.NumberFilterSchema,
   })
   .partial();
+
+export const TimeOffBalanceOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffBalanceOwnWhereSchema
+);
 
 export const TimeOffRequestOwnWhereSchema = z
   .object({
@@ -715,6 +995,11 @@ export const TimeOffRequestOwnWhereSchema = z
   })
   .partial();
 
+export const TimeOffRequestOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffRequestOwnWhereSchema
+);
+
 export const TimeOffTransactionOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -727,6 +1012,11 @@ export const TimeOffTransactionOwnWhereSchema = z
   })
   .partial();
 
+export const TimeOffTransactionOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffTransactionOwnWhereSchema
+);
+
 export const ClockInOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -735,6 +1025,11 @@ export const ClockInOwnWhereSchema = z
     clockOut: PZ.DateTimeFilterSchema,
   })
   .partial();
+
+export const ClockInOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  ClockInOwnWhereSchema
+);
 
 export const PaycheckOwnWhereSchema = z
   .object({
@@ -748,6 +1043,11 @@ export const PaycheckOwnWhereSchema = z
   })
   .partial();
 
+export const PaycheckOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PaycheckOwnWhereSchema
+);
+
 export const EarningOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -759,6 +1059,11 @@ export const EarningOwnWhereSchema = z
   })
   .partial();
 
+export const EarningOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  EarningOwnWhereSchema
+);
+
 export const PaycheckTaxOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -767,6 +1072,11 @@ export const PaycheckTaxOwnWhereSchema = z
     amount: PZ.NumberFilterSchema,
   })
   .partial();
+
+export const PaycheckTaxOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PaycheckTaxOwnWhereSchema
+);
 
 export const DeductionPolicyOwnWhereSchema = z
   .object({
@@ -778,6 +1088,11 @@ export const DeductionPolicyOwnWhereSchema = z
   })
   .partial();
 
+export const DeductionPolicyOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  DeductionPolicyOwnWhereSchema
+);
+
 export const EmployeeDeductionOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -787,6 +1102,11 @@ export const EmployeeDeductionOwnWhereSchema = z
   })
   .partial();
 
+export const EmployeeDeductionOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeDeductionOwnWhereSchema
+);
+
 export const PaycheckDeductionOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -795,6 +1115,11 @@ export const PaycheckDeductionOwnWhereSchema = z
     amount: PZ.NumberFilterSchema,
   })
   .partial();
+
+export const PaycheckDeductionOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PaycheckDeductionOwnWhereSchema
+);
 
 export const EmployeeTaxDataOwnWhereSchema = z
   .object({
@@ -815,6 +1140,11 @@ export const EmployeeTaxDataOwnWhereSchema = z
   })
   .partial();
 
+export const EmployeeTaxDataOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeTaxDataOwnWhereSchema
+);
+
 export const StateTaxWithholdingOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -826,6 +1156,11 @@ export const StateTaxWithholdingOwnWhereSchema = z
   })
   .partial();
 
+export const StateTaxWithholdingOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  StateTaxWithholdingOwnWhereSchema
+);
+
 export const LocalTaxWithholdingOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -835,6 +1170,11 @@ export const LocalTaxWithholdingOwnWhereSchema = z
     extraWithholding: PZ.NumberFilterSchema,
   })
   .partial();
+
+export const LocalTaxWithholdingOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  LocalTaxWithholdingOwnWhereSchema
+);
 
 export const PayrollRunOwnWhereSchema = z
   .object({
@@ -847,12 +1187,22 @@ export const PayrollRunOwnWhereSchema = z
   })
   .partial();
 
+export const PayrollRunOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PayrollRunOwnWhereSchema
+);
+
 export const ContactOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
     employeeId: PZ.IntegerFilterSchema,
   })
   .partial();
+
+export const ContactOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  ContactOwnWhereSchema
+);
 
 export const CountryOwnWhereSchema = z
   .object({
@@ -862,6 +1212,11 @@ export const CountryOwnWhereSchema = z
   })
   .partial();
 
+export const CountryOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  CountryOwnWhereSchema
+);
+
 export const StateOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -870,6 +1225,11 @@ export const StateOwnWhereSchema = z
     code: PZ.StringFilterSchema,
   })
   .partial();
+
+export const StateOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  StateOwnWhereSchema
+);
 
 export const AddressOwnWhereSchema = z
   .object({
@@ -883,6 +1243,11 @@ export const AddressOwnWhereSchema = z
   })
   .partial();
 
+export const AddressOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  AddressOwnWhereSchema
+);
+
 export const EmailOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -891,6 +1256,11 @@ export const EmailOwnWhereSchema = z
     email: PZ.StringFilterSchema,
   })
   .partial();
+
+export const EmailOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  EmailOwnWhereSchema
+);
 
 export const PhoneOwnWhereSchema = z
   .object({
@@ -901,6 +1271,11 @@ export const PhoneOwnWhereSchema = z
   })
   .partial();
 
+export const PhoneOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PhoneOwnWhereSchema
+);
+
 export const PrimaryEmailOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -908,6 +1283,11 @@ export const PrimaryEmailOwnWhereSchema = z
     contactId: PZ.IntegerFilterSchema,
   })
   .partial();
+
+export const PrimaryEmailOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PrimaryEmailOwnWhereSchema
+);
 
 export const PrimaryPhoneOwnWhereSchema = z
   .object({
@@ -917,6 +1297,11 @@ export const PrimaryPhoneOwnWhereSchema = z
   })
   .partial();
 
+export const PrimaryPhoneOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PrimaryPhoneOwnWhereSchema
+);
+
 export const PrimaryAddressOwnWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -925,651 +1310,1182 @@ export const PrimaryAddressOwnWhereSchema = z
   })
   .partial();
 
+export const PrimaryAddressOwnWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PrimaryAddressOwnWhereSchema
+);
+
+export const DepartmentOwnIncludeSchema = z
+  .object({
+    parent: z.boolean(),
+    departments: z.boolean(),
+    titles: z.boolean(),
+  })
+  .partial();
+
+export const DepartmentOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  DepartmentOwnIncludeSchema
+);
+
 export const DepartmentOwnQueryOneSchema = z
   .object({
-    where: DepartmentOwnWhereSchema,
-    select: DepartmentOwnProjectionSchema,
-    omit: DepartmentOwnProjectionSchema,
+    where: DepartmentOwnWhereSchemaJson,
+    select: DepartmentOwnProjectionSchemaJson,
+    omit: DepartmentOwnProjectionSchemaJson,
+    include: DepartmentOwnIncludeSchemaJson,
   })
   .partial();
 
 export const DepartmentOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: DepartmentOwnWhereSchema,
-    select: DepartmentOwnProjectionSchema,
-    omit: DepartmentOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: DepartmentOwnWhereSchemaJson,
+    select: DepartmentOwnProjectionSchemaJson,
+    omit: DepartmentOwnProjectionSchemaJson,
+    include: DepartmentOwnIncludeSchemaJson,
   })
   .partial();
 
+export const TitleOwnIncludeSchema = z
+  .object({
+    department: z.boolean(),
+    employees: z.boolean(),
+    histories: z.boolean(),
+  })
+  .partial();
+
+export const TitleOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TitleOwnIncludeSchema
+);
+
 export const TitleOwnQueryOneSchema = z
   .object({
-    where: TitleOwnWhereSchema,
-    select: TitleOwnProjectionSchema,
-    omit: TitleOwnProjectionSchema,
+    where: TitleOwnWhereSchemaJson,
+    select: TitleOwnProjectionSchemaJson,
+    omit: TitleOwnProjectionSchemaJson,
+    include: TitleOwnIncludeSchemaJson,
   })
   .partial();
 
 export const TitleOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TitleOwnWhereSchema,
-    select: TitleOwnProjectionSchema,
-    omit: TitleOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TitleOwnWhereSchemaJson,
+    select: TitleOwnProjectionSchemaJson,
+    omit: TitleOwnProjectionSchemaJson,
+    include: TitleOwnIncludeSchemaJson,
   })
   .partial();
 
+export const PersonalDataOwnIncludeSchema = z
+  .object({
+    employee: z.boolean(),
+  })
+  .partial();
+
+export const PersonalDataOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PersonalDataOwnIncludeSchema
+);
+
 export const PersonalDataOwnQueryOneSchema = z
   .object({
-    where: PersonalDataOwnWhereSchema,
-    select: PersonalDataOwnProjectionSchema,
-    omit: PersonalDataOwnProjectionSchema,
+    where: PersonalDataOwnWhereSchemaJson,
+    select: PersonalDataOwnProjectionSchemaJson,
+    omit: PersonalDataOwnProjectionSchemaJson,
+    include: PersonalDataOwnIncludeSchemaJson,
   })
   .partial();
 
 export const PersonalDataOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PersonalDataOwnWhereSchema,
-    select: PersonalDataOwnProjectionSchema,
-    omit: PersonalDataOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PersonalDataOwnWhereSchemaJson,
+    select: PersonalDataOwnProjectionSchemaJson,
+    omit: PersonalDataOwnProjectionSchemaJson,
+    include: PersonalDataOwnIncludeSchemaJson,
   })
   .partial();
 
+export const EmployeeOwnIncludeSchema = z
+  .object({
+    title: z.boolean(),
+    salary: z.boolean(),
+    salaryHistory: z.boolean(),
+    benefits: z.boolean(),
+    titleHistory: z.boolean(),
+    timeOffBalances: z.boolean(),
+    timeOffRequests: z.boolean(),
+    resolvedTimeOffs: z.boolean(),
+    clockIns: z.boolean(),
+    personalData: z.boolean(),
+    taxData: z.boolean(),
+    memberships: z.boolean(),
+    managingTeams: z.boolean(),
+    managingEmployees: z.boolean(),
+    directManager: z.boolean(),
+    paychecks: z.boolean(),
+    deductions: z.boolean(),
+    resolvedPayrollRuns: z.boolean(),
+    contact: z.boolean(),
+  })
+  .partial();
+
+export const EmployeeOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeOwnIncludeSchema
+);
+
 export const EmployeeOwnQueryOneSchema = z
   .object({
-    where: EmployeeOwnWhereSchema,
-    select: EmployeeOwnProjectionSchema,
-    omit: EmployeeOwnProjectionSchema,
+    where: EmployeeOwnWhereSchemaJson,
+    select: EmployeeOwnProjectionSchemaJson,
+    omit: EmployeeOwnProjectionSchemaJson,
+    include: EmployeeOwnIncludeSchemaJson,
   })
   .partial();
 
 export const EmployeeOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: EmployeeOwnWhereSchema,
-    select: EmployeeOwnProjectionSchema,
-    omit: EmployeeOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: EmployeeOwnWhereSchemaJson,
+    select: EmployeeOwnProjectionSchemaJson,
+    omit: EmployeeOwnProjectionSchemaJson,
+    include: EmployeeOwnIncludeSchemaJson,
   })
   .partial();
 
+export const TeamOwnIncludeSchema = z
+  .object({
+    members: z.boolean(),
+    managers: z.boolean(),
+  })
+  .partial();
+
+export const TeamOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TeamOwnIncludeSchema
+);
+
 export const TeamOwnQueryOneSchema = z
   .object({
-    where: TeamOwnWhereSchema,
-    select: TeamOwnProjectionSchema,
-    omit: TeamOwnProjectionSchema,
+    where: TeamOwnWhereSchemaJson,
+    select: TeamOwnProjectionSchemaJson,
+    omit: TeamOwnProjectionSchemaJson,
+    include: TeamOwnIncludeSchemaJson,
   })
   .partial();
 
 export const TeamOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TeamOwnWhereSchema,
-    select: TeamOwnProjectionSchema,
-    omit: TeamOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TeamOwnWhereSchemaJson,
+    select: TeamOwnProjectionSchemaJson,
+    omit: TeamOwnProjectionSchemaJson,
+    include: TeamOwnIncludeSchemaJson,
   })
   .partial();
 
+export const TeamManagerOwnIncludeSchema = z
+  .object({
+    team: z.boolean(),
+    manager: z.boolean(),
+  })
+  .partial();
+
+export const TeamManagerOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TeamManagerOwnIncludeSchema
+);
+
 export const TeamManagerOwnQueryOneSchema = z
   .object({
-    where: TeamManagerOwnWhereSchema,
-    select: TeamManagerOwnProjectionSchema,
-    omit: TeamManagerOwnProjectionSchema,
+    where: TeamManagerOwnWhereSchemaJson,
+    select: TeamManagerOwnProjectionSchemaJson,
+    omit: TeamManagerOwnProjectionSchemaJson,
+    include: TeamManagerOwnIncludeSchemaJson,
   })
   .partial();
 
 export const TeamManagerOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TeamManagerOwnWhereSchema,
-    select: TeamManagerOwnProjectionSchema,
-    omit: TeamManagerOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TeamManagerOwnWhereSchemaJson,
+    select: TeamManagerOwnProjectionSchemaJson,
+    omit: TeamManagerOwnProjectionSchemaJson,
+    include: TeamManagerOwnIncludeSchemaJson,
   })
   .partial();
 
+export const TeamMemberOwnIncludeSchema = z
+  .object({
+    member: z.boolean(),
+    team: z.boolean(),
+  })
+  .partial();
+
+export const TeamMemberOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TeamMemberOwnIncludeSchema
+);
+
 export const TeamMemberOwnQueryOneSchema = z
   .object({
-    where: TeamMemberOwnWhereSchema,
-    select: TeamMemberOwnProjectionSchema,
-    omit: TeamMemberOwnProjectionSchema,
+    where: TeamMemberOwnWhereSchemaJson,
+    select: TeamMemberOwnProjectionSchemaJson,
+    omit: TeamMemberOwnProjectionSchemaJson,
+    include: TeamMemberOwnIncludeSchemaJson,
   })
   .partial();
 
 export const TeamMemberOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TeamMemberOwnWhereSchema,
-    select: TeamMemberOwnProjectionSchema,
-    omit: TeamMemberOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TeamMemberOwnWhereSchemaJson,
+    select: TeamMemberOwnProjectionSchemaJson,
+    omit: TeamMemberOwnProjectionSchemaJson,
+    include: TeamMemberOwnIncludeSchemaJson,
   })
   .partial();
 
+export const SalaryOwnIncludeSchema = z
+  .object({
+    employee: z.boolean(),
+  })
+  .partial();
+
+export const SalaryOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  SalaryOwnIncludeSchema
+);
+
 export const SalaryOwnQueryOneSchema = z
   .object({
-    where: SalaryOwnWhereSchema,
-    select: SalaryOwnProjectionSchema,
-    omit: SalaryOwnProjectionSchema,
+    where: SalaryOwnWhereSchemaJson,
+    select: SalaryOwnProjectionSchemaJson,
+    omit: SalaryOwnProjectionSchemaJson,
+    include: SalaryOwnIncludeSchemaJson,
   })
   .partial();
 
 export const SalaryOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: SalaryOwnWhereSchema,
-    select: SalaryOwnProjectionSchema,
-    omit: SalaryOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: SalaryOwnWhereSchemaJson,
+    select: SalaryOwnProjectionSchemaJson,
+    omit: SalaryOwnProjectionSchemaJson,
+    include: SalaryOwnIncludeSchemaJson,
   })
   .partial();
 
+export const SalaryHistoryOwnIncludeSchema = z
+  .object({
+    employee: z.boolean(),
+  })
+  .partial();
+
+export const SalaryHistoryOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  SalaryHistoryOwnIncludeSchema
+);
+
 export const SalaryHistoryOwnQueryOneSchema = z
   .object({
-    where: SalaryHistoryOwnWhereSchema,
-    select: SalaryHistoryOwnProjectionSchema,
-    omit: SalaryHistoryOwnProjectionSchema,
+    where: SalaryHistoryOwnWhereSchemaJson,
+    select: SalaryHistoryOwnProjectionSchemaJson,
+    omit: SalaryHistoryOwnProjectionSchemaJson,
+    include: SalaryHistoryOwnIncludeSchemaJson,
   })
   .partial();
 
 export const SalaryHistoryOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: SalaryHistoryOwnWhereSchema,
-    select: SalaryHistoryOwnProjectionSchema,
-    omit: SalaryHistoryOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: SalaryHistoryOwnWhereSchemaJson,
+    select: SalaryHistoryOwnProjectionSchemaJson,
+    omit: SalaryHistoryOwnProjectionSchemaJson,
+    include: SalaryHistoryOwnIncludeSchemaJson,
   })
   .partial();
 
+export const BenefitOwnIncludeSchema = z
+  .object({
+    enrolments: z.boolean(),
+  })
+  .partial();
+
+export const BenefitOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  BenefitOwnIncludeSchema
+);
+
 export const BenefitOwnQueryOneSchema = z
   .object({
-    where: BenefitOwnWhereSchema,
-    select: BenefitOwnProjectionSchema,
-    omit: BenefitOwnProjectionSchema,
+    where: BenefitOwnWhereSchemaJson,
+    select: BenefitOwnProjectionSchemaJson,
+    omit: BenefitOwnProjectionSchemaJson,
+    include: BenefitOwnIncludeSchemaJson,
   })
   .partial();
 
 export const BenefitOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: BenefitOwnWhereSchema,
-    select: BenefitOwnProjectionSchema,
-    omit: BenefitOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: BenefitOwnWhereSchemaJson,
+    select: BenefitOwnProjectionSchemaJson,
+    omit: BenefitOwnProjectionSchemaJson,
+    include: BenefitOwnIncludeSchemaJson,
   })
   .partial();
 
+export const BenefitEnrolmentOwnIncludeSchema = z
+  .object({
+    benefit: z.boolean(),
+    employee: z.boolean(),
+  })
+  .partial();
+
+export const BenefitEnrolmentOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  BenefitEnrolmentOwnIncludeSchema
+);
+
 export const BenefitEnrolmentOwnQueryOneSchema = z
   .object({
-    where: BenefitEnrolmentOwnWhereSchema,
-    select: BenefitEnrolmentOwnProjectionSchema,
-    omit: BenefitEnrolmentOwnProjectionSchema,
+    where: BenefitEnrolmentOwnWhereSchemaJson,
+    select: BenefitEnrolmentOwnProjectionSchemaJson,
+    omit: BenefitEnrolmentOwnProjectionSchemaJson,
+    include: BenefitEnrolmentOwnIncludeSchemaJson,
   })
   .partial();
 
 export const BenefitEnrolmentOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: BenefitEnrolmentOwnWhereSchema,
-    select: BenefitEnrolmentOwnProjectionSchema,
-    omit: BenefitEnrolmentOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: BenefitEnrolmentOwnWhereSchemaJson,
+    select: BenefitEnrolmentOwnProjectionSchemaJson,
+    omit: BenefitEnrolmentOwnProjectionSchemaJson,
+    include: BenefitEnrolmentOwnIncludeSchemaJson,
   })
   .partial();
 
+export const TitleHistoryOwnIncludeSchema = z
+  .object({
+    employee: z.boolean(),
+    title: z.boolean(),
+  })
+  .partial();
+
+export const TitleHistoryOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TitleHistoryOwnIncludeSchema
+);
+
 export const TitleHistoryOwnQueryOneSchema = z
   .object({
-    where: TitleHistoryOwnWhereSchema,
-    select: TitleHistoryOwnProjectionSchema,
-    omit: TitleHistoryOwnProjectionSchema,
+    where: TitleHistoryOwnWhereSchemaJson,
+    select: TitleHistoryOwnProjectionSchemaJson,
+    omit: TitleHistoryOwnProjectionSchemaJson,
+    include: TitleHistoryOwnIncludeSchemaJson,
   })
   .partial();
 
 export const TitleHistoryOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TitleHistoryOwnWhereSchema,
-    select: TitleHistoryOwnProjectionSchema,
-    omit: TitleHistoryOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TitleHistoryOwnWhereSchemaJson,
+    select: TitleHistoryOwnProjectionSchemaJson,
+    omit: TitleHistoryOwnProjectionSchemaJson,
+    include: TitleHistoryOwnIncludeSchemaJson,
   })
   .partial();
 
+export const TimeOffPolicyOwnIncludeSchema = z
+  .object({
+    balances: z.boolean(),
+    requests: z.boolean(),
+  })
+  .partial();
+
+export const TimeOffPolicyOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffPolicyOwnIncludeSchema
+);
+
 export const TimeOffPolicyOwnQueryOneSchema = z
   .object({
-    where: TimeOffPolicyOwnWhereSchema,
-    select: TimeOffPolicyOwnProjectionSchema,
-    omit: TimeOffPolicyOwnProjectionSchema,
+    where: TimeOffPolicyOwnWhereSchemaJson,
+    select: TimeOffPolicyOwnProjectionSchemaJson,
+    omit: TimeOffPolicyOwnProjectionSchemaJson,
+    include: TimeOffPolicyOwnIncludeSchemaJson,
   })
   .partial();
 
 export const TimeOffPolicyOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TimeOffPolicyOwnWhereSchema,
-    select: TimeOffPolicyOwnProjectionSchema,
-    omit: TimeOffPolicyOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TimeOffPolicyOwnWhereSchemaJson,
+    select: TimeOffPolicyOwnProjectionSchemaJson,
+    omit: TimeOffPolicyOwnProjectionSchemaJson,
+    include: TimeOffPolicyOwnIncludeSchemaJson,
   })
   .partial();
 
+export const TimeOffBalanceOwnIncludeSchema = z
+  .object({
+    policy: z.boolean(),
+    employee: z.boolean(),
+    transactions: z.boolean(),
+  })
+  .partial();
+
+export const TimeOffBalanceOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffBalanceOwnIncludeSchema
+);
+
 export const TimeOffBalanceOwnQueryOneSchema = z
   .object({
-    where: TimeOffBalanceOwnWhereSchema,
-    select: TimeOffBalanceOwnProjectionSchema,
-    omit: TimeOffBalanceOwnProjectionSchema,
+    where: TimeOffBalanceOwnWhereSchemaJson,
+    select: TimeOffBalanceOwnProjectionSchemaJson,
+    omit: TimeOffBalanceOwnProjectionSchemaJson,
+    include: TimeOffBalanceOwnIncludeSchemaJson,
   })
   .partial();
 
 export const TimeOffBalanceOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TimeOffBalanceOwnWhereSchema,
-    select: TimeOffBalanceOwnProjectionSchema,
-    omit: TimeOffBalanceOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TimeOffBalanceOwnWhereSchemaJson,
+    select: TimeOffBalanceOwnProjectionSchemaJson,
+    omit: TimeOffBalanceOwnProjectionSchemaJson,
+    include: TimeOffBalanceOwnIncludeSchemaJson,
   })
   .partial();
 
+export const TimeOffRequestOwnIncludeSchema = z
+  .object({
+    employee: z.boolean(),
+    policy: z.boolean(),
+    resolver: z.boolean(),
+    transactions: z.boolean(),
+  })
+  .partial();
+
+export const TimeOffRequestOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffRequestOwnIncludeSchema
+);
+
 export const TimeOffRequestOwnQueryOneSchema = z
   .object({
-    where: TimeOffRequestOwnWhereSchema,
-    select: TimeOffRequestOwnProjectionSchema,
-    omit: TimeOffRequestOwnProjectionSchema,
+    where: TimeOffRequestOwnWhereSchemaJson,
+    select: TimeOffRequestOwnProjectionSchemaJson,
+    omit: TimeOffRequestOwnProjectionSchemaJson,
+    include: TimeOffRequestOwnIncludeSchemaJson,
   })
   .partial();
 
 export const TimeOffRequestOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TimeOffRequestOwnWhereSchema,
-    select: TimeOffRequestOwnProjectionSchema,
-    omit: TimeOffRequestOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TimeOffRequestOwnWhereSchemaJson,
+    select: TimeOffRequestOwnProjectionSchemaJson,
+    omit: TimeOffRequestOwnProjectionSchemaJson,
+    include: TimeOffRequestOwnIncludeSchemaJson,
   })
   .partial();
 
+export const TimeOffTransactionOwnIncludeSchema = z
+  .object({
+    balance: z.boolean(),
+    request: z.boolean(),
+  })
+  .partial();
+
+export const TimeOffTransactionOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffTransactionOwnIncludeSchema
+);
+
 export const TimeOffTransactionOwnQueryOneSchema = z
   .object({
-    where: TimeOffTransactionOwnWhereSchema,
-    select: TimeOffTransactionOwnProjectionSchema,
-    omit: TimeOffTransactionOwnProjectionSchema,
+    where: TimeOffTransactionOwnWhereSchemaJson,
+    select: TimeOffTransactionOwnProjectionSchemaJson,
+    omit: TimeOffTransactionOwnProjectionSchemaJson,
+    include: TimeOffTransactionOwnIncludeSchemaJson,
   })
   .partial();
 
 export const TimeOffTransactionOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TimeOffTransactionOwnWhereSchema,
-    select: TimeOffTransactionOwnProjectionSchema,
-    omit: TimeOffTransactionOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TimeOffTransactionOwnWhereSchemaJson,
+    select: TimeOffTransactionOwnProjectionSchemaJson,
+    omit: TimeOffTransactionOwnProjectionSchemaJson,
+    include: TimeOffTransactionOwnIncludeSchemaJson,
   })
   .partial();
 
+export const ClockInOwnIncludeSchema = z
+  .object({
+    employee: z.boolean(),
+  })
+  .partial();
+
+export const ClockInOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ClockInOwnIncludeSchema
+);
+
 export const ClockInOwnQueryOneSchema = z
   .object({
-    where: ClockInOwnWhereSchema,
-    select: ClockInOwnProjectionSchema,
-    omit: ClockInOwnProjectionSchema,
+    where: ClockInOwnWhereSchemaJson,
+    select: ClockInOwnProjectionSchemaJson,
+    omit: ClockInOwnProjectionSchemaJson,
+    include: ClockInOwnIncludeSchemaJson,
   })
   .partial();
 
 export const ClockInOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ClockInOwnWhereSchema,
-    select: ClockInOwnProjectionSchema,
-    omit: ClockInOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ClockInOwnWhereSchemaJson,
+    select: ClockInOwnProjectionSchemaJson,
+    omit: ClockInOwnProjectionSchemaJson,
+    include: ClockInOwnIncludeSchemaJson,
   })
   .partial();
 
+export const PaycheckOwnIncludeSchema = z
+  .object({
+    employee: z.boolean(),
+    earnings: z.boolean(),
+    paycheckTaxes: z.boolean(),
+    deductions: z.boolean(),
+    payrollRun: z.boolean(),
+  })
+  .partial();
+
+export const PaycheckOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PaycheckOwnIncludeSchema
+);
+
 export const PaycheckOwnQueryOneSchema = z
   .object({
-    where: PaycheckOwnWhereSchema,
-    select: PaycheckOwnProjectionSchema,
-    omit: PaycheckOwnProjectionSchema,
+    where: PaycheckOwnWhereSchemaJson,
+    select: PaycheckOwnProjectionSchemaJson,
+    omit: PaycheckOwnProjectionSchemaJson,
+    include: PaycheckOwnIncludeSchemaJson,
   })
   .partial();
 
 export const PaycheckOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PaycheckOwnWhereSchema,
-    select: PaycheckOwnProjectionSchema,
-    omit: PaycheckOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PaycheckOwnWhereSchemaJson,
+    select: PaycheckOwnProjectionSchemaJson,
+    omit: PaycheckOwnProjectionSchemaJson,
+    include: PaycheckOwnIncludeSchemaJson,
   })
   .partial();
 
+export const EarningOwnIncludeSchema = z
+  .object({
+    paycheck: z.boolean(),
+  })
+  .partial();
+
+export const EarningOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  EarningOwnIncludeSchema
+);
+
 export const EarningOwnQueryOneSchema = z
   .object({
-    where: EarningOwnWhereSchema,
-    select: EarningOwnProjectionSchema,
-    omit: EarningOwnProjectionSchema,
+    where: EarningOwnWhereSchemaJson,
+    select: EarningOwnProjectionSchemaJson,
+    omit: EarningOwnProjectionSchemaJson,
+    include: EarningOwnIncludeSchemaJson,
   })
   .partial();
 
 export const EarningOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: EarningOwnWhereSchema,
-    select: EarningOwnProjectionSchema,
-    omit: EarningOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: EarningOwnWhereSchemaJson,
+    select: EarningOwnProjectionSchemaJson,
+    omit: EarningOwnProjectionSchemaJson,
+    include: EarningOwnIncludeSchemaJson,
   })
   .partial();
 
+export const PaycheckTaxOwnIncludeSchema = z
+  .object({
+    paycheck: z.boolean(),
+  })
+  .partial();
+
+export const PaycheckTaxOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PaycheckTaxOwnIncludeSchema
+);
+
 export const PaycheckTaxOwnQueryOneSchema = z
   .object({
-    where: PaycheckTaxOwnWhereSchema,
-    select: PaycheckTaxOwnProjectionSchema,
-    omit: PaycheckTaxOwnProjectionSchema,
+    where: PaycheckTaxOwnWhereSchemaJson,
+    select: PaycheckTaxOwnProjectionSchemaJson,
+    omit: PaycheckTaxOwnProjectionSchemaJson,
+    include: PaycheckTaxOwnIncludeSchemaJson,
   })
   .partial();
 
 export const PaycheckTaxOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PaycheckTaxOwnWhereSchema,
-    select: PaycheckTaxOwnProjectionSchema,
-    omit: PaycheckTaxOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PaycheckTaxOwnWhereSchemaJson,
+    select: PaycheckTaxOwnProjectionSchemaJson,
+    omit: PaycheckTaxOwnProjectionSchemaJson,
+    include: PaycheckTaxOwnIncludeSchemaJson,
   })
   .partial();
 
+export const DeductionPolicyOwnIncludeSchema = z
+  .object({
+    employeeDeductions: z.boolean(),
+  })
+  .partial();
+
+export const DeductionPolicyOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  DeductionPolicyOwnIncludeSchema
+);
+
 export const DeductionPolicyOwnQueryOneSchema = z
   .object({
-    where: DeductionPolicyOwnWhereSchema,
-    select: DeductionPolicyOwnProjectionSchema,
-    omit: DeductionPolicyOwnProjectionSchema,
+    where: DeductionPolicyOwnWhereSchemaJson,
+    select: DeductionPolicyOwnProjectionSchemaJson,
+    omit: DeductionPolicyOwnProjectionSchemaJson,
+    include: DeductionPolicyOwnIncludeSchemaJson,
   })
   .partial();
 
 export const DeductionPolicyOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: DeductionPolicyOwnWhereSchema,
-    select: DeductionPolicyOwnProjectionSchema,
-    omit: DeductionPolicyOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: DeductionPolicyOwnWhereSchemaJson,
+    select: DeductionPolicyOwnProjectionSchemaJson,
+    omit: DeductionPolicyOwnProjectionSchemaJson,
+    include: DeductionPolicyOwnIncludeSchemaJson,
   })
   .partial();
 
+export const EmployeeDeductionOwnIncludeSchema = z
+  .object({
+    employee: z.boolean(),
+    policy: z.boolean(),
+    paycheckDeductions: z.boolean(),
+  })
+  .partial();
+
+export const EmployeeDeductionOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeDeductionOwnIncludeSchema
+);
+
 export const EmployeeDeductionOwnQueryOneSchema = z
   .object({
-    where: EmployeeDeductionOwnWhereSchema,
-    select: EmployeeDeductionOwnProjectionSchema,
-    omit: EmployeeDeductionOwnProjectionSchema,
+    where: EmployeeDeductionOwnWhereSchemaJson,
+    select: EmployeeDeductionOwnProjectionSchemaJson,
+    omit: EmployeeDeductionOwnProjectionSchemaJson,
+    include: EmployeeDeductionOwnIncludeSchemaJson,
   })
   .partial();
 
 export const EmployeeDeductionOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: EmployeeDeductionOwnWhereSchema,
-    select: EmployeeDeductionOwnProjectionSchema,
-    omit: EmployeeDeductionOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: EmployeeDeductionOwnWhereSchemaJson,
+    select: EmployeeDeductionOwnProjectionSchemaJson,
+    omit: EmployeeDeductionOwnProjectionSchemaJson,
+    include: EmployeeDeductionOwnIncludeSchemaJson,
   })
   .partial();
 
+export const PaycheckDeductionOwnIncludeSchema = z
+  .object({
+    paycheck: z.boolean(),
+    employeeDeduction: z.boolean(),
+  })
+  .partial();
+
+export const PaycheckDeductionOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PaycheckDeductionOwnIncludeSchema
+);
+
 export const PaycheckDeductionOwnQueryOneSchema = z
   .object({
-    where: PaycheckDeductionOwnWhereSchema,
-    select: PaycheckDeductionOwnProjectionSchema,
-    omit: PaycheckDeductionOwnProjectionSchema,
+    where: PaycheckDeductionOwnWhereSchemaJson,
+    select: PaycheckDeductionOwnProjectionSchemaJson,
+    omit: PaycheckDeductionOwnProjectionSchemaJson,
+    include: PaycheckDeductionOwnIncludeSchemaJson,
   })
   .partial();
 
 export const PaycheckDeductionOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PaycheckDeductionOwnWhereSchema,
-    select: PaycheckDeductionOwnProjectionSchema,
-    omit: PaycheckDeductionOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PaycheckDeductionOwnWhereSchemaJson,
+    select: PaycheckDeductionOwnProjectionSchemaJson,
+    omit: PaycheckDeductionOwnProjectionSchemaJson,
+    include: PaycheckDeductionOwnIncludeSchemaJson,
   })
   .partial();
 
+export const EmployeeTaxDataOwnIncludeSchema = z
+  .object({
+    stateTaxes: z.boolean(),
+    localTaxes: z.boolean(),
+    employee: z.boolean(),
+  })
+  .partial();
+
+export const EmployeeTaxDataOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeTaxDataOwnIncludeSchema
+);
+
 export const EmployeeTaxDataOwnQueryOneSchema = z
   .object({
-    where: EmployeeTaxDataOwnWhereSchema,
-    select: EmployeeTaxDataOwnProjectionSchema,
-    omit: EmployeeTaxDataOwnProjectionSchema,
+    where: EmployeeTaxDataOwnWhereSchemaJson,
+    select: EmployeeTaxDataOwnProjectionSchemaJson,
+    omit: EmployeeTaxDataOwnProjectionSchemaJson,
+    include: EmployeeTaxDataOwnIncludeSchemaJson,
   })
   .partial();
 
 export const EmployeeTaxDataOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: EmployeeTaxDataOwnWhereSchema,
-    select: EmployeeTaxDataOwnProjectionSchema,
-    omit: EmployeeTaxDataOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: EmployeeTaxDataOwnWhereSchemaJson,
+    select: EmployeeTaxDataOwnProjectionSchemaJson,
+    omit: EmployeeTaxDataOwnProjectionSchemaJson,
+    include: EmployeeTaxDataOwnIncludeSchemaJson,
   })
   .partial();
 
+export const StateTaxWithholdingOwnIncludeSchema = z
+  .object({
+    taxData: z.boolean(),
+  })
+  .partial();
+
+export const StateTaxWithholdingOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  StateTaxWithholdingOwnIncludeSchema
+);
+
 export const StateTaxWithholdingOwnQueryOneSchema = z
   .object({
-    where: StateTaxWithholdingOwnWhereSchema,
-    select: StateTaxWithholdingOwnProjectionSchema,
-    omit: StateTaxWithholdingOwnProjectionSchema,
+    where: StateTaxWithholdingOwnWhereSchemaJson,
+    select: StateTaxWithholdingOwnProjectionSchemaJson,
+    omit: StateTaxWithholdingOwnProjectionSchemaJson,
+    include: StateTaxWithholdingOwnIncludeSchemaJson,
   })
   .partial();
 
 export const StateTaxWithholdingOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: StateTaxWithholdingOwnWhereSchema,
-    select: StateTaxWithholdingOwnProjectionSchema,
-    omit: StateTaxWithholdingOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: StateTaxWithholdingOwnWhereSchemaJson,
+    select: StateTaxWithholdingOwnProjectionSchemaJson,
+    omit: StateTaxWithholdingOwnProjectionSchemaJson,
+    include: StateTaxWithholdingOwnIncludeSchemaJson,
   })
   .partial();
 
+export const LocalTaxWithholdingOwnIncludeSchema = z
+  .object({
+    taxData: z.boolean(),
+  })
+  .partial();
+
+export const LocalTaxWithholdingOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  LocalTaxWithholdingOwnIncludeSchema
+);
+
 export const LocalTaxWithholdingOwnQueryOneSchema = z
   .object({
-    where: LocalTaxWithholdingOwnWhereSchema,
-    select: LocalTaxWithholdingOwnProjectionSchema,
-    omit: LocalTaxWithholdingOwnProjectionSchema,
+    where: LocalTaxWithholdingOwnWhereSchemaJson,
+    select: LocalTaxWithholdingOwnProjectionSchemaJson,
+    omit: LocalTaxWithholdingOwnProjectionSchemaJson,
+    include: LocalTaxWithholdingOwnIncludeSchemaJson,
   })
   .partial();
 
 export const LocalTaxWithholdingOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: LocalTaxWithholdingOwnWhereSchema,
-    select: LocalTaxWithholdingOwnProjectionSchema,
-    omit: LocalTaxWithholdingOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: LocalTaxWithholdingOwnWhereSchemaJson,
+    select: LocalTaxWithholdingOwnProjectionSchemaJson,
+    omit: LocalTaxWithholdingOwnProjectionSchemaJson,
+    include: LocalTaxWithholdingOwnIncludeSchemaJson,
   })
   .partial();
 
+export const PayrollRunOwnIncludeSchema = z
+  .object({
+    approvedBy: z.boolean(),
+    paychecks: z.boolean(),
+  })
+  .partial();
+
+export const PayrollRunOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PayrollRunOwnIncludeSchema
+);
+
 export const PayrollRunOwnQueryOneSchema = z
   .object({
-    where: PayrollRunOwnWhereSchema,
-    select: PayrollRunOwnProjectionSchema,
-    omit: PayrollRunOwnProjectionSchema,
+    where: PayrollRunOwnWhereSchemaJson,
+    select: PayrollRunOwnProjectionSchemaJson,
+    omit: PayrollRunOwnProjectionSchemaJson,
+    include: PayrollRunOwnIncludeSchemaJson,
   })
   .partial();
 
 export const PayrollRunOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PayrollRunOwnWhereSchema,
-    select: PayrollRunOwnProjectionSchema,
-    omit: PayrollRunOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PayrollRunOwnWhereSchemaJson,
+    select: PayrollRunOwnProjectionSchemaJson,
+    omit: PayrollRunOwnProjectionSchemaJson,
+    include: PayrollRunOwnIncludeSchemaJson,
   })
   .partial();
 
+export const ContactOwnIncludeSchema = z
+  .object({
+    employee: z.boolean(),
+    emails: z.boolean(),
+    phones: z.boolean(),
+    addresses: z.boolean(),
+    primaryEmail: z.boolean(),
+    primaryPhone: z.boolean(),
+    primaryAddress: z.boolean(),
+  })
+  .partial();
+
+export const ContactOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ContactOwnIncludeSchema
+);
+
 export const ContactOwnQueryOneSchema = z
   .object({
-    where: ContactOwnWhereSchema,
-    select: ContactOwnProjectionSchema,
-    omit: ContactOwnProjectionSchema,
+    where: ContactOwnWhereSchemaJson,
+    select: ContactOwnProjectionSchemaJson,
+    omit: ContactOwnProjectionSchemaJson,
+    include: ContactOwnIncludeSchemaJson,
   })
   .partial();
 
 export const ContactOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ContactOwnWhereSchema,
-    select: ContactOwnProjectionSchema,
-    omit: ContactOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ContactOwnWhereSchemaJson,
+    select: ContactOwnProjectionSchemaJson,
+    omit: ContactOwnProjectionSchemaJson,
+    include: ContactOwnIncludeSchemaJson,
   })
   .partial();
 
+export const CountryOwnIncludeSchema = z
+  .object({
+    states: z.boolean(),
+  })
+  .partial();
+
+export const CountryOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  CountryOwnIncludeSchema
+);
+
 export const CountryOwnQueryOneSchema = z
   .object({
-    where: CountryOwnWhereSchema,
-    select: CountryOwnProjectionSchema,
-    omit: CountryOwnProjectionSchema,
+    where: CountryOwnWhereSchemaJson,
+    select: CountryOwnProjectionSchemaJson,
+    omit: CountryOwnProjectionSchemaJson,
+    include: CountryOwnIncludeSchemaJson,
   })
   .partial();
 
 export const CountryOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: CountryOwnWhereSchema,
-    select: CountryOwnProjectionSchema,
-    omit: CountryOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: CountryOwnWhereSchemaJson,
+    select: CountryOwnProjectionSchemaJson,
+    omit: CountryOwnProjectionSchemaJson,
+    include: CountryOwnIncludeSchemaJson,
   })
   .partial();
 
+export const StateOwnIncludeSchema = z
+  .object({
+    country: z.boolean(),
+    addresses: z.boolean(),
+  })
+  .partial();
+
+export const StateOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  StateOwnIncludeSchema
+);
+
 export const StateOwnQueryOneSchema = z
   .object({
-    where: StateOwnWhereSchema,
-    select: StateOwnProjectionSchema,
-    omit: StateOwnProjectionSchema,
+    where: StateOwnWhereSchemaJson,
+    select: StateOwnProjectionSchemaJson,
+    omit: StateOwnProjectionSchemaJson,
+    include: StateOwnIncludeSchemaJson,
   })
   .partial();
 
 export const StateOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: StateOwnWhereSchema,
-    select: StateOwnProjectionSchema,
-    omit: StateOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: StateOwnWhereSchemaJson,
+    select: StateOwnProjectionSchemaJson,
+    omit: StateOwnProjectionSchemaJson,
+    include: StateOwnIncludeSchemaJson,
   })
   .partial();
 
+export const AddressOwnIncludeSchema = z
+  .object({
+    state: z.boolean(),
+    contact: z.boolean(),
+    primary: z.boolean(),
+  })
+  .partial();
+
+export const AddressOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  AddressOwnIncludeSchema
+);
+
 export const AddressOwnQueryOneSchema = z
   .object({
-    where: AddressOwnWhereSchema,
-    select: AddressOwnProjectionSchema,
-    omit: AddressOwnProjectionSchema,
+    where: AddressOwnWhereSchemaJson,
+    select: AddressOwnProjectionSchemaJson,
+    omit: AddressOwnProjectionSchemaJson,
+    include: AddressOwnIncludeSchemaJson,
   })
   .partial();
 
 export const AddressOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: AddressOwnWhereSchema,
-    select: AddressOwnProjectionSchema,
-    omit: AddressOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: AddressOwnWhereSchemaJson,
+    select: AddressOwnProjectionSchemaJson,
+    omit: AddressOwnProjectionSchemaJson,
+    include: AddressOwnIncludeSchemaJson,
   })
   .partial();
 
+export const EmailOwnIncludeSchema = z
+  .object({
+    contact: z.boolean(),
+    primary: z.boolean(),
+  })
+  .partial();
+
+export const EmailOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  EmailOwnIncludeSchema
+);
+
 export const EmailOwnQueryOneSchema = z
   .object({
-    where: EmailOwnWhereSchema,
-    select: EmailOwnProjectionSchema,
-    omit: EmailOwnProjectionSchema,
+    where: EmailOwnWhereSchemaJson,
+    select: EmailOwnProjectionSchemaJson,
+    omit: EmailOwnProjectionSchemaJson,
+    include: EmailOwnIncludeSchemaJson,
   })
   .partial();
 
 export const EmailOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: EmailOwnWhereSchema,
-    select: EmailOwnProjectionSchema,
-    omit: EmailOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: EmailOwnWhereSchemaJson,
+    select: EmailOwnProjectionSchemaJson,
+    omit: EmailOwnProjectionSchemaJson,
+    include: EmailOwnIncludeSchemaJson,
   })
   .partial();
 
+export const PhoneOwnIncludeSchema = z
+  .object({
+    contact: z.boolean(),
+    primary: z.boolean(),
+  })
+  .partial();
+
+export const PhoneOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PhoneOwnIncludeSchema
+);
+
 export const PhoneOwnQueryOneSchema = z
   .object({
-    where: PhoneOwnWhereSchema,
-    select: PhoneOwnProjectionSchema,
-    omit: PhoneOwnProjectionSchema,
+    where: PhoneOwnWhereSchemaJson,
+    select: PhoneOwnProjectionSchemaJson,
+    omit: PhoneOwnProjectionSchemaJson,
+    include: PhoneOwnIncludeSchemaJson,
   })
   .partial();
 
 export const PhoneOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PhoneOwnWhereSchema,
-    select: PhoneOwnProjectionSchema,
-    omit: PhoneOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PhoneOwnWhereSchemaJson,
+    select: PhoneOwnProjectionSchemaJson,
+    omit: PhoneOwnProjectionSchemaJson,
+    include: PhoneOwnIncludeSchemaJson,
   })
   .partial();
 
+export const PrimaryEmailOwnIncludeSchema = z
+  .object({
+    email: z.boolean(),
+    contact: z.boolean(),
+  })
+  .partial();
+
+export const PrimaryEmailOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PrimaryEmailOwnIncludeSchema
+);
+
 export const PrimaryEmailOwnQueryOneSchema = z
   .object({
-    where: PrimaryEmailOwnWhereSchema,
-    select: PrimaryEmailOwnProjectionSchema,
-    omit: PrimaryEmailOwnProjectionSchema,
+    where: PrimaryEmailOwnWhereSchemaJson,
+    select: PrimaryEmailOwnProjectionSchemaJson,
+    omit: PrimaryEmailOwnProjectionSchemaJson,
+    include: PrimaryEmailOwnIncludeSchemaJson,
   })
   .partial();
 
 export const PrimaryEmailOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PrimaryEmailOwnWhereSchema,
-    select: PrimaryEmailOwnProjectionSchema,
-    omit: PrimaryEmailOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PrimaryEmailOwnWhereSchemaJson,
+    select: PrimaryEmailOwnProjectionSchemaJson,
+    omit: PrimaryEmailOwnProjectionSchemaJson,
+    include: PrimaryEmailOwnIncludeSchemaJson,
   })
   .partial();
 
+export const PrimaryPhoneOwnIncludeSchema = z
+  .object({
+    phone: z.boolean(),
+    contact: z.boolean(),
+  })
+  .partial();
+
+export const PrimaryPhoneOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PrimaryPhoneOwnIncludeSchema
+);
+
 export const PrimaryPhoneOwnQueryOneSchema = z
   .object({
-    where: PrimaryPhoneOwnWhereSchema,
-    select: PrimaryPhoneOwnProjectionSchema,
-    omit: PrimaryPhoneOwnProjectionSchema,
+    where: PrimaryPhoneOwnWhereSchemaJson,
+    select: PrimaryPhoneOwnProjectionSchemaJson,
+    omit: PrimaryPhoneOwnProjectionSchemaJson,
+    include: PrimaryPhoneOwnIncludeSchemaJson,
   })
   .partial();
 
 export const PrimaryPhoneOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PrimaryPhoneOwnWhereSchema,
-    select: PrimaryPhoneOwnProjectionSchema,
-    omit: PrimaryPhoneOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PrimaryPhoneOwnWhereSchemaJson,
+    select: PrimaryPhoneOwnProjectionSchemaJson,
+    omit: PrimaryPhoneOwnProjectionSchemaJson,
+    include: PrimaryPhoneOwnIncludeSchemaJson,
   })
   .partial();
 
+export const PrimaryAddressOwnIncludeSchema = z
+  .object({
+    address: z.boolean(),
+    contact: z.boolean(),
+  })
+  .partial();
+
+export const PrimaryAddressOwnIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PrimaryAddressOwnIncludeSchema
+);
+
 export const PrimaryAddressOwnQueryOneSchema = z
   .object({
-    where: PrimaryAddressOwnWhereSchema,
-    select: PrimaryAddressOwnProjectionSchema,
-    omit: PrimaryAddressOwnProjectionSchema,
+    where: PrimaryAddressOwnWhereSchemaJson,
+    select: PrimaryAddressOwnProjectionSchemaJson,
+    omit: PrimaryAddressOwnProjectionSchemaJson,
+    include: PrimaryAddressOwnIncludeSchemaJson,
   })
   .partial();
 
 export const PrimaryAddressOwnQuerySchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PrimaryAddressOwnWhereSchema,
-    select: PrimaryAddressOwnProjectionSchema,
-    omit: PrimaryAddressOwnProjectionSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PrimaryAddressOwnWhereSchemaJson,
+    select: PrimaryAddressOwnProjectionSchemaJson,
+    omit: PrimaryAddressOwnProjectionSchemaJson,
+    include: PrimaryAddressOwnIncludeSchemaJson,
   })
   .partial();
 
@@ -1580,15 +2496,7 @@ export const DepartmentCreateSchema = z
     slug: z.string().optional(),
     isActive: z.boolean().optional(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.name != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.name),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('name'));
 
 export const DepartmentUpdateSchema = z
   .object({
@@ -1597,15 +2505,7 @@ export const DepartmentUpdateSchema = z
     slug: z.string().optional().optional(),
     isActive: z.boolean().optional().optional(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.name != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.name),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('name'));
 
 export const DepartmentOrderBySchema = z
   .object({
@@ -1616,6 +2516,11 @@ export const DepartmentOrderBySchema = z
     isActive: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const DepartmentOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  DepartmentOrderBySchema
+);
 
 export const DepartmentWhereSchema = z
   .object({
@@ -1648,6 +2553,11 @@ export const DepartmentWhereSchema = z
   })
   .partial();
 
+export const DepartmentWhereSchemaJson = z.preprocess(
+  jsonParser,
+  DepartmentWhereSchema
+);
+
 export const DepartmentProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -1655,29 +2565,29 @@ export const DepartmentProjectionSchema = z
     name: z.boolean(),
     slug: z.boolean(),
     isActive: z.boolean(),
-    parent: DepartmentOwnQueryOneSchema,
-    departments: DepartmentOwnQuerySchema,
-    titles: TitleOwnQuerySchema,
+    parent: z.boolean().or(DepartmentOwnQueryOneSchema),
+    departments: z.boolean().or(DepartmentOwnQuerySchema),
+    titles: z.boolean().or(TitleOwnQuerySchema),
   })
   .partial();
 
-export const DepartmentQueryOneSchema = z
+export const DepartmentProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  DepartmentProjectionSchema
+);
+
+export const DepartmentIncludeSchema = z
   .object({
-    where: DepartmentWhereSchema,
-    select: DepartmentProjectionSchema,
-    omit: DepartmentProjectionSchema,
+    parent: z.boolean().or(DepartmentOwnQueryOneSchema),
+    departments: z.boolean().or(DepartmentOwnQuerySchema),
+    titles: z.boolean().or(TitleOwnQuerySchema),
   })
   .partial();
 
-export const DepartmentQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: DepartmentWhereSchema,
-    select: DepartmentProjectionSchema,
-    omit: DepartmentProjectionSchema,
-  })
-  .partial();
+export const DepartmentIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  DepartmentIncludeSchema
+);
 
 export const TitleCreateSchema = z
   .object({
@@ -1687,15 +2597,7 @@ export const TitleCreateSchema = z
     description: z.string().optional(),
     isActive: z.boolean().optional(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.name != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.name),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('name'));
 
 export const TitleUpdateSchema = z
   .object({
@@ -1705,15 +2607,7 @@ export const TitleUpdateSchema = z
     description: z.string().optional().optional(),
     isActive: z.boolean().optional().optional(),
   })
-  .transform((value) => {
-    if (value.slug == undefined && value.name != undefined) {
-      return {
-        ...value,
-        slug: slugify(value.name),
-      };
-    }
-    return value;
-  });
+  .transform(slugTransformer('name'));
 
 export const TitleOrderBySchema = z
   .object({
@@ -1725,6 +2619,11 @@ export const TitleOrderBySchema = z
     isActive: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const TitleOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  TitleOrderBySchema
+);
 
 export const TitleWhereSchema = z
   .object({
@@ -1758,6 +2657,8 @@ export const TitleWhereSchema = z
   })
   .partial();
 
+export const TitleWhereSchemaJson = z.preprocess(jsonParser, TitleWhereSchema);
+
 export const TitleProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -1766,29 +2667,29 @@ export const TitleProjectionSchema = z
     slug: z.boolean(),
     description: z.boolean(),
     isActive: z.boolean(),
-    department: DepartmentOwnQueryOneSchema,
-    employees: EmployeeOwnQuerySchema,
-    histories: TitleHistoryOwnQuerySchema,
+    department: z.boolean().or(DepartmentOwnQueryOneSchema),
+    employees: z.boolean().or(EmployeeOwnQuerySchema),
+    histories: z.boolean().or(TitleHistoryOwnQuerySchema),
   })
   .partial();
 
-export const TitleQueryOneSchema = z
+export const TitleProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TitleProjectionSchema
+);
+
+export const TitleIncludeSchema = z
   .object({
-    where: TitleWhereSchema,
-    select: TitleProjectionSchema,
-    omit: TitleProjectionSchema,
+    department: z.boolean().or(DepartmentOwnQueryOneSchema),
+    employees: z.boolean().or(EmployeeOwnQuerySchema),
+    histories: z.boolean().or(TitleHistoryOwnQuerySchema),
   })
   .partial();
 
-export const TitleQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TitleWhereSchema,
-    select: TitleProjectionSchema,
-    omit: TitleProjectionSchema,
-  })
-  .partial();
+export const TitleIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TitleIncludeSchema
+);
 
 export const PersonalDataCreateSchema = z.object({
   employeeId: z.int(),
@@ -1815,6 +2716,11 @@ export const PersonalDataOrderBySchema = z
   })
   .partial();
 
+export const PersonalDataOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  PersonalDataOrderBySchema
+);
+
 export const PersonalDataWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -1833,6 +2739,11 @@ export const PersonalDataWhereSchema = z
   })
   .partial();
 
+export const PersonalDataWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PersonalDataWhereSchema
+);
+
 export const PersonalDataProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -1841,27 +2752,25 @@ export const PersonalDataProjectionSchema = z
     gender: z.boolean(),
     dob: z.boolean(),
     maritalStatus: z.boolean(),
-    employee: EmployeeOwnQueryOneSchema,
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const PersonalDataQueryOneSchema = z
+export const PersonalDataProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PersonalDataProjectionSchema
+);
+
+export const PersonalDataIncludeSchema = z
   .object({
-    where: PersonalDataWhereSchema,
-    select: PersonalDataProjectionSchema,
-    omit: PersonalDataProjectionSchema,
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const PersonalDataQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PersonalDataWhereSchema,
-    select: PersonalDataProjectionSchema,
-    omit: PersonalDataProjectionSchema,
-  })
-  .partial();
+export const PersonalDataIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PersonalDataIncludeSchema
+);
 
 export const EmployeeCreateSchema = z.object({
   titleId: z.int(),
@@ -1903,6 +2812,11 @@ export const EmployeeOrderBySchema = z
     directManagerId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const EmployeeOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeOrderBySchema
+);
 
 export const EmployeeWhereSchema = z
   .object({
@@ -2054,6 +2968,11 @@ export const EmployeeWhereSchema = z
   })
   .partial();
 
+export const EmployeeWhereSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeWhereSchema
+);
+
 export const EmployeeProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -2064,49 +2983,65 @@ export const EmployeeProjectionSchema = z
     lastName: z.boolean(),
     preferedName: z.boolean(),
     status: z.boolean(),
-    title: TitleOwnQueryOneSchema,
+    title: z.boolean().or(TitleOwnQueryOneSchema),
     hireDate: z.boolean(),
     terminationDate: z.boolean(),
     employmentType: z.boolean(),
-    salary: SalaryOwnQueryOneSchema,
-    salaryHistory: SalaryHistoryOwnQuerySchema,
-    benefits: BenefitEnrolmentOwnQuerySchema,
-    titleHistory: TitleHistoryOwnQuerySchema,
-    timeOffBalances: TimeOffBalanceOwnQuerySchema,
-    timeOffRequests: TimeOffRequestOwnQuerySchema,
-    resolvedTimeOffs: TimeOffRequestOwnQuerySchema,
-    clockIns: ClockInOwnQuerySchema,
-    personalData: PersonalDataOwnQueryOneSchema,
-    taxData: EmployeeTaxDataOwnQuerySchema,
-    memberships: TeamMemberOwnQuerySchema,
-    managingTeams: TeamManagerOwnQuerySchema,
-    managingEmployees: EmployeeOwnQuerySchema,
-    directManager: EmployeeOwnQueryOneSchema,
-    paychecks: PaycheckOwnQuerySchema,
+    salary: z.boolean().or(SalaryOwnQueryOneSchema),
+    salaryHistory: z.boolean().or(SalaryHistoryOwnQuerySchema),
+    benefits: z.boolean().or(BenefitEnrolmentOwnQuerySchema),
+    titleHistory: z.boolean().or(TitleHistoryOwnQuerySchema),
+    timeOffBalances: z.boolean().or(TimeOffBalanceOwnQuerySchema),
+    timeOffRequests: z.boolean().or(TimeOffRequestOwnQuerySchema),
+    resolvedTimeOffs: z.boolean().or(TimeOffRequestOwnQuerySchema),
+    clockIns: z.boolean().or(ClockInOwnQuerySchema),
+    personalData: z.boolean().or(PersonalDataOwnQueryOneSchema),
+    taxData: z.boolean().or(EmployeeTaxDataOwnQuerySchema),
+    memberships: z.boolean().or(TeamMemberOwnQuerySchema),
+    managingTeams: z.boolean().or(TeamManagerOwnQuerySchema),
+    managingEmployees: z.boolean().or(EmployeeOwnQuerySchema),
+    directManager: z.boolean().or(EmployeeOwnQueryOneSchema),
+    paychecks: z.boolean().or(PaycheckOwnQuerySchema),
     directManagerId: z.boolean(),
-    deductions: EmployeeDeductionOwnQuerySchema,
-    resolvedPayrollRuns: PayrollRunOwnQuerySchema,
-    contact: ContactOwnQueryOneSchema,
+    deductions: z.boolean().or(EmployeeDeductionOwnQuerySchema),
+    resolvedPayrollRuns: z.boolean().or(PayrollRunOwnQuerySchema),
+    contact: z.boolean().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
-export const EmployeeQueryOneSchema = z
+export const EmployeeProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeProjectionSchema
+);
+
+export const EmployeeIncludeSchema = z
   .object({
-    where: EmployeeWhereSchema,
-    select: EmployeeProjectionSchema,
-    omit: EmployeeProjectionSchema,
+    title: z.boolean().or(TitleOwnQueryOneSchema),
+    salary: z.boolean().or(SalaryOwnQueryOneSchema),
+    salaryHistory: z.boolean().or(SalaryHistoryOwnQuerySchema),
+    benefits: z.boolean().or(BenefitEnrolmentOwnQuerySchema),
+    titleHistory: z.boolean().or(TitleHistoryOwnQuerySchema),
+    timeOffBalances: z.boolean().or(TimeOffBalanceOwnQuerySchema),
+    timeOffRequests: z.boolean().or(TimeOffRequestOwnQuerySchema),
+    resolvedTimeOffs: z.boolean().or(TimeOffRequestOwnQuerySchema),
+    clockIns: z.boolean().or(ClockInOwnQuerySchema),
+    personalData: z.boolean().or(PersonalDataOwnQueryOneSchema),
+    taxData: z.boolean().or(EmployeeTaxDataOwnQuerySchema),
+    memberships: z.boolean().or(TeamMemberOwnQuerySchema),
+    managingTeams: z.boolean().or(TeamManagerOwnQuerySchema),
+    managingEmployees: z.boolean().or(EmployeeOwnQuerySchema),
+    directManager: z.boolean().or(EmployeeOwnQueryOneSchema),
+    paychecks: z.boolean().or(PaycheckOwnQuerySchema),
+    deductions: z.boolean().or(EmployeeDeductionOwnQuerySchema),
+    resolvedPayrollRuns: z.boolean().or(PayrollRunOwnQuerySchema),
+    contact: z.boolean().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
-export const EmployeeQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: EmployeeWhereSchema,
-    select: EmployeeProjectionSchema,
-    omit: EmployeeProjectionSchema,
-  })
-  .partial();
+export const EmployeeIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeIncludeSchema
+);
 
 export const TeamCreateSchema = z.object({
   name: z.string(),
@@ -2122,6 +3057,11 @@ export const TeamOrderBySchema = z
     name: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const TeamOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  TeamOrderBySchema
+);
 
 export const TeamWhereSchema = z
   .object({
@@ -2144,32 +3084,33 @@ export const TeamWhereSchema = z
   })
   .partial();
 
+export const TeamWhereSchemaJson = z.preprocess(jsonParser, TeamWhereSchema);
+
 export const TeamProjectionSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
-    members: TeamMemberOwnQuerySchema,
-    managers: TeamManagerOwnQuerySchema,
+    members: z.boolean().or(TeamMemberOwnQuerySchema),
+    managers: z.boolean().or(TeamManagerOwnQuerySchema),
   })
   .partial();
 
-export const TeamQueryOneSchema = z
+export const TeamProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TeamProjectionSchema
+);
+
+export const TeamIncludeSchema = z
   .object({
-    where: TeamWhereSchema,
-    select: TeamProjectionSchema,
-    omit: TeamProjectionSchema,
+    members: z.boolean().or(TeamMemberOwnQuerySchema),
+    managers: z.boolean().or(TeamManagerOwnQuerySchema),
   })
   .partial();
 
-export const TeamQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TeamWhereSchema,
-    select: TeamProjectionSchema,
-    omit: TeamProjectionSchema,
-  })
-  .partial();
+export const TeamIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TeamIncludeSchema
+);
 
 export const TeamManagerCreateSchema = z.object({
   teamId: z.int(),
@@ -2188,6 +3129,11 @@ export const TeamManagerOrderBySchema = z
     managerId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const TeamManagerOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  TeamManagerOrderBySchema
+);
 
 export const TeamManagerWhereSchema = z
   .object({
@@ -2211,33 +3157,37 @@ export const TeamManagerWhereSchema = z
   })
   .partial();
 
+export const TeamManagerWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TeamManagerWhereSchema
+);
+
 export const TeamManagerProjectionSchema = z
   .object({
     id: z.boolean(),
     teamId: z.boolean(),
     managerId: z.boolean(),
-    team: TeamOwnQueryOneSchema,
-    manager: EmployeeOwnQueryOneSchema,
+    team: z.boolean().or(TeamOwnQueryOneSchema),
+    manager: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const TeamManagerQueryOneSchema = z
+export const TeamManagerProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TeamManagerProjectionSchema
+);
+
+export const TeamManagerIncludeSchema = z
   .object({
-    where: TeamManagerWhereSchema,
-    select: TeamManagerProjectionSchema,
-    omit: TeamManagerProjectionSchema,
+    team: z.boolean().or(TeamOwnQueryOneSchema),
+    manager: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const TeamManagerQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TeamManagerWhereSchema,
-    select: TeamManagerProjectionSchema,
-    omit: TeamManagerProjectionSchema,
-  })
-  .partial();
+export const TeamManagerIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TeamManagerIncludeSchema
+);
 
 export const TeamMemberCreateSchema = z.object({
   teamId: z.int(),
@@ -2256,6 +3206,11 @@ export const TeamMemberOrderBySchema = z
     memberId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const TeamMemberOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  TeamMemberOrderBySchema
+);
 
 export const TeamMemberWhereSchema = z
   .object({
@@ -2279,33 +3234,37 @@ export const TeamMemberWhereSchema = z
   })
   .partial();
 
+export const TeamMemberWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TeamMemberWhereSchema
+);
+
 export const TeamMemberProjectionSchema = z
   .object({
     id: z.boolean(),
     teamId: z.boolean(),
     memberId: z.boolean(),
-    member: EmployeeOwnQueryOneSchema,
-    team: TeamOwnQueryOneSchema,
+    member: z.boolean().or(EmployeeOwnQueryOneSchema),
+    team: z.boolean().or(TeamOwnQueryOneSchema),
   })
   .partial();
 
-export const TeamMemberQueryOneSchema = z
+export const TeamMemberProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TeamMemberProjectionSchema
+);
+
+export const TeamMemberIncludeSchema = z
   .object({
-    where: TeamMemberWhereSchema,
-    select: TeamMemberProjectionSchema,
-    omit: TeamMemberProjectionSchema,
+    member: z.boolean().or(EmployeeOwnQueryOneSchema),
+    team: z.boolean().or(TeamOwnQueryOneSchema),
   })
   .partial();
 
-export const TeamMemberQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TeamMemberWhereSchema,
-    select: TeamMemberProjectionSchema,
-    omit: TeamMemberProjectionSchema,
-  })
-  .partial();
+export const TeamMemberIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TeamMemberIncludeSchema
+);
 
 export const SalaryCreateSchema = z.object({
   employeeId: z.int(),
@@ -2333,6 +3292,11 @@ export const SalaryOrderBySchema = z
   })
   .partial();
 
+export const SalaryOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  SalaryOrderBySchema
+);
+
 export const SalaryWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -2351,6 +3315,11 @@ export const SalaryWhereSchema = z
   })
   .partial();
 
+export const SalaryWhereSchemaJson = z.preprocess(
+  jsonParser,
+  SalaryWhereSchema
+);
+
 export const SalaryProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -2359,27 +3328,25 @@ export const SalaryProjectionSchema = z
     startDate: z.boolean(),
     endDate: z.boolean(),
     frequency: z.boolean(),
-    employee: EmployeeOwnQueryOneSchema,
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const SalaryQueryOneSchema = z
+export const SalaryProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  SalaryProjectionSchema
+);
+
+export const SalaryIncludeSchema = z
   .object({
-    where: SalaryWhereSchema,
-    select: SalaryProjectionSchema,
-    omit: SalaryProjectionSchema,
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const SalaryQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: SalaryWhereSchema,
-    select: SalaryProjectionSchema,
-    omit: SalaryProjectionSchema,
-  })
-  .partial();
+export const SalaryIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  SalaryIncludeSchema
+);
 
 export const SalaryHistoryCreateSchema = z.object({
   employeeId: z.int(),
@@ -2406,6 +3373,11 @@ export const SalaryHistoryOrderBySchema = z
   })
   .partial();
 
+export const SalaryHistoryOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  SalaryHistoryOrderBySchema
+);
+
 export const SalaryHistoryWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -2424,6 +3396,11 @@ export const SalaryHistoryWhereSchema = z
   })
   .partial();
 
+export const SalaryHistoryWhereSchemaJson = z.preprocess(
+  jsonParser,
+  SalaryHistoryWhereSchema
+);
+
 export const SalaryHistoryProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -2432,27 +3409,25 @@ export const SalaryHistoryProjectionSchema = z
     oldSalary: z.boolean(),
     newSalary: z.boolean(),
     reason: z.boolean(),
-    employee: EmployeeOwnQueryOneSchema,
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const SalaryHistoryQueryOneSchema = z
+export const SalaryHistoryProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  SalaryHistoryProjectionSchema
+);
+
+export const SalaryHistoryIncludeSchema = z
   .object({
-    where: SalaryHistoryWhereSchema,
-    select: SalaryHistoryProjectionSchema,
-    omit: SalaryHistoryProjectionSchema,
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const SalaryHistoryQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: SalaryHistoryWhereSchema,
-    select: SalaryHistoryProjectionSchema,
-    omit: SalaryHistoryProjectionSchema,
-  })
-  .partial();
+export const SalaryHistoryIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  SalaryHistoryIncludeSchema
+);
 
 export const BenefitCreateSchema = z.object({
   name: z.string(),
@@ -2475,6 +3450,11 @@ export const BenefitOrderBySchema = z
   })
   .partial();
 
+export const BenefitOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  BenefitOrderBySchema
+);
+
 export const BenefitWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -2491,33 +3471,36 @@ export const BenefitWhereSchema = z
   })
   .partial();
 
+export const BenefitWhereSchemaJson = z.preprocess(
+  jsonParser,
+  BenefitWhereSchema
+);
+
 export const BenefitProjectionSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
     description: z.boolean(),
     type: z.boolean(),
-    enrolments: BenefitEnrolmentOwnQuerySchema,
+    enrolments: z.boolean().or(BenefitEnrolmentOwnQuerySchema),
   })
   .partial();
 
-export const BenefitQueryOneSchema = z
+export const BenefitProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  BenefitProjectionSchema
+);
+
+export const BenefitIncludeSchema = z
   .object({
-    where: BenefitWhereSchema,
-    select: BenefitProjectionSchema,
-    omit: BenefitProjectionSchema,
+    enrolments: z.boolean().or(BenefitEnrolmentOwnQuerySchema),
   })
   .partial();
 
-export const BenefitQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: BenefitWhereSchema,
-    select: BenefitProjectionSchema,
-    omit: BenefitProjectionSchema,
-  })
-  .partial();
+export const BenefitIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  BenefitIncludeSchema
+);
 
 export const BenefitEnrolmentCreateSchema = z.object({
   benefitId: z.int(),
@@ -2541,6 +3524,11 @@ export const BenefitEnrolmentOrderBySchema = z
     startDate: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const BenefitEnrolmentOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  BenefitEnrolmentOrderBySchema
+);
 
 export const BenefitEnrolmentWhereSchema = z
   .object({
@@ -2566,6 +3554,11 @@ export const BenefitEnrolmentWhereSchema = z
   })
   .partial();
 
+export const BenefitEnrolmentWhereSchemaJson = z.preprocess(
+  jsonParser,
+  BenefitEnrolmentWhereSchema
+);
+
 export const BenefitEnrolmentProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -2573,28 +3566,27 @@ export const BenefitEnrolmentProjectionSchema = z
     employeeId: z.boolean(),
     startDate: z.boolean(),
     status: z.boolean(),
-    benefit: BenefitOwnQueryOneSchema,
-    employee: EmployeeOwnQueryOneSchema,
+    benefit: z.boolean().or(BenefitOwnQueryOneSchema),
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const BenefitEnrolmentQueryOneSchema = z
+export const BenefitEnrolmentProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  BenefitEnrolmentProjectionSchema
+);
+
+export const BenefitEnrolmentIncludeSchema = z
   .object({
-    where: BenefitEnrolmentWhereSchema,
-    select: BenefitEnrolmentProjectionSchema,
-    omit: BenefitEnrolmentProjectionSchema,
+    benefit: z.boolean().or(BenefitOwnQueryOneSchema),
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const BenefitEnrolmentQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: BenefitEnrolmentWhereSchema,
-    select: BenefitEnrolmentProjectionSchema,
-    omit: BenefitEnrolmentProjectionSchema,
-  })
-  .partial();
+export const BenefitEnrolmentIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  BenefitEnrolmentIncludeSchema
+);
 
 export const TitleHistoryCreateSchema = z.object({
   employeeId: z.int(),
@@ -2625,6 +3617,11 @@ export const TitleHistoryOrderBySchema = z
   })
   .partial();
 
+export const TitleHistoryOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  TitleHistoryOrderBySchema
+);
+
 export const TitleHistoryWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -2651,6 +3648,11 @@ export const TitleHistoryWhereSchema = z
   })
   .partial();
 
+export const TitleHistoryWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TitleHistoryWhereSchema
+);
+
 export const TitleHistoryProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -2660,28 +3662,27 @@ export const TitleHistoryProjectionSchema = z
     reason: z.boolean(),
     startDate: z.boolean(),
     endDate: z.boolean(),
-    employee: EmployeeOwnQueryOneSchema,
-    title: TitleOwnQueryOneSchema,
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    title: z.boolean().or(TitleOwnQueryOneSchema),
   })
   .partial();
 
-export const TitleHistoryQueryOneSchema = z
+export const TitleHistoryProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TitleHistoryProjectionSchema
+);
+
+export const TitleHistoryIncludeSchema = z
   .object({
-    where: TitleHistoryWhereSchema,
-    select: TitleHistoryProjectionSchema,
-    omit: TitleHistoryProjectionSchema,
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    title: z.boolean().or(TitleOwnQueryOneSchema),
   })
   .partial();
 
-export const TitleHistoryQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TitleHistoryWhereSchema,
-    select: TitleHistoryProjectionSchema,
-    omit: TitleHistoryProjectionSchema,
-  })
-  .partial();
+export const TitleHistoryIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TitleHistoryIncludeSchema
+);
 
 export const TimeOffPolicyCreateSchema = z.object({
   name: z.string(),
@@ -2707,6 +3708,11 @@ export const TimeOffPolicyOrderBySchema = z
   })
   .partial();
 
+export const TimeOffPolicyOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffPolicyOrderBySchema
+);
+
 export const TimeOffPolicyWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -2731,6 +3737,11 @@ export const TimeOffPolicyWhereSchema = z
   })
   .partial();
 
+export const TimeOffPolicyWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffPolicyWhereSchema
+);
+
 export const TimeOffPolicyProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -2738,28 +3749,27 @@ export const TimeOffPolicyProjectionSchema = z
     description: z.boolean(),
     accrualRate: z.boolean(),
     maxRollover: z.boolean(),
-    balances: TimeOffBalanceOwnQuerySchema,
-    requests: TimeOffRequestOwnQuerySchema,
+    balances: z.boolean().or(TimeOffBalanceOwnQuerySchema),
+    requests: z.boolean().or(TimeOffRequestOwnQuerySchema),
   })
   .partial();
 
-export const TimeOffPolicyQueryOneSchema = z
+export const TimeOffPolicyProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffPolicyProjectionSchema
+);
+
+export const TimeOffPolicyIncludeSchema = z
   .object({
-    where: TimeOffPolicyWhereSchema,
-    select: TimeOffPolicyProjectionSchema,
-    omit: TimeOffPolicyProjectionSchema,
+    balances: z.boolean().or(TimeOffBalanceOwnQuerySchema),
+    requests: z.boolean().or(TimeOffRequestOwnQuerySchema),
   })
   .partial();
 
-export const TimeOffPolicyQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TimeOffPolicyWhereSchema,
-    select: TimeOffPolicyProjectionSchema,
-    omit: TimeOffPolicyProjectionSchema,
-  })
-  .partial();
+export const TimeOffPolicyIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffPolicyIncludeSchema
+);
 
 export const TimeOffBalanceCreateSchema = z.object({
   policyId: z.int(),
@@ -2787,6 +3797,11 @@ export const TimeOffBalanceOrderBySchema = z
     availableHours: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const TimeOffBalanceOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffBalanceOrderBySchema
+);
 
 export const TimeOffBalanceWhereSchema = z
   .object({
@@ -2820,6 +3835,11 @@ export const TimeOffBalanceWhereSchema = z
   })
   .partial();
 
+export const TimeOffBalanceWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffBalanceWhereSchema
+);
+
 export const TimeOffBalanceProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -2828,29 +3848,29 @@ export const TimeOffBalanceProjectionSchema = z
     accruedHours: z.boolean(),
     usedHours: z.boolean(),
     availableHours: z.boolean(),
-    policy: TimeOffPolicyOwnQueryOneSchema,
-    employee: EmployeeOwnQueryOneSchema,
-    transactions: TimeOffTransactionOwnQuerySchema,
+    policy: z.boolean().or(TimeOffPolicyOwnQueryOneSchema),
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    transactions: z.boolean().or(TimeOffTransactionOwnQuerySchema),
   })
   .partial();
 
-export const TimeOffBalanceQueryOneSchema = z
+export const TimeOffBalanceProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffBalanceProjectionSchema
+);
+
+export const TimeOffBalanceIncludeSchema = z
   .object({
-    where: TimeOffBalanceWhereSchema,
-    select: TimeOffBalanceProjectionSchema,
-    omit: TimeOffBalanceProjectionSchema,
+    policy: z.boolean().or(TimeOffPolicyOwnQueryOneSchema),
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    transactions: z.boolean().or(TimeOffTransactionOwnQuerySchema),
   })
   .partial();
 
-export const TimeOffBalanceQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TimeOffBalanceWhereSchema,
-    select: TimeOffBalanceProjectionSchema,
-    omit: TimeOffBalanceProjectionSchema,
-  })
-  .partial();
+export const TimeOffBalanceIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffBalanceIncludeSchema
+);
 
 export const TimeOffRequestCreateSchema = z.object({
   employeeId: z.int(),
@@ -2884,6 +3904,11 @@ export const TimeOffRequestOrderBySchema = z
     endDate: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const TimeOffRequestOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffRequestOrderBySchema
+);
 
 export const TimeOffRequestWhereSchema = z
   .object({
@@ -2927,6 +3952,11 @@ export const TimeOffRequestWhereSchema = z
   })
   .partial();
 
+export const TimeOffRequestWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffRequestWhereSchema
+);
+
 export const TimeOffRequestProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -2938,30 +3968,31 @@ export const TimeOffRequestProjectionSchema = z
     status: z.boolean(),
     startDate: z.boolean(),
     endDate: z.boolean(),
-    employee: EmployeeOwnQueryOneSchema,
-    policy: TimeOffPolicyOwnQueryOneSchema,
-    resolver: EmployeeOwnQueryOneSchema,
-    transactions: TimeOffTransactionOwnQuerySchema,
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    policy: z.boolean().or(TimeOffPolicyOwnQueryOneSchema),
+    resolver: z.boolean().or(EmployeeOwnQueryOneSchema),
+    transactions: z.boolean().or(TimeOffTransactionOwnQuerySchema),
   })
   .partial();
 
-export const TimeOffRequestQueryOneSchema = z
+export const TimeOffRequestProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffRequestProjectionSchema
+);
+
+export const TimeOffRequestIncludeSchema = z
   .object({
-    where: TimeOffRequestWhereSchema,
-    select: TimeOffRequestProjectionSchema,
-    omit: TimeOffRequestProjectionSchema,
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    policy: z.boolean().or(TimeOffPolicyOwnQueryOneSchema),
+    resolver: z.boolean().or(EmployeeOwnQueryOneSchema),
+    transactions: z.boolean().or(TimeOffTransactionOwnQuerySchema),
   })
   .partial();
 
-export const TimeOffRequestQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TimeOffRequestWhereSchema,
-    select: TimeOffRequestProjectionSchema,
-    omit: TimeOffRequestProjectionSchema,
-  })
-  .partial();
+export const TimeOffRequestIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffRequestIncludeSchema
+);
 
 export const TimeOffTransactionCreateSchema = z.object({
   type: TimeOffTransactionTypeSchema,
@@ -2987,6 +4018,11 @@ export const TimeOffTransactionOrderBySchema = z
     amount: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const TimeOffTransactionOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffTransactionOrderBySchema
+);
 
 export const TimeOffTransactionWhereSchema = z
   .object({
@@ -3014,6 +4050,11 @@ export const TimeOffTransactionWhereSchema = z
   })
   .partial();
 
+export const TimeOffTransactionWhereSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffTransactionWhereSchema
+);
+
 export const TimeOffTransactionProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -3023,28 +4064,27 @@ export const TimeOffTransactionProjectionSchema = z
     balanceId: z.boolean(),
     requestId: z.boolean(),
     amount: z.boolean(),
-    balance: TimeOffBalanceOwnQueryOneSchema,
-    request: TimeOffRequestOwnQueryOneSchema,
+    balance: z.boolean().or(TimeOffBalanceOwnQueryOneSchema),
+    request: z.boolean().or(TimeOffRequestOwnQueryOneSchema),
   })
   .partial();
 
-export const TimeOffTransactionQueryOneSchema = z
+export const TimeOffTransactionProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffTransactionProjectionSchema
+);
+
+export const TimeOffTransactionIncludeSchema = z
   .object({
-    where: TimeOffTransactionWhereSchema,
-    select: TimeOffTransactionProjectionSchema,
-    omit: TimeOffTransactionProjectionSchema,
+    balance: z.boolean().or(TimeOffBalanceOwnQueryOneSchema),
+    request: z.boolean().or(TimeOffRequestOwnQueryOneSchema),
   })
   .partial();
 
-export const TimeOffTransactionQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: TimeOffTransactionWhereSchema,
-    select: TimeOffTransactionProjectionSchema,
-    omit: TimeOffTransactionProjectionSchema,
-  })
-  .partial();
+export const TimeOffTransactionIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  TimeOffTransactionIncludeSchema
+);
 
 export const ClockInCreateSchema = z.object({
   employeeId: z.int(),
@@ -3065,6 +4105,11 @@ export const ClockInOrderBySchema = z
   })
   .partial();
 
+export const ClockInOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  ClockInOrderBySchema
+);
+
 export const ClockInWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -3081,33 +4126,36 @@ export const ClockInWhereSchema = z
   })
   .partial();
 
+export const ClockInWhereSchemaJson = z.preprocess(
+  jsonParser,
+  ClockInWhereSchema
+);
+
 export const ClockInProjectionSchema = z
   .object({
     id: z.boolean(),
     employeeId: z.boolean(),
     clockIn: z.boolean(),
     clockOut: z.boolean(),
-    employee: EmployeeOwnQueryOneSchema,
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const ClockInQueryOneSchema = z
+export const ClockInProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ClockInProjectionSchema
+);
+
+export const ClockInIncludeSchema = z
   .object({
-    where: ClockInWhereSchema,
-    select: ClockInProjectionSchema,
-    omit: ClockInProjectionSchema,
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const ClockInQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ClockInWhereSchema,
-    select: ClockInProjectionSchema,
-    omit: ClockInProjectionSchema,
-  })
-  .partial();
+export const ClockInIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ClockInIncludeSchema
+);
 
 export const PaycheckCreateSchema = z.object({
   payrollRunId: z.int(),
@@ -3134,6 +4182,11 @@ export const PaycheckOrderBySchema = z
     netAmount: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const PaycheckOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  PaycheckOrderBySchema
+);
 
 export const PaycheckWhereSchema = z
   .object({
@@ -3182,6 +4235,11 @@ export const PaycheckWhereSchema = z
   })
   .partial();
 
+export const PaycheckWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PaycheckWhereSchema
+);
+
 export const PaycheckProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -3191,31 +4249,33 @@ export const PaycheckProjectionSchema = z
     employeeId: z.boolean(),
     grossAmount: z.boolean(),
     netAmount: z.boolean(),
-    employee: EmployeeOwnQueryOneSchema,
-    earnings: EarningOwnQuerySchema,
-    paycheckTaxes: PaycheckTaxOwnQuerySchema,
-    deductions: PaycheckDeductionOwnQuerySchema,
-    payrollRun: PayrollRunOwnQueryOneSchema,
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    earnings: z.boolean().or(EarningOwnQuerySchema),
+    paycheckTaxes: z.boolean().or(PaycheckTaxOwnQuerySchema),
+    deductions: z.boolean().or(PaycheckDeductionOwnQuerySchema),
+    payrollRun: z.boolean().or(PayrollRunOwnQueryOneSchema),
   })
   .partial();
 
-export const PaycheckQueryOneSchema = z
+export const PaycheckProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PaycheckProjectionSchema
+);
+
+export const PaycheckIncludeSchema = z
   .object({
-    where: PaycheckWhereSchema,
-    select: PaycheckProjectionSchema,
-    omit: PaycheckProjectionSchema,
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    earnings: z.boolean().or(EarningOwnQuerySchema),
+    paycheckTaxes: z.boolean().or(PaycheckTaxOwnQuerySchema),
+    deductions: z.boolean().or(PaycheckDeductionOwnQuerySchema),
+    payrollRun: z.boolean().or(PayrollRunOwnQueryOneSchema),
   })
   .partial();
 
-export const PaycheckQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PaycheckWhereSchema,
-    select: PaycheckProjectionSchema,
-    omit: PaycheckProjectionSchema,
-  })
-  .partial();
+export const PaycheckIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PaycheckIncludeSchema
+);
 
 export const EarningCreateSchema = z.object({
   type: EarningTypeSchema,
@@ -3243,6 +4303,11 @@ export const EarningOrderBySchema = z
   })
   .partial();
 
+export const EarningOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  EarningOrderBySchema
+);
+
 export const EarningWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -3261,6 +4326,11 @@ export const EarningWhereSchema = z
   })
   .partial();
 
+export const EarningWhereSchemaJson = z.preprocess(
+  jsonParser,
+  EarningWhereSchema
+);
+
 export const EarningProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -3269,27 +4339,25 @@ export const EarningProjectionSchema = z
     rate: z.boolean(),
     amount: z.boolean(),
     paycheckId: z.boolean(),
-    paycheck: PaycheckOwnQueryOneSchema,
+    paycheck: z.boolean().or(PaycheckOwnQueryOneSchema),
   })
   .partial();
 
-export const EarningQueryOneSchema = z
+export const EarningProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  EarningProjectionSchema
+);
+
+export const EarningIncludeSchema = z
   .object({
-    where: EarningWhereSchema,
-    select: EarningProjectionSchema,
-    omit: EarningProjectionSchema,
+    paycheck: z.boolean().or(PaycheckOwnQueryOneSchema),
   })
   .partial();
 
-export const EarningQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: EarningWhereSchema,
-    select: EarningProjectionSchema,
-    omit: EarningProjectionSchema,
-  })
-  .partial();
+export const EarningIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  EarningIncludeSchema
+);
 
 export const PaycheckTaxCreateSchema = z.object({
   paycheckId: z.int(),
@@ -3312,6 +4380,11 @@ export const PaycheckTaxOrderBySchema = z
   })
   .partial();
 
+export const PaycheckTaxOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  PaycheckTaxOrderBySchema
+);
+
 export const PaycheckTaxWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -3328,33 +4401,36 @@ export const PaycheckTaxWhereSchema = z
   })
   .partial();
 
+export const PaycheckTaxWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PaycheckTaxWhereSchema
+);
+
 export const PaycheckTaxProjectionSchema = z
   .object({
     id: z.boolean(),
     paycheckId: z.boolean(),
     taxAuthority: z.boolean(),
     amount: z.boolean(),
-    paycheck: PaycheckOwnQueryOneSchema,
+    paycheck: z.boolean().or(PaycheckOwnQueryOneSchema),
   })
   .partial();
 
-export const PaycheckTaxQueryOneSchema = z
+export const PaycheckTaxProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PaycheckTaxProjectionSchema
+);
+
+export const PaycheckTaxIncludeSchema = z
   .object({
-    where: PaycheckTaxWhereSchema,
-    select: PaycheckTaxProjectionSchema,
-    omit: PaycheckTaxProjectionSchema,
+    paycheck: z.boolean().or(PaycheckOwnQueryOneSchema),
   })
   .partial();
 
-export const PaycheckTaxQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PaycheckTaxWhereSchema,
-    select: PaycheckTaxProjectionSchema,
-    omit: PaycheckTaxProjectionSchema,
-  })
-  .partial();
+export const PaycheckTaxIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PaycheckTaxIncludeSchema
+);
 
 export const DeductionPolicyCreateSchema = z.object({
   name: z.string(),
@@ -3379,6 +4455,11 @@ export const DeductionPolicyOrderBySchema = z
   })
   .partial();
 
+export const DeductionPolicyOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  DeductionPolicyOrderBySchema
+);
+
 export const DeductionPolicyWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -3396,6 +4477,11 @@ export const DeductionPolicyWhereSchema = z
   })
   .partial();
 
+export const DeductionPolicyWhereSchemaJson = z.preprocess(
+  jsonParser,
+  DeductionPolicyWhereSchema
+);
+
 export const DeductionPolicyProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -3403,27 +4489,25 @@ export const DeductionPolicyProjectionSchema = z
     type: z.boolean(),
     defaultAmount: z.boolean(),
     defaultPercent: z.boolean(),
-    employeeDeductions: EmployeeDeductionOwnQuerySchema,
+    employeeDeductions: z.boolean().or(EmployeeDeductionOwnQuerySchema),
   })
   .partial();
 
-export const DeductionPolicyQueryOneSchema = z
+export const DeductionPolicyProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  DeductionPolicyProjectionSchema
+);
+
+export const DeductionPolicyIncludeSchema = z
   .object({
-    where: DeductionPolicyWhereSchema,
-    select: DeductionPolicyProjectionSchema,
-    omit: DeductionPolicyProjectionSchema,
+    employeeDeductions: z.boolean().or(EmployeeDeductionOwnQuerySchema),
   })
   .partial();
 
-export const DeductionPolicyQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: DeductionPolicyWhereSchema,
-    select: DeductionPolicyProjectionSchema,
-    omit: DeductionPolicyProjectionSchema,
-  })
-  .partial();
+export const DeductionPolicyIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  DeductionPolicyIncludeSchema
+);
 
 export const EmployeeDeductionCreateSchema = z.object({
   employeeId: z.int(),
@@ -3445,6 +4529,11 @@ export const EmployeeDeductionOrderBySchema = z
     employeeAmount: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const EmployeeDeductionOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeDeductionOrderBySchema
+);
 
 export const EmployeeDeductionWhereSchema = z
   .object({
@@ -3476,35 +4565,40 @@ export const EmployeeDeductionWhereSchema = z
   })
   .partial();
 
+export const EmployeeDeductionWhereSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeDeductionWhereSchema
+);
+
 export const EmployeeDeductionProjectionSchema = z
   .object({
     id: z.boolean(),
     employeeId: z.boolean(),
     policyId: z.boolean(),
     employeeAmount: z.boolean(),
-    employee: EmployeeOwnQueryOneSchema,
-    policy: DeductionPolicyOwnQueryOneSchema,
-    paycheckDeductions: PaycheckDeductionOwnQuerySchema,
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    policy: z.boolean().or(DeductionPolicyOwnQueryOneSchema),
+    paycheckDeductions: z.boolean().or(PaycheckDeductionOwnQuerySchema),
   })
   .partial();
 
-export const EmployeeDeductionQueryOneSchema = z
+export const EmployeeDeductionProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeDeductionProjectionSchema
+);
+
+export const EmployeeDeductionIncludeSchema = z
   .object({
-    where: EmployeeDeductionWhereSchema,
-    select: EmployeeDeductionProjectionSchema,
-    omit: EmployeeDeductionProjectionSchema,
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    policy: z.boolean().or(DeductionPolicyOwnQueryOneSchema),
+    paycheckDeductions: z.boolean().or(PaycheckDeductionOwnQuerySchema),
   })
   .partial();
 
-export const EmployeeDeductionQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: EmployeeDeductionWhereSchema,
-    select: EmployeeDeductionProjectionSchema,
-    omit: EmployeeDeductionProjectionSchema,
-  })
-  .partial();
+export const EmployeeDeductionIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeDeductionIncludeSchema
+);
 
 export const PaycheckDeductionCreateSchema = z.object({
   paycheckId: z.int(),
@@ -3526,6 +4620,11 @@ export const PaycheckDeductionOrderBySchema = z
     amount: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const PaycheckDeductionOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  PaycheckDeductionOrderBySchema
+);
 
 export const PaycheckDeductionWhereSchema = z
   .object({
@@ -3550,34 +4649,38 @@ export const PaycheckDeductionWhereSchema = z
   })
   .partial();
 
+export const PaycheckDeductionWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PaycheckDeductionWhereSchema
+);
+
 export const PaycheckDeductionProjectionSchema = z
   .object({
     id: z.boolean(),
     paycheckId: z.boolean(),
     employeeDeductionId: z.boolean(),
     amount: z.boolean(),
-    paycheck: PaycheckOwnQueryOneSchema,
-    employeeDeduction: EmployeeDeductionOwnQueryOneSchema,
+    paycheck: z.boolean().or(PaycheckOwnQueryOneSchema),
+    employeeDeduction: z.boolean().or(EmployeeDeductionOwnQueryOneSchema),
   })
   .partial();
 
-export const PaycheckDeductionQueryOneSchema = z
+export const PaycheckDeductionProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PaycheckDeductionProjectionSchema
+);
+
+export const PaycheckDeductionIncludeSchema = z
   .object({
-    where: PaycheckDeductionWhereSchema,
-    select: PaycheckDeductionProjectionSchema,
-    omit: PaycheckDeductionProjectionSchema,
+    paycheck: z.boolean().or(PaycheckOwnQueryOneSchema),
+    employeeDeduction: z.boolean().or(EmployeeDeductionOwnQueryOneSchema),
   })
   .partial();
 
-export const PaycheckDeductionQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PaycheckDeductionWhereSchema,
-    select: PaycheckDeductionProjectionSchema,
-    omit: PaycheckDeductionProjectionSchema,
-  })
-  .partial();
+export const PaycheckDeductionIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PaycheckDeductionIncludeSchema
+);
 
 export const EmployeeTaxDataCreateSchema = z.object({
   startDate: z.iso.datetime(),
@@ -3625,6 +4728,11 @@ export const EmployeeTaxDataOrderBySchema = z
   })
   .partial();
 
+export const EmployeeTaxDataOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeTaxDataOrderBySchema
+);
+
 export const EmployeeTaxDataWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -3665,6 +4773,11 @@ export const EmployeeTaxDataWhereSchema = z
   })
   .partial();
 
+export const EmployeeTaxDataWhereSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeTaxDataWhereSchema
+);
+
 export const EmployeeTaxDataProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -3681,29 +4794,29 @@ export const EmployeeTaxDataProjectionSchema = z
     extraWithholding: z.boolean(),
     isExempt: z.boolean(),
     isNonResidentAlien: z.boolean(),
-    stateTaxes: StateTaxWithholdingOwnQuerySchema,
-    localTaxes: LocalTaxWithholdingOwnQuerySchema,
-    employee: EmployeeOwnQueryOneSchema,
+    stateTaxes: z.boolean().or(StateTaxWithholdingOwnQuerySchema),
+    localTaxes: z.boolean().or(LocalTaxWithholdingOwnQuerySchema),
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const EmployeeTaxDataQueryOneSchema = z
+export const EmployeeTaxDataProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeTaxDataProjectionSchema
+);
+
+export const EmployeeTaxDataIncludeSchema = z
   .object({
-    where: EmployeeTaxDataWhereSchema,
-    select: EmployeeTaxDataProjectionSchema,
-    omit: EmployeeTaxDataProjectionSchema,
+    stateTaxes: z.boolean().or(StateTaxWithholdingOwnQuerySchema),
+    localTaxes: z.boolean().or(LocalTaxWithholdingOwnQuerySchema),
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
-export const EmployeeTaxDataQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: EmployeeTaxDataWhereSchema,
-    select: EmployeeTaxDataProjectionSchema,
-    omit: EmployeeTaxDataProjectionSchema,
-  })
-  .partial();
+export const EmployeeTaxDataIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  EmployeeTaxDataIncludeSchema
+);
 
 export const StateTaxWithholdingCreateSchema = z.object({
   taxDataId: z.int(),
@@ -3732,6 +4845,11 @@ export const StateTaxWithholdingOrderBySchema = z
   })
   .partial();
 
+export const StateTaxWithholdingOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  StateTaxWithholdingOrderBySchema
+);
+
 export const StateTaxWithholdingWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -3750,6 +4868,11 @@ export const StateTaxWithholdingWhereSchema = z
   })
   .partial();
 
+export const StateTaxWithholdingWhereSchemaJson = z.preprocess(
+  jsonParser,
+  StateTaxWithholdingWhereSchema
+);
+
 export const StateTaxWithholdingProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -3758,27 +4881,25 @@ export const StateTaxWithholdingProjectionSchema = z
     stateStatus: z.boolean(),
     allowances: z.boolean(),
     extraWithholding: z.boolean(),
-    taxData: EmployeeTaxDataOwnQueryOneSchema,
+    taxData: z.boolean().or(EmployeeTaxDataOwnQueryOneSchema),
   })
   .partial();
 
-export const StateTaxWithholdingQueryOneSchema = z
+export const StateTaxWithholdingProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  StateTaxWithholdingProjectionSchema
+);
+
+export const StateTaxWithholdingIncludeSchema = z
   .object({
-    where: StateTaxWithholdingWhereSchema,
-    select: StateTaxWithholdingProjectionSchema,
-    omit: StateTaxWithholdingProjectionSchema,
+    taxData: z.boolean().or(EmployeeTaxDataOwnQueryOneSchema),
   })
   .partial();
 
-export const StateTaxWithholdingQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: StateTaxWithholdingWhereSchema,
-    select: StateTaxWithholdingProjectionSchema,
-    omit: StateTaxWithholdingProjectionSchema,
-  })
-  .partial();
+export const StateTaxWithholdingIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  StateTaxWithholdingIncludeSchema
+);
 
 export const LocalTaxWithholdingCreateSchema = z.object({
   taxDataId: z.int(),
@@ -3804,6 +4925,11 @@ export const LocalTaxWithholdingOrderBySchema = z
   })
   .partial();
 
+export const LocalTaxWithholdingOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  LocalTaxWithholdingOrderBySchema
+);
+
 export const LocalTaxWithholdingWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -3821,6 +4947,11 @@ export const LocalTaxWithholdingWhereSchema = z
   })
   .partial();
 
+export const LocalTaxWithholdingWhereSchemaJson = z.preprocess(
+  jsonParser,
+  LocalTaxWithholdingWhereSchema
+);
+
 export const LocalTaxWithholdingProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -3828,27 +4959,25 @@ export const LocalTaxWithholdingProjectionSchema = z
     jurisdiction: z.boolean(),
     localStatus: z.boolean(),
     extraWithholding: z.boolean(),
-    taxData: EmployeeTaxDataOwnQueryOneSchema,
+    taxData: z.boolean().or(EmployeeTaxDataOwnQueryOneSchema),
   })
   .partial();
 
-export const LocalTaxWithholdingQueryOneSchema = z
+export const LocalTaxWithholdingProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  LocalTaxWithholdingProjectionSchema
+);
+
+export const LocalTaxWithholdingIncludeSchema = z
   .object({
-    where: LocalTaxWithholdingWhereSchema,
-    select: LocalTaxWithholdingProjectionSchema,
-    omit: LocalTaxWithholdingProjectionSchema,
+    taxData: z.boolean().or(EmployeeTaxDataOwnQueryOneSchema),
   })
   .partial();
 
-export const LocalTaxWithholdingQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: LocalTaxWithholdingWhereSchema,
-    select: LocalTaxWithholdingProjectionSchema,
-    omit: LocalTaxWithholdingProjectionSchema,
-  })
-  .partial();
+export const LocalTaxWithholdingIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  LocalTaxWithholdingIncludeSchema
+);
 
 export const PayrollRunCreateSchema = z.object({
   resolverId: z.int(),
@@ -3876,6 +5005,11 @@ export const PayrollRunOrderBySchema = z
   })
   .partial();
 
+export const PayrollRunOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  PayrollRunOrderBySchema
+);
+
 export const PayrollRunWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -3901,6 +5035,11 @@ export const PayrollRunWhereSchema = z
   })
   .partial();
 
+export const PayrollRunWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PayrollRunWhereSchema
+);
+
 export const PayrollRunProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -3909,28 +5048,27 @@ export const PayrollRunProjectionSchema = z
     endDate: z.boolean(),
     payDate: z.boolean(),
     status: z.boolean(),
-    approvedBy: EmployeeOwnQueryOneSchema,
-    paychecks: PaycheckOwnQuerySchema,
+    approvedBy: z.boolean().or(EmployeeOwnQueryOneSchema),
+    paychecks: z.boolean().or(PaycheckOwnQuerySchema),
   })
   .partial();
 
-export const PayrollRunQueryOneSchema = z
+export const PayrollRunProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PayrollRunProjectionSchema
+);
+
+export const PayrollRunIncludeSchema = z
   .object({
-    where: PayrollRunWhereSchema,
-    select: PayrollRunProjectionSchema,
-    omit: PayrollRunProjectionSchema,
+    approvedBy: z.boolean().or(EmployeeOwnQueryOneSchema),
+    paychecks: z.boolean().or(PaycheckOwnQuerySchema),
   })
   .partial();
 
-export const PayrollRunQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PayrollRunWhereSchema,
-    select: PayrollRunProjectionSchema,
-    omit: PayrollRunProjectionSchema,
-  })
-  .partial();
+export const PayrollRunIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PayrollRunIncludeSchema
+);
 
 export const ContactCreateSchema = z.object({
   employeeId: z.int(),
@@ -3946,6 +5084,11 @@ export const ContactOrderBySchema = z
     employeeId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const ContactOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  ContactOrderBySchema
+);
 
 export const ContactWhereSchema = z
   .object({
@@ -4003,37 +5146,46 @@ export const ContactWhereSchema = z
   })
   .partial();
 
+export const ContactWhereSchemaJson = z.preprocess(
+  jsonParser,
+  ContactWhereSchema
+);
+
 export const ContactProjectionSchema = z
   .object({
     id: z.boolean(),
     employeeId: z.boolean(),
-    employee: EmployeeOwnQueryOneSchema,
-    emails: EmailOwnQuerySchema,
-    phones: PhoneOwnQuerySchema,
-    addresses: AddressOwnQuerySchema,
-    primaryEmail: PrimaryEmailOwnQueryOneSchema,
-    primaryPhone: PrimaryPhoneOwnQueryOneSchema,
-    primaryAddress: PrimaryAddressOwnQueryOneSchema,
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    emails: z.boolean().or(EmailOwnQuerySchema),
+    phones: z.boolean().or(PhoneOwnQuerySchema),
+    addresses: z.boolean().or(AddressOwnQuerySchema),
+    primaryEmail: z.boolean().or(PrimaryEmailOwnQueryOneSchema),
+    primaryPhone: z.boolean().or(PrimaryPhoneOwnQueryOneSchema),
+    primaryAddress: z.boolean().or(PrimaryAddressOwnQueryOneSchema),
   })
   .partial();
 
-export const ContactQueryOneSchema = z
+export const ContactProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  ContactProjectionSchema
+);
+
+export const ContactIncludeSchema = z
   .object({
-    where: ContactWhereSchema,
-    select: ContactProjectionSchema,
-    omit: ContactProjectionSchema,
+    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    emails: z.boolean().or(EmailOwnQuerySchema),
+    phones: z.boolean().or(PhoneOwnQuerySchema),
+    addresses: z.boolean().or(AddressOwnQuerySchema),
+    primaryEmail: z.boolean().or(PrimaryEmailOwnQueryOneSchema),
+    primaryPhone: z.boolean().or(PrimaryPhoneOwnQueryOneSchema),
+    primaryAddress: z.boolean().or(PrimaryAddressOwnQueryOneSchema),
   })
   .partial();
 
-export const ContactQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: ContactWhereSchema,
-    select: ContactProjectionSchema,
-    omit: ContactProjectionSchema,
-  })
-  .partial();
+export const ContactIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  ContactIncludeSchema
+);
 
 export const CountryCreateSchema = z.object({
   name: z.string(),
@@ -4053,6 +5205,11 @@ export const CountryOrderBySchema = z
   })
   .partial();
 
+export const CountryOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  CountryOrderBySchema
+);
+
 export const CountryWhereSchema = z
   .object({
     id: PZ.IntegerFilterSchema,
@@ -4068,32 +5225,35 @@ export const CountryWhereSchema = z
   })
   .partial();
 
+export const CountryWhereSchemaJson = z.preprocess(
+  jsonParser,
+  CountryWhereSchema
+);
+
 export const CountryProjectionSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
     code: z.boolean(),
-    states: StateOwnQuerySchema,
+    states: z.boolean().or(StateOwnQuerySchema),
   })
   .partial();
 
-export const CountryQueryOneSchema = z
+export const CountryProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  CountryProjectionSchema
+);
+
+export const CountryIncludeSchema = z
   .object({
-    where: CountryWhereSchema,
-    select: CountryProjectionSchema,
-    omit: CountryProjectionSchema,
+    states: z.boolean().or(StateOwnQuerySchema),
   })
   .partial();
 
-export const CountryQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: CountryWhereSchema,
-    select: CountryProjectionSchema,
-    omit: CountryProjectionSchema,
-  })
-  .partial();
+export const CountryIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  CountryIncludeSchema
+);
 
 export const StateCreateSchema = z.object({
   countryId: z.int(),
@@ -4115,6 +5275,11 @@ export const StateOrderBySchema = z
     code: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const StateOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  StateOrderBySchema
+);
 
 export const StateWhereSchema = z
   .object({
@@ -4139,34 +5304,35 @@ export const StateWhereSchema = z
   })
   .partial();
 
+export const StateWhereSchemaJson = z.preprocess(jsonParser, StateWhereSchema);
+
 export const StateProjectionSchema = z
   .object({
     id: z.boolean(),
     countryId: z.boolean(),
     name: z.boolean(),
     code: z.boolean(),
-    country: CountryOwnQueryOneSchema,
-    addresses: AddressOwnQuerySchema,
+    country: z.boolean().or(CountryOwnQueryOneSchema),
+    addresses: z.boolean().or(AddressOwnQuerySchema),
   })
   .partial();
 
-export const StateQueryOneSchema = z
+export const StateProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  StateProjectionSchema
+);
+
+export const StateIncludeSchema = z
   .object({
-    where: StateWhereSchema,
-    select: StateProjectionSchema,
-    omit: StateProjectionSchema,
+    country: z.boolean().or(CountryOwnQueryOneSchema),
+    addresses: z.boolean().or(AddressOwnQuerySchema),
   })
   .partial();
 
-export const StateQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: StateWhereSchema,
-    select: StateProjectionSchema,
-    omit: StateProjectionSchema,
-  })
-  .partial();
+export const StateIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  StateIncludeSchema
+);
 
 export const AddressCreateSchema = z.object({
   type: ContactTypeSchema,
@@ -4196,6 +5362,11 @@ export const AddressOrderBySchema = z
     city: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const AddressOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  AddressOrderBySchema
+);
 
 export const AddressWhereSchema = z
   .object({
@@ -4230,6 +5401,11 @@ export const AddressWhereSchema = z
   })
   .partial();
 
+export const AddressWhereSchemaJson = z.preprocess(
+  jsonParser,
+  AddressWhereSchema
+);
+
 export const AddressProjectionSchema = z
   .object({
     id: z.boolean(),
@@ -4239,29 +5415,29 @@ export const AddressProjectionSchema = z
     street: z.boolean(),
     zip: z.boolean(),
     city: z.boolean(),
-    state: StateOwnQueryOneSchema,
-    contact: ContactOwnQueryOneSchema,
-    primary: PrimaryAddressOwnQueryOneSchema,
+    state: z.boolean().or(StateOwnQueryOneSchema),
+    contact: z.boolean().or(ContactOwnQueryOneSchema),
+    primary: z.boolean().or(PrimaryAddressOwnQueryOneSchema),
   })
   .partial();
 
-export const AddressQueryOneSchema = z
+export const AddressProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  AddressProjectionSchema
+);
+
+export const AddressIncludeSchema = z
   .object({
-    where: AddressWhereSchema,
-    select: AddressProjectionSchema,
-    omit: AddressProjectionSchema,
+    state: z.boolean().or(StateOwnQueryOneSchema),
+    contact: z.boolean().or(ContactOwnQueryOneSchema),
+    primary: z.boolean().or(PrimaryAddressOwnQueryOneSchema),
   })
   .partial();
 
-export const AddressQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: AddressWhereSchema,
-    select: AddressProjectionSchema,
-    omit: AddressProjectionSchema,
-  })
-  .partial();
+export const AddressIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  AddressIncludeSchema
+);
 
 export const EmailCreateSchema = z.object({
   type: ContactTypeSchema,
@@ -4282,6 +5458,11 @@ export const EmailOrderBySchema = z
     email: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const EmailOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  EmailOrderBySchema
+);
 
 export const EmailWhereSchema = z
   .object({
@@ -4306,34 +5487,35 @@ export const EmailWhereSchema = z
   })
   .partial();
 
+export const EmailWhereSchemaJson = z.preprocess(jsonParser, EmailWhereSchema);
+
 export const EmailProjectionSchema = z
   .object({
     id: z.boolean(),
     type: z.boolean(),
     contactId: z.boolean(),
     email: z.boolean(),
-    contact: ContactOwnQueryOneSchema,
-    primary: PrimaryEmailOwnQueryOneSchema,
+    contact: z.boolean().or(ContactOwnQueryOneSchema),
+    primary: z.boolean().or(PrimaryEmailOwnQueryOneSchema),
   })
   .partial();
 
-export const EmailQueryOneSchema = z
+export const EmailProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  EmailProjectionSchema
+);
+
+export const EmailIncludeSchema = z
   .object({
-    where: EmailWhereSchema,
-    select: EmailProjectionSchema,
-    omit: EmailProjectionSchema,
+    contact: z.boolean().or(ContactOwnQueryOneSchema),
+    primary: z.boolean().or(PrimaryEmailOwnQueryOneSchema),
   })
   .partial();
 
-export const EmailQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: EmailWhereSchema,
-    select: EmailProjectionSchema,
-    omit: EmailProjectionSchema,
-  })
-  .partial();
+export const EmailIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  EmailIncludeSchema
+);
 
 export const PhoneCreateSchema = z.object({
   type: ContactTypeSchema,
@@ -4354,6 +5536,11 @@ export const PhoneOrderBySchema = z
     phone: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const PhoneOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  PhoneOrderBySchema
+);
 
 export const PhoneWhereSchema = z
   .object({
@@ -4378,34 +5565,35 @@ export const PhoneWhereSchema = z
   })
   .partial();
 
+export const PhoneWhereSchemaJson = z.preprocess(jsonParser, PhoneWhereSchema);
+
 export const PhoneProjectionSchema = z
   .object({
     id: z.boolean(),
     type: z.boolean(),
     contactId: z.boolean(),
     phone: z.boolean(),
-    contact: ContactOwnQueryOneSchema,
-    primary: PrimaryPhoneOwnQueryOneSchema,
+    contact: z.boolean().or(ContactOwnQueryOneSchema),
+    primary: z.boolean().or(PrimaryPhoneOwnQueryOneSchema),
   })
   .partial();
 
-export const PhoneQueryOneSchema = z
+export const PhoneProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PhoneProjectionSchema
+);
+
+export const PhoneIncludeSchema = z
   .object({
-    where: PhoneWhereSchema,
-    select: PhoneProjectionSchema,
-    omit: PhoneProjectionSchema,
+    contact: z.boolean().or(ContactOwnQueryOneSchema),
+    primary: z.boolean().or(PrimaryPhoneOwnQueryOneSchema),
   })
   .partial();
 
-export const PhoneQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PhoneWhereSchema,
-    select: PhoneProjectionSchema,
-    omit: PhoneProjectionSchema,
-  })
-  .partial();
+export const PhoneIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PhoneIncludeSchema
+);
 
 export const PrimaryEmailCreateSchema = z.object({
   emailId: z.int(),
@@ -4424,6 +5612,11 @@ export const PrimaryEmailOrderBySchema = z
     contactId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const PrimaryEmailOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  PrimaryEmailOrderBySchema
+);
 
 export const PrimaryEmailWhereSchema = z
   .object({
@@ -4447,33 +5640,37 @@ export const PrimaryEmailWhereSchema = z
   })
   .partial();
 
+export const PrimaryEmailWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PrimaryEmailWhereSchema
+);
+
 export const PrimaryEmailProjectionSchema = z
   .object({
     id: z.boolean(),
     emailId: z.boolean(),
     contactId: z.boolean(),
-    email: EmailOwnQueryOneSchema,
-    contact: ContactOwnQueryOneSchema,
+    email: z.boolean().or(EmailOwnQueryOneSchema),
+    contact: z.boolean().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
-export const PrimaryEmailQueryOneSchema = z
+export const PrimaryEmailProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PrimaryEmailProjectionSchema
+);
+
+export const PrimaryEmailIncludeSchema = z
   .object({
-    where: PrimaryEmailWhereSchema,
-    select: PrimaryEmailProjectionSchema,
-    omit: PrimaryEmailProjectionSchema,
+    email: z.boolean().or(EmailOwnQueryOneSchema),
+    contact: z.boolean().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
-export const PrimaryEmailQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PrimaryEmailWhereSchema,
-    select: PrimaryEmailProjectionSchema,
-    omit: PrimaryEmailProjectionSchema,
-  })
-  .partial();
+export const PrimaryEmailIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PrimaryEmailIncludeSchema
+);
 
 export const PrimaryPhoneCreateSchema = z.object({
   phoneId: z.int(),
@@ -4492,6 +5689,11 @@ export const PrimaryPhoneOrderBySchema = z
     contactId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const PrimaryPhoneOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  PrimaryPhoneOrderBySchema
+);
 
 export const PrimaryPhoneWhereSchema = z
   .object({
@@ -4515,33 +5717,37 @@ export const PrimaryPhoneWhereSchema = z
   })
   .partial();
 
+export const PrimaryPhoneWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PrimaryPhoneWhereSchema
+);
+
 export const PrimaryPhoneProjectionSchema = z
   .object({
     id: z.boolean(),
     phoneId: z.boolean(),
     contactId: z.boolean(),
-    phone: PhoneOwnQueryOneSchema,
-    contact: ContactOwnQueryOneSchema,
+    phone: z.boolean().or(PhoneOwnQueryOneSchema),
+    contact: z.boolean().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
-export const PrimaryPhoneQueryOneSchema = z
+export const PrimaryPhoneProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PrimaryPhoneProjectionSchema
+);
+
+export const PrimaryPhoneIncludeSchema = z
   .object({
-    where: PrimaryPhoneWhereSchema,
-    select: PrimaryPhoneProjectionSchema,
-    omit: PrimaryPhoneProjectionSchema,
+    phone: z.boolean().or(PhoneOwnQueryOneSchema),
+    contact: z.boolean().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
-export const PrimaryPhoneQuerySchema = z
-  .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PrimaryPhoneWhereSchema,
-    select: PrimaryPhoneProjectionSchema,
-    omit: PrimaryPhoneProjectionSchema,
-  })
-  .partial();
+export const PrimaryPhoneIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PrimaryPhoneIncludeSchema
+);
 
 export const PrimaryAddressCreateSchema = z.object({
   addressId: z.int(),
@@ -4560,6 +5766,11 @@ export const PrimaryAddressOrderBySchema = z
     contactId: PZ.OrderDirectionSchema,
   })
   .partial();
+
+export const PrimaryAddressOrderBySchemaJson = z.preprocess(
+  jsonParser,
+  PrimaryAddressOrderBySchema
+);
 
 export const PrimaryAddressWhereSchema = z
   .object({
@@ -4583,31 +5794,55 @@ export const PrimaryAddressWhereSchema = z
   })
   .partial();
 
+export const PrimaryAddressWhereSchemaJson = z.preprocess(
+  jsonParser,
+  PrimaryAddressWhereSchema
+);
+
 export const PrimaryAddressProjectionSchema = z
   .object({
     id: z.boolean(),
     addressId: z.boolean(),
     contactId: z.boolean(),
-    address: AddressOwnQueryOneSchema,
-    contact: ContactOwnQueryOneSchema,
+    address: z.boolean().or(AddressOwnQueryOneSchema),
+    contact: z.boolean().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
-export const PrimaryAddressQueryOneSchema = z
+export const PrimaryAddressProjectionSchemaJson = z.preprocess(
+  jsonParser,
+  PrimaryAddressProjectionSchema
+);
+
+export const PrimaryAddressIncludeSchema = z
   .object({
-    where: PrimaryAddressWhereSchema,
-    select: PrimaryAddressProjectionSchema,
-    omit: PrimaryAddressProjectionSchema,
+    address: z.boolean().or(AddressOwnQueryOneSchema),
+    contact: z.boolean().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
-export const PrimaryAddressQuerySchema = z
+export const PrimaryAddressIncludeSchemaJson = z.preprocess(
+  jsonParser,
+  PrimaryAddressIncludeSchema
+);
+
+export const DepartmentQueryOneSchema = z
   .object({
-    take: z.int().min(1).default(20),
-    skip: z.int().min(0).default(0),
-    where: PrimaryAddressWhereSchema,
-    select: PrimaryAddressProjectionSchema,
-    omit: PrimaryAddressProjectionSchema,
+    where: DepartmentWhereSchemaJson,
+    select: DepartmentProjectionSchemaJson,
+    omit: DepartmentProjectionSchemaJson,
+    include: DepartmentIncludeSchemaJson,
+  })
+  .partial();
+
+export const DepartmentQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: DepartmentWhereSchemaJson,
+    select: DepartmentProjectionSchemaJson,
+    omit: DepartmentProjectionSchemaJson,
+    include: DepartmentIncludeSchemaJson,
   })
   .partial();
 
@@ -4629,11 +5864,33 @@ export type DepartmentOwnQueryOne = z.infer<typeof DepartmentOwnQueryOneSchema>;
 
 export type DepartmentWhere = z.infer<typeof DepartmentWhereSchema>;
 
+export type DepartmentInclude = z.infer<typeof DepartmentIncludeSchema>;
+
 export type DepartmentQueryOne = z.infer<typeof DepartmentQueryOneSchema>;
 
 export type DepartmentQuery = z.infer<typeof DepartmentQuerySchema>;
 
 export type DepartmentProjection = z.infer<typeof DepartmentProjectionSchema>;
+
+export const TitleQueryOneSchema = z
+  .object({
+    where: TitleWhereSchemaJson,
+    select: TitleProjectionSchemaJson,
+    omit: TitleProjectionSchemaJson,
+    include: TitleIncludeSchemaJson,
+  })
+  .partial();
+
+export const TitleQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TitleWhereSchemaJson,
+    select: TitleProjectionSchemaJson,
+    omit: TitleProjectionSchemaJson,
+    include: TitleIncludeSchemaJson,
+  })
+  .partial();
 
 export type TitleCreate = z.infer<typeof TitleCreateSchema>;
 
@@ -4651,11 +5908,33 @@ export type TitleOwnQueryOne = z.infer<typeof TitleOwnQueryOneSchema>;
 
 export type TitleWhere = z.infer<typeof TitleWhereSchema>;
 
+export type TitleInclude = z.infer<typeof TitleIncludeSchema>;
+
 export type TitleQueryOne = z.infer<typeof TitleQueryOneSchema>;
 
 export type TitleQuery = z.infer<typeof TitleQuerySchema>;
 
 export type TitleProjection = z.infer<typeof TitleProjectionSchema>;
+
+export const PersonalDataQueryOneSchema = z
+  .object({
+    where: PersonalDataWhereSchemaJson,
+    select: PersonalDataProjectionSchemaJson,
+    omit: PersonalDataProjectionSchemaJson,
+    include: PersonalDataIncludeSchemaJson,
+  })
+  .partial();
+
+export const PersonalDataQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PersonalDataWhereSchemaJson,
+    select: PersonalDataProjectionSchemaJson,
+    omit: PersonalDataProjectionSchemaJson,
+    include: PersonalDataIncludeSchemaJson,
+  })
+  .partial();
 
 export type PersonalDataCreate = z.infer<typeof PersonalDataCreateSchema>;
 
@@ -4677,6 +5956,8 @@ export type PersonalDataOwnQueryOne = z.infer<
 
 export type PersonalDataWhere = z.infer<typeof PersonalDataWhereSchema>;
 
+export type PersonalDataInclude = z.infer<typeof PersonalDataIncludeSchema>;
+
 export type PersonalDataQueryOne = z.infer<typeof PersonalDataQueryOneSchema>;
 
 export type PersonalDataQuery = z.infer<typeof PersonalDataQuerySchema>;
@@ -4684,6 +5965,26 @@ export type PersonalDataQuery = z.infer<typeof PersonalDataQuerySchema>;
 export type PersonalDataProjection = z.infer<
   typeof PersonalDataProjectionSchema
 >;
+
+export const EmployeeQueryOneSchema = z
+  .object({
+    where: EmployeeWhereSchemaJson,
+    select: EmployeeProjectionSchemaJson,
+    omit: EmployeeProjectionSchemaJson,
+    include: EmployeeIncludeSchemaJson,
+  })
+  .partial();
+
+export const EmployeeQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: EmployeeWhereSchemaJson,
+    select: EmployeeProjectionSchemaJson,
+    omit: EmployeeProjectionSchemaJson,
+    include: EmployeeIncludeSchemaJson,
+  })
+  .partial();
 
 export type EmployeeCreate = z.infer<typeof EmployeeCreateSchema>;
 
@@ -4701,11 +6002,33 @@ export type EmployeeOwnQueryOne = z.infer<typeof EmployeeOwnQueryOneSchema>;
 
 export type EmployeeWhere = z.infer<typeof EmployeeWhereSchema>;
 
+export type EmployeeInclude = z.infer<typeof EmployeeIncludeSchema>;
+
 export type EmployeeQueryOne = z.infer<typeof EmployeeQueryOneSchema>;
 
 export type EmployeeQuery = z.infer<typeof EmployeeQuerySchema>;
 
 export type EmployeeProjection = z.infer<typeof EmployeeProjectionSchema>;
+
+export const TeamQueryOneSchema = z
+  .object({
+    where: TeamWhereSchemaJson,
+    select: TeamProjectionSchemaJson,
+    omit: TeamProjectionSchemaJson,
+    include: TeamIncludeSchemaJson,
+  })
+  .partial();
+
+export const TeamQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TeamWhereSchemaJson,
+    select: TeamProjectionSchemaJson,
+    omit: TeamProjectionSchemaJson,
+    include: TeamIncludeSchemaJson,
+  })
+  .partial();
 
 export type TeamCreate = z.infer<typeof TeamCreateSchema>;
 
@@ -4723,11 +6046,33 @@ export type TeamOwnQueryOne = z.infer<typeof TeamOwnQueryOneSchema>;
 
 export type TeamWhere = z.infer<typeof TeamWhereSchema>;
 
+export type TeamInclude = z.infer<typeof TeamIncludeSchema>;
+
 export type TeamQueryOne = z.infer<typeof TeamQueryOneSchema>;
 
 export type TeamQuery = z.infer<typeof TeamQuerySchema>;
 
 export type TeamProjection = z.infer<typeof TeamProjectionSchema>;
+
+export const TeamManagerQueryOneSchema = z
+  .object({
+    where: TeamManagerWhereSchemaJson,
+    select: TeamManagerProjectionSchemaJson,
+    omit: TeamManagerProjectionSchemaJson,
+    include: TeamManagerIncludeSchemaJson,
+  })
+  .partial();
+
+export const TeamManagerQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TeamManagerWhereSchemaJson,
+    select: TeamManagerProjectionSchemaJson,
+    omit: TeamManagerProjectionSchemaJson,
+    include: TeamManagerIncludeSchemaJson,
+  })
+  .partial();
 
 export type TeamManagerCreate = z.infer<typeof TeamManagerCreateSchema>;
 
@@ -4749,11 +6094,33 @@ export type TeamManagerOwnQueryOne = z.infer<
 
 export type TeamManagerWhere = z.infer<typeof TeamManagerWhereSchema>;
 
+export type TeamManagerInclude = z.infer<typeof TeamManagerIncludeSchema>;
+
 export type TeamManagerQueryOne = z.infer<typeof TeamManagerQueryOneSchema>;
 
 export type TeamManagerQuery = z.infer<typeof TeamManagerQuerySchema>;
 
 export type TeamManagerProjection = z.infer<typeof TeamManagerProjectionSchema>;
+
+export const TeamMemberQueryOneSchema = z
+  .object({
+    where: TeamMemberWhereSchemaJson,
+    select: TeamMemberProjectionSchemaJson,
+    omit: TeamMemberProjectionSchemaJson,
+    include: TeamMemberIncludeSchemaJson,
+  })
+  .partial();
+
+export const TeamMemberQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TeamMemberWhereSchemaJson,
+    select: TeamMemberProjectionSchemaJson,
+    omit: TeamMemberProjectionSchemaJson,
+    include: TeamMemberIncludeSchemaJson,
+  })
+  .partial();
 
 export type TeamMemberCreate = z.infer<typeof TeamMemberCreateSchema>;
 
@@ -4773,11 +6140,33 @@ export type TeamMemberOwnQueryOne = z.infer<typeof TeamMemberOwnQueryOneSchema>;
 
 export type TeamMemberWhere = z.infer<typeof TeamMemberWhereSchema>;
 
+export type TeamMemberInclude = z.infer<typeof TeamMemberIncludeSchema>;
+
 export type TeamMemberQueryOne = z.infer<typeof TeamMemberQueryOneSchema>;
 
 export type TeamMemberQuery = z.infer<typeof TeamMemberQuerySchema>;
 
 export type TeamMemberProjection = z.infer<typeof TeamMemberProjectionSchema>;
+
+export const SalaryQueryOneSchema = z
+  .object({
+    where: SalaryWhereSchemaJson,
+    select: SalaryProjectionSchemaJson,
+    omit: SalaryProjectionSchemaJson,
+    include: SalaryIncludeSchemaJson,
+  })
+  .partial();
+
+export const SalaryQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: SalaryWhereSchemaJson,
+    select: SalaryProjectionSchemaJson,
+    omit: SalaryProjectionSchemaJson,
+    include: SalaryIncludeSchemaJson,
+  })
+  .partial();
 
 export type SalaryCreate = z.infer<typeof SalaryCreateSchema>;
 
@@ -4795,11 +6184,33 @@ export type SalaryOwnQueryOne = z.infer<typeof SalaryOwnQueryOneSchema>;
 
 export type SalaryWhere = z.infer<typeof SalaryWhereSchema>;
 
+export type SalaryInclude = z.infer<typeof SalaryIncludeSchema>;
+
 export type SalaryQueryOne = z.infer<typeof SalaryQueryOneSchema>;
 
 export type SalaryQuery = z.infer<typeof SalaryQuerySchema>;
 
 export type SalaryProjection = z.infer<typeof SalaryProjectionSchema>;
+
+export const SalaryHistoryQueryOneSchema = z
+  .object({
+    where: SalaryHistoryWhereSchemaJson,
+    select: SalaryHistoryProjectionSchemaJson,
+    omit: SalaryHistoryProjectionSchemaJson,
+    include: SalaryHistoryIncludeSchemaJson,
+  })
+  .partial();
+
+export const SalaryHistoryQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: SalaryHistoryWhereSchemaJson,
+    select: SalaryHistoryProjectionSchemaJson,
+    omit: SalaryHistoryProjectionSchemaJson,
+    include: SalaryHistoryIncludeSchemaJson,
+  })
+  .partial();
 
 export type SalaryHistoryCreate = z.infer<typeof SalaryHistoryCreateSchema>;
 
@@ -4821,6 +6232,8 @@ export type SalaryHistoryOwnQueryOne = z.infer<
 
 export type SalaryHistoryWhere = z.infer<typeof SalaryHistoryWhereSchema>;
 
+export type SalaryHistoryInclude = z.infer<typeof SalaryHistoryIncludeSchema>;
+
 export type SalaryHistoryQueryOne = z.infer<typeof SalaryHistoryQueryOneSchema>;
 
 export type SalaryHistoryQuery = z.infer<typeof SalaryHistoryQuerySchema>;
@@ -4828,6 +6241,26 @@ export type SalaryHistoryQuery = z.infer<typeof SalaryHistoryQuerySchema>;
 export type SalaryHistoryProjection = z.infer<
   typeof SalaryHistoryProjectionSchema
 >;
+
+export const BenefitQueryOneSchema = z
+  .object({
+    where: BenefitWhereSchemaJson,
+    select: BenefitProjectionSchemaJson,
+    omit: BenefitProjectionSchemaJson,
+    include: BenefitIncludeSchemaJson,
+  })
+  .partial();
+
+export const BenefitQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: BenefitWhereSchemaJson,
+    select: BenefitProjectionSchemaJson,
+    omit: BenefitProjectionSchemaJson,
+    include: BenefitIncludeSchemaJson,
+  })
+  .partial();
 
 export type BenefitCreate = z.infer<typeof BenefitCreateSchema>;
 
@@ -4845,11 +6278,33 @@ export type BenefitOwnQueryOne = z.infer<typeof BenefitOwnQueryOneSchema>;
 
 export type BenefitWhere = z.infer<typeof BenefitWhereSchema>;
 
+export type BenefitInclude = z.infer<typeof BenefitIncludeSchema>;
+
 export type BenefitQueryOne = z.infer<typeof BenefitQueryOneSchema>;
 
 export type BenefitQuery = z.infer<typeof BenefitQuerySchema>;
 
 export type BenefitProjection = z.infer<typeof BenefitProjectionSchema>;
+
+export const BenefitEnrolmentQueryOneSchema = z
+  .object({
+    where: BenefitEnrolmentWhereSchemaJson,
+    select: BenefitEnrolmentProjectionSchemaJson,
+    omit: BenefitEnrolmentProjectionSchemaJson,
+    include: BenefitEnrolmentIncludeSchemaJson,
+  })
+  .partial();
+
+export const BenefitEnrolmentQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: BenefitEnrolmentWhereSchemaJson,
+    select: BenefitEnrolmentProjectionSchemaJson,
+    omit: BenefitEnrolmentProjectionSchemaJson,
+    include: BenefitEnrolmentIncludeSchemaJson,
+  })
+  .partial();
 
 export type BenefitEnrolmentCreate = z.infer<
   typeof BenefitEnrolmentCreateSchema
@@ -4881,6 +6336,10 @@ export type BenefitEnrolmentOwnQueryOne = z.infer<
 
 export type BenefitEnrolmentWhere = z.infer<typeof BenefitEnrolmentWhereSchema>;
 
+export type BenefitEnrolmentInclude = z.infer<
+  typeof BenefitEnrolmentIncludeSchema
+>;
+
 export type BenefitEnrolmentQueryOne = z.infer<
   typeof BenefitEnrolmentQueryOneSchema
 >;
@@ -4890,6 +6349,26 @@ export type BenefitEnrolmentQuery = z.infer<typeof BenefitEnrolmentQuerySchema>;
 export type BenefitEnrolmentProjection = z.infer<
   typeof BenefitEnrolmentProjectionSchema
 >;
+
+export const TitleHistoryQueryOneSchema = z
+  .object({
+    where: TitleHistoryWhereSchemaJson,
+    select: TitleHistoryProjectionSchemaJson,
+    omit: TitleHistoryProjectionSchemaJson,
+    include: TitleHistoryIncludeSchemaJson,
+  })
+  .partial();
+
+export const TitleHistoryQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TitleHistoryWhereSchemaJson,
+    select: TitleHistoryProjectionSchemaJson,
+    omit: TitleHistoryProjectionSchemaJson,
+    include: TitleHistoryIncludeSchemaJson,
+  })
+  .partial();
 
 export type TitleHistoryCreate = z.infer<typeof TitleHistoryCreateSchema>;
 
@@ -4911,6 +6390,8 @@ export type TitleHistoryOwnQueryOne = z.infer<
 
 export type TitleHistoryWhere = z.infer<typeof TitleHistoryWhereSchema>;
 
+export type TitleHistoryInclude = z.infer<typeof TitleHistoryIncludeSchema>;
+
 export type TitleHistoryQueryOne = z.infer<typeof TitleHistoryQueryOneSchema>;
 
 export type TitleHistoryQuery = z.infer<typeof TitleHistoryQuerySchema>;
@@ -4918,6 +6399,26 @@ export type TitleHistoryQuery = z.infer<typeof TitleHistoryQuerySchema>;
 export type TitleHistoryProjection = z.infer<
   typeof TitleHistoryProjectionSchema
 >;
+
+export const TimeOffPolicyQueryOneSchema = z
+  .object({
+    where: TimeOffPolicyWhereSchemaJson,
+    select: TimeOffPolicyProjectionSchemaJson,
+    omit: TimeOffPolicyProjectionSchemaJson,
+    include: TimeOffPolicyIncludeSchemaJson,
+  })
+  .partial();
+
+export const TimeOffPolicyQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TimeOffPolicyWhereSchemaJson,
+    select: TimeOffPolicyProjectionSchemaJson,
+    omit: TimeOffPolicyProjectionSchemaJson,
+    include: TimeOffPolicyIncludeSchemaJson,
+  })
+  .partial();
 
 export type TimeOffPolicyCreate = z.infer<typeof TimeOffPolicyCreateSchema>;
 
@@ -4939,6 +6440,8 @@ export type TimeOffPolicyOwnQueryOne = z.infer<
 
 export type TimeOffPolicyWhere = z.infer<typeof TimeOffPolicyWhereSchema>;
 
+export type TimeOffPolicyInclude = z.infer<typeof TimeOffPolicyIncludeSchema>;
+
 export type TimeOffPolicyQueryOne = z.infer<typeof TimeOffPolicyQueryOneSchema>;
 
 export type TimeOffPolicyQuery = z.infer<typeof TimeOffPolicyQuerySchema>;
@@ -4946,6 +6449,26 @@ export type TimeOffPolicyQuery = z.infer<typeof TimeOffPolicyQuerySchema>;
 export type TimeOffPolicyProjection = z.infer<
   typeof TimeOffPolicyProjectionSchema
 >;
+
+export const TimeOffBalanceQueryOneSchema = z
+  .object({
+    where: TimeOffBalanceWhereSchemaJson,
+    select: TimeOffBalanceProjectionSchemaJson,
+    omit: TimeOffBalanceProjectionSchemaJson,
+    include: TimeOffBalanceIncludeSchemaJson,
+  })
+  .partial();
+
+export const TimeOffBalanceQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TimeOffBalanceWhereSchemaJson,
+    select: TimeOffBalanceProjectionSchemaJson,
+    omit: TimeOffBalanceProjectionSchemaJson,
+    include: TimeOffBalanceIncludeSchemaJson,
+  })
+  .partial();
 
 export type TimeOffBalanceCreate = z.infer<typeof TimeOffBalanceCreateSchema>;
 
@@ -4971,6 +6494,8 @@ export type TimeOffBalanceOwnQueryOne = z.infer<
 
 export type TimeOffBalanceWhere = z.infer<typeof TimeOffBalanceWhereSchema>;
 
+export type TimeOffBalanceInclude = z.infer<typeof TimeOffBalanceIncludeSchema>;
+
 export type TimeOffBalanceQueryOne = z.infer<
   typeof TimeOffBalanceQueryOneSchema
 >;
@@ -4980,6 +6505,26 @@ export type TimeOffBalanceQuery = z.infer<typeof TimeOffBalanceQuerySchema>;
 export type TimeOffBalanceProjection = z.infer<
   typeof TimeOffBalanceProjectionSchema
 >;
+
+export const TimeOffRequestQueryOneSchema = z
+  .object({
+    where: TimeOffRequestWhereSchemaJson,
+    select: TimeOffRequestProjectionSchemaJson,
+    omit: TimeOffRequestProjectionSchemaJson,
+    include: TimeOffRequestIncludeSchemaJson,
+  })
+  .partial();
+
+export const TimeOffRequestQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TimeOffRequestWhereSchemaJson,
+    select: TimeOffRequestProjectionSchemaJson,
+    omit: TimeOffRequestProjectionSchemaJson,
+    include: TimeOffRequestIncludeSchemaJson,
+  })
+  .partial();
 
 export type TimeOffRequestCreate = z.infer<typeof TimeOffRequestCreateSchema>;
 
@@ -5005,6 +6550,8 @@ export type TimeOffRequestOwnQueryOne = z.infer<
 
 export type TimeOffRequestWhere = z.infer<typeof TimeOffRequestWhereSchema>;
 
+export type TimeOffRequestInclude = z.infer<typeof TimeOffRequestIncludeSchema>;
+
 export type TimeOffRequestQueryOne = z.infer<
   typeof TimeOffRequestQueryOneSchema
 >;
@@ -5014,6 +6561,26 @@ export type TimeOffRequestQuery = z.infer<typeof TimeOffRequestQuerySchema>;
 export type TimeOffRequestProjection = z.infer<
   typeof TimeOffRequestProjectionSchema
 >;
+
+export const TimeOffTransactionQueryOneSchema = z
+  .object({
+    where: TimeOffTransactionWhereSchemaJson,
+    select: TimeOffTransactionProjectionSchemaJson,
+    omit: TimeOffTransactionProjectionSchemaJson,
+    include: TimeOffTransactionIncludeSchemaJson,
+  })
+  .partial();
+
+export const TimeOffTransactionQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: TimeOffTransactionWhereSchemaJson,
+    select: TimeOffTransactionProjectionSchemaJson,
+    omit: TimeOffTransactionProjectionSchemaJson,
+    include: TimeOffTransactionIncludeSchemaJson,
+  })
+  .partial();
 
 export type TimeOffTransactionCreate = z.infer<
   typeof TimeOffTransactionCreateSchema
@@ -5047,6 +6614,10 @@ export type TimeOffTransactionWhere = z.infer<
   typeof TimeOffTransactionWhereSchema
 >;
 
+export type TimeOffTransactionInclude = z.infer<
+  typeof TimeOffTransactionIncludeSchema
+>;
+
 export type TimeOffTransactionQueryOne = z.infer<
   typeof TimeOffTransactionQueryOneSchema
 >;
@@ -5058,6 +6629,26 @@ export type TimeOffTransactionQuery = z.infer<
 export type TimeOffTransactionProjection = z.infer<
   typeof TimeOffTransactionProjectionSchema
 >;
+
+export const ClockInQueryOneSchema = z
+  .object({
+    where: ClockInWhereSchemaJson,
+    select: ClockInProjectionSchemaJson,
+    omit: ClockInProjectionSchemaJson,
+    include: ClockInIncludeSchemaJson,
+  })
+  .partial();
+
+export const ClockInQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ClockInWhereSchemaJson,
+    select: ClockInProjectionSchemaJson,
+    omit: ClockInProjectionSchemaJson,
+    include: ClockInIncludeSchemaJson,
+  })
+  .partial();
 
 export type ClockInCreate = z.infer<typeof ClockInCreateSchema>;
 
@@ -5075,11 +6666,33 @@ export type ClockInOwnQueryOne = z.infer<typeof ClockInOwnQueryOneSchema>;
 
 export type ClockInWhere = z.infer<typeof ClockInWhereSchema>;
 
+export type ClockInInclude = z.infer<typeof ClockInIncludeSchema>;
+
 export type ClockInQueryOne = z.infer<typeof ClockInQueryOneSchema>;
 
 export type ClockInQuery = z.infer<typeof ClockInQuerySchema>;
 
 export type ClockInProjection = z.infer<typeof ClockInProjectionSchema>;
+
+export const PaycheckQueryOneSchema = z
+  .object({
+    where: PaycheckWhereSchemaJson,
+    select: PaycheckProjectionSchemaJson,
+    omit: PaycheckProjectionSchemaJson,
+    include: PaycheckIncludeSchemaJson,
+  })
+  .partial();
+
+export const PaycheckQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PaycheckWhereSchemaJson,
+    select: PaycheckProjectionSchemaJson,
+    omit: PaycheckProjectionSchemaJson,
+    include: PaycheckIncludeSchemaJson,
+  })
+  .partial();
 
 export type PaycheckCreate = z.infer<typeof PaycheckCreateSchema>;
 
@@ -5097,11 +6710,33 @@ export type PaycheckOwnQueryOne = z.infer<typeof PaycheckOwnQueryOneSchema>;
 
 export type PaycheckWhere = z.infer<typeof PaycheckWhereSchema>;
 
+export type PaycheckInclude = z.infer<typeof PaycheckIncludeSchema>;
+
 export type PaycheckQueryOne = z.infer<typeof PaycheckQueryOneSchema>;
 
 export type PaycheckQuery = z.infer<typeof PaycheckQuerySchema>;
 
 export type PaycheckProjection = z.infer<typeof PaycheckProjectionSchema>;
+
+export const EarningQueryOneSchema = z
+  .object({
+    where: EarningWhereSchemaJson,
+    select: EarningProjectionSchemaJson,
+    omit: EarningProjectionSchemaJson,
+    include: EarningIncludeSchemaJson,
+  })
+  .partial();
+
+export const EarningQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: EarningWhereSchemaJson,
+    select: EarningProjectionSchemaJson,
+    omit: EarningProjectionSchemaJson,
+    include: EarningIncludeSchemaJson,
+  })
+  .partial();
 
 export type EarningCreate = z.infer<typeof EarningCreateSchema>;
 
@@ -5119,11 +6754,33 @@ export type EarningOwnQueryOne = z.infer<typeof EarningOwnQueryOneSchema>;
 
 export type EarningWhere = z.infer<typeof EarningWhereSchema>;
 
+export type EarningInclude = z.infer<typeof EarningIncludeSchema>;
+
 export type EarningQueryOne = z.infer<typeof EarningQueryOneSchema>;
 
 export type EarningQuery = z.infer<typeof EarningQuerySchema>;
 
 export type EarningProjection = z.infer<typeof EarningProjectionSchema>;
+
+export const PaycheckTaxQueryOneSchema = z
+  .object({
+    where: PaycheckTaxWhereSchemaJson,
+    select: PaycheckTaxProjectionSchemaJson,
+    omit: PaycheckTaxProjectionSchemaJson,
+    include: PaycheckTaxIncludeSchemaJson,
+  })
+  .partial();
+
+export const PaycheckTaxQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PaycheckTaxWhereSchemaJson,
+    select: PaycheckTaxProjectionSchemaJson,
+    omit: PaycheckTaxProjectionSchemaJson,
+    include: PaycheckTaxIncludeSchemaJson,
+  })
+  .partial();
 
 export type PaycheckTaxCreate = z.infer<typeof PaycheckTaxCreateSchema>;
 
@@ -5145,11 +6802,33 @@ export type PaycheckTaxOwnQueryOne = z.infer<
 
 export type PaycheckTaxWhere = z.infer<typeof PaycheckTaxWhereSchema>;
 
+export type PaycheckTaxInclude = z.infer<typeof PaycheckTaxIncludeSchema>;
+
 export type PaycheckTaxQueryOne = z.infer<typeof PaycheckTaxQueryOneSchema>;
 
 export type PaycheckTaxQuery = z.infer<typeof PaycheckTaxQuerySchema>;
 
 export type PaycheckTaxProjection = z.infer<typeof PaycheckTaxProjectionSchema>;
+
+export const DeductionPolicyQueryOneSchema = z
+  .object({
+    where: DeductionPolicyWhereSchemaJson,
+    select: DeductionPolicyProjectionSchemaJson,
+    omit: DeductionPolicyProjectionSchemaJson,
+    include: DeductionPolicyIncludeSchemaJson,
+  })
+  .partial();
+
+export const DeductionPolicyQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: DeductionPolicyWhereSchemaJson,
+    select: DeductionPolicyProjectionSchemaJson,
+    omit: DeductionPolicyProjectionSchemaJson,
+    include: DeductionPolicyIncludeSchemaJson,
+  })
+  .partial();
 
 export type DeductionPolicyCreate = z.infer<typeof DeductionPolicyCreateSchema>;
 
@@ -5177,6 +6856,10 @@ export type DeductionPolicyOwnQueryOne = z.infer<
 
 export type DeductionPolicyWhere = z.infer<typeof DeductionPolicyWhereSchema>;
 
+export type DeductionPolicyInclude = z.infer<
+  typeof DeductionPolicyIncludeSchema
+>;
+
 export type DeductionPolicyQueryOne = z.infer<
   typeof DeductionPolicyQueryOneSchema
 >;
@@ -5186,6 +6869,26 @@ export type DeductionPolicyQuery = z.infer<typeof DeductionPolicyQuerySchema>;
 export type DeductionPolicyProjection = z.infer<
   typeof DeductionPolicyProjectionSchema
 >;
+
+export const EmployeeDeductionQueryOneSchema = z
+  .object({
+    where: EmployeeDeductionWhereSchemaJson,
+    select: EmployeeDeductionProjectionSchemaJson,
+    omit: EmployeeDeductionProjectionSchemaJson,
+    include: EmployeeDeductionIncludeSchemaJson,
+  })
+  .partial();
+
+export const EmployeeDeductionQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: EmployeeDeductionWhereSchemaJson,
+    select: EmployeeDeductionProjectionSchemaJson,
+    omit: EmployeeDeductionProjectionSchemaJson,
+    include: EmployeeDeductionIncludeSchemaJson,
+  })
+  .partial();
 
 export type EmployeeDeductionCreate = z.infer<
   typeof EmployeeDeductionCreateSchema
@@ -5219,6 +6922,10 @@ export type EmployeeDeductionWhere = z.infer<
   typeof EmployeeDeductionWhereSchema
 >;
 
+export type EmployeeDeductionInclude = z.infer<
+  typeof EmployeeDeductionIncludeSchema
+>;
+
 export type EmployeeDeductionQueryOne = z.infer<
   typeof EmployeeDeductionQueryOneSchema
 >;
@@ -5230,6 +6937,26 @@ export type EmployeeDeductionQuery = z.infer<
 export type EmployeeDeductionProjection = z.infer<
   typeof EmployeeDeductionProjectionSchema
 >;
+
+export const PaycheckDeductionQueryOneSchema = z
+  .object({
+    where: PaycheckDeductionWhereSchemaJson,
+    select: PaycheckDeductionProjectionSchemaJson,
+    omit: PaycheckDeductionProjectionSchemaJson,
+    include: PaycheckDeductionIncludeSchemaJson,
+  })
+  .partial();
+
+export const PaycheckDeductionQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PaycheckDeductionWhereSchemaJson,
+    select: PaycheckDeductionProjectionSchemaJson,
+    omit: PaycheckDeductionProjectionSchemaJson,
+    include: PaycheckDeductionIncludeSchemaJson,
+  })
+  .partial();
 
 export type PaycheckDeductionCreate = z.infer<
   typeof PaycheckDeductionCreateSchema
@@ -5263,6 +6990,10 @@ export type PaycheckDeductionWhere = z.infer<
   typeof PaycheckDeductionWhereSchema
 >;
 
+export type PaycheckDeductionInclude = z.infer<
+  typeof PaycheckDeductionIncludeSchema
+>;
+
 export type PaycheckDeductionQueryOne = z.infer<
   typeof PaycheckDeductionQueryOneSchema
 >;
@@ -5274,6 +7005,26 @@ export type PaycheckDeductionQuery = z.infer<
 export type PaycheckDeductionProjection = z.infer<
   typeof PaycheckDeductionProjectionSchema
 >;
+
+export const EmployeeTaxDataQueryOneSchema = z
+  .object({
+    where: EmployeeTaxDataWhereSchemaJson,
+    select: EmployeeTaxDataProjectionSchemaJson,
+    omit: EmployeeTaxDataProjectionSchemaJson,
+    include: EmployeeTaxDataIncludeSchemaJson,
+  })
+  .partial();
+
+export const EmployeeTaxDataQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: EmployeeTaxDataWhereSchemaJson,
+    select: EmployeeTaxDataProjectionSchemaJson,
+    omit: EmployeeTaxDataProjectionSchemaJson,
+    include: EmployeeTaxDataIncludeSchemaJson,
+  })
+  .partial();
 
 export type EmployeeTaxDataCreate = z.infer<typeof EmployeeTaxDataCreateSchema>;
 
@@ -5301,6 +7052,10 @@ export type EmployeeTaxDataOwnQueryOne = z.infer<
 
 export type EmployeeTaxDataWhere = z.infer<typeof EmployeeTaxDataWhereSchema>;
 
+export type EmployeeTaxDataInclude = z.infer<
+  typeof EmployeeTaxDataIncludeSchema
+>;
+
 export type EmployeeTaxDataQueryOne = z.infer<
   typeof EmployeeTaxDataQueryOneSchema
 >;
@@ -5310,6 +7065,26 @@ export type EmployeeTaxDataQuery = z.infer<typeof EmployeeTaxDataQuerySchema>;
 export type EmployeeTaxDataProjection = z.infer<
   typeof EmployeeTaxDataProjectionSchema
 >;
+
+export const StateTaxWithholdingQueryOneSchema = z
+  .object({
+    where: StateTaxWithholdingWhereSchemaJson,
+    select: StateTaxWithholdingProjectionSchemaJson,
+    omit: StateTaxWithholdingProjectionSchemaJson,
+    include: StateTaxWithholdingIncludeSchemaJson,
+  })
+  .partial();
+
+export const StateTaxWithholdingQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: StateTaxWithholdingWhereSchemaJson,
+    select: StateTaxWithholdingProjectionSchemaJson,
+    omit: StateTaxWithholdingProjectionSchemaJson,
+    include: StateTaxWithholdingIncludeSchemaJson,
+  })
+  .partial();
 
 export type StateTaxWithholdingCreate = z.infer<
   typeof StateTaxWithholdingCreateSchema
@@ -5343,6 +7118,10 @@ export type StateTaxWithholdingWhere = z.infer<
   typeof StateTaxWithholdingWhereSchema
 >;
 
+export type StateTaxWithholdingInclude = z.infer<
+  typeof StateTaxWithholdingIncludeSchema
+>;
+
 export type StateTaxWithholdingQueryOne = z.infer<
   typeof StateTaxWithholdingQueryOneSchema
 >;
@@ -5354,6 +7133,26 @@ export type StateTaxWithholdingQuery = z.infer<
 export type StateTaxWithholdingProjection = z.infer<
   typeof StateTaxWithholdingProjectionSchema
 >;
+
+export const LocalTaxWithholdingQueryOneSchema = z
+  .object({
+    where: LocalTaxWithholdingWhereSchemaJson,
+    select: LocalTaxWithholdingProjectionSchemaJson,
+    omit: LocalTaxWithholdingProjectionSchemaJson,
+    include: LocalTaxWithholdingIncludeSchemaJson,
+  })
+  .partial();
+
+export const LocalTaxWithholdingQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: LocalTaxWithholdingWhereSchemaJson,
+    select: LocalTaxWithholdingProjectionSchemaJson,
+    omit: LocalTaxWithholdingProjectionSchemaJson,
+    include: LocalTaxWithholdingIncludeSchemaJson,
+  })
+  .partial();
 
 export type LocalTaxWithholdingCreate = z.infer<
   typeof LocalTaxWithholdingCreateSchema
@@ -5387,6 +7186,10 @@ export type LocalTaxWithholdingWhere = z.infer<
   typeof LocalTaxWithholdingWhereSchema
 >;
 
+export type LocalTaxWithholdingInclude = z.infer<
+  typeof LocalTaxWithholdingIncludeSchema
+>;
+
 export type LocalTaxWithholdingQueryOne = z.infer<
   typeof LocalTaxWithholdingQueryOneSchema
 >;
@@ -5398,6 +7201,26 @@ export type LocalTaxWithholdingQuery = z.infer<
 export type LocalTaxWithholdingProjection = z.infer<
   typeof LocalTaxWithholdingProjectionSchema
 >;
+
+export const PayrollRunQueryOneSchema = z
+  .object({
+    where: PayrollRunWhereSchemaJson,
+    select: PayrollRunProjectionSchemaJson,
+    omit: PayrollRunProjectionSchemaJson,
+    include: PayrollRunIncludeSchemaJson,
+  })
+  .partial();
+
+export const PayrollRunQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PayrollRunWhereSchemaJson,
+    select: PayrollRunProjectionSchemaJson,
+    omit: PayrollRunProjectionSchemaJson,
+    include: PayrollRunIncludeSchemaJson,
+  })
+  .partial();
 
 export type PayrollRunCreate = z.infer<typeof PayrollRunCreateSchema>;
 
@@ -5417,11 +7240,33 @@ export type PayrollRunOwnQueryOne = z.infer<typeof PayrollRunOwnQueryOneSchema>;
 
 export type PayrollRunWhere = z.infer<typeof PayrollRunWhereSchema>;
 
+export type PayrollRunInclude = z.infer<typeof PayrollRunIncludeSchema>;
+
 export type PayrollRunQueryOne = z.infer<typeof PayrollRunQueryOneSchema>;
 
 export type PayrollRunQuery = z.infer<typeof PayrollRunQuerySchema>;
 
 export type PayrollRunProjection = z.infer<typeof PayrollRunProjectionSchema>;
+
+export const ContactQueryOneSchema = z
+  .object({
+    where: ContactWhereSchemaJson,
+    select: ContactProjectionSchemaJson,
+    omit: ContactProjectionSchemaJson,
+    include: ContactIncludeSchemaJson,
+  })
+  .partial();
+
+export const ContactQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: ContactWhereSchemaJson,
+    select: ContactProjectionSchemaJson,
+    omit: ContactProjectionSchemaJson,
+    include: ContactIncludeSchemaJson,
+  })
+  .partial();
 
 export type ContactCreate = z.infer<typeof ContactCreateSchema>;
 
@@ -5439,11 +7284,33 @@ export type ContactOwnQueryOne = z.infer<typeof ContactOwnQueryOneSchema>;
 
 export type ContactWhere = z.infer<typeof ContactWhereSchema>;
 
+export type ContactInclude = z.infer<typeof ContactIncludeSchema>;
+
 export type ContactQueryOne = z.infer<typeof ContactQueryOneSchema>;
 
 export type ContactQuery = z.infer<typeof ContactQuerySchema>;
 
 export type ContactProjection = z.infer<typeof ContactProjectionSchema>;
+
+export const CountryQueryOneSchema = z
+  .object({
+    where: CountryWhereSchemaJson,
+    select: CountryProjectionSchemaJson,
+    omit: CountryProjectionSchemaJson,
+    include: CountryIncludeSchemaJson,
+  })
+  .partial();
+
+export const CountryQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: CountryWhereSchemaJson,
+    select: CountryProjectionSchemaJson,
+    omit: CountryProjectionSchemaJson,
+    include: CountryIncludeSchemaJson,
+  })
+  .partial();
 
 export type CountryCreate = z.infer<typeof CountryCreateSchema>;
 
@@ -5461,11 +7328,33 @@ export type CountryOwnQueryOne = z.infer<typeof CountryOwnQueryOneSchema>;
 
 export type CountryWhere = z.infer<typeof CountryWhereSchema>;
 
+export type CountryInclude = z.infer<typeof CountryIncludeSchema>;
+
 export type CountryQueryOne = z.infer<typeof CountryQueryOneSchema>;
 
 export type CountryQuery = z.infer<typeof CountryQuerySchema>;
 
 export type CountryProjection = z.infer<typeof CountryProjectionSchema>;
+
+export const StateQueryOneSchema = z
+  .object({
+    where: StateWhereSchemaJson,
+    select: StateProjectionSchemaJson,
+    omit: StateProjectionSchemaJson,
+    include: StateIncludeSchemaJson,
+  })
+  .partial();
+
+export const StateQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: StateWhereSchemaJson,
+    select: StateProjectionSchemaJson,
+    omit: StateProjectionSchemaJson,
+    include: StateIncludeSchemaJson,
+  })
+  .partial();
 
 export type StateCreate = z.infer<typeof StateCreateSchema>;
 
@@ -5483,11 +7372,33 @@ export type StateOwnQueryOne = z.infer<typeof StateOwnQueryOneSchema>;
 
 export type StateWhere = z.infer<typeof StateWhereSchema>;
 
+export type StateInclude = z.infer<typeof StateIncludeSchema>;
+
 export type StateQueryOne = z.infer<typeof StateQueryOneSchema>;
 
 export type StateQuery = z.infer<typeof StateQuerySchema>;
 
 export type StateProjection = z.infer<typeof StateProjectionSchema>;
+
+export const AddressQueryOneSchema = z
+  .object({
+    where: AddressWhereSchemaJson,
+    select: AddressProjectionSchemaJson,
+    omit: AddressProjectionSchemaJson,
+    include: AddressIncludeSchemaJson,
+  })
+  .partial();
+
+export const AddressQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: AddressWhereSchemaJson,
+    select: AddressProjectionSchemaJson,
+    omit: AddressProjectionSchemaJson,
+    include: AddressIncludeSchemaJson,
+  })
+  .partial();
 
 export type AddressCreate = z.infer<typeof AddressCreateSchema>;
 
@@ -5505,11 +7416,33 @@ export type AddressOwnQueryOne = z.infer<typeof AddressOwnQueryOneSchema>;
 
 export type AddressWhere = z.infer<typeof AddressWhereSchema>;
 
+export type AddressInclude = z.infer<typeof AddressIncludeSchema>;
+
 export type AddressQueryOne = z.infer<typeof AddressQueryOneSchema>;
 
 export type AddressQuery = z.infer<typeof AddressQuerySchema>;
 
 export type AddressProjection = z.infer<typeof AddressProjectionSchema>;
+
+export const EmailQueryOneSchema = z
+  .object({
+    where: EmailWhereSchemaJson,
+    select: EmailProjectionSchemaJson,
+    omit: EmailProjectionSchemaJson,
+    include: EmailIncludeSchemaJson,
+  })
+  .partial();
+
+export const EmailQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: EmailWhereSchemaJson,
+    select: EmailProjectionSchemaJson,
+    omit: EmailProjectionSchemaJson,
+    include: EmailIncludeSchemaJson,
+  })
+  .partial();
 
 export type EmailCreate = z.infer<typeof EmailCreateSchema>;
 
@@ -5527,11 +7460,33 @@ export type EmailOwnQueryOne = z.infer<typeof EmailOwnQueryOneSchema>;
 
 export type EmailWhere = z.infer<typeof EmailWhereSchema>;
 
+export type EmailInclude = z.infer<typeof EmailIncludeSchema>;
+
 export type EmailQueryOne = z.infer<typeof EmailQueryOneSchema>;
 
 export type EmailQuery = z.infer<typeof EmailQuerySchema>;
 
 export type EmailProjection = z.infer<typeof EmailProjectionSchema>;
+
+export const PhoneQueryOneSchema = z
+  .object({
+    where: PhoneWhereSchemaJson,
+    select: PhoneProjectionSchemaJson,
+    omit: PhoneProjectionSchemaJson,
+    include: PhoneIncludeSchemaJson,
+  })
+  .partial();
+
+export const PhoneQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PhoneWhereSchemaJson,
+    select: PhoneProjectionSchemaJson,
+    omit: PhoneProjectionSchemaJson,
+    include: PhoneIncludeSchemaJson,
+  })
+  .partial();
 
 export type PhoneCreate = z.infer<typeof PhoneCreateSchema>;
 
@@ -5549,11 +7504,33 @@ export type PhoneOwnQueryOne = z.infer<typeof PhoneOwnQueryOneSchema>;
 
 export type PhoneWhere = z.infer<typeof PhoneWhereSchema>;
 
+export type PhoneInclude = z.infer<typeof PhoneIncludeSchema>;
+
 export type PhoneQueryOne = z.infer<typeof PhoneQueryOneSchema>;
 
 export type PhoneQuery = z.infer<typeof PhoneQuerySchema>;
 
 export type PhoneProjection = z.infer<typeof PhoneProjectionSchema>;
+
+export const PrimaryEmailQueryOneSchema = z
+  .object({
+    where: PrimaryEmailWhereSchemaJson,
+    select: PrimaryEmailProjectionSchemaJson,
+    omit: PrimaryEmailProjectionSchemaJson,
+    include: PrimaryEmailIncludeSchemaJson,
+  })
+  .partial();
+
+export const PrimaryEmailQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PrimaryEmailWhereSchemaJson,
+    select: PrimaryEmailProjectionSchemaJson,
+    omit: PrimaryEmailProjectionSchemaJson,
+    include: PrimaryEmailIncludeSchemaJson,
+  })
+  .partial();
 
 export type PrimaryEmailCreate = z.infer<typeof PrimaryEmailCreateSchema>;
 
@@ -5575,6 +7552,8 @@ export type PrimaryEmailOwnQueryOne = z.infer<
 
 export type PrimaryEmailWhere = z.infer<typeof PrimaryEmailWhereSchema>;
 
+export type PrimaryEmailInclude = z.infer<typeof PrimaryEmailIncludeSchema>;
+
 export type PrimaryEmailQueryOne = z.infer<typeof PrimaryEmailQueryOneSchema>;
 
 export type PrimaryEmailQuery = z.infer<typeof PrimaryEmailQuerySchema>;
@@ -5582,6 +7561,26 @@ export type PrimaryEmailQuery = z.infer<typeof PrimaryEmailQuerySchema>;
 export type PrimaryEmailProjection = z.infer<
   typeof PrimaryEmailProjectionSchema
 >;
+
+export const PrimaryPhoneQueryOneSchema = z
+  .object({
+    where: PrimaryPhoneWhereSchemaJson,
+    select: PrimaryPhoneProjectionSchemaJson,
+    omit: PrimaryPhoneProjectionSchemaJson,
+    include: PrimaryPhoneIncludeSchemaJson,
+  })
+  .partial();
+
+export const PrimaryPhoneQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PrimaryPhoneWhereSchemaJson,
+    select: PrimaryPhoneProjectionSchemaJson,
+    omit: PrimaryPhoneProjectionSchemaJson,
+    include: PrimaryPhoneIncludeSchemaJson,
+  })
+  .partial();
 
 export type PrimaryPhoneCreate = z.infer<typeof PrimaryPhoneCreateSchema>;
 
@@ -5603,6 +7602,8 @@ export type PrimaryPhoneOwnQueryOne = z.infer<
 
 export type PrimaryPhoneWhere = z.infer<typeof PrimaryPhoneWhereSchema>;
 
+export type PrimaryPhoneInclude = z.infer<typeof PrimaryPhoneIncludeSchema>;
+
 export type PrimaryPhoneQueryOne = z.infer<typeof PrimaryPhoneQueryOneSchema>;
 
 export type PrimaryPhoneQuery = z.infer<typeof PrimaryPhoneQuerySchema>;
@@ -5610,6 +7611,26 @@ export type PrimaryPhoneQuery = z.infer<typeof PrimaryPhoneQuerySchema>;
 export type PrimaryPhoneProjection = z.infer<
   typeof PrimaryPhoneProjectionSchema
 >;
+
+export const PrimaryAddressQueryOneSchema = z
+  .object({
+    where: PrimaryAddressWhereSchemaJson,
+    select: PrimaryAddressProjectionSchemaJson,
+    omit: PrimaryAddressProjectionSchemaJson,
+    include: PrimaryAddressIncludeSchemaJson,
+  })
+  .partial();
+
+export const PrimaryAddressQuerySchema = z
+  .object({
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
+    where: PrimaryAddressWhereSchemaJson,
+    select: PrimaryAddressProjectionSchemaJson,
+    omit: PrimaryAddressProjectionSchemaJson,
+    include: PrimaryAddressIncludeSchemaJson,
+  })
+  .partial();
 
 export type PrimaryAddressCreate = z.infer<typeof PrimaryAddressCreateSchema>;
 
@@ -5634,6 +7655,8 @@ export type PrimaryAddressOwnQueryOne = z.infer<
 >;
 
 export type PrimaryAddressWhere = z.infer<typeof PrimaryAddressWhereSchema>;
+
+export type PrimaryAddressInclude = z.infer<typeof PrimaryAddressIncludeSchema>;
 
 export type PrimaryAddressQueryOne = z.infer<
   typeof PrimaryAddressQueryOneSchema
