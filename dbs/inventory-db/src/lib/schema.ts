@@ -91,16 +91,18 @@ export const CategoryOwnSelectFieldsSchemaJson = z.preprocess(
   CategoryOwnSelectFieldsSchema
 );
 
-export const CategoryDistinctFieldsSchema = z.enum([
-  'id',
-  'parentId',
-  'name',
-  'slug',
-  'parent',
-  'children',
-  'products',
-  'discountTargets',
-]);
+export const CategoryDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'parentId',
+    'name',
+    'slug',
+    'parent',
+    'children',
+    'products',
+    'discountTargets',
+  ])
+  .array();
 
 export const ProductOwnSelectFieldsSchema = z
   .object({
@@ -124,20 +126,22 @@ export const ProductOwnSelectFieldsSchemaJson = z.preprocess(
   ProductOwnSelectFieldsSchema
 );
 
-export const ProductDistinctFieldsSchema = z.enum([
-  'id',
-  'createdAt',
-  'updatedAt',
-  'isActive',
-  'uuid',
-  'name',
-  'slug',
-  'description',
-  'variants',
-  'categories',
-  'discounts',
-  'warranties',
-]);
+export const ProductDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'createdAt',
+    'updatedAt',
+    'isActive',
+    'uuid',
+    'name',
+    'slug',
+    'description',
+    'variants',
+    'categories',
+    'discounts',
+    'warranties',
+  ])
+  .array();
 
 export const ProductCategoryOwnSelectFieldsSchema = z
   .object({
@@ -154,13 +158,9 @@ export const ProductCategoryOwnSelectFieldsSchemaJson = z.preprocess(
   ProductCategoryOwnSelectFieldsSchema
 );
 
-export const ProductCategoryDistinctFieldsSchema = z.enum([
-  'id',
-  'productId',
-  'categoryId',
-  'product',
-  'category',
-]);
+export const ProductCategoryDistinctFieldsSchema = z
+  .enum(['id', 'productId', 'categoryId', 'product', 'category'])
+  .array();
 
 export const VariantOwnSelectFieldsSchema = z
   .object({
@@ -184,20 +184,22 @@ export const VariantOwnSelectFieldsSchemaJson = z.preprocess(
   VariantOwnSelectFieldsSchema
 );
 
-export const VariantDistinctFieldsSchema = z.enum([
-  'id',
-  'uuid',
-  'productId',
-  'sku',
-  'upc',
-  'product',
-  'attributes',
-  'prices',
-  'quantities',
-  'discounts',
-  'serrialNumbers',
-  'warranties',
-]);
+export const VariantDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'uuid',
+    'productId',
+    'sku',
+    'upc',
+    'product',
+    'attributes',
+    'prices',
+    'quantities',
+    'discounts',
+    'serrialNumbers',
+    'warranties',
+  ])
+  .array();
 
 export const AttributeCategoryOwnSelectFieldsSchema = z
   .object({
@@ -213,12 +215,9 @@ export const AttributeCategoryOwnSelectFieldsSchemaJson = z.preprocess(
   AttributeCategoryOwnSelectFieldsSchema
 );
 
-export const AttributeCategoryDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'slug',
-  'attributes',
-]);
+export const AttributeCategoryDistinctFieldsSchema = z
+  .enum(['id', 'name', 'slug', 'attributes'])
+  .array();
 
 export const AttributeOwnSelectFieldsSchema = z
   .object({
@@ -237,15 +236,17 @@ export const AttributeOwnSelectFieldsSchemaJson = z.preprocess(
   AttributeOwnSelectFieldsSchema
 );
 
-export const AttributeDistinctFieldsSchema = z.enum([
-  'id',
-  'categoryId',
-  'name',
-  'description',
-  'category',
-  'unites',
-  'values',
-]);
+export const AttributeDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'categoryId',
+    'name',
+    'description',
+    'category',
+    'unites',
+    'values',
+  ])
+  .array();
 
 export const UnitOwnSelectFieldsSchema = z
   .object({
@@ -261,12 +262,9 @@ export const UnitOwnSelectFieldsSchemaJson = z.preprocess(
   UnitOwnSelectFieldsSchema
 );
 
-export const UnitDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'symbol',
-  'attributes',
-]);
+export const UnitDistinctFieldsSchema = z
+  .enum(['id', 'name', 'symbol', 'attributes'])
+  .array();
 
 export const AttributeUnitOwnSelectFieldsSchema = z
   .object({
@@ -283,13 +281,9 @@ export const AttributeUnitOwnSelectFieldsSchemaJson = z.preprocess(
   AttributeUnitOwnSelectFieldsSchema
 );
 
-export const AttributeUnitDistinctFieldsSchema = z.enum([
-  'id',
-  'attributeId',
-  'unitId',
-  'attribute',
-  'unit',
-]);
+export const AttributeUnitDistinctFieldsSchema = z
+  .enum(['id', 'attributeId', 'unitId', 'attribute', 'unit'])
+  .array();
 
 export const AttributeValueOwnSelectFieldsSchema = z
   .object({
@@ -309,16 +303,18 @@ export const AttributeValueOwnSelectFieldsSchemaJson = z.preprocess(
   AttributeValueOwnSelectFieldsSchema
 );
 
-export const AttributeValueDistinctFieldsSchema = z.enum([
-  'id',
-  'attributeId',
-  'variantId',
-  'textValue',
-  'booleanValue',
-  'floatValue',
-  'variant',
-  'attribute',
-]);
+export const AttributeValueDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'attributeId',
+    'variantId',
+    'textValue',
+    'booleanValue',
+    'floatValue',
+    'variant',
+    'attribute',
+  ])
+  .array();
 
 export const CurrencyOwnSelectFieldsSchema = z
   .object({
@@ -335,13 +331,9 @@ export const CurrencyOwnSelectFieldsSchemaJson = z.preprocess(
   CurrencyOwnSelectFieldsSchema
 );
 
-export const CurrencyDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'code',
-  'symbol',
-  'priceLevels',
-]);
+export const CurrencyDistinctFieldsSchema = z
+  .enum(['id', 'name', 'code', 'symbol', 'priceLevels'])
+  .array();
 
 export const PriceLevelOwnSelectFieldsSchema = z
   .object({
@@ -363,18 +355,20 @@ export const PriceLevelOwnSelectFieldsSchemaJson = z.preprocess(
   PriceLevelOwnSelectFieldsSchema
 );
 
-export const PriceLevelDistinctFieldsSchema = z.enum([
-  'id',
-  'currencyId',
-  'name',
-  'slug',
-  'taxrate',
-  'notes',
-  'currency',
-  'stores',
-  'prices',
-  'discounts',
-]);
+export const PriceLevelDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'currencyId',
+    'name',
+    'slug',
+    'taxrate',
+    'notes',
+    'currency',
+    'stores',
+    'prices',
+    'discounts',
+  ])
+  .array();
 
 export const PriceOwnSelectFieldsSchema = z
   .object({
@@ -394,16 +388,18 @@ export const PriceOwnSelectFieldsSchemaJson = z.preprocess(
   PriceOwnSelectFieldsSchema
 );
 
-export const PriceDistinctFieldsSchema = z.enum([
-  'id',
-  'variantId',
-  'priceLevelId',
-  'price',
-  'cost',
-  'description',
-  'variant',
-  'priceLevel',
-]);
+export const PriceDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'variantId',
+    'priceLevelId',
+    'price',
+    'cost',
+    'description',
+    'variant',
+    'priceLevel',
+  ])
+  .array();
 
 export const QuantityOwnSelectFieldsSchema = z
   .object({
@@ -422,15 +418,17 @@ export const QuantityOwnSelectFieldsSchemaJson = z.preprocess(
   QuantityOwnSelectFieldsSchema
 );
 
-export const QuantityDistinctFieldsSchema = z.enum([
-  'id',
-  'variantId',
-  'storeId',
-  'quantity',
-  'alertThreshold',
-  'variant',
-  'store',
-]);
+export const QuantityDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'variantId',
+    'storeId',
+    'quantity',
+    'alertThreshold',
+    'variant',
+    'store',
+  ])
+  .array();
 
 export const SerialNumberOwnSelectFieldsSchema = z
   .object({
@@ -449,15 +447,17 @@ export const SerialNumberOwnSelectFieldsSchemaJson = z.preprocess(
   SerialNumberOwnSelectFieldsSchema
 );
 
-export const SerialNumberDistinctFieldsSchema = z.enum([
-  'id',
-  'variantId',
-  'storeId',
-  'serialNumber',
-  'inStock',
-  'variant',
-  'store',
-]);
+export const SerialNumberDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'variantId',
+    'storeId',
+    'serialNumber',
+    'inStock',
+    'variant',
+    'store',
+  ])
+  .array();
 
 export const DiscountOwnSelectFieldsSchema = z
   .object({
@@ -483,22 +483,24 @@ export const DiscountOwnSelectFieldsSchemaJson = z.preprocess(
   DiscountOwnSelectFieldsSchema
 );
 
-export const DiscountDistinctFieldsSchema = z.enum([
-  'id',
-  'code',
-  'type',
-  'valueType',
-  'value',
-  'minQuantity',
-  'maxQuantity',
-  'minOrderTotal',
-  'maxOrderTotal',
-  'startDate',
-  'endDate',
-  'usageLimit',
-  'usageCount',
-  'targets',
-]);
+export const DiscountDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'code',
+    'type',
+    'valueType',
+    'value',
+    'minQuantity',
+    'maxQuantity',
+    'minOrderTotal',
+    'maxOrderTotal',
+    'startDate',
+    'endDate',
+    'usageLimit',
+    'usageCount',
+    'targets',
+  ])
+  .array();
 
 export const DiscountTargetOwnSelectFieldsSchema = z
   .object({
@@ -524,22 +526,24 @@ export const DiscountTargetOwnSelectFieldsSchemaJson = z.preprocess(
   DiscountTargetOwnSelectFieldsSchema
 );
 
-export const DiscountTargetDistinctFieldsSchema = z.enum([
-  'id',
-  'type',
-  'discountId',
-  'storeId',
-  'productId',
-  'variantId',
-  'priceLevelId',
-  'categoryId',
-  'discount',
-  'store',
-  'category',
-  'priceLevel',
-  'product',
-  'variant',
-]);
+export const DiscountTargetDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'type',
+    'discountId',
+    'storeId',
+    'productId',
+    'variantId',
+    'priceLevelId',
+    'categoryId',
+    'discount',
+    'store',
+    'category',
+    'priceLevel',
+    'product',
+    'variant',
+  ])
+  .array();
 
 export const StoreOwnSelectFieldsSchema = z
   .object({
@@ -560,17 +564,19 @@ export const StoreOwnSelectFieldsSchemaJson = z.preprocess(
   StoreOwnSelectFieldsSchema
 );
 
-export const StoreDistinctFieldsSchema = z.enum([
-  'id',
-  'priceLevelId',
-  'name',
-  'slug',
-  'description',
-  'priceLevel',
-  'quantities',
-  'discounts',
-  'serialNumbers',
-]);
+export const StoreDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'priceLevelId',
+    'name',
+    'slug',
+    'description',
+    'priceLevel',
+    'quantities',
+    'discounts',
+    'serialNumbers',
+  ])
+  .array();
 
 export const WarrantyPolicyOwnSelectFieldsSchema = z
   .object({
@@ -588,14 +594,9 @@ export const WarrantyPolicyOwnSelectFieldsSchemaJson = z.preprocess(
   WarrantyPolicyOwnSelectFieldsSchema
 );
 
-export const WarrantyPolicyDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'description',
-  'duration',
-  'durationUnit',
-  'products',
-]);
+export const WarrantyPolicyDistinctFieldsSchema = z
+  .enum(['id', 'name', 'description', 'duration', 'durationUnit', 'products'])
+  .array();
 
 export const ProductWarrantyOwnSelectFieldsSchema = z
   .object({
@@ -614,15 +615,17 @@ export const ProductWarrantyOwnSelectFieldsSchemaJson = z.preprocess(
   ProductWarrantyOwnSelectFieldsSchema
 );
 
-export const ProductWarrantyDistinctFieldsSchema = z.enum([
-  'id',
-  'productId',
-  'variantId',
-  'policyId',
-  'product',
-  'variant',
-  'policy',
-]);
+export const ProductWarrantyDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'productId',
+    'variantId',
+    'policyId',
+    'product',
+    'variant',
+    'policy',
+  ])
+  .array();
 
 export const CategoryOwnWhereSchema = z
   .object({

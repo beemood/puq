@@ -146,16 +146,18 @@ export const DepartmentOwnSelectFieldsSchemaJson = z.preprocess(
   DepartmentOwnSelectFieldsSchema
 );
 
-export const DepartmentDistinctFieldsSchema = z.enum([
-  'id',
-  'parentId',
-  'name',
-  'slug',
-  'isActive',
-  'parent',
-  'departments',
-  'titles',
-]);
+export const DepartmentDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'parentId',
+    'name',
+    'slug',
+    'isActive',
+    'parent',
+    'departments',
+    'titles',
+  ])
+  .array();
 
 export const TitleOwnSelectFieldsSchema = z
   .object({
@@ -176,17 +178,19 @@ export const TitleOwnSelectFieldsSchemaJson = z.preprocess(
   TitleOwnSelectFieldsSchema
 );
 
-export const TitleDistinctFieldsSchema = z.enum([
-  'id',
-  'departmentId',
-  'name',
-  'slug',
-  'description',
-  'isActive',
-  'department',
-  'employees',
-  'histories',
-]);
+export const TitleDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'departmentId',
+    'name',
+    'slug',
+    'description',
+    'isActive',
+    'department',
+    'employees',
+    'histories',
+  ])
+  .array();
 
 export const PersonalDataOwnSelectFieldsSchema = z
   .object({
@@ -205,15 +209,17 @@ export const PersonalDataOwnSelectFieldsSchemaJson = z.preprocess(
   PersonalDataOwnSelectFieldsSchema
 );
 
-export const PersonalDataDistinctFieldsSchema = z.enum([
-  'id',
-  'employeeId',
-  'ein',
-  'gender',
-  'dob',
-  'maritalStatus',
-  'employee',
-]);
+export const PersonalDataDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'employeeId',
+    'ein',
+    'gender',
+    'dob',
+    'maritalStatus',
+    'employee',
+  ])
+  .array();
 
 export const EmployeeOwnSelectFieldsSchema = z
   .object({
@@ -256,39 +262,41 @@ export const EmployeeOwnSelectFieldsSchemaJson = z.preprocess(
   EmployeeOwnSelectFieldsSchema
 );
 
-export const EmployeeDistinctFieldsSchema = z.enum([
-  'id',
-  'uuid',
-  'titleId',
-  'firstName',
-  'middleName',
-  'lastName',
-  'preferedName',
-  'status',
-  'title',
-  'hireDate',
-  'terminationDate',
-  'employmentType',
-  'salary',
-  'salaryHistory',
-  'benefits',
-  'titleHistory',
-  'timeOffBalances',
-  'timeOffRequests',
-  'resolvedTimeOffs',
-  'clockIns',
-  'personalData',
-  'taxData',
-  'memberships',
-  'managingTeams',
-  'managingEmployees',
-  'directManager',
-  'paychecks',
-  'directManagerId',
-  'deductions',
-  'resolvedPayrollRuns',
-  'contact',
-]);
+export const EmployeeDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'uuid',
+    'titleId',
+    'firstName',
+    'middleName',
+    'lastName',
+    'preferedName',
+    'status',
+    'title',
+    'hireDate',
+    'terminationDate',
+    'employmentType',
+    'salary',
+    'salaryHistory',
+    'benefits',
+    'titleHistory',
+    'timeOffBalances',
+    'timeOffRequests',
+    'resolvedTimeOffs',
+    'clockIns',
+    'personalData',
+    'taxData',
+    'memberships',
+    'managingTeams',
+    'managingEmployees',
+    'directManager',
+    'paychecks',
+    'directManagerId',
+    'deductions',
+    'resolvedPayrollRuns',
+    'contact',
+  ])
+  .array();
 
 export const TeamOwnSelectFieldsSchema = z
   .object({
@@ -304,12 +312,9 @@ export const TeamOwnSelectFieldsSchemaJson = z.preprocess(
   TeamOwnSelectFieldsSchema
 );
 
-export const TeamDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'members',
-  'managers',
-]);
+export const TeamDistinctFieldsSchema = z
+  .enum(['id', 'name', 'members', 'managers'])
+  .array();
 
 export const TeamManagerOwnSelectFieldsSchema = z
   .object({
@@ -326,13 +331,9 @@ export const TeamManagerOwnSelectFieldsSchemaJson = z.preprocess(
   TeamManagerOwnSelectFieldsSchema
 );
 
-export const TeamManagerDistinctFieldsSchema = z.enum([
-  'id',
-  'teamId',
-  'managerId',
-  'team',
-  'manager',
-]);
+export const TeamManagerDistinctFieldsSchema = z
+  .enum(['id', 'teamId', 'managerId', 'team', 'manager'])
+  .array();
 
 export const TeamMemberOwnSelectFieldsSchema = z
   .object({
@@ -349,13 +350,9 @@ export const TeamMemberOwnSelectFieldsSchemaJson = z.preprocess(
   TeamMemberOwnSelectFieldsSchema
 );
 
-export const TeamMemberDistinctFieldsSchema = z.enum([
-  'id',
-  'teamId',
-  'memberId',
-  'member',
-  'team',
-]);
+export const TeamMemberDistinctFieldsSchema = z
+  .enum(['id', 'teamId', 'memberId', 'member', 'team'])
+  .array();
 
 export const SalaryOwnSelectFieldsSchema = z
   .object({
@@ -374,15 +371,17 @@ export const SalaryOwnSelectFieldsSchemaJson = z.preprocess(
   SalaryOwnSelectFieldsSchema
 );
 
-export const SalaryDistinctFieldsSchema = z.enum([
-  'id',
-  'employeeId',
-  'gross',
-  'startDate',
-  'endDate',
-  'frequency',
-  'employee',
-]);
+export const SalaryDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'employeeId',
+    'gross',
+    'startDate',
+    'endDate',
+    'frequency',
+    'employee',
+  ])
+  .array();
 
 export const SalaryHistoryOwnSelectFieldsSchema = z
   .object({
@@ -401,15 +400,17 @@ export const SalaryHistoryOwnSelectFieldsSchemaJson = z.preprocess(
   SalaryHistoryOwnSelectFieldsSchema
 );
 
-export const SalaryHistoryDistinctFieldsSchema = z.enum([
-  'id',
-  'employeeId',
-  'createdAt',
-  'oldSalary',
-  'newSalary',
-  'reason',
-  'employee',
-]);
+export const SalaryHistoryDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'employeeId',
+    'createdAt',
+    'oldSalary',
+    'newSalary',
+    'reason',
+    'employee',
+  ])
+  .array();
 
 export const BenefitOwnSelectFieldsSchema = z
   .object({
@@ -426,13 +427,9 @@ export const BenefitOwnSelectFieldsSchemaJson = z.preprocess(
   BenefitOwnSelectFieldsSchema
 );
 
-export const BenefitDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'description',
-  'type',
-  'enrolments',
-]);
+export const BenefitDistinctFieldsSchema = z
+  .enum(['id', 'name', 'description', 'type', 'enrolments'])
+  .array();
 
 export const BenefitEnrolmentOwnSelectFieldsSchema = z
   .object({
@@ -451,15 +448,17 @@ export const BenefitEnrolmentOwnSelectFieldsSchemaJson = z.preprocess(
   BenefitEnrolmentOwnSelectFieldsSchema
 );
 
-export const BenefitEnrolmentDistinctFieldsSchema = z.enum([
-  'id',
-  'benefitId',
-  'employeeId',
-  'startDate',
-  'status',
-  'benefit',
-  'employee',
-]);
+export const BenefitEnrolmentDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'benefitId',
+    'employeeId',
+    'startDate',
+    'status',
+    'benefit',
+    'employee',
+  ])
+  .array();
 
 export const TitleHistoryOwnSelectFieldsSchema = z
   .object({
@@ -480,17 +479,19 @@ export const TitleHistoryOwnSelectFieldsSchemaJson = z.preprocess(
   TitleHistoryOwnSelectFieldsSchema
 );
 
-export const TitleHistoryDistinctFieldsSchema = z.enum([
-  'id',
-  'employeeId',
-  'titleId',
-  'type',
-  'reason',
-  'startDate',
-  'endDate',
-  'employee',
-  'title',
-]);
+export const TitleHistoryDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'employeeId',
+    'titleId',
+    'type',
+    'reason',
+    'startDate',
+    'endDate',
+    'employee',
+    'title',
+  ])
+  .array();
 
 export const TimeOffPolicyOwnSelectFieldsSchema = z
   .object({
@@ -509,15 +510,17 @@ export const TimeOffPolicyOwnSelectFieldsSchemaJson = z.preprocess(
   TimeOffPolicyOwnSelectFieldsSchema
 );
 
-export const TimeOffPolicyDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'description',
-  'accrualRate',
-  'maxRollover',
-  'balances',
-  'requests',
-]);
+export const TimeOffPolicyDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'name',
+    'description',
+    'accrualRate',
+    'maxRollover',
+    'balances',
+    'requests',
+  ])
+  .array();
 
 export const TimeOffBalanceOwnSelectFieldsSchema = z
   .object({
@@ -538,17 +541,19 @@ export const TimeOffBalanceOwnSelectFieldsSchemaJson = z.preprocess(
   TimeOffBalanceOwnSelectFieldsSchema
 );
 
-export const TimeOffBalanceDistinctFieldsSchema = z.enum([
-  'id',
-  'policyId',
-  'employeeId',
-  'accruedHours',
-  'usedHours',
-  'availableHours',
-  'policy',
-  'employee',
-  'transactions',
-]);
+export const TimeOffBalanceDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'policyId',
+    'employeeId',
+    'accruedHours',
+    'usedHours',
+    'availableHours',
+    'policy',
+    'employee',
+    'transactions',
+  ])
+  .array();
 
 export const TimeOffRequestOwnSelectFieldsSchema = z
   .object({
@@ -573,21 +578,23 @@ export const TimeOffRequestOwnSelectFieldsSchemaJson = z.preprocess(
   TimeOffRequestOwnSelectFieldsSchema
 );
 
-export const TimeOffRequestDistinctFieldsSchema = z.enum([
-  'id',
-  'createdAt',
-  'employeeId',
-  'reason',
-  'policyId',
-  'resolverId',
-  'status',
-  'startDate',
-  'endDate',
-  'employee',
-  'policy',
-  'resolver',
-  'transactions',
-]);
+export const TimeOffRequestDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'createdAt',
+    'employeeId',
+    'reason',
+    'policyId',
+    'resolverId',
+    'status',
+    'startDate',
+    'endDate',
+    'employee',
+    'policy',
+    'resolver',
+    'transactions',
+  ])
+  .array();
 
 export const TimeOffTransactionOwnSelectFieldsSchema = z
   .object({
@@ -608,17 +615,19 @@ export const TimeOffTransactionOwnSelectFieldsSchemaJson = z.preprocess(
   TimeOffTransactionOwnSelectFieldsSchema
 );
 
-export const TimeOffTransactionDistinctFieldsSchema = z.enum([
-  'id',
-  'createdAt',
-  'updatedAt',
-  'type',
-  'balanceId',
-  'requestId',
-  'amount',
-  'balance',
-  'request',
-]);
+export const TimeOffTransactionDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'createdAt',
+    'updatedAt',
+    'type',
+    'balanceId',
+    'requestId',
+    'amount',
+    'balance',
+    'request',
+  ])
+  .array();
 
 export const ClockInOwnSelectFieldsSchema = z
   .object({
@@ -635,13 +644,9 @@ export const ClockInOwnSelectFieldsSchemaJson = z.preprocess(
   ClockInOwnSelectFieldsSchema
 );
 
-export const ClockInDistinctFieldsSchema = z.enum([
-  'id',
-  'employeeId',
-  'clockIn',
-  'clockOut',
-  'employee',
-]);
+export const ClockInDistinctFieldsSchema = z
+  .enum(['id', 'employeeId', 'clockIn', 'clockOut', 'employee'])
+  .array();
 
 export const PaycheckOwnSelectFieldsSchema = z
   .object({
@@ -665,20 +670,22 @@ export const PaycheckOwnSelectFieldsSchemaJson = z.preprocess(
   PaycheckOwnSelectFieldsSchema
 );
 
-export const PaycheckDistinctFieldsSchema = z.enum([
-  'id',
-  'createdAt',
-  'payrollRunId',
-  'updatedAt',
-  'employeeId',
-  'grossAmount',
-  'netAmount',
-  'employee',
-  'earnings',
-  'paycheckTaxes',
-  'deductions',
-  'payrollRun',
-]);
+export const PaycheckDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'createdAt',
+    'payrollRunId',
+    'updatedAt',
+    'employeeId',
+    'grossAmount',
+    'netAmount',
+    'employee',
+    'earnings',
+    'paycheckTaxes',
+    'deductions',
+    'payrollRun',
+  ])
+  .array();
 
 export const EarningOwnSelectFieldsSchema = z
   .object({
@@ -697,15 +704,9 @@ export const EarningOwnSelectFieldsSchemaJson = z.preprocess(
   EarningOwnSelectFieldsSchema
 );
 
-export const EarningDistinctFieldsSchema = z.enum([
-  'id',
-  'type',
-  'hours',
-  'rate',
-  'amount',
-  'paycheckId',
-  'paycheck',
-]);
+export const EarningDistinctFieldsSchema = z
+  .enum(['id', 'type', 'hours', 'rate', 'amount', 'paycheckId', 'paycheck'])
+  .array();
 
 export const PaycheckTaxOwnSelectFieldsSchema = z
   .object({
@@ -722,13 +723,9 @@ export const PaycheckTaxOwnSelectFieldsSchemaJson = z.preprocess(
   PaycheckTaxOwnSelectFieldsSchema
 );
 
-export const PaycheckTaxDistinctFieldsSchema = z.enum([
-  'id',
-  'paycheckId',
-  'taxAuthority',
-  'amount',
-  'paycheck',
-]);
+export const PaycheckTaxDistinctFieldsSchema = z
+  .enum(['id', 'paycheckId', 'taxAuthority', 'amount', 'paycheck'])
+  .array();
 
 export const DeductionPolicyOwnSelectFieldsSchema = z
   .object({
@@ -746,14 +743,16 @@ export const DeductionPolicyOwnSelectFieldsSchemaJson = z.preprocess(
   DeductionPolicyOwnSelectFieldsSchema
 );
 
-export const DeductionPolicyDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'type',
-  'defaultAmount',
-  'defaultPercent',
-  'employeeDeductions',
-]);
+export const DeductionPolicyDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'name',
+    'type',
+    'defaultAmount',
+    'defaultPercent',
+    'employeeDeductions',
+  ])
+  .array();
 
 export const EmployeeDeductionOwnSelectFieldsSchema = z
   .object({
@@ -772,15 +771,17 @@ export const EmployeeDeductionOwnSelectFieldsSchemaJson = z.preprocess(
   EmployeeDeductionOwnSelectFieldsSchema
 );
 
-export const EmployeeDeductionDistinctFieldsSchema = z.enum([
-  'id',
-  'employeeId',
-  'policyId',
-  'employeeAmount',
-  'employee',
-  'policy',
-  'paycheckDeductions',
-]);
+export const EmployeeDeductionDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'employeeId',
+    'policyId',
+    'employeeAmount',
+    'employee',
+    'policy',
+    'paycheckDeductions',
+  ])
+  .array();
 
 export const PaycheckDeductionOwnSelectFieldsSchema = z
   .object({
@@ -798,14 +799,16 @@ export const PaycheckDeductionOwnSelectFieldsSchemaJson = z.preprocess(
   PaycheckDeductionOwnSelectFieldsSchema
 );
 
-export const PaycheckDeductionDistinctFieldsSchema = z.enum([
-  'id',
-  'paycheckId',
-  'employeeDeductionId',
-  'amount',
-  'paycheck',
-  'employeeDeduction',
-]);
+export const PaycheckDeductionDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'paycheckId',
+    'employeeDeductionId',
+    'amount',
+    'paycheck',
+    'employeeDeduction',
+  ])
+  .array();
 
 export const EmployeeTaxDataOwnSelectFieldsSchema = z
   .object({
@@ -834,25 +837,27 @@ export const EmployeeTaxDataOwnSelectFieldsSchemaJson = z.preprocess(
   EmployeeTaxDataOwnSelectFieldsSchema
 );
 
-export const EmployeeTaxDataDistinctFieldsSchema = z.enum([
-  'id',
-  'createdAt',
-  'updatedAt',
-  'startDate',
-  'endDate',
-  'employeeId',
-  'federalStatus',
-  'dependentsCredit',
-  'multipleJobs',
-  'otherIncome',
-  'deductionsAmount',
-  'extraWithholding',
-  'isExempt',
-  'isNonResidentAlien',
-  'stateTaxes',
-  'localTaxes',
-  'employee',
-]);
+export const EmployeeTaxDataDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'createdAt',
+    'updatedAt',
+    'startDate',
+    'endDate',
+    'employeeId',
+    'federalStatus',
+    'dependentsCredit',
+    'multipleJobs',
+    'otherIncome',
+    'deductionsAmount',
+    'extraWithholding',
+    'isExempt',
+    'isNonResidentAlien',
+    'stateTaxes',
+    'localTaxes',
+    'employee',
+  ])
+  .array();
 
 export const StateTaxWithholdingOwnSelectFieldsSchema = z
   .object({
@@ -871,15 +876,17 @@ export const StateTaxWithholdingOwnSelectFieldsSchemaJson = z.preprocess(
   StateTaxWithholdingOwnSelectFieldsSchema
 );
 
-export const StateTaxWithholdingDistinctFieldsSchema = z.enum([
-  'id',
-  'taxDataId',
-  'stateCode',
-  'stateStatus',
-  'allowances',
-  'extraWithholding',
-  'taxData',
-]);
+export const StateTaxWithholdingDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'taxDataId',
+    'stateCode',
+    'stateStatus',
+    'allowances',
+    'extraWithholding',
+    'taxData',
+  ])
+  .array();
 
 export const LocalTaxWithholdingOwnSelectFieldsSchema = z
   .object({
@@ -897,14 +904,16 @@ export const LocalTaxWithholdingOwnSelectFieldsSchemaJson = z.preprocess(
   LocalTaxWithholdingOwnSelectFieldsSchema
 );
 
-export const LocalTaxWithholdingDistinctFieldsSchema = z.enum([
-  'id',
-  'taxDataId',
-  'jurisdiction',
-  'localStatus',
-  'extraWithholding',
-  'taxData',
-]);
+export const LocalTaxWithholdingDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'taxDataId',
+    'jurisdiction',
+    'localStatus',
+    'extraWithholding',
+    'taxData',
+  ])
+  .array();
 
 export const PayrollRunOwnSelectFieldsSchema = z
   .object({
@@ -924,16 +933,18 @@ export const PayrollRunOwnSelectFieldsSchemaJson = z.preprocess(
   PayrollRunOwnSelectFieldsSchema
 );
 
-export const PayrollRunDistinctFieldsSchema = z.enum([
-  'id',
-  'resolverId',
-  'startDate',
-  'endDate',
-  'payDate',
-  'status',
-  'approvedBy',
-  'paychecks',
-]);
+export const PayrollRunDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'resolverId',
+    'startDate',
+    'endDate',
+    'payDate',
+    'status',
+    'approvedBy',
+    'paychecks',
+  ])
+  .array();
 
 export const ContactOwnSelectFieldsSchema = z
   .object({
@@ -954,17 +965,19 @@ export const ContactOwnSelectFieldsSchemaJson = z.preprocess(
   ContactOwnSelectFieldsSchema
 );
 
-export const ContactDistinctFieldsSchema = z.enum([
-  'id',
-  'employeeId',
-  'employee',
-  'emails',
-  'phones',
-  'addresses',
-  'primaryEmail',
-  'primaryPhone',
-  'primaryAddress',
-]);
+export const ContactDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'employeeId',
+    'employee',
+    'emails',
+    'phones',
+    'addresses',
+    'primaryEmail',
+    'primaryPhone',
+    'primaryAddress',
+  ])
+  .array();
 
 export const CountryOwnSelectFieldsSchema = z
   .object({
@@ -980,12 +993,9 @@ export const CountryOwnSelectFieldsSchemaJson = z.preprocess(
   CountryOwnSelectFieldsSchema
 );
 
-export const CountryDistinctFieldsSchema = z.enum([
-  'id',
-  'name',
-  'code',
-  'states',
-]);
+export const CountryDistinctFieldsSchema = z
+  .enum(['id', 'name', 'code', 'states'])
+  .array();
 
 export const StateOwnSelectFieldsSchema = z
   .object({
@@ -1003,14 +1013,9 @@ export const StateOwnSelectFieldsSchemaJson = z.preprocess(
   StateOwnSelectFieldsSchema
 );
 
-export const StateDistinctFieldsSchema = z.enum([
-  'id',
-  'countryId',
-  'name',
-  'code',
-  'country',
-  'addresses',
-]);
+export const StateDistinctFieldsSchema = z
+  .enum(['id', 'countryId', 'name', 'code', 'country', 'addresses'])
+  .array();
 
 export const AddressOwnSelectFieldsSchema = z
   .object({
@@ -1032,18 +1037,20 @@ export const AddressOwnSelectFieldsSchemaJson = z.preprocess(
   AddressOwnSelectFieldsSchema
 );
 
-export const AddressDistinctFieldsSchema = z.enum([
-  'id',
-  'type',
-  'contactId',
-  'stateId',
-  'street',
-  'zip',
-  'city',
-  'state',
-  'contact',
-  'primary',
-]);
+export const AddressDistinctFieldsSchema = z
+  .enum([
+    'id',
+    'type',
+    'contactId',
+    'stateId',
+    'street',
+    'zip',
+    'city',
+    'state',
+    'contact',
+    'primary',
+  ])
+  .array();
 
 export const EmailOwnSelectFieldsSchema = z
   .object({
@@ -1061,14 +1068,9 @@ export const EmailOwnSelectFieldsSchemaJson = z.preprocess(
   EmailOwnSelectFieldsSchema
 );
 
-export const EmailDistinctFieldsSchema = z.enum([
-  'id',
-  'type',
-  'contactId',
-  'email',
-  'contact',
-  'primary',
-]);
+export const EmailDistinctFieldsSchema = z
+  .enum(['id', 'type', 'contactId', 'email', 'contact', 'primary'])
+  .array();
 
 export const PhoneOwnSelectFieldsSchema = z
   .object({
@@ -1086,14 +1088,9 @@ export const PhoneOwnSelectFieldsSchemaJson = z.preprocess(
   PhoneOwnSelectFieldsSchema
 );
 
-export const PhoneDistinctFieldsSchema = z.enum([
-  'id',
-  'type',
-  'contactId',
-  'phone',
-  'contact',
-  'primary',
-]);
+export const PhoneDistinctFieldsSchema = z
+  .enum(['id', 'type', 'contactId', 'phone', 'contact', 'primary'])
+  .array();
 
 export const PrimaryEmailOwnSelectFieldsSchema = z
   .object({
@@ -1110,13 +1107,9 @@ export const PrimaryEmailOwnSelectFieldsSchemaJson = z.preprocess(
   PrimaryEmailOwnSelectFieldsSchema
 );
 
-export const PrimaryEmailDistinctFieldsSchema = z.enum([
-  'id',
-  'emailId',
-  'contactId',
-  'email',
-  'contact',
-]);
+export const PrimaryEmailDistinctFieldsSchema = z
+  .enum(['id', 'emailId', 'contactId', 'email', 'contact'])
+  .array();
 
 export const PrimaryPhoneOwnSelectFieldsSchema = z
   .object({
@@ -1133,13 +1126,9 @@ export const PrimaryPhoneOwnSelectFieldsSchemaJson = z.preprocess(
   PrimaryPhoneOwnSelectFieldsSchema
 );
 
-export const PrimaryPhoneDistinctFieldsSchema = z.enum([
-  'id',
-  'phoneId',
-  'contactId',
-  'phone',
-  'contact',
-]);
+export const PrimaryPhoneDistinctFieldsSchema = z
+  .enum(['id', 'phoneId', 'contactId', 'phone', 'contact'])
+  .array();
 
 export const PrimaryAddressOwnSelectFieldsSchema = z
   .object({
@@ -1156,13 +1145,9 @@ export const PrimaryAddressOwnSelectFieldsSchemaJson = z.preprocess(
   PrimaryAddressOwnSelectFieldsSchema
 );
 
-export const PrimaryAddressDistinctFieldsSchema = z.enum([
-  'id',
-  'addressId',
-  'contactId',
-  'address',
-  'contact',
-]);
+export const PrimaryAddressDistinctFieldsSchema = z
+  .enum(['id', 'addressId', 'contactId', 'address', 'contact'])
+  .array();
 
 export const DepartmentOwnWhereSchema = z
   .object({
