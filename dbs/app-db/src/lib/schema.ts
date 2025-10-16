@@ -5,13 +5,20 @@ import { slugify } from '@puq/names';
 
 export const takeSchema = z.coerce.number().int().min(1).default(20).optional();
 export const skipSchema = z.coerce.number().int().min(0).default(0).optional();
-
 export const PaginationSchema = z
   .object({
-    take: takeSchema,
-    skip: skipSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
   })
   .partial();
+
+export const nameSchema = z.string().min(2).max(30);
+export const descriptionSchema = z.string().max(1000);
+export const currencySchema = z.coerce.number().positive();
+export const positiveIntegerSchema = z.coerce.number().int().positive();
+export const emailSchema = z.email();
+export const dateSchema = z.iso.datetime();
+export const slugSchema = z.string().regex(/^[a-z-]{2,}$/);
 
 export function jsonParser<T>(value: T) {
   if (typeof value === 'string') {
@@ -214,16 +221,16 @@ export const AppHistoryOwnQuerySchema = z
   .partial();
 
 export const AppCreateSchema = z.object({
-  name: z.string(),
-  description: z.string().optional(),
+  name: nameSchema.clone(),
+  description: descriptionSchema.clone().optional(),
   version: z.string().optional(),
   host: z.string(),
   port: z.string(),
 });
 
 export const AppUpdateSchema = z.object({
-  name: z.string().optional(),
-  description: z.string().optional().optional(),
+  name: nameSchema.clone().optional(),
+  description: descriptionSchema.clone().optional().optional(),
   version: z.string().optional().optional(),
   host: z.string().optional(),
   port: z.string().optional(),
@@ -348,13 +355,13 @@ export const SecretIncludeSchemaJson = z.preprocess(
 );
 
 export const AppHistoryCreateSchema = z.object({
-  appId: z.int(),
-  stopeedAt: z.iso.datetime().optional(),
+  appId: z.coerce.number().int(),
+  stopeedAt: dateSchema.clone().optional(),
 });
 
 export const AppHistoryUpdateSchema = z.object({
-  appId: z.int().optional(),
-  stopeedAt: z.iso.datetime().optional().optional(),
+  appId: z.coerce.number().int().optional(),
+  stopeedAt: dateSchema.clone().optional().optional(),
 });
 
 export const AppHistoryOrderBySchema = z

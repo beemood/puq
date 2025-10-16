@@ -5,13 +5,20 @@ import { slugify } from '@puq/names';
 
 export const takeSchema = z.coerce.number().int().min(1).default(20).optional();
 export const skipSchema = z.coerce.number().int().min(0).default(0).optional();
-
 export const PaginationSchema = z
   .object({
-    take: takeSchema,
-    skip: skipSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
   })
   .partial();
+
+export const nameSchema = z.string().min(2).max(30);
+export const descriptionSchema = z.string().max(1000);
+export const currencySchema = z.coerce.number().positive();
+export const positiveIntegerSchema = z.coerce.number().int().positive();
+export const emailSchema = z.email();
+export const dateSchema = z.iso.datetime();
+export const slugSchema = z.string().regex(/^[a-z-]{2,}$/);
 
 export function jsonParser<T>(value: T) {
   if (typeof value === 'string') {
@@ -1180,11 +1187,11 @@ export const EmployeeItemRequestOwnQuerySchema = z
   .partial();
 
 export const RoomAttributeCreateSchema = z.object({
-  name: z.string(),
+  name: nameSchema.clone(),
 });
 
 export const RoomAttributeUpdateSchema = z.object({
-  name: z.string().optional(),
+  name: nameSchema.clone().optional(),
 });
 
 export const RoomAttributeOrderBySchema = z
@@ -1243,14 +1250,14 @@ export const RoomAttributeIncludeSchemaJson = z.preprocess(
 );
 
 export const RoomAttributeValueCreateSchema = z.object({
-  roomId: z.int(),
-  attributeId: z.int(),
+  roomId: z.coerce.number().int(),
+  attributeId: z.coerce.number().int(),
   value: z.string(),
 });
 
 export const RoomAttributeValueUpdateSchema = z.object({
-  roomId: z.int().optional(),
-  attributeId: z.int().optional(),
+  roomId: z.coerce.number().int().optional(),
+  attributeId: z.coerce.number().int().optional(),
   value: z.string().optional(),
 });
 
@@ -1325,11 +1332,11 @@ export const RoomAttributeValueIncludeSchemaJson = z.preprocess(
 );
 
 export const ItemAttributeCreateSchema = z.object({
-  name: z.string(),
+  name: nameSchema.clone(),
 });
 
 export const ItemAttributeUpdateSchema = z.object({
-  name: z.string().optional(),
+  name: nameSchema.clone().optional(),
 });
 
 export const ItemAttributeOrderBySchema = z
@@ -1388,14 +1395,14 @@ export const ItemAttributeIncludeSchemaJson = z.preprocess(
 );
 
 export const ItemAttributeValueCreateSchema = z.object({
-  itemId: z.int(),
-  attributeId: z.int(),
+  itemId: z.coerce.number().int(),
+  attributeId: z.coerce.number().int(),
   value: z.string(),
 });
 
 export const ItemAttributeValueUpdateSchema = z.object({
-  itemId: z.int().optional(),
-  attributeId: z.int().optional(),
+  itemId: z.coerce.number().int().optional(),
+  attributeId: z.coerce.number().int().optional(),
   value: z.string().optional(),
 });
 
@@ -1470,13 +1477,13 @@ export const ItemAttributeValueIncludeSchemaJson = z.preprocess(
 );
 
 export const CategoryCreateSchema = z.object({
-  parentId: z.int().optional(),
-  name: z.string(),
+  parentId: z.coerce.number().int().optional(),
+  name: nameSchema.clone(),
 });
 
 export const CategoryUpdateSchema = z.object({
-  parentId: z.int().optional().optional(),
-  name: z.string().optional(),
+  parentId: z.coerce.number().int().optional().optional(),
+  name: nameSchema.clone().optional(),
 });
 
 export const CategoryOrderBySchema = z
@@ -1556,12 +1563,12 @@ export const CategoryIncludeSchemaJson = z.preprocess(
 );
 
 export const BuildingCreateSchema = z.object({
-  name: z.string(),
+  name: nameSchema.clone(),
   code: z.string(),
 });
 
 export const BuildingUpdateSchema = z.object({
-  name: z.string().optional(),
+  name: nameSchema.clone().optional(),
   code: z.string().optional(),
 });
 
@@ -1624,17 +1631,17 @@ export const BuildingIncludeSchemaJson = z.preprocess(
 );
 
 export const RoomCreateSchema = z.object({
-  buildingId: z.int(),
-  name: z.string(),
+  buildingId: z.coerce.number().int(),
+  name: nameSchema.clone(),
   code: z.string(),
-  floor: z.int().optional(),
+  floor: z.coerce.number().int().optional(),
 });
 
 export const RoomUpdateSchema = z.object({
-  buildingId: z.int().optional(),
-  name: z.string().optional(),
+  buildingId: z.coerce.number().int().optional(),
+  name: nameSchema.clone().optional(),
   code: z.string().optional(),
-  floor: z.int().optional().optional(),
+  floor: z.coerce.number().int().optional().optional(),
 });
 
 export const RoomOrderBySchema = z
@@ -1747,17 +1754,17 @@ export const RoomIncludeSchemaJson = z.preprocess(
 );
 
 export const ItemCreateSchema = z.object({
-  categoryId: z.int().optional(),
-  name: z.string(),
-  description: z.string().optional(),
-  minQuantity: z.int().optional(),
+  categoryId: z.coerce.number().int().optional(),
+  name: nameSchema.clone(),
+  description: descriptionSchema.clone().optional(),
+  minQuantity: z.coerce.number().int().optional(),
 });
 
 export const ItemUpdateSchema = z.object({
-  categoryId: z.int().optional().optional(),
-  name: z.string().optional(),
-  description: z.string().optional().optional(),
-  minQuantity: z.int().optional().optional(),
+  categoryId: z.coerce.number().int().optional().optional(),
+  name: nameSchema.clone().optional(),
+  description: descriptionSchema.clone().optional().optional(),
+  minQuantity: z.coerce.number().int().optional().optional(),
 });
 
 export const ItemOrderBySchema = z
@@ -1852,17 +1859,17 @@ export const ItemIncludeSchemaJson = z.preprocess(
 );
 
 export const QuantityCreateSchema = z.object({
-  roomId: z.int(),
-  itemId: z.int(),
-  quantity: z.int().optional(),
-  minQuantity: z.int().optional(),
+  roomId: z.coerce.number().int(),
+  itemId: z.coerce.number().int(),
+  quantity: positiveIntegerSchema.clone().optional(),
+  minQuantity: z.coerce.number().int().optional(),
 });
 
 export const QuantityUpdateSchema = z.object({
-  roomId: z.int().optional(),
-  itemId: z.int().optional(),
-  quantity: z.int().optional().optional(),
-  minQuantity: z.int().optional().optional(),
+  roomId: z.coerce.number().int().optional(),
+  itemId: z.coerce.number().int().optional(),
+  quantity: positiveIntegerSchema.clone().optional().optional(),
+  minQuantity: z.coerce.number().int().optional().optional(),
 });
 
 export const QuantityOrderBySchema = z
@@ -1958,14 +1965,14 @@ export const QuantityIncludeSchemaJson = z.preprocess(
 
 export const SerialNumberCreateSchema = z.object({
   serialNumber: z.string(),
-  itemId: z.int(),
-  roomId: z.int(),
+  itemId: z.coerce.number().int(),
+  roomId: z.coerce.number().int(),
 });
 
 export const SerialNumberUpdateSchema = z.object({
   serialNumber: z.string().optional(),
-  itemId: z.int().optional(),
-  roomId: z.int().optional(),
+  itemId: z.coerce.number().int().optional(),
+  roomId: z.coerce.number().int().optional(),
 });
 
 export const SerialNumberOrderBySchema = z
@@ -2078,25 +2085,25 @@ export const SerialNumberIncludeSchemaJson = z.preprocess(
 );
 
 export const QuantityMoveRequestCreateSchema = z.object({
-  sourceId: z.int(),
-  targetId: z.int(),
-  requestedById: z.int(),
-  resolvedById: z.int().optional(),
-  quantity: z.int(),
+  sourceId: z.coerce.number().int(),
+  targetId: z.coerce.number().int(),
+  requestedById: z.coerce.number().int(),
+  resolvedById: z.coerce.number().int().optional(),
+  quantity: positiveIntegerSchema.clone(),
   reason: z.string().optional(),
   status: RequestStatusSchema.optional(),
-  resolvedAt: z.iso.datetime().optional(),
+  resolvedAt: dateSchema.clone().optional(),
 });
 
 export const QuantityMoveRequestUpdateSchema = z.object({
-  sourceId: z.int().optional(),
-  targetId: z.int().optional(),
-  requestedById: z.int().optional(),
-  resolvedById: z.int().optional().optional(),
-  quantity: z.int().optional(),
+  sourceId: z.coerce.number().int().optional(),
+  targetId: z.coerce.number().int().optional(),
+  requestedById: z.coerce.number().int().optional(),
+  resolvedById: z.coerce.number().int().optional().optional(),
+  quantity: positiveIntegerSchema.clone().optional(),
   reason: z.string().optional().optional(),
   status: RequestStatusSchema.optional().optional(),
-  resolvedAt: z.iso.datetime().optional().optional(),
+  resolvedAt: dateSchema.clone().optional().optional(),
 });
 
 export const QuantityMoveRequestOrderBySchema = z
@@ -2205,23 +2212,23 @@ export const QuantityMoveRequestIncludeSchemaJson = z.preprocess(
 );
 
 export const SerialMoveRequestCreateSchema = z.object({
-  sourceId: z.int(),
-  targetId: z.int(),
-  requestedById: z.int(),
-  resolvedById: z.int().optional(),
+  sourceId: z.coerce.number().int(),
+  targetId: z.coerce.number().int(),
+  requestedById: z.coerce.number().int(),
+  resolvedById: z.coerce.number().int().optional(),
   reason: z.string().optional(),
   status: RequestStatusSchema.optional(),
-  resolvedAt: z.iso.datetime().optional(),
+  resolvedAt: dateSchema.clone().optional(),
 });
 
 export const SerialMoveRequestUpdateSchema = z.object({
-  sourceId: z.int().optional(),
-  targetId: z.int().optional(),
-  requestedById: z.int().optional(),
-  resolvedById: z.int().optional().optional(),
+  sourceId: z.coerce.number().int().optional(),
+  targetId: z.coerce.number().int().optional(),
+  requestedById: z.coerce.number().int().optional(),
+  resolvedById: z.coerce.number().int().optional().optional(),
   reason: z.string().optional().optional(),
   status: RequestStatusSchema.optional().optional(),
-  resolvedAt: z.iso.datetime().optional().optional(),
+  resolvedAt: dateSchema.clone().optional().optional(),
 });
 
 export const SerialMoveRequestOrderBySchema = z
@@ -2471,15 +2478,15 @@ export const EmployeeIncludeSchemaJson = z.preprocess(
 );
 
 export const EmployeeRoomCreateSchema = z.object({
-  employeeId: z.int(),
-  roomId: z.int(),
-  takenAt: z.iso.datetime().optional(),
+  employeeId: z.coerce.number().int(),
+  roomId: z.coerce.number().int(),
+  takenAt: dateSchema.clone().optional(),
 });
 
 export const EmployeeRoomUpdateSchema = z.object({
-  employeeId: z.int().optional(),
-  roomId: z.int().optional(),
-  takenAt: z.iso.datetime().optional().optional(),
+  employeeId: z.coerce.number().int().optional(),
+  roomId: z.coerce.number().int().optional(),
+  takenAt: dateSchema.clone().optional().optional(),
 });
 
 export const EmployeeRoomOrderBySchema = z
@@ -2556,15 +2563,15 @@ export const EmployeeRoomIncludeSchemaJson = z.preprocess(
 );
 
 export const EmployeeItemCreateSchema = z.object({
-  employeeId: z.int(),
-  serialNumberId: z.int(),
-  takenAt: z.iso.datetime().optional(),
+  employeeId: z.coerce.number().int(),
+  serialNumberId: z.coerce.number().int(),
+  takenAt: dateSchema.clone().optional(),
 });
 
 export const EmployeeItemUpdateSchema = z.object({
-  employeeId: z.int().optional(),
-  serialNumberId: z.int().optional(),
-  takenAt: z.iso.datetime().optional().optional(),
+  employeeId: z.coerce.number().int().optional(),
+  serialNumberId: z.coerce.number().int().optional(),
+  takenAt: dateSchema.clone().optional().optional(),
 });
 
 export const EmployeeItemOrderBySchema = z
@@ -2641,19 +2648,19 @@ export const EmployeeItemIncludeSchemaJson = z.preprocess(
 );
 
 export const EmployeeRoomRequestCreateSchema = z.object({
-  roomId: z.int().optional(),
-  requestedById: z.int(),
-  resolvedById: z.int().optional(),
-  resolvedAt: z.iso.datetime().optional(),
+  roomId: z.coerce.number().int().optional(),
+  requestedById: z.coerce.number().int(),
+  resolvedById: z.coerce.number().int().optional(),
+  resolvedAt: dateSchema.clone().optional(),
   status: RequestStatusSchema.optional(),
   note: z.string().optional(),
 });
 
 export const EmployeeRoomRequestUpdateSchema = z.object({
-  roomId: z.int().optional().optional(),
-  requestedById: z.int().optional(),
-  resolvedById: z.int().optional().optional(),
-  resolvedAt: z.iso.datetime().optional().optional(),
+  roomId: z.coerce.number().int().optional().optional(),
+  requestedById: z.coerce.number().int().optional(),
+  resolvedById: z.coerce.number().int().optional().optional(),
+  resolvedAt: dateSchema.clone().optional().optional(),
   status: RequestStatusSchema.optional().optional(),
   note: z.string().optional().optional(),
 });
@@ -2749,19 +2756,19 @@ export const EmployeeRoomRequestIncludeSchemaJson = z.preprocess(
 );
 
 export const EmployeeItemRequestCreateSchema = z.object({
-  requestedById: z.int(),
-  resolvedById: z.int().optional(),
-  resolvedAt: z.iso.datetime().optional(),
-  serialNumberId: z.int().optional(),
+  requestedById: z.coerce.number().int(),
+  resolvedById: z.coerce.number().int().optional(),
+  resolvedAt: dateSchema.clone().optional(),
+  serialNumberId: z.coerce.number().int().optional(),
   status: RequestStatusSchema.optional(),
   note: z.string().optional(),
 });
 
 export const EmployeeItemRequestUpdateSchema = z.object({
-  requestedById: z.int().optional(),
-  resolvedById: z.int().optional().optional(),
-  resolvedAt: z.iso.datetime().optional().optional(),
-  serialNumberId: z.int().optional().optional(),
+  requestedById: z.coerce.number().int().optional(),
+  resolvedById: z.coerce.number().int().optional().optional(),
+  resolvedAt: dateSchema.clone().optional().optional(),
+  serialNumberId: z.coerce.number().int().optional().optional(),
   status: RequestStatusSchema.optional().optional(),
   note: z.string().optional().optional(),
 });

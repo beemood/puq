@@ -5,13 +5,20 @@ import { slugify } from '@puq/names';
 
 export const takeSchema = z.coerce.number().int().min(1).default(20).optional();
 export const skipSchema = z.coerce.number().int().min(0).default(0).optional();
-
 export const PaginationSchema = z
   .object({
-    take: takeSchema,
-    skip: skipSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
   })
   .partial();
+
+export const nameSchema = z.string().min(2).max(30);
+export const descriptionSchema = z.string().max(1000);
+export const currencySchema = z.coerce.number().positive();
+export const positiveIntegerSchema = z.coerce.number().int().positive();
+export const emailSchema = z.email();
+export const dateSchema = z.iso.datetime();
+export const slugSchema = z.string().regex(/^[a-z-]{2,}$/);
 
 export function jsonParser<T>(value: T) {
   if (typeof value === 'string') {
@@ -1700,7 +1707,7 @@ export const UserCreateSchema = z
   .object({
     uuid: z.string(),
     displayName: z.string(),
-    slug: z.string().optional(),
+    slug: slugSchema.clone().optional(),
     title: z.string(),
   })
   .transform(slugTransformer('title'));
@@ -1709,7 +1716,7 @@ export const UserUpdateSchema = z
   .object({
     uuid: z.string().optional(),
     displayName: z.string().optional(),
-    slug: z.string().optional().optional(),
+    slug: slugSchema.clone().optional().optional(),
     title: z.string().optional(),
   })
   .transform(slugTransformer('title'));
@@ -1894,17 +1901,17 @@ export const UserIncludeSchemaJson = z.preprocess(
 
 export const TeamCreateSchema = z
   .object({
-    name: z.string(),
-    slug: z.string().optional(),
-    description: z.string().optional(),
+    name: nameSchema.clone(),
+    slug: slugSchema.clone().optional(),
+    description: descriptionSchema.clone().optional(),
   })
   .transform(slugTransformer('name'));
 
 export const TeamUpdateSchema = z
   .object({
-    name: z.string().optional(),
-    slug: z.string().optional().optional(),
-    description: z.string().optional().optional(),
+    name: nameSchema.clone().optional(),
+    slug: slugSchema.clone().optional().optional(),
+    description: descriptionSchema.clone().optional().optional(),
   })
   .transform(slugTransformer('name'));
 
@@ -1994,13 +2001,13 @@ export const TeamIncludeSchemaJson = z.preprocess(
 );
 
 export const TeamManagerCreateSchema = z.object({
-  managerId: z.int(),
-  teamId: z.int(),
+  managerId: z.coerce.number().int(),
+  teamId: z.coerce.number().int(),
 });
 
 export const TeamManagerUpdateSchema = z.object({
-  managerId: z.int().optional(),
-  teamId: z.int().optional(),
+  managerId: z.coerce.number().int().optional(),
+  teamId: z.coerce.number().int().optional(),
 });
 
 export const TeamManagerOrderBySchema = z
@@ -2071,13 +2078,13 @@ export const TeamManagerIncludeSchemaJson = z.preprocess(
 );
 
 export const TeamMemberCreateSchema = z.object({
-  teamId: z.int(),
-  memberId: z.int(),
+  teamId: z.coerce.number().int(),
+  memberId: z.coerce.number().int(),
 });
 
 export const TeamMemberUpdateSchema = z.object({
-  teamId: z.int().optional(),
-  memberId: z.int().optional(),
+  teamId: z.coerce.number().int().optional(),
+  memberId: z.coerce.number().int().optional(),
 });
 
 export const TeamMemberOrderBySchema = z
@@ -2149,27 +2156,27 @@ export const TeamMemberIncludeSchemaJson = z.preprocess(
 
 export const ProjectCreateSchema = z
   .object({
-    createdById: z.int(),
-    parentId: z.int().optional(),
-    name: z.string(),
-    slug: z.string().optional(),
-    description: z.string().optional(),
-    startDate: z.iso.datetime().optional(),
-    dueDate: z.iso.datetime().optional(),
-    endDate: z.iso.datetime().optional(),
+    createdById: z.coerce.number().int(),
+    parentId: z.coerce.number().int().optional(),
+    name: nameSchema.clone(),
+    slug: slugSchema.clone().optional(),
+    description: descriptionSchema.clone().optional(),
+    startDate: dateSchema.clone().optional(),
+    dueDate: dateSchema.clone().optional(),
+    endDate: dateSchema.clone().optional(),
   })
   .transform(slugTransformer('name'));
 
 export const ProjectUpdateSchema = z
   .object({
-    createdById: z.int().optional(),
-    parentId: z.int().optional().optional(),
-    name: z.string().optional(),
-    slug: z.string().optional().optional(),
-    description: z.string().optional().optional(),
-    startDate: z.iso.datetime().optional().optional(),
-    dueDate: z.iso.datetime().optional().optional(),
-    endDate: z.iso.datetime().optional().optional(),
+    createdById: z.coerce.number().int().optional(),
+    parentId: z.coerce.number().int().optional().optional(),
+    name: nameSchema.clone().optional(),
+    slug: slugSchema.clone().optional().optional(),
+    description: descriptionSchema.clone().optional().optional(),
+    startDate: dateSchema.clone().optional().optional(),
+    dueDate: dateSchema.clone().optional().optional(),
+    endDate: dateSchema.clone().optional().optional(),
   })
   .transform(slugTransformer('name'));
 
@@ -2340,12 +2347,12 @@ export const ProjectIncludeSchemaJson = z.preprocess(
 );
 
 export const TagCreateSchema = z.object({
-  name: z.string(),
+  name: nameSchema.clone(),
   isDefault: z.boolean().optional(),
 });
 
 export const TagUpdateSchema = z.object({
-  name: z.string().optional(),
+  name: nameSchema.clone().optional(),
   isDefault: z.boolean().optional().optional(),
 });
 
@@ -2408,16 +2415,16 @@ export const TagIncludeSchema = z
 export const TagIncludeSchemaJson = z.preprocess(jsonParser, TagIncludeSchema);
 
 export const CategoryCreateSchema = z.object({
-  parentId: z.int().optional(),
-  name: z.string(),
-  description: z.string().optional(),
+  parentId: z.coerce.number().int().optional(),
+  name: nameSchema.clone(),
+  description: descriptionSchema.clone().optional(),
   isDefault: z.boolean().optional(),
 });
 
 export const CategoryUpdateSchema = z.object({
-  parentId: z.int().optional().optional(),
-  name: z.string().optional(),
-  description: z.string().optional().optional(),
+  parentId: z.coerce.number().int().optional().optional(),
+  name: nameSchema.clone().optional(),
+  description: descriptionSchema.clone().optional().optional(),
   isDefault: z.boolean().optional().optional(),
 });
 
@@ -2505,21 +2512,21 @@ export const CategoryIncludeSchemaJson = z.preprocess(
 
 export const SprintCreateSchema = z
   .object({
-    createdById: z.int(),
-    projectId: z.int().optional(),
-    name: z.string(),
-    slug: z.string().optional(),
-    description: z.string().optional(),
+    createdById: z.coerce.number().int(),
+    projectId: z.coerce.number().int().optional(),
+    name: nameSchema.clone(),
+    slug: slugSchema.clone().optional(),
+    description: descriptionSchema.clone().optional(),
   })
   .transform(slugTransformer('name'));
 
 export const SprintUpdateSchema = z
   .object({
-    createdById: z.int().optional(),
-    projectId: z.int().optional().optional(),
-    name: z.string().optional(),
-    slug: z.string().optional().optional(),
-    description: z.string().optional().optional(),
+    createdById: z.coerce.number().int().optional(),
+    projectId: z.coerce.number().int().optional().optional(),
+    name: nameSchema.clone().optional(),
+    slug: slugSchema.clone().optional().optional(),
+    description: descriptionSchema.clone().optional().optional(),
   })
   .transform(slugTransformer('name'));
 
@@ -2609,14 +2616,14 @@ export const SprintIncludeSchemaJson = z.preprocess(
 );
 
 export const PriorityCreateSchema = z.object({
-  name: z.string(),
-  description: z.string().optional(),
+  name: nameSchema.clone(),
+  description: descriptionSchema.clone().optional(),
   isDefault: z.boolean().optional(),
 });
 
 export const PriorityUpdateSchema = z.object({
-  name: z.string().optional(),
-  description: z.string().optional().optional(),
+  name: nameSchema.clone().optional(),
+  description: descriptionSchema.clone().optional().optional(),
   isDefault: z.boolean().optional().optional(),
 });
 
@@ -2709,14 +2716,14 @@ export const PriorityIncludeSchemaJson = z.preprocess(
 );
 
 export const StatusCreateSchema = z.object({
-  name: z.string(),
-  description: z.string().optional(),
+  name: nameSchema.clone(),
+  description: descriptionSchema.clone().optional(),
   isDefault: z.boolean().optional(),
 });
 
 export const StatusUpdateSchema = z.object({
-  name: z.string().optional(),
-  description: z.string().optional().optional(),
+  name: nameSchema.clone().optional(),
+  description: descriptionSchema.clone().optional().optional(),
   isDefault: z.boolean().optional().optional(),
 });
 
@@ -2809,15 +2816,15 @@ export const StatusIncludeSchemaJson = z.preprocess(
 );
 
 export const PointCreateSchema = z.object({
-  name: z.string(),
-  point: z.int(),
-  description: z.string().optional(),
+  name: nameSchema.clone(),
+  point: z.coerce.number().int(),
+  description: descriptionSchema.clone().optional(),
 });
 
 export const PointUpdateSchema = z.object({
-  name: z.string().optional(),
-  point: z.int().optional(),
-  description: z.string().optional().optional(),
+  name: nameSchema.clone().optional(),
+  point: z.coerce.number().int().optional(),
+  description: descriptionSchema.clone().optional().optional(),
 });
 
 export const PointOrderBySchema = z
@@ -2898,33 +2905,33 @@ export const PointIncludeSchemaJson = z.preprocess(
 
 export const TaskCreateSchema = z
   .object({
-    sprintId: z.int().optional(),
-    createdById: z.int(),
-    priorityId: z.int().optional(),
-    pointId: z.int(),
-    statusId: z.int().optional(),
-    parentId: z.int().optional(),
+    sprintId: z.coerce.number().int().optional(),
+    createdById: z.coerce.number().int(),
+    priorityId: z.coerce.number().int().optional(),
+    pointId: z.coerce.number().int(),
+    statusId: z.coerce.number().int().optional(),
+    parentId: z.coerce.number().int().optional(),
     title: z.string(),
-    slug: z.string().optional(),
-    description: z.string().optional(),
-    due: z.iso.datetime().optional(),
-    resolvedAt: z.iso.datetime().optional(),
+    slug: slugSchema.clone().optional(),
+    description: descriptionSchema.clone().optional(),
+    due: dateSchema.clone().optional(),
+    resolvedAt: dateSchema.clone().optional(),
   })
   .transform(slugTransformer('title'));
 
 export const TaskUpdateSchema = z
   .object({
-    sprintId: z.int().optional().optional(),
-    createdById: z.int().optional(),
-    priorityId: z.int().optional().optional(),
-    pointId: z.int().optional(),
-    statusId: z.int().optional().optional(),
-    parentId: z.int().optional().optional(),
+    sprintId: z.coerce.number().int().optional().optional(),
+    createdById: z.coerce.number().int().optional(),
+    priorityId: z.coerce.number().int().optional().optional(),
+    pointId: z.coerce.number().int().optional(),
+    statusId: z.coerce.number().int().optional().optional(),
+    parentId: z.coerce.number().int().optional().optional(),
     title: z.string().optional(),
-    slug: z.string().optional().optional(),
-    description: z.string().optional().optional(),
-    due: z.iso.datetime().optional().optional(),
-    resolvedAt: z.iso.datetime().optional().optional(),
+    slug: slugSchema.clone().optional().optional(),
+    description: descriptionSchema.clone().optional().optional(),
+    due: dateSchema.clone().optional().optional(),
+    resolvedAt: dateSchema.clone().optional().optional(),
   })
   .transform(slugTransformer('title'));
 
@@ -3143,19 +3150,19 @@ export const TaskIncludeSchemaJson = z.preprocess(
 );
 
 export const AssignmentHistoryCreateSchema = z.object({
-  createdById: z.int(),
-  projectId: z.int(),
-  taskId: z.int(),
-  oldUserId: z.int(),
-  newUserId: z.int(),
+  createdById: z.coerce.number().int(),
+  projectId: z.coerce.number().int(),
+  taskId: z.coerce.number().int(),
+  oldUserId: z.coerce.number().int(),
+  newUserId: z.coerce.number().int(),
 });
 
 export const AssignmentHistoryUpdateSchema = z.object({
-  createdById: z.int().optional(),
-  projectId: z.int().optional(),
-  taskId: z.int().optional(),
-  oldUserId: z.int().optional(),
-  newUserId: z.int().optional(),
+  createdById: z.coerce.number().int().optional(),
+  projectId: z.coerce.number().int().optional(),
+  taskId: z.coerce.number().int().optional(),
+  oldUserId: z.coerce.number().int().optional(),
+  newUserId: z.coerce.number().int().optional(),
 });
 
 export const AssignmentHistoryOrderBySchema = z
@@ -3268,19 +3275,19 @@ export const AssignmentHistoryIncludeSchemaJson = z.preprocess(
 );
 
 export const PriorityHistoryCreateSchema = z.object({
-  createdById: z.int(),
-  projectId: z.int(),
-  taskId: z.int(),
-  oldPriorityId: z.int().optional(),
-  newPriorityId: z.int(),
+  createdById: z.coerce.number().int(),
+  projectId: z.coerce.number().int(),
+  taskId: z.coerce.number().int(),
+  oldPriorityId: z.coerce.number().int().optional(),
+  newPriorityId: z.coerce.number().int(),
 });
 
 export const PriorityHistoryUpdateSchema = z.object({
-  createdById: z.int().optional(),
-  projectId: z.int().optional(),
-  taskId: z.int().optional(),
-  oldPriorityId: z.int().optional().optional(),
-  newPriorityId: z.int().optional(),
+  createdById: z.coerce.number().int().optional(),
+  projectId: z.coerce.number().int().optional(),
+  taskId: z.coerce.number().int().optional(),
+  oldPriorityId: z.coerce.number().int().optional().optional(),
+  newPriorityId: z.coerce.number().int().optional(),
 });
 
 export const PriorityHistoryOrderBySchema = z
@@ -3393,19 +3400,19 @@ export const PriorityHistoryIncludeSchemaJson = z.preprocess(
 );
 
 export const StatusHistoryCreateSchema = z.object({
-  createdById: z.int(),
-  oldStatusId: z.int().optional(),
-  newStatusId: z.int(),
-  projectId: z.int(),
-  taskId: z.int(),
+  createdById: z.coerce.number().int(),
+  oldStatusId: z.coerce.number().int().optional(),
+  newStatusId: z.coerce.number().int(),
+  projectId: z.coerce.number().int(),
+  taskId: z.coerce.number().int(),
 });
 
 export const StatusHistoryUpdateSchema = z.object({
-  createdById: z.int().optional(),
-  oldStatusId: z.int().optional().optional(),
-  newStatusId: z.int().optional(),
-  projectId: z.int().optional(),
-  taskId: z.int().optional(),
+  createdById: z.coerce.number().int().optional(),
+  oldStatusId: z.coerce.number().int().optional().optional(),
+  newStatusId: z.coerce.number().int().optional(),
+  projectId: z.coerce.number().int().optional(),
+  taskId: z.coerce.number().int().optional(),
 });
 
 export const StatusHistoryOrderBySchema = z
@@ -3515,19 +3522,19 @@ export const StatusHistoryIncludeSchemaJson = z.preprocess(
 );
 
 export const PointHistoryCreateSchema = z.object({
-  createdById: z.int(),
-  oldPointId: z.int().optional(),
-  newPointId: z.int(),
-  projectId: z.int(),
-  taskId: z.int(),
+  createdById: z.coerce.number().int(),
+  oldPointId: z.coerce.number().int().optional(),
+  newPointId: z.coerce.number().int(),
+  projectId: z.coerce.number().int(),
+  taskId: z.coerce.number().int(),
 });
 
 export const PointHistoryUpdateSchema = z.object({
-  createdById: z.int().optional(),
-  oldPointId: z.int().optional().optional(),
-  newPointId: z.int().optional(),
-  projectId: z.int().optional(),
-  taskId: z.int().optional(),
+  createdById: z.coerce.number().int().optional(),
+  oldPointId: z.coerce.number().int().optional().optional(),
+  newPointId: z.coerce.number().int().optional(),
+  projectId: z.coerce.number().int().optional(),
+  taskId: z.coerce.number().int().optional(),
 });
 
 export const PointHistoryOrderBySchema = z
@@ -3637,15 +3644,15 @@ export const PointHistoryIncludeSchemaJson = z.preprocess(
 );
 
 export const TeamHistoryCreateSchema = z.object({
-  createdById: z.int(),
-  oldTeamId: z.int().optional(),
-  newTeamId: z.int(),
+  createdById: z.coerce.number().int(),
+  oldTeamId: z.coerce.number().int().optional(),
+  newTeamId: z.coerce.number().int(),
 });
 
 export const TeamHistoryUpdateSchema = z.object({
-  createdById: z.int().optional(),
-  oldTeamId: z.int().optional().optional(),
-  newTeamId: z.int().optional(),
+  createdById: z.coerce.number().int().optional(),
+  oldTeamId: z.coerce.number().int().optional().optional(),
+  newTeamId: z.coerce.number().int().optional(),
 });
 
 export const TeamHistoryOrderBySchema = z
@@ -3731,13 +3738,13 @@ export const TeamHistoryIncludeSchemaJson = z.preprocess(
 );
 
 export const TaskTagCreateSchema = z.object({
-  taskId: z.int(),
-  tagId: z.int(),
+  taskId: z.coerce.number().int(),
+  tagId: z.coerce.number().int(),
 });
 
 export const TaskTagUpdateSchema = z.object({
-  taskId: z.int().optional(),
-  tagId: z.int().optional(),
+  taskId: z.coerce.number().int().optional(),
+  tagId: z.coerce.number().int().optional(),
 });
 
 export const TaskTagOrderBySchema = z
@@ -3808,13 +3815,13 @@ export const TaskTagIncludeSchemaJson = z.preprocess(
 );
 
 export const TaskCategoryCreateSchema = z.object({
-  categoryId: z.int(),
-  taskId: z.int(),
+  categoryId: z.coerce.number().int(),
+  taskId: z.coerce.number().int(),
 });
 
 export const TaskCategoryUpdateSchema = z.object({
-  categoryId: z.int().optional(),
-  taskId: z.int().optional(),
+  categoryId: z.coerce.number().int().optional(),
+  taskId: z.coerce.number().int().optional(),
 });
 
 export const TaskCategoryOrderBySchema = z
@@ -3885,13 +3892,13 @@ export const TaskCategoryIncludeSchemaJson = z.preprocess(
 );
 
 export const AssignmentCreateSchema = z.object({
-  assigneeId: z.int(),
-  taskId: z.int(),
+  assigneeId: z.coerce.number().int(),
+  taskId: z.coerce.number().int(),
 });
 
 export const AssignmentUpdateSchema = z.object({
-  assigneeId: z.int().optional(),
-  taskId: z.int().optional(),
+  assigneeId: z.coerce.number().int().optional(),
+  taskId: z.coerce.number().int().optional(),
 });
 
 export const AssignmentOrderBySchema = z
@@ -3968,16 +3975,16 @@ export const AssignmentIncludeSchemaJson = z.preprocess(
 );
 
 export const CommentCreateSchema = z.object({
-  parentId: z.int().optional(),
-  createdById: z.int(),
-  taskId: z.int(),
+  parentId: z.coerce.number().int().optional(),
+  createdById: z.coerce.number().int(),
+  taskId: z.coerce.number().int(),
   comment: z.string(),
 });
 
 export const CommentUpdateSchema = z.object({
-  parentId: z.int().optional().optional(),
-  createdById: z.int().optional(),
-  taskId: z.int().optional(),
+  parentId: z.coerce.number().int().optional().optional(),
+  createdById: z.coerce.number().int().optional(),
+  taskId: z.coerce.number().int().optional(),
   comment: z.string().optional(),
 });
 
@@ -4079,13 +4086,13 @@ export const CommentIncludeSchemaJson = z.preprocess(
 );
 
 export const ProjectTaskTagCreateSchema = z.object({
-  projectId: z.int(),
-  tagId: z.int(),
+  projectId: z.coerce.number().int(),
+  tagId: z.coerce.number().int(),
 });
 
 export const ProjectTaskTagUpdateSchema = z.object({
-  projectId: z.int().optional(),
-  tagId: z.int().optional(),
+  projectId: z.coerce.number().int().optional(),
+  tagId: z.coerce.number().int().optional(),
 });
 
 export const ProjectTaskTagOrderBySchema = z
@@ -4156,13 +4163,13 @@ export const ProjectTaskTagIncludeSchemaJson = z.preprocess(
 );
 
 export const ProjectTaskStatusCreateSchema = z.object({
-  projectId: z.int(),
-  statusId: z.int(),
+  projectId: z.coerce.number().int(),
+  statusId: z.coerce.number().int(),
 });
 
 export const ProjectTaskStatusUpdateSchema = z.object({
-  projectId: z.int().optional(),
-  statusId: z.int().optional(),
+  projectId: z.coerce.number().int().optional(),
+  statusId: z.coerce.number().int().optional(),
 });
 
 export const ProjectTaskStatusOrderBySchema = z
@@ -4233,13 +4240,13 @@ export const ProjectTaskStatusIncludeSchemaJson = z.preprocess(
 );
 
 export const ProjectTaskPriorityCreateSchema = z.object({
-  projectId: z.int(),
-  priorityId: z.int(),
+  projectId: z.coerce.number().int(),
+  priorityId: z.coerce.number().int(),
 });
 
 export const ProjectTaskPriorityUpdateSchema = z.object({
-  projectId: z.int().optional(),
-  priorityId: z.int().optional(),
+  projectId: z.coerce.number().int().optional(),
+  priorityId: z.coerce.number().int().optional(),
 });
 
 export const ProjectTaskPriorityOrderBySchema = z

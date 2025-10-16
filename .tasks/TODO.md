@@ -37,7 +37,7 @@
   "name": "PrismaClientKnownRequestError"
 }
 
-- [ ] Add common name, description and other valdiations to the zod properties.
+- [x] Add common name, description and other valdiations to the zod properties.
 
 ````
 

@@ -5,13 +5,20 @@ import { slugify } from '@puq/names';
 
 export const takeSchema = z.coerce.number().int().min(1).default(20).optional();
 export const skipSchema = z.coerce.number().int().min(0).default(0).optional();
-
 export const PaginationSchema = z
   .object({
-    take: takeSchema,
-    skip: skipSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
   })
   .partial();
+
+export const nameSchema = z.string().min(2).max(30);
+export const descriptionSchema = z.string().max(1000);
+export const currencySchema = z.coerce.number().positive();
+export const positiveIntegerSchema = z.coerce.number().int().positive();
+export const emailSchema = z.email();
+export const dateSchema = z.iso.datetime();
+export const slugSchema = z.string().regex(/^[a-z-]{2,}$/);
 
 export function jsonParser<T>(value: T) {
   if (typeof value === 'string') {
@@ -913,13 +920,13 @@ export const UserIncludeSchemaJson = z.preprocess(
 );
 
 export const AccessTokenCreateSchema = z.object({
-  name: z.string(),
-  userId: z.int(),
+  name: nameSchema.clone(),
+  userId: z.coerce.number().int(),
 });
 
 export const AccessTokenUpdateSchema = z.object({
-  name: z.string().optional(),
-  userId: z.int().optional(),
+  name: nameSchema.clone().optional(),
+  userId: z.coerce.number().int().optional(),
 });
 
 export const AccessTokenOrderBySchema = z
@@ -990,11 +997,11 @@ export const AccessTokenIncludeSchemaJson = z.preprocess(
 );
 
 export const ScopeCreateSchema = z.object({
-  name: z.string(),
+  name: nameSchema.clone(),
 });
 
 export const ScopeUpdateSchema = z.object({
-  name: z.string().optional(),
+  name: nameSchema.clone().optional(),
 });
 
 export const ScopeOrderBySchema = z
@@ -1050,11 +1057,11 @@ export const ScopeIncludeSchemaJson = z.preprocess(
 );
 
 export const ResourceCreateSchema = z.object({
-  name: z.string(),
+  name: nameSchema.clone(),
 });
 
 export const ResourceUpdateSchema = z.object({
-  name: z.string().optional(),
+  name: nameSchema.clone().optional(),
 });
 
 export const ResourceOrderBySchema = z
@@ -1113,11 +1120,11 @@ export const ResourceIncludeSchemaJson = z.preprocess(
 );
 
 export const OperationCreateSchema = z.object({
-  name: z.string(),
+  name: nameSchema.clone(),
 });
 
 export const OperationUpdateSchema = z.object({
-  name: z.string().optional(),
+  name: nameSchema.clone().optional(),
 });
 
 export const OperationOrderBySchema = z
@@ -1176,15 +1183,15 @@ export const OperationIncludeSchemaJson = z.preprocess(
 );
 
 export const ActivityCreateSchema = z.object({
-  name: z.string(),
-  resourceId: z.int(),
-  operationId: z.int(),
+  name: nameSchema.clone(),
+  resourceId: z.coerce.number().int(),
+  operationId: z.coerce.number().int(),
 });
 
 export const ActivityUpdateSchema = z.object({
-  name: z.string().optional(),
-  resourceId: z.int().optional(),
-  operationId: z.int().optional(),
+  name: nameSchema.clone().optional(),
+  resourceId: z.coerce.number().int().optional(),
+  operationId: z.coerce.number().int().optional(),
 });
 
 export const ActivityOrderBySchema = z
@@ -1276,13 +1283,13 @@ export const ActivityIncludeSchemaJson = z.preprocess(
 );
 
 export const PermissionCreateSchema = z.object({
-  scopeId: z.int(),
-  activityId: z.int(),
+  scopeId: z.coerce.number().int(),
+  activityId: z.coerce.number().int(),
 });
 
 export const PermissionUpdateSchema = z.object({
-  scopeId: z.int().optional(),
-  activityId: z.int().optional(),
+  scopeId: z.coerce.number().int().optional(),
+  activityId: z.coerce.number().int().optional(),
 });
 
 export const PermissionOrderBySchema = z
@@ -1380,11 +1387,11 @@ export const PermissionIncludeSchemaJson = z.preprocess(
 );
 
 export const RoleCreateSchema = z.object({
-  name: z.string(),
+  name: nameSchema.clone(),
 });
 
 export const RoleUpdateSchema = z.object({
-  name: z.string().optional(),
+  name: nameSchema.clone().optional(),
 });
 
 export const RoleOrderBySchema = z
@@ -1440,13 +1447,13 @@ export const RoleIncludeSchemaJson = z.preprocess(
 );
 
 export const RolePermissionCreateSchema = z.object({
-  roleId: z.int(),
-  permissionId: z.int(),
+  roleId: z.coerce.number().int(),
+  permissionId: z.coerce.number().int(),
 });
 
 export const RolePermissionUpdateSchema = z.object({
-  roleId: z.int().optional(),
-  permissionId: z.int().optional(),
+  roleId: z.coerce.number().int().optional(),
+  permissionId: z.coerce.number().int().optional(),
 });
 
 export const RolePermissionOrderBySchema = z
@@ -1517,17 +1524,17 @@ export const RolePermissionIncludeSchemaJson = z.preprocess(
 );
 
 export const SessionCreateSchema = z.object({
-  userId: z.int(),
-  description: z.string().optional(),
+  userId: z.coerce.number().int(),
+  description: descriptionSchema.clone().optional(),
   status: SessionStatusSchema.optional(),
-  endDate: z.iso.datetime(),
+  endDate: dateSchema.clone(),
 });
 
 export const SessionUpdateSchema = z.object({
-  userId: z.int().optional(),
-  description: z.string().optional().optional(),
+  userId: z.coerce.number().int().optional(),
+  description: descriptionSchema.clone().optional().optional(),
   status: SessionStatusSchema.optional().optional(),
-  endDate: z.iso.datetime().optional(),
+  endDate: dateSchema.clone().optional(),
 });
 
 export const SessionOrderBySchema = z
@@ -1606,14 +1613,14 @@ export const SessionIncludeSchemaJson = z.preprocess(
 );
 
 export const ActivityLogCreateSchema = z.object({
-  sessionId: z.int(),
-  activityId: z.int(),
+  sessionId: z.coerce.number().int(),
+  activityId: z.coerce.number().int(),
   notes: z.string().optional(),
 });
 
 export const ActivityLogUpdateSchema = z.object({
-  sessionId: z.int().optional(),
-  activityId: z.int().optional(),
+  sessionId: z.coerce.number().int().optional(),
+  activityId: z.coerce.number().int().optional(),
   notes: z.string().optional().optional(),
 });
 
@@ -1691,13 +1698,13 @@ export const ActivityLogIncludeSchemaJson = z.preprocess(
 );
 
 export const UserPermissionCreateSchema = z.object({
-  userId: z.int(),
-  permissionId: z.int(),
+  userId: z.coerce.number().int(),
+  permissionId: z.coerce.number().int(),
 });
 
 export const UserPermissionUpdateSchema = z.object({
-  userId: z.int().optional(),
-  permissionId: z.int().optional(),
+  userId: z.coerce.number().int().optional(),
+  permissionId: z.coerce.number().int().optional(),
 });
 
 export const UserPermissionOrderBySchema = z
@@ -1768,13 +1775,13 @@ export const UserPermissionIncludeSchemaJson = z.preprocess(
 );
 
 export const AccessTokenPermissionCreateSchema = z.object({
-  permissionId: z.int(),
-  accessTokenId: z.int(),
+  permissionId: z.coerce.number().int(),
+  accessTokenId: z.coerce.number().int(),
 });
 
 export const AccessTokenPermissionUpdateSchema = z.object({
-  permissionId: z.int().optional(),
-  accessTokenId: z.int().optional(),
+  permissionId: z.coerce.number().int().optional(),
+  accessTokenId: z.coerce.number().int().optional(),
 });
 
 export const AccessTokenPermissionOrderBySchema = z

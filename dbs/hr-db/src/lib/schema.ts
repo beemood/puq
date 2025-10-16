@@ -5,13 +5,20 @@ import { slugify } from '@puq/names';
 
 export const takeSchema = z.coerce.number().int().min(1).default(20).optional();
 export const skipSchema = z.coerce.number().int().min(0).default(0).optional();
-
 export const PaginationSchema = z
   .object({
-    take: takeSchema,
-    skip: skipSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
   })
   .partial();
+
+export const nameSchema = z.string().min(2).max(30);
+export const descriptionSchema = z.string().max(1000);
+export const currencySchema = z.coerce.number().positive();
+export const positiveIntegerSchema = z.coerce.number().int().positive();
+export const emailSchema = z.email();
+export const dateSchema = z.iso.datetime();
+export const slugSchema = z.string().regex(/^[a-z-]{2,}$/);
 
 export function jsonParser<T>(value: T) {
   if (typeof value === 'string') {
@@ -2491,18 +2498,18 @@ export const PrimaryAddressOwnQuerySchema = z
 
 export const DepartmentCreateSchema = z
   .object({
-    parentId: z.int().optional(),
-    name: z.string(),
-    slug: z.string().optional(),
+    parentId: z.coerce.number().int().optional(),
+    name: nameSchema.clone(),
+    slug: slugSchema.clone().optional(),
     isActive: z.boolean().optional(),
   })
   .transform(slugTransformer('name'));
 
 export const DepartmentUpdateSchema = z
   .object({
-    parentId: z.int().optional().optional(),
-    name: z.string().optional(),
-    slug: z.string().optional().optional(),
+    parentId: z.coerce.number().int().optional().optional(),
+    name: nameSchema.clone().optional(),
+    slug: slugSchema.clone().optional().optional(),
     isActive: z.boolean().optional().optional(),
   })
   .transform(slugTransformer('name'));
@@ -2591,20 +2598,20 @@ export const DepartmentIncludeSchemaJson = z.preprocess(
 
 export const TitleCreateSchema = z
   .object({
-    departmentId: z.int(),
-    name: z.string(),
-    slug: z.string().optional(),
-    description: z.string().optional(),
+    departmentId: z.coerce.number().int(),
+    name: nameSchema.clone(),
+    slug: slugSchema.clone().optional(),
+    description: descriptionSchema.clone().optional(),
     isActive: z.boolean().optional(),
   })
   .transform(slugTransformer('name'));
 
 export const TitleUpdateSchema = z
   .object({
-    departmentId: z.int().optional(),
-    name: z.string().optional(),
-    slug: z.string().optional().optional(),
-    description: z.string().optional().optional(),
+    departmentId: z.coerce.number().int().optional(),
+    name: nameSchema.clone().optional(),
+    slug: slugSchema.clone().optional().optional(),
+    description: descriptionSchema.clone().optional().optional(),
     isActive: z.boolean().optional().optional(),
   })
   .transform(slugTransformer('name'));
@@ -2692,18 +2699,18 @@ export const TitleIncludeSchemaJson = z.preprocess(
 );
 
 export const PersonalDataCreateSchema = z.object({
-  employeeId: z.int(),
+  employeeId: z.coerce.number().int(),
   ein: z.string(),
   gender: GenderSchema,
-  dob: z.iso.datetime(),
+  dob: dateSchema.clone(),
   maritalStatus: MaritalStatusSchema,
 });
 
 export const PersonalDataUpdateSchema = z.object({
-  employeeId: z.int().optional(),
+  employeeId: z.coerce.number().int().optional(),
   ein: z.string().optional(),
   gender: GenderSchema.optional(),
-  dob: z.iso.datetime().optional(),
+  dob: dateSchema.clone().optional(),
   maritalStatus: MaritalStatusSchema.optional(),
 });
 
@@ -2773,29 +2780,29 @@ export const PersonalDataIncludeSchemaJson = z.preprocess(
 );
 
 export const EmployeeCreateSchema = z.object({
-  titleId: z.int(),
+  titleId: z.coerce.number().int(),
   firstName: z.string(),
   middleName: z.string().optional(),
   lastName: z.string(),
   preferedName: z.string().optional(),
   status: EmployeeStatusSchema.optional(),
-  hireDate: z.iso.datetime().optional(),
-  terminationDate: z.iso.datetime().optional(),
+  hireDate: dateSchema.clone().optional(),
+  terminationDate: dateSchema.clone().optional(),
   employmentType: EmploymentTypeSchema,
-  directManagerId: z.int().optional(),
+  directManagerId: z.coerce.number().int().optional(),
 });
 
 export const EmployeeUpdateSchema = z.object({
-  titleId: z.int().optional(),
+  titleId: z.coerce.number().int().optional(),
   firstName: z.string().optional(),
   middleName: z.string().optional().optional(),
   lastName: z.string().optional(),
   preferedName: z.string().optional().optional(),
   status: EmployeeStatusSchema.optional().optional(),
-  hireDate: z.iso.datetime().optional().optional(),
-  terminationDate: z.iso.datetime().optional().optional(),
+  hireDate: dateSchema.clone().optional().optional(),
+  terminationDate: dateSchema.clone().optional().optional(),
   employmentType: EmploymentTypeSchema.optional(),
-  directManagerId: z.int().optional().optional(),
+  directManagerId: z.coerce.number().int().optional().optional(),
 });
 
 export const EmployeeOrderBySchema = z
@@ -3044,11 +3051,11 @@ export const EmployeeIncludeSchemaJson = z.preprocess(
 );
 
 export const TeamCreateSchema = z.object({
-  name: z.string(),
+  name: nameSchema.clone(),
 });
 
 export const TeamUpdateSchema = z.object({
-  name: z.string().optional(),
+  name: nameSchema.clone().optional(),
 });
 
 export const TeamOrderBySchema = z
@@ -3113,13 +3120,13 @@ export const TeamIncludeSchemaJson = z.preprocess(
 );
 
 export const TeamManagerCreateSchema = z.object({
-  teamId: z.int(),
-  managerId: z.int(),
+  teamId: z.coerce.number().int(),
+  managerId: z.coerce.number().int(),
 });
 
 export const TeamManagerUpdateSchema = z.object({
-  teamId: z.int().optional(),
-  managerId: z.int().optional(),
+  teamId: z.coerce.number().int().optional(),
+  managerId: z.coerce.number().int().optional(),
 });
 
 export const TeamManagerOrderBySchema = z
@@ -3190,13 +3197,13 @@ export const TeamManagerIncludeSchemaJson = z.preprocess(
 );
 
 export const TeamMemberCreateSchema = z.object({
-  teamId: z.int(),
-  memberId: z.int(),
+  teamId: z.coerce.number().int(),
+  memberId: z.coerce.number().int(),
 });
 
 export const TeamMemberUpdateSchema = z.object({
-  teamId: z.int().optional(),
-  memberId: z.int().optional(),
+  teamId: z.coerce.number().int().optional(),
+  memberId: z.coerce.number().int().optional(),
 });
 
 export const TeamMemberOrderBySchema = z
@@ -3267,18 +3274,18 @@ export const TeamMemberIncludeSchemaJson = z.preprocess(
 );
 
 export const SalaryCreateSchema = z.object({
-  employeeId: z.int(),
-  gross: z.number(),
-  startDate: z.iso.datetime(),
-  endDate: z.iso.datetime().optional(),
+  employeeId: z.coerce.number().int(),
+  gross: z.coerce.number(),
+  startDate: dateSchema.clone(),
+  endDate: dateSchema.clone().optional(),
   frequency: PayFrequencySchema,
 });
 
 export const SalaryUpdateSchema = z.object({
-  employeeId: z.int().optional(),
-  gross: z.number().optional(),
-  startDate: z.iso.datetime().optional(),
-  endDate: z.iso.datetime().optional().optional(),
+  employeeId: z.coerce.number().int().optional(),
+  gross: z.coerce.number().optional(),
+  startDate: dateSchema.clone().optional(),
+  endDate: dateSchema.clone().optional().optional(),
   frequency: PayFrequencySchema.optional(),
 });
 
@@ -3349,16 +3356,16 @@ export const SalaryIncludeSchemaJson = z.preprocess(
 );
 
 export const SalaryHistoryCreateSchema = z.object({
-  employeeId: z.int(),
-  oldSalary: z.number(),
-  newSalary: z.number(),
+  employeeId: z.coerce.number().int(),
+  oldSalary: z.coerce.number(),
+  newSalary: z.coerce.number(),
   reason: z.string().optional(),
 });
 
 export const SalaryHistoryUpdateSchema = z.object({
-  employeeId: z.int().optional(),
-  oldSalary: z.number().optional(),
-  newSalary: z.number().optional(),
+  employeeId: z.coerce.number().int().optional(),
+  oldSalary: z.coerce.number().optional(),
+  newSalary: z.coerce.number().optional(),
   reason: z.string().optional().optional(),
 });
 
@@ -3430,14 +3437,14 @@ export const SalaryHistoryIncludeSchemaJson = z.preprocess(
 );
 
 export const BenefitCreateSchema = z.object({
-  name: z.string(),
-  description: z.string().optional(),
+  name: nameSchema.clone(),
+  description: descriptionSchema.clone().optional(),
   type: z.string().optional(),
 });
 
 export const BenefitUpdateSchema = z.object({
-  name: z.string().optional(),
-  description: z.string().optional().optional(),
+  name: nameSchema.clone().optional(),
+  description: descriptionSchema.clone().optional().optional(),
   type: z.string().optional().optional(),
 });
 
@@ -3503,16 +3510,16 @@ export const BenefitIncludeSchemaJson = z.preprocess(
 );
 
 export const BenefitEnrolmentCreateSchema = z.object({
-  benefitId: z.int(),
-  employeeId: z.int(),
-  startDate: z.iso.datetime(),
+  benefitId: z.coerce.number().int(),
+  employeeId: z.coerce.number().int(),
+  startDate: dateSchema.clone(),
   status: BenefitStatusSchema.optional(),
 });
 
 export const BenefitEnrolmentUpdateSchema = z.object({
-  benefitId: z.int().optional(),
-  employeeId: z.int().optional(),
-  startDate: z.iso.datetime().optional(),
+  benefitId: z.coerce.number().int().optional(),
+  employeeId: z.coerce.number().int().optional(),
+  startDate: dateSchema.clone().optional(),
   status: BenefitStatusSchema.optional().optional(),
 });
 
@@ -3589,21 +3596,21 @@ export const BenefitEnrolmentIncludeSchemaJson = z.preprocess(
 );
 
 export const TitleHistoryCreateSchema = z.object({
-  employeeId: z.int(),
-  titleId: z.int(),
+  employeeId: z.coerce.number().int(),
+  titleId: z.coerce.number().int(),
   type: TitleChangeTypeSchema,
   reason: z.string().optional(),
-  startDate: z.iso.datetime(),
-  endDate: z.iso.datetime().optional(),
+  startDate: dateSchema.clone(),
+  endDate: dateSchema.clone().optional(),
 });
 
 export const TitleHistoryUpdateSchema = z.object({
-  employeeId: z.int().optional(),
-  titleId: z.int().optional(),
+  employeeId: z.coerce.number().int().optional(),
+  titleId: z.coerce.number().int().optional(),
   type: TitleChangeTypeSchema.optional(),
   reason: z.string().optional().optional(),
-  startDate: z.iso.datetime().optional(),
-  endDate: z.iso.datetime().optional().optional(),
+  startDate: dateSchema.clone().optional(),
+  endDate: dateSchema.clone().optional().optional(),
 });
 
 export const TitleHistoryOrderBySchema = z
@@ -3685,17 +3692,17 @@ export const TitleHistoryIncludeSchemaJson = z.preprocess(
 );
 
 export const TimeOffPolicyCreateSchema = z.object({
-  name: z.string(),
-  description: z.string().optional(),
-  accrualRate: z.number(),
-  maxRollover: z.number(),
+  name: nameSchema.clone(),
+  description: descriptionSchema.clone().optional(),
+  accrualRate: z.coerce.number(),
+  maxRollover: z.coerce.number(),
 });
 
 export const TimeOffPolicyUpdateSchema = z.object({
-  name: z.string().optional(),
-  description: z.string().optional().optional(),
-  accrualRate: z.number().optional(),
-  maxRollover: z.number().optional(),
+  name: nameSchema.clone().optional(),
+  description: descriptionSchema.clone().optional().optional(),
+  accrualRate: z.coerce.number().optional(),
+  maxRollover: z.coerce.number().optional(),
 });
 
 export const TimeOffPolicyOrderBySchema = z
@@ -3772,19 +3779,19 @@ export const TimeOffPolicyIncludeSchemaJson = z.preprocess(
 );
 
 export const TimeOffBalanceCreateSchema = z.object({
-  policyId: z.int(),
-  employeeId: z.int(),
-  accruedHours: z.number(),
-  usedHours: z.number(),
-  availableHours: z.number(),
+  policyId: z.coerce.number().int(),
+  employeeId: z.coerce.number().int(),
+  accruedHours: z.coerce.number(),
+  usedHours: z.coerce.number(),
+  availableHours: z.coerce.number(),
 });
 
 export const TimeOffBalanceUpdateSchema = z.object({
-  policyId: z.int().optional(),
-  employeeId: z.int().optional(),
-  accruedHours: z.number().optional(),
-  usedHours: z.number().optional(),
-  availableHours: z.number().optional(),
+  policyId: z.coerce.number().int().optional(),
+  employeeId: z.coerce.number().int().optional(),
+  accruedHours: z.coerce.number().optional(),
+  usedHours: z.coerce.number().optional(),
+  availableHours: z.coerce.number().optional(),
 });
 
 export const TimeOffBalanceOrderBySchema = z
@@ -3873,23 +3880,23 @@ export const TimeOffBalanceIncludeSchemaJson = z.preprocess(
 );
 
 export const TimeOffRequestCreateSchema = z.object({
-  employeeId: z.int(),
+  employeeId: z.coerce.number().int(),
   reason: z.string(),
-  policyId: z.int(),
-  resolverId: z.int().optional(),
+  policyId: z.coerce.number().int(),
+  resolverId: z.coerce.number().int().optional(),
   status: RequestStatusSchema.optional(),
-  startDate: z.iso.datetime(),
-  endDate: z.iso.datetime(),
+  startDate: dateSchema.clone(),
+  endDate: dateSchema.clone(),
 });
 
 export const TimeOffRequestUpdateSchema = z.object({
-  employeeId: z.int().optional(),
+  employeeId: z.coerce.number().int().optional(),
   reason: z.string().optional(),
-  policyId: z.int().optional(),
-  resolverId: z.int().optional().optional(),
+  policyId: z.coerce.number().int().optional(),
+  resolverId: z.coerce.number().int().optional().optional(),
   status: RequestStatusSchema.optional().optional(),
-  startDate: z.iso.datetime().optional(),
-  endDate: z.iso.datetime().optional(),
+  startDate: dateSchema.clone().optional(),
+  endDate: dateSchema.clone().optional(),
 });
 
 export const TimeOffRequestOrderBySchema = z
@@ -3996,16 +4003,16 @@ export const TimeOffRequestIncludeSchemaJson = z.preprocess(
 
 export const TimeOffTransactionCreateSchema = z.object({
   type: TimeOffTransactionTypeSchema,
-  balanceId: z.int(),
-  requestId: z.int().optional(),
-  amount: z.number(),
+  balanceId: z.coerce.number().int(),
+  requestId: z.coerce.number().int().optional(),
+  amount: z.coerce.number(),
 });
 
 export const TimeOffTransactionUpdateSchema = z.object({
   type: TimeOffTransactionTypeSchema.optional(),
-  balanceId: z.int().optional(),
-  requestId: z.int().optional().optional(),
-  amount: z.number().optional(),
+  balanceId: z.coerce.number().int().optional(),
+  requestId: z.coerce.number().int().optional().optional(),
+  amount: z.coerce.number().optional(),
 });
 
 export const TimeOffTransactionOrderBySchema = z
@@ -4087,13 +4094,13 @@ export const TimeOffTransactionIncludeSchemaJson = z.preprocess(
 );
 
 export const ClockInCreateSchema = z.object({
-  employeeId: z.int(),
-  clockOut: z.iso.datetime().optional(),
+  employeeId: z.coerce.number().int(),
+  clockOut: dateSchema.clone().optional(),
 });
 
 export const ClockInUpdateSchema = z.object({
-  employeeId: z.int().optional(),
-  clockOut: z.iso.datetime().optional().optional(),
+  employeeId: z.coerce.number().int().optional(),
+  clockOut: dateSchema.clone().optional().optional(),
 });
 
 export const ClockInOrderBySchema = z
@@ -4158,17 +4165,17 @@ export const ClockInIncludeSchemaJson = z.preprocess(
 );
 
 export const PaycheckCreateSchema = z.object({
-  payrollRunId: z.int(),
-  employeeId: z.int(),
-  grossAmount: z.number(),
-  netAmount: z.number(),
+  payrollRunId: z.coerce.number().int(),
+  employeeId: z.coerce.number().int(),
+  grossAmount: z.coerce.number(),
+  netAmount: z.coerce.number(),
 });
 
 export const PaycheckUpdateSchema = z.object({
-  payrollRunId: z.int().optional(),
-  employeeId: z.int().optional(),
-  grossAmount: z.number().optional(),
-  netAmount: z.number().optional(),
+  payrollRunId: z.coerce.number().int().optional(),
+  employeeId: z.coerce.number().int().optional(),
+  grossAmount: z.coerce.number().optional(),
+  netAmount: z.coerce.number().optional(),
 });
 
 export const PaycheckOrderBySchema = z
@@ -4279,18 +4286,18 @@ export const PaycheckIncludeSchemaJson = z.preprocess(
 
 export const EarningCreateSchema = z.object({
   type: EarningTypeSchema,
-  hours: z.number().optional(),
-  rate: z.number(),
-  amount: z.number(),
-  paycheckId: z.int(),
+  hours: z.coerce.number().optional(),
+  rate: z.coerce.number(),
+  amount: z.coerce.number(),
+  paycheckId: z.coerce.number().int(),
 });
 
 export const EarningUpdateSchema = z.object({
   type: EarningTypeSchema.optional(),
-  hours: z.number().optional().optional(),
-  rate: z.number().optional(),
-  amount: z.number().optional(),
-  paycheckId: z.int().optional(),
+  hours: z.coerce.number().optional().optional(),
+  rate: z.coerce.number().optional(),
+  amount: z.coerce.number().optional(),
+  paycheckId: z.coerce.number().int().optional(),
 });
 
 export const EarningOrderBySchema = z
@@ -4360,15 +4367,15 @@ export const EarningIncludeSchemaJson = z.preprocess(
 );
 
 export const PaycheckTaxCreateSchema = z.object({
-  paycheckId: z.int(),
+  paycheckId: z.coerce.number().int(),
   taxAuthority: z.string(),
-  amount: z.number(),
+  amount: z.coerce.number(),
 });
 
 export const PaycheckTaxUpdateSchema = z.object({
-  paycheckId: z.int().optional(),
+  paycheckId: z.coerce.number().int().optional(),
   taxAuthority: z.string().optional(),
-  amount: z.number().optional(),
+  amount: z.coerce.number().optional(),
 });
 
 export const PaycheckTaxOrderBySchema = z
@@ -4433,17 +4440,17 @@ export const PaycheckTaxIncludeSchemaJson = z.preprocess(
 );
 
 export const DeductionPolicyCreateSchema = z.object({
-  name: z.string(),
+  name: nameSchema.clone(),
   type: DeductionTypeSchema,
-  defaultAmount: z.number().optional(),
-  defaultPercent: z.number().optional(),
+  defaultAmount: z.coerce.number().optional(),
+  defaultPercent: z.coerce.number().optional(),
 });
 
 export const DeductionPolicyUpdateSchema = z.object({
-  name: z.string().optional(),
+  name: nameSchema.clone().optional(),
   type: DeductionTypeSchema.optional(),
-  defaultAmount: z.number().optional().optional(),
-  defaultPercent: z.number().optional().optional(),
+  defaultAmount: z.coerce.number().optional().optional(),
+  defaultPercent: z.coerce.number().optional().optional(),
 });
 
 export const DeductionPolicyOrderBySchema = z
@@ -4510,15 +4517,15 @@ export const DeductionPolicyIncludeSchemaJson = z.preprocess(
 );
 
 export const EmployeeDeductionCreateSchema = z.object({
-  employeeId: z.int(),
-  policyId: z.int(),
-  employeeAmount: z.number().optional(),
+  employeeId: z.coerce.number().int(),
+  policyId: z.coerce.number().int(),
+  employeeAmount: z.coerce.number().optional(),
 });
 
 export const EmployeeDeductionUpdateSchema = z.object({
-  employeeId: z.int().optional(),
-  policyId: z.int().optional(),
-  employeeAmount: z.number().optional().optional(),
+  employeeId: z.coerce.number().int().optional(),
+  policyId: z.coerce.number().int().optional(),
+  employeeAmount: z.coerce.number().optional().optional(),
 });
 
 export const EmployeeDeductionOrderBySchema = z
@@ -4601,15 +4608,15 @@ export const EmployeeDeductionIncludeSchemaJson = z.preprocess(
 );
 
 export const PaycheckDeductionCreateSchema = z.object({
-  paycheckId: z.int(),
-  employeeDeductionId: z.int(),
-  amount: z.number(),
+  paycheckId: z.coerce.number().int(),
+  employeeDeductionId: z.coerce.number().int(),
+  amount: z.coerce.number(),
 });
 
 export const PaycheckDeductionUpdateSchema = z.object({
-  paycheckId: z.int().optional(),
-  employeeDeductionId: z.int().optional(),
-  amount: z.number().optional(),
+  paycheckId: z.coerce.number().int().optional(),
+  employeeDeductionId: z.coerce.number().int().optional(),
+  amount: z.coerce.number().optional(),
 });
 
 export const PaycheckDeductionOrderBySchema = z
@@ -4683,29 +4690,29 @@ export const PaycheckDeductionIncludeSchemaJson = z.preprocess(
 );
 
 export const EmployeeTaxDataCreateSchema = z.object({
-  startDate: z.iso.datetime(),
-  endDate: z.iso.datetime().optional(),
-  employeeId: z.int(),
+  startDate: dateSchema.clone(),
+  endDate: dateSchema.clone().optional(),
+  employeeId: z.coerce.number().int(),
   federalStatus: TaxFilingStatusSchema.optional(),
-  dependentsCredit: z.number().optional(),
+  dependentsCredit: z.coerce.number().optional(),
   multipleJobs: z.boolean().optional(),
-  otherIncome: z.number().optional(),
-  deductionsAmount: z.number().optional(),
-  extraWithholding: z.number().optional(),
+  otherIncome: z.coerce.number().optional(),
+  deductionsAmount: z.coerce.number().optional(),
+  extraWithholding: z.coerce.number().optional(),
   isExempt: z.boolean().optional(),
   isNonResidentAlien: z.boolean().optional(),
 });
 
 export const EmployeeTaxDataUpdateSchema = z.object({
-  startDate: z.iso.datetime().optional(),
-  endDate: z.iso.datetime().optional().optional(),
-  employeeId: z.int().optional(),
+  startDate: dateSchema.clone().optional(),
+  endDate: dateSchema.clone().optional().optional(),
+  employeeId: z.coerce.number().int().optional(),
   federalStatus: TaxFilingStatusSchema.optional().optional(),
-  dependentsCredit: z.number().optional().optional(),
+  dependentsCredit: z.coerce.number().optional().optional(),
   multipleJobs: z.boolean().optional().optional(),
-  otherIncome: z.number().optional().optional(),
-  deductionsAmount: z.number().optional().optional(),
-  extraWithholding: z.number().optional().optional(),
+  otherIncome: z.coerce.number().optional().optional(),
+  deductionsAmount: z.coerce.number().optional().optional(),
+  extraWithholding: z.coerce.number().optional().optional(),
   isExempt: z.boolean().optional().optional(),
   isNonResidentAlien: z.boolean().optional().optional(),
 });
@@ -4819,19 +4826,19 @@ export const EmployeeTaxDataIncludeSchemaJson = z.preprocess(
 );
 
 export const StateTaxWithholdingCreateSchema = z.object({
-  taxDataId: z.int(),
+  taxDataId: z.coerce.number().int(),
   stateCode: z.string(),
   stateStatus: z.string().optional(),
-  allowances: z.int().optional(),
-  extraWithholding: z.number().optional(),
+  allowances: z.coerce.number().int().optional(),
+  extraWithholding: z.coerce.number().optional(),
 });
 
 export const StateTaxWithholdingUpdateSchema = z.object({
-  taxDataId: z.int().optional(),
+  taxDataId: z.coerce.number().int().optional(),
   stateCode: z.string().optional(),
   stateStatus: z.string().optional().optional(),
-  allowances: z.int().optional().optional(),
-  extraWithholding: z.number().optional().optional(),
+  allowances: z.coerce.number().int().optional().optional(),
+  extraWithholding: z.coerce.number().optional().optional(),
 });
 
 export const StateTaxWithholdingOrderBySchema = z
@@ -4902,17 +4909,17 @@ export const StateTaxWithholdingIncludeSchemaJson = z.preprocess(
 );
 
 export const LocalTaxWithholdingCreateSchema = z.object({
-  taxDataId: z.int(),
+  taxDataId: z.coerce.number().int(),
   jurisdiction: z.string(),
   localStatus: z.string().optional(),
-  extraWithholding: z.number().optional(),
+  extraWithholding: z.coerce.number().optional(),
 });
 
 export const LocalTaxWithholdingUpdateSchema = z.object({
-  taxDataId: z.int().optional(),
+  taxDataId: z.coerce.number().int().optional(),
   jurisdiction: z.string().optional(),
   localStatus: z.string().optional().optional(),
-  extraWithholding: z.number().optional().optional(),
+  extraWithholding: z.coerce.number().optional().optional(),
 });
 
 export const LocalTaxWithholdingOrderBySchema = z
@@ -4980,18 +4987,18 @@ export const LocalTaxWithholdingIncludeSchemaJson = z.preprocess(
 );
 
 export const PayrollRunCreateSchema = z.object({
-  resolverId: z.int(),
-  startDate: z.iso.datetime(),
-  endDate: z.iso.datetime(),
-  payDate: z.iso.datetime(),
+  resolverId: z.coerce.number().int(),
+  startDate: dateSchema.clone(),
+  endDate: dateSchema.clone(),
+  payDate: dateSchema.clone(),
   status: PayrollStatusSchema.optional(),
 });
 
 export const PayrollRunUpdateSchema = z.object({
-  resolverId: z.int().optional(),
-  startDate: z.iso.datetime().optional(),
-  endDate: z.iso.datetime().optional(),
-  payDate: z.iso.datetime().optional(),
+  resolverId: z.coerce.number().int().optional(),
+  startDate: dateSchema.clone().optional(),
+  endDate: dateSchema.clone().optional(),
+  payDate: dateSchema.clone().optional(),
   status: PayrollStatusSchema.optional().optional(),
 });
 
@@ -5071,11 +5078,11 @@ export const PayrollRunIncludeSchemaJson = z.preprocess(
 );
 
 export const ContactCreateSchema = z.object({
-  employeeId: z.int(),
+  employeeId: z.coerce.number().int(),
 });
 
 export const ContactUpdateSchema = z.object({
-  employeeId: z.int().optional(),
+  employeeId: z.coerce.number().int().optional(),
 });
 
 export const ContactOrderBySchema = z
@@ -5188,12 +5195,12 @@ export const ContactIncludeSchemaJson = z.preprocess(
 );
 
 export const CountryCreateSchema = z.object({
-  name: z.string(),
+  name: nameSchema.clone(),
   code: z.string(),
 });
 
 export const CountryUpdateSchema = z.object({
-  name: z.string().optional(),
+  name: nameSchema.clone().optional(),
   code: z.string().optional(),
 });
 
@@ -5256,14 +5263,14 @@ export const CountryIncludeSchemaJson = z.preprocess(
 );
 
 export const StateCreateSchema = z.object({
-  countryId: z.int(),
-  name: z.string(),
+  countryId: z.coerce.number().int(),
+  name: nameSchema.clone(),
   code: z.string(),
 });
 
 export const StateUpdateSchema = z.object({
-  countryId: z.int().optional(),
-  name: z.string().optional(),
+  countryId: z.coerce.number().int().optional(),
+  name: nameSchema.clone().optional(),
   code: z.string().optional(),
 });
 
@@ -5336,8 +5343,8 @@ export const StateIncludeSchemaJson = z.preprocess(
 
 export const AddressCreateSchema = z.object({
   type: ContactTypeSchema,
-  contactId: z.int(),
-  stateId: z.int(),
+  contactId: z.coerce.number().int(),
+  stateId: z.coerce.number().int(),
   street: z.string(),
   zip: z.string(),
   city: z.string(),
@@ -5345,8 +5352,8 @@ export const AddressCreateSchema = z.object({
 
 export const AddressUpdateSchema = z.object({
   type: ContactTypeSchema.optional(),
-  contactId: z.int().optional(),
-  stateId: z.int().optional(),
+  contactId: z.coerce.number().int().optional(),
+  stateId: z.coerce.number().int().optional(),
   street: z.string().optional(),
   zip: z.string().optional(),
   city: z.string().optional(),
@@ -5441,14 +5448,14 @@ export const AddressIncludeSchemaJson = z.preprocess(
 
 export const EmailCreateSchema = z.object({
   type: ContactTypeSchema,
-  contactId: z.int(),
-  email: z.string(),
+  contactId: z.coerce.number().int(),
+  email: emailSchema.clone(),
 });
 
 export const EmailUpdateSchema = z.object({
   type: ContactTypeSchema.optional(),
-  contactId: z.int().optional(),
-  email: z.string().optional(),
+  contactId: z.coerce.number().int().optional(),
+  email: emailSchema.clone().optional(),
 });
 
 export const EmailOrderBySchema = z
@@ -5519,13 +5526,13 @@ export const EmailIncludeSchemaJson = z.preprocess(
 
 export const PhoneCreateSchema = z.object({
   type: ContactTypeSchema,
-  contactId: z.int(),
+  contactId: z.coerce.number().int(),
   phone: z.string(),
 });
 
 export const PhoneUpdateSchema = z.object({
   type: ContactTypeSchema.optional(),
-  contactId: z.int().optional(),
+  contactId: z.coerce.number().int().optional(),
   phone: z.string().optional(),
 });
 
@@ -5596,13 +5603,13 @@ export const PhoneIncludeSchemaJson = z.preprocess(
 );
 
 export const PrimaryEmailCreateSchema = z.object({
-  emailId: z.int(),
-  contactId: z.int(),
+  emailId: z.coerce.number().int(),
+  contactId: z.coerce.number().int(),
 });
 
 export const PrimaryEmailUpdateSchema = z.object({
-  emailId: z.int().optional(),
-  contactId: z.int().optional(),
+  emailId: z.coerce.number().int().optional(),
+  contactId: z.coerce.number().int().optional(),
 });
 
 export const PrimaryEmailOrderBySchema = z
@@ -5673,13 +5680,13 @@ export const PrimaryEmailIncludeSchemaJson = z.preprocess(
 );
 
 export const PrimaryPhoneCreateSchema = z.object({
-  phoneId: z.int(),
-  contactId: z.int(),
+  phoneId: z.coerce.number().int(),
+  contactId: z.coerce.number().int(),
 });
 
 export const PrimaryPhoneUpdateSchema = z.object({
-  phoneId: z.int().optional(),
-  contactId: z.int().optional(),
+  phoneId: z.coerce.number().int().optional(),
+  contactId: z.coerce.number().int().optional(),
 });
 
 export const PrimaryPhoneOrderBySchema = z
@@ -5750,13 +5757,13 @@ export const PrimaryPhoneIncludeSchemaJson = z.preprocess(
 );
 
 export const PrimaryAddressCreateSchema = z.object({
-  addressId: z.int(),
-  contactId: z.int(),
+  addressId: z.coerce.number().int(),
+  contactId: z.coerce.number().int(),
 });
 
 export const PrimaryAddressUpdateSchema = z.object({
-  addressId: z.int().optional(),
-  contactId: z.int().optional(),
+  addressId: z.coerce.number().int().optional(),
+  contactId: z.coerce.number().int().optional(),
 });
 
 export const PrimaryAddressOrderBySchema = z

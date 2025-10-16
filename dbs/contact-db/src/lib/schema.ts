@@ -5,13 +5,20 @@ import { slugify } from '@puq/names';
 
 export const takeSchema = z.coerce.number().int().min(1).default(20).optional();
 export const skipSchema = z.coerce.number().int().min(0).default(0).optional();
-
 export const PaginationSchema = z
   .object({
-    take: takeSchema,
-    skip: skipSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
   })
   .partial();
+
+export const nameSchema = z.string().min(2).max(30);
+export const descriptionSchema = z.string().max(1000);
+export const currencySchema = z.coerce.number().positive();
+export const positiveIntegerSchema = z.coerce.number().int().positive();
+export const emailSchema = z.email();
+export const dateSchema = z.iso.datetime();
+export const slugSchema = z.string().regex(/^[a-z-]{2,}$/);
 
 export function jsonParser<T>(value: T) {
   if (typeof value === 'string') {
@@ -920,17 +927,17 @@ export const WebsiteOwnQuerySchema = z
 
 export const IndustryCreateSchema = z
   .object({
-    name: z.string(),
-    slug: z.string().optional(),
-    description: z.string().optional(),
+    name: nameSchema.clone(),
+    slug: slugSchema.clone().optional(),
+    description: descriptionSchema.clone().optional(),
   })
   .transform(slugTransformer('name'));
 
 export const IndustryUpdateSchema = z
   .object({
-    name: z.string().optional(),
-    slug: z.string().optional().optional(),
-    description: z.string().optional().optional(),
+    name: nameSchema.clone().optional(),
+    slug: slugSchema.clone().optional().optional(),
+    description: descriptionSchema.clone().optional().optional(),
   })
   .transform(slugTransformer('name'));
 
@@ -997,15 +1004,15 @@ export const IndustryIncludeSchemaJson = z.preprocess(
 
 export const CompanyCreateSchema = z
   .object({
-    name: z.string(),
-    slug: z.string().optional(),
+    name: nameSchema.clone(),
+    slug: slugSchema.clone().optional(),
   })
   .transform(slugTransformer('name'));
 
 export const CompanyUpdateSchema = z
   .object({
-    name: z.string().optional(),
-    slug: z.string().optional().optional(),
+    name: nameSchema.clone().optional(),
+    slug: slugSchema.clone().optional().optional(),
   })
   .transform(slugTransformer('name'));
 
@@ -1080,13 +1087,13 @@ export const CompanyIncludeSchemaJson = z.preprocess(
 );
 
 export const CompanyIndustryCreateSchema = z.object({
-  companyId: z.int(),
-  industryId: z.int(),
+  companyId: z.coerce.number().int(),
+  industryId: z.coerce.number().int(),
 });
 
 export const CompanyIndustryUpdateSchema = z.object({
-  companyId: z.int().optional(),
-  industryId: z.int().optional(),
+  companyId: z.coerce.number().int().optional(),
+  industryId: z.coerce.number().int().optional(),
 });
 
 export const CompanyIndustryOrderBySchema = z
@@ -1158,17 +1165,17 @@ export const CompanyIndustryIncludeSchemaJson = z.preprocess(
 
 export const DepartmentCreateSchema = z
   .object({
-    parentId: z.int().optional(),
-    name: z.string(),
-    slug: z.string().optional(),
+    parentId: z.coerce.number().int().optional(),
+    name: nameSchema.clone(),
+    slug: slugSchema.clone().optional(),
   })
   .transform(slugTransformer('name'));
 
 export const DepartmentUpdateSchema = z
   .object({
-    parentId: z.int().optional().optional(),
-    name: z.string().optional(),
-    slug: z.string().optional().optional(),
+    parentId: z.coerce.number().int().optional().optional(),
+    name: nameSchema.clone().optional(),
+    slug: slugSchema.clone().optional().optional(),
   })
   .transform(slugTransformer('name'));
 
@@ -1253,19 +1260,19 @@ export const DepartmentIncludeSchemaJson = z.preprocess(
 
 export const TitleCreateSchema = z
   .object({
-    departmentId: z.int().optional(),
-    name: z.string(),
-    slug: z.string().optional(),
-    description: z.string().optional(),
+    departmentId: z.coerce.number().int().optional(),
+    name: nameSchema.clone(),
+    slug: slugSchema.clone().optional(),
+    description: descriptionSchema.clone().optional(),
   })
   .transform(slugTransformer('name'));
 
 export const TitleUpdateSchema = z
   .object({
-    departmentId: z.int().optional().optional(),
-    name: z.string().optional(),
-    slug: z.string().optional().optional(),
-    description: z.string().optional().optional(),
+    departmentId: z.coerce.number().int().optional().optional(),
+    name: nameSchema.clone().optional(),
+    slug: slugSchema.clone().optional().optional(),
+    description: descriptionSchema.clone().optional().optional(),
   })
   .transform(slugTransformer('name'));
 
@@ -1340,26 +1347,26 @@ export const TitleIncludeSchemaJson = z.preprocess(
 );
 
 export const AgentCreateSchema = z.object({
-  companyId: z.int().optional(),
-  titleId: z.int().optional(),
+  companyId: z.coerce.number().int().optional(),
+  titleId: z.coerce.number().int().optional(),
   firstName: z.string(),
   middleName: z.string().optional(),
   lastName: z.string(),
   preferedName: z.string().optional(),
   gender: GenderSchema.optional(),
-  slug: z.string().optional(),
+  slug: slugSchema.clone().optional(),
   note: z.string().optional(),
 });
 
 export const AgentUpdateSchema = z.object({
-  companyId: z.int().optional().optional(),
-  titleId: z.int().optional().optional(),
+  companyId: z.coerce.number().int().optional().optional(),
+  titleId: z.coerce.number().int().optional().optional(),
   firstName: z.string().optional(),
   middleName: z.string().optional().optional(),
   lastName: z.string().optional(),
   preferedName: z.string().optional().optional(),
   gender: GenderSchema.optional().optional(),
-  slug: z.string().optional().optional(),
+  slug: slugSchema.clone().optional().optional(),
   note: z.string().optional().optional(),
 });
 
@@ -1457,15 +1464,15 @@ export const AgentIncludeSchemaJson = z.preprocess(
 );
 
 export const ContactCreateSchema = z.object({
-  agentId: z.int(),
+  agentId: z.coerce.number().int(),
   type: ContactTypeSchema,
-  order: z.int().optional(),
+  order: z.coerce.number().int().optional(),
 });
 
 export const ContactUpdateSchema = z.object({
-  agentId: z.int().optional(),
+  agentId: z.coerce.number().int().optional(),
   type: ContactTypeSchema.optional(),
-  order: z.int().optional().optional(),
+  order: z.coerce.number().int().optional().optional(),
 });
 
 export const ContactOrderBySchema = z
@@ -1568,13 +1575,13 @@ export const ContactIncludeSchemaJson = z.preprocess(
 );
 
 export const StateCreateSchema = z.object({
-  countryId: z.int(),
+  countryId: z.coerce.number().int(),
   state: z.string(),
   code: z.string(),
 });
 
 export const StateUpdateSchema = z.object({
-  countryId: z.int().optional(),
+  countryId: z.coerce.number().int().optional(),
   state: z.string().optional(),
   code: z.string().optional(),
 });
@@ -1647,12 +1654,12 @@ export const StateIncludeSchemaJson = z.preprocess(
 );
 
 export const CountryCreateSchema = z.object({
-  name: z.string(),
+  name: nameSchema.clone(),
   code: z.string(),
 });
 
 export const CountryUpdateSchema = z.object({
-  name: z.string().optional(),
+  name: nameSchema.clone().optional(),
   code: z.string().optional(),
 });
 
@@ -1715,13 +1722,13 @@ export const CountryIncludeSchemaJson = z.preprocess(
 );
 
 export const CityCreateSchema = z.object({
-  stateId: z.int(),
-  name: z.string(),
+  stateId: z.coerce.number().int(),
+  name: nameSchema.clone(),
 });
 
 export const CityUpdateSchema = z.object({
-  stateId: z.int().optional(),
-  name: z.string().optional(),
+  stateId: z.coerce.number().int().optional(),
+  name: nameSchema.clone().optional(),
 });
 
 export const CityOrderBySchema = z
@@ -1789,19 +1796,19 @@ export const CityIncludeSchemaJson = z.preprocess(
 );
 
 export const AddressCreateSchema = z.object({
-  contactId: z.int(),
-  cityId: z.int(),
+  contactId: z.coerce.number().int(),
+  cityId: z.coerce.number().int(),
   street: z.string(),
   zip: z.string(),
-  order: z.int().optional(),
+  order: z.coerce.number().int().optional(),
 });
 
 export const AddressUpdateSchema = z.object({
-  contactId: z.int().optional(),
-  cityId: z.int().optional(),
+  contactId: z.coerce.number().int().optional(),
+  cityId: z.coerce.number().int().optional(),
   street: z.string().optional(),
   zip: z.string().optional(),
-  order: z.int().optional().optional(),
+  order: z.coerce.number().int().optional().optional(),
 });
 
 export const AddressOrderBySchema = z
@@ -1881,15 +1888,15 @@ export const AddressIncludeSchemaJson = z.preprocess(
 );
 
 export const EmailCreateSchema = z.object({
-  contactId: z.int(),
-  email: z.string(),
-  order: z.int().optional(),
+  contactId: z.coerce.number().int(),
+  email: emailSchema.clone(),
+  order: z.coerce.number().int().optional(),
 });
 
 export const EmailUpdateSchema = z.object({
-  contactId: z.int().optional(),
-  email: z.string().optional(),
-  order: z.int().optional().optional(),
+  contactId: z.coerce.number().int().optional(),
+  email: emailSchema.clone().optional(),
+  order: z.coerce.number().int().optional().optional(),
 });
 
 export const EmailOrderBySchema = z
@@ -1951,15 +1958,15 @@ export const EmailIncludeSchemaJson = z.preprocess(
 );
 
 export const PhoneCreateSchema = z.object({
-  contactId: z.int(),
+  contactId: z.coerce.number().int(),
   phone: z.string(),
-  order: z.int().optional(),
+  order: z.coerce.number().int().optional(),
 });
 
 export const PhoneUpdateSchema = z.object({
-  contactId: z.int().optional(),
+  contactId: z.coerce.number().int().optional(),
   phone: z.string().optional(),
-  order: z.int().optional().optional(),
+  order: z.coerce.number().int().optional().optional(),
 });
 
 export const PhoneOrderBySchema = z
@@ -2021,15 +2028,15 @@ export const PhoneIncludeSchemaJson = z.preprocess(
 );
 
 export const WebsiteCreateSchema = z.object({
-  contactId: z.int(),
+  contactId: z.coerce.number().int(),
   url: z.string(),
-  order: z.int().optional(),
+  order: z.coerce.number().int().optional(),
 });
 
 export const WebsiteUpdateSchema = z.object({
-  contactId: z.int().optional(),
+  contactId: z.coerce.number().int().optional(),
   url: z.string().optional(),
-  order: z.int().optional().optional(),
+  order: z.coerce.number().int().optional().optional(),
 });
 
 export const WebsiteOrderBySchema = z
