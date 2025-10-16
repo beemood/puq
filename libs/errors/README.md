@@ -1,4 +1,4 @@
-<p align="center"> <img src="https://beemood.github.io/puq/libs/errors/assets/favicon.png" alt="Logo" /> </p>
+<p align="center"> <img src="https://beemood.github.io/libs/errors/assets/favicon.png" alt="Logo" /> </p>
 
 # @puq/errors
 

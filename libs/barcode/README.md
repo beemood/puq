@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://beemood.github.io/puq/libs/barcode/assets/favicon.png" alt="Logo" />
+  <img src="https://beemood.github.io/libs/barcode/assets/favicon.png" alt="Logo" />
 </p>
 
 # @puq/barcode

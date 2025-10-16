@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://beemood.github.io/puq/dbs/hr-db/assets/favicon.png" alt="Logo" />
+  <img src="https://beemood.github.io/dbs/hr-db/assets/favicon.png" alt="Logo" />
 </p>
 
 # @puq/hr-db

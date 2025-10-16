@@ -1,4 +1,6 @@
-<p align="center"> <img src="https://beemood.github.io/plugins/plugin/assets/favicon.png" alt="Logo" /> </p>
+<p align="center"> 
+    <img src="https://beemood.github.io/plugins/plugin/assets/favicon.png" alt="Logo" /> 
+</p>
 
 # @puq/plugin
 

@@ -1,4 +1,4 @@
-<p align="center"> <img src="https://beemood.github.io/puq/dbs/inventory-db/assets/favicon.png" alt="Logo" /> </p>
+<p align="center"> <img src="https://beemood.github.io/dbs/inventory-db/assets/favicon.png" alt="Logo" /> </p>
 
 # @puq/inventory-db
 

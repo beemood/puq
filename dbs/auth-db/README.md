@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://beemood.github.io/puq/dbs/auth-db/assets/favicon.png" alt="Logo" />
+  <img src="https://beemood.github.io/dbs/auth-db/assets/favicon.png" alt="Logo" />
 </p>
 
 # @puq/auth-db
