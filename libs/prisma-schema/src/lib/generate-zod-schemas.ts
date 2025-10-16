@@ -322,7 +322,7 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
       .map((e) => `"${e.name}"`)
       .join(',');
     const distinctFieldsSchema = `
-    export const ${model.name}DistinctFieldsSchema = z.enum([ ${distinctFieldsString} ])
+    export const ${model.name}DistinctFieldsSchema = z.enum([ ${distinctFieldsString} ]).array()
     `;
 
     const orderBySchemaFields = orderFields
