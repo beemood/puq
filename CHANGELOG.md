@@ -1,3 +1,15 @@
+## 0.29.2 (2025-10-16)
+
+### 🩹 Fixes
+
+- fixed the distict-fields schema which must be an enum-array ([7ec5760](https://github.com/beemood/puq/commit/7ec5760))
+- fixed the distict-fields schema which must be an enum-array ([3cf1077](https://github.com/beemood/puq/commit/3cf1077))
+- fixed the distict-fields schema which must be an enum-array ([ab6af68](https://github.com/beemood/puq/commit/ab6af68))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.29.1 (2025-10-16)
 
 ### 🚀 Features
