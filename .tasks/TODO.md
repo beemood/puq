@@ -12,10 +12,7 @@
 ````
 
 
-
-
-
-- [ ] The current response for Not-Found entity from prisma exception filter is as follows. Optimize this response and hide internal information. 
+- [x] The current response for Not-Found entity from prisma exception filter is as follows. Optimize this response and hide internal information. 
 ````json
 {
   "code": "P2025",
@@ -26,6 +23,20 @@
   "clientVersion": "6.17.1",
   "name": "PrismaClientKnownRequestError"
 }
+
+
+{
+  "code": "P2002",
+  "meta": {
+    "modelName": "Category",
+    "target": [
+      "name"
+    ]
+  },
+  "clientVersion": "6.17.1",
+  "name": "PrismaClientKnownRequestError"
+}
+
 ````
 
 - [ ] When request contains two of select, omit, and include, the system throw Internal Error (PrismaClientValidationError), optimaize the Zod schemas so that it throws Unprocessable Entity error

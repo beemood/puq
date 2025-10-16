@@ -11,16 +11,22 @@ export function createPrismaExceptionFilter(errorClass: Type) {
   @Catch(errorClass)
   class PrismaExceptionFilter implements ExceptionFilter {
     catch(exception: PrismaClientKnownRequestError) {
+      // Unique
       switch (exception.code) {
         case 'P2002': {
           throw new UnprocessableEntityException({
-            ...exception,
+            errors: [
+              {
+                property: exception.meta?.target,
+                constraints: {
+                  unique: true,
+                },
+              },
+            ],
           });
         }
         case 'P2025': {
-          throw new NotFoundException({
-            ...exception,
-          });
+          throw new NotFoundException();
         }
         default: {
           throw new InternalServerErrorException('Prisma Exception');
