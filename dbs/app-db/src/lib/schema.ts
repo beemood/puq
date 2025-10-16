@@ -39,7 +39,7 @@ export function slugTransformer(key: string) {
   };
 }
 
-export const AppOwnProjectionSchema = z
+export const AppOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
@@ -51,12 +51,22 @@ export const AppOwnProjectionSchema = z
   })
   .partial();
 
-export const AppOwnProjectionSchemaJson = z.preprocess(
+export const AppOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  AppOwnProjectionSchema
+  AppOwnSelectFieldsSchema
 );
 
-export const SecretOwnProjectionSchema = z
+export const AppDistinctFieldsSchema = z.enum([
+  'id',
+  'name',
+  'description',
+  'version',
+  'host',
+  'port',
+  'history',
+]);
+
+export const SecretOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     createdAt: z.boolean(),
@@ -66,12 +76,20 @@ export const SecretOwnProjectionSchema = z
   })
   .partial();
 
-export const SecretOwnProjectionSchemaJson = z.preprocess(
+export const SecretOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  SecretOwnProjectionSchema
+  SecretOwnSelectFieldsSchema
 );
 
-export const AppHistoryOwnProjectionSchema = z
+export const SecretDistinctFieldsSchema = z.enum([
+  'id',
+  'createdAt',
+  'updatedAt',
+  'version',
+  'secret',
+]);
+
+export const AppHistoryOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     appId: z.boolean(),
@@ -81,19 +99,27 @@ export const AppHistoryOwnProjectionSchema = z
   })
   .partial();
 
-export const AppHistoryOwnProjectionSchemaJson = z.preprocess(
+export const AppHistoryOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  AppHistoryOwnProjectionSchema
+  AppHistoryOwnSelectFieldsSchema
 );
+
+export const AppHistoryDistinctFieldsSchema = z.enum([
+  'id',
+  'appId',
+  'startedAt',
+  'stopeedAt',
+  'app',
+]);
 
 export const AppOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
-    description: PZ.StringFilterSchema,
-    version: PZ.StringFilterSchema,
-    host: PZ.StringFilterSchema,
-    port: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
+    description: z.string().or(PZ.StringFilterSchema),
+    version: z.string().or(PZ.StringFilterSchema),
+    host: z.string().or(PZ.StringFilterSchema),
+    port: z.string().or(PZ.StringFilterSchema),
   })
   .partial();
 
@@ -104,11 +130,11 @@ export const AppOwnWhereSchemaJson = z.preprocess(
 
 export const SecretOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    createdAt: PZ.DateTimeFilterSchema,
-    updatedAt: PZ.DateTimeFilterSchema,
-    version: PZ.StringFilterSchema,
-    secret: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    createdAt: z.string().or(PZ.DateTimeFilterSchema),
+    updatedAt: z.string().or(PZ.DateTimeFilterSchema),
+    version: z.string().or(PZ.StringFilterSchema),
+    secret: z.string().or(PZ.StringFilterSchema),
   })
   .partial();
 
@@ -119,10 +145,10 @@ export const SecretOwnWhereSchemaJson = z.preprocess(
 
 export const AppHistoryOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    appId: PZ.IntegerFilterSchema,
-    startedAt: PZ.DateTimeFilterSchema,
-    stopeedAt: PZ.DateTimeFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    appId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    startedAt: z.string().or(PZ.DateTimeFilterSchema),
+    stopeedAt: z.string().or(PZ.DateTimeFilterSchema),
   })
   .partial();
 
@@ -145,20 +171,14 @@ export const AppOwnIncludeSchemaJson = z.preprocess(
 export const AppOwnQueryOneSchema = z
   .object({
     where: AppOwnWhereSchemaJson,
-    select: AppOwnProjectionSchemaJson,
-    omit: AppOwnProjectionSchemaJson,
-    include: AppOwnIncludeSchemaJson,
+    distinct: AppDistinctFieldsSchema,
   })
   .partial();
 
 export const AppOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: AppOwnWhereSchemaJson,
-    select: AppOwnProjectionSchemaJson,
-    omit: AppOwnProjectionSchemaJson,
-    include: AppOwnIncludeSchemaJson,
+    distinct: AppDistinctFieldsSchema,
   })
   .partial();
 
@@ -172,20 +192,14 @@ export const SecretOwnIncludeSchemaJson = z.preprocess(
 export const SecretOwnQueryOneSchema = z
   .object({
     where: SecretOwnWhereSchemaJson,
-    select: SecretOwnProjectionSchemaJson,
-    omit: SecretOwnProjectionSchemaJson,
-    include: SecretOwnIncludeSchemaJson,
+    distinct: SecretDistinctFieldsSchema,
   })
   .partial();
 
 export const SecretOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: SecretOwnWhereSchemaJson,
-    select: SecretOwnProjectionSchemaJson,
-    omit: SecretOwnProjectionSchemaJson,
-    include: SecretOwnIncludeSchemaJson,
+    distinct: SecretDistinctFieldsSchema,
   })
   .partial();
 
@@ -203,20 +217,14 @@ export const AppHistoryOwnIncludeSchemaJson = z.preprocess(
 export const AppHistoryOwnQueryOneSchema = z
   .object({
     where: AppHistoryOwnWhereSchemaJson,
-    select: AppHistoryOwnProjectionSchemaJson,
-    omit: AppHistoryOwnProjectionSchemaJson,
-    include: AppHistoryOwnIncludeSchemaJson,
+    distinct: AppHistoryDistinctFieldsSchema,
   })
   .partial();
 
 export const AppHistoryOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: AppHistoryOwnWhereSchemaJson,
-    select: AppHistoryOwnProjectionSchemaJson,
-    omit: AppHistoryOwnProjectionSchemaJson,
-    include: AppHistoryOwnIncludeSchemaJson,
+    distinct: AppHistoryDistinctFieldsSchema,
   })
   .partial();
 
@@ -251,12 +259,12 @@ export const AppOrderBySchemaJson = z.preprocess(jsonParser, AppOrderBySchema);
 
 export const AppWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
-    description: PZ.StringFilterSchema,
-    version: PZ.StringFilterSchema,
-    host: PZ.StringFilterSchema,
-    port: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
+    description: z.string().or(PZ.StringFilterSchema),
+    version: z.string().or(PZ.StringFilterSchema),
+    host: z.string().or(PZ.StringFilterSchema),
+    port: z.string().or(PZ.StringFilterSchema),
     history: z
       .object({
         some: AppHistoryOwnWhereSchema,
@@ -269,7 +277,7 @@ export const AppWhereSchema = z
 
 export const AppWhereSchemaJson = z.preprocess(jsonParser, AppWhereSchema);
 
-export const AppProjectionSchema = z
+export const AppSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
@@ -281,9 +289,9 @@ export const AppProjectionSchema = z
   })
   .partial();
 
-export const AppProjectionSchemaJson = z.preprocess(
+export const AppSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  AppProjectionSchema
+  AppSelectFieldsSchema
 );
 
 export const AppIncludeSchema = z
@@ -293,6 +301,25 @@ export const AppIncludeSchema = z
   .partial();
 
 export const AppIncludeSchemaJson = z.preprocess(jsonParser, AppIncludeSchema);
+
+export const AppProjectionSchema = z.union([
+  z
+    .object({
+      omit: AppSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: AppSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: AppIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const SecretCreateSchema = z.object({
   secret: z.string(),
@@ -319,11 +346,11 @@ export const SecretOrderBySchemaJson = z.preprocess(
 
 export const SecretWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    createdAt: PZ.DateTimeFilterSchema,
-    updatedAt: PZ.DateTimeFilterSchema,
-    version: PZ.StringFilterSchema,
-    secret: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    createdAt: z.string().or(PZ.DateTimeFilterSchema),
+    updatedAt: z.string().or(PZ.DateTimeFilterSchema),
+    version: z.string().or(PZ.StringFilterSchema),
+    secret: z.string().or(PZ.StringFilterSchema),
   })
   .partial();
 
@@ -332,7 +359,7 @@ export const SecretWhereSchemaJson = z.preprocess(
   SecretWhereSchema
 );
 
-export const SecretProjectionSchema = z
+export const SecretSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     createdAt: z.boolean(),
@@ -342,9 +369,9 @@ export const SecretProjectionSchema = z
   })
   .partial();
 
-export const SecretProjectionSchemaJson = z.preprocess(
+export const SecretSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  SecretProjectionSchema
+  SecretSelectFieldsSchema
 );
 
 export const SecretIncludeSchema = z.object({}).partial();
@@ -353,6 +380,25 @@ export const SecretIncludeSchemaJson = z.preprocess(
   jsonParser,
   SecretIncludeSchema
 );
+
+export const SecretProjectionSchema = z.union([
+  z
+    .object({
+      omit: SecretSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: SecretSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: SecretIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const AppHistoryCreateSchema = z.object({
   appId: z.coerce.number().int(),
@@ -380,17 +426,11 @@ export const AppHistoryOrderBySchemaJson = z.preprocess(
 
 export const AppHistoryWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    appId: PZ.IntegerFilterSchema,
-    startedAt: PZ.DateTimeFilterSchema,
-    stopeedAt: PZ.DateTimeFilterSchema,
-    app: z
-      .object({
-        some: AppOwnWhereSchema,
-        every: AppOwnWhereSchema,
-        none: AppOwnWhereSchema,
-      })
-      .partial(),
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    appId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    startedAt: z.string().or(PZ.DateTimeFilterSchema),
+    stopeedAt: z.string().or(PZ.DateTimeFilterSchema),
+    app: AppOwnWhereSchema,
   })
   .partial();
 
@@ -399,7 +439,7 @@ export const AppHistoryWhereSchemaJson = z.preprocess(
   AppHistoryWhereSchema
 );
 
-export const AppHistoryProjectionSchema = z
+export const AppHistorySelectFieldsSchema = z
   .object({
     id: z.boolean(),
     appId: z.boolean(),
@@ -409,9 +449,9 @@ export const AppHistoryProjectionSchema = z
   })
   .partial();
 
-export const AppHistoryProjectionSchemaJson = z.preprocess(
+export const AppHistorySelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  AppHistoryProjectionSchema
+  AppHistorySelectFieldsSchema
 );
 
 export const AppHistoryIncludeSchema = z
@@ -425,23 +465,36 @@ export const AppHistoryIncludeSchemaJson = z.preprocess(
   AppHistoryIncludeSchema
 );
 
+export const AppHistoryProjectionSchema = z.union([
+  z
+    .object({
+      omit: AppHistorySelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: AppHistorySelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: AppHistoryIncludeSchemaJson,
+    })
+    .optional(),
+]);
+
 export const AppQueryOneSchema = z
   .object({
     where: AppWhereSchemaJson,
-    select: AppProjectionSchemaJson,
-    omit: AppProjectionSchemaJson,
-    include: AppIncludeSchemaJson,
+    distinct: AppDistinctFieldsSchema,
   })
   .partial();
 
 export const AppQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: AppWhereSchemaJson,
-    select: AppProjectionSchemaJson,
-    omit: AppProjectionSchemaJson,
-    include: AppIncludeSchemaJson,
+    distinct: AppDistinctFieldsSchema,
   })
   .partial();
 
@@ -451,7 +504,7 @@ export type AppUpdate = z.infer<typeof AppUpdateSchema>;
 
 export type AppOrderBy = z.infer<typeof AppOrderBySchema>;
 
-export type AppOwnProjection = z.infer<typeof AppOwnProjectionSchema>;
+export type AppOwnSelectFields = z.infer<typeof AppOwnSelectFieldsSchema>;
 
 export type AppOwnWhere = z.infer<typeof AppOwnWhereSchema>;
 
@@ -467,25 +520,21 @@ export type AppQueryOne = z.infer<typeof AppQueryOneSchema>;
 
 export type AppQuery = z.infer<typeof AppQuerySchema>;
 
+export type AppSelectFields = z.infer<typeof AppSelectFieldsSchema>;
+
 export type AppProjection = z.infer<typeof AppProjectionSchema>;
 
 export const SecretQueryOneSchema = z
   .object({
     where: SecretWhereSchemaJson,
-    select: SecretProjectionSchemaJson,
-    omit: SecretProjectionSchemaJson,
-    include: SecretIncludeSchemaJson,
+    distinct: SecretDistinctFieldsSchema,
   })
   .partial();
 
 export const SecretQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: SecretWhereSchemaJson,
-    select: SecretProjectionSchemaJson,
-    omit: SecretProjectionSchemaJson,
-    include: SecretIncludeSchemaJson,
+    distinct: SecretDistinctFieldsSchema,
   })
   .partial();
 
@@ -495,7 +544,7 @@ export type SecretUpdate = z.infer<typeof SecretUpdateSchema>;
 
 export type SecretOrderBy = z.infer<typeof SecretOrderBySchema>;
 
-export type SecretOwnProjection = z.infer<typeof SecretOwnProjectionSchema>;
+export type SecretOwnSelectFields = z.infer<typeof SecretOwnSelectFieldsSchema>;
 
 export type SecretOwnWhere = z.infer<typeof SecretOwnWhereSchema>;
 
@@ -511,25 +560,21 @@ export type SecretQueryOne = z.infer<typeof SecretQueryOneSchema>;
 
 export type SecretQuery = z.infer<typeof SecretQuerySchema>;
 
+export type SecretSelectFields = z.infer<typeof SecretSelectFieldsSchema>;
+
 export type SecretProjection = z.infer<typeof SecretProjectionSchema>;
 
 export const AppHistoryQueryOneSchema = z
   .object({
     where: AppHistoryWhereSchemaJson,
-    select: AppHistoryProjectionSchemaJson,
-    omit: AppHistoryProjectionSchemaJson,
-    include: AppHistoryIncludeSchemaJson,
+    distinct: AppHistoryDistinctFieldsSchema,
   })
   .partial();
 
 export const AppHistoryQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: AppHistoryWhereSchemaJson,
-    select: AppHistoryProjectionSchemaJson,
-    omit: AppHistoryProjectionSchemaJson,
-    include: AppHistoryIncludeSchemaJson,
+    distinct: AppHistoryDistinctFieldsSchema,
   })
   .partial();
 
@@ -539,8 +584,8 @@ export type AppHistoryUpdate = z.infer<typeof AppHistoryUpdateSchema>;
 
 export type AppHistoryOrderBy = z.infer<typeof AppHistoryOrderBySchema>;
 
-export type AppHistoryOwnProjection = z.infer<
-  typeof AppHistoryOwnProjectionSchema
+export type AppHistoryOwnSelectFields = z.infer<
+  typeof AppHistoryOwnSelectFieldsSchema
 >;
 
 export type AppHistoryOwnWhere = z.infer<typeof AppHistoryOwnWhereSchema>;
@@ -556,5 +601,9 @@ export type AppHistoryInclude = z.infer<typeof AppHistoryIncludeSchema>;
 export type AppHistoryQueryOne = z.infer<typeof AppHistoryQueryOneSchema>;
 
 export type AppHistoryQuery = z.infer<typeof AppHistoryQuerySchema>;
+
+export type AppHistorySelectFields = z.infer<
+  typeof AppHistorySelectFieldsSchema
+>;
 
 export type AppHistoryProjection = z.infer<typeof AppHistoryProjectionSchema>;

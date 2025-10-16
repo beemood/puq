@@ -46,7 +46,7 @@ export const RequestStatusSchema = z.enum([
   'CANCELED',
 ]);
 
-export const RoomAttributeOwnProjectionSchema = z
+export const RoomAttributeOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
@@ -54,12 +54,18 @@ export const RoomAttributeOwnProjectionSchema = z
   })
   .partial();
 
-export const RoomAttributeOwnProjectionSchemaJson = z.preprocess(
+export const RoomAttributeOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  RoomAttributeOwnProjectionSchema
+  RoomAttributeOwnSelectFieldsSchema
 );
 
-export const RoomAttributeValueOwnProjectionSchema = z
+export const RoomAttributeDistinctFieldsSchema = z.enum([
+  'id',
+  'name',
+  'values',
+]);
+
+export const RoomAttributeValueOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     roomId: z.boolean(),
@@ -70,12 +76,21 @@ export const RoomAttributeValueOwnProjectionSchema = z
   })
   .partial();
 
-export const RoomAttributeValueOwnProjectionSchemaJson = z.preprocess(
+export const RoomAttributeValueOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  RoomAttributeValueOwnProjectionSchema
+  RoomAttributeValueOwnSelectFieldsSchema
 );
 
-export const ItemAttributeOwnProjectionSchema = z
+export const RoomAttributeValueDistinctFieldsSchema = z.enum([
+  'id',
+  'roomId',
+  'attributeId',
+  'value',
+  'attribute',
+  'room',
+]);
+
+export const ItemAttributeOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
@@ -83,12 +98,18 @@ export const ItemAttributeOwnProjectionSchema = z
   })
   .partial();
 
-export const ItemAttributeOwnProjectionSchemaJson = z.preprocess(
+export const ItemAttributeOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  ItemAttributeOwnProjectionSchema
+  ItemAttributeOwnSelectFieldsSchema
 );
 
-export const ItemAttributeValueOwnProjectionSchema = z
+export const ItemAttributeDistinctFieldsSchema = z.enum([
+  'id',
+  'name',
+  'values',
+]);
+
+export const ItemAttributeValueOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     itemId: z.boolean(),
@@ -99,12 +120,21 @@ export const ItemAttributeValueOwnProjectionSchema = z
   })
   .partial();
 
-export const ItemAttributeValueOwnProjectionSchemaJson = z.preprocess(
+export const ItemAttributeValueOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  ItemAttributeValueOwnProjectionSchema
+  ItemAttributeValueOwnSelectFieldsSchema
 );
 
-export const CategoryOwnProjectionSchema = z
+export const ItemAttributeValueDistinctFieldsSchema = z.enum([
+  'id',
+  'itemId',
+  'attributeId',
+  'value',
+  'attribute',
+  'item',
+]);
+
+export const CategoryOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     parentId: z.boolean(),
@@ -115,12 +145,21 @@ export const CategoryOwnProjectionSchema = z
   })
   .partial();
 
-export const CategoryOwnProjectionSchemaJson = z.preprocess(
+export const CategoryOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  CategoryOwnProjectionSchema
+  CategoryOwnSelectFieldsSchema
 );
 
-export const BuildingOwnProjectionSchema = z
+export const CategoryDistinctFieldsSchema = z.enum([
+  'id',
+  'parentId',
+  'name',
+  'parent',
+  'children',
+  'items',
+]);
+
+export const BuildingOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
@@ -129,12 +168,19 @@ export const BuildingOwnProjectionSchema = z
   })
   .partial();
 
-export const BuildingOwnProjectionSchemaJson = z.preprocess(
+export const BuildingOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  BuildingOwnProjectionSchema
+  BuildingOwnSelectFieldsSchema
 );
 
-export const RoomOwnProjectionSchema = z
+export const BuildingDistinctFieldsSchema = z.enum([
+  'id',
+  'name',
+  'code',
+  'rooms',
+]);
+
+export const RoomOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     uuid: z.boolean(),
@@ -151,12 +197,27 @@ export const RoomOwnProjectionSchema = z
   })
   .partial();
 
-export const RoomOwnProjectionSchemaJson = z.preprocess(
+export const RoomOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  RoomOwnProjectionSchema
+  RoomOwnSelectFieldsSchema
 );
 
-export const ItemOwnProjectionSchema = z
+export const RoomDistinctFieldsSchema = z.enum([
+  'id',
+  'uuid',
+  'buildingId',
+  'name',
+  'code',
+  'floor',
+  'building',
+  'attributes',
+  'quantities',
+  'serials',
+  'employeeRooms',
+  'employeeRoomRequests',
+]);
+
+export const ItemOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     uuid: z.boolean(),
@@ -171,12 +232,25 @@ export const ItemOwnProjectionSchema = z
   })
   .partial();
 
-export const ItemOwnProjectionSchemaJson = z.preprocess(
+export const ItemOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  ItemOwnProjectionSchema
+  ItemOwnSelectFieldsSchema
 );
 
-export const QuantityOwnProjectionSchema = z
+export const ItemDistinctFieldsSchema = z.enum([
+  'id',
+  'uuid',
+  'categoryId',
+  'name',
+  'description',
+  'minQuantity',
+  'category',
+  'attributes',
+  'quantities',
+  'serials',
+]);
+
+export const QuantityOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     roomId: z.boolean(),
@@ -190,12 +264,24 @@ export const QuantityOwnProjectionSchema = z
   })
   .partial();
 
-export const QuantityOwnProjectionSchemaJson = z.preprocess(
+export const QuantityOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  QuantityOwnProjectionSchema
+  QuantityOwnSelectFieldsSchema
 );
 
-export const SerialNumberOwnProjectionSchema = z
+export const QuantityDistinctFieldsSchema = z.enum([
+  'id',
+  'roomId',
+  'itemId',
+  'quantity',
+  'minQuantity',
+  'item',
+  'room',
+  'quantityMoveSources',
+  'quantityMoveTargets',
+]);
+
+export const SerialNumberOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     uuid: z.boolean(),
@@ -211,12 +297,26 @@ export const SerialNumberOwnProjectionSchema = z
   })
   .partial();
 
-export const SerialNumberOwnProjectionSchemaJson = z.preprocess(
+export const SerialNumberOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  SerialNumberOwnProjectionSchema
+  SerialNumberOwnSelectFieldsSchema
 );
 
-export const QuantityMoveRequestOwnProjectionSchema = z
+export const SerialNumberDistinctFieldsSchema = z.enum([
+  'id',
+  'uuid',
+  'serialNumber',
+  'itemId',
+  'roomId',
+  'item',
+  'room',
+  'serialMoveSources',
+  'serialMoveTargets',
+  'employeeItemRequests',
+  'employeeItems',
+]);
+
+export const QuantityMoveRequestOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     sourceId: z.boolean(),
@@ -235,12 +335,29 @@ export const QuantityMoveRequestOwnProjectionSchema = z
   })
   .partial();
 
-export const QuantityMoveRequestOwnProjectionSchemaJson = z.preprocess(
+export const QuantityMoveRequestOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  QuantityMoveRequestOwnProjectionSchema
+  QuantityMoveRequestOwnSelectFieldsSchema
 );
 
-export const SerialMoveRequestOwnProjectionSchema = z
+export const QuantityMoveRequestDistinctFieldsSchema = z.enum([
+  'id',
+  'sourceId',
+  'targetId',
+  'requestedById',
+  'resolvedById',
+  'quantity',
+  'reason',
+  'status',
+  'requestedAt',
+  'resolvedAt',
+  'source',
+  'target',
+  'requestedBy',
+  'resolvedBy',
+]);
+
+export const SerialMoveRequestOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     sourceId: z.boolean(),
@@ -258,12 +375,28 @@ export const SerialMoveRequestOwnProjectionSchema = z
   })
   .partial();
 
-export const SerialMoveRequestOwnProjectionSchemaJson = z.preprocess(
+export const SerialMoveRequestOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  SerialMoveRequestOwnProjectionSchema
+  SerialMoveRequestOwnSelectFieldsSchema
 );
 
-export const EmployeeOwnProjectionSchema = z
+export const SerialMoveRequestDistinctFieldsSchema = z.enum([
+  'id',
+  'sourceId',
+  'targetId',
+  'requestedById',
+  'resolvedById',
+  'reason',
+  'status',
+  'requestedAt',
+  'resolvedAt',
+  'source',
+  'target',
+  'requestedBy',
+  'resolvedBy',
+]);
+
+export const EmployeeOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     uuid: z.boolean(),
@@ -280,12 +413,27 @@ export const EmployeeOwnProjectionSchema = z
   })
   .partial();
 
-export const EmployeeOwnProjectionSchemaJson = z.preprocess(
+export const EmployeeOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  EmployeeOwnProjectionSchema
+  EmployeeOwnSelectFieldsSchema
 );
 
-export const EmployeeRoomOwnProjectionSchema = z
+export const EmployeeDistinctFieldsSchema = z.enum([
+  'id',
+  'uuid',
+  'rooms',
+  'items',
+  'itemRequesters',
+  'itemResolvers',
+  'roomRequesters',
+  'roomResolvers',
+  'serialMoveRequesters',
+  'serialMoveResolvers',
+  'quantityMoveRequesters',
+  'quantityMoveResolvers',
+]);
+
+export const EmployeeRoomOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     employeeId: z.boolean(),
@@ -297,12 +445,22 @@ export const EmployeeRoomOwnProjectionSchema = z
   })
   .partial();
 
-export const EmployeeRoomOwnProjectionSchemaJson = z.preprocess(
+export const EmployeeRoomOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  EmployeeRoomOwnProjectionSchema
+  EmployeeRoomOwnSelectFieldsSchema
 );
 
-export const EmployeeItemOwnProjectionSchema = z
+export const EmployeeRoomDistinctFieldsSchema = z.enum([
+  'id',
+  'employeeId',
+  'roomId',
+  'givenAt',
+  'takenAt',
+  'room',
+  'employee',
+]);
+
+export const EmployeeItemOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     employeeId: z.boolean(),
@@ -314,12 +472,22 @@ export const EmployeeItemOwnProjectionSchema = z
   })
   .partial();
 
-export const EmployeeItemOwnProjectionSchemaJson = z.preprocess(
+export const EmployeeItemOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  EmployeeItemOwnProjectionSchema
+  EmployeeItemOwnSelectFieldsSchema
 );
 
-export const EmployeeRoomRequestOwnProjectionSchema = z
+export const EmployeeItemDistinctFieldsSchema = z.enum([
+  'id',
+  'employeeId',
+  'serialNumberId',
+  'givenAt',
+  'takenAt',
+  'serialNumber',
+  'employee',
+]);
+
+export const EmployeeRoomRequestOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     roomId: z.boolean(),
@@ -335,12 +503,26 @@ export const EmployeeRoomRequestOwnProjectionSchema = z
   })
   .partial();
 
-export const EmployeeRoomRequestOwnProjectionSchemaJson = z.preprocess(
+export const EmployeeRoomRequestOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  EmployeeRoomRequestOwnProjectionSchema
+  EmployeeRoomRequestOwnSelectFieldsSchema
 );
 
-export const EmployeeItemRequestOwnProjectionSchema = z
+export const EmployeeRoomRequestDistinctFieldsSchema = z.enum([
+  'id',
+  'roomId',
+  'requestedById',
+  'resolvedById',
+  'requestedAt',
+  'resolvedAt',
+  'status',
+  'note',
+  'room',
+  'requestedBy',
+  'resolvedBy',
+]);
+
+export const EmployeeItemRequestOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     requestedById: z.boolean(),
@@ -356,15 +538,29 @@ export const EmployeeItemRequestOwnProjectionSchema = z
   })
   .partial();
 
-export const EmployeeItemRequestOwnProjectionSchemaJson = z.preprocess(
+export const EmployeeItemRequestOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  EmployeeItemRequestOwnProjectionSchema
+  EmployeeItemRequestOwnSelectFieldsSchema
 );
+
+export const EmployeeItemRequestDistinctFieldsSchema = z.enum([
+  'id',
+  'requestedById',
+  'resolvedById',
+  'requestedAt',
+  'resolvedAt',
+  'serialNumberId',
+  'status',
+  'note',
+  'serialNumber',
+  'requestedBy',
+  'resolvedBy',
+]);
 
 export const RoomAttributeOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
   })
   .partial();
 
@@ -375,10 +571,10 @@ export const RoomAttributeOwnWhereSchemaJson = z.preprocess(
 
 export const RoomAttributeValueOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    roomId: PZ.IntegerFilterSchema,
-    attributeId: PZ.IntegerFilterSchema,
-    value: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    roomId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    attributeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    value: z.string().or(PZ.StringFilterSchema),
   })
   .partial();
 
@@ -389,8 +585,8 @@ export const RoomAttributeValueOwnWhereSchemaJson = z.preprocess(
 
 export const ItemAttributeOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
   })
   .partial();
 
@@ -401,10 +597,10 @@ export const ItemAttributeOwnWhereSchemaJson = z.preprocess(
 
 export const ItemAttributeValueOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    itemId: PZ.IntegerFilterSchema,
-    attributeId: PZ.IntegerFilterSchema,
-    value: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    itemId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    attributeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    value: z.string().or(PZ.StringFilterSchema),
   })
   .partial();
 
@@ -415,9 +611,9 @@ export const ItemAttributeValueOwnWhereSchemaJson = z.preprocess(
 
 export const CategoryOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    parentId: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    parentId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
   })
   .partial();
 
@@ -428,9 +624,9 @@ export const CategoryOwnWhereSchemaJson = z.preprocess(
 
 export const BuildingOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
-    code: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
+    code: z.string().or(PZ.StringFilterSchema),
   })
   .partial();
 
@@ -441,12 +637,12 @@ export const BuildingOwnWhereSchemaJson = z.preprocess(
 
 export const RoomOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    uuid: PZ.StringFilterSchema,
-    buildingId: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
-    code: PZ.StringFilterSchema,
-    floor: PZ.IntegerFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    uuid: z.string().or(PZ.StringFilterSchema),
+    buildingId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
+    code: z.string().or(PZ.StringFilterSchema),
+    floor: z.coerce.number().int().or(PZ.IntegerFilterSchema),
   })
   .partial();
 
@@ -457,12 +653,12 @@ export const RoomOwnWhereSchemaJson = z.preprocess(
 
 export const ItemOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    uuid: PZ.StringFilterSchema,
-    categoryId: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
-    description: PZ.StringFilterSchema,
-    minQuantity: PZ.IntegerFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    uuid: z.string().or(PZ.StringFilterSchema),
+    categoryId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
+    description: z.string().or(PZ.StringFilterSchema),
+    minQuantity: z.coerce.number().int().or(PZ.IntegerFilterSchema),
   })
   .partial();
 
@@ -473,11 +669,11 @@ export const ItemOwnWhereSchemaJson = z.preprocess(
 
 export const QuantityOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    roomId: PZ.IntegerFilterSchema,
-    itemId: PZ.IntegerFilterSchema,
-    quantity: PZ.IntegerFilterSchema,
-    minQuantity: PZ.IntegerFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    roomId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    itemId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    quantity: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    minQuantity: z.coerce.number().int().or(PZ.IntegerFilterSchema),
   })
   .partial();
 
@@ -488,11 +684,11 @@ export const QuantityOwnWhereSchemaJson = z.preprocess(
 
 export const SerialNumberOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    uuid: PZ.StringFilterSchema,
-    serialNumber: PZ.StringFilterSchema,
-    itemId: PZ.IntegerFilterSchema,
-    roomId: PZ.IntegerFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    uuid: z.string().or(PZ.StringFilterSchema),
+    serialNumber: z.string().or(PZ.StringFilterSchema),
+    itemId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    roomId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
   })
   .partial();
 
@@ -503,16 +699,16 @@ export const SerialNumberOwnWhereSchemaJson = z.preprocess(
 
 export const QuantityMoveRequestOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    sourceId: PZ.IntegerFilterSchema,
-    targetId: PZ.IntegerFilterSchema,
-    requestedById: PZ.IntegerFilterSchema,
-    resolvedById: PZ.IntegerFilterSchema,
-    quantity: PZ.IntegerFilterSchema,
-    reason: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    sourceId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    targetId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    requestedById: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    resolvedById: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    quantity: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    reason: z.string().or(PZ.StringFilterSchema),
     status: RequestStatusSchema,
-    requestedAt: PZ.DateTimeFilterSchema,
-    resolvedAt: PZ.DateTimeFilterSchema,
+    requestedAt: z.string().or(PZ.DateTimeFilterSchema),
+    resolvedAt: z.string().or(PZ.DateTimeFilterSchema),
   })
   .partial();
 
@@ -523,15 +719,15 @@ export const QuantityMoveRequestOwnWhereSchemaJson = z.preprocess(
 
 export const SerialMoveRequestOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    sourceId: PZ.IntegerFilterSchema,
-    targetId: PZ.IntegerFilterSchema,
-    requestedById: PZ.IntegerFilterSchema,
-    resolvedById: PZ.IntegerFilterSchema,
-    reason: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    sourceId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    targetId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    requestedById: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    resolvedById: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    reason: z.string().or(PZ.StringFilterSchema),
     status: RequestStatusSchema,
-    requestedAt: PZ.DateTimeFilterSchema,
-    resolvedAt: PZ.DateTimeFilterSchema,
+    requestedAt: z.string().or(PZ.DateTimeFilterSchema),
+    resolvedAt: z.string().or(PZ.DateTimeFilterSchema),
   })
   .partial();
 
@@ -542,8 +738,8 @@ export const SerialMoveRequestOwnWhereSchemaJson = z.preprocess(
 
 export const EmployeeOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    uuid: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    uuid: z.string().or(PZ.StringFilterSchema),
   })
   .partial();
 
@@ -554,11 +750,11 @@ export const EmployeeOwnWhereSchemaJson = z.preprocess(
 
 export const EmployeeRoomOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    employeeId: PZ.IntegerFilterSchema,
-    roomId: PZ.IntegerFilterSchema,
-    givenAt: PZ.DateTimeFilterSchema,
-    takenAt: PZ.DateTimeFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    roomId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    givenAt: z.string().or(PZ.DateTimeFilterSchema),
+    takenAt: z.string().or(PZ.DateTimeFilterSchema),
   })
   .partial();
 
@@ -569,11 +765,11 @@ export const EmployeeRoomOwnWhereSchemaJson = z.preprocess(
 
 export const EmployeeItemOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    employeeId: PZ.IntegerFilterSchema,
-    serialNumberId: PZ.IntegerFilterSchema,
-    givenAt: PZ.DateTimeFilterSchema,
-    takenAt: PZ.DateTimeFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    serialNumberId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    givenAt: z.string().or(PZ.DateTimeFilterSchema),
+    takenAt: z.string().or(PZ.DateTimeFilterSchema),
   })
   .partial();
 
@@ -584,14 +780,14 @@ export const EmployeeItemOwnWhereSchemaJson = z.preprocess(
 
 export const EmployeeRoomRequestOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    roomId: PZ.IntegerFilterSchema,
-    requestedById: PZ.IntegerFilterSchema,
-    resolvedById: PZ.IntegerFilterSchema,
-    requestedAt: PZ.DateTimeFilterSchema,
-    resolvedAt: PZ.DateTimeFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    roomId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    requestedById: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    resolvedById: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    requestedAt: z.string().or(PZ.DateTimeFilterSchema),
+    resolvedAt: z.string().or(PZ.DateTimeFilterSchema),
     status: RequestStatusSchema,
-    note: PZ.StringFilterSchema,
+    note: z.string().or(PZ.StringFilterSchema),
   })
   .partial();
 
@@ -602,14 +798,14 @@ export const EmployeeRoomRequestOwnWhereSchemaJson = z.preprocess(
 
 export const EmployeeItemRequestOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    requestedById: PZ.IntegerFilterSchema,
-    resolvedById: PZ.IntegerFilterSchema,
-    requestedAt: PZ.DateTimeFilterSchema,
-    resolvedAt: PZ.DateTimeFilterSchema,
-    serialNumberId: PZ.IntegerFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    requestedById: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    resolvedById: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    requestedAt: z.string().or(PZ.DateTimeFilterSchema),
+    resolvedAt: z.string().or(PZ.DateTimeFilterSchema),
+    serialNumberId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
     status: RequestStatusSchema,
-    note: PZ.StringFilterSchema,
+    note: z.string().or(PZ.StringFilterSchema),
   })
   .partial();
 
@@ -632,20 +828,14 @@ export const RoomAttributeOwnIncludeSchemaJson = z.preprocess(
 export const RoomAttributeOwnQueryOneSchema = z
   .object({
     where: RoomAttributeOwnWhereSchemaJson,
-    select: RoomAttributeOwnProjectionSchemaJson,
-    omit: RoomAttributeOwnProjectionSchemaJson,
-    include: RoomAttributeOwnIncludeSchemaJson,
+    distinct: RoomAttributeDistinctFieldsSchema,
   })
   .partial();
 
 export const RoomAttributeOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: RoomAttributeOwnWhereSchemaJson,
-    select: RoomAttributeOwnProjectionSchemaJson,
-    omit: RoomAttributeOwnProjectionSchemaJson,
-    include: RoomAttributeOwnIncludeSchemaJson,
+    distinct: RoomAttributeDistinctFieldsSchema,
   })
   .partial();
 
@@ -664,20 +854,14 @@ export const RoomAttributeValueOwnIncludeSchemaJson = z.preprocess(
 export const RoomAttributeValueOwnQueryOneSchema = z
   .object({
     where: RoomAttributeValueOwnWhereSchemaJson,
-    select: RoomAttributeValueOwnProjectionSchemaJson,
-    omit: RoomAttributeValueOwnProjectionSchemaJson,
-    include: RoomAttributeValueOwnIncludeSchemaJson,
+    distinct: RoomAttributeValueDistinctFieldsSchema,
   })
   .partial();
 
 export const RoomAttributeValueOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: RoomAttributeValueOwnWhereSchemaJson,
-    select: RoomAttributeValueOwnProjectionSchemaJson,
-    omit: RoomAttributeValueOwnProjectionSchemaJson,
-    include: RoomAttributeValueOwnIncludeSchemaJson,
+    distinct: RoomAttributeValueDistinctFieldsSchema,
   })
   .partial();
 
@@ -695,20 +879,14 @@ export const ItemAttributeOwnIncludeSchemaJson = z.preprocess(
 export const ItemAttributeOwnQueryOneSchema = z
   .object({
     where: ItemAttributeOwnWhereSchemaJson,
-    select: ItemAttributeOwnProjectionSchemaJson,
-    omit: ItemAttributeOwnProjectionSchemaJson,
-    include: ItemAttributeOwnIncludeSchemaJson,
+    distinct: ItemAttributeDistinctFieldsSchema,
   })
   .partial();
 
 export const ItemAttributeOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: ItemAttributeOwnWhereSchemaJson,
-    select: ItemAttributeOwnProjectionSchemaJson,
-    omit: ItemAttributeOwnProjectionSchemaJson,
-    include: ItemAttributeOwnIncludeSchemaJson,
+    distinct: ItemAttributeDistinctFieldsSchema,
   })
   .partial();
 
@@ -727,20 +905,14 @@ export const ItemAttributeValueOwnIncludeSchemaJson = z.preprocess(
 export const ItemAttributeValueOwnQueryOneSchema = z
   .object({
     where: ItemAttributeValueOwnWhereSchemaJson,
-    select: ItemAttributeValueOwnProjectionSchemaJson,
-    omit: ItemAttributeValueOwnProjectionSchemaJson,
-    include: ItemAttributeValueOwnIncludeSchemaJson,
+    distinct: ItemAttributeValueDistinctFieldsSchema,
   })
   .partial();
 
 export const ItemAttributeValueOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: ItemAttributeValueOwnWhereSchemaJson,
-    select: ItemAttributeValueOwnProjectionSchemaJson,
-    omit: ItemAttributeValueOwnProjectionSchemaJson,
-    include: ItemAttributeValueOwnIncludeSchemaJson,
+    distinct: ItemAttributeValueDistinctFieldsSchema,
   })
   .partial();
 
@@ -760,20 +932,14 @@ export const CategoryOwnIncludeSchemaJson = z.preprocess(
 export const CategoryOwnQueryOneSchema = z
   .object({
     where: CategoryOwnWhereSchemaJson,
-    select: CategoryOwnProjectionSchemaJson,
-    omit: CategoryOwnProjectionSchemaJson,
-    include: CategoryOwnIncludeSchemaJson,
+    distinct: CategoryDistinctFieldsSchema,
   })
   .partial();
 
 export const CategoryOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: CategoryOwnWhereSchemaJson,
-    select: CategoryOwnProjectionSchemaJson,
-    omit: CategoryOwnProjectionSchemaJson,
-    include: CategoryOwnIncludeSchemaJson,
+    distinct: CategoryDistinctFieldsSchema,
   })
   .partial();
 
@@ -791,20 +957,14 @@ export const BuildingOwnIncludeSchemaJson = z.preprocess(
 export const BuildingOwnQueryOneSchema = z
   .object({
     where: BuildingOwnWhereSchemaJson,
-    select: BuildingOwnProjectionSchemaJson,
-    omit: BuildingOwnProjectionSchemaJson,
-    include: BuildingOwnIncludeSchemaJson,
+    distinct: BuildingDistinctFieldsSchema,
   })
   .partial();
 
 export const BuildingOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: BuildingOwnWhereSchemaJson,
-    select: BuildingOwnProjectionSchemaJson,
-    omit: BuildingOwnProjectionSchemaJson,
-    include: BuildingOwnIncludeSchemaJson,
+    distinct: BuildingDistinctFieldsSchema,
   })
   .partial();
 
@@ -827,20 +987,14 @@ export const RoomOwnIncludeSchemaJson = z.preprocess(
 export const RoomOwnQueryOneSchema = z
   .object({
     where: RoomOwnWhereSchemaJson,
-    select: RoomOwnProjectionSchemaJson,
-    omit: RoomOwnProjectionSchemaJson,
-    include: RoomOwnIncludeSchemaJson,
+    distinct: RoomDistinctFieldsSchema,
   })
   .partial();
 
 export const RoomOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: RoomOwnWhereSchemaJson,
-    select: RoomOwnProjectionSchemaJson,
-    omit: RoomOwnProjectionSchemaJson,
-    include: RoomOwnIncludeSchemaJson,
+    distinct: RoomDistinctFieldsSchema,
   })
   .partial();
 
@@ -861,20 +1015,14 @@ export const ItemOwnIncludeSchemaJson = z.preprocess(
 export const ItemOwnQueryOneSchema = z
   .object({
     where: ItemOwnWhereSchemaJson,
-    select: ItemOwnProjectionSchemaJson,
-    omit: ItemOwnProjectionSchemaJson,
-    include: ItemOwnIncludeSchemaJson,
+    distinct: ItemDistinctFieldsSchema,
   })
   .partial();
 
 export const ItemOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: ItemOwnWhereSchemaJson,
-    select: ItemOwnProjectionSchemaJson,
-    omit: ItemOwnProjectionSchemaJson,
-    include: ItemOwnIncludeSchemaJson,
+    distinct: ItemDistinctFieldsSchema,
   })
   .partial();
 
@@ -895,20 +1043,14 @@ export const QuantityOwnIncludeSchemaJson = z.preprocess(
 export const QuantityOwnQueryOneSchema = z
   .object({
     where: QuantityOwnWhereSchemaJson,
-    select: QuantityOwnProjectionSchemaJson,
-    omit: QuantityOwnProjectionSchemaJson,
-    include: QuantityOwnIncludeSchemaJson,
+    distinct: QuantityDistinctFieldsSchema,
   })
   .partial();
 
 export const QuantityOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: QuantityOwnWhereSchemaJson,
-    select: QuantityOwnProjectionSchemaJson,
-    omit: QuantityOwnProjectionSchemaJson,
-    include: QuantityOwnIncludeSchemaJson,
+    distinct: QuantityDistinctFieldsSchema,
   })
   .partial();
 
@@ -931,20 +1073,14 @@ export const SerialNumberOwnIncludeSchemaJson = z.preprocess(
 export const SerialNumberOwnQueryOneSchema = z
   .object({
     where: SerialNumberOwnWhereSchemaJson,
-    select: SerialNumberOwnProjectionSchemaJson,
-    omit: SerialNumberOwnProjectionSchemaJson,
-    include: SerialNumberOwnIncludeSchemaJson,
+    distinct: SerialNumberDistinctFieldsSchema,
   })
   .partial();
 
 export const SerialNumberOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: SerialNumberOwnWhereSchemaJson,
-    select: SerialNumberOwnProjectionSchemaJson,
-    omit: SerialNumberOwnProjectionSchemaJson,
-    include: SerialNumberOwnIncludeSchemaJson,
+    distinct: SerialNumberDistinctFieldsSchema,
   })
   .partial();
 
@@ -965,20 +1101,14 @@ export const QuantityMoveRequestOwnIncludeSchemaJson = z.preprocess(
 export const QuantityMoveRequestOwnQueryOneSchema = z
   .object({
     where: QuantityMoveRequestOwnWhereSchemaJson,
-    select: QuantityMoveRequestOwnProjectionSchemaJson,
-    omit: QuantityMoveRequestOwnProjectionSchemaJson,
-    include: QuantityMoveRequestOwnIncludeSchemaJson,
+    distinct: QuantityMoveRequestDistinctFieldsSchema,
   })
   .partial();
 
 export const QuantityMoveRequestOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: QuantityMoveRequestOwnWhereSchemaJson,
-    select: QuantityMoveRequestOwnProjectionSchemaJson,
-    omit: QuantityMoveRequestOwnProjectionSchemaJson,
-    include: QuantityMoveRequestOwnIncludeSchemaJson,
+    distinct: QuantityMoveRequestDistinctFieldsSchema,
   })
   .partial();
 
@@ -999,20 +1129,14 @@ export const SerialMoveRequestOwnIncludeSchemaJson = z.preprocess(
 export const SerialMoveRequestOwnQueryOneSchema = z
   .object({
     where: SerialMoveRequestOwnWhereSchemaJson,
-    select: SerialMoveRequestOwnProjectionSchemaJson,
-    omit: SerialMoveRequestOwnProjectionSchemaJson,
-    include: SerialMoveRequestOwnIncludeSchemaJson,
+    distinct: SerialMoveRequestDistinctFieldsSchema,
   })
   .partial();
 
 export const SerialMoveRequestOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: SerialMoveRequestOwnWhereSchemaJson,
-    select: SerialMoveRequestOwnProjectionSchemaJson,
-    omit: SerialMoveRequestOwnProjectionSchemaJson,
-    include: SerialMoveRequestOwnIncludeSchemaJson,
+    distinct: SerialMoveRequestDistinctFieldsSchema,
   })
   .partial();
 
@@ -1039,20 +1163,14 @@ export const EmployeeOwnIncludeSchemaJson = z.preprocess(
 export const EmployeeOwnQueryOneSchema = z
   .object({
     where: EmployeeOwnWhereSchemaJson,
-    select: EmployeeOwnProjectionSchemaJson,
-    omit: EmployeeOwnProjectionSchemaJson,
-    include: EmployeeOwnIncludeSchemaJson,
+    distinct: EmployeeDistinctFieldsSchema,
   })
   .partial();
 
 export const EmployeeOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: EmployeeOwnWhereSchemaJson,
-    select: EmployeeOwnProjectionSchemaJson,
-    omit: EmployeeOwnProjectionSchemaJson,
-    include: EmployeeOwnIncludeSchemaJson,
+    distinct: EmployeeDistinctFieldsSchema,
   })
   .partial();
 
@@ -1071,20 +1189,14 @@ export const EmployeeRoomOwnIncludeSchemaJson = z.preprocess(
 export const EmployeeRoomOwnQueryOneSchema = z
   .object({
     where: EmployeeRoomOwnWhereSchemaJson,
-    select: EmployeeRoomOwnProjectionSchemaJson,
-    omit: EmployeeRoomOwnProjectionSchemaJson,
-    include: EmployeeRoomOwnIncludeSchemaJson,
+    distinct: EmployeeRoomDistinctFieldsSchema,
   })
   .partial();
 
 export const EmployeeRoomOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: EmployeeRoomOwnWhereSchemaJson,
-    select: EmployeeRoomOwnProjectionSchemaJson,
-    omit: EmployeeRoomOwnProjectionSchemaJson,
-    include: EmployeeRoomOwnIncludeSchemaJson,
+    distinct: EmployeeRoomDistinctFieldsSchema,
   })
   .partial();
 
@@ -1103,20 +1215,14 @@ export const EmployeeItemOwnIncludeSchemaJson = z.preprocess(
 export const EmployeeItemOwnQueryOneSchema = z
   .object({
     where: EmployeeItemOwnWhereSchemaJson,
-    select: EmployeeItemOwnProjectionSchemaJson,
-    omit: EmployeeItemOwnProjectionSchemaJson,
-    include: EmployeeItemOwnIncludeSchemaJson,
+    distinct: EmployeeItemDistinctFieldsSchema,
   })
   .partial();
 
 export const EmployeeItemOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: EmployeeItemOwnWhereSchemaJson,
-    select: EmployeeItemOwnProjectionSchemaJson,
-    omit: EmployeeItemOwnProjectionSchemaJson,
-    include: EmployeeItemOwnIncludeSchemaJson,
+    distinct: EmployeeItemDistinctFieldsSchema,
   })
   .partial();
 
@@ -1136,20 +1242,14 @@ export const EmployeeRoomRequestOwnIncludeSchemaJson = z.preprocess(
 export const EmployeeRoomRequestOwnQueryOneSchema = z
   .object({
     where: EmployeeRoomRequestOwnWhereSchemaJson,
-    select: EmployeeRoomRequestOwnProjectionSchemaJson,
-    omit: EmployeeRoomRequestOwnProjectionSchemaJson,
-    include: EmployeeRoomRequestOwnIncludeSchemaJson,
+    distinct: EmployeeRoomRequestDistinctFieldsSchema,
   })
   .partial();
 
 export const EmployeeRoomRequestOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: EmployeeRoomRequestOwnWhereSchemaJson,
-    select: EmployeeRoomRequestOwnProjectionSchemaJson,
-    omit: EmployeeRoomRequestOwnProjectionSchemaJson,
-    include: EmployeeRoomRequestOwnIncludeSchemaJson,
+    distinct: EmployeeRoomRequestDistinctFieldsSchema,
   })
   .partial();
 
@@ -1169,20 +1269,14 @@ export const EmployeeItemRequestOwnIncludeSchemaJson = z.preprocess(
 export const EmployeeItemRequestOwnQueryOneSchema = z
   .object({
     where: EmployeeItemRequestOwnWhereSchemaJson,
-    select: EmployeeItemRequestOwnProjectionSchemaJson,
-    omit: EmployeeItemRequestOwnProjectionSchemaJson,
-    include: EmployeeItemRequestOwnIncludeSchemaJson,
+    distinct: EmployeeItemRequestDistinctFieldsSchema,
   })
   .partial();
 
 export const EmployeeItemRequestOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: EmployeeItemRequestOwnWhereSchemaJson,
-    select: EmployeeItemRequestOwnProjectionSchemaJson,
-    omit: EmployeeItemRequestOwnProjectionSchemaJson,
-    include: EmployeeItemRequestOwnIncludeSchemaJson,
+    distinct: EmployeeItemRequestDistinctFieldsSchema,
   })
   .partial();
 
@@ -1208,8 +1302,8 @@ export const RoomAttributeOrderBySchemaJson = z.preprocess(
 
 export const RoomAttributeWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
     values: z
       .object({
         some: RoomAttributeValueOwnWhereSchema,
@@ -1225,7 +1319,7 @@ export const RoomAttributeWhereSchemaJson = z.preprocess(
   RoomAttributeWhereSchema
 );
 
-export const RoomAttributeProjectionSchema = z
+export const RoomAttributeSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
@@ -1233,9 +1327,9 @@ export const RoomAttributeProjectionSchema = z
   })
   .partial();
 
-export const RoomAttributeProjectionSchemaJson = z.preprocess(
+export const RoomAttributeSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  RoomAttributeProjectionSchema
+  RoomAttributeSelectFieldsSchema
 );
 
 export const RoomAttributeIncludeSchema = z
@@ -1248,6 +1342,25 @@ export const RoomAttributeIncludeSchemaJson = z.preprocess(
   jsonParser,
   RoomAttributeIncludeSchema
 );
+
+export const RoomAttributeProjectionSchema = z.union([
+  z
+    .object({
+      omit: RoomAttributeSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: RoomAttributeSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: RoomAttributeIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const RoomAttributeValueCreateSchema = z.object({
   roomId: z.coerce.number().int(),
@@ -1277,24 +1390,12 @@ export const RoomAttributeValueOrderBySchemaJson = z.preprocess(
 
 export const RoomAttributeValueWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    roomId: PZ.IntegerFilterSchema,
-    attributeId: PZ.IntegerFilterSchema,
-    value: PZ.StringFilterSchema,
-    attribute: z
-      .object({
-        some: RoomAttributeOwnWhereSchema,
-        every: RoomAttributeOwnWhereSchema,
-        none: RoomAttributeOwnWhereSchema,
-      })
-      .partial(),
-    room: z
-      .object({
-        some: RoomOwnWhereSchema,
-        every: RoomOwnWhereSchema,
-        none: RoomOwnWhereSchema,
-      })
-      .partial(),
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    roomId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    attributeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    value: z.string().or(PZ.StringFilterSchema),
+    attribute: RoomAttributeOwnWhereSchema,
+    room: RoomOwnWhereSchema,
   })
   .partial();
 
@@ -1303,7 +1404,7 @@ export const RoomAttributeValueWhereSchemaJson = z.preprocess(
   RoomAttributeValueWhereSchema
 );
 
-export const RoomAttributeValueProjectionSchema = z
+export const RoomAttributeValueSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     roomId: z.boolean(),
@@ -1314,9 +1415,9 @@ export const RoomAttributeValueProjectionSchema = z
   })
   .partial();
 
-export const RoomAttributeValueProjectionSchemaJson = z.preprocess(
+export const RoomAttributeValueSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  RoomAttributeValueProjectionSchema
+  RoomAttributeValueSelectFieldsSchema
 );
 
 export const RoomAttributeValueIncludeSchema = z
@@ -1330,6 +1431,25 @@ export const RoomAttributeValueIncludeSchemaJson = z.preprocess(
   jsonParser,
   RoomAttributeValueIncludeSchema
 );
+
+export const RoomAttributeValueProjectionSchema = z.union([
+  z
+    .object({
+      omit: RoomAttributeValueSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: RoomAttributeValueSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: RoomAttributeValueIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const ItemAttributeCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -1353,8 +1473,8 @@ export const ItemAttributeOrderBySchemaJson = z.preprocess(
 
 export const ItemAttributeWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
     values: z
       .object({
         some: ItemAttributeValueOwnWhereSchema,
@@ -1370,7 +1490,7 @@ export const ItemAttributeWhereSchemaJson = z.preprocess(
   ItemAttributeWhereSchema
 );
 
-export const ItemAttributeProjectionSchema = z
+export const ItemAttributeSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
@@ -1378,9 +1498,9 @@ export const ItemAttributeProjectionSchema = z
   })
   .partial();
 
-export const ItemAttributeProjectionSchemaJson = z.preprocess(
+export const ItemAttributeSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  ItemAttributeProjectionSchema
+  ItemAttributeSelectFieldsSchema
 );
 
 export const ItemAttributeIncludeSchema = z
@@ -1393,6 +1513,25 @@ export const ItemAttributeIncludeSchemaJson = z.preprocess(
   jsonParser,
   ItemAttributeIncludeSchema
 );
+
+export const ItemAttributeProjectionSchema = z.union([
+  z
+    .object({
+      omit: ItemAttributeSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: ItemAttributeSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: ItemAttributeIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const ItemAttributeValueCreateSchema = z.object({
   itemId: z.coerce.number().int(),
@@ -1422,24 +1561,12 @@ export const ItemAttributeValueOrderBySchemaJson = z.preprocess(
 
 export const ItemAttributeValueWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    itemId: PZ.IntegerFilterSchema,
-    attributeId: PZ.IntegerFilterSchema,
-    value: PZ.StringFilterSchema,
-    attribute: z
-      .object({
-        some: ItemAttributeOwnWhereSchema,
-        every: ItemAttributeOwnWhereSchema,
-        none: ItemAttributeOwnWhereSchema,
-      })
-      .partial(),
-    item: z
-      .object({
-        some: ItemOwnWhereSchema,
-        every: ItemOwnWhereSchema,
-        none: ItemOwnWhereSchema,
-      })
-      .partial(),
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    itemId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    attributeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    value: z.string().or(PZ.StringFilterSchema),
+    attribute: ItemAttributeOwnWhereSchema,
+    item: ItemOwnWhereSchema,
   })
   .partial();
 
@@ -1448,7 +1575,7 @@ export const ItemAttributeValueWhereSchemaJson = z.preprocess(
   ItemAttributeValueWhereSchema
 );
 
-export const ItemAttributeValueProjectionSchema = z
+export const ItemAttributeValueSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     itemId: z.boolean(),
@@ -1459,9 +1586,9 @@ export const ItemAttributeValueProjectionSchema = z
   })
   .partial();
 
-export const ItemAttributeValueProjectionSchemaJson = z.preprocess(
+export const ItemAttributeValueSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  ItemAttributeValueProjectionSchema
+  ItemAttributeValueSelectFieldsSchema
 );
 
 export const ItemAttributeValueIncludeSchema = z
@@ -1475,6 +1602,25 @@ export const ItemAttributeValueIncludeSchemaJson = z.preprocess(
   jsonParser,
   ItemAttributeValueIncludeSchema
 );
+
+export const ItemAttributeValueProjectionSchema = z.union([
+  z
+    .object({
+      omit: ItemAttributeValueSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: ItemAttributeValueSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: ItemAttributeValueIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const CategoryCreateSchema = z.object({
   parentId: z.coerce.number().int().optional(),
@@ -1501,16 +1647,10 @@ export const CategoryOrderBySchemaJson = z.preprocess(
 
 export const CategoryWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    parentId: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
-    parent: z
-      .object({
-        some: CategoryOwnWhereSchema,
-        every: CategoryOwnWhereSchema,
-        none: CategoryOwnWhereSchema,
-      })
-      .partial(),
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    parentId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
+    parent: CategoryOwnWhereSchema,
     children: z
       .object({
         some: CategoryOwnWhereSchema,
@@ -1533,7 +1673,7 @@ export const CategoryWhereSchemaJson = z.preprocess(
   CategoryWhereSchema
 );
 
-export const CategoryProjectionSchema = z
+export const CategorySelectFieldsSchema = z
   .object({
     id: z.boolean(),
     parentId: z.boolean(),
@@ -1544,9 +1684,9 @@ export const CategoryProjectionSchema = z
   })
   .partial();
 
-export const CategoryProjectionSchemaJson = z.preprocess(
+export const CategorySelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  CategoryProjectionSchema
+  CategorySelectFieldsSchema
 );
 
 export const CategoryIncludeSchema = z
@@ -1561,6 +1701,25 @@ export const CategoryIncludeSchemaJson = z.preprocess(
   jsonParser,
   CategoryIncludeSchema
 );
+
+export const CategoryProjectionSchema = z.union([
+  z
+    .object({
+      omit: CategorySelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: CategorySelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: CategoryIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const BuildingCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -1587,9 +1746,9 @@ export const BuildingOrderBySchemaJson = z.preprocess(
 
 export const BuildingWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
-    code: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
+    code: z.string().or(PZ.StringFilterSchema),
     rooms: z
       .object({
         some: RoomOwnWhereSchema,
@@ -1605,7 +1764,7 @@ export const BuildingWhereSchemaJson = z.preprocess(
   BuildingWhereSchema
 );
 
-export const BuildingProjectionSchema = z
+export const BuildingSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
@@ -1614,9 +1773,9 @@ export const BuildingProjectionSchema = z
   })
   .partial();
 
-export const BuildingProjectionSchemaJson = z.preprocess(
+export const BuildingSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  BuildingProjectionSchema
+  BuildingSelectFieldsSchema
 );
 
 export const BuildingIncludeSchema = z
@@ -1629,6 +1788,25 @@ export const BuildingIncludeSchemaJson = z.preprocess(
   jsonParser,
   BuildingIncludeSchema
 );
+
+export const BuildingProjectionSchema = z.union([
+  z
+    .object({
+      omit: BuildingSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: BuildingSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: BuildingIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const RoomCreateSchema = z.object({
   buildingId: z.coerce.number().int(),
@@ -1662,19 +1840,13 @@ export const RoomOrderBySchemaJson = z.preprocess(
 
 export const RoomWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    uuid: PZ.StringFilterSchema,
-    buildingId: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
-    code: PZ.StringFilterSchema,
-    floor: PZ.IntegerFilterSchema,
-    building: z
-      .object({
-        some: BuildingOwnWhereSchema,
-        every: BuildingOwnWhereSchema,
-        none: BuildingOwnWhereSchema,
-      })
-      .partial(),
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    uuid: z.string().or(PZ.StringFilterSchema),
+    buildingId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
+    code: z.string().or(PZ.StringFilterSchema),
+    floor: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    building: BuildingOwnWhereSchema,
     attributes: z
       .object({
         some: RoomAttributeValueOwnWhereSchema,
@@ -1715,7 +1887,7 @@ export const RoomWhereSchema = z
 
 export const RoomWhereSchemaJson = z.preprocess(jsonParser, RoomWhereSchema);
 
-export const RoomProjectionSchema = z
+export const RoomSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     uuid: z.boolean(),
@@ -1732,9 +1904,9 @@ export const RoomProjectionSchema = z
   })
   .partial();
 
-export const RoomProjectionSchemaJson = z.preprocess(
+export const RoomSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  RoomProjectionSchema
+  RoomSelectFieldsSchema
 );
 
 export const RoomIncludeSchema = z
@@ -1752,6 +1924,25 @@ export const RoomIncludeSchemaJson = z.preprocess(
   jsonParser,
   RoomIncludeSchema
 );
+
+export const RoomProjectionSchema = z.union([
+  z
+    .object({
+      omit: RoomSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: RoomSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: RoomIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const ItemCreateSchema = z.object({
   categoryId: z.coerce.number().int().optional(),
@@ -1785,19 +1976,13 @@ export const ItemOrderBySchemaJson = z.preprocess(
 
 export const ItemWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    uuid: PZ.StringFilterSchema,
-    categoryId: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
-    description: PZ.StringFilterSchema,
-    minQuantity: PZ.IntegerFilterSchema,
-    category: z
-      .object({
-        some: CategoryOwnWhereSchema,
-        every: CategoryOwnWhereSchema,
-        none: CategoryOwnWhereSchema,
-      })
-      .partial(),
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    uuid: z.string().or(PZ.StringFilterSchema),
+    categoryId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
+    description: z.string().or(PZ.StringFilterSchema),
+    minQuantity: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    category: CategoryOwnWhereSchema,
     attributes: z
       .object({
         some: ItemAttributeValueOwnWhereSchema,
@@ -1824,7 +2009,7 @@ export const ItemWhereSchema = z
 
 export const ItemWhereSchemaJson = z.preprocess(jsonParser, ItemWhereSchema);
 
-export const ItemProjectionSchema = z
+export const ItemSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     uuid: z.boolean(),
@@ -1839,9 +2024,9 @@ export const ItemProjectionSchema = z
   })
   .partial();
 
-export const ItemProjectionSchemaJson = z.preprocess(
+export const ItemSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  ItemProjectionSchema
+  ItemSelectFieldsSchema
 );
 
 export const ItemIncludeSchema = z
@@ -1857,6 +2042,25 @@ export const ItemIncludeSchemaJson = z.preprocess(
   jsonParser,
   ItemIncludeSchema
 );
+
+export const ItemProjectionSchema = z.union([
+  z
+    .object({
+      omit: ItemSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: ItemSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: ItemIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const QuantityCreateSchema = z.object({
   roomId: z.coerce.number().int(),
@@ -1889,25 +2093,13 @@ export const QuantityOrderBySchemaJson = z.preprocess(
 
 export const QuantityWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    roomId: PZ.IntegerFilterSchema,
-    itemId: PZ.IntegerFilterSchema,
-    quantity: PZ.IntegerFilterSchema,
-    minQuantity: PZ.IntegerFilterSchema,
-    item: z
-      .object({
-        some: ItemOwnWhereSchema,
-        every: ItemOwnWhereSchema,
-        none: ItemOwnWhereSchema,
-      })
-      .partial(),
-    room: z
-      .object({
-        some: RoomOwnWhereSchema,
-        every: RoomOwnWhereSchema,
-        none: RoomOwnWhereSchema,
-      })
-      .partial(),
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    roomId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    itemId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    quantity: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    minQuantity: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    item: ItemOwnWhereSchema,
+    room: RoomOwnWhereSchema,
     quantityMoveSources: z
       .object({
         some: QuantityMoveRequestOwnWhereSchema,
@@ -1930,7 +2122,7 @@ export const QuantityWhereSchemaJson = z.preprocess(
   QuantityWhereSchema
 );
 
-export const QuantityProjectionSchema = z
+export const QuantitySelectFieldsSchema = z
   .object({
     id: z.boolean(),
     roomId: z.boolean(),
@@ -1944,9 +2136,9 @@ export const QuantityProjectionSchema = z
   })
   .partial();
 
-export const QuantityProjectionSchemaJson = z.preprocess(
+export const QuantitySelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  QuantityProjectionSchema
+  QuantitySelectFieldsSchema
 );
 
 export const QuantityIncludeSchema = z
@@ -1962,6 +2154,25 @@ export const QuantityIncludeSchemaJson = z.preprocess(
   jsonParser,
   QuantityIncludeSchema
 );
+
+export const QuantityProjectionSchema = z.union([
+  z
+    .object({
+      omit: QuantitySelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: QuantitySelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: QuantityIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const SerialNumberCreateSchema = z.object({
   serialNumber: z.string(),
@@ -1992,25 +2203,13 @@ export const SerialNumberOrderBySchemaJson = z.preprocess(
 
 export const SerialNumberWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    uuid: PZ.StringFilterSchema,
-    serialNumber: PZ.StringFilterSchema,
-    itemId: PZ.IntegerFilterSchema,
-    roomId: PZ.IntegerFilterSchema,
-    item: z
-      .object({
-        some: ItemOwnWhereSchema,
-        every: ItemOwnWhereSchema,
-        none: ItemOwnWhereSchema,
-      })
-      .partial(),
-    room: z
-      .object({
-        some: RoomOwnWhereSchema,
-        every: RoomOwnWhereSchema,
-        none: RoomOwnWhereSchema,
-      })
-      .partial(),
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    uuid: z.string().or(PZ.StringFilterSchema),
+    serialNumber: z.string().or(PZ.StringFilterSchema),
+    itemId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    roomId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    item: ItemOwnWhereSchema,
+    room: RoomOwnWhereSchema,
     serialMoveSources: z
       .object({
         some: SerialMoveRequestOwnWhereSchema,
@@ -2047,7 +2246,7 @@ export const SerialNumberWhereSchemaJson = z.preprocess(
   SerialNumberWhereSchema
 );
 
-export const SerialNumberProjectionSchema = z
+export const SerialNumberSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     uuid: z.boolean(),
@@ -2063,9 +2262,9 @@ export const SerialNumberProjectionSchema = z
   })
   .partial();
 
-export const SerialNumberProjectionSchemaJson = z.preprocess(
+export const SerialNumberSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  SerialNumberProjectionSchema
+  SerialNumberSelectFieldsSchema
 );
 
 export const SerialNumberIncludeSchema = z
@@ -2083,6 +2282,25 @@ export const SerialNumberIncludeSchemaJson = z.preprocess(
   jsonParser,
   SerialNumberIncludeSchema
 );
+
+export const SerialNumberProjectionSchema = z.union([
+  z
+    .object({
+      omit: SerialNumberSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: SerialNumberSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: SerialNumberIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const QuantityMoveRequestCreateSchema = z.object({
   sourceId: z.coerce.number().int(),
@@ -2127,44 +2345,20 @@ export const QuantityMoveRequestOrderBySchemaJson = z.preprocess(
 
 export const QuantityMoveRequestWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    sourceId: PZ.IntegerFilterSchema,
-    targetId: PZ.IntegerFilterSchema,
-    requestedById: PZ.IntegerFilterSchema,
-    resolvedById: PZ.IntegerFilterSchema,
-    quantity: PZ.IntegerFilterSchema,
-    reason: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    sourceId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    targetId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    requestedById: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    resolvedById: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    quantity: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    reason: z.string().or(PZ.StringFilterSchema),
     status: RequestStatusSchema,
-    requestedAt: PZ.DateTimeFilterSchema,
-    resolvedAt: PZ.DateTimeFilterSchema,
-    source: z
-      .object({
-        some: QuantityOwnWhereSchema,
-        every: QuantityOwnWhereSchema,
-        none: QuantityOwnWhereSchema,
-      })
-      .partial(),
-    target: z
-      .object({
-        some: QuantityOwnWhereSchema,
-        every: QuantityOwnWhereSchema,
-        none: QuantityOwnWhereSchema,
-      })
-      .partial(),
-    requestedBy: z
-      .object({
-        some: EmployeeOwnWhereSchema,
-        every: EmployeeOwnWhereSchema,
-        none: EmployeeOwnWhereSchema,
-      })
-      .partial(),
-    resolvedBy: z
-      .object({
-        some: EmployeeOwnWhereSchema,
-        every: EmployeeOwnWhereSchema,
-        none: EmployeeOwnWhereSchema,
-      })
-      .partial(),
+    requestedAt: z.string().or(PZ.DateTimeFilterSchema),
+    resolvedAt: z.string().or(PZ.DateTimeFilterSchema),
+    source: QuantityOwnWhereSchema,
+    target: QuantityOwnWhereSchema,
+    requestedBy: EmployeeOwnWhereSchema,
+    resolvedBy: EmployeeOwnWhereSchema,
   })
   .partial();
 
@@ -2173,7 +2367,7 @@ export const QuantityMoveRequestWhereSchemaJson = z.preprocess(
   QuantityMoveRequestWhereSchema
 );
 
-export const QuantityMoveRequestProjectionSchema = z
+export const QuantityMoveRequestSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     sourceId: z.boolean(),
@@ -2192,9 +2386,9 @@ export const QuantityMoveRequestProjectionSchema = z
   })
   .partial();
 
-export const QuantityMoveRequestProjectionSchemaJson = z.preprocess(
+export const QuantityMoveRequestSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  QuantityMoveRequestProjectionSchema
+  QuantityMoveRequestSelectFieldsSchema
 );
 
 export const QuantityMoveRequestIncludeSchema = z
@@ -2210,6 +2404,25 @@ export const QuantityMoveRequestIncludeSchemaJson = z.preprocess(
   jsonParser,
   QuantityMoveRequestIncludeSchema
 );
+
+export const QuantityMoveRequestProjectionSchema = z.union([
+  z
+    .object({
+      omit: QuantityMoveRequestSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: QuantityMoveRequestSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: QuantityMoveRequestIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const SerialMoveRequestCreateSchema = z.object({
   sourceId: z.coerce.number().int(),
@@ -2251,43 +2464,19 @@ export const SerialMoveRequestOrderBySchemaJson = z.preprocess(
 
 export const SerialMoveRequestWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    sourceId: PZ.IntegerFilterSchema,
-    targetId: PZ.IntegerFilterSchema,
-    requestedById: PZ.IntegerFilterSchema,
-    resolvedById: PZ.IntegerFilterSchema,
-    reason: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    sourceId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    targetId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    requestedById: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    resolvedById: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    reason: z.string().or(PZ.StringFilterSchema),
     status: RequestStatusSchema,
-    requestedAt: PZ.DateTimeFilterSchema,
-    resolvedAt: PZ.DateTimeFilterSchema,
-    source: z
-      .object({
-        some: SerialNumberOwnWhereSchema,
-        every: SerialNumberOwnWhereSchema,
-        none: SerialNumberOwnWhereSchema,
-      })
-      .partial(),
-    target: z
-      .object({
-        some: SerialNumberOwnWhereSchema,
-        every: SerialNumberOwnWhereSchema,
-        none: SerialNumberOwnWhereSchema,
-      })
-      .partial(),
-    requestedBy: z
-      .object({
-        some: EmployeeOwnWhereSchema,
-        every: EmployeeOwnWhereSchema,
-        none: EmployeeOwnWhereSchema,
-      })
-      .partial(),
-    resolvedBy: z
-      .object({
-        some: EmployeeOwnWhereSchema,
-        every: EmployeeOwnWhereSchema,
-        none: EmployeeOwnWhereSchema,
-      })
-      .partial(),
+    requestedAt: z.string().or(PZ.DateTimeFilterSchema),
+    resolvedAt: z.string().or(PZ.DateTimeFilterSchema),
+    source: SerialNumberOwnWhereSchema,
+    target: SerialNumberOwnWhereSchema,
+    requestedBy: EmployeeOwnWhereSchema,
+    resolvedBy: EmployeeOwnWhereSchema,
   })
   .partial();
 
@@ -2296,7 +2485,7 @@ export const SerialMoveRequestWhereSchemaJson = z.preprocess(
   SerialMoveRequestWhereSchema
 );
 
-export const SerialMoveRequestProjectionSchema = z
+export const SerialMoveRequestSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     sourceId: z.boolean(),
@@ -2314,9 +2503,9 @@ export const SerialMoveRequestProjectionSchema = z
   })
   .partial();
 
-export const SerialMoveRequestProjectionSchemaJson = z.preprocess(
+export const SerialMoveRequestSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  SerialMoveRequestProjectionSchema
+  SerialMoveRequestSelectFieldsSchema
 );
 
 export const SerialMoveRequestIncludeSchema = z
@@ -2332,6 +2521,25 @@ export const SerialMoveRequestIncludeSchemaJson = z.preprocess(
   jsonParser,
   SerialMoveRequestIncludeSchema
 );
+
+export const SerialMoveRequestProjectionSchema = z.union([
+  z
+    .object({
+      omit: SerialMoveRequestSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: SerialMoveRequestSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: SerialMoveRequestIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const EmployeeCreateSchema = z.object({
   uuid: z.string(),
@@ -2355,8 +2563,8 @@ export const EmployeeOrderBySchemaJson = z.preprocess(
 
 export const EmployeeWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    uuid: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    uuid: z.string().or(PZ.StringFilterSchema),
     rooms: z
       .object({
         some: EmployeeRoomOwnWhereSchema,
@@ -2435,7 +2643,7 @@ export const EmployeeWhereSchemaJson = z.preprocess(
   EmployeeWhereSchema
 );
 
-export const EmployeeProjectionSchema = z
+export const EmployeeSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     uuid: z.boolean(),
@@ -2452,9 +2660,9 @@ export const EmployeeProjectionSchema = z
   })
   .partial();
 
-export const EmployeeProjectionSchemaJson = z.preprocess(
+export const EmployeeSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  EmployeeProjectionSchema
+  EmployeeSelectFieldsSchema
 );
 
 export const EmployeeIncludeSchema = z
@@ -2476,6 +2684,25 @@ export const EmployeeIncludeSchemaJson = z.preprocess(
   jsonParser,
   EmployeeIncludeSchema
 );
+
+export const EmployeeProjectionSchema = z.union([
+  z
+    .object({
+      omit: EmployeeSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: EmployeeSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: EmployeeIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const EmployeeRoomCreateSchema = z.object({
   employeeId: z.coerce.number().int(),
@@ -2506,25 +2733,13 @@ export const EmployeeRoomOrderBySchemaJson = z.preprocess(
 
 export const EmployeeRoomWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    employeeId: PZ.IntegerFilterSchema,
-    roomId: PZ.IntegerFilterSchema,
-    givenAt: PZ.DateTimeFilterSchema,
-    takenAt: PZ.DateTimeFilterSchema,
-    room: z
-      .object({
-        some: RoomOwnWhereSchema,
-        every: RoomOwnWhereSchema,
-        none: RoomOwnWhereSchema,
-      })
-      .partial(),
-    employee: z
-      .object({
-        some: EmployeeOwnWhereSchema,
-        every: EmployeeOwnWhereSchema,
-        none: EmployeeOwnWhereSchema,
-      })
-      .partial(),
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    roomId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    givenAt: z.string().or(PZ.DateTimeFilterSchema),
+    takenAt: z.string().or(PZ.DateTimeFilterSchema),
+    room: RoomOwnWhereSchema,
+    employee: EmployeeOwnWhereSchema,
   })
   .partial();
 
@@ -2533,7 +2748,7 @@ export const EmployeeRoomWhereSchemaJson = z.preprocess(
   EmployeeRoomWhereSchema
 );
 
-export const EmployeeRoomProjectionSchema = z
+export const EmployeeRoomSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     employeeId: z.boolean(),
@@ -2545,9 +2760,9 @@ export const EmployeeRoomProjectionSchema = z
   })
   .partial();
 
-export const EmployeeRoomProjectionSchemaJson = z.preprocess(
+export const EmployeeRoomSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  EmployeeRoomProjectionSchema
+  EmployeeRoomSelectFieldsSchema
 );
 
 export const EmployeeRoomIncludeSchema = z
@@ -2561,6 +2776,25 @@ export const EmployeeRoomIncludeSchemaJson = z.preprocess(
   jsonParser,
   EmployeeRoomIncludeSchema
 );
+
+export const EmployeeRoomProjectionSchema = z.union([
+  z
+    .object({
+      omit: EmployeeRoomSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: EmployeeRoomSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: EmployeeRoomIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const EmployeeItemCreateSchema = z.object({
   employeeId: z.coerce.number().int(),
@@ -2591,25 +2825,13 @@ export const EmployeeItemOrderBySchemaJson = z.preprocess(
 
 export const EmployeeItemWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    employeeId: PZ.IntegerFilterSchema,
-    serialNumberId: PZ.IntegerFilterSchema,
-    givenAt: PZ.DateTimeFilterSchema,
-    takenAt: PZ.DateTimeFilterSchema,
-    serialNumber: z
-      .object({
-        some: SerialNumberOwnWhereSchema,
-        every: SerialNumberOwnWhereSchema,
-        none: SerialNumberOwnWhereSchema,
-      })
-      .partial(),
-    employee: z
-      .object({
-        some: EmployeeOwnWhereSchema,
-        every: EmployeeOwnWhereSchema,
-        none: EmployeeOwnWhereSchema,
-      })
-      .partial(),
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    serialNumberId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    givenAt: z.string().or(PZ.DateTimeFilterSchema),
+    takenAt: z.string().or(PZ.DateTimeFilterSchema),
+    serialNumber: SerialNumberOwnWhereSchema,
+    employee: EmployeeOwnWhereSchema,
   })
   .partial();
 
@@ -2618,7 +2840,7 @@ export const EmployeeItemWhereSchemaJson = z.preprocess(
   EmployeeItemWhereSchema
 );
 
-export const EmployeeItemProjectionSchema = z
+export const EmployeeItemSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     employeeId: z.boolean(),
@@ -2630,9 +2852,9 @@ export const EmployeeItemProjectionSchema = z
   })
   .partial();
 
-export const EmployeeItemProjectionSchemaJson = z.preprocess(
+export const EmployeeItemSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  EmployeeItemProjectionSchema
+  EmployeeItemSelectFieldsSchema
 );
 
 export const EmployeeItemIncludeSchema = z
@@ -2646,6 +2868,25 @@ export const EmployeeItemIncludeSchemaJson = z.preprocess(
   jsonParser,
   EmployeeItemIncludeSchema
 );
+
+export const EmployeeItemProjectionSchema = z.union([
+  z
+    .object({
+      omit: EmployeeItemSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: EmployeeItemSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: EmployeeItemIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const EmployeeRoomRequestCreateSchema = z.object({
   roomId: z.coerce.number().int().optional(),
@@ -2684,35 +2925,17 @@ export const EmployeeRoomRequestOrderBySchemaJson = z.preprocess(
 
 export const EmployeeRoomRequestWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    roomId: PZ.IntegerFilterSchema,
-    requestedById: PZ.IntegerFilterSchema,
-    resolvedById: PZ.IntegerFilterSchema,
-    requestedAt: PZ.DateTimeFilterSchema,
-    resolvedAt: PZ.DateTimeFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    roomId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    requestedById: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    resolvedById: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    requestedAt: z.string().or(PZ.DateTimeFilterSchema),
+    resolvedAt: z.string().or(PZ.DateTimeFilterSchema),
     status: RequestStatusSchema,
-    note: PZ.StringFilterSchema,
-    room: z
-      .object({
-        some: RoomOwnWhereSchema,
-        every: RoomOwnWhereSchema,
-        none: RoomOwnWhereSchema,
-      })
-      .partial(),
-    requestedBy: z
-      .object({
-        some: EmployeeOwnWhereSchema,
-        every: EmployeeOwnWhereSchema,
-        none: EmployeeOwnWhereSchema,
-      })
-      .partial(),
-    resolvedBy: z
-      .object({
-        some: EmployeeOwnWhereSchema,
-        every: EmployeeOwnWhereSchema,
-        none: EmployeeOwnWhereSchema,
-      })
-      .partial(),
+    note: z.string().or(PZ.StringFilterSchema),
+    room: RoomOwnWhereSchema,
+    requestedBy: EmployeeOwnWhereSchema,
+    resolvedBy: EmployeeOwnWhereSchema,
   })
   .partial();
 
@@ -2721,7 +2944,7 @@ export const EmployeeRoomRequestWhereSchemaJson = z.preprocess(
   EmployeeRoomRequestWhereSchema
 );
 
-export const EmployeeRoomRequestProjectionSchema = z
+export const EmployeeRoomRequestSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     roomId: z.boolean(),
@@ -2737,9 +2960,9 @@ export const EmployeeRoomRequestProjectionSchema = z
   })
   .partial();
 
-export const EmployeeRoomRequestProjectionSchemaJson = z.preprocess(
+export const EmployeeRoomRequestSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  EmployeeRoomRequestProjectionSchema
+  EmployeeRoomRequestSelectFieldsSchema
 );
 
 export const EmployeeRoomRequestIncludeSchema = z
@@ -2754,6 +2977,25 @@ export const EmployeeRoomRequestIncludeSchemaJson = z.preprocess(
   jsonParser,
   EmployeeRoomRequestIncludeSchema
 );
+
+export const EmployeeRoomRequestProjectionSchema = z.union([
+  z
+    .object({
+      omit: EmployeeRoomRequestSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: EmployeeRoomRequestSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: EmployeeRoomRequestIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const EmployeeItemRequestCreateSchema = z.object({
   requestedById: z.coerce.number().int(),
@@ -2792,35 +3034,17 @@ export const EmployeeItemRequestOrderBySchemaJson = z.preprocess(
 
 export const EmployeeItemRequestWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    requestedById: PZ.IntegerFilterSchema,
-    resolvedById: PZ.IntegerFilterSchema,
-    requestedAt: PZ.DateTimeFilterSchema,
-    resolvedAt: PZ.DateTimeFilterSchema,
-    serialNumberId: PZ.IntegerFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    requestedById: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    resolvedById: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    requestedAt: z.string().or(PZ.DateTimeFilterSchema),
+    resolvedAt: z.string().or(PZ.DateTimeFilterSchema),
+    serialNumberId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
     status: RequestStatusSchema,
-    note: PZ.StringFilterSchema,
-    serialNumber: z
-      .object({
-        some: SerialNumberOwnWhereSchema,
-        every: SerialNumberOwnWhereSchema,
-        none: SerialNumberOwnWhereSchema,
-      })
-      .partial(),
-    requestedBy: z
-      .object({
-        some: EmployeeOwnWhereSchema,
-        every: EmployeeOwnWhereSchema,
-        none: EmployeeOwnWhereSchema,
-      })
-      .partial(),
-    resolvedBy: z
-      .object({
-        some: EmployeeOwnWhereSchema,
-        every: EmployeeOwnWhereSchema,
-        none: EmployeeOwnWhereSchema,
-      })
-      .partial(),
+    note: z.string().or(PZ.StringFilterSchema),
+    serialNumber: SerialNumberOwnWhereSchema,
+    requestedBy: EmployeeOwnWhereSchema,
+    resolvedBy: EmployeeOwnWhereSchema,
   })
   .partial();
 
@@ -2829,7 +3053,7 @@ export const EmployeeItemRequestWhereSchemaJson = z.preprocess(
   EmployeeItemRequestWhereSchema
 );
 
-export const EmployeeItemRequestProjectionSchema = z
+export const EmployeeItemRequestSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     requestedById: z.boolean(),
@@ -2845,9 +3069,9 @@ export const EmployeeItemRequestProjectionSchema = z
   })
   .partial();
 
-export const EmployeeItemRequestProjectionSchemaJson = z.preprocess(
+export const EmployeeItemRequestSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  EmployeeItemRequestProjectionSchema
+  EmployeeItemRequestSelectFieldsSchema
 );
 
 export const EmployeeItemRequestIncludeSchema = z
@@ -2863,23 +3087,36 @@ export const EmployeeItemRequestIncludeSchemaJson = z.preprocess(
   EmployeeItemRequestIncludeSchema
 );
 
+export const EmployeeItemRequestProjectionSchema = z.union([
+  z
+    .object({
+      omit: EmployeeItemRequestSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: EmployeeItemRequestSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: EmployeeItemRequestIncludeSchemaJson,
+    })
+    .optional(),
+]);
+
 export const RoomAttributeQueryOneSchema = z
   .object({
     where: RoomAttributeWhereSchemaJson,
-    select: RoomAttributeProjectionSchemaJson,
-    omit: RoomAttributeProjectionSchemaJson,
-    include: RoomAttributeIncludeSchemaJson,
+    distinct: RoomAttributeDistinctFieldsSchema,
   })
   .partial();
 
 export const RoomAttributeQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: RoomAttributeWhereSchemaJson,
-    select: RoomAttributeProjectionSchemaJson,
-    omit: RoomAttributeProjectionSchemaJson,
-    include: RoomAttributeIncludeSchemaJson,
+    distinct: RoomAttributeDistinctFieldsSchema,
   })
   .partial();
 
@@ -2889,8 +3126,8 @@ export type RoomAttributeUpdate = z.infer<typeof RoomAttributeUpdateSchema>;
 
 export type RoomAttributeOrderBy = z.infer<typeof RoomAttributeOrderBySchema>;
 
-export type RoomAttributeOwnProjection = z.infer<
-  typeof RoomAttributeOwnProjectionSchema
+export type RoomAttributeOwnSelectFields = z.infer<
+  typeof RoomAttributeOwnSelectFieldsSchema
 >;
 
 export type RoomAttributeOwnWhere = z.infer<typeof RoomAttributeOwnWhereSchema>;
@@ -2909,6 +3146,10 @@ export type RoomAttributeQueryOne = z.infer<typeof RoomAttributeQueryOneSchema>;
 
 export type RoomAttributeQuery = z.infer<typeof RoomAttributeQuerySchema>;
 
+export type RoomAttributeSelectFields = z.infer<
+  typeof RoomAttributeSelectFieldsSchema
+>;
+
 export type RoomAttributeProjection = z.infer<
   typeof RoomAttributeProjectionSchema
 >;
@@ -2916,20 +3157,14 @@ export type RoomAttributeProjection = z.infer<
 export const RoomAttributeValueQueryOneSchema = z
   .object({
     where: RoomAttributeValueWhereSchemaJson,
-    select: RoomAttributeValueProjectionSchemaJson,
-    omit: RoomAttributeValueProjectionSchemaJson,
-    include: RoomAttributeValueIncludeSchemaJson,
+    distinct: RoomAttributeValueDistinctFieldsSchema,
   })
   .partial();
 
 export const RoomAttributeValueQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: RoomAttributeValueWhereSchemaJson,
-    select: RoomAttributeValueProjectionSchemaJson,
-    omit: RoomAttributeValueProjectionSchemaJson,
-    include: RoomAttributeValueIncludeSchemaJson,
+    distinct: RoomAttributeValueDistinctFieldsSchema,
   })
   .partial();
 
@@ -2945,8 +3180,8 @@ export type RoomAttributeValueOrderBy = z.infer<
   typeof RoomAttributeValueOrderBySchema
 >;
 
-export type RoomAttributeValueOwnProjection = z.infer<
-  typeof RoomAttributeValueOwnProjectionSchema
+export type RoomAttributeValueOwnSelectFields = z.infer<
+  typeof RoomAttributeValueOwnSelectFieldsSchema
 >;
 
 export type RoomAttributeValueOwnWhere = z.infer<
@@ -2977,6 +3212,10 @@ export type RoomAttributeValueQuery = z.infer<
   typeof RoomAttributeValueQuerySchema
 >;
 
+export type RoomAttributeValueSelectFields = z.infer<
+  typeof RoomAttributeValueSelectFieldsSchema
+>;
+
 export type RoomAttributeValueProjection = z.infer<
   typeof RoomAttributeValueProjectionSchema
 >;
@@ -2984,20 +3223,14 @@ export type RoomAttributeValueProjection = z.infer<
 export const ItemAttributeQueryOneSchema = z
   .object({
     where: ItemAttributeWhereSchemaJson,
-    select: ItemAttributeProjectionSchemaJson,
-    omit: ItemAttributeProjectionSchemaJson,
-    include: ItemAttributeIncludeSchemaJson,
+    distinct: ItemAttributeDistinctFieldsSchema,
   })
   .partial();
 
 export const ItemAttributeQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: ItemAttributeWhereSchemaJson,
-    select: ItemAttributeProjectionSchemaJson,
-    omit: ItemAttributeProjectionSchemaJson,
-    include: ItemAttributeIncludeSchemaJson,
+    distinct: ItemAttributeDistinctFieldsSchema,
   })
   .partial();
 
@@ -3007,8 +3240,8 @@ export type ItemAttributeUpdate = z.infer<typeof ItemAttributeUpdateSchema>;
 
 export type ItemAttributeOrderBy = z.infer<typeof ItemAttributeOrderBySchema>;
 
-export type ItemAttributeOwnProjection = z.infer<
-  typeof ItemAttributeOwnProjectionSchema
+export type ItemAttributeOwnSelectFields = z.infer<
+  typeof ItemAttributeOwnSelectFieldsSchema
 >;
 
 export type ItemAttributeOwnWhere = z.infer<typeof ItemAttributeOwnWhereSchema>;
@@ -3027,6 +3260,10 @@ export type ItemAttributeQueryOne = z.infer<typeof ItemAttributeQueryOneSchema>;
 
 export type ItemAttributeQuery = z.infer<typeof ItemAttributeQuerySchema>;
 
+export type ItemAttributeSelectFields = z.infer<
+  typeof ItemAttributeSelectFieldsSchema
+>;
+
 export type ItemAttributeProjection = z.infer<
   typeof ItemAttributeProjectionSchema
 >;
@@ -3034,20 +3271,14 @@ export type ItemAttributeProjection = z.infer<
 export const ItemAttributeValueQueryOneSchema = z
   .object({
     where: ItemAttributeValueWhereSchemaJson,
-    select: ItemAttributeValueProjectionSchemaJson,
-    omit: ItemAttributeValueProjectionSchemaJson,
-    include: ItemAttributeValueIncludeSchemaJson,
+    distinct: ItemAttributeValueDistinctFieldsSchema,
   })
   .partial();
 
 export const ItemAttributeValueQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: ItemAttributeValueWhereSchemaJson,
-    select: ItemAttributeValueProjectionSchemaJson,
-    omit: ItemAttributeValueProjectionSchemaJson,
-    include: ItemAttributeValueIncludeSchemaJson,
+    distinct: ItemAttributeValueDistinctFieldsSchema,
   })
   .partial();
 
@@ -3063,8 +3294,8 @@ export type ItemAttributeValueOrderBy = z.infer<
   typeof ItemAttributeValueOrderBySchema
 >;
 
-export type ItemAttributeValueOwnProjection = z.infer<
-  typeof ItemAttributeValueOwnProjectionSchema
+export type ItemAttributeValueOwnSelectFields = z.infer<
+  typeof ItemAttributeValueOwnSelectFieldsSchema
 >;
 
 export type ItemAttributeValueOwnWhere = z.infer<
@@ -3095,6 +3326,10 @@ export type ItemAttributeValueQuery = z.infer<
   typeof ItemAttributeValueQuerySchema
 >;
 
+export type ItemAttributeValueSelectFields = z.infer<
+  typeof ItemAttributeValueSelectFieldsSchema
+>;
+
 export type ItemAttributeValueProjection = z.infer<
   typeof ItemAttributeValueProjectionSchema
 >;
@@ -3102,20 +3337,14 @@ export type ItemAttributeValueProjection = z.infer<
 export const CategoryQueryOneSchema = z
   .object({
     where: CategoryWhereSchemaJson,
-    select: CategoryProjectionSchemaJson,
-    omit: CategoryProjectionSchemaJson,
-    include: CategoryIncludeSchemaJson,
+    distinct: CategoryDistinctFieldsSchema,
   })
   .partial();
 
 export const CategoryQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: CategoryWhereSchemaJson,
-    select: CategoryProjectionSchemaJson,
-    omit: CategoryProjectionSchemaJson,
-    include: CategoryIncludeSchemaJson,
+    distinct: CategoryDistinctFieldsSchema,
   })
   .partial();
 
@@ -3125,7 +3354,9 @@ export type CategoryUpdate = z.infer<typeof CategoryUpdateSchema>;
 
 export type CategoryOrderBy = z.infer<typeof CategoryOrderBySchema>;
 
-export type CategoryOwnProjection = z.infer<typeof CategoryOwnProjectionSchema>;
+export type CategoryOwnSelectFields = z.infer<
+  typeof CategoryOwnSelectFieldsSchema
+>;
 
 export type CategoryOwnWhere = z.infer<typeof CategoryOwnWhereSchema>;
 
@@ -3141,25 +3372,21 @@ export type CategoryQueryOne = z.infer<typeof CategoryQueryOneSchema>;
 
 export type CategoryQuery = z.infer<typeof CategoryQuerySchema>;
 
+export type CategorySelectFields = z.infer<typeof CategorySelectFieldsSchema>;
+
 export type CategoryProjection = z.infer<typeof CategoryProjectionSchema>;
 
 export const BuildingQueryOneSchema = z
   .object({
     where: BuildingWhereSchemaJson,
-    select: BuildingProjectionSchemaJson,
-    omit: BuildingProjectionSchemaJson,
-    include: BuildingIncludeSchemaJson,
+    distinct: BuildingDistinctFieldsSchema,
   })
   .partial();
 
 export const BuildingQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: BuildingWhereSchemaJson,
-    select: BuildingProjectionSchemaJson,
-    omit: BuildingProjectionSchemaJson,
-    include: BuildingIncludeSchemaJson,
+    distinct: BuildingDistinctFieldsSchema,
   })
   .partial();
 
@@ -3169,7 +3396,9 @@ export type BuildingUpdate = z.infer<typeof BuildingUpdateSchema>;
 
 export type BuildingOrderBy = z.infer<typeof BuildingOrderBySchema>;
 
-export type BuildingOwnProjection = z.infer<typeof BuildingOwnProjectionSchema>;
+export type BuildingOwnSelectFields = z.infer<
+  typeof BuildingOwnSelectFieldsSchema
+>;
 
 export type BuildingOwnWhere = z.infer<typeof BuildingOwnWhereSchema>;
 
@@ -3185,25 +3414,21 @@ export type BuildingQueryOne = z.infer<typeof BuildingQueryOneSchema>;
 
 export type BuildingQuery = z.infer<typeof BuildingQuerySchema>;
 
+export type BuildingSelectFields = z.infer<typeof BuildingSelectFieldsSchema>;
+
 export type BuildingProjection = z.infer<typeof BuildingProjectionSchema>;
 
 export const RoomQueryOneSchema = z
   .object({
     where: RoomWhereSchemaJson,
-    select: RoomProjectionSchemaJson,
-    omit: RoomProjectionSchemaJson,
-    include: RoomIncludeSchemaJson,
+    distinct: RoomDistinctFieldsSchema,
   })
   .partial();
 
 export const RoomQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: RoomWhereSchemaJson,
-    select: RoomProjectionSchemaJson,
-    omit: RoomProjectionSchemaJson,
-    include: RoomIncludeSchemaJson,
+    distinct: RoomDistinctFieldsSchema,
   })
   .partial();
 
@@ -3213,7 +3438,7 @@ export type RoomUpdate = z.infer<typeof RoomUpdateSchema>;
 
 export type RoomOrderBy = z.infer<typeof RoomOrderBySchema>;
 
-export type RoomOwnProjection = z.infer<typeof RoomOwnProjectionSchema>;
+export type RoomOwnSelectFields = z.infer<typeof RoomOwnSelectFieldsSchema>;
 
 export type RoomOwnWhere = z.infer<typeof RoomOwnWhereSchema>;
 
@@ -3229,25 +3454,21 @@ export type RoomQueryOne = z.infer<typeof RoomQueryOneSchema>;
 
 export type RoomQuery = z.infer<typeof RoomQuerySchema>;
 
+export type RoomSelectFields = z.infer<typeof RoomSelectFieldsSchema>;
+
 export type RoomProjection = z.infer<typeof RoomProjectionSchema>;
 
 export const ItemQueryOneSchema = z
   .object({
     where: ItemWhereSchemaJson,
-    select: ItemProjectionSchemaJson,
-    omit: ItemProjectionSchemaJson,
-    include: ItemIncludeSchemaJson,
+    distinct: ItemDistinctFieldsSchema,
   })
   .partial();
 
 export const ItemQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: ItemWhereSchemaJson,
-    select: ItemProjectionSchemaJson,
-    omit: ItemProjectionSchemaJson,
-    include: ItemIncludeSchemaJson,
+    distinct: ItemDistinctFieldsSchema,
   })
   .partial();
 
@@ -3257,7 +3478,7 @@ export type ItemUpdate = z.infer<typeof ItemUpdateSchema>;
 
 export type ItemOrderBy = z.infer<typeof ItemOrderBySchema>;
 
-export type ItemOwnProjection = z.infer<typeof ItemOwnProjectionSchema>;
+export type ItemOwnSelectFields = z.infer<typeof ItemOwnSelectFieldsSchema>;
 
 export type ItemOwnWhere = z.infer<typeof ItemOwnWhereSchema>;
 
@@ -3273,25 +3494,21 @@ export type ItemQueryOne = z.infer<typeof ItemQueryOneSchema>;
 
 export type ItemQuery = z.infer<typeof ItemQuerySchema>;
 
+export type ItemSelectFields = z.infer<typeof ItemSelectFieldsSchema>;
+
 export type ItemProjection = z.infer<typeof ItemProjectionSchema>;
 
 export const QuantityQueryOneSchema = z
   .object({
     where: QuantityWhereSchemaJson,
-    select: QuantityProjectionSchemaJson,
-    omit: QuantityProjectionSchemaJson,
-    include: QuantityIncludeSchemaJson,
+    distinct: QuantityDistinctFieldsSchema,
   })
   .partial();
 
 export const QuantityQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: QuantityWhereSchemaJson,
-    select: QuantityProjectionSchemaJson,
-    omit: QuantityProjectionSchemaJson,
-    include: QuantityIncludeSchemaJson,
+    distinct: QuantityDistinctFieldsSchema,
   })
   .partial();
 
@@ -3301,7 +3518,9 @@ export type QuantityUpdate = z.infer<typeof QuantityUpdateSchema>;
 
 export type QuantityOrderBy = z.infer<typeof QuantityOrderBySchema>;
 
-export type QuantityOwnProjection = z.infer<typeof QuantityOwnProjectionSchema>;
+export type QuantityOwnSelectFields = z.infer<
+  typeof QuantityOwnSelectFieldsSchema
+>;
 
 export type QuantityOwnWhere = z.infer<typeof QuantityOwnWhereSchema>;
 
@@ -3317,25 +3536,21 @@ export type QuantityQueryOne = z.infer<typeof QuantityQueryOneSchema>;
 
 export type QuantityQuery = z.infer<typeof QuantityQuerySchema>;
 
+export type QuantitySelectFields = z.infer<typeof QuantitySelectFieldsSchema>;
+
 export type QuantityProjection = z.infer<typeof QuantityProjectionSchema>;
 
 export const SerialNumberQueryOneSchema = z
   .object({
     where: SerialNumberWhereSchemaJson,
-    select: SerialNumberProjectionSchemaJson,
-    omit: SerialNumberProjectionSchemaJson,
-    include: SerialNumberIncludeSchemaJson,
+    distinct: SerialNumberDistinctFieldsSchema,
   })
   .partial();
 
 export const SerialNumberQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: SerialNumberWhereSchemaJson,
-    select: SerialNumberProjectionSchemaJson,
-    omit: SerialNumberProjectionSchemaJson,
-    include: SerialNumberIncludeSchemaJson,
+    distinct: SerialNumberDistinctFieldsSchema,
   })
   .partial();
 
@@ -3345,8 +3560,8 @@ export type SerialNumberUpdate = z.infer<typeof SerialNumberUpdateSchema>;
 
 export type SerialNumberOrderBy = z.infer<typeof SerialNumberOrderBySchema>;
 
-export type SerialNumberOwnProjection = z.infer<
-  typeof SerialNumberOwnProjectionSchema
+export type SerialNumberOwnSelectFields = z.infer<
+  typeof SerialNumberOwnSelectFieldsSchema
 >;
 
 export type SerialNumberOwnWhere = z.infer<typeof SerialNumberOwnWhereSchema>;
@@ -3365,6 +3580,10 @@ export type SerialNumberQueryOne = z.infer<typeof SerialNumberQueryOneSchema>;
 
 export type SerialNumberQuery = z.infer<typeof SerialNumberQuerySchema>;
 
+export type SerialNumberSelectFields = z.infer<
+  typeof SerialNumberSelectFieldsSchema
+>;
+
 export type SerialNumberProjection = z.infer<
   typeof SerialNumberProjectionSchema
 >;
@@ -3372,20 +3591,14 @@ export type SerialNumberProjection = z.infer<
 export const QuantityMoveRequestQueryOneSchema = z
   .object({
     where: QuantityMoveRequestWhereSchemaJson,
-    select: QuantityMoveRequestProjectionSchemaJson,
-    omit: QuantityMoveRequestProjectionSchemaJson,
-    include: QuantityMoveRequestIncludeSchemaJson,
+    distinct: QuantityMoveRequestDistinctFieldsSchema,
   })
   .partial();
 
 export const QuantityMoveRequestQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: QuantityMoveRequestWhereSchemaJson,
-    select: QuantityMoveRequestProjectionSchemaJson,
-    omit: QuantityMoveRequestProjectionSchemaJson,
-    include: QuantityMoveRequestIncludeSchemaJson,
+    distinct: QuantityMoveRequestDistinctFieldsSchema,
   })
   .partial();
 
@@ -3401,8 +3614,8 @@ export type QuantityMoveRequestOrderBy = z.infer<
   typeof QuantityMoveRequestOrderBySchema
 >;
 
-export type QuantityMoveRequestOwnProjection = z.infer<
-  typeof QuantityMoveRequestOwnProjectionSchema
+export type QuantityMoveRequestOwnSelectFields = z.infer<
+  typeof QuantityMoveRequestOwnSelectFieldsSchema
 >;
 
 export type QuantityMoveRequestOwnWhere = z.infer<
@@ -3433,6 +3646,10 @@ export type QuantityMoveRequestQuery = z.infer<
   typeof QuantityMoveRequestQuerySchema
 >;
 
+export type QuantityMoveRequestSelectFields = z.infer<
+  typeof QuantityMoveRequestSelectFieldsSchema
+>;
+
 export type QuantityMoveRequestProjection = z.infer<
   typeof QuantityMoveRequestProjectionSchema
 >;
@@ -3440,20 +3657,14 @@ export type QuantityMoveRequestProjection = z.infer<
 export const SerialMoveRequestQueryOneSchema = z
   .object({
     where: SerialMoveRequestWhereSchemaJson,
-    select: SerialMoveRequestProjectionSchemaJson,
-    omit: SerialMoveRequestProjectionSchemaJson,
-    include: SerialMoveRequestIncludeSchemaJson,
+    distinct: SerialMoveRequestDistinctFieldsSchema,
   })
   .partial();
 
 export const SerialMoveRequestQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: SerialMoveRequestWhereSchemaJson,
-    select: SerialMoveRequestProjectionSchemaJson,
-    omit: SerialMoveRequestProjectionSchemaJson,
-    include: SerialMoveRequestIncludeSchemaJson,
+    distinct: SerialMoveRequestDistinctFieldsSchema,
   })
   .partial();
 
@@ -3469,8 +3680,8 @@ export type SerialMoveRequestOrderBy = z.infer<
   typeof SerialMoveRequestOrderBySchema
 >;
 
-export type SerialMoveRequestOwnProjection = z.infer<
-  typeof SerialMoveRequestOwnProjectionSchema
+export type SerialMoveRequestOwnSelectFields = z.infer<
+  typeof SerialMoveRequestOwnSelectFieldsSchema
 >;
 
 export type SerialMoveRequestOwnWhere = z.infer<
@@ -3501,6 +3712,10 @@ export type SerialMoveRequestQuery = z.infer<
   typeof SerialMoveRequestQuerySchema
 >;
 
+export type SerialMoveRequestSelectFields = z.infer<
+  typeof SerialMoveRequestSelectFieldsSchema
+>;
+
 export type SerialMoveRequestProjection = z.infer<
   typeof SerialMoveRequestProjectionSchema
 >;
@@ -3508,20 +3723,14 @@ export type SerialMoveRequestProjection = z.infer<
 export const EmployeeQueryOneSchema = z
   .object({
     where: EmployeeWhereSchemaJson,
-    select: EmployeeProjectionSchemaJson,
-    omit: EmployeeProjectionSchemaJson,
-    include: EmployeeIncludeSchemaJson,
+    distinct: EmployeeDistinctFieldsSchema,
   })
   .partial();
 
 export const EmployeeQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: EmployeeWhereSchemaJson,
-    select: EmployeeProjectionSchemaJson,
-    omit: EmployeeProjectionSchemaJson,
-    include: EmployeeIncludeSchemaJson,
+    distinct: EmployeeDistinctFieldsSchema,
   })
   .partial();
 
@@ -3531,7 +3740,9 @@ export type EmployeeUpdate = z.infer<typeof EmployeeUpdateSchema>;
 
 export type EmployeeOrderBy = z.infer<typeof EmployeeOrderBySchema>;
 
-export type EmployeeOwnProjection = z.infer<typeof EmployeeOwnProjectionSchema>;
+export type EmployeeOwnSelectFields = z.infer<
+  typeof EmployeeOwnSelectFieldsSchema
+>;
 
 export type EmployeeOwnWhere = z.infer<typeof EmployeeOwnWhereSchema>;
 
@@ -3547,25 +3758,21 @@ export type EmployeeQueryOne = z.infer<typeof EmployeeQueryOneSchema>;
 
 export type EmployeeQuery = z.infer<typeof EmployeeQuerySchema>;
 
+export type EmployeeSelectFields = z.infer<typeof EmployeeSelectFieldsSchema>;
+
 export type EmployeeProjection = z.infer<typeof EmployeeProjectionSchema>;
 
 export const EmployeeRoomQueryOneSchema = z
   .object({
     where: EmployeeRoomWhereSchemaJson,
-    select: EmployeeRoomProjectionSchemaJson,
-    omit: EmployeeRoomProjectionSchemaJson,
-    include: EmployeeRoomIncludeSchemaJson,
+    distinct: EmployeeRoomDistinctFieldsSchema,
   })
   .partial();
 
 export const EmployeeRoomQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: EmployeeRoomWhereSchemaJson,
-    select: EmployeeRoomProjectionSchemaJson,
-    omit: EmployeeRoomProjectionSchemaJson,
-    include: EmployeeRoomIncludeSchemaJson,
+    distinct: EmployeeRoomDistinctFieldsSchema,
   })
   .partial();
 
@@ -3575,8 +3782,8 @@ export type EmployeeRoomUpdate = z.infer<typeof EmployeeRoomUpdateSchema>;
 
 export type EmployeeRoomOrderBy = z.infer<typeof EmployeeRoomOrderBySchema>;
 
-export type EmployeeRoomOwnProjection = z.infer<
-  typeof EmployeeRoomOwnProjectionSchema
+export type EmployeeRoomOwnSelectFields = z.infer<
+  typeof EmployeeRoomOwnSelectFieldsSchema
 >;
 
 export type EmployeeRoomOwnWhere = z.infer<typeof EmployeeRoomOwnWhereSchema>;
@@ -3595,6 +3802,10 @@ export type EmployeeRoomQueryOne = z.infer<typeof EmployeeRoomQueryOneSchema>;
 
 export type EmployeeRoomQuery = z.infer<typeof EmployeeRoomQuerySchema>;
 
+export type EmployeeRoomSelectFields = z.infer<
+  typeof EmployeeRoomSelectFieldsSchema
+>;
+
 export type EmployeeRoomProjection = z.infer<
   typeof EmployeeRoomProjectionSchema
 >;
@@ -3602,20 +3813,14 @@ export type EmployeeRoomProjection = z.infer<
 export const EmployeeItemQueryOneSchema = z
   .object({
     where: EmployeeItemWhereSchemaJson,
-    select: EmployeeItemProjectionSchemaJson,
-    omit: EmployeeItemProjectionSchemaJson,
-    include: EmployeeItemIncludeSchemaJson,
+    distinct: EmployeeItemDistinctFieldsSchema,
   })
   .partial();
 
 export const EmployeeItemQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: EmployeeItemWhereSchemaJson,
-    select: EmployeeItemProjectionSchemaJson,
-    omit: EmployeeItemProjectionSchemaJson,
-    include: EmployeeItemIncludeSchemaJson,
+    distinct: EmployeeItemDistinctFieldsSchema,
   })
   .partial();
 
@@ -3625,8 +3830,8 @@ export type EmployeeItemUpdate = z.infer<typeof EmployeeItemUpdateSchema>;
 
 export type EmployeeItemOrderBy = z.infer<typeof EmployeeItemOrderBySchema>;
 
-export type EmployeeItemOwnProjection = z.infer<
-  typeof EmployeeItemOwnProjectionSchema
+export type EmployeeItemOwnSelectFields = z.infer<
+  typeof EmployeeItemOwnSelectFieldsSchema
 >;
 
 export type EmployeeItemOwnWhere = z.infer<typeof EmployeeItemOwnWhereSchema>;
@@ -3645,6 +3850,10 @@ export type EmployeeItemQueryOne = z.infer<typeof EmployeeItemQueryOneSchema>;
 
 export type EmployeeItemQuery = z.infer<typeof EmployeeItemQuerySchema>;
 
+export type EmployeeItemSelectFields = z.infer<
+  typeof EmployeeItemSelectFieldsSchema
+>;
+
 export type EmployeeItemProjection = z.infer<
   typeof EmployeeItemProjectionSchema
 >;
@@ -3652,20 +3861,14 @@ export type EmployeeItemProjection = z.infer<
 export const EmployeeRoomRequestQueryOneSchema = z
   .object({
     where: EmployeeRoomRequestWhereSchemaJson,
-    select: EmployeeRoomRequestProjectionSchemaJson,
-    omit: EmployeeRoomRequestProjectionSchemaJson,
-    include: EmployeeRoomRequestIncludeSchemaJson,
+    distinct: EmployeeRoomRequestDistinctFieldsSchema,
   })
   .partial();
 
 export const EmployeeRoomRequestQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: EmployeeRoomRequestWhereSchemaJson,
-    select: EmployeeRoomRequestProjectionSchemaJson,
-    omit: EmployeeRoomRequestProjectionSchemaJson,
-    include: EmployeeRoomRequestIncludeSchemaJson,
+    distinct: EmployeeRoomRequestDistinctFieldsSchema,
   })
   .partial();
 
@@ -3681,8 +3884,8 @@ export type EmployeeRoomRequestOrderBy = z.infer<
   typeof EmployeeRoomRequestOrderBySchema
 >;
 
-export type EmployeeRoomRequestOwnProjection = z.infer<
-  typeof EmployeeRoomRequestOwnProjectionSchema
+export type EmployeeRoomRequestOwnSelectFields = z.infer<
+  typeof EmployeeRoomRequestOwnSelectFieldsSchema
 >;
 
 export type EmployeeRoomRequestOwnWhere = z.infer<
@@ -3713,6 +3916,10 @@ export type EmployeeRoomRequestQuery = z.infer<
   typeof EmployeeRoomRequestQuerySchema
 >;
 
+export type EmployeeRoomRequestSelectFields = z.infer<
+  typeof EmployeeRoomRequestSelectFieldsSchema
+>;
+
 export type EmployeeRoomRequestProjection = z.infer<
   typeof EmployeeRoomRequestProjectionSchema
 >;
@@ -3720,20 +3927,14 @@ export type EmployeeRoomRequestProjection = z.infer<
 export const EmployeeItemRequestQueryOneSchema = z
   .object({
     where: EmployeeItemRequestWhereSchemaJson,
-    select: EmployeeItemRequestProjectionSchemaJson,
-    omit: EmployeeItemRequestProjectionSchemaJson,
-    include: EmployeeItemRequestIncludeSchemaJson,
+    distinct: EmployeeItemRequestDistinctFieldsSchema,
   })
   .partial();
 
 export const EmployeeItemRequestQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: EmployeeItemRequestWhereSchemaJson,
-    select: EmployeeItemRequestProjectionSchemaJson,
-    omit: EmployeeItemRequestProjectionSchemaJson,
-    include: EmployeeItemRequestIncludeSchemaJson,
+    distinct: EmployeeItemRequestDistinctFieldsSchema,
   })
   .partial();
 
@@ -3749,8 +3950,8 @@ export type EmployeeItemRequestOrderBy = z.infer<
   typeof EmployeeItemRequestOrderBySchema
 >;
 
-export type EmployeeItemRequestOwnProjection = z.infer<
-  typeof EmployeeItemRequestOwnProjectionSchema
+export type EmployeeItemRequestOwnSelectFields = z.infer<
+  typeof EmployeeItemRequestOwnSelectFieldsSchema
 >;
 
 export type EmployeeItemRequestOwnWhere = z.infer<
@@ -3779,6 +3980,10 @@ export type EmployeeItemRequestQueryOne = z.infer<
 
 export type EmployeeItemRequestQuery = z.infer<
   typeof EmployeeItemRequestQuerySchema
+>;
+
+export type EmployeeItemRequestSelectFields = z.infer<
+  typeof EmployeeItemRequestSelectFieldsSchema
 >;
 
 export type EmployeeItemRequestProjection = z.infer<

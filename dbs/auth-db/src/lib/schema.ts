@@ -41,7 +41,7 @@ export function slugTransformer(key: string) {
 
 export const SessionStatusSchema = z.enum(['ACTIVE', 'EXPIRED', 'REVOKED']);
 
-export const UserOwnProjectionSchema = z
+export const UserOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     uuid: z.boolean(),
@@ -53,12 +53,22 @@ export const UserOwnProjectionSchema = z
   })
   .partial();
 
-export const UserOwnProjectionSchemaJson = z.preprocess(
+export const UserOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  UserOwnProjectionSchema
+  UserOwnSelectFieldsSchema
 );
 
-export const AccessTokenOwnProjectionSchema = z
+export const UserDistinctFieldsSchema = z.enum([
+  'id',
+  'uuid',
+  'username',
+  'password',
+  'sessions',
+  'permissions',
+  'AccessToken',
+]);
+
+export const AccessTokenOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
@@ -68,12 +78,20 @@ export const AccessTokenOwnProjectionSchema = z
   })
   .partial();
 
-export const AccessTokenOwnProjectionSchemaJson = z.preprocess(
+export const AccessTokenOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  AccessTokenOwnProjectionSchema
+  AccessTokenOwnSelectFieldsSchema
 );
 
-export const ScopeOwnProjectionSchema = z
+export const AccessTokenDistinctFieldsSchema = z.enum([
+  'id',
+  'name',
+  'userId',
+  'user',
+  'AccessTokenPermission',
+]);
+
+export const ScopeOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
@@ -81,12 +99,14 @@ export const ScopeOwnProjectionSchema = z
   })
   .partial();
 
-export const ScopeOwnProjectionSchemaJson = z.preprocess(
+export const ScopeOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  ScopeOwnProjectionSchema
+  ScopeOwnSelectFieldsSchema
 );
 
-export const ResourceOwnProjectionSchema = z
+export const ScopeDistinctFieldsSchema = z.enum(['id', 'name', 'permissions']);
+
+export const ResourceOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
@@ -94,12 +114,18 @@ export const ResourceOwnProjectionSchema = z
   })
   .partial();
 
-export const ResourceOwnProjectionSchemaJson = z.preprocess(
+export const ResourceOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  ResourceOwnProjectionSchema
+  ResourceOwnSelectFieldsSchema
 );
 
-export const OperationOwnProjectionSchema = z
+export const ResourceDistinctFieldsSchema = z.enum([
+  'id',
+  'name',
+  'activities',
+]);
+
+export const OperationOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
@@ -107,12 +133,18 @@ export const OperationOwnProjectionSchema = z
   })
   .partial();
 
-export const OperationOwnProjectionSchemaJson = z.preprocess(
+export const OperationOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  OperationOwnProjectionSchema
+  OperationOwnSelectFieldsSchema
 );
 
-export const ActivityOwnProjectionSchema = z
+export const OperationDistinctFieldsSchema = z.enum([
+  'id',
+  'name',
+  'activities',
+]);
+
+export const ActivityOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
@@ -125,12 +157,23 @@ export const ActivityOwnProjectionSchema = z
   })
   .partial();
 
-export const ActivityOwnProjectionSchemaJson = z.preprocess(
+export const ActivityOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  ActivityOwnProjectionSchema
+  ActivityOwnSelectFieldsSchema
 );
 
-export const PermissionOwnProjectionSchema = z
+export const ActivityDistinctFieldsSchema = z.enum([
+  'id',
+  'name',
+  'resourceId',
+  'operationId',
+  'resouce',
+  'operation',
+  'permissions',
+  'logs',
+]);
+
+export const PermissionOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     scopeId: z.boolean(),
@@ -143,12 +186,23 @@ export const PermissionOwnProjectionSchema = z
   })
   .partial();
 
-export const PermissionOwnProjectionSchemaJson = z.preprocess(
+export const PermissionOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  PermissionOwnProjectionSchema
+  PermissionOwnSelectFieldsSchema
 );
 
-export const RoleOwnProjectionSchema = z
+export const PermissionDistinctFieldsSchema = z.enum([
+  'id',
+  'scopeId',
+  'activityId',
+  'scope',
+  'activity',
+  'roles',
+  'UserPermission',
+  'AccessTokenPermission',
+]);
+
+export const RoleOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
@@ -156,12 +210,14 @@ export const RoleOwnProjectionSchema = z
   })
   .partial();
 
-export const RoleOwnProjectionSchemaJson = z.preprocess(
+export const RoleOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  RoleOwnProjectionSchema
+  RoleOwnSelectFieldsSchema
 );
 
-export const RolePermissionOwnProjectionSchema = z
+export const RoleDistinctFieldsSchema = z.enum(['id', 'name', 'permissions']);
+
+export const RolePermissionOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     roleId: z.boolean(),
@@ -171,12 +227,20 @@ export const RolePermissionOwnProjectionSchema = z
   })
   .partial();
 
-export const RolePermissionOwnProjectionSchemaJson = z.preprocess(
+export const RolePermissionOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  RolePermissionOwnProjectionSchema
+  RolePermissionOwnSelectFieldsSchema
 );
 
-export const SessionOwnProjectionSchema = z
+export const RolePermissionDistinctFieldsSchema = z.enum([
+  'id',
+  'roleId',
+  'permissionId',
+  'role',
+  'permission',
+]);
+
+export const SessionOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     userId: z.boolean(),
@@ -189,12 +253,23 @@ export const SessionOwnProjectionSchema = z
   })
   .partial();
 
-export const SessionOwnProjectionSchemaJson = z.preprocess(
+export const SessionOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  SessionOwnProjectionSchema
+  SessionOwnSelectFieldsSchema
 );
 
-export const ActivityLogOwnProjectionSchema = z
+export const SessionDistinctFieldsSchema = z.enum([
+  'id',
+  'userId',
+  'description',
+  'status',
+  'startDate',
+  'endDate',
+  'user',
+  'logs',
+]);
+
+export const ActivityLogOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     sessionId: z.boolean(),
@@ -206,12 +281,22 @@ export const ActivityLogOwnProjectionSchema = z
   })
   .partial();
 
-export const ActivityLogOwnProjectionSchemaJson = z.preprocess(
+export const ActivityLogOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  ActivityLogOwnProjectionSchema
+  ActivityLogOwnSelectFieldsSchema
 );
 
-export const UserPermissionOwnProjectionSchema = z
+export const ActivityLogDistinctFieldsSchema = z.enum([
+  'id',
+  'sessionId',
+  'activityId',
+  'createdAt',
+  'notes',
+  'activity',
+  'session',
+]);
+
+export const UserPermissionOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     userId: z.boolean(),
@@ -221,12 +306,20 @@ export const UserPermissionOwnProjectionSchema = z
   })
   .partial();
 
-export const UserPermissionOwnProjectionSchemaJson = z.preprocess(
+export const UserPermissionOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  UserPermissionOwnProjectionSchema
+  UserPermissionOwnSelectFieldsSchema
 );
 
-export const AccessTokenPermissionOwnProjectionSchema = z
+export const UserPermissionDistinctFieldsSchema = z.enum([
+  'id',
+  'userId',
+  'permissionId',
+  'user',
+  'permission',
+]);
+
+export const AccessTokenPermissionOwnSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     permissionId: z.boolean(),
@@ -236,17 +329,25 @@ export const AccessTokenPermissionOwnProjectionSchema = z
   })
   .partial();
 
-export const AccessTokenPermissionOwnProjectionSchemaJson = z.preprocess(
+export const AccessTokenPermissionOwnSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  AccessTokenPermissionOwnProjectionSchema
+  AccessTokenPermissionOwnSelectFieldsSchema
 );
+
+export const AccessTokenPermissionDistinctFieldsSchema = z.enum([
+  'id',
+  'permissionId',
+  'accessTokenId',
+  'permission',
+  'accessToken',
+]);
 
 export const UserOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    uuid: PZ.StringFilterSchema,
-    username: PZ.StringFilterSchema,
-    password: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    uuid: z.string().or(PZ.StringFilterSchema),
+    username: z.string().or(PZ.StringFilterSchema),
+    password: z.string().or(PZ.StringFilterSchema),
   })
   .partial();
 
@@ -257,9 +358,9 @@ export const UserOwnWhereSchemaJson = z.preprocess(
 
 export const AccessTokenOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
-    userId: PZ.IntegerFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
+    userId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
   })
   .partial();
 
@@ -270,8 +371,8 @@ export const AccessTokenOwnWhereSchemaJson = z.preprocess(
 
 export const ScopeOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
   })
   .partial();
 
@@ -282,8 +383,8 @@ export const ScopeOwnWhereSchemaJson = z.preprocess(
 
 export const ResourceOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
   })
   .partial();
 
@@ -294,8 +395,8 @@ export const ResourceOwnWhereSchemaJson = z.preprocess(
 
 export const OperationOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
   })
   .partial();
 
@@ -306,10 +407,10 @@ export const OperationOwnWhereSchemaJson = z.preprocess(
 
 export const ActivityOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
-    resourceId: PZ.IntegerFilterSchema,
-    operationId: PZ.IntegerFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
+    resourceId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    operationId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
   })
   .partial();
 
@@ -320,9 +421,9 @@ export const ActivityOwnWhereSchemaJson = z.preprocess(
 
 export const PermissionOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    scopeId: PZ.IntegerFilterSchema,
-    activityId: PZ.IntegerFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    scopeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    activityId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
   })
   .partial();
 
@@ -333,8 +434,8 @@ export const PermissionOwnWhereSchemaJson = z.preprocess(
 
 export const RoleOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
   })
   .partial();
 
@@ -345,9 +446,9 @@ export const RoleOwnWhereSchemaJson = z.preprocess(
 
 export const RolePermissionOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    roleId: PZ.IntegerFilterSchema,
-    permissionId: PZ.IntegerFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    roleId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    permissionId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
   })
   .partial();
 
@@ -358,12 +459,12 @@ export const RolePermissionOwnWhereSchemaJson = z.preprocess(
 
 export const SessionOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    userId: PZ.IntegerFilterSchema,
-    description: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    userId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    description: z.string().or(PZ.StringFilterSchema),
     status: SessionStatusSchema,
-    startDate: PZ.DateTimeFilterSchema,
-    endDate: PZ.DateTimeFilterSchema,
+    startDate: z.string().or(PZ.DateTimeFilterSchema),
+    endDate: z.string().or(PZ.DateTimeFilterSchema),
   })
   .partial();
 
@@ -374,11 +475,11 @@ export const SessionOwnWhereSchemaJson = z.preprocess(
 
 export const ActivityLogOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    sessionId: PZ.IntegerFilterSchema,
-    activityId: PZ.IntegerFilterSchema,
-    createdAt: PZ.DateTimeFilterSchema,
-    notes: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    sessionId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    activityId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    createdAt: z.string().or(PZ.DateTimeFilterSchema),
+    notes: z.string().or(PZ.StringFilterSchema),
   })
   .partial();
 
@@ -389,9 +490,9 @@ export const ActivityLogOwnWhereSchemaJson = z.preprocess(
 
 export const UserPermissionOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    userId: PZ.IntegerFilterSchema,
-    permissionId: PZ.IntegerFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    userId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    permissionId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
   })
   .partial();
 
@@ -402,9 +503,9 @@ export const UserPermissionOwnWhereSchemaJson = z.preprocess(
 
 export const AccessTokenPermissionOwnWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    permissionId: PZ.IntegerFilterSchema,
-    accessTokenId: PZ.IntegerFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    permissionId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    accessTokenId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
   })
   .partial();
 
@@ -429,20 +530,14 @@ export const UserOwnIncludeSchemaJson = z.preprocess(
 export const UserOwnQueryOneSchema = z
   .object({
     where: UserOwnWhereSchemaJson,
-    select: UserOwnProjectionSchemaJson,
-    omit: UserOwnProjectionSchemaJson,
-    include: UserOwnIncludeSchemaJson,
+    distinct: UserDistinctFieldsSchema,
   })
   .partial();
 
 export const UserOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: UserOwnWhereSchemaJson,
-    select: UserOwnProjectionSchemaJson,
-    omit: UserOwnProjectionSchemaJson,
-    include: UserOwnIncludeSchemaJson,
+    distinct: UserDistinctFieldsSchema,
   })
   .partial();
 
@@ -461,20 +556,14 @@ export const AccessTokenOwnIncludeSchemaJson = z.preprocess(
 export const AccessTokenOwnQueryOneSchema = z
   .object({
     where: AccessTokenOwnWhereSchemaJson,
-    select: AccessTokenOwnProjectionSchemaJson,
-    omit: AccessTokenOwnProjectionSchemaJson,
-    include: AccessTokenOwnIncludeSchemaJson,
+    distinct: AccessTokenDistinctFieldsSchema,
   })
   .partial();
 
 export const AccessTokenOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: AccessTokenOwnWhereSchemaJson,
-    select: AccessTokenOwnProjectionSchemaJson,
-    omit: AccessTokenOwnProjectionSchemaJson,
-    include: AccessTokenOwnIncludeSchemaJson,
+    distinct: AccessTokenDistinctFieldsSchema,
   })
   .partial();
 
@@ -492,20 +581,14 @@ export const ScopeOwnIncludeSchemaJson = z.preprocess(
 export const ScopeOwnQueryOneSchema = z
   .object({
     where: ScopeOwnWhereSchemaJson,
-    select: ScopeOwnProjectionSchemaJson,
-    omit: ScopeOwnProjectionSchemaJson,
-    include: ScopeOwnIncludeSchemaJson,
+    distinct: ScopeDistinctFieldsSchema,
   })
   .partial();
 
 export const ScopeOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: ScopeOwnWhereSchemaJson,
-    select: ScopeOwnProjectionSchemaJson,
-    omit: ScopeOwnProjectionSchemaJson,
-    include: ScopeOwnIncludeSchemaJson,
+    distinct: ScopeDistinctFieldsSchema,
   })
   .partial();
 
@@ -523,20 +606,14 @@ export const ResourceOwnIncludeSchemaJson = z.preprocess(
 export const ResourceOwnQueryOneSchema = z
   .object({
     where: ResourceOwnWhereSchemaJson,
-    select: ResourceOwnProjectionSchemaJson,
-    omit: ResourceOwnProjectionSchemaJson,
-    include: ResourceOwnIncludeSchemaJson,
+    distinct: ResourceDistinctFieldsSchema,
   })
   .partial();
 
 export const ResourceOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: ResourceOwnWhereSchemaJson,
-    select: ResourceOwnProjectionSchemaJson,
-    omit: ResourceOwnProjectionSchemaJson,
-    include: ResourceOwnIncludeSchemaJson,
+    distinct: ResourceDistinctFieldsSchema,
   })
   .partial();
 
@@ -554,20 +631,14 @@ export const OperationOwnIncludeSchemaJson = z.preprocess(
 export const OperationOwnQueryOneSchema = z
   .object({
     where: OperationOwnWhereSchemaJson,
-    select: OperationOwnProjectionSchemaJson,
-    omit: OperationOwnProjectionSchemaJson,
-    include: OperationOwnIncludeSchemaJson,
+    distinct: OperationDistinctFieldsSchema,
   })
   .partial();
 
 export const OperationOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: OperationOwnWhereSchemaJson,
-    select: OperationOwnProjectionSchemaJson,
-    omit: OperationOwnProjectionSchemaJson,
-    include: OperationOwnIncludeSchemaJson,
+    distinct: OperationDistinctFieldsSchema,
   })
   .partial();
 
@@ -588,20 +659,14 @@ export const ActivityOwnIncludeSchemaJson = z.preprocess(
 export const ActivityOwnQueryOneSchema = z
   .object({
     where: ActivityOwnWhereSchemaJson,
-    select: ActivityOwnProjectionSchemaJson,
-    omit: ActivityOwnProjectionSchemaJson,
-    include: ActivityOwnIncludeSchemaJson,
+    distinct: ActivityDistinctFieldsSchema,
   })
   .partial();
 
 export const ActivityOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: ActivityOwnWhereSchemaJson,
-    select: ActivityOwnProjectionSchemaJson,
-    omit: ActivityOwnProjectionSchemaJson,
-    include: ActivityOwnIncludeSchemaJson,
+    distinct: ActivityDistinctFieldsSchema,
   })
   .partial();
 
@@ -623,20 +688,14 @@ export const PermissionOwnIncludeSchemaJson = z.preprocess(
 export const PermissionOwnQueryOneSchema = z
   .object({
     where: PermissionOwnWhereSchemaJson,
-    select: PermissionOwnProjectionSchemaJson,
-    omit: PermissionOwnProjectionSchemaJson,
-    include: PermissionOwnIncludeSchemaJson,
+    distinct: PermissionDistinctFieldsSchema,
   })
   .partial();
 
 export const PermissionOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: PermissionOwnWhereSchemaJson,
-    select: PermissionOwnProjectionSchemaJson,
-    omit: PermissionOwnProjectionSchemaJson,
-    include: PermissionOwnIncludeSchemaJson,
+    distinct: PermissionDistinctFieldsSchema,
   })
   .partial();
 
@@ -654,20 +713,14 @@ export const RoleOwnIncludeSchemaJson = z.preprocess(
 export const RoleOwnQueryOneSchema = z
   .object({
     where: RoleOwnWhereSchemaJson,
-    select: RoleOwnProjectionSchemaJson,
-    omit: RoleOwnProjectionSchemaJson,
-    include: RoleOwnIncludeSchemaJson,
+    distinct: RoleDistinctFieldsSchema,
   })
   .partial();
 
 export const RoleOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: RoleOwnWhereSchemaJson,
-    select: RoleOwnProjectionSchemaJson,
-    omit: RoleOwnProjectionSchemaJson,
-    include: RoleOwnIncludeSchemaJson,
+    distinct: RoleDistinctFieldsSchema,
   })
   .partial();
 
@@ -686,20 +739,14 @@ export const RolePermissionOwnIncludeSchemaJson = z.preprocess(
 export const RolePermissionOwnQueryOneSchema = z
   .object({
     where: RolePermissionOwnWhereSchemaJson,
-    select: RolePermissionOwnProjectionSchemaJson,
-    omit: RolePermissionOwnProjectionSchemaJson,
-    include: RolePermissionOwnIncludeSchemaJson,
+    distinct: RolePermissionDistinctFieldsSchema,
   })
   .partial();
 
 export const RolePermissionOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: RolePermissionOwnWhereSchemaJson,
-    select: RolePermissionOwnProjectionSchemaJson,
-    omit: RolePermissionOwnProjectionSchemaJson,
-    include: RolePermissionOwnIncludeSchemaJson,
+    distinct: RolePermissionDistinctFieldsSchema,
   })
   .partial();
 
@@ -718,20 +765,14 @@ export const SessionOwnIncludeSchemaJson = z.preprocess(
 export const SessionOwnQueryOneSchema = z
   .object({
     where: SessionOwnWhereSchemaJson,
-    select: SessionOwnProjectionSchemaJson,
-    omit: SessionOwnProjectionSchemaJson,
-    include: SessionOwnIncludeSchemaJson,
+    distinct: SessionDistinctFieldsSchema,
   })
   .partial();
 
 export const SessionOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: SessionOwnWhereSchemaJson,
-    select: SessionOwnProjectionSchemaJson,
-    omit: SessionOwnProjectionSchemaJson,
-    include: SessionOwnIncludeSchemaJson,
+    distinct: SessionDistinctFieldsSchema,
   })
   .partial();
 
@@ -750,20 +791,14 @@ export const ActivityLogOwnIncludeSchemaJson = z.preprocess(
 export const ActivityLogOwnQueryOneSchema = z
   .object({
     where: ActivityLogOwnWhereSchemaJson,
-    select: ActivityLogOwnProjectionSchemaJson,
-    omit: ActivityLogOwnProjectionSchemaJson,
-    include: ActivityLogOwnIncludeSchemaJson,
+    distinct: ActivityLogDistinctFieldsSchema,
   })
   .partial();
 
 export const ActivityLogOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: ActivityLogOwnWhereSchemaJson,
-    select: ActivityLogOwnProjectionSchemaJson,
-    omit: ActivityLogOwnProjectionSchemaJson,
-    include: ActivityLogOwnIncludeSchemaJson,
+    distinct: ActivityLogDistinctFieldsSchema,
   })
   .partial();
 
@@ -782,20 +817,14 @@ export const UserPermissionOwnIncludeSchemaJson = z.preprocess(
 export const UserPermissionOwnQueryOneSchema = z
   .object({
     where: UserPermissionOwnWhereSchemaJson,
-    select: UserPermissionOwnProjectionSchemaJson,
-    omit: UserPermissionOwnProjectionSchemaJson,
-    include: UserPermissionOwnIncludeSchemaJson,
+    distinct: UserPermissionDistinctFieldsSchema,
   })
   .partial();
 
 export const UserPermissionOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: UserPermissionOwnWhereSchemaJson,
-    select: UserPermissionOwnProjectionSchemaJson,
-    omit: UserPermissionOwnProjectionSchemaJson,
-    include: UserPermissionOwnIncludeSchemaJson,
+    distinct: UserPermissionDistinctFieldsSchema,
   })
   .partial();
 
@@ -814,20 +843,14 @@ export const AccessTokenPermissionOwnIncludeSchemaJson = z.preprocess(
 export const AccessTokenPermissionOwnQueryOneSchema = z
   .object({
     where: AccessTokenPermissionOwnWhereSchemaJson,
-    select: AccessTokenPermissionOwnProjectionSchemaJson,
-    omit: AccessTokenPermissionOwnProjectionSchemaJson,
-    include: AccessTokenPermissionOwnIncludeSchemaJson,
+    distinct: AccessTokenPermissionDistinctFieldsSchema,
   })
   .partial();
 
 export const AccessTokenPermissionOwnQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: AccessTokenPermissionOwnWhereSchemaJson,
-    select: AccessTokenPermissionOwnProjectionSchemaJson,
-    omit: AccessTokenPermissionOwnProjectionSchemaJson,
-    include: AccessTokenPermissionOwnIncludeSchemaJson,
+    distinct: AccessTokenPermissionDistinctFieldsSchema,
   })
   .partial();
 
@@ -859,10 +882,10 @@ export const UserOrderBySchemaJson = z.preprocess(
 
 export const UserWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    uuid: PZ.StringFilterSchema,
-    username: PZ.StringFilterSchema,
-    password: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    uuid: z.string().or(PZ.StringFilterSchema),
+    username: z.string().or(PZ.StringFilterSchema),
+    password: z.string().or(PZ.StringFilterSchema),
     sessions: z
       .object({
         some: SessionOwnWhereSchema,
@@ -889,7 +912,7 @@ export const UserWhereSchema = z
 
 export const UserWhereSchemaJson = z.preprocess(jsonParser, UserWhereSchema);
 
-export const UserProjectionSchema = z
+export const UserSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     uuid: z.boolean(),
@@ -901,9 +924,9 @@ export const UserProjectionSchema = z
   })
   .partial();
 
-export const UserProjectionSchemaJson = z.preprocess(
+export const UserSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  UserProjectionSchema
+  UserSelectFieldsSchema
 );
 
 export const UserIncludeSchema = z
@@ -918,6 +941,25 @@ export const UserIncludeSchemaJson = z.preprocess(
   jsonParser,
   UserIncludeSchema
 );
+
+export const UserProjectionSchema = z.union([
+  z
+    .object({
+      omit: UserSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: UserSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: UserIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const AccessTokenCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -944,16 +986,10 @@ export const AccessTokenOrderBySchemaJson = z.preprocess(
 
 export const AccessTokenWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
-    userId: PZ.IntegerFilterSchema,
-    user: z
-      .object({
-        some: UserOwnWhereSchema,
-        every: UserOwnWhereSchema,
-        none: UserOwnWhereSchema,
-      })
-      .partial(),
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
+    userId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    user: UserOwnWhereSchema,
     AccessTokenPermission: z
       .object({
         some: AccessTokenPermissionOwnWhereSchema,
@@ -969,7 +1005,7 @@ export const AccessTokenWhereSchemaJson = z.preprocess(
   AccessTokenWhereSchema
 );
 
-export const AccessTokenProjectionSchema = z
+export const AccessTokenSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
@@ -979,9 +1015,9 @@ export const AccessTokenProjectionSchema = z
   })
   .partial();
 
-export const AccessTokenProjectionSchemaJson = z.preprocess(
+export const AccessTokenSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  AccessTokenProjectionSchema
+  AccessTokenSelectFieldsSchema
 );
 
 export const AccessTokenIncludeSchema = z
@@ -995,6 +1031,25 @@ export const AccessTokenIncludeSchemaJson = z.preprocess(
   jsonParser,
   AccessTokenIncludeSchema
 );
+
+export const AccessTokenProjectionSchema = z.union([
+  z
+    .object({
+      omit: AccessTokenSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: AccessTokenSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: AccessTokenIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const ScopeCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -1018,8 +1073,8 @@ export const ScopeOrderBySchemaJson = z.preprocess(
 
 export const ScopeWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
     permissions: z
       .object({
         some: PermissionOwnWhereSchema,
@@ -1032,7 +1087,7 @@ export const ScopeWhereSchema = z
 
 export const ScopeWhereSchemaJson = z.preprocess(jsonParser, ScopeWhereSchema);
 
-export const ScopeProjectionSchema = z
+export const ScopeSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
@@ -1040,9 +1095,9 @@ export const ScopeProjectionSchema = z
   })
   .partial();
 
-export const ScopeProjectionSchemaJson = z.preprocess(
+export const ScopeSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  ScopeProjectionSchema
+  ScopeSelectFieldsSchema
 );
 
 export const ScopeIncludeSchema = z
@@ -1055,6 +1110,25 @@ export const ScopeIncludeSchemaJson = z.preprocess(
   jsonParser,
   ScopeIncludeSchema
 );
+
+export const ScopeProjectionSchema = z.union([
+  z
+    .object({
+      omit: ScopeSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: ScopeSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: ScopeIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const ResourceCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -1078,8 +1152,8 @@ export const ResourceOrderBySchemaJson = z.preprocess(
 
 export const ResourceWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
     activities: z
       .object({
         some: ActivityOwnWhereSchema,
@@ -1095,7 +1169,7 @@ export const ResourceWhereSchemaJson = z.preprocess(
   ResourceWhereSchema
 );
 
-export const ResourceProjectionSchema = z
+export const ResourceSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
@@ -1103,9 +1177,9 @@ export const ResourceProjectionSchema = z
   })
   .partial();
 
-export const ResourceProjectionSchemaJson = z.preprocess(
+export const ResourceSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  ResourceProjectionSchema
+  ResourceSelectFieldsSchema
 );
 
 export const ResourceIncludeSchema = z
@@ -1118,6 +1192,25 @@ export const ResourceIncludeSchemaJson = z.preprocess(
   jsonParser,
   ResourceIncludeSchema
 );
+
+export const ResourceProjectionSchema = z.union([
+  z
+    .object({
+      omit: ResourceSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: ResourceSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: ResourceIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const OperationCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -1141,8 +1234,8 @@ export const OperationOrderBySchemaJson = z.preprocess(
 
 export const OperationWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
     activities: z
       .object({
         some: ActivityOwnWhereSchema,
@@ -1158,7 +1251,7 @@ export const OperationWhereSchemaJson = z.preprocess(
   OperationWhereSchema
 );
 
-export const OperationProjectionSchema = z
+export const OperationSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
@@ -1166,9 +1259,9 @@ export const OperationProjectionSchema = z
   })
   .partial();
 
-export const OperationProjectionSchemaJson = z.preprocess(
+export const OperationSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  OperationProjectionSchema
+  OperationSelectFieldsSchema
 );
 
 export const OperationIncludeSchema = z
@@ -1181,6 +1274,25 @@ export const OperationIncludeSchemaJson = z.preprocess(
   jsonParser,
   OperationIncludeSchema
 );
+
+export const OperationProjectionSchema = z.union([
+  z
+    .object({
+      omit: OperationSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: OperationSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: OperationIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const ActivityCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -1210,24 +1322,12 @@ export const ActivityOrderBySchemaJson = z.preprocess(
 
 export const ActivityWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
-    resourceId: PZ.IntegerFilterSchema,
-    operationId: PZ.IntegerFilterSchema,
-    resouce: z
-      .object({
-        some: ResourceOwnWhereSchema,
-        every: ResourceOwnWhereSchema,
-        none: ResourceOwnWhereSchema,
-      })
-      .partial(),
-    operation: z
-      .object({
-        some: OperationOwnWhereSchema,
-        every: OperationOwnWhereSchema,
-        none: OperationOwnWhereSchema,
-      })
-      .partial(),
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
+    resourceId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    operationId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    resouce: ResourceOwnWhereSchema,
+    operation: OperationOwnWhereSchema,
     permissions: z
       .object({
         some: PermissionOwnWhereSchema,
@@ -1250,7 +1350,7 @@ export const ActivityWhereSchemaJson = z.preprocess(
   ActivityWhereSchema
 );
 
-export const ActivityProjectionSchema = z
+export const ActivitySelectFieldsSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
@@ -1263,9 +1363,9 @@ export const ActivityProjectionSchema = z
   })
   .partial();
 
-export const ActivityProjectionSchemaJson = z.preprocess(
+export const ActivitySelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  ActivityProjectionSchema
+  ActivitySelectFieldsSchema
 );
 
 export const ActivityIncludeSchema = z
@@ -1281,6 +1381,25 @@ export const ActivityIncludeSchemaJson = z.preprocess(
   jsonParser,
   ActivityIncludeSchema
 );
+
+export const ActivityProjectionSchema = z.union([
+  z
+    .object({
+      omit: ActivitySelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: ActivitySelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: ActivityIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const PermissionCreateSchema = z.object({
   scopeId: z.coerce.number().int(),
@@ -1307,23 +1426,11 @@ export const PermissionOrderBySchemaJson = z.preprocess(
 
 export const PermissionWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    scopeId: PZ.IntegerFilterSchema,
-    activityId: PZ.IntegerFilterSchema,
-    scope: z
-      .object({
-        some: ScopeOwnWhereSchema,
-        every: ScopeOwnWhereSchema,
-        none: ScopeOwnWhereSchema,
-      })
-      .partial(),
-    activity: z
-      .object({
-        some: ActivityOwnWhereSchema,
-        every: ActivityOwnWhereSchema,
-        none: ActivityOwnWhereSchema,
-      })
-      .partial(),
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    scopeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    activityId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    scope: ScopeOwnWhereSchema,
+    activity: ActivityOwnWhereSchema,
     roles: z
       .object({
         some: RolePermissionOwnWhereSchema,
@@ -1353,7 +1460,7 @@ export const PermissionWhereSchemaJson = z.preprocess(
   PermissionWhereSchema
 );
 
-export const PermissionProjectionSchema = z
+export const PermissionSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     scopeId: z.boolean(),
@@ -1366,9 +1473,9 @@ export const PermissionProjectionSchema = z
   })
   .partial();
 
-export const PermissionProjectionSchemaJson = z.preprocess(
+export const PermissionSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  PermissionProjectionSchema
+  PermissionSelectFieldsSchema
 );
 
 export const PermissionIncludeSchema = z
@@ -1385,6 +1492,25 @@ export const PermissionIncludeSchemaJson = z.preprocess(
   jsonParser,
   PermissionIncludeSchema
 );
+
+export const PermissionProjectionSchema = z.union([
+  z
+    .object({
+      omit: PermissionSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: PermissionSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: PermissionIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const RoleCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -1408,8 +1534,8 @@ export const RoleOrderBySchemaJson = z.preprocess(
 
 export const RoleWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    name: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    name: z.string().or(PZ.StringFilterSchema),
     permissions: z
       .object({
         some: RolePermissionOwnWhereSchema,
@@ -1422,7 +1548,7 @@ export const RoleWhereSchema = z
 
 export const RoleWhereSchemaJson = z.preprocess(jsonParser, RoleWhereSchema);
 
-export const RoleProjectionSchema = z
+export const RoleSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     name: z.boolean(),
@@ -1430,9 +1556,9 @@ export const RoleProjectionSchema = z
   })
   .partial();
 
-export const RoleProjectionSchemaJson = z.preprocess(
+export const RoleSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  RoleProjectionSchema
+  RoleSelectFieldsSchema
 );
 
 export const RoleIncludeSchema = z
@@ -1445,6 +1571,25 @@ export const RoleIncludeSchemaJson = z.preprocess(
   jsonParser,
   RoleIncludeSchema
 );
+
+export const RoleProjectionSchema = z.union([
+  z
+    .object({
+      omit: RoleSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: RoleSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: RoleIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const RolePermissionCreateSchema = z.object({
   roleId: z.coerce.number().int(),
@@ -1471,23 +1616,11 @@ export const RolePermissionOrderBySchemaJson = z.preprocess(
 
 export const RolePermissionWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    roleId: PZ.IntegerFilterSchema,
-    permissionId: PZ.IntegerFilterSchema,
-    role: z
-      .object({
-        some: RoleOwnWhereSchema,
-        every: RoleOwnWhereSchema,
-        none: RoleOwnWhereSchema,
-      })
-      .partial(),
-    permission: z
-      .object({
-        some: PermissionOwnWhereSchema,
-        every: PermissionOwnWhereSchema,
-        none: PermissionOwnWhereSchema,
-      })
-      .partial(),
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    roleId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    permissionId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    role: RoleOwnWhereSchema,
+    permission: PermissionOwnWhereSchema,
   })
   .partial();
 
@@ -1496,7 +1629,7 @@ export const RolePermissionWhereSchemaJson = z.preprocess(
   RolePermissionWhereSchema
 );
 
-export const RolePermissionProjectionSchema = z
+export const RolePermissionSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     roleId: z.boolean(),
@@ -1506,9 +1639,9 @@ export const RolePermissionProjectionSchema = z
   })
   .partial();
 
-export const RolePermissionProjectionSchemaJson = z.preprocess(
+export const RolePermissionSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  RolePermissionProjectionSchema
+  RolePermissionSelectFieldsSchema
 );
 
 export const RolePermissionIncludeSchema = z
@@ -1522,6 +1655,25 @@ export const RolePermissionIncludeSchemaJson = z.preprocess(
   jsonParser,
   RolePermissionIncludeSchema
 );
+
+export const RolePermissionProjectionSchema = z.union([
+  z
+    .object({
+      omit: RolePermissionSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: RolePermissionSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: RolePermissionIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const SessionCreateSchema = z.object({
   userId: z.coerce.number().int(),
@@ -1554,19 +1706,13 @@ export const SessionOrderBySchemaJson = z.preprocess(
 
 export const SessionWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    userId: PZ.IntegerFilterSchema,
-    description: PZ.StringFilterSchema,
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    userId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    description: z.string().or(PZ.StringFilterSchema),
     status: SessionStatusSchema,
-    startDate: PZ.DateTimeFilterSchema,
-    endDate: PZ.DateTimeFilterSchema,
-    user: z
-      .object({
-        some: UserOwnWhereSchema,
-        every: UserOwnWhereSchema,
-        none: UserOwnWhereSchema,
-      })
-      .partial(),
+    startDate: z.string().or(PZ.DateTimeFilterSchema),
+    endDate: z.string().or(PZ.DateTimeFilterSchema),
+    user: UserOwnWhereSchema,
     logs: z
       .object({
         some: ActivityLogOwnWhereSchema,
@@ -1582,7 +1728,7 @@ export const SessionWhereSchemaJson = z.preprocess(
   SessionWhereSchema
 );
 
-export const SessionProjectionSchema = z
+export const SessionSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     userId: z.boolean(),
@@ -1595,9 +1741,9 @@ export const SessionProjectionSchema = z
   })
   .partial();
 
-export const SessionProjectionSchemaJson = z.preprocess(
+export const SessionSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  SessionProjectionSchema
+  SessionSelectFieldsSchema
 );
 
 export const SessionIncludeSchema = z
@@ -1611,6 +1757,25 @@ export const SessionIncludeSchemaJson = z.preprocess(
   jsonParser,
   SessionIncludeSchema
 );
+
+export const SessionProjectionSchema = z.union([
+  z
+    .object({
+      omit: SessionSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: SessionSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: SessionIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const ActivityLogCreateSchema = z.object({
   sessionId: z.coerce.number().int(),
@@ -1641,25 +1806,13 @@ export const ActivityLogOrderBySchemaJson = z.preprocess(
 
 export const ActivityLogWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    sessionId: PZ.IntegerFilterSchema,
-    activityId: PZ.IntegerFilterSchema,
-    createdAt: PZ.DateTimeFilterSchema,
-    notes: PZ.StringFilterSchema,
-    activity: z
-      .object({
-        some: ActivityOwnWhereSchema,
-        every: ActivityOwnWhereSchema,
-        none: ActivityOwnWhereSchema,
-      })
-      .partial(),
-    session: z
-      .object({
-        some: SessionOwnWhereSchema,
-        every: SessionOwnWhereSchema,
-        none: SessionOwnWhereSchema,
-      })
-      .partial(),
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    sessionId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    activityId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    createdAt: z.string().or(PZ.DateTimeFilterSchema),
+    notes: z.string().or(PZ.StringFilterSchema),
+    activity: ActivityOwnWhereSchema,
+    session: SessionOwnWhereSchema,
   })
   .partial();
 
@@ -1668,7 +1821,7 @@ export const ActivityLogWhereSchemaJson = z.preprocess(
   ActivityLogWhereSchema
 );
 
-export const ActivityLogProjectionSchema = z
+export const ActivityLogSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     sessionId: z.boolean(),
@@ -1680,9 +1833,9 @@ export const ActivityLogProjectionSchema = z
   })
   .partial();
 
-export const ActivityLogProjectionSchemaJson = z.preprocess(
+export const ActivityLogSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  ActivityLogProjectionSchema
+  ActivityLogSelectFieldsSchema
 );
 
 export const ActivityLogIncludeSchema = z
@@ -1696,6 +1849,25 @@ export const ActivityLogIncludeSchemaJson = z.preprocess(
   jsonParser,
   ActivityLogIncludeSchema
 );
+
+export const ActivityLogProjectionSchema = z.union([
+  z
+    .object({
+      omit: ActivityLogSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: ActivityLogSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: ActivityLogIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const UserPermissionCreateSchema = z.object({
   userId: z.coerce.number().int(),
@@ -1722,23 +1894,11 @@ export const UserPermissionOrderBySchemaJson = z.preprocess(
 
 export const UserPermissionWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    userId: PZ.IntegerFilterSchema,
-    permissionId: PZ.IntegerFilterSchema,
-    user: z
-      .object({
-        some: UserOwnWhereSchema,
-        every: UserOwnWhereSchema,
-        none: UserOwnWhereSchema,
-      })
-      .partial(),
-    permission: z
-      .object({
-        some: PermissionOwnWhereSchema,
-        every: PermissionOwnWhereSchema,
-        none: PermissionOwnWhereSchema,
-      })
-      .partial(),
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    userId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    permissionId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    user: UserOwnWhereSchema,
+    permission: PermissionOwnWhereSchema,
   })
   .partial();
 
@@ -1747,7 +1907,7 @@ export const UserPermissionWhereSchemaJson = z.preprocess(
   UserPermissionWhereSchema
 );
 
-export const UserPermissionProjectionSchema = z
+export const UserPermissionSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     userId: z.boolean(),
@@ -1757,9 +1917,9 @@ export const UserPermissionProjectionSchema = z
   })
   .partial();
 
-export const UserPermissionProjectionSchemaJson = z.preprocess(
+export const UserPermissionSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  UserPermissionProjectionSchema
+  UserPermissionSelectFieldsSchema
 );
 
 export const UserPermissionIncludeSchema = z
@@ -1773,6 +1933,25 @@ export const UserPermissionIncludeSchemaJson = z.preprocess(
   jsonParser,
   UserPermissionIncludeSchema
 );
+
+export const UserPermissionProjectionSchema = z.union([
+  z
+    .object({
+      omit: UserPermissionSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: UserPermissionSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: UserPermissionIncludeSchemaJson,
+    })
+    .optional(),
+]);
 
 export const AccessTokenPermissionCreateSchema = z.object({
   permissionId: z.coerce.number().int(),
@@ -1799,23 +1978,11 @@ export const AccessTokenPermissionOrderBySchemaJson = z.preprocess(
 
 export const AccessTokenPermissionWhereSchema = z
   .object({
-    id: PZ.IntegerFilterSchema,
-    permissionId: PZ.IntegerFilterSchema,
-    accessTokenId: PZ.IntegerFilterSchema,
-    permission: z
-      .object({
-        some: PermissionOwnWhereSchema,
-        every: PermissionOwnWhereSchema,
-        none: PermissionOwnWhereSchema,
-      })
-      .partial(),
-    accessToken: z
-      .object({
-        some: AccessTokenOwnWhereSchema,
-        every: AccessTokenOwnWhereSchema,
-        none: AccessTokenOwnWhereSchema,
-      })
-      .partial(),
+    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    permissionId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    accessTokenId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
+    permission: PermissionOwnWhereSchema,
+    accessToken: AccessTokenOwnWhereSchema,
   })
   .partial();
 
@@ -1824,7 +1991,7 @@ export const AccessTokenPermissionWhereSchemaJson = z.preprocess(
   AccessTokenPermissionWhereSchema
 );
 
-export const AccessTokenPermissionProjectionSchema = z
+export const AccessTokenPermissionSelectFieldsSchema = z
   .object({
     id: z.boolean(),
     permissionId: z.boolean(),
@@ -1834,9 +2001,9 @@ export const AccessTokenPermissionProjectionSchema = z
   })
   .partial();
 
-export const AccessTokenPermissionProjectionSchemaJson = z.preprocess(
+export const AccessTokenPermissionSelectFieldsSchemaJson = z.preprocess(
   jsonParser,
-  AccessTokenPermissionProjectionSchema
+  AccessTokenPermissionSelectFieldsSchema
 );
 
 export const AccessTokenPermissionIncludeSchema = z
@@ -1851,23 +2018,36 @@ export const AccessTokenPermissionIncludeSchemaJson = z.preprocess(
   AccessTokenPermissionIncludeSchema
 );
 
+export const AccessTokenPermissionProjectionSchema = z.union([
+  z
+    .object({
+      omit: AccessTokenPermissionSelectFieldsSchemaJson,
+    })
+    .optional(),
+  z
+    .object({
+      select: AccessTokenPermissionSelectFieldsSchemaJson,
+    })
+    .optional(),
+
+  z
+    .object({
+      include: AccessTokenPermissionIncludeSchemaJson,
+    })
+    .optional(),
+]);
+
 export const UserQueryOneSchema = z
   .object({
     where: UserWhereSchemaJson,
-    select: UserProjectionSchemaJson,
-    omit: UserProjectionSchemaJson,
-    include: UserIncludeSchemaJson,
+    distinct: UserDistinctFieldsSchema,
   })
   .partial();
 
 export const UserQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: UserWhereSchemaJson,
-    select: UserProjectionSchemaJson,
-    omit: UserProjectionSchemaJson,
-    include: UserIncludeSchemaJson,
+    distinct: UserDistinctFieldsSchema,
   })
   .partial();
 
@@ -1877,7 +2057,7 @@ export type UserUpdate = z.infer<typeof UserUpdateSchema>;
 
 export type UserOrderBy = z.infer<typeof UserOrderBySchema>;
 
-export type UserOwnProjection = z.infer<typeof UserOwnProjectionSchema>;
+export type UserOwnSelectFields = z.infer<typeof UserOwnSelectFieldsSchema>;
 
 export type UserOwnWhere = z.infer<typeof UserOwnWhereSchema>;
 
@@ -1893,25 +2073,21 @@ export type UserQueryOne = z.infer<typeof UserQueryOneSchema>;
 
 export type UserQuery = z.infer<typeof UserQuerySchema>;
 
+export type UserSelectFields = z.infer<typeof UserSelectFieldsSchema>;
+
 export type UserProjection = z.infer<typeof UserProjectionSchema>;
 
 export const AccessTokenQueryOneSchema = z
   .object({
     where: AccessTokenWhereSchemaJson,
-    select: AccessTokenProjectionSchemaJson,
-    omit: AccessTokenProjectionSchemaJson,
-    include: AccessTokenIncludeSchemaJson,
+    distinct: AccessTokenDistinctFieldsSchema,
   })
   .partial();
 
 export const AccessTokenQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: AccessTokenWhereSchemaJson,
-    select: AccessTokenProjectionSchemaJson,
-    omit: AccessTokenProjectionSchemaJson,
-    include: AccessTokenIncludeSchemaJson,
+    distinct: AccessTokenDistinctFieldsSchema,
   })
   .partial();
 
@@ -1921,8 +2097,8 @@ export type AccessTokenUpdate = z.infer<typeof AccessTokenUpdateSchema>;
 
 export type AccessTokenOrderBy = z.infer<typeof AccessTokenOrderBySchema>;
 
-export type AccessTokenOwnProjection = z.infer<
-  typeof AccessTokenOwnProjectionSchema
+export type AccessTokenOwnSelectFields = z.infer<
+  typeof AccessTokenOwnSelectFieldsSchema
 >;
 
 export type AccessTokenOwnWhere = z.infer<typeof AccessTokenOwnWhereSchema>;
@@ -1941,25 +2117,23 @@ export type AccessTokenQueryOne = z.infer<typeof AccessTokenQueryOneSchema>;
 
 export type AccessTokenQuery = z.infer<typeof AccessTokenQuerySchema>;
 
+export type AccessTokenSelectFields = z.infer<
+  typeof AccessTokenSelectFieldsSchema
+>;
+
 export type AccessTokenProjection = z.infer<typeof AccessTokenProjectionSchema>;
 
 export const ScopeQueryOneSchema = z
   .object({
     where: ScopeWhereSchemaJson,
-    select: ScopeProjectionSchemaJson,
-    omit: ScopeProjectionSchemaJson,
-    include: ScopeIncludeSchemaJson,
+    distinct: ScopeDistinctFieldsSchema,
   })
   .partial();
 
 export const ScopeQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: ScopeWhereSchemaJson,
-    select: ScopeProjectionSchemaJson,
-    omit: ScopeProjectionSchemaJson,
-    include: ScopeIncludeSchemaJson,
+    distinct: ScopeDistinctFieldsSchema,
   })
   .partial();
 
@@ -1969,7 +2143,7 @@ export type ScopeUpdate = z.infer<typeof ScopeUpdateSchema>;
 
 export type ScopeOrderBy = z.infer<typeof ScopeOrderBySchema>;
 
-export type ScopeOwnProjection = z.infer<typeof ScopeOwnProjectionSchema>;
+export type ScopeOwnSelectFields = z.infer<typeof ScopeOwnSelectFieldsSchema>;
 
 export type ScopeOwnWhere = z.infer<typeof ScopeOwnWhereSchema>;
 
@@ -1985,25 +2159,21 @@ export type ScopeQueryOne = z.infer<typeof ScopeQueryOneSchema>;
 
 export type ScopeQuery = z.infer<typeof ScopeQuerySchema>;
 
+export type ScopeSelectFields = z.infer<typeof ScopeSelectFieldsSchema>;
+
 export type ScopeProjection = z.infer<typeof ScopeProjectionSchema>;
 
 export const ResourceQueryOneSchema = z
   .object({
     where: ResourceWhereSchemaJson,
-    select: ResourceProjectionSchemaJson,
-    omit: ResourceProjectionSchemaJson,
-    include: ResourceIncludeSchemaJson,
+    distinct: ResourceDistinctFieldsSchema,
   })
   .partial();
 
 export const ResourceQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: ResourceWhereSchemaJson,
-    select: ResourceProjectionSchemaJson,
-    omit: ResourceProjectionSchemaJson,
-    include: ResourceIncludeSchemaJson,
+    distinct: ResourceDistinctFieldsSchema,
   })
   .partial();
 
@@ -2013,7 +2183,9 @@ export type ResourceUpdate = z.infer<typeof ResourceUpdateSchema>;
 
 export type ResourceOrderBy = z.infer<typeof ResourceOrderBySchema>;
 
-export type ResourceOwnProjection = z.infer<typeof ResourceOwnProjectionSchema>;
+export type ResourceOwnSelectFields = z.infer<
+  typeof ResourceOwnSelectFieldsSchema
+>;
 
 export type ResourceOwnWhere = z.infer<typeof ResourceOwnWhereSchema>;
 
@@ -2029,25 +2201,21 @@ export type ResourceQueryOne = z.infer<typeof ResourceQueryOneSchema>;
 
 export type ResourceQuery = z.infer<typeof ResourceQuerySchema>;
 
+export type ResourceSelectFields = z.infer<typeof ResourceSelectFieldsSchema>;
+
 export type ResourceProjection = z.infer<typeof ResourceProjectionSchema>;
 
 export const OperationQueryOneSchema = z
   .object({
     where: OperationWhereSchemaJson,
-    select: OperationProjectionSchemaJson,
-    omit: OperationProjectionSchemaJson,
-    include: OperationIncludeSchemaJson,
+    distinct: OperationDistinctFieldsSchema,
   })
   .partial();
 
 export const OperationQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: OperationWhereSchemaJson,
-    select: OperationProjectionSchemaJson,
-    omit: OperationProjectionSchemaJson,
-    include: OperationIncludeSchemaJson,
+    distinct: OperationDistinctFieldsSchema,
   })
   .partial();
 
@@ -2057,8 +2225,8 @@ export type OperationUpdate = z.infer<typeof OperationUpdateSchema>;
 
 export type OperationOrderBy = z.infer<typeof OperationOrderBySchema>;
 
-export type OperationOwnProjection = z.infer<
-  typeof OperationOwnProjectionSchema
+export type OperationOwnSelectFields = z.infer<
+  typeof OperationOwnSelectFieldsSchema
 >;
 
 export type OperationOwnWhere = z.infer<typeof OperationOwnWhereSchema>;
@@ -2075,25 +2243,21 @@ export type OperationQueryOne = z.infer<typeof OperationQueryOneSchema>;
 
 export type OperationQuery = z.infer<typeof OperationQuerySchema>;
 
+export type OperationSelectFields = z.infer<typeof OperationSelectFieldsSchema>;
+
 export type OperationProjection = z.infer<typeof OperationProjectionSchema>;
 
 export const ActivityQueryOneSchema = z
   .object({
     where: ActivityWhereSchemaJson,
-    select: ActivityProjectionSchemaJson,
-    omit: ActivityProjectionSchemaJson,
-    include: ActivityIncludeSchemaJson,
+    distinct: ActivityDistinctFieldsSchema,
   })
   .partial();
 
 export const ActivityQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: ActivityWhereSchemaJson,
-    select: ActivityProjectionSchemaJson,
-    omit: ActivityProjectionSchemaJson,
-    include: ActivityIncludeSchemaJson,
+    distinct: ActivityDistinctFieldsSchema,
   })
   .partial();
 
@@ -2103,7 +2267,9 @@ export type ActivityUpdate = z.infer<typeof ActivityUpdateSchema>;
 
 export type ActivityOrderBy = z.infer<typeof ActivityOrderBySchema>;
 
-export type ActivityOwnProjection = z.infer<typeof ActivityOwnProjectionSchema>;
+export type ActivityOwnSelectFields = z.infer<
+  typeof ActivityOwnSelectFieldsSchema
+>;
 
 export type ActivityOwnWhere = z.infer<typeof ActivityOwnWhereSchema>;
 
@@ -2119,25 +2285,21 @@ export type ActivityQueryOne = z.infer<typeof ActivityQueryOneSchema>;
 
 export type ActivityQuery = z.infer<typeof ActivityQuerySchema>;
 
+export type ActivitySelectFields = z.infer<typeof ActivitySelectFieldsSchema>;
+
 export type ActivityProjection = z.infer<typeof ActivityProjectionSchema>;
 
 export const PermissionQueryOneSchema = z
   .object({
     where: PermissionWhereSchemaJson,
-    select: PermissionProjectionSchemaJson,
-    omit: PermissionProjectionSchemaJson,
-    include: PermissionIncludeSchemaJson,
+    distinct: PermissionDistinctFieldsSchema,
   })
   .partial();
 
 export const PermissionQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: PermissionWhereSchemaJson,
-    select: PermissionProjectionSchemaJson,
-    omit: PermissionProjectionSchemaJson,
-    include: PermissionIncludeSchemaJson,
+    distinct: PermissionDistinctFieldsSchema,
   })
   .partial();
 
@@ -2147,8 +2309,8 @@ export type PermissionUpdate = z.infer<typeof PermissionUpdateSchema>;
 
 export type PermissionOrderBy = z.infer<typeof PermissionOrderBySchema>;
 
-export type PermissionOwnProjection = z.infer<
-  typeof PermissionOwnProjectionSchema
+export type PermissionOwnSelectFields = z.infer<
+  typeof PermissionOwnSelectFieldsSchema
 >;
 
 export type PermissionOwnWhere = z.infer<typeof PermissionOwnWhereSchema>;
@@ -2165,25 +2327,23 @@ export type PermissionQueryOne = z.infer<typeof PermissionQueryOneSchema>;
 
 export type PermissionQuery = z.infer<typeof PermissionQuerySchema>;
 
+export type PermissionSelectFields = z.infer<
+  typeof PermissionSelectFieldsSchema
+>;
+
 export type PermissionProjection = z.infer<typeof PermissionProjectionSchema>;
 
 export const RoleQueryOneSchema = z
   .object({
     where: RoleWhereSchemaJson,
-    select: RoleProjectionSchemaJson,
-    omit: RoleProjectionSchemaJson,
-    include: RoleIncludeSchemaJson,
+    distinct: RoleDistinctFieldsSchema,
   })
   .partial();
 
 export const RoleQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: RoleWhereSchemaJson,
-    select: RoleProjectionSchemaJson,
-    omit: RoleProjectionSchemaJson,
-    include: RoleIncludeSchemaJson,
+    distinct: RoleDistinctFieldsSchema,
   })
   .partial();
 
@@ -2193,7 +2353,7 @@ export type RoleUpdate = z.infer<typeof RoleUpdateSchema>;
 
 export type RoleOrderBy = z.infer<typeof RoleOrderBySchema>;
 
-export type RoleOwnProjection = z.infer<typeof RoleOwnProjectionSchema>;
+export type RoleOwnSelectFields = z.infer<typeof RoleOwnSelectFieldsSchema>;
 
 export type RoleOwnWhere = z.infer<typeof RoleOwnWhereSchema>;
 
@@ -2209,25 +2369,21 @@ export type RoleQueryOne = z.infer<typeof RoleQueryOneSchema>;
 
 export type RoleQuery = z.infer<typeof RoleQuerySchema>;
 
+export type RoleSelectFields = z.infer<typeof RoleSelectFieldsSchema>;
+
 export type RoleProjection = z.infer<typeof RoleProjectionSchema>;
 
 export const RolePermissionQueryOneSchema = z
   .object({
     where: RolePermissionWhereSchemaJson,
-    select: RolePermissionProjectionSchemaJson,
-    omit: RolePermissionProjectionSchemaJson,
-    include: RolePermissionIncludeSchemaJson,
+    distinct: RolePermissionDistinctFieldsSchema,
   })
   .partial();
 
 export const RolePermissionQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: RolePermissionWhereSchemaJson,
-    select: RolePermissionProjectionSchemaJson,
-    omit: RolePermissionProjectionSchemaJson,
-    include: RolePermissionIncludeSchemaJson,
+    distinct: RolePermissionDistinctFieldsSchema,
   })
   .partial();
 
@@ -2237,8 +2393,8 @@ export type RolePermissionUpdate = z.infer<typeof RolePermissionUpdateSchema>;
 
 export type RolePermissionOrderBy = z.infer<typeof RolePermissionOrderBySchema>;
 
-export type RolePermissionOwnProjection = z.infer<
-  typeof RolePermissionOwnProjectionSchema
+export type RolePermissionOwnSelectFields = z.infer<
+  typeof RolePermissionOwnSelectFieldsSchema
 >;
 
 export type RolePermissionOwnWhere = z.infer<
@@ -2263,6 +2419,10 @@ export type RolePermissionQueryOne = z.infer<
 
 export type RolePermissionQuery = z.infer<typeof RolePermissionQuerySchema>;
 
+export type RolePermissionSelectFields = z.infer<
+  typeof RolePermissionSelectFieldsSchema
+>;
+
 export type RolePermissionProjection = z.infer<
   typeof RolePermissionProjectionSchema
 >;
@@ -2270,20 +2430,14 @@ export type RolePermissionProjection = z.infer<
 export const SessionQueryOneSchema = z
   .object({
     where: SessionWhereSchemaJson,
-    select: SessionProjectionSchemaJson,
-    omit: SessionProjectionSchemaJson,
-    include: SessionIncludeSchemaJson,
+    distinct: SessionDistinctFieldsSchema,
   })
   .partial();
 
 export const SessionQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: SessionWhereSchemaJson,
-    select: SessionProjectionSchemaJson,
-    omit: SessionProjectionSchemaJson,
-    include: SessionIncludeSchemaJson,
+    distinct: SessionDistinctFieldsSchema,
   })
   .partial();
 
@@ -2293,7 +2447,9 @@ export type SessionUpdate = z.infer<typeof SessionUpdateSchema>;
 
 export type SessionOrderBy = z.infer<typeof SessionOrderBySchema>;
 
-export type SessionOwnProjection = z.infer<typeof SessionOwnProjectionSchema>;
+export type SessionOwnSelectFields = z.infer<
+  typeof SessionOwnSelectFieldsSchema
+>;
 
 export type SessionOwnWhere = z.infer<typeof SessionOwnWhereSchema>;
 
@@ -2309,25 +2465,21 @@ export type SessionQueryOne = z.infer<typeof SessionQueryOneSchema>;
 
 export type SessionQuery = z.infer<typeof SessionQuerySchema>;
 
+export type SessionSelectFields = z.infer<typeof SessionSelectFieldsSchema>;
+
 export type SessionProjection = z.infer<typeof SessionProjectionSchema>;
 
 export const ActivityLogQueryOneSchema = z
   .object({
     where: ActivityLogWhereSchemaJson,
-    select: ActivityLogProjectionSchemaJson,
-    omit: ActivityLogProjectionSchemaJson,
-    include: ActivityLogIncludeSchemaJson,
+    distinct: ActivityLogDistinctFieldsSchema,
   })
   .partial();
 
 export const ActivityLogQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: ActivityLogWhereSchemaJson,
-    select: ActivityLogProjectionSchemaJson,
-    omit: ActivityLogProjectionSchemaJson,
-    include: ActivityLogIncludeSchemaJson,
+    distinct: ActivityLogDistinctFieldsSchema,
   })
   .partial();
 
@@ -2337,8 +2489,8 @@ export type ActivityLogUpdate = z.infer<typeof ActivityLogUpdateSchema>;
 
 export type ActivityLogOrderBy = z.infer<typeof ActivityLogOrderBySchema>;
 
-export type ActivityLogOwnProjection = z.infer<
-  typeof ActivityLogOwnProjectionSchema
+export type ActivityLogOwnSelectFields = z.infer<
+  typeof ActivityLogOwnSelectFieldsSchema
 >;
 
 export type ActivityLogOwnWhere = z.infer<typeof ActivityLogOwnWhereSchema>;
@@ -2357,25 +2509,23 @@ export type ActivityLogQueryOne = z.infer<typeof ActivityLogQueryOneSchema>;
 
 export type ActivityLogQuery = z.infer<typeof ActivityLogQuerySchema>;
 
+export type ActivityLogSelectFields = z.infer<
+  typeof ActivityLogSelectFieldsSchema
+>;
+
 export type ActivityLogProjection = z.infer<typeof ActivityLogProjectionSchema>;
 
 export const UserPermissionQueryOneSchema = z
   .object({
     where: UserPermissionWhereSchemaJson,
-    select: UserPermissionProjectionSchemaJson,
-    omit: UserPermissionProjectionSchemaJson,
-    include: UserPermissionIncludeSchemaJson,
+    distinct: UserPermissionDistinctFieldsSchema,
   })
   .partial();
 
 export const UserPermissionQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: UserPermissionWhereSchemaJson,
-    select: UserPermissionProjectionSchemaJson,
-    omit: UserPermissionProjectionSchemaJson,
-    include: UserPermissionIncludeSchemaJson,
+    distinct: UserPermissionDistinctFieldsSchema,
   })
   .partial();
 
@@ -2385,8 +2535,8 @@ export type UserPermissionUpdate = z.infer<typeof UserPermissionUpdateSchema>;
 
 export type UserPermissionOrderBy = z.infer<typeof UserPermissionOrderBySchema>;
 
-export type UserPermissionOwnProjection = z.infer<
-  typeof UserPermissionOwnProjectionSchema
+export type UserPermissionOwnSelectFields = z.infer<
+  typeof UserPermissionOwnSelectFieldsSchema
 >;
 
 export type UserPermissionOwnWhere = z.infer<
@@ -2411,6 +2561,10 @@ export type UserPermissionQueryOne = z.infer<
 
 export type UserPermissionQuery = z.infer<typeof UserPermissionQuerySchema>;
 
+export type UserPermissionSelectFields = z.infer<
+  typeof UserPermissionSelectFieldsSchema
+>;
+
 export type UserPermissionProjection = z.infer<
   typeof UserPermissionProjectionSchema
 >;
@@ -2418,20 +2572,14 @@ export type UserPermissionProjection = z.infer<
 export const AccessTokenPermissionQueryOneSchema = z
   .object({
     where: AccessTokenPermissionWhereSchemaJson,
-    select: AccessTokenPermissionProjectionSchemaJson,
-    omit: AccessTokenPermissionProjectionSchemaJson,
-    include: AccessTokenPermissionIncludeSchemaJson,
+    distinct: AccessTokenPermissionDistinctFieldsSchema,
   })
   .partial();
 
 export const AccessTokenPermissionQuerySchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
     where: AccessTokenPermissionWhereSchemaJson,
-    select: AccessTokenPermissionProjectionSchemaJson,
-    omit: AccessTokenPermissionProjectionSchemaJson,
-    include: AccessTokenPermissionIncludeSchemaJson,
+    distinct: AccessTokenPermissionDistinctFieldsSchema,
   })
   .partial();
 
@@ -2447,8 +2595,8 @@ export type AccessTokenPermissionOrderBy = z.infer<
   typeof AccessTokenPermissionOrderBySchema
 >;
 
-export type AccessTokenPermissionOwnProjection = z.infer<
-  typeof AccessTokenPermissionOwnProjectionSchema
+export type AccessTokenPermissionOwnSelectFields = z.infer<
+  typeof AccessTokenPermissionOwnSelectFieldsSchema
 >;
 
 export type AccessTokenPermissionOwnWhere = z.infer<
@@ -2477,6 +2625,10 @@ export type AccessTokenPermissionQueryOne = z.infer<
 
 export type AccessTokenPermissionQuery = z.infer<
   typeof AccessTokenPermissionQuerySchema
+>;
+
+export type AccessTokenPermissionSelectFields = z.infer<
+  typeof AccessTokenPermissionSelectFieldsSchema
 >;
 
 export type AccessTokenPermissionProjection = z.infer<
