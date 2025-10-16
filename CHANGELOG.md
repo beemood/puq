@@ -1,3 +1,13 @@
+## 0.29.0 (2025-10-16)
+
+### 🚀 Features
+
+- improved the zod schema generator ([dd5550f](https://github.com/beemood/puq/commit/dd5550f))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.28.0 (2025-10-15)
 
 ### 🩹 Fixes
