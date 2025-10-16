@@ -146,7 +146,7 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
     '/* eslint-disable @typescript-eslint/no-explicit-any */',
     `import * as PZ from '@puq/zod';`,
     `import { z } from 'zod';`,
-    `import { slugify } from '@puq/names';`
+    `import { slugify } from '@puq/names';`,
   ];
   const firstResult: string[] = [];
   const secondResult: string[] = [];
@@ -168,7 +168,18 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
       case 'scalar': {
         switch (field.type) {
           case 'String': {
-            pt.push('z.string()');
+            // Specific stirng schemas  by property name
+            if (field.name === 'name') {
+              pt.push('nameSchema.clone()');
+            } else if (field.name === 'description') {
+              pt.push('descriptionSchema.clone()');
+            } else if (field.name === 'email') {
+              pt.push('emailSchema.clone()');
+            } else if (field.name === 'slug') {
+              pt.push('slugSchema.clone()');
+            } else {
+              pt.push('z.string()');
+            }
             break;
           }
           case 'Boolean': {
@@ -177,18 +188,36 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
           }
           case 'Float':
           case 'Decimal': {
-            pt.push('z.number()');
+            if (
+              field.name === 'price' ||
+              field.name === 'cost' ||
+              field.name === 'total' ||
+              field.name === 'subtotal' ||
+              field.name === 'taxtotal'
+            ) {
+              pt.push('currencySchema.clone()');
+            } else {
+              pt.push('z.coerce.number()');
+            }
 
             break;
           }
 
           case 'Int': {
-            pt.push('z.int()');
+            if (
+              field.name === 'id' ||
+              field.name === 'quantity' ||
+              field.name === 'age'
+            ) {
+              pt.push('positiveIntegerSchema.clone()');
+            } else {
+              pt.push('z.coerce.number().int()');
+            }
             break;
           }
 
           case 'DateTime': {
-            pt.push('z.iso.datetime()');
+            pt.push('dateSchema.clone()');
 
             break;
           }
@@ -211,9 +240,7 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
 
     if (field.name.startsWith('slug')) {
       pt.push('optional()');
-    }
-
-    if (!field.isRequired || field.hasDefaultValue) {
+    } else if (!field.isRequired || field.hasDefaultValue) {
       pt.push('optional()');
     }
 
@@ -470,23 +497,28 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
     `
 export const takeSchema = z.coerce.number().int().min(1).default(20).optional();
 export const skipSchema = z.coerce.number().int().min(0).default(0).optional();
-
-
-
 export const PaginationSchema = z.object({ 
-  take: takeSchema, 
-  skip: skipSchema 
+  take: takeSchema.clone(), 
+  skip: skipSchema.clone() 
 }).partial()
+`,
 
-
-
+    `
+export const nameSchema = z.string().min(2).max(30); 
+export const descriptionSchema= z.string().max(1000); 
+export const currencySchema =  z.coerce.number().positive(); 
+export const positiveIntegerSchema = z.coerce.number().int().positive();
+export const emailSchema = z.email();
+export const dateSchema = z.iso.datetime()
+export const slugSchema = z.string().regex(/^[a-z-]{2,}$/)
+`,
+    `
 export function jsonParser<T>(value: T) {
   if (typeof value === 'string') {
     return JSON.parse(value);
   }
   return value;
 };
-
 `,
     `
 export function slugTransformer(key: string) {
@@ -500,7 +532,6 @@ export function slugTransformer(key: string) {
     return value;
   };
 }
-
   `,
   ];
 

@@ -37,6 +37,8 @@
   "name": "PrismaClientKnownRequestError"
 }
 
+- [ ] Add common name, description and other valdiations to the zod properties.
+
 ````
 
 - [ ] When request contains two of select, omit, and include, the system throw Internal Error (PrismaClientValidationError), optimaize the Zod schemas so that it throws Unprocessable Entity error

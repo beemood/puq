@@ -5,13 +5,20 @@ import { slugify } from '@puq/names';
 
 export const takeSchema = z.coerce.number().int().min(1).default(20).optional();
 export const skipSchema = z.coerce.number().int().min(0).default(0).optional();
-
 export const PaginationSchema = z
   .object({
-    take: takeSchema,
-    skip: skipSchema,
+    take: takeSchema.clone(),
+    skip: skipSchema.clone(),
   })
   .partial();
+
+export const nameSchema = z.string().min(2).max(30);
+export const descriptionSchema = z.string().max(1000);
+export const currencySchema = z.coerce.number().positive();
+export const positiveIntegerSchema = z.coerce.number().int().positive();
+export const emailSchema = z.email();
+export const dateSchema = z.iso.datetime();
+export const slugSchema = z.string().regex(/^[a-z-]{2,}$/);
 
 export function jsonParser<T>(value: T) {
   if (typeof value === 'string') {
@@ -1322,17 +1329,17 @@ export const ProductWarrantyOwnQuerySchema = z
 
 export const CategoryCreateSchema = z
   .object({
-    parentId: z.int().optional(),
-    name: z.string(),
-    slug: z.string().optional(),
+    parentId: z.coerce.number().int().optional(),
+    name: nameSchema.clone(),
+    slug: slugSchema.clone().optional(),
   })
   .transform(slugTransformer('name'));
 
 export const CategoryUpdateSchema = z
   .object({
-    parentId: z.int().optional().optional(),
-    name: z.string().optional(),
-    slug: z.string().optional().optional(),
+    parentId: z.coerce.number().int().optional().optional(),
+    name: nameSchema.clone().optional(),
+    slug: slugSchema.clone().optional().optional(),
   })
   .transform(slugTransformer('name'));
 
@@ -1427,18 +1434,18 @@ export const CategoryIncludeSchemaJson = z.preprocess(
 export const ProductCreateSchema = z
   .object({
     isActive: z.boolean().optional(),
-    name: z.string(),
-    slug: z.string().optional(),
-    description: z.string().optional(),
+    name: nameSchema.clone(),
+    slug: slugSchema.clone().optional(),
+    description: descriptionSchema.clone().optional(),
   })
   .transform(slugTransformer('name'));
 
 export const ProductUpdateSchema = z
   .object({
     isActive: z.boolean().optional().optional(),
-    name: z.string().optional(),
-    slug: z.string().optional().optional(),
-    description: z.string().optional().optional(),
+    name: nameSchema.clone().optional(),
+    slug: slugSchema.clone().optional().optional(),
+    description: descriptionSchema.clone().optional().optional(),
   })
   .transform(slugTransformer('name'));
 
@@ -1543,13 +1550,13 @@ export const ProductIncludeSchemaJson = z.preprocess(
 );
 
 export const ProductCategoryCreateSchema = z.object({
-  productId: z.int(),
-  categoryId: z.int(),
+  productId: z.coerce.number().int(),
+  categoryId: z.coerce.number().int(),
 });
 
 export const ProductCategoryUpdateSchema = z.object({
-  productId: z.int().optional(),
-  categoryId: z.int().optional(),
+  productId: z.coerce.number().int().optional(),
+  categoryId: z.coerce.number().int().optional(),
 });
 
 export const ProductCategoryOrderBySchema = z
@@ -1620,13 +1627,13 @@ export const ProductCategoryIncludeSchemaJson = z.preprocess(
 );
 
 export const VariantCreateSchema = z.object({
-  productId: z.int(),
+  productId: z.coerce.number().int(),
   sku: z.string(),
   upc: z.string(),
 });
 
 export const VariantUpdateSchema = z.object({
-  productId: z.int().optional(),
+  productId: z.coerce.number().int().optional(),
   sku: z.string().optional(),
   upc: z.string().optional(),
 });
@@ -1751,15 +1758,15 @@ export const VariantIncludeSchemaJson = z.preprocess(
 
 export const AttributeCategoryCreateSchema = z
   .object({
-    name: z.string(),
-    slug: z.string().optional(),
+    name: nameSchema.clone(),
+    slug: slugSchema.clone().optional(),
   })
   .transform(slugTransformer('name'));
 
 export const AttributeCategoryUpdateSchema = z
   .object({
-    name: z.string().optional(),
-    slug: z.string().optional().optional(),
+    name: nameSchema.clone().optional(),
+    slug: slugSchema.clone().optional().optional(),
   })
   .transform(slugTransformer('name'));
 
@@ -1822,15 +1829,15 @@ export const AttributeCategoryIncludeSchemaJson = z.preprocess(
 );
 
 export const AttributeCreateSchema = z.object({
-  categoryId: z.int().optional(),
-  name: z.string(),
-  description: z.string().optional(),
+  categoryId: z.coerce.number().int().optional(),
+  name: nameSchema.clone(),
+  description: descriptionSchema.clone().optional(),
 });
 
 export const AttributeUpdateSchema = z.object({
-  categoryId: z.int().optional().optional(),
-  name: z.string().optional(),
-  description: z.string().optional().optional(),
+  categoryId: z.coerce.number().int().optional().optional(),
+  name: nameSchema.clone().optional(),
+  description: descriptionSchema.clone().optional().optional(),
 });
 
 export const AttributeOrderBySchema = z
@@ -1913,12 +1920,12 @@ export const AttributeIncludeSchemaJson = z.preprocess(
 );
 
 export const UnitCreateSchema = z.object({
-  name: z.string(),
+  name: nameSchema.clone(),
   symbol: z.string(),
 });
 
 export const UnitUpdateSchema = z.object({
-  name: z.string().optional(),
+  name: nameSchema.clone().optional(),
   symbol: z.string().optional(),
 });
 
@@ -1978,13 +1985,13 @@ export const UnitIncludeSchemaJson = z.preprocess(
 );
 
 export const AttributeUnitCreateSchema = z.object({
-  attributeId: z.int(),
-  unitId: z.int(),
+  attributeId: z.coerce.number().int(),
+  unitId: z.coerce.number().int(),
 });
 
 export const AttributeUnitUpdateSchema = z.object({
-  attributeId: z.int().optional(),
-  unitId: z.int().optional(),
+  attributeId: z.coerce.number().int().optional(),
+  unitId: z.coerce.number().int().optional(),
 });
 
 export const AttributeUnitOrderBySchema = z
@@ -2055,19 +2062,19 @@ export const AttributeUnitIncludeSchemaJson = z.preprocess(
 );
 
 export const AttributeValueCreateSchema = z.object({
-  attributeId: z.int(),
-  variantId: z.int(),
+  attributeId: z.coerce.number().int(),
+  variantId: z.coerce.number().int(),
   textValue: z.string().optional(),
   booleanValue: z.boolean().optional(),
-  floatValue: z.number().optional(),
+  floatValue: z.coerce.number().optional(),
 });
 
 export const AttributeValueUpdateSchema = z.object({
-  attributeId: z.int().optional(),
-  variantId: z.int().optional(),
+  attributeId: z.coerce.number().int().optional(),
+  variantId: z.coerce.number().int().optional(),
   textValue: z.string().optional().optional(),
   booleanValue: z.boolean().optional().optional(),
-  floatValue: z.number().optional().optional(),
+  floatValue: z.coerce.number().optional().optional(),
 });
 
 export const AttributeValueOrderBySchema = z
@@ -2147,13 +2154,13 @@ export const AttributeValueIncludeSchemaJson = z.preprocess(
 );
 
 export const CurrencyCreateSchema = z.object({
-  name: z.string(),
+  name: nameSchema.clone(),
   code: z.string(),
   symbol: z.string().optional(),
 });
 
 export const CurrencyUpdateSchema = z.object({
-  name: z.string().optional(),
+  name: nameSchema.clone().optional(),
   code: z.string().optional(),
   symbol: z.string().optional().optional(),
 });
@@ -2221,20 +2228,20 @@ export const CurrencyIncludeSchemaJson = z.preprocess(
 
 export const PriceLevelCreateSchema = z
   .object({
-    currencyId: z.int(),
-    name: z.string(),
-    slug: z.string().optional(),
-    taxrate: z.number(),
+    currencyId: z.coerce.number().int(),
+    name: nameSchema.clone(),
+    slug: slugSchema.clone().optional(),
+    taxrate: z.coerce.number(),
     notes: z.string().optional(),
   })
   .transform(slugTransformer('name'));
 
 export const PriceLevelUpdateSchema = z
   .object({
-    currencyId: z.int().optional(),
-    name: z.string().optional(),
-    slug: z.string().optional().optional(),
-    taxrate: z.number().optional(),
+    currencyId: z.coerce.number().int().optional(),
+    name: nameSchema.clone().optional(),
+    slug: slugSchema.clone().optional().optional(),
+    taxrate: z.coerce.number().optional(),
     notes: z.string().optional().optional(),
   })
   .transform(slugTransformer('name'));
@@ -2334,19 +2341,19 @@ export const PriceLevelIncludeSchemaJson = z.preprocess(
 );
 
 export const PriceCreateSchema = z.object({
-  variantId: z.int(),
-  priceLevelId: z.int(),
-  price: z.number(),
-  cost: z.number(),
-  description: z.string().optional(),
+  variantId: z.coerce.number().int(),
+  priceLevelId: z.coerce.number().int(),
+  price: currencySchema.clone(),
+  cost: currencySchema.clone(),
+  description: descriptionSchema.clone().optional(),
 });
 
 export const PriceUpdateSchema = z.object({
-  variantId: z.int().optional(),
-  priceLevelId: z.int().optional(),
-  price: z.number().optional(),
-  cost: z.number().optional(),
-  description: z.string().optional().optional(),
+  variantId: z.coerce.number().int().optional(),
+  priceLevelId: z.coerce.number().int().optional(),
+  price: currencySchema.clone().optional(),
+  cost: currencySchema.clone().optional(),
+  description: descriptionSchema.clone().optional().optional(),
 });
 
 export const PriceOrderBySchema = z
@@ -2423,17 +2430,17 @@ export const PriceIncludeSchemaJson = z.preprocess(
 );
 
 export const QuantityCreateSchema = z.object({
-  variantId: z.int(),
-  storeId: z.int(),
-  quantity: z.int(),
-  alertThreshold: z.int().optional(),
+  variantId: z.coerce.number().int(),
+  storeId: z.coerce.number().int(),
+  quantity: positiveIntegerSchema.clone(),
+  alertThreshold: z.coerce.number().int().optional(),
 });
 
 export const QuantityUpdateSchema = z.object({
-  variantId: z.int().optional(),
-  storeId: z.int().optional(),
-  quantity: z.int().optional(),
-  alertThreshold: z.int().optional().optional(),
+  variantId: z.coerce.number().int().optional(),
+  storeId: z.coerce.number().int().optional(),
+  quantity: positiveIntegerSchema.clone().optional(),
+  alertThreshold: z.coerce.number().int().optional().optional(),
 });
 
 export const QuantityOrderBySchema = z
@@ -2510,15 +2517,15 @@ export const QuantityIncludeSchemaJson = z.preprocess(
 );
 
 export const SerialNumberCreateSchema = z.object({
-  variantId: z.int(),
-  storeId: z.int(),
+  variantId: z.coerce.number().int(),
+  storeId: z.coerce.number().int(),
   serialNumber: z.string(),
   inStock: z.boolean(),
 });
 
 export const SerialNumberUpdateSchema = z.object({
-  variantId: z.int().optional(),
-  storeId: z.int().optional(),
+  variantId: z.coerce.number().int().optional(),
+  storeId: z.coerce.number().int().optional(),
   serialNumber: z.string().optional(),
   inStock: z.boolean().optional(),
 });
@@ -2600,30 +2607,30 @@ export const DiscountCreateSchema = z.object({
   code: z.string(),
   type: DiscountTypeSchema,
   valueType: ValueTypeSchema,
-  value: z.number().optional(),
-  minQuantity: z.int().optional(),
-  maxQuantity: z.int().optional(),
-  minOrderTotal: z.number().optional(),
-  maxOrderTotal: z.number().optional(),
-  startDate: z.iso.datetime().optional(),
-  endDate: z.iso.datetime().optional(),
-  usageLimit: z.int().optional(),
-  usageCount: z.int().optional(),
+  value: z.coerce.number().optional(),
+  minQuantity: z.coerce.number().int().optional(),
+  maxQuantity: z.coerce.number().int().optional(),
+  minOrderTotal: z.coerce.number().optional(),
+  maxOrderTotal: z.coerce.number().optional(),
+  startDate: dateSchema.clone().optional(),
+  endDate: dateSchema.clone().optional(),
+  usageLimit: z.coerce.number().int().optional(),
+  usageCount: z.coerce.number().int().optional(),
 });
 
 export const DiscountUpdateSchema = z.object({
   code: z.string().optional(),
   type: DiscountTypeSchema.optional(),
   valueType: ValueTypeSchema.optional(),
-  value: z.number().optional().optional(),
-  minQuantity: z.int().optional().optional(),
-  maxQuantity: z.int().optional().optional(),
-  minOrderTotal: z.number().optional().optional(),
-  maxOrderTotal: z.number().optional().optional(),
-  startDate: z.iso.datetime().optional().optional(),
-  endDate: z.iso.datetime().optional().optional(),
-  usageLimit: z.int().optional().optional(),
-  usageCount: z.int().optional().optional(),
+  value: z.coerce.number().optional().optional(),
+  minQuantity: z.coerce.number().int().optional().optional(),
+  maxQuantity: z.coerce.number().int().optional().optional(),
+  minOrderTotal: z.coerce.number().optional().optional(),
+  maxOrderTotal: z.coerce.number().optional().optional(),
+  startDate: dateSchema.clone().optional().optional(),
+  endDate: dateSchema.clone().optional().optional(),
+  usageLimit: z.coerce.number().int().optional().optional(),
+  usageCount: z.coerce.number().int().optional().optional(),
 });
 
 export const DiscountOrderBySchema = z
@@ -2714,22 +2721,22 @@ export const DiscountIncludeSchemaJson = z.preprocess(
 
 export const DiscountTargetCreateSchema = z.object({
   type: DiscountTargetTypeSchema,
-  discountId: z.int(),
-  storeId: z.int().optional(),
-  productId: z.int().optional(),
-  variantId: z.int().optional(),
-  priceLevelId: z.int().optional(),
-  categoryId: z.int().optional(),
+  discountId: z.coerce.number().int(),
+  storeId: z.coerce.number().int().optional(),
+  productId: z.coerce.number().int().optional(),
+  variantId: z.coerce.number().int().optional(),
+  priceLevelId: z.coerce.number().int().optional(),
+  categoryId: z.coerce.number().int().optional(),
 });
 
 export const DiscountTargetUpdateSchema = z.object({
   type: DiscountTargetTypeSchema.optional(),
-  discountId: z.int().optional(),
-  storeId: z.int().optional().optional(),
-  productId: z.int().optional().optional(),
-  variantId: z.int().optional().optional(),
-  priceLevelId: z.int().optional().optional(),
-  categoryId: z.int().optional().optional(),
+  discountId: z.coerce.number().int().optional(),
+  storeId: z.coerce.number().int().optional().optional(),
+  productId: z.coerce.number().int().optional().optional(),
+  variantId: z.coerce.number().int().optional().optional(),
+  priceLevelId: z.coerce.number().int().optional().optional(),
+  categoryId: z.coerce.number().int().optional().optional(),
 });
 
 export const DiscountTargetOrderBySchema = z
@@ -2851,19 +2858,19 @@ export const DiscountTargetIncludeSchemaJson = z.preprocess(
 
 export const StoreCreateSchema = z
   .object({
-    priceLevelId: z.int(),
-    name: z.string(),
-    slug: z.string().optional(),
-    description: z.string().optional(),
+    priceLevelId: z.coerce.number().int(),
+    name: nameSchema.clone(),
+    slug: slugSchema.clone().optional(),
+    description: descriptionSchema.clone().optional(),
   })
   .transform(slugTransformer('name'));
 
 export const StoreUpdateSchema = z
   .object({
-    priceLevelId: z.int().optional(),
-    name: z.string().optional(),
-    slug: z.string().optional().optional(),
-    description: z.string().optional().optional(),
+    priceLevelId: z.coerce.number().int().optional(),
+    name: nameSchema.clone().optional(),
+    slug: slugSchema.clone().optional().optional(),
+    description: descriptionSchema.clone().optional().optional(),
   })
   .transform(slugTransformer('name'));
 
@@ -2956,16 +2963,16 @@ export const StoreIncludeSchemaJson = z.preprocess(
 );
 
 export const WarrantyPolicyCreateSchema = z.object({
-  name: z.string(),
-  description: z.string().optional(),
-  duration: z.int(),
+  name: nameSchema.clone(),
+  description: descriptionSchema.clone().optional(),
+  duration: z.coerce.number().int(),
   durationUnit: TimeUnitSchema.optional(),
 });
 
 export const WarrantyPolicyUpdateSchema = z.object({
-  name: z.string().optional(),
-  description: z.string().optional().optional(),
-  duration: z.int().optional(),
+  name: nameSchema.clone().optional(),
+  description: descriptionSchema.clone().optional().optional(),
+  duration: z.coerce.number().int().optional(),
   durationUnit: TimeUnitSchema.optional().optional(),
 });
 
@@ -3033,15 +3040,15 @@ export const WarrantyPolicyIncludeSchemaJson = z.preprocess(
 );
 
 export const ProductWarrantyCreateSchema = z.object({
-  productId: z.int().optional(),
-  variantId: z.int().optional(),
-  policyId: z.int(),
+  productId: z.coerce.number().int().optional(),
+  variantId: z.coerce.number().int().optional(),
+  policyId: z.coerce.number().int(),
 });
 
 export const ProductWarrantyUpdateSchema = z.object({
-  productId: z.int().optional().optional(),
-  variantId: z.int().optional().optional(),
-  policyId: z.int().optional(),
+  productId: z.coerce.number().int().optional().optional(),
+  variantId: z.coerce.number().int().optional().optional(),
+  policyId: z.coerce.number().int().optional(),
 });
 
 export const ProductWarrantyOrderBySchema = z
