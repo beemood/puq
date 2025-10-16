@@ -1,12 +1,6 @@
 #!/bin/bash
 find ./dbs/* -maxdepth 0 -type d | while read dir; do
 
-    sed -i 's|"commands": [
-            "npx prisma migrate reset --force",
-            "npx prisma migrate dev --name updated",
-            "npx prisma generate"
-          ],|"commands": [
-            "npx prisma migrate reset --force"
-          ],|g' "$dir/package.json"
+    sed -i 's|https://beemood.github.io/puq|https://beemood.github.io|g' "$dir/README.md"
 
 done
