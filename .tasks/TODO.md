@@ -6,11 +6,7 @@
 - [ ] The runtime/library does not support "imports", add the import options to it. 
 ````json
 "./runtime/library": {
-    ....,
-   "import": {
-        "types": "./generated/runtime/library.d.ts",
-        "node": "./generated/runtime/library.js"
-   }
+   "import": {"types": "./generated/runtime/library.d.ts","node": "./generated/runtime/library.js"}
 }
 
 ````
