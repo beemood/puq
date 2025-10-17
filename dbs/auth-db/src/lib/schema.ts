@@ -885,25 +885,12 @@ export const UserIncludeSchemaJson = z.preprocess(
   UserIncludeSchema
 );
 
-export const UserProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: UserSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: UserSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: UserIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const UserProjectionSchema = z.union([
+  z.object({ omit: UserSelectFieldsSchemaJson }),
+  z.object({ select: UserSelectFieldsSchemaJson }),
+  z.object({ include: UserIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const AccessTokenCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -976,25 +963,12 @@ export const AccessTokenIncludeSchemaJson = z.preprocess(
   AccessTokenIncludeSchema
 );
 
-export const AccessTokenProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: AccessTokenSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: AccessTokenSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: AccessTokenIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const AccessTokenProjectionSchema = z.union([
+  z.object({ omit: AccessTokenSelectFieldsSchemaJson }),
+  z.object({ select: AccessTokenSelectFieldsSchemaJson }),
+  z.object({ include: AccessTokenIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const ScopeCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -1056,25 +1030,12 @@ export const ScopeIncludeSchemaJson = z.preprocess(
   ScopeIncludeSchema
 );
 
-export const ScopeProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: ScopeSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: ScopeSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: ScopeIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const ScopeProjectionSchema = z.union([
+  z.object({ omit: ScopeSelectFieldsSchemaJson }),
+  z.object({ select: ScopeSelectFieldsSchemaJson }),
+  z.object({ include: ScopeIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const ResourceCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -1139,25 +1100,12 @@ export const ResourceIncludeSchemaJson = z.preprocess(
   ResourceIncludeSchema
 );
 
-export const ResourceProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: ResourceSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: ResourceSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: ResourceIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const ResourceProjectionSchema = z.union([
+  z.object({ omit: ResourceSelectFieldsSchemaJson }),
+  z.object({ select: ResourceSelectFieldsSchemaJson }),
+  z.object({ include: ResourceIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const OperationCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -1222,25 +1170,12 @@ export const OperationIncludeSchemaJson = z.preprocess(
   OperationIncludeSchema
 );
 
-export const OperationProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: OperationSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: OperationSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: OperationIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const OperationProjectionSchema = z.union([
+  z.object({ omit: OperationSelectFieldsSchemaJson }),
+  z.object({ select: OperationSelectFieldsSchemaJson }),
+  z.object({ include: OperationIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const ActivityCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -1330,25 +1265,12 @@ export const ActivityIncludeSchemaJson = z.preprocess(
   ActivityIncludeSchema
 );
 
-export const ActivityProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: ActivitySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: ActivitySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: ActivityIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const ActivityProjectionSchema = z.union([
+  z.object({ omit: ActivitySelectFieldsSchemaJson }),
+  z.object({ select: ActivitySelectFieldsSchemaJson }),
+  z.object({ include: ActivityIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const PermissionCreateSchema = z.object({
   scopeId: z.coerce.number().int(),
@@ -1442,25 +1364,12 @@ export const PermissionIncludeSchemaJson = z.preprocess(
   PermissionIncludeSchema
 );
 
-export const PermissionProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: PermissionSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: PermissionSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: PermissionIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const PermissionProjectionSchema = z.union([
+  z.object({ omit: PermissionSelectFieldsSchemaJson }),
+  z.object({ select: PermissionSelectFieldsSchemaJson }),
+  z.object({ include: PermissionIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const RoleCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -1522,25 +1431,12 @@ export const RoleIncludeSchemaJson = z.preprocess(
   RoleIncludeSchema
 );
 
-export const RoleProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: RoleSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: RoleSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: RoleIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const RoleProjectionSchema = z.union([
+  z.object({ omit: RoleSelectFieldsSchemaJson }),
+  z.object({ select: RoleSelectFieldsSchemaJson }),
+  z.object({ include: RoleIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const RolePermissionCreateSchema = z.object({
   roleId: z.coerce.number().int(),
@@ -1607,25 +1503,12 @@ export const RolePermissionIncludeSchemaJson = z.preprocess(
   RolePermissionIncludeSchema
 );
 
-export const RolePermissionProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: RolePermissionSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: RolePermissionSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: RolePermissionIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const RolePermissionProjectionSchema = z.union([
+  z.object({ omit: RolePermissionSelectFieldsSchemaJson }),
+  z.object({ select: RolePermissionSelectFieldsSchemaJson }),
+  z.object({ include: RolePermissionIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const SessionCreateSchema = z.object({
   userId: z.coerce.number().int(),
@@ -1710,25 +1593,12 @@ export const SessionIncludeSchemaJson = z.preprocess(
   SessionIncludeSchema
 );
 
-export const SessionProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: SessionSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: SessionSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: SessionIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const SessionProjectionSchema = z.union([
+  z.object({ omit: SessionSelectFieldsSchemaJson }),
+  z.object({ select: SessionSelectFieldsSchemaJson }),
+  z.object({ include: SessionIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const ActivityLogCreateSchema = z.object({
   sessionId: z.coerce.number().int(),
@@ -1803,25 +1673,12 @@ export const ActivityLogIncludeSchemaJson = z.preprocess(
   ActivityLogIncludeSchema
 );
 
-export const ActivityLogProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: ActivityLogSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: ActivityLogSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: ActivityLogIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const ActivityLogProjectionSchema = z.union([
+  z.object({ omit: ActivityLogSelectFieldsSchemaJson }),
+  z.object({ select: ActivityLogSelectFieldsSchemaJson }),
+  z.object({ include: ActivityLogIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const UserPermissionCreateSchema = z.object({
   userId: z.coerce.number().int(),
@@ -1888,25 +1745,12 @@ export const UserPermissionIncludeSchemaJson = z.preprocess(
   UserPermissionIncludeSchema
 );
 
-export const UserPermissionProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: UserPermissionSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: UserPermissionSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: UserPermissionIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const UserPermissionProjectionSchema = z.union([
+  z.object({ omit: UserPermissionSelectFieldsSchemaJson }),
+  z.object({ select: UserPermissionSelectFieldsSchemaJson }),
+  z.object({ include: UserPermissionIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const AccessTokenPermissionCreateSchema = z.object({
   permissionId: z.coerce.number().int(),
@@ -1973,25 +1817,12 @@ export const AccessTokenPermissionIncludeSchemaJson = z.preprocess(
   AccessTokenPermissionIncludeSchema
 );
 
-export const AccessTokenPermissionProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: AccessTokenPermissionSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: AccessTokenPermissionSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: AccessTokenPermissionIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const AccessTokenPermissionProjectionSchema = z.union([
+  z.object({ omit: AccessTokenPermissionSelectFieldsSchemaJson }),
+  z.object({ select: AccessTokenPermissionSelectFieldsSchemaJson }),
+  z.object({ include: AccessTokenPermissionIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const UserQueryOneSchema = z
   .object({

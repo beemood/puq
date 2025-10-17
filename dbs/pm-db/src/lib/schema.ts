@@ -1918,25 +1918,12 @@ export const UserIncludeSchemaJson = z.preprocess(
   UserIncludeSchema
 );
 
-export const UserProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: UserSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: UserSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: UserIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const UserProjectionSchema = z.union([
+  z.object({ omit: UserSelectFieldsSchemaJson }),
+  z.object({ select: UserSelectFieldsSchemaJson }),
+  z.object({ include: UserIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const TeamCreateSchema = z
   .object({
@@ -2039,25 +2026,12 @@ export const TeamIncludeSchemaJson = z.preprocess(
   TeamIncludeSchema
 );
 
-export const TeamProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: TeamSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: TeamSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: TeamIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const TeamProjectionSchema = z.union([
+  z.object({ omit: TeamSelectFieldsSchemaJson }),
+  z.object({ select: TeamSelectFieldsSchemaJson }),
+  z.object({ include: TeamIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const TeamManagerCreateSchema = z.object({
   managerId: z.coerce.number().int(),
@@ -2124,25 +2098,12 @@ export const TeamManagerIncludeSchemaJson = z.preprocess(
   TeamManagerIncludeSchema
 );
 
-export const TeamManagerProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: TeamManagerSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: TeamManagerSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: TeamManagerIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const TeamManagerProjectionSchema = z.union([
+  z.object({ omit: TeamManagerSelectFieldsSchemaJson }),
+  z.object({ select: TeamManagerSelectFieldsSchemaJson }),
+  z.object({ include: TeamManagerIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const TeamMemberCreateSchema = z.object({
   teamId: z.coerce.number().int(),
@@ -2209,25 +2170,12 @@ export const TeamMemberIncludeSchemaJson = z.preprocess(
   TeamMemberIncludeSchema
 );
 
-export const TeamMemberProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: TeamMemberSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: TeamMemberSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: TeamMemberIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const TeamMemberProjectionSchema = z.union([
+  z.object({ omit: TeamMemberSelectFieldsSchemaJson }),
+  z.object({ select: TeamMemberSelectFieldsSchemaJson }),
+  z.object({ include: TeamMemberIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const ProjectCreateSchema = z
   .object({
@@ -2409,25 +2357,12 @@ export const ProjectIncludeSchemaJson = z.preprocess(
   ProjectIncludeSchema
 );
 
-export const ProjectProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: ProjectSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: ProjectSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: ProjectIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const ProjectProjectionSchema = z.union([
+  z.object({ omit: ProjectSelectFieldsSchemaJson }),
+  z.object({ select: ProjectSelectFieldsSchemaJson }),
+  z.object({ include: ProjectIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const TagCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -2497,25 +2432,12 @@ export const TagIncludeSchema = z
 
 export const TagIncludeSchemaJson = z.preprocess(jsonParser, TagIncludeSchema);
 
-export const TagProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: TagSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: TagSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: TagIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const TagProjectionSchema = z.union([
+  z.object({ omit: TagSelectFieldsSchemaJson }),
+  z.object({ select: TagSelectFieldsSchemaJson }),
+  z.object({ include: TagIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const CategoryCreateSchema = z.object({
   parentId: z.coerce.number().int().optional(),
@@ -2607,25 +2529,12 @@ export const CategoryIncludeSchemaJson = z.preprocess(
   CategoryIncludeSchema
 );
 
-export const CategoryProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: CategorySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: CategorySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: CategoryIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const CategoryProjectionSchema = z.union([
+  z.object({ omit: CategorySelectFieldsSchemaJson }),
+  z.object({ select: CategorySelectFieldsSchemaJson }),
+  z.object({ include: CategoryIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const SprintCreateSchema = z
   .object({
@@ -2720,25 +2629,12 @@ export const SprintIncludeSchemaJson = z.preprocess(
   SprintIncludeSchema
 );
 
-export const SprintProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: SprintSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: SprintSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: SprintIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const SprintProjectionSchema = z.union([
+  z.object({ omit: SprintSelectFieldsSchemaJson }),
+  z.object({ select: SprintSelectFieldsSchemaJson }),
+  z.object({ include: SprintIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const PriorityCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -2840,25 +2736,12 @@ export const PriorityIncludeSchemaJson = z.preprocess(
   PriorityIncludeSchema
 );
 
-export const PriorityProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: PrioritySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: PrioritySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: PriorityIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const PriorityProjectionSchema = z.union([
+  z.object({ omit: PrioritySelectFieldsSchemaJson }),
+  z.object({ select: PrioritySelectFieldsSchemaJson }),
+  z.object({ include: PriorityIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const StatusCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -2960,25 +2843,12 @@ export const StatusIncludeSchemaJson = z.preprocess(
   StatusIncludeSchema
 );
 
-export const StatusProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: StatusSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: StatusSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: StatusIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const StatusProjectionSchema = z.union([
+  z.object({ omit: StatusSelectFieldsSchemaJson }),
+  z.object({ select: StatusSelectFieldsSchemaJson }),
+  z.object({ include: StatusIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const PointCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -3068,25 +2938,12 @@ export const PointIncludeSchemaJson = z.preprocess(
   PointIncludeSchema
 );
 
-export const PointProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: PointSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: PointSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: PointIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const PointProjectionSchema = z.union([
+  z.object({ omit: PointSelectFieldsSchemaJson }),
+  z.object({ select: PointSelectFieldsSchemaJson }),
+  z.object({ include: PointIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const TaskCreateSchema = z
   .object({
@@ -3298,25 +3155,12 @@ export const TaskIncludeSchemaJson = z.preprocess(
   TaskIncludeSchema
 );
 
-export const TaskProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: TaskSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: TaskSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: TaskIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const TaskProjectionSchema = z.union([
+  z.object({ omit: TaskSelectFieldsSchemaJson }),
+  z.object({ select: TaskSelectFieldsSchemaJson }),
+  z.object({ include: TaskIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const AssignmentHistoryCreateSchema = z.object({
   createdById: z.coerce.number().int(),
@@ -3413,25 +3257,12 @@ export const AssignmentHistoryIncludeSchemaJson = z.preprocess(
   AssignmentHistoryIncludeSchema
 );
 
-export const AssignmentHistoryProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: AssignmentHistorySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: AssignmentHistorySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: AssignmentHistoryIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const AssignmentHistoryProjectionSchema = z.union([
+  z.object({ omit: AssignmentHistorySelectFieldsSchemaJson }),
+  z.object({ select: AssignmentHistorySelectFieldsSchemaJson }),
+  z.object({ include: AssignmentHistoryIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const PriorityHistoryCreateSchema = z.object({
   createdById: z.coerce.number().int(),
@@ -3528,25 +3359,12 @@ export const PriorityHistoryIncludeSchemaJson = z.preprocess(
   PriorityHistoryIncludeSchema
 );
 
-export const PriorityHistoryProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: PriorityHistorySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: PriorityHistorySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: PriorityHistoryIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const PriorityHistoryProjectionSchema = z.union([
+  z.object({ omit: PriorityHistorySelectFieldsSchemaJson }),
+  z.object({ select: PriorityHistorySelectFieldsSchemaJson }),
+  z.object({ include: PriorityHistoryIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const StatusHistoryCreateSchema = z.object({
   createdById: z.coerce.number().int(),
@@ -3640,25 +3458,12 @@ export const StatusHistoryIncludeSchemaJson = z.preprocess(
   StatusHistoryIncludeSchema
 );
 
-export const StatusHistoryProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: StatusHistorySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: StatusHistorySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: StatusHistoryIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const StatusHistoryProjectionSchema = z.union([
+  z.object({ omit: StatusHistorySelectFieldsSchemaJson }),
+  z.object({ select: StatusHistorySelectFieldsSchemaJson }),
+  z.object({ include: StatusHistoryIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const PointHistoryCreateSchema = z.object({
   createdById: z.coerce.number().int(),
@@ -3752,25 +3557,12 @@ export const PointHistoryIncludeSchemaJson = z.preprocess(
   PointHistoryIncludeSchema
 );
 
-export const PointHistoryProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: PointHistorySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: PointHistorySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: PointHistoryIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const PointHistoryProjectionSchema = z.union([
+  z.object({ omit: PointHistorySelectFieldsSchemaJson }),
+  z.object({ select: PointHistorySelectFieldsSchemaJson }),
+  z.object({ include: PointHistoryIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const TeamHistoryCreateSchema = z.object({
   createdById: z.coerce.number().int(),
@@ -3848,25 +3640,12 @@ export const TeamHistoryIncludeSchemaJson = z.preprocess(
   TeamHistoryIncludeSchema
 );
 
-export const TeamHistoryProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: TeamHistorySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: TeamHistorySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: TeamHistoryIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const TeamHistoryProjectionSchema = z.union([
+  z.object({ omit: TeamHistorySelectFieldsSchemaJson }),
+  z.object({ select: TeamHistorySelectFieldsSchemaJson }),
+  z.object({ include: TeamHistoryIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const TaskTagCreateSchema = z.object({
   taskId: z.coerce.number().int(),
@@ -3933,25 +3712,12 @@ export const TaskTagIncludeSchemaJson = z.preprocess(
   TaskTagIncludeSchema
 );
 
-export const TaskTagProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: TaskTagSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: TaskTagSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: TaskTagIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const TaskTagProjectionSchema = z.union([
+  z.object({ omit: TaskTagSelectFieldsSchemaJson }),
+  z.object({ select: TaskTagSelectFieldsSchemaJson }),
+  z.object({ include: TaskTagIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const TaskCategoryCreateSchema = z.object({
   categoryId: z.coerce.number().int(),
@@ -4018,25 +3784,12 @@ export const TaskCategoryIncludeSchemaJson = z.preprocess(
   TaskCategoryIncludeSchema
 );
 
-export const TaskCategoryProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: TaskCategorySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: TaskCategorySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: TaskCategoryIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const TaskCategoryProjectionSchema = z.union([
+  z.object({ omit: TaskCategorySelectFieldsSchemaJson }),
+  z.object({ select: TaskCategorySelectFieldsSchemaJson }),
+  z.object({ include: TaskCategoryIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const AssignmentCreateSchema = z.object({
   assigneeId: z.coerce.number().int(),
@@ -4109,25 +3862,12 @@ export const AssignmentIncludeSchemaJson = z.preprocess(
   AssignmentIncludeSchema
 );
 
-export const AssignmentProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: AssignmentSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: AssignmentSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: AssignmentIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const AssignmentProjectionSchema = z.union([
+  z.object({ omit: AssignmentSelectFieldsSchemaJson }),
+  z.object({ select: AssignmentSelectFieldsSchemaJson }),
+  z.object({ include: AssignmentIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const CommentCreateSchema = z.object({
   parentId: z.coerce.number().int().optional(),
@@ -4222,25 +3962,12 @@ export const CommentIncludeSchemaJson = z.preprocess(
   CommentIncludeSchema
 );
 
-export const CommentProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: CommentSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: CommentSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: CommentIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const CommentProjectionSchema = z.union([
+  z.object({ omit: CommentSelectFieldsSchemaJson }),
+  z.object({ select: CommentSelectFieldsSchemaJson }),
+  z.object({ include: CommentIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const ProjectTaskTagCreateSchema = z.object({
   projectId: z.coerce.number().int(),
@@ -4307,25 +4034,12 @@ export const ProjectTaskTagIncludeSchemaJson = z.preprocess(
   ProjectTaskTagIncludeSchema
 );
 
-export const ProjectTaskTagProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: ProjectTaskTagSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: ProjectTaskTagSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: ProjectTaskTagIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const ProjectTaskTagProjectionSchema = z.union([
+  z.object({ omit: ProjectTaskTagSelectFieldsSchemaJson }),
+  z.object({ select: ProjectTaskTagSelectFieldsSchemaJson }),
+  z.object({ include: ProjectTaskTagIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const ProjectTaskStatusCreateSchema = z.object({
   projectId: z.coerce.number().int(),
@@ -4392,25 +4106,12 @@ export const ProjectTaskStatusIncludeSchemaJson = z.preprocess(
   ProjectTaskStatusIncludeSchema
 );
 
-export const ProjectTaskStatusProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: ProjectTaskStatusSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: ProjectTaskStatusSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: ProjectTaskStatusIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const ProjectTaskStatusProjectionSchema = z.union([
+  z.object({ omit: ProjectTaskStatusSelectFieldsSchemaJson }),
+  z.object({ select: ProjectTaskStatusSelectFieldsSchemaJson }),
+  z.object({ include: ProjectTaskStatusIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const ProjectTaskPriorityCreateSchema = z.object({
   projectId: z.coerce.number().int(),
@@ -4477,25 +4178,12 @@ export const ProjectTaskPriorityIncludeSchemaJson = z.preprocess(
   ProjectTaskPriorityIncludeSchema
 );
 
-export const ProjectTaskPriorityProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: ProjectTaskPrioritySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: ProjectTaskPrioritySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: ProjectTaskPriorityIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const ProjectTaskPriorityProjectionSchema = z.union([
+  z.object({ omit: ProjectTaskPrioritySelectFieldsSchemaJson }),
+  z.object({ select: ProjectTaskPrioritySelectFieldsSchemaJson }),
+  z.object({ include: ProjectTaskPriorityIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const UserQueryOneSchema = z
   .object({

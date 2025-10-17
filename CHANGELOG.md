@@ -1,3 +1,13 @@
+## 0.29.6 (2025-10-17)
+
+### 🩹 Fixes
+
+- fixed projection schema ([e900d8a](https://github.com/beemood/puq/commit/e900d8a))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.29.5 (2025-10-17)
 
 ### 🩹 Fixes

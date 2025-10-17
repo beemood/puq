@@ -1,6 +1,6 @@
 {
   "name": "@puq/prisma",
-  "version": "0.29.5",
+  "version": "0.29.6",
   "license": "MIT",
   "displayName": "Nestjs Prisma Client Module",
   "description": "The project provides a nestjs module that flawlessly integrates the project with prisma orm by providing repositories, database client, providers, and injectrors.",

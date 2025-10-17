@@ -1248,25 +1248,12 @@ export const RoomAttributeIncludeSchemaJson = z.preprocess(
   RoomAttributeIncludeSchema
 );
 
-export const RoomAttributeProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: RoomAttributeSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: RoomAttributeSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: RoomAttributeIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const RoomAttributeProjectionSchema = z.union([
+  z.object({ omit: RoomAttributeSelectFieldsSchemaJson }),
+  z.object({ select: RoomAttributeSelectFieldsSchemaJson }),
+  z.object({ include: RoomAttributeIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const RoomAttributeValueCreateSchema = z.object({
   roomId: z.coerce.number().int(),
@@ -1338,25 +1325,12 @@ export const RoomAttributeValueIncludeSchemaJson = z.preprocess(
   RoomAttributeValueIncludeSchema
 );
 
-export const RoomAttributeValueProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: RoomAttributeValueSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: RoomAttributeValueSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: RoomAttributeValueIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const RoomAttributeValueProjectionSchema = z.union([
+  z.object({ omit: RoomAttributeValueSelectFieldsSchemaJson }),
+  z.object({ select: RoomAttributeValueSelectFieldsSchemaJson }),
+  z.object({ include: RoomAttributeValueIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const ItemAttributeCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -1421,25 +1395,12 @@ export const ItemAttributeIncludeSchemaJson = z.preprocess(
   ItemAttributeIncludeSchema
 );
 
-export const ItemAttributeProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: ItemAttributeSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: ItemAttributeSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: ItemAttributeIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const ItemAttributeProjectionSchema = z.union([
+  z.object({ omit: ItemAttributeSelectFieldsSchemaJson }),
+  z.object({ select: ItemAttributeSelectFieldsSchemaJson }),
+  z.object({ include: ItemAttributeIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const ItemAttributeValueCreateSchema = z.object({
   itemId: z.coerce.number().int(),
@@ -1511,25 +1472,12 @@ export const ItemAttributeValueIncludeSchemaJson = z.preprocess(
   ItemAttributeValueIncludeSchema
 );
 
-export const ItemAttributeValueProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: ItemAttributeValueSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: ItemAttributeValueSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: ItemAttributeValueIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const ItemAttributeValueProjectionSchema = z.union([
+  z.object({ omit: ItemAttributeValueSelectFieldsSchemaJson }),
+  z.object({ select: ItemAttributeValueSelectFieldsSchemaJson }),
+  z.object({ include: ItemAttributeValueIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const CategoryCreateSchema = z.object({
   parentId: z.coerce.number().int().optional(),
@@ -1611,25 +1559,12 @@ export const CategoryIncludeSchemaJson = z.preprocess(
   CategoryIncludeSchema
 );
 
-export const CategoryProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: CategorySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: CategorySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: CategoryIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const CategoryProjectionSchema = z.union([
+  z.object({ omit: CategorySelectFieldsSchemaJson }),
+  z.object({ select: CategorySelectFieldsSchemaJson }),
+  z.object({ include: CategoryIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const BuildingCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -1699,25 +1634,12 @@ export const BuildingIncludeSchemaJson = z.preprocess(
   BuildingIncludeSchema
 );
 
-export const BuildingProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: BuildingSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: BuildingSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: BuildingIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const BuildingProjectionSchema = z.union([
+  z.object({ omit: BuildingSelectFieldsSchemaJson }),
+  z.object({ select: BuildingSelectFieldsSchemaJson }),
+  z.object({ include: BuildingIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const RoomCreateSchema = z.object({
   buildingId: z.coerce.number().int(),
@@ -1836,25 +1758,12 @@ export const RoomIncludeSchemaJson = z.preprocess(
   RoomIncludeSchema
 );
 
-export const RoomProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: RoomSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: RoomSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: RoomIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const RoomProjectionSchema = z.union([
+  z.object({ omit: RoomSelectFieldsSchemaJson }),
+  z.object({ select: RoomSelectFieldsSchemaJson }),
+  z.object({ include: RoomIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const ItemCreateSchema = z.object({
   categoryId: z.coerce.number().int().optional(),
@@ -1955,25 +1864,12 @@ export const ItemIncludeSchemaJson = z.preprocess(
   ItemIncludeSchema
 );
 
-export const ItemProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: ItemSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: ItemSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: ItemIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const ItemProjectionSchema = z.union([
+  z.object({ omit: ItemSelectFieldsSchemaJson }),
+  z.object({ select: ItemSelectFieldsSchemaJson }),
+  z.object({ include: ItemIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const QuantityCreateSchema = z.object({
   roomId: z.coerce.number().int(),
@@ -2068,25 +1964,12 @@ export const QuantityIncludeSchemaJson = z.preprocess(
   QuantityIncludeSchema
 );
 
-export const QuantityProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: QuantitySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: QuantitySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: QuantityIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const QuantityProjectionSchema = z.union([
+  z.object({ omit: QuantitySelectFieldsSchemaJson }),
+  z.object({ select: QuantitySelectFieldsSchemaJson }),
+  z.object({ include: QuantityIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const SerialNumberCreateSchema = z.object({
   serialNumber: z.string(),
@@ -2197,25 +2080,12 @@ export const SerialNumberIncludeSchemaJson = z.preprocess(
   SerialNumberIncludeSchema
 );
 
-export const SerialNumberProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: SerialNumberSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: SerialNumberSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: SerialNumberIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const SerialNumberProjectionSchema = z.union([
+  z.object({ omit: SerialNumberSelectFieldsSchemaJson }),
+  z.object({ select: SerialNumberSelectFieldsSchemaJson }),
+  z.object({ include: SerialNumberIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const QuantityMoveRequestCreateSchema = z.object({
   sourceId: z.coerce.number().int(),
@@ -2320,25 +2190,12 @@ export const QuantityMoveRequestIncludeSchemaJson = z.preprocess(
   QuantityMoveRequestIncludeSchema
 );
 
-export const QuantityMoveRequestProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: QuantityMoveRequestSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: QuantityMoveRequestSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: QuantityMoveRequestIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const QuantityMoveRequestProjectionSchema = z.union([
+  z.object({ omit: QuantityMoveRequestSelectFieldsSchemaJson }),
+  z.object({ select: QuantityMoveRequestSelectFieldsSchemaJson }),
+  z.object({ include: QuantityMoveRequestIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const SerialMoveRequestCreateSchema = z.object({
   sourceId: z.coerce.number().int(),
@@ -2438,25 +2295,12 @@ export const SerialMoveRequestIncludeSchemaJson = z.preprocess(
   SerialMoveRequestIncludeSchema
 );
 
-export const SerialMoveRequestProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: SerialMoveRequestSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: SerialMoveRequestSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: SerialMoveRequestIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const SerialMoveRequestProjectionSchema = z.union([
+  z.object({ omit: SerialMoveRequestSelectFieldsSchemaJson }),
+  z.object({ select: SerialMoveRequestSelectFieldsSchemaJson }),
+  z.object({ include: SerialMoveRequestIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const EmployeeCreateSchema = z.object({
   uuid: z.string(),
@@ -2602,25 +2446,12 @@ export const EmployeeIncludeSchemaJson = z.preprocess(
   EmployeeIncludeSchema
 );
 
-export const EmployeeProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: EmployeeSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: EmployeeSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: EmployeeIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const EmployeeProjectionSchema = z.union([
+  z.object({ omit: EmployeeSelectFieldsSchemaJson }),
+  z.object({ select: EmployeeSelectFieldsSchemaJson }),
+  z.object({ include: EmployeeIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const EmployeeRoomCreateSchema = z.object({
   employeeId: z.coerce.number().int(),
@@ -2695,25 +2526,12 @@ export const EmployeeRoomIncludeSchemaJson = z.preprocess(
   EmployeeRoomIncludeSchema
 );
 
-export const EmployeeRoomProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: EmployeeRoomSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: EmployeeRoomSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: EmployeeRoomIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const EmployeeRoomProjectionSchema = z.union([
+  z.object({ omit: EmployeeRoomSelectFieldsSchemaJson }),
+  z.object({ select: EmployeeRoomSelectFieldsSchemaJson }),
+  z.object({ include: EmployeeRoomIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const EmployeeItemCreateSchema = z.object({
   employeeId: z.coerce.number().int(),
@@ -2788,25 +2606,12 @@ export const EmployeeItemIncludeSchemaJson = z.preprocess(
   EmployeeItemIncludeSchema
 );
 
-export const EmployeeItemProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: EmployeeItemSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: EmployeeItemSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: EmployeeItemIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const EmployeeItemProjectionSchema = z.union([
+  z.object({ omit: EmployeeItemSelectFieldsSchemaJson }),
+  z.object({ select: EmployeeItemSelectFieldsSchemaJson }),
+  z.object({ include: EmployeeItemIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const EmployeeRoomRequestCreateSchema = z.object({
   roomId: z.coerce.number().int().optional(),
@@ -2898,25 +2703,12 @@ export const EmployeeRoomRequestIncludeSchemaJson = z.preprocess(
   EmployeeRoomRequestIncludeSchema
 );
 
-export const EmployeeRoomRequestProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: EmployeeRoomRequestSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: EmployeeRoomRequestSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: EmployeeRoomRequestIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const EmployeeRoomRequestProjectionSchema = z.union([
+  z.object({ omit: EmployeeRoomRequestSelectFieldsSchemaJson }),
+  z.object({ select: EmployeeRoomRequestSelectFieldsSchemaJson }),
+  z.object({ include: EmployeeRoomRequestIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const EmployeeItemRequestCreateSchema = z.object({
   requestedById: z.coerce.number().int(),
@@ -3008,25 +2800,12 @@ export const EmployeeItemRequestIncludeSchemaJson = z.preprocess(
   EmployeeItemRequestIncludeSchema
 );
 
-export const EmployeeItemRequestProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: EmployeeItemRequestSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: EmployeeItemRequestSelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: EmployeeItemRequestIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const EmployeeItemRequestProjectionSchema = z.union([
+  z.object({ omit: EmployeeItemRequestSelectFieldsSchemaJson }),
+  z.object({ select: EmployeeItemRequestSelectFieldsSchemaJson }),
+  z.object({ include: EmployeeItemRequestIncludeSchemaJson }),
+  z.object({}),
+]);
 
 export const RoomAttributeQueryOneSchema = z
   .object({
