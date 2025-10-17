@@ -1,3 +1,13 @@
+## 0.29.5 (2025-10-17)
+
+### 🩹 Fixes
+
+- fixed the projection schemas ([9f85a67](https://github.com/beemood/puq/commit/9f85a67))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.29.4 (2025-10-17)
 
 ### 🩹 Fixes
