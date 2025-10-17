@@ -271,8 +271,6 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
     for (const field of model.fields) {
       selectFields.push(field);
       whereFields.push(field);
-      distinctFields.push(field);
-
       if (isCreteField(field)) {
         createFields.push(field);
       }
@@ -283,6 +281,9 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
 
       if (field.relationName) {
         relationFields.push(field);
+      }
+      if (!field.relationName) {
+        distinctFields.push(field);
       }
 
       if (field.kind === 'scalar') {
@@ -469,7 +470,7 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
           include: ${model.name}IncludeSchemaJson,
         })
         .optional(),
-      ]);
+      ]).optional();
      
      `;
 

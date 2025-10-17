@@ -57,7 +57,7 @@ export const AppOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const AppDistinctFieldsSchema = z
-  .enum(['id', 'name', 'description', 'version', 'host', 'port', 'history'])
+  .enum(['id', 'name', 'description', 'version', 'host', 'port'])
   .array();
 
 export const SecretOwnSelectFieldsSchema = z
@@ -95,7 +95,7 @@ export const AppHistoryOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const AppHistoryDistinctFieldsSchema = z
-  .enum(['id', 'appId', 'startedAt', 'stopeedAt', 'app'])
+  .enum(['id', 'appId', 'startedAt', 'stopeedAt'])
   .array();
 
 export const AppOwnWhereSchema = z
@@ -288,24 +288,26 @@ export const AppIncludeSchema = z
 
 export const AppIncludeSchemaJson = z.preprocess(jsonParser, AppIncludeSchema);
 
-export const AppProjectionSchema = z.union([
-  z
-    .object({
-      omit: AppSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: AppSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const AppProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: AppSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: AppSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: AppIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: AppIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const SecretCreateSchema = z.object({
   secret: z.string(),
@@ -367,24 +369,26 @@ export const SecretIncludeSchemaJson = z.preprocess(
   SecretIncludeSchema
 );
 
-export const SecretProjectionSchema = z.union([
-  z
-    .object({
-      omit: SecretSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: SecretSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const SecretProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: SecretSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: SecretSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: SecretIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: SecretIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const AppHistoryCreateSchema = z.object({
   appId: z.coerce.number().int(),
@@ -451,24 +455,26 @@ export const AppHistoryIncludeSchemaJson = z.preprocess(
   AppHistoryIncludeSchema
 );
 
-export const AppHistoryProjectionSchema = z.union([
-  z
-    .object({
-      omit: AppHistorySelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: AppHistorySelectFieldsSchemaJson,
-    })
-    .optional(),
+export const AppHistoryProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: AppHistorySelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: AppHistorySelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: AppHistoryIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: AppHistoryIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const AppQueryOneSchema = z
   .object({

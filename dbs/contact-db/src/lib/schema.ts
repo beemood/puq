@@ -59,7 +59,7 @@ export const IndustryOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const IndustryDistinctFieldsSchema = z
-  .enum(['id', 'name', 'slug', 'description', 'companies'])
+  .enum(['id', 'name', 'slug', 'description'])
   .array();
 
 export const CompanyOwnSelectFieldsSchema = z
@@ -79,7 +79,7 @@ export const CompanyOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const CompanyDistinctFieldsSchema = z
-  .enum(['id', 'uuid', 'name', 'slug', 'agents', 'industries'])
+  .enum(['id', 'uuid', 'name', 'slug'])
   .array();
 
 export const CompanyIndustryOwnSelectFieldsSchema = z
@@ -98,7 +98,7 @@ export const CompanyIndustryOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const CompanyIndustryDistinctFieldsSchema = z
-  .enum(['id', 'companyId', 'industryId', 'industry', 'company'])
+  .enum(['id', 'companyId', 'industryId'])
   .array();
 
 export const DepartmentOwnSelectFieldsSchema = z
@@ -119,7 +119,7 @@ export const DepartmentOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const DepartmentDistinctFieldsSchema = z
-  .enum(['id', 'parentId', 'name', 'slug', 'parent', 'children', 'titles'])
+  .enum(['id', 'parentId', 'name', 'slug'])
   .array();
 
 export const TitleOwnSelectFieldsSchema = z
@@ -140,15 +140,7 @@ export const TitleOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const TitleDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'departmentId',
-    'name',
-    'slug',
-    'description',
-    'agents',
-    'department',
-  ])
+  .enum(['id', 'departmentId', 'name', 'slug', 'description'])
   .array();
 
 export const AgentOwnSelectFieldsSchema = z
@@ -186,9 +178,6 @@ export const AgentDistinctFieldsSchema = z
     'gender',
     'slug',
     'note',
-    'company',
-    'contacts',
-    'title',
   ])
   .array();
 
@@ -213,18 +202,7 @@ export const ContactOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const ContactDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'uuid',
-    'agentId',
-    'type',
-    'order',
-    'emails',
-    'phones',
-    'addresses',
-    'websites',
-    'agent',
-  ])
+  .enum(['id', 'uuid', 'agentId', 'type', 'order'])
   .array();
 
 export const StateOwnSelectFieldsSchema = z
@@ -244,7 +222,7 @@ export const StateOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const StateDistinctFieldsSchema = z
-  .enum(['id', 'countryId', 'state', 'code', 'country', 'cities'])
+  .enum(['id', 'countryId', 'state', 'code'])
   .array();
 
 export const CountryOwnSelectFieldsSchema = z
@@ -262,7 +240,7 @@ export const CountryOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const CountryDistinctFieldsSchema = z
-  .enum(['id', 'name', 'code', 'states'])
+  .enum(['id', 'name', 'code'])
   .array();
 
 export const CityOwnSelectFieldsSchema = z
@@ -281,7 +259,7 @@ export const CityOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const CityDistinctFieldsSchema = z
-  .enum(['id', 'stateId', 'name', 'state', 'addresses'])
+  .enum(['id', 'stateId', 'name'])
   .array();
 
 export const AddressOwnSelectFieldsSchema = z
@@ -303,16 +281,7 @@ export const AddressOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const AddressDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'contactId',
-    'cityId',
-    'street',
-    'zip',
-    'order',
-    'city',
-    'contact',
-  ])
+  .enum(['id', 'contactId', 'cityId', 'street', 'zip', 'order'])
   .array();
 
 export const EmailOwnSelectFieldsSchema = z
@@ -331,7 +300,7 @@ export const EmailOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const EmailDistinctFieldsSchema = z
-  .enum(['id', 'contactId', 'email', 'order', 'contact'])
+  .enum(['id', 'contactId', 'email', 'order'])
   .array();
 
 export const PhoneOwnSelectFieldsSchema = z
@@ -350,7 +319,7 @@ export const PhoneOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const PhoneDistinctFieldsSchema = z
-  .enum(['id', 'contactId', 'phone', 'order', 'contact'])
+  .enum(['id', 'contactId', 'phone', 'order'])
   .array();
 
 export const WebsiteOwnSelectFieldsSchema = z
@@ -369,7 +338,7 @@ export const WebsiteOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const WebsiteDistinctFieldsSchema = z
-  .enum(['id', 'contactId', 'url', 'order', 'contact'])
+  .enum(['id', 'contactId', 'url', 'order'])
   .array();
 
 export const IndustryOwnWhereSchema = z
@@ -1016,24 +985,26 @@ export const IndustryIncludeSchemaJson = z.preprocess(
   IndustryIncludeSchema
 );
 
-export const IndustryProjectionSchema = z.union([
-  z
-    .object({
-      omit: IndustrySelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: IndustrySelectFieldsSchemaJson,
-    })
-    .optional(),
+export const IndustryProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: IndustrySelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: IndustrySelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: IndustryIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: IndustryIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const CompanyCreateSchema = z
   .object({
@@ -1119,24 +1090,26 @@ export const CompanyIncludeSchemaJson = z.preprocess(
   CompanyIncludeSchema
 );
 
-export const CompanyProjectionSchema = z.union([
-  z
-    .object({
-      omit: CompanySelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: CompanySelectFieldsSchemaJson,
-    })
-    .optional(),
+export const CompanyProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: CompanySelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: CompanySelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: CompanyIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: CompanyIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const CompanyIndustryCreateSchema = z.object({
   companyId: z.coerce.number().int(),
@@ -1203,24 +1176,26 @@ export const CompanyIndustryIncludeSchemaJson = z.preprocess(
   CompanyIndustryIncludeSchema
 );
 
-export const CompanyIndustryProjectionSchema = z.union([
-  z
-    .object({
-      omit: CompanyIndustrySelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: CompanyIndustrySelectFieldsSchemaJson,
-    })
-    .optional(),
+export const CompanyIndustryProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: CompanyIndustrySelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: CompanyIndustrySelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: CompanyIndustryIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: CompanyIndustryIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const DepartmentCreateSchema = z
   .object({
@@ -1311,24 +1286,26 @@ export const DepartmentIncludeSchemaJson = z.preprocess(
   DepartmentIncludeSchema
 );
 
-export const DepartmentProjectionSchema = z.union([
-  z
-    .object({
-      omit: DepartmentSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: DepartmentSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const DepartmentProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: DepartmentSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: DepartmentSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: DepartmentIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: DepartmentIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const TitleCreateSchema = z
   .object({
@@ -1412,24 +1389,26 @@ export const TitleIncludeSchemaJson = z.preprocess(
   TitleIncludeSchema
 );
 
-export const TitleProjectionSchema = z.union([
-  z
-    .object({
-      omit: TitleSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: TitleSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const TitleProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: TitleSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: TitleSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: TitleIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: TitleIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const AgentCreateSchema = z.object({
   companyId: z.coerce.number().int().optional(),
@@ -1536,24 +1515,26 @@ export const AgentIncludeSchemaJson = z.preprocess(
   AgentIncludeSchema
 );
 
-export const AgentProjectionSchema = z.union([
-  z
-    .object({
-      omit: AgentSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: AgentSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const AgentProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: AgentSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: AgentSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: AgentIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: AgentIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const ContactCreateSchema = z.object({
   agentId: z.coerce.number().int(),
@@ -1660,24 +1641,26 @@ export const ContactIncludeSchemaJson = z.preprocess(
   ContactIncludeSchema
 );
 
-export const ContactProjectionSchema = z.union([
-  z
-    .object({
-      omit: ContactSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: ContactSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const ContactProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: ContactSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: ContactSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: ContactIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: ContactIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const StateCreateSchema = z.object({
   countryId: z.coerce.number().int(),
@@ -1752,24 +1735,26 @@ export const StateIncludeSchemaJson = z.preprocess(
   StateIncludeSchema
 );
 
-export const StateProjectionSchema = z.union([
-  z
-    .object({
-      omit: StateSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: StateSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const StateProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: StateSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: StateSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: StateIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: StateIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const CountryCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -1839,24 +1824,26 @@ export const CountryIncludeSchemaJson = z.preprocess(
   CountryIncludeSchema
 );
 
-export const CountryProjectionSchema = z.union([
-  z
-    .object({
-      omit: CountrySelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: CountrySelectFieldsSchemaJson,
-    })
-    .optional(),
+export const CountryProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: CountrySelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: CountrySelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: CountryIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: CountryIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const CityCreateSchema = z.object({
   stateId: z.coerce.number().int(),
@@ -1926,24 +1913,26 @@ export const CityIncludeSchemaJson = z.preprocess(
   CityIncludeSchema
 );
 
-export const CityProjectionSchema = z.union([
-  z
-    .object({
-      omit: CitySelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: CitySelectFieldsSchemaJson,
-    })
-    .optional(),
+export const CityProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: CitySelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: CitySelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: CityIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: CityIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const AddressCreateSchema = z.object({
   contactId: z.coerce.number().int(),
@@ -2025,24 +2014,26 @@ export const AddressIncludeSchemaJson = z.preprocess(
   AddressIncludeSchema
 );
 
-export const AddressProjectionSchema = z.union([
-  z
-    .object({
-      omit: AddressSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: AddressSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const AddressProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: AddressSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: AddressSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: AddressIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: AddressIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const EmailCreateSchema = z.object({
   contactId: z.coerce.number().int(),
@@ -2108,24 +2099,26 @@ export const EmailIncludeSchemaJson = z.preprocess(
   EmailIncludeSchema
 );
 
-export const EmailProjectionSchema = z.union([
-  z
-    .object({
-      omit: EmailSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: EmailSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const EmailProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: EmailSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: EmailSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: EmailIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: EmailIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const PhoneCreateSchema = z.object({
   contactId: z.coerce.number().int(),
@@ -2191,24 +2184,26 @@ export const PhoneIncludeSchemaJson = z.preprocess(
   PhoneIncludeSchema
 );
 
-export const PhoneProjectionSchema = z.union([
-  z
-    .object({
-      omit: PhoneSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: PhoneSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const PhoneProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: PhoneSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: PhoneSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: PhoneIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: PhoneIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const WebsiteCreateSchema = z.object({
   contactId: z.coerce.number().int(),
@@ -2277,24 +2272,26 @@ export const WebsiteIncludeSchemaJson = z.preprocess(
   WebsiteIncludeSchema
 );
 
-export const WebsiteProjectionSchema = z.union([
-  z
-    .object({
-      omit: WebsiteSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: WebsiteSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const WebsiteProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: WebsiteSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: WebsiteSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: WebsiteIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: WebsiteIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const IndustryQueryOneSchema = z
   .object({

@@ -92,16 +92,7 @@ export const CategoryOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const CategoryDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'parentId',
-    'name',
-    'slug',
-    'parent',
-    'children',
-    'products',
-    'discountTargets',
-  ])
+  .enum(['id', 'parentId', 'name', 'slug'])
   .array();
 
 export const ProductOwnSelectFieldsSchema = z
@@ -136,10 +127,6 @@ export const ProductDistinctFieldsSchema = z
     'name',
     'slug',
     'description',
-    'variants',
-    'categories',
-    'discounts',
-    'warranties',
   ])
   .array();
 
@@ -159,7 +146,7 @@ export const ProductCategoryOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const ProductCategoryDistinctFieldsSchema = z
-  .enum(['id', 'productId', 'categoryId', 'product', 'category'])
+  .enum(['id', 'productId', 'categoryId'])
   .array();
 
 export const VariantOwnSelectFieldsSchema = z
@@ -185,20 +172,7 @@ export const VariantOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const VariantDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'uuid',
-    'productId',
-    'sku',
-    'upc',
-    'product',
-    'attributes',
-    'prices',
-    'quantities',
-    'discounts',
-    'serrialNumbers',
-    'warranties',
-  ])
+  .enum(['id', 'uuid', 'productId', 'sku', 'upc'])
   .array();
 
 export const AttributeCategoryOwnSelectFieldsSchema = z
@@ -216,7 +190,7 @@ export const AttributeCategoryOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const AttributeCategoryDistinctFieldsSchema = z
-  .enum(['id', 'name', 'slug', 'attributes'])
+  .enum(['id', 'name', 'slug'])
   .array();
 
 export const AttributeOwnSelectFieldsSchema = z
@@ -237,15 +211,7 @@ export const AttributeOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const AttributeDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'categoryId',
-    'name',
-    'description',
-    'category',
-    'unites',
-    'values',
-  ])
+  .enum(['id', 'categoryId', 'name', 'description'])
   .array();
 
 export const UnitOwnSelectFieldsSchema = z
@@ -263,7 +229,7 @@ export const UnitOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const UnitDistinctFieldsSchema = z
-  .enum(['id', 'name', 'symbol', 'attributes'])
+  .enum(['id', 'name', 'symbol'])
   .array();
 
 export const AttributeUnitOwnSelectFieldsSchema = z
@@ -282,7 +248,7 @@ export const AttributeUnitOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const AttributeUnitDistinctFieldsSchema = z
-  .enum(['id', 'attributeId', 'unitId', 'attribute', 'unit'])
+  .enum(['id', 'attributeId', 'unitId'])
   .array();
 
 export const AttributeValueOwnSelectFieldsSchema = z
@@ -311,8 +277,6 @@ export const AttributeValueDistinctFieldsSchema = z
     'textValue',
     'booleanValue',
     'floatValue',
-    'variant',
-    'attribute',
   ])
   .array();
 
@@ -332,7 +296,7 @@ export const CurrencyOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const CurrencyDistinctFieldsSchema = z
-  .enum(['id', 'name', 'code', 'symbol', 'priceLevels'])
+  .enum(['id', 'name', 'code', 'symbol'])
   .array();
 
 export const PriceLevelOwnSelectFieldsSchema = z
@@ -356,18 +320,7 @@ export const PriceLevelOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const PriceLevelDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'currencyId',
-    'name',
-    'slug',
-    'taxrate',
-    'notes',
-    'currency',
-    'stores',
-    'prices',
-    'discounts',
-  ])
+  .enum(['id', 'currencyId', 'name', 'slug', 'taxrate', 'notes'])
   .array();
 
 export const PriceOwnSelectFieldsSchema = z
@@ -389,16 +342,7 @@ export const PriceOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const PriceDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'variantId',
-    'priceLevelId',
-    'price',
-    'cost',
-    'description',
-    'variant',
-    'priceLevel',
-  ])
+  .enum(['id', 'variantId', 'priceLevelId', 'price', 'cost', 'description'])
   .array();
 
 export const QuantityOwnSelectFieldsSchema = z
@@ -419,15 +363,7 @@ export const QuantityOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const QuantityDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'variantId',
-    'storeId',
-    'quantity',
-    'alertThreshold',
-    'variant',
-    'store',
-  ])
+  .enum(['id', 'variantId', 'storeId', 'quantity', 'alertThreshold'])
   .array();
 
 export const SerialNumberOwnSelectFieldsSchema = z
@@ -448,15 +384,7 @@ export const SerialNumberOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const SerialNumberDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'variantId',
-    'storeId',
-    'serialNumber',
-    'inStock',
-    'variant',
-    'store',
-  ])
+  .enum(['id', 'variantId', 'storeId', 'serialNumber', 'inStock'])
   .array();
 
 export const DiscountOwnSelectFieldsSchema = z
@@ -498,7 +426,6 @@ export const DiscountDistinctFieldsSchema = z
     'endDate',
     'usageLimit',
     'usageCount',
-    'targets',
   ])
   .array();
 
@@ -536,12 +463,6 @@ export const DiscountTargetDistinctFieldsSchema = z
     'variantId',
     'priceLevelId',
     'categoryId',
-    'discount',
-    'store',
-    'category',
-    'priceLevel',
-    'product',
-    'variant',
   ])
   .array();
 
@@ -565,17 +486,7 @@ export const StoreOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const StoreDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'priceLevelId',
-    'name',
-    'slug',
-    'description',
-    'priceLevel',
-    'quantities',
-    'discounts',
-    'serialNumbers',
-  ])
+  .enum(['id', 'priceLevelId', 'name', 'slug', 'description'])
   .array();
 
 export const WarrantyPolicyOwnSelectFieldsSchema = z
@@ -595,7 +506,7 @@ export const WarrantyPolicyOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const WarrantyPolicyDistinctFieldsSchema = z
-  .enum(['id', 'name', 'description', 'duration', 'durationUnit', 'products'])
+  .enum(['id', 'name', 'description', 'duration', 'durationUnit'])
   .array();
 
 export const ProductWarrantyOwnSelectFieldsSchema = z
@@ -616,15 +527,7 @@ export const ProductWarrantyOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const ProductWarrantyDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'productId',
-    'variantId',
-    'policyId',
-    'product',
-    'variant',
-    'policy',
-  ])
+  .enum(['id', 'productId', 'variantId', 'policyId'])
   .array();
 
 export const CategoryOwnWhereSchema = z
@@ -1523,24 +1426,26 @@ export const CategoryIncludeSchemaJson = z.preprocess(
   CategoryIncludeSchema
 );
 
-export const CategoryProjectionSchema = z.union([
-  z
-    .object({
-      omit: CategorySelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: CategorySelectFieldsSchemaJson,
-    })
-    .optional(),
+export const CategoryProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: CategorySelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: CategorySelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: CategoryIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: CategoryIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const ProductCreateSchema = z
   .object({
@@ -1660,24 +1565,26 @@ export const ProductIncludeSchemaJson = z.preprocess(
   ProductIncludeSchema
 );
 
-export const ProductProjectionSchema = z.union([
-  z
-    .object({
-      omit: ProductSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: ProductSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const ProductProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: ProductSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: ProductSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: ProductIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: ProductIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const ProductCategoryCreateSchema = z.object({
   productId: z.coerce.number().int(),
@@ -1744,24 +1651,26 @@ export const ProductCategoryIncludeSchemaJson = z.preprocess(
   ProductCategoryIncludeSchema
 );
 
-export const ProductCategoryProjectionSchema = z.union([
-  z
-    .object({
-      omit: ProductCategorySelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: ProductCategorySelectFieldsSchemaJson,
-    })
-    .optional(),
+export const ProductCategoryProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: ProductCategorySelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: ProductCategorySelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: ProductCategoryIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: ProductCategoryIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const VariantCreateSchema = z.object({
   productId: z.coerce.number().int(),
@@ -1887,24 +1796,26 @@ export const VariantIncludeSchemaJson = z.preprocess(
   VariantIncludeSchema
 );
 
-export const VariantProjectionSchema = z.union([
-  z
-    .object({
-      omit: VariantSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: VariantSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const VariantProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: VariantSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: VariantSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: VariantIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: VariantIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const AttributeCategoryCreateSchema = z
   .object({
@@ -1978,24 +1889,26 @@ export const AttributeCategoryIncludeSchemaJson = z.preprocess(
   AttributeCategoryIncludeSchema
 );
 
-export const AttributeCategoryProjectionSchema = z.union([
-  z
-    .object({
-      omit: AttributeCategorySelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: AttributeCategorySelectFieldsSchemaJson,
-    })
-    .optional(),
+export const AttributeCategoryProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: AttributeCategorySelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: AttributeCategorySelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: AttributeCategoryIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: AttributeCategoryIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const AttributeCreateSchema = z.object({
   categoryId: z.coerce.number().int().optional(),
@@ -2082,24 +1995,26 @@ export const AttributeIncludeSchemaJson = z.preprocess(
   AttributeIncludeSchema
 );
 
-export const AttributeProjectionSchema = z.union([
-  z
-    .object({
-      omit: AttributeSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: AttributeSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const AttributeProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: AttributeSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: AttributeSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: AttributeIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: AttributeIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const UnitCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -2166,24 +2081,26 @@ export const UnitIncludeSchemaJson = z.preprocess(
   UnitIncludeSchema
 );
 
-export const UnitProjectionSchema = z.union([
-  z
-    .object({
-      omit: UnitSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: UnitSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const UnitProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: UnitSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: UnitSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: UnitIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: UnitIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const AttributeUnitCreateSchema = z.object({
   attributeId: z.coerce.number().int(),
@@ -2250,24 +2167,26 @@ export const AttributeUnitIncludeSchemaJson = z.preprocess(
   AttributeUnitIncludeSchema
 );
 
-export const AttributeUnitProjectionSchema = z.union([
-  z
-    .object({
-      omit: AttributeUnitSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: AttributeUnitSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const AttributeUnitProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: AttributeUnitSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: AttributeUnitSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: AttributeUnitIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: AttributeUnitIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const AttributeValueCreateSchema = z.object({
   attributeId: z.coerce.number().int(),
@@ -2349,24 +2268,26 @@ export const AttributeValueIncludeSchemaJson = z.preprocess(
   AttributeValueIncludeSchema
 );
 
-export const AttributeValueProjectionSchema = z.union([
-  z
-    .object({
-      omit: AttributeValueSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: AttributeValueSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const AttributeValueProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: AttributeValueSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: AttributeValueSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: AttributeValueIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: AttributeValueIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const CurrencyCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -2441,24 +2362,26 @@ export const CurrencyIncludeSchemaJson = z.preprocess(
   CurrencyIncludeSchema
 );
 
-export const CurrencyProjectionSchema = z.union([
-  z
-    .object({
-      omit: CurrencySelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: CurrencySelectFieldsSchemaJson,
-    })
-    .optional(),
+export const CurrencyProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: CurrencySelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: CurrencySelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: CurrencyIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: CurrencyIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const PriceLevelCreateSchema = z
   .object({
@@ -2568,24 +2491,26 @@ export const PriceLevelIncludeSchemaJson = z.preprocess(
   PriceLevelIncludeSchema
 );
 
-export const PriceLevelProjectionSchema = z.union([
-  z
-    .object({
-      omit: PriceLevelSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: PriceLevelSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const PriceLevelProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: PriceLevelSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: PriceLevelSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: PriceLevelIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: PriceLevelIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const PriceCreateSchema = z.object({
   variantId: z.coerce.number().int(),
@@ -2664,24 +2589,26 @@ export const PriceIncludeSchemaJson = z.preprocess(
   PriceIncludeSchema
 );
 
-export const PriceProjectionSchema = z.union([
-  z
-    .object({
-      omit: PriceSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: PriceSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const PriceProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: PriceSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: PriceSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: PriceIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: PriceIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const QuantityCreateSchema = z.object({
   variantId: z.coerce.number().int(),
@@ -2758,24 +2685,26 @@ export const QuantityIncludeSchemaJson = z.preprocess(
   QuantityIncludeSchema
 );
 
-export const QuantityProjectionSchema = z.union([
-  z
-    .object({
-      omit: QuantitySelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: QuantitySelectFieldsSchemaJson,
-    })
-    .optional(),
+export const QuantityProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: QuantitySelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: QuantitySelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: QuantityIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: QuantityIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const SerialNumberCreateSchema = z.object({
   variantId: z.coerce.number().int(),
@@ -2852,24 +2781,26 @@ export const SerialNumberIncludeSchemaJson = z.preprocess(
   SerialNumberIncludeSchema
 );
 
-export const SerialNumberProjectionSchema = z.union([
-  z
-    .object({
-      omit: SerialNumberSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: SerialNumberSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const SerialNumberProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: SerialNumberSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: SerialNumberSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: SerialNumberIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: SerialNumberIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const DiscountCreateSchema = z.object({
   code: z.string(),
@@ -2987,24 +2918,26 @@ export const DiscountIncludeSchemaJson = z.preprocess(
   DiscountIncludeSchema
 );
 
-export const DiscountProjectionSchema = z.union([
-  z
-    .object({
-      omit: DiscountSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: DiscountSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const DiscountProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: DiscountSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: DiscountSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: DiscountIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: DiscountIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const DiscountTargetCreateSchema = z.object({
   type: DiscountTargetTypeSchema,
@@ -3107,24 +3040,26 @@ export const DiscountTargetIncludeSchemaJson = z.preprocess(
   DiscountTargetIncludeSchema
 );
 
-export const DiscountTargetProjectionSchema = z.union([
-  z
-    .object({
-      omit: DiscountTargetSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: DiscountTargetSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const DiscountTargetProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: DiscountTargetSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: DiscountTargetSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: DiscountTargetIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: DiscountTargetIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const StoreCreateSchema = z
   .object({
@@ -3226,24 +3161,26 @@ export const StoreIncludeSchemaJson = z.preprocess(
   StoreIncludeSchema
 );
 
-export const StoreProjectionSchema = z.union([
-  z
-    .object({
-      omit: StoreSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: StoreSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const StoreProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: StoreSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: StoreSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: StoreIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: StoreIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const WarrantyPolicyCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -3322,24 +3259,26 @@ export const WarrantyPolicyIncludeSchemaJson = z.preprocess(
   WarrantyPolicyIncludeSchema
 );
 
-export const WarrantyPolicyProjectionSchema = z.union([
-  z
-    .object({
-      omit: WarrantyPolicySelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: WarrantyPolicySelectFieldsSchemaJson,
-    })
-    .optional(),
+export const WarrantyPolicyProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: WarrantyPolicySelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: WarrantyPolicySelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: WarrantyPolicyIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: WarrantyPolicyIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const ProductWarrantyCreateSchema = z.object({
   productId: z.coerce.number().int().optional(),
@@ -3414,24 +3353,26 @@ export const ProductWarrantyIncludeSchemaJson = z.preprocess(
   ProductWarrantyIncludeSchema
 );
 
-export const ProductWarrantyProjectionSchema = z.union([
-  z
-    .object({
-      omit: ProductWarrantySelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: ProductWarrantySelectFieldsSchemaJson,
-    })
-    .optional(),
+export const ProductWarrantyProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: ProductWarrantySelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: ProductWarrantySelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: ProductWarrantyIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: ProductWarrantyIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const CategoryQueryOneSchema = z
   .object({

@@ -147,16 +147,7 @@ export const DepartmentOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const DepartmentDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'parentId',
-    'name',
-    'slug',
-    'isActive',
-    'parent',
-    'departments',
-    'titles',
-  ])
+  .enum(['id', 'parentId', 'name', 'slug', 'isActive'])
   .array();
 
 export const TitleOwnSelectFieldsSchema = z
@@ -179,17 +170,7 @@ export const TitleOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const TitleDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'departmentId',
-    'name',
-    'slug',
-    'description',
-    'isActive',
-    'department',
-    'employees',
-    'histories',
-  ])
+  .enum(['id', 'departmentId', 'name', 'slug', 'description', 'isActive'])
   .array();
 
 export const PersonalDataOwnSelectFieldsSchema = z
@@ -210,15 +191,7 @@ export const PersonalDataOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const PersonalDataDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'employeeId',
-    'ein',
-    'gender',
-    'dob',
-    'maritalStatus',
-    'employee',
-  ])
+  .enum(['id', 'employeeId', 'ein', 'gender', 'dob', 'maritalStatus'])
   .array();
 
 export const EmployeeOwnSelectFieldsSchema = z
@@ -272,29 +245,10 @@ export const EmployeeDistinctFieldsSchema = z
     'lastName',
     'preferedName',
     'status',
-    'title',
     'hireDate',
     'terminationDate',
     'employmentType',
-    'salary',
-    'salaryHistory',
-    'benefits',
-    'titleHistory',
-    'timeOffBalances',
-    'timeOffRequests',
-    'resolvedTimeOffs',
-    'clockIns',
-    'personalData',
-    'taxData',
-    'memberships',
-    'managingTeams',
-    'managingEmployees',
-    'directManager',
-    'paychecks',
     'directManagerId',
-    'deductions',
-    'resolvedPayrollRuns',
-    'contact',
   ])
   .array();
 
@@ -312,9 +266,7 @@ export const TeamOwnSelectFieldsSchemaJson = z.preprocess(
   TeamOwnSelectFieldsSchema
 );
 
-export const TeamDistinctFieldsSchema = z
-  .enum(['id', 'name', 'members', 'managers'])
-  .array();
+export const TeamDistinctFieldsSchema = z.enum(['id', 'name']).array();
 
 export const TeamManagerOwnSelectFieldsSchema = z
   .object({
@@ -332,7 +284,7 @@ export const TeamManagerOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const TeamManagerDistinctFieldsSchema = z
-  .enum(['id', 'teamId', 'managerId', 'team', 'manager'])
+  .enum(['id', 'teamId', 'managerId'])
   .array();
 
 export const TeamMemberOwnSelectFieldsSchema = z
@@ -351,7 +303,7 @@ export const TeamMemberOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const TeamMemberDistinctFieldsSchema = z
-  .enum(['id', 'teamId', 'memberId', 'member', 'team'])
+  .enum(['id', 'teamId', 'memberId'])
   .array();
 
 export const SalaryOwnSelectFieldsSchema = z
@@ -372,15 +324,7 @@ export const SalaryOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const SalaryDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'employeeId',
-    'gross',
-    'startDate',
-    'endDate',
-    'frequency',
-    'employee',
-  ])
+  .enum(['id', 'employeeId', 'gross', 'startDate', 'endDate', 'frequency'])
   .array();
 
 export const SalaryHistoryOwnSelectFieldsSchema = z
@@ -401,15 +345,7 @@ export const SalaryHistoryOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const SalaryHistoryDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'employeeId',
-    'createdAt',
-    'oldSalary',
-    'newSalary',
-    'reason',
-    'employee',
-  ])
+  .enum(['id', 'employeeId', 'createdAt', 'oldSalary', 'newSalary', 'reason'])
   .array();
 
 export const BenefitOwnSelectFieldsSchema = z
@@ -428,7 +364,7 @@ export const BenefitOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const BenefitDistinctFieldsSchema = z
-  .enum(['id', 'name', 'description', 'type', 'enrolments'])
+  .enum(['id', 'name', 'description', 'type'])
   .array();
 
 export const BenefitEnrolmentOwnSelectFieldsSchema = z
@@ -449,15 +385,7 @@ export const BenefitEnrolmentOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const BenefitEnrolmentDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'benefitId',
-    'employeeId',
-    'startDate',
-    'status',
-    'benefit',
-    'employee',
-  ])
+  .enum(['id', 'benefitId', 'employeeId', 'startDate', 'status'])
   .array();
 
 export const TitleHistoryOwnSelectFieldsSchema = z
@@ -488,8 +416,6 @@ export const TitleHistoryDistinctFieldsSchema = z
     'reason',
     'startDate',
     'endDate',
-    'employee',
-    'title',
   ])
   .array();
 
@@ -511,15 +437,7 @@ export const TimeOffPolicyOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const TimeOffPolicyDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'name',
-    'description',
-    'accrualRate',
-    'maxRollover',
-    'balances',
-    'requests',
-  ])
+  .enum(['id', 'name', 'description', 'accrualRate', 'maxRollover'])
   .array();
 
 export const TimeOffBalanceOwnSelectFieldsSchema = z
@@ -549,9 +467,6 @@ export const TimeOffBalanceDistinctFieldsSchema = z
     'accruedHours',
     'usedHours',
     'availableHours',
-    'policy',
-    'employee',
-    'transactions',
   ])
   .array();
 
@@ -589,10 +504,6 @@ export const TimeOffRequestDistinctFieldsSchema = z
     'status',
     'startDate',
     'endDate',
-    'employee',
-    'policy',
-    'resolver',
-    'transactions',
   ])
   .array();
 
@@ -624,8 +535,6 @@ export const TimeOffTransactionDistinctFieldsSchema = z
     'balanceId',
     'requestId',
     'amount',
-    'balance',
-    'request',
   ])
   .array();
 
@@ -645,7 +554,7 @@ export const ClockInOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const ClockInDistinctFieldsSchema = z
-  .enum(['id', 'employeeId', 'clockIn', 'clockOut', 'employee'])
+  .enum(['id', 'employeeId', 'clockIn', 'clockOut'])
   .array();
 
 export const PaycheckOwnSelectFieldsSchema = z
@@ -679,11 +588,6 @@ export const PaycheckDistinctFieldsSchema = z
     'employeeId',
     'grossAmount',
     'netAmount',
-    'employee',
-    'earnings',
-    'paycheckTaxes',
-    'deductions',
-    'payrollRun',
   ])
   .array();
 
@@ -705,7 +609,7 @@ export const EarningOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const EarningDistinctFieldsSchema = z
-  .enum(['id', 'type', 'hours', 'rate', 'amount', 'paycheckId', 'paycheck'])
+  .enum(['id', 'type', 'hours', 'rate', 'amount', 'paycheckId'])
   .array();
 
 export const PaycheckTaxOwnSelectFieldsSchema = z
@@ -724,7 +628,7 @@ export const PaycheckTaxOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const PaycheckTaxDistinctFieldsSchema = z
-  .enum(['id', 'paycheckId', 'taxAuthority', 'amount', 'paycheck'])
+  .enum(['id', 'paycheckId', 'taxAuthority', 'amount'])
   .array();
 
 export const DeductionPolicyOwnSelectFieldsSchema = z
@@ -744,14 +648,7 @@ export const DeductionPolicyOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const DeductionPolicyDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'name',
-    'type',
-    'defaultAmount',
-    'defaultPercent',
-    'employeeDeductions',
-  ])
+  .enum(['id', 'name', 'type', 'defaultAmount', 'defaultPercent'])
   .array();
 
 export const EmployeeDeductionOwnSelectFieldsSchema = z
@@ -772,15 +669,7 @@ export const EmployeeDeductionOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const EmployeeDeductionDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'employeeId',
-    'policyId',
-    'employeeAmount',
-    'employee',
-    'policy',
-    'paycheckDeductions',
-  ])
+  .enum(['id', 'employeeId', 'policyId', 'employeeAmount'])
   .array();
 
 export const PaycheckDeductionOwnSelectFieldsSchema = z
@@ -800,14 +689,7 @@ export const PaycheckDeductionOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const PaycheckDeductionDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'paycheckId',
-    'employeeDeductionId',
-    'amount',
-    'paycheck',
-    'employeeDeduction',
-  ])
+  .enum(['id', 'paycheckId', 'employeeDeductionId', 'amount'])
   .array();
 
 export const EmployeeTaxDataOwnSelectFieldsSchema = z
@@ -853,9 +735,6 @@ export const EmployeeTaxDataDistinctFieldsSchema = z
     'extraWithholding',
     'isExempt',
     'isNonResidentAlien',
-    'stateTaxes',
-    'localTaxes',
-    'employee',
   ])
   .array();
 
@@ -884,7 +763,6 @@ export const StateTaxWithholdingDistinctFieldsSchema = z
     'stateStatus',
     'allowances',
     'extraWithholding',
-    'taxData',
   ])
   .array();
 
@@ -905,14 +783,7 @@ export const LocalTaxWithholdingOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const LocalTaxWithholdingDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'taxDataId',
-    'jurisdiction',
-    'localStatus',
-    'extraWithholding',
-    'taxData',
-  ])
+  .enum(['id', 'taxDataId', 'jurisdiction', 'localStatus', 'extraWithholding'])
   .array();
 
 export const PayrollRunOwnSelectFieldsSchema = z
@@ -934,16 +805,7 @@ export const PayrollRunOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const PayrollRunDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'resolverId',
-    'startDate',
-    'endDate',
-    'payDate',
-    'status',
-    'approvedBy',
-    'paychecks',
-  ])
+  .enum(['id', 'resolverId', 'startDate', 'endDate', 'payDate', 'status'])
   .array();
 
 export const ContactOwnSelectFieldsSchema = z
@@ -965,19 +827,7 @@ export const ContactOwnSelectFieldsSchemaJson = z.preprocess(
   ContactOwnSelectFieldsSchema
 );
 
-export const ContactDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'employeeId',
-    'employee',
-    'emails',
-    'phones',
-    'addresses',
-    'primaryEmail',
-    'primaryPhone',
-    'primaryAddress',
-  ])
-  .array();
+export const ContactDistinctFieldsSchema = z.enum(['id', 'employeeId']).array();
 
 export const CountryOwnSelectFieldsSchema = z
   .object({
@@ -994,7 +844,7 @@ export const CountryOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const CountryDistinctFieldsSchema = z
-  .enum(['id', 'name', 'code', 'states'])
+  .enum(['id', 'name', 'code'])
   .array();
 
 export const StateOwnSelectFieldsSchema = z
@@ -1014,7 +864,7 @@ export const StateOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const StateDistinctFieldsSchema = z
-  .enum(['id', 'countryId', 'name', 'code', 'country', 'addresses'])
+  .enum(['id', 'countryId', 'name', 'code'])
   .array();
 
 export const AddressOwnSelectFieldsSchema = z
@@ -1038,18 +888,7 @@ export const AddressOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const AddressDistinctFieldsSchema = z
-  .enum([
-    'id',
-    'type',
-    'contactId',
-    'stateId',
-    'street',
-    'zip',
-    'city',
-    'state',
-    'contact',
-    'primary',
-  ])
+  .enum(['id', 'type', 'contactId', 'stateId', 'street', 'zip', 'city'])
   .array();
 
 export const EmailOwnSelectFieldsSchema = z
@@ -1069,7 +908,7 @@ export const EmailOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const EmailDistinctFieldsSchema = z
-  .enum(['id', 'type', 'contactId', 'email', 'contact', 'primary'])
+  .enum(['id', 'type', 'contactId', 'email'])
   .array();
 
 export const PhoneOwnSelectFieldsSchema = z
@@ -1089,7 +928,7 @@ export const PhoneOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const PhoneDistinctFieldsSchema = z
-  .enum(['id', 'type', 'contactId', 'phone', 'contact', 'primary'])
+  .enum(['id', 'type', 'contactId', 'phone'])
   .array();
 
 export const PrimaryEmailOwnSelectFieldsSchema = z
@@ -1108,7 +947,7 @@ export const PrimaryEmailOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const PrimaryEmailDistinctFieldsSchema = z
-  .enum(['id', 'emailId', 'contactId', 'email', 'contact'])
+  .enum(['id', 'emailId', 'contactId'])
   .array();
 
 export const PrimaryPhoneOwnSelectFieldsSchema = z
@@ -1127,7 +966,7 @@ export const PrimaryPhoneOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const PrimaryPhoneDistinctFieldsSchema = z
-  .enum(['id', 'phoneId', 'contactId', 'phone', 'contact'])
+  .enum(['id', 'phoneId', 'contactId'])
   .array();
 
 export const PrimaryAddressOwnSelectFieldsSchema = z
@@ -1146,7 +985,7 @@ export const PrimaryAddressOwnSelectFieldsSchemaJson = z.preprocess(
 );
 
 export const PrimaryAddressDistinctFieldsSchema = z
-  .enum(['id', 'addressId', 'contactId', 'address', 'contact'])
+  .enum(['id', 'addressId', 'contactId'])
   .array();
 
 export const DepartmentOwnWhereSchema = z
@@ -2751,24 +2590,26 @@ export const DepartmentIncludeSchemaJson = z.preprocess(
   DepartmentIncludeSchema
 );
 
-export const DepartmentProjectionSchema = z.union([
-  z
-    .object({
-      omit: DepartmentSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: DepartmentSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const DepartmentProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: DepartmentSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: DepartmentSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: DepartmentIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: DepartmentIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const TitleCreateSchema = z
   .object({
@@ -2866,24 +2707,26 @@ export const TitleIncludeSchemaJson = z.preprocess(
   TitleIncludeSchema
 );
 
-export const TitleProjectionSchema = z.union([
-  z
-    .object({
-      omit: TitleSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: TitleSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const TitleProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: TitleSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: TitleSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: TitleIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: TitleIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const PersonalDataCreateSchema = z.object({
   employeeId: z.coerce.number().int(),
@@ -2960,24 +2803,26 @@ export const PersonalDataIncludeSchemaJson = z.preprocess(
   PersonalDataIncludeSchema
 );
 
-export const PersonalDataProjectionSchema = z.union([
-  z
-    .object({
-      omit: PersonalDataSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: PersonalDataSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const PersonalDataProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: PersonalDataSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: PersonalDataSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: PersonalDataIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: PersonalDataIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const EmployeeCreateSchema = z.object({
   titleId: z.coerce.number().int(),
@@ -3220,24 +3065,26 @@ export const EmployeeIncludeSchemaJson = z.preprocess(
   EmployeeIncludeSchema
 );
 
-export const EmployeeProjectionSchema = z.union([
-  z
-    .object({
-      omit: EmployeeSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: EmployeeSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const EmployeeProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: EmployeeSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: EmployeeSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: EmployeeIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: EmployeeIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const TeamCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -3308,24 +3155,26 @@ export const TeamIncludeSchemaJson = z.preprocess(
   TeamIncludeSchema
 );
 
-export const TeamProjectionSchema = z.union([
-  z
-    .object({
-      omit: TeamSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: TeamSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const TeamProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: TeamSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: TeamSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: TeamIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: TeamIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const TeamManagerCreateSchema = z.object({
   teamId: z.coerce.number().int(),
@@ -3392,24 +3241,26 @@ export const TeamManagerIncludeSchemaJson = z.preprocess(
   TeamManagerIncludeSchema
 );
 
-export const TeamManagerProjectionSchema = z.union([
-  z
-    .object({
-      omit: TeamManagerSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: TeamManagerSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const TeamManagerProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: TeamManagerSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: TeamManagerSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: TeamManagerIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: TeamManagerIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const TeamMemberCreateSchema = z.object({
   teamId: z.coerce.number().int(),
@@ -3476,24 +3327,26 @@ export const TeamMemberIncludeSchemaJson = z.preprocess(
   TeamMemberIncludeSchema
 );
 
-export const TeamMemberProjectionSchema = z.union([
-  z
-    .object({
-      omit: TeamMemberSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: TeamMemberSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const TeamMemberProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: TeamMemberSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: TeamMemberSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: TeamMemberIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: TeamMemberIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const SalaryCreateSchema = z.object({
   employeeId: z.coerce.number().int(),
@@ -3571,24 +3424,26 @@ export const SalaryIncludeSchemaJson = z.preprocess(
   SalaryIncludeSchema
 );
 
-export const SalaryProjectionSchema = z.union([
-  z
-    .object({
-      omit: SalarySelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: SalarySelectFieldsSchemaJson,
-    })
-    .optional(),
+export const SalaryProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: SalarySelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: SalarySelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: SalaryIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: SalaryIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const SalaryHistoryCreateSchema = z.object({
   employeeId: z.coerce.number().int(),
@@ -3665,24 +3520,26 @@ export const SalaryHistoryIncludeSchemaJson = z.preprocess(
   SalaryHistoryIncludeSchema
 );
 
-export const SalaryHistoryProjectionSchema = z.union([
-  z
-    .object({
-      omit: SalaryHistorySelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: SalaryHistorySelectFieldsSchemaJson,
-    })
-    .optional(),
+export const SalaryHistoryProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: SalaryHistorySelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: SalaryHistorySelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: SalaryHistoryIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: SalaryHistoryIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const BenefitCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -3757,24 +3614,26 @@ export const BenefitIncludeSchemaJson = z.preprocess(
   BenefitIncludeSchema
 );
 
-export const BenefitProjectionSchema = z.union([
-  z
-    .object({
-      omit: BenefitSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: BenefitSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const BenefitProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: BenefitSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: BenefitSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: BenefitIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: BenefitIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const BenefitEnrolmentCreateSchema = z.object({
   benefitId: z.coerce.number().int(),
@@ -3850,24 +3709,26 @@ export const BenefitEnrolmentIncludeSchemaJson = z.preprocess(
   BenefitEnrolmentIncludeSchema
 );
 
-export const BenefitEnrolmentProjectionSchema = z.union([
-  z
-    .object({
-      omit: BenefitEnrolmentSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: BenefitEnrolmentSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const BenefitEnrolmentProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: BenefitEnrolmentSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: BenefitEnrolmentSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: BenefitEnrolmentIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: BenefitEnrolmentIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const TitleHistoryCreateSchema = z.object({
   employeeId: z.coerce.number().int(),
@@ -3953,24 +3814,26 @@ export const TitleHistoryIncludeSchemaJson = z.preprocess(
   TitleHistoryIncludeSchema
 );
 
-export const TitleHistoryProjectionSchema = z.union([
-  z
-    .object({
-      omit: TitleHistorySelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: TitleHistorySelectFieldsSchemaJson,
-    })
-    .optional(),
+export const TitleHistoryProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: TitleHistorySelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: TitleHistorySelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: TitleHistoryIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: TitleHistoryIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const TimeOffPolicyCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -4059,24 +3922,26 @@ export const TimeOffPolicyIncludeSchemaJson = z.preprocess(
   TimeOffPolicyIncludeSchema
 );
 
-export const TimeOffPolicyProjectionSchema = z.union([
-  z
-    .object({
-      omit: TimeOffPolicySelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: TimeOffPolicySelectFieldsSchemaJson,
-    })
-    .optional(),
+export const TimeOffPolicyProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: TimeOffPolicySelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: TimeOffPolicySelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: TimeOffPolicyIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: TimeOffPolicyIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const TimeOffBalanceCreateSchema = z.object({
   policyId: z.coerce.number().int(),
@@ -4167,24 +4032,26 @@ export const TimeOffBalanceIncludeSchemaJson = z.preprocess(
   TimeOffBalanceIncludeSchema
 );
 
-export const TimeOffBalanceProjectionSchema = z.union([
-  z
-    .object({
-      omit: TimeOffBalanceSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: TimeOffBalanceSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const TimeOffBalanceProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: TimeOffBalanceSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: TimeOffBalanceSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: TimeOffBalanceIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: TimeOffBalanceIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const TimeOffRequestCreateSchema = z.object({
   employeeId: z.coerce.number().int(),
@@ -4290,24 +4157,26 @@ export const TimeOffRequestIncludeSchemaJson = z.preprocess(
   TimeOffRequestIncludeSchema
 );
 
-export const TimeOffRequestProjectionSchema = z.union([
-  z
-    .object({
-      omit: TimeOffRequestSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: TimeOffRequestSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const TimeOffRequestProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: TimeOffRequestSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: TimeOffRequestSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: TimeOffRequestIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: TimeOffRequestIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const TimeOffTransactionCreateSchema = z.object({
   type: TimeOffTransactionTypeSchema,
@@ -4389,24 +4258,26 @@ export const TimeOffTransactionIncludeSchemaJson = z.preprocess(
   TimeOffTransactionIncludeSchema
 );
 
-export const TimeOffTransactionProjectionSchema = z.union([
-  z
-    .object({
-      omit: TimeOffTransactionSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: TimeOffTransactionSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const TimeOffTransactionProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: TimeOffTransactionSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: TimeOffTransactionSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: TimeOffTransactionIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: TimeOffTransactionIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const ClockInCreateSchema = z.object({
   employeeId: z.coerce.number().int(),
@@ -4473,24 +4344,26 @@ export const ClockInIncludeSchemaJson = z.preprocess(
   ClockInIncludeSchema
 );
 
-export const ClockInProjectionSchema = z.union([
-  z
-    .object({
-      omit: ClockInSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: ClockInSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const ClockInProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: ClockInSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: ClockInSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: ClockInIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: ClockInIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const PaycheckCreateSchema = z.object({
   payrollRunId: z.coerce.number().int(),
@@ -4600,24 +4473,26 @@ export const PaycheckIncludeSchemaJson = z.preprocess(
   PaycheckIncludeSchema
 );
 
-export const PaycheckProjectionSchema = z.union([
-  z
-    .object({
-      omit: PaycheckSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: PaycheckSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const PaycheckProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: PaycheckSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: PaycheckSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: PaycheckIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: PaycheckIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const EarningCreateSchema = z.object({
   type: EarningTypeSchema,
@@ -4695,24 +4570,26 @@ export const EarningIncludeSchemaJson = z.preprocess(
   EarningIncludeSchema
 );
 
-export const EarningProjectionSchema = z.union([
-  z
-    .object({
-      omit: EarningSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: EarningSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const EarningProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: EarningSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: EarningSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: EarningIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: EarningIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const PaycheckTaxCreateSchema = z.object({
   paycheckId: z.coerce.number().int(),
@@ -4781,24 +4658,26 @@ export const PaycheckTaxIncludeSchemaJson = z.preprocess(
   PaycheckTaxIncludeSchema
 );
 
-export const PaycheckTaxProjectionSchema = z.union([
-  z
-    .object({
-      omit: PaycheckTaxSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: PaycheckTaxSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const PaycheckTaxProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: PaycheckTaxSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: PaycheckTaxSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: PaycheckTaxIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: PaycheckTaxIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const DeductionPolicyCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -4877,24 +4756,26 @@ export const DeductionPolicyIncludeSchemaJson = z.preprocess(
   DeductionPolicyIncludeSchema
 );
 
-export const DeductionPolicyProjectionSchema = z.union([
-  z
-    .object({
-      omit: DeductionPolicySelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: DeductionPolicySelectFieldsSchemaJson,
-    })
-    .optional(),
+export const DeductionPolicyProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: DeductionPolicySelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: DeductionPolicySelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: DeductionPolicyIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: DeductionPolicyIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const EmployeeDeductionCreateSchema = z.object({
   employeeId: z.coerce.number().int(),
@@ -4975,24 +4856,26 @@ export const EmployeeDeductionIncludeSchemaJson = z.preprocess(
   EmployeeDeductionIncludeSchema
 );
 
-export const EmployeeDeductionProjectionSchema = z.union([
-  z
-    .object({
-      omit: EmployeeDeductionSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: EmployeeDeductionSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const EmployeeDeductionProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: EmployeeDeductionSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: EmployeeDeductionSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: EmployeeDeductionIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: EmployeeDeductionIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const PaycheckDeductionCreateSchema = z.object({
   paycheckId: z.coerce.number().int(),
@@ -5064,24 +4947,26 @@ export const PaycheckDeductionIncludeSchemaJson = z.preprocess(
   PaycheckDeductionIncludeSchema
 );
 
-export const PaycheckDeductionProjectionSchema = z.union([
-  z
-    .object({
-      omit: PaycheckDeductionSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: PaycheckDeductionSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const PaycheckDeductionProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: PaycheckDeductionSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: PaycheckDeductionSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: PaycheckDeductionIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: PaycheckDeductionIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const EmployeeTaxDataCreateSchema = z.object({
   startDate: dateSchema.clone(),
@@ -5213,24 +5098,26 @@ export const EmployeeTaxDataIncludeSchemaJson = z.preprocess(
   EmployeeTaxDataIncludeSchema
 );
 
-export const EmployeeTaxDataProjectionSchema = z.union([
-  z
-    .object({
-      omit: EmployeeTaxDataSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: EmployeeTaxDataSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const EmployeeTaxDataProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: EmployeeTaxDataSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: EmployeeTaxDataSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: EmployeeTaxDataIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: EmployeeTaxDataIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const StateTaxWithholdingCreateSchema = z.object({
   taxDataId: z.coerce.number().int(),
@@ -5309,24 +5196,26 @@ export const StateTaxWithholdingIncludeSchemaJson = z.preprocess(
   StateTaxWithholdingIncludeSchema
 );
 
-export const StateTaxWithholdingProjectionSchema = z.union([
-  z
-    .object({
-      omit: StateTaxWithholdingSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: StateTaxWithholdingSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const StateTaxWithholdingProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: StateTaxWithholdingSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: StateTaxWithholdingSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: StateTaxWithholdingIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: StateTaxWithholdingIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const LocalTaxWithholdingCreateSchema = z.object({
   taxDataId: z.coerce.number().int(),
@@ -5400,24 +5289,26 @@ export const LocalTaxWithholdingIncludeSchemaJson = z.preprocess(
   LocalTaxWithholdingIncludeSchema
 );
 
-export const LocalTaxWithholdingProjectionSchema = z.union([
-  z
-    .object({
-      omit: LocalTaxWithholdingSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: LocalTaxWithholdingSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const LocalTaxWithholdingProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: LocalTaxWithholdingSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: LocalTaxWithholdingSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: LocalTaxWithholdingIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: LocalTaxWithholdingIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const PayrollRunCreateSchema = z.object({
   resolverId: z.coerce.number().int(),
@@ -5504,24 +5395,26 @@ export const PayrollRunIncludeSchemaJson = z.preprocess(
   PayrollRunIncludeSchema
 );
 
-export const PayrollRunProjectionSchema = z.union([
-  z
-    .object({
-      omit: PayrollRunSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: PayrollRunSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const PayrollRunProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: PayrollRunSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: PayrollRunSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: PayrollRunIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: PayrollRunIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const ContactCreateSchema = z.object({
   employeeId: z.coerce.number().int(),
@@ -5616,24 +5509,26 @@ export const ContactIncludeSchemaJson = z.preprocess(
   ContactIncludeSchema
 );
 
-export const ContactProjectionSchema = z.union([
-  z
-    .object({
-      omit: ContactSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: ContactSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const ContactProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: ContactSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: ContactSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: ContactIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: ContactIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const CountryCreateSchema = z.object({
   name: nameSchema.clone(),
@@ -5703,24 +5598,26 @@ export const CountryIncludeSchemaJson = z.preprocess(
   CountryIncludeSchema
 );
 
-export const CountryProjectionSchema = z.union([
-  z
-    .object({
-      omit: CountrySelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: CountrySelectFieldsSchemaJson,
-    })
-    .optional(),
+export const CountryProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: CountrySelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: CountrySelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: CountryIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: CountryIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const StateCreateSchema = z.object({
   countryId: z.coerce.number().int(),
@@ -5795,24 +5692,26 @@ export const StateIncludeSchemaJson = z.preprocess(
   StateIncludeSchema
 );
 
-export const StateProjectionSchema = z.union([
-  z
-    .object({
-      omit: StateSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: StateSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const StateProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: StateSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: StateSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: StateIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: StateIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const AddressCreateSchema = z.object({
   type: ContactTypeSchema,
@@ -5901,24 +5800,26 @@ export const AddressIncludeSchemaJson = z.preprocess(
   AddressIncludeSchema
 );
 
-export const AddressProjectionSchema = z.union([
-  z
-    .object({
-      omit: AddressSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: AddressSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const AddressProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: AddressSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: AddressSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: AddressIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: AddressIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const EmailCreateSchema = z.object({
   type: ContactTypeSchema,
@@ -5986,24 +5887,26 @@ export const EmailIncludeSchemaJson = z.preprocess(
   EmailIncludeSchema
 );
 
-export const EmailProjectionSchema = z.union([
-  z
-    .object({
-      omit: EmailSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: EmailSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const EmailProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: EmailSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: EmailSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: EmailIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: EmailIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const PhoneCreateSchema = z.object({
   type: ContactTypeSchema,
@@ -6071,24 +5974,26 @@ export const PhoneIncludeSchemaJson = z.preprocess(
   PhoneIncludeSchema
 );
 
-export const PhoneProjectionSchema = z.union([
-  z
-    .object({
-      omit: PhoneSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: PhoneSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const PhoneProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: PhoneSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: PhoneSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: PhoneIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: PhoneIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const PrimaryEmailCreateSchema = z.object({
   emailId: z.coerce.number().int(),
@@ -6155,24 +6060,26 @@ export const PrimaryEmailIncludeSchemaJson = z.preprocess(
   PrimaryEmailIncludeSchema
 );
 
-export const PrimaryEmailProjectionSchema = z.union([
-  z
-    .object({
-      omit: PrimaryEmailSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: PrimaryEmailSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const PrimaryEmailProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: PrimaryEmailSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: PrimaryEmailSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: PrimaryEmailIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: PrimaryEmailIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const PrimaryPhoneCreateSchema = z.object({
   phoneId: z.coerce.number().int(),
@@ -6239,24 +6146,26 @@ export const PrimaryPhoneIncludeSchemaJson = z.preprocess(
   PrimaryPhoneIncludeSchema
 );
 
-export const PrimaryPhoneProjectionSchema = z.union([
-  z
-    .object({
-      omit: PrimaryPhoneSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: PrimaryPhoneSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const PrimaryPhoneProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: PrimaryPhoneSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: PrimaryPhoneSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: PrimaryPhoneIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: PrimaryPhoneIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const PrimaryAddressCreateSchema = z.object({
   addressId: z.coerce.number().int(),
@@ -6323,24 +6232,26 @@ export const PrimaryAddressIncludeSchemaJson = z.preprocess(
   PrimaryAddressIncludeSchema
 );
 
-export const PrimaryAddressProjectionSchema = z.union([
-  z
-    .object({
-      omit: PrimaryAddressSelectFieldsSchemaJson,
-    })
-    .optional(),
-  z
-    .object({
-      select: PrimaryAddressSelectFieldsSchemaJson,
-    })
-    .optional(),
+export const PrimaryAddressProjectionSchema = z
+  .union([
+    z
+      .object({
+        omit: PrimaryAddressSelectFieldsSchemaJson,
+      })
+      .optional(),
+    z
+      .object({
+        select: PrimaryAddressSelectFieldsSchemaJson,
+      })
+      .optional(),
 
-  z
-    .object({
-      include: PrimaryAddressIncludeSchemaJson,
-    })
-    .optional(),
-]);
+    z
+      .object({
+        include: PrimaryAddressIncludeSchemaJson,
+      })
+      .optional(),
+  ])
+  .optional();
 
 export const DepartmentQueryOneSchema = z
   .object({
