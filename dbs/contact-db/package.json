@@ -1,6 +1,6 @@
 {
   "name": "@puq/contact-db",
-  "version": "0.29.3",
+  "version": "0.29.4",
   "license": "MIT",
   "displayName": "Contact Database | Prisma Client And Zod Schemas",
   "description": "Contact database to manage any contact information, address, email, phone, and websites",

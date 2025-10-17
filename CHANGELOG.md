@@ -1,3 +1,13 @@
+## 0.29.4 (2025-10-17)
+
+### 🩹 Fixes
+
+- made projection schema optional ([5d60ccf](https://github.com/beemood/puq/commit/5d60ccf))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.29.3 (2025-10-16)
 
 This was a version bump only, there were no code changes.
