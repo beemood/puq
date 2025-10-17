@@ -294,18 +294,17 @@ export const AppProjectionSchema = z
       .object({
         omit: AppSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: AppSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: AppIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -375,18 +374,17 @@ export const SecretProjectionSchema = z
       .object({
         omit: SecretSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: SecretSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: SecretIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -461,18 +459,17 @@ export const AppHistoryProjectionSchema = z
       .object({
         omit: AppHistorySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: AppHistorySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: AppHistoryIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 

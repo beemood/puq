@@ -891,18 +891,17 @@ export const UserProjectionSchema = z
       .object({
         omit: UserSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: UserSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: UserIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -983,18 +982,17 @@ export const AccessTokenProjectionSchema = z
       .object({
         omit: AccessTokenSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: AccessTokenSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: AccessTokenIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1064,18 +1062,17 @@ export const ScopeProjectionSchema = z
       .object({
         omit: ScopeSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: ScopeSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: ScopeIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1148,18 +1145,17 @@ export const ResourceProjectionSchema = z
       .object({
         omit: ResourceSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: ResourceSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: ResourceIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1232,18 +1228,17 @@ export const OperationProjectionSchema = z
       .object({
         omit: OperationSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: OperationSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: OperationIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1341,18 +1336,17 @@ export const ActivityProjectionSchema = z
       .object({
         omit: ActivitySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: ActivitySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: ActivityIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1454,18 +1448,17 @@ export const PermissionProjectionSchema = z
       .object({
         omit: PermissionSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: PermissionSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: PermissionIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1535,18 +1528,17 @@ export const RoleProjectionSchema = z
       .object({
         omit: RoleSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: RoleSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: RoleIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1621,18 +1613,17 @@ export const RolePermissionProjectionSchema = z
       .object({
         omit: RolePermissionSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: RolePermissionSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: RolePermissionIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1725,18 +1716,17 @@ export const SessionProjectionSchema = z
       .object({
         omit: SessionSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: SessionSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: SessionIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1819,18 +1809,17 @@ export const ActivityLogProjectionSchema = z
       .object({
         omit: ActivityLogSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: ActivityLogSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: ActivityLogIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1905,18 +1894,17 @@ export const UserPermissionProjectionSchema = z
       .object({
         omit: UserPermissionSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: UserPermissionSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: UserPermissionIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1991,18 +1979,17 @@ export const AccessTokenPermissionProjectionSchema = z
       .object({
         omit: AccessTokenPermissionSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: AccessTokenPermissionSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: AccessTokenPermissionIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 

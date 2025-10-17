@@ -458,18 +458,17 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
         .object({
           omit: ${model.name}SelectFieldsSchemaJson
         })
-        .optional(),
+        .partial(),
       z
         .object({
           select: ${model.name}SelectFieldsSchemaJson
         })
-        .optional(),
-
+        .partial(),
       z
         .object({
           include: ${model.name}IncludeSchemaJson,
         })
-        .optional(),
+        .partial(),
       ]).optional();
      
      `;

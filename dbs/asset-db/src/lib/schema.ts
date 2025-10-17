@@ -1254,18 +1254,17 @@ export const RoomAttributeProjectionSchema = z
       .object({
         omit: RoomAttributeSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: RoomAttributeSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: RoomAttributeIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1345,18 +1344,17 @@ export const RoomAttributeValueProjectionSchema = z
       .object({
         omit: RoomAttributeValueSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: RoomAttributeValueSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: RoomAttributeValueIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1429,18 +1427,17 @@ export const ItemAttributeProjectionSchema = z
       .object({
         omit: ItemAttributeSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: ItemAttributeSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: ItemAttributeIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1520,18 +1517,17 @@ export const ItemAttributeValueProjectionSchema = z
       .object({
         omit: ItemAttributeValueSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: ItemAttributeValueSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: ItemAttributeValueIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1621,18 +1617,17 @@ export const CategoryProjectionSchema = z
       .object({
         omit: CategorySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: CategorySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: CategoryIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1710,18 +1705,17 @@ export const BuildingProjectionSchema = z
       .object({
         omit: BuildingSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: BuildingSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: BuildingIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1848,18 +1842,17 @@ export const RoomProjectionSchema = z
       .object({
         omit: RoomSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: RoomSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: RoomIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1968,18 +1961,17 @@ export const ItemProjectionSchema = z
       .object({
         omit: ItemSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: ItemSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: ItemIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -2082,18 +2074,17 @@ export const QuantityProjectionSchema = z
       .object({
         omit: QuantitySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: QuantitySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: QuantityIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -2212,18 +2203,17 @@ export const SerialNumberProjectionSchema = z
       .object({
         omit: SerialNumberSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: SerialNumberSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: SerialNumberIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -2336,18 +2326,17 @@ export const QuantityMoveRequestProjectionSchema = z
       .object({
         omit: QuantityMoveRequestSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: QuantityMoveRequestSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: QuantityMoveRequestIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -2455,18 +2444,17 @@ export const SerialMoveRequestProjectionSchema = z
       .object({
         omit: SerialMoveRequestSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: SerialMoveRequestSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: SerialMoveRequestIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -2620,18 +2608,17 @@ export const EmployeeProjectionSchema = z
       .object({
         omit: EmployeeSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: EmployeeSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: EmployeeIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -2714,18 +2701,17 @@ export const EmployeeRoomProjectionSchema = z
       .object({
         omit: EmployeeRoomSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: EmployeeRoomSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: EmployeeRoomIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -2808,18 +2794,17 @@ export const EmployeeItemProjectionSchema = z
       .object({
         omit: EmployeeItemSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: EmployeeItemSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: EmployeeItemIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -2919,18 +2904,17 @@ export const EmployeeRoomRequestProjectionSchema = z
       .object({
         omit: EmployeeRoomRequestSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: EmployeeRoomRequestSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: EmployeeRoomRequestIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -3030,18 +3014,17 @@ export const EmployeeItemRequestProjectionSchema = z
       .object({
         omit: EmployeeItemRequestSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: EmployeeItemRequestSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: EmployeeItemRequestIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 

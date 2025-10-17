@@ -1924,18 +1924,17 @@ export const UserProjectionSchema = z
       .object({
         omit: UserSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: UserSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: UserIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -2046,18 +2045,17 @@ export const TeamProjectionSchema = z
       .object({
         omit: TeamSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: TeamSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: TeamIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -2132,18 +2130,17 @@ export const TeamManagerProjectionSchema = z
       .object({
         omit: TeamManagerSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: TeamManagerSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: TeamManagerIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -2218,18 +2215,17 @@ export const TeamMemberProjectionSchema = z
       .object({
         omit: TeamMemberSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: TeamMemberSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: TeamMemberIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -2419,18 +2415,17 @@ export const ProjectProjectionSchema = z
       .object({
         omit: ProjectSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: ProjectSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: ProjectIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -2508,18 +2503,17 @@ export const TagProjectionSchema = z
       .object({
         omit: TagSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: TagSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: TagIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -2619,18 +2613,17 @@ export const CategoryProjectionSchema = z
       .object({
         omit: CategorySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: CategorySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: CategoryIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -2733,18 +2726,17 @@ export const SprintProjectionSchema = z
       .object({
         omit: SprintSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: SprintSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: SprintIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -2854,18 +2846,17 @@ export const PriorityProjectionSchema = z
       .object({
         omit: PrioritySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: PrioritySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: PriorityIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -2975,18 +2966,17 @@ export const StatusProjectionSchema = z
       .object({
         omit: StatusSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: StatusSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: StatusIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -3084,18 +3074,17 @@ export const PointProjectionSchema = z
       .object({
         omit: PointSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: PointSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: PointIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -3315,18 +3304,17 @@ export const TaskProjectionSchema = z
       .object({
         omit: TaskSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: TaskSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: TaskIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -3431,18 +3419,17 @@ export const AssignmentHistoryProjectionSchema = z
       .object({
         omit: AssignmentHistorySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: AssignmentHistorySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: AssignmentHistoryIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -3547,18 +3534,17 @@ export const PriorityHistoryProjectionSchema = z
       .object({
         omit: PriorityHistorySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: PriorityHistorySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: PriorityHistoryIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -3660,18 +3646,17 @@ export const StatusHistoryProjectionSchema = z
       .object({
         omit: StatusHistorySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: StatusHistorySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: StatusHistoryIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -3773,18 +3758,17 @@ export const PointHistoryProjectionSchema = z
       .object({
         omit: PointHistorySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: PointHistorySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: PointHistoryIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -3870,18 +3854,17 @@ export const TeamHistoryProjectionSchema = z
       .object({
         omit: TeamHistorySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: TeamHistorySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: TeamHistoryIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -3956,18 +3939,17 @@ export const TaskTagProjectionSchema = z
       .object({
         omit: TaskTagSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: TaskTagSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: TaskTagIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -4042,18 +4024,17 @@ export const TaskCategoryProjectionSchema = z
       .object({
         omit: TaskCategorySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: TaskCategorySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: TaskCategoryIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -4134,18 +4115,17 @@ export const AssignmentProjectionSchema = z
       .object({
         omit: AssignmentSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: AssignmentSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: AssignmentIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -4248,18 +4228,17 @@ export const CommentProjectionSchema = z
       .object({
         omit: CommentSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: CommentSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: CommentIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -4334,18 +4313,17 @@ export const ProjectTaskTagProjectionSchema = z
       .object({
         omit: ProjectTaskTagSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: ProjectTaskTagSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: ProjectTaskTagIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -4420,18 +4398,17 @@ export const ProjectTaskStatusProjectionSchema = z
       .object({
         omit: ProjectTaskStatusSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: ProjectTaskStatusSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: ProjectTaskStatusIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -4506,18 +4483,17 @@ export const ProjectTaskPriorityProjectionSchema = z
       .object({
         omit: ProjectTaskPrioritySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: ProjectTaskPrioritySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: ProjectTaskPriorityIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 

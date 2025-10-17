@@ -991,18 +991,17 @@ export const IndustryProjectionSchema = z
       .object({
         omit: IndustrySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: IndustrySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: IndustryIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1096,18 +1095,17 @@ export const CompanyProjectionSchema = z
       .object({
         omit: CompanySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: CompanySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: CompanyIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1182,18 +1180,17 @@ export const CompanyIndustryProjectionSchema = z
       .object({
         omit: CompanyIndustrySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: CompanyIndustrySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: CompanyIndustryIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1292,18 +1289,17 @@ export const DepartmentProjectionSchema = z
       .object({
         omit: DepartmentSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: DepartmentSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: DepartmentIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1395,18 +1391,17 @@ export const TitleProjectionSchema = z
       .object({
         omit: TitleSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: TitleSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: TitleIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1521,18 +1516,17 @@ export const AgentProjectionSchema = z
       .object({
         omit: AgentSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: AgentSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: AgentIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1647,18 +1641,17 @@ export const ContactProjectionSchema = z
       .object({
         omit: ContactSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: ContactSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: ContactIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1741,18 +1734,17 @@ export const StateProjectionSchema = z
       .object({
         omit: StateSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: StateSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: StateIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1830,18 +1822,17 @@ export const CountryProjectionSchema = z
       .object({
         omit: CountrySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: CountrySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: CountryIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -1919,18 +1910,17 @@ export const CityProjectionSchema = z
       .object({
         omit: CitySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: CitySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: CityIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -2020,18 +2010,17 @@ export const AddressProjectionSchema = z
       .object({
         omit: AddressSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: AddressSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: AddressIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -2105,18 +2094,17 @@ export const EmailProjectionSchema = z
       .object({
         omit: EmailSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: EmailSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: EmailIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -2190,18 +2178,17 @@ export const PhoneProjectionSchema = z
       .object({
         omit: PhoneSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: PhoneSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: PhoneIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -2278,18 +2265,17 @@ export const WebsiteProjectionSchema = z
       .object({
         omit: WebsiteSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: WebsiteSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: WebsiteIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 

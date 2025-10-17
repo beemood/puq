@@ -2596,18 +2596,17 @@ export const DepartmentProjectionSchema = z
       .object({
         omit: DepartmentSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: DepartmentSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: DepartmentIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -2713,18 +2712,17 @@ export const TitleProjectionSchema = z
       .object({
         omit: TitleSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: TitleSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: TitleIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -2809,18 +2807,17 @@ export const PersonalDataProjectionSchema = z
       .object({
         omit: PersonalDataSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: PersonalDataSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: PersonalDataIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -3071,18 +3068,17 @@ export const EmployeeProjectionSchema = z
       .object({
         omit: EmployeeSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: EmployeeSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: EmployeeIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -3161,18 +3157,17 @@ export const TeamProjectionSchema = z
       .object({
         omit: TeamSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: TeamSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: TeamIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -3247,18 +3242,17 @@ export const TeamManagerProjectionSchema = z
       .object({
         omit: TeamManagerSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: TeamManagerSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: TeamManagerIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -3333,18 +3327,17 @@ export const TeamMemberProjectionSchema = z
       .object({
         omit: TeamMemberSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: TeamMemberSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: TeamMemberIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -3430,18 +3423,17 @@ export const SalaryProjectionSchema = z
       .object({
         omit: SalarySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: SalarySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: SalaryIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -3526,18 +3518,17 @@ export const SalaryHistoryProjectionSchema = z
       .object({
         omit: SalaryHistorySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: SalaryHistorySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: SalaryHistoryIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -3620,18 +3611,17 @@ export const BenefitProjectionSchema = z
       .object({
         omit: BenefitSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: BenefitSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: BenefitIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -3715,18 +3705,17 @@ export const BenefitEnrolmentProjectionSchema = z
       .object({
         omit: BenefitEnrolmentSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: BenefitEnrolmentSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: BenefitEnrolmentIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -3820,18 +3809,17 @@ export const TitleHistoryProjectionSchema = z
       .object({
         omit: TitleHistorySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: TitleHistorySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: TitleHistoryIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -3928,18 +3916,17 @@ export const TimeOffPolicyProjectionSchema = z
       .object({
         omit: TimeOffPolicySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: TimeOffPolicySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: TimeOffPolicyIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -4038,18 +4025,17 @@ export const TimeOffBalanceProjectionSchema = z
       .object({
         omit: TimeOffBalanceSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: TimeOffBalanceSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: TimeOffBalanceIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -4163,18 +4149,17 @@ export const TimeOffRequestProjectionSchema = z
       .object({
         omit: TimeOffRequestSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: TimeOffRequestSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: TimeOffRequestIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -4264,18 +4249,17 @@ export const TimeOffTransactionProjectionSchema = z
       .object({
         omit: TimeOffTransactionSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: TimeOffTransactionSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: TimeOffTransactionIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -4350,18 +4334,17 @@ export const ClockInProjectionSchema = z
       .object({
         omit: ClockInSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: ClockInSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: ClockInIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -4479,18 +4462,17 @@ export const PaycheckProjectionSchema = z
       .object({
         omit: PaycheckSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: PaycheckSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: PaycheckIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -4576,18 +4558,17 @@ export const EarningProjectionSchema = z
       .object({
         omit: EarningSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: EarningSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: EarningIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -4664,18 +4645,17 @@ export const PaycheckTaxProjectionSchema = z
       .object({
         omit: PaycheckTaxSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: PaycheckTaxSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: PaycheckTaxIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -4762,18 +4742,17 @@ export const DeductionPolicyProjectionSchema = z
       .object({
         omit: DeductionPolicySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: DeductionPolicySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: DeductionPolicyIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -4862,18 +4841,17 @@ export const EmployeeDeductionProjectionSchema = z
       .object({
         omit: EmployeeDeductionSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: EmployeeDeductionSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: EmployeeDeductionIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -4953,18 +4931,17 @@ export const PaycheckDeductionProjectionSchema = z
       .object({
         omit: PaycheckDeductionSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: PaycheckDeductionSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: PaycheckDeductionIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -5104,18 +5081,17 @@ export const EmployeeTaxDataProjectionSchema = z
       .object({
         omit: EmployeeTaxDataSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: EmployeeTaxDataSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: EmployeeTaxDataIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -5202,18 +5178,17 @@ export const StateTaxWithholdingProjectionSchema = z
       .object({
         omit: StateTaxWithholdingSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: StateTaxWithholdingSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: StateTaxWithholdingIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -5295,18 +5270,17 @@ export const LocalTaxWithholdingProjectionSchema = z
       .object({
         omit: LocalTaxWithholdingSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: LocalTaxWithholdingSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: LocalTaxWithholdingIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -5401,18 +5375,17 @@ export const PayrollRunProjectionSchema = z
       .object({
         omit: PayrollRunSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: PayrollRunSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: PayrollRunIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -5515,18 +5488,17 @@ export const ContactProjectionSchema = z
       .object({
         omit: ContactSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: ContactSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: ContactIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -5604,18 +5576,17 @@ export const CountryProjectionSchema = z
       .object({
         omit: CountrySelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: CountrySelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: CountryIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -5698,18 +5669,17 @@ export const StateProjectionSchema = z
       .object({
         omit: StateSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: StateSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: StateIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -5806,18 +5776,17 @@ export const AddressProjectionSchema = z
       .object({
         omit: AddressSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: AddressSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: AddressIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -5893,18 +5862,17 @@ export const EmailProjectionSchema = z
       .object({
         omit: EmailSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: EmailSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: EmailIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -5980,18 +5948,17 @@ export const PhoneProjectionSchema = z
       .object({
         omit: PhoneSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: PhoneSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: PhoneIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -6066,18 +6033,17 @@ export const PrimaryEmailProjectionSchema = z
       .object({
         omit: PrimaryEmailSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: PrimaryEmailSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: PrimaryEmailIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -6152,18 +6118,17 @@ export const PrimaryPhoneProjectionSchema = z
       .object({
         omit: PrimaryPhoneSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: PrimaryPhoneSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: PrimaryPhoneIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
@@ -6238,18 +6203,17 @@ export const PrimaryAddressProjectionSchema = z
       .object({
         omit: PrimaryAddressSelectFieldsSchemaJson,
       })
-      .optional(),
+      .partial(),
     z
       .object({
         select: PrimaryAddressSelectFieldsSchemaJson,
       })
-      .optional(),
-
+      .partial(),
     z
       .object({
         include: PrimaryAddressIncludeSchemaJson,
       })
-      .optional(),
+      .partial(),
   ])
   .optional();
 
