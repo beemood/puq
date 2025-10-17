@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { slugify } from '@puq/names';
 import * as PZ from '@puq/zod';
 import { z } from 'zod';
-import { slugify } from '@puq/names';
 
 export const takeSchema = z.coerce.number().int().min(1).default(20).optional();
 export const skipSchema = z.coerce.number().int().min(0).default(0).optional();
@@ -1426,25 +1426,18 @@ export const CategoryIncludeSchemaJson = z.preprocess(
   CategoryIncludeSchema
 );
 
-export const CategoryProjectionSchema = z
-  .union([
-    z
-      .object({
-        omit: CategorySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        select: CategorySelectFieldsSchemaJson,
-      })
-      .partial(),
-    z
-      .object({
-        include: CategoryIncludeSchemaJson,
-      })
-      .partial(),
-  ])
-  .optional();
+export const CategoryProjectionSchema = z.union([
+  z.object({
+    omit: CategorySelectFieldsSchemaJson.clone(),
+  }),
+  z.object({
+    select: CategorySelectFieldsSchemaJson.clone(),
+  }),
+  z.object({
+    include: CategoryIncludeSchemaJson.clone(),
+  }),
+  z.object({}),
+]);
 
 export const ProductCreateSchema = z
   .object({

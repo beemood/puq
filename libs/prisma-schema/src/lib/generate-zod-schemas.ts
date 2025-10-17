@@ -454,23 +454,11 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
 
     const projectionSchema = `
      export const ${model.name}ProjectionSchema = z.union([
-      z
-        .object({
-          omit: ${model.name}SelectFieldsSchemaJson
-        })
-        .partial(),
-      z
-        .object({
-          select: ${model.name}SelectFieldsSchemaJson
-        })
-        .partial(),
-      z
-        .object({
-          include: ${model.name}IncludeSchemaJson,
-        })
-        .partial(),
-      ]).optional();
-     
+        z.object({ omit: ${model.name}SelectFieldsSchemaJson }),
+        z.object({ select: ${model.name}SelectFieldsSchemaJson }),
+        z.object({ include: ${model.name}IncludeSchemaJson }),
+        z.object({})
+      ])
      `;
 
     firstResult.push(ownSelectFieldsSchema);
