@@ -66,6 +66,7 @@
     "zod": "^4.1.11"
   },
   "dependencies": {
+    "@puq/names": "workspace:*",
     "@puq/types": "workspace:*",
     "@swc/helpers": "~0.5.11"
   }

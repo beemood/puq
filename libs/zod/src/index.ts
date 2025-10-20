@@ -22,6 +22,7 @@ export * from './lib/literals/page-skip-schema.js';
 export * from './lib/literals/page-take-schema.js';
 export * from './lib/literals/password-schema.js';
 export * from './lib/literals/rate-schema.js';
+export * from './lib/literals/scalar.js';
 export * from './lib/literals/username-schema.js';
 export * from './lib/object/base-id-schema.js';
 export * from './lib/object/base-timestamp-schema.js';
@@ -29,5 +30,6 @@ export * from './lib/object/pagination-schema.js';
 export * from './lib/object/property-value-schema.js';
 export * from './lib/preprocessors/json-preprocessor.js';
 export * from './lib/preprocessors/preprocess-json.js';
+export * from './lib/preprocessors/slug-transformer.js';
 export * from './lib/types/generated-type.js';
 

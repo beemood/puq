@@ -1,6 +1,18 @@
 import { describe, expect, it } from 'vitest';
-describe('Schema', () => {
+import { CategoryOrderBySchema } from './schema';
+describe('inventory-db', () => {
   it('should work', () => {
-    expect(1).toEqual(1);
+    expect(() => CategoryOrderBySchema.parse({})).toThrowError();
+    expect(() =>
+      CategoryOrderBySchema.parse([{ id: 'asc', name: 'desc' }])
+    ).toThrowError();
+    expect(CategoryOrderBySchema.parse([])).toBeDefined();
+    expect(
+      CategoryOrderBySchema.parse([{ id: 'asc' }, { name: 'desc' }])
+    ).toBeDefined();
+
+    expect(() =>
+      CategoryOrderBySchema.parse([{ id: 'some' }, { name: 'desc' }])
+    ).toThrowError();
   });
 });

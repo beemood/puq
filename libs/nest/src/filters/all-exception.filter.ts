@@ -11,6 +11,7 @@ import type { ZodError } from 'zod';
 
 /**
  * Catch all exception and clasify them and throw errors.
+ * @deprecated Use the dedicated exception filters such as "PrismaExceptionFilter
  */
 @Catch()
 export class AllExceptionFilter implements ExceptionFilter {

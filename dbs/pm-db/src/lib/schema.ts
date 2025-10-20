@@ -1,70 +1,40 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as PZ from '@puq/zod';
 import { z } from 'zod';
-import { slugify } from '@puq/names';
 
-export const takeSchema = z.coerce.number().int().min(1).default(20).optional();
-export const skipSchema = z.coerce.number().int().min(0).default(0).optional();
 export const PaginationSchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
+    take: PZ.Scalar.take(),
+    skip: PZ.Scalar.skip(),
   })
   .partial();
 
-export const nameSchema = z.string().min(2).max(30);
-export const descriptionSchema = z.string().max(1000);
-export const currencySchema = z.coerce.number().positive();
-export const positiveIntegerSchema = z.coerce.number().int().positive();
-export const emailSchema = z.email();
-export const dateSchema = z.iso.datetime();
-export const slugSchema = z.string().regex(/^[a-z-]{2,}$/);
-
-export function jsonParser<T>(value: T) {
-  if (typeof value === 'string') {
-    return JSON.parse(value);
-  }
-  return value;
-}
-
-export function slugTransformer(key: string) {
-  return (value: any) => {
-    if (value.slug == undefined && value[key] != undefined) {
-      return {
-        ...value,
-        slug: value[key] ? slugify(value[key].toString()) : null,
-      };
-    }
-    return value;
-  };
-}
-
 export const UserOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    uuid: z.boolean(),
-    displayName: z.boolean(),
-    slug: z.boolean(),
-    title: z.boolean(),
-    assignments: z.boolean(),
-    managedTeams: z.boolean(),
-    memberships: z.boolean(),
-    createdProjects: z.boolean(),
-    createdSprints: z.boolean(),
-    createdTasks: z.boolean(),
-    createdComments: z.boolean(),
-    takenAssignments: z.boolean(),
-    givenAssignments: z.boolean(),
-    changedAssignments: z.boolean(),
-    changedPriorities: z.boolean(),
-    changedStatuses: z.boolean(),
-    changedPoints: z.boolean(),
-    changedTeams: z.boolean(),
+    id: PZ.Scalar.bool(),
+    uuid: PZ.Scalar.bool(),
+    displayName: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    title: PZ.Scalar.bool(),
+    assignments: PZ.Scalar.bool(),
+    managedTeams: PZ.Scalar.bool(),
+    memberships: PZ.Scalar.bool(),
+    createdProjects: PZ.Scalar.bool(),
+    createdSprints: PZ.Scalar.bool(),
+    createdTasks: PZ.Scalar.bool(),
+    createdComments: PZ.Scalar.bool(),
+    takenAssignments: PZ.Scalar.bool(),
+    givenAssignments: PZ.Scalar.bool(),
+    changedAssignments: PZ.Scalar.bool(),
+    changedPriorities: PZ.Scalar.bool(),
+    changedStatuses: PZ.Scalar.bool(),
+    changedPoints: PZ.Scalar.bool(),
+    changedTeams: PZ.Scalar.bool(),
   })
   .partial();
 
 export const UserOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UserOwnSelectFieldsSchema
 );
 
@@ -74,19 +44,19 @@ export const UserDistinctFieldsSchema = z
 
 export const TeamOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    description: z.boolean(),
-    managers: z.boolean(),
-    members: z.boolean(),
-    takenTeams: z.boolean(),
-    givenTeams: z.boolean(),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    managers: PZ.Scalar.bool(),
+    members: PZ.Scalar.bool(),
+    takenTeams: PZ.Scalar.bool(),
+    givenTeams: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TeamOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamOwnSelectFieldsSchema
 );
 
@@ -96,16 +66,16 @@ export const TeamDistinctFieldsSchema = z
 
 export const TeamManagerOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    managerId: z.boolean(),
-    teamId: z.boolean(),
-    manager: z.boolean(),
-    team: z.boolean(),
+    id: PZ.Scalar.bool(),
+    managerId: PZ.Scalar.bool(),
+    teamId: PZ.Scalar.bool(),
+    manager: PZ.Scalar.bool(),
+    team: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TeamManagerOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamManagerOwnSelectFieldsSchema
 );
 
@@ -115,16 +85,16 @@ export const TeamManagerDistinctFieldsSchema = z
 
 export const TeamMemberOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    teamId: z.boolean(),
-    memberId: z.boolean(),
-    team: z.boolean(),
-    member: z.boolean(),
+    id: PZ.Scalar.bool(),
+    teamId: PZ.Scalar.bool(),
+    memberId: PZ.Scalar.bool(),
+    team: PZ.Scalar.bool(),
+    member: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TeamMemberOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamMemberOwnSelectFieldsSchema
 );
 
@@ -134,31 +104,31 @@ export const TeamMemberDistinctFieldsSchema = z
 
 export const ProjectOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdById: z.boolean(),
-    parentId: z.boolean(),
-    parent: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    description: z.boolean(),
-    startDate: z.boolean(),
-    dueDate: z.boolean(),
-    endDate: z.boolean(),
-    sprints: z.boolean(),
-    createdBy: z.boolean(),
-    tags: z.boolean(),
-    statuses: z.boolean(),
-    priorities: z.boolean(),
-    assignmentHistory: z.boolean(),
-    priorityHistory: z.boolean(),
-    statusHistory: z.boolean(),
-    pointHistory: z.boolean(),
-    projects: z.boolean(),
+    id: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    parentId: PZ.Scalar.bool(),
+    parent: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    dueDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+    sprints: PZ.Scalar.bool(),
+    createdBy: PZ.Scalar.bool(),
+    tags: PZ.Scalar.bool(),
+    statuses: PZ.Scalar.bool(),
+    priorities: PZ.Scalar.bool(),
+    assignmentHistory: PZ.Scalar.bool(),
+    priorityHistory: PZ.Scalar.bool(),
+    statusHistory: PZ.Scalar.bool(),
+    pointHistory: PZ.Scalar.bool(),
+    projects: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ProjectOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectOwnSelectFieldsSchema
 );
 
@@ -178,16 +148,16 @@ export const ProjectDistinctFieldsSchema = z
 
 export const TagOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    isDefault: z.boolean(),
-    tasks: z.boolean(),
-    projects: z.boolean(),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    isDefault: PZ.Scalar.bool(),
+    tasks: PZ.Scalar.bool(),
+    projects: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TagOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TagOwnSelectFieldsSchema
 );
 
@@ -197,19 +167,19 @@ export const TagDistinctFieldsSchema = z
 
 export const CategoryOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    parentId: z.boolean(),
-    name: z.boolean(),
-    description: z.boolean(),
-    isDefault: z.boolean(),
-    parent: z.boolean(),
-    categories: z.boolean(),
-    tasks: z.boolean(),
+    id: PZ.Scalar.bool(),
+    parentId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    isDefault: PZ.Scalar.bool(),
+    parent: PZ.Scalar.bool(),
+    categories: PZ.Scalar.bool(),
+    tasks: PZ.Scalar.bool(),
   })
   .partial();
 
 export const CategoryOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CategoryOwnSelectFieldsSchema
 );
 
@@ -219,20 +189,20 @@ export const CategoryDistinctFieldsSchema = z
 
 export const SprintOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdById: z.boolean(),
-    projectId: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    description: z.boolean(),
-    project: z.boolean(),
-    tasks: z.boolean(),
-    createdBy: z.boolean(),
+    id: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    project: PZ.Scalar.bool(),
+    tasks: PZ.Scalar.bool(),
+    createdBy: PZ.Scalar.bool(),
   })
   .partial();
 
 export const SprintOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SprintOwnSelectFieldsSchema
 );
 
@@ -242,19 +212,19 @@ export const SprintDistinctFieldsSchema = z
 
 export const PriorityOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    description: z.boolean(),
-    isDefault: z.boolean(),
-    tasks: z.boolean(),
-    projects: z.boolean(),
-    takenPriorities: z.boolean(),
-    givenPriorities: z.boolean(),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    isDefault: PZ.Scalar.bool(),
+    tasks: PZ.Scalar.bool(),
+    projects: PZ.Scalar.bool(),
+    takenPriorities: PZ.Scalar.bool(),
+    givenPriorities: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PriorityOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriorityOwnSelectFieldsSchema
 );
 
@@ -264,19 +234,19 @@ export const PriorityDistinctFieldsSchema = z
 
 export const StatusOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    description: z.boolean(),
-    isDefault: z.boolean(),
-    tasks: z.boolean(),
-    projects: z.boolean(),
-    takenStatuses: z.boolean(),
-    givenStatuses: z.boolean(),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    isDefault: PZ.Scalar.bool(),
+    tasks: PZ.Scalar.bool(),
+    projects: PZ.Scalar.bool(),
+    takenStatuses: PZ.Scalar.bool(),
+    givenStatuses: PZ.Scalar.bool(),
   })
   .partial();
 
 export const StatusOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StatusOwnSelectFieldsSchema
 );
 
@@ -286,18 +256,18 @@ export const StatusDistinctFieldsSchema = z
 
 export const PointOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    point: z.boolean(),
-    description: z.boolean(),
-    tasks: z.boolean(),
-    takenPointes: z.boolean(),
-    givenPointes: z.boolean(),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    point: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    tasks: PZ.Scalar.bool(),
+    takenPointes: PZ.Scalar.bool(),
+    givenPointes: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PointOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PointOwnSelectFieldsSchema
 );
 
@@ -307,40 +277,40 @@ export const PointDistinctFieldsSchema = z
 
 export const TaskOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    sprintId: z.boolean(),
-    createdAt: z.boolean(),
-    updatedAt: z.boolean(),
-    createdById: z.boolean(),
-    priorityId: z.boolean(),
-    pointId: z.boolean(),
-    statusId: z.boolean(),
-    parentId: z.boolean(),
-    title: z.boolean(),
-    slug: z.boolean(),
-    description: z.boolean(),
-    due: z.boolean(),
-    resolvedAt: z.boolean(),
-    comments: z.boolean(),
-    parent: z.boolean(),
-    tasks: z.boolean(),
-    createdBy: z.boolean(),
-    assignments: z.boolean(),
-    tags: z.boolean(),
-    categories: z.boolean(),
-    point: z.boolean(),
-    priority: z.boolean(),
-    status: z.boolean(),
-    sprint: z.boolean(),
-    assignmentHistory: z.boolean(),
-    statusHistory: z.boolean(),
-    priorityHistory: z.boolean(),
-    pointHistory: z.boolean(),
+    id: PZ.Scalar.bool(),
+    sprintId: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    priorityId: PZ.Scalar.bool(),
+    pointId: PZ.Scalar.bool(),
+    statusId: PZ.Scalar.bool(),
+    parentId: PZ.Scalar.bool(),
+    title: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    due: PZ.Scalar.bool(),
+    resolvedAt: PZ.Scalar.bool(),
+    comments: PZ.Scalar.bool(),
+    parent: PZ.Scalar.bool(),
+    tasks: PZ.Scalar.bool(),
+    createdBy: PZ.Scalar.bool(),
+    assignments: PZ.Scalar.bool(),
+    tags: PZ.Scalar.bool(),
+    categories: PZ.Scalar.bool(),
+    point: PZ.Scalar.bool(),
+    priority: PZ.Scalar.bool(),
+    status: PZ.Scalar.bool(),
+    sprint: PZ.Scalar.bool(),
+    assignmentHistory: PZ.Scalar.bool(),
+    statusHistory: PZ.Scalar.bool(),
+    priorityHistory: PZ.Scalar.bool(),
+    pointHistory: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TaskOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TaskOwnSelectFieldsSchema
 );
 
@@ -365,24 +335,24 @@ export const TaskDistinctFieldsSchema = z
 
 export const AssignmentHistoryOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdById: z.boolean(),
-    createdAt: z.boolean(),
-    updatedAt: z.boolean(),
-    projectId: z.boolean(),
-    taskId: z.boolean(),
-    oldUserId: z.boolean(),
-    newUserId: z.boolean(),
-    oldUser: z.boolean(),
-    newUser: z.boolean(),
-    createdBy: z.boolean(),
-    task: z.boolean(),
-    project: z.boolean(),
+    id: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+    oldUserId: PZ.Scalar.bool(),
+    newUserId: PZ.Scalar.bool(),
+    oldUser: PZ.Scalar.bool(),
+    newUser: PZ.Scalar.bool(),
+    createdBy: PZ.Scalar.bool(),
+    task: PZ.Scalar.bool(),
+    project: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AssignmentHistoryOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AssignmentHistoryOwnSelectFieldsSchema
 );
 
@@ -401,24 +371,24 @@ export const AssignmentHistoryDistinctFieldsSchema = z
 
 export const PriorityHistoryOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdById: z.boolean(),
-    createdAt: z.boolean(),
-    updatedAt: z.boolean(),
-    projectId: z.boolean(),
-    taskId: z.boolean(),
-    oldPriorityId: z.boolean(),
-    newPriorityId: z.boolean(),
-    oldPriority: z.boolean(),
-    newPriority: z.boolean(),
-    createdBy: z.boolean(),
-    task: z.boolean(),
-    project: z.boolean(),
+    id: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+    oldPriorityId: PZ.Scalar.bool(),
+    newPriorityId: PZ.Scalar.bool(),
+    oldPriority: PZ.Scalar.bool(),
+    newPriority: PZ.Scalar.bool(),
+    createdBy: PZ.Scalar.bool(),
+    task: PZ.Scalar.bool(),
+    project: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PriorityHistoryOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriorityHistoryOwnSelectFieldsSchema
 );
 
@@ -437,23 +407,23 @@ export const PriorityHistoryDistinctFieldsSchema = z
 
 export const StatusHistoryOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdAt: z.boolean(),
-    createdById: z.boolean(),
-    oldStatusId: z.boolean(),
-    newStatusId: z.boolean(),
-    projectId: z.boolean(),
-    taskId: z.boolean(),
-    task: z.boolean(),
-    oldStatus: z.boolean(),
-    newStatus: z.boolean(),
-    createdBy: z.boolean(),
-    project: z.boolean(),
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    oldStatusId: PZ.Scalar.bool(),
+    newStatusId: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+    task: PZ.Scalar.bool(),
+    oldStatus: PZ.Scalar.bool(),
+    newStatus: PZ.Scalar.bool(),
+    createdBy: PZ.Scalar.bool(),
+    project: PZ.Scalar.bool(),
   })
   .partial();
 
 export const StatusHistoryOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StatusHistoryOwnSelectFieldsSchema
 );
 
@@ -471,23 +441,23 @@ export const StatusHistoryDistinctFieldsSchema = z
 
 export const PointHistoryOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdAt: z.boolean(),
-    createdById: z.boolean(),
-    oldPointId: z.boolean(),
-    newPointId: z.boolean(),
-    projectId: z.boolean(),
-    taskId: z.boolean(),
-    task: z.boolean(),
-    oldPoint: z.boolean(),
-    newPoint: z.boolean(),
-    createdBy: z.boolean(),
-    project: z.boolean(),
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    oldPointId: PZ.Scalar.bool(),
+    newPointId: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+    task: PZ.Scalar.bool(),
+    oldPoint: PZ.Scalar.bool(),
+    newPoint: PZ.Scalar.bool(),
+    createdBy: PZ.Scalar.bool(),
+    project: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PointHistoryOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PointHistoryOwnSelectFieldsSchema
 );
 
@@ -505,19 +475,19 @@ export const PointHistoryDistinctFieldsSchema = z
 
 export const TeamHistoryOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdAt: z.boolean(),
-    createdById: z.boolean(),
-    oldTeamId: z.boolean(),
-    newTeamId: z.boolean(),
-    oldTeam: z.boolean(),
-    newTeam: z.boolean(),
-    createdBy: z.boolean(),
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    oldTeamId: PZ.Scalar.bool(),
+    newTeamId: PZ.Scalar.bool(),
+    oldTeam: PZ.Scalar.bool(),
+    newTeam: PZ.Scalar.bool(),
+    createdBy: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TeamHistoryOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamHistoryOwnSelectFieldsSchema
 );
 
@@ -527,16 +497,16 @@ export const TeamHistoryDistinctFieldsSchema = z
 
 export const TaskTagOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    taskId: z.boolean(),
-    tagId: z.boolean(),
-    task: z.boolean(),
-    tag: z.boolean(),
+    id: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+    tagId: PZ.Scalar.bool(),
+    task: PZ.Scalar.bool(),
+    tag: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TaskTagOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TaskTagOwnSelectFieldsSchema
 );
 
@@ -546,16 +516,16 @@ export const TaskTagDistinctFieldsSchema = z
 
 export const TaskCategoryOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    categoryId: z.boolean(),
-    taskId: z.boolean(),
-    task: z.boolean(),
-    category: z.boolean(),
+    id: PZ.Scalar.bool(),
+    categoryId: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+    task: PZ.Scalar.bool(),
+    category: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TaskCategoryOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TaskCategoryOwnSelectFieldsSchema
 );
 
@@ -565,18 +535,18 @@ export const TaskCategoryDistinctFieldsSchema = z
 
 export const AssignmentOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdAt: z.boolean(),
-    updatedAt: z.boolean(),
-    assigneeId: z.boolean(),
-    taskId: z.boolean(),
-    task: z.boolean(),
-    assignee: z.boolean(),
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    assigneeId: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+    task: PZ.Scalar.bool(),
+    assignee: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AssignmentOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AssignmentOwnSelectFieldsSchema
 );
 
@@ -586,22 +556,22 @@ export const AssignmentDistinctFieldsSchema = z
 
 export const CommentOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdAt: z.boolean(),
-    updatedAt: z.boolean(),
-    parentId: z.boolean(),
-    createdById: z.boolean(),
-    taskId: z.boolean(),
-    comment: z.boolean(),
-    parent: z.boolean(),
-    comments: z.boolean(),
-    createdBy: z.boolean(),
-    task: z.boolean(),
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    parentId: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+    comment: PZ.Scalar.bool(),
+    parent: PZ.Scalar.bool(),
+    comments: PZ.Scalar.bool(),
+    createdBy: PZ.Scalar.bool(),
+    task: PZ.Scalar.bool(),
   })
   .partial();
 
 export const CommentOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CommentOwnSelectFieldsSchema
 );
 
@@ -619,16 +589,16 @@ export const CommentDistinctFieldsSchema = z
 
 export const ProjectTaskTagOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    projectId: z.boolean(),
-    tagId: z.boolean(),
-    tag: z.boolean(),
-    project: z.boolean(),
+    id: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    tagId: PZ.Scalar.bool(),
+    tag: PZ.Scalar.bool(),
+    project: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ProjectTaskTagOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectTaskTagOwnSelectFieldsSchema
 );
 
@@ -638,16 +608,16 @@ export const ProjectTaskTagDistinctFieldsSchema = z
 
 export const ProjectTaskStatusOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    projectId: z.boolean(),
-    statusId: z.boolean(),
-    project: z.boolean(),
-    status: z.boolean(),
+    id: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    statusId: PZ.Scalar.bool(),
+    project: PZ.Scalar.bool(),
+    status: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ProjectTaskStatusOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectTaskStatusOwnSelectFieldsSchema
 );
 
@@ -657,16 +627,16 @@ export const ProjectTaskStatusDistinctFieldsSchema = z
 
 export const ProjectTaskPriorityOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    projectId: z.boolean(),
-    priorityId: z.boolean(),
-    project: z.boolean(),
-    priority: z.boolean(),
+    id: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    priorityId: PZ.Scalar.bool(),
+    project: PZ.Scalar.bool(),
+    priority: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ProjectTaskPriorityOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectTaskPriorityOwnSelectFieldsSchema
 );
 
@@ -685,7 +655,7 @@ export const UserOwnWhereSchema = z
   .partial();
 
 export const UserOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UserOwnWhereSchema
 );
 
@@ -699,7 +669,7 @@ export const TeamOwnWhereSchema = z
   .partial();
 
 export const TeamOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamOwnWhereSchema
 );
 
@@ -712,7 +682,7 @@ export const TeamManagerOwnWhereSchema = z
   .partial();
 
 export const TeamManagerOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamManagerOwnWhereSchema
 );
 
@@ -725,7 +695,7 @@ export const TeamMemberOwnWhereSchema = z
   .partial();
 
 export const TeamMemberOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamMemberOwnWhereSchema
 );
 
@@ -744,7 +714,7 @@ export const ProjectOwnWhereSchema = z
   .partial();
 
 export const ProjectOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectOwnWhereSchema
 );
 
@@ -757,7 +727,7 @@ export const TagOwnWhereSchema = z
   .partial();
 
 export const TagOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TagOwnWhereSchema
 );
 
@@ -772,7 +742,7 @@ export const CategoryOwnWhereSchema = z
   .partial();
 
 export const CategoryOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CategoryOwnWhereSchema
 );
 
@@ -788,7 +758,7 @@ export const SprintOwnWhereSchema = z
   .partial();
 
 export const SprintOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SprintOwnWhereSchema
 );
 
@@ -802,7 +772,7 @@ export const PriorityOwnWhereSchema = z
   .partial();
 
 export const PriorityOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriorityOwnWhereSchema
 );
 
@@ -816,7 +786,7 @@ export const StatusOwnWhereSchema = z
   .partial();
 
 export const StatusOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StatusOwnWhereSchema
 );
 
@@ -830,7 +800,7 @@ export const PointOwnWhereSchema = z
   .partial();
 
 export const PointOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PointOwnWhereSchema
 );
 
@@ -854,7 +824,7 @@ export const TaskOwnWhereSchema = z
   .partial();
 
 export const TaskOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TaskOwnWhereSchema
 );
 
@@ -872,7 +842,7 @@ export const AssignmentHistoryOwnWhereSchema = z
   .partial();
 
 export const AssignmentHistoryOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AssignmentHistoryOwnWhereSchema
 );
 
@@ -890,7 +860,7 @@ export const PriorityHistoryOwnWhereSchema = z
   .partial();
 
 export const PriorityHistoryOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriorityHistoryOwnWhereSchema
 );
 
@@ -907,7 +877,7 @@ export const StatusHistoryOwnWhereSchema = z
   .partial();
 
 export const StatusHistoryOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StatusHistoryOwnWhereSchema
 );
 
@@ -924,7 +894,7 @@ export const PointHistoryOwnWhereSchema = z
   .partial();
 
 export const PointHistoryOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PointHistoryOwnWhereSchema
 );
 
@@ -939,7 +909,7 @@ export const TeamHistoryOwnWhereSchema = z
   .partial();
 
 export const TeamHistoryOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamHistoryOwnWhereSchema
 );
 
@@ -952,7 +922,7 @@ export const TaskTagOwnWhereSchema = z
   .partial();
 
 export const TaskTagOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TaskTagOwnWhereSchema
 );
 
@@ -965,7 +935,7 @@ export const TaskCategoryOwnWhereSchema = z
   .partial();
 
 export const TaskCategoryOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TaskCategoryOwnWhereSchema
 );
 
@@ -980,7 +950,7 @@ export const AssignmentOwnWhereSchema = z
   .partial();
 
 export const AssignmentOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AssignmentOwnWhereSchema
 );
 
@@ -997,7 +967,7 @@ export const CommentOwnWhereSchema = z
   .partial();
 
 export const CommentOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CommentOwnWhereSchema
 );
 
@@ -1010,7 +980,7 @@ export const ProjectTaskTagOwnWhereSchema = z
   .partial();
 
 export const ProjectTaskTagOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectTaskTagOwnWhereSchema
 );
 
@@ -1023,7 +993,7 @@ export const ProjectTaskStatusOwnWhereSchema = z
   .partial();
 
 export const ProjectTaskStatusOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectTaskStatusOwnWhereSchema
 );
 
@@ -1036,31 +1006,31 @@ export const ProjectTaskPriorityOwnWhereSchema = z
   .partial();
 
 export const ProjectTaskPriorityOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectTaskPriorityOwnWhereSchema
 );
 
 export const UserOwnIncludeSchema = z
   .object({
-    assignments: z.boolean(),
-    managedTeams: z.boolean(),
-    memberships: z.boolean(),
-    createdProjects: z.boolean(),
-    createdSprints: z.boolean(),
-    createdTasks: z.boolean(),
-    createdComments: z.boolean(),
-    takenAssignments: z.boolean(),
-    givenAssignments: z.boolean(),
-    changedAssignments: z.boolean(),
-    changedPriorities: z.boolean(),
-    changedStatuses: z.boolean(),
-    changedPoints: z.boolean(),
-    changedTeams: z.boolean(),
+    assignments: PZ.Scalar.bool(),
+    managedTeams: PZ.Scalar.bool(),
+    memberships: PZ.Scalar.bool(),
+    createdProjects: PZ.Scalar.bool(),
+    createdSprints: PZ.Scalar.bool(),
+    createdTasks: PZ.Scalar.bool(),
+    createdComments: PZ.Scalar.bool(),
+    takenAssignments: PZ.Scalar.bool(),
+    givenAssignments: PZ.Scalar.bool(),
+    changedAssignments: PZ.Scalar.bool(),
+    changedPriorities: PZ.Scalar.bool(),
+    changedStatuses: PZ.Scalar.bool(),
+    changedPoints: PZ.Scalar.bool(),
+    changedTeams: PZ.Scalar.bool(),
   })
   .partial();
 
 export const UserOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UserOwnIncludeSchema
 );
 
@@ -1080,15 +1050,15 @@ export const UserOwnQuerySchema = z
 
 export const TeamOwnIncludeSchema = z
   .object({
-    managers: z.boolean(),
-    members: z.boolean(),
-    takenTeams: z.boolean(),
-    givenTeams: z.boolean(),
+    managers: PZ.Scalar.bool(),
+    members: PZ.Scalar.bool(),
+    takenTeams: PZ.Scalar.bool(),
+    givenTeams: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TeamOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamOwnIncludeSchema
 );
 
@@ -1108,13 +1078,13 @@ export const TeamOwnQuerySchema = z
 
 export const TeamManagerOwnIncludeSchema = z
   .object({
-    manager: z.boolean(),
-    team: z.boolean(),
+    manager: PZ.Scalar.bool(),
+    team: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TeamManagerOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamManagerOwnIncludeSchema
 );
 
@@ -1134,13 +1104,13 @@ export const TeamManagerOwnQuerySchema = z
 
 export const TeamMemberOwnIncludeSchema = z
   .object({
-    team: z.boolean(),
-    member: z.boolean(),
+    team: PZ.Scalar.bool(),
+    member: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TeamMemberOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamMemberOwnIncludeSchema
 );
 
@@ -1160,22 +1130,22 @@ export const TeamMemberOwnQuerySchema = z
 
 export const ProjectOwnIncludeSchema = z
   .object({
-    parent: z.boolean(),
-    sprints: z.boolean(),
-    createdBy: z.boolean(),
-    tags: z.boolean(),
-    statuses: z.boolean(),
-    priorities: z.boolean(),
-    assignmentHistory: z.boolean(),
-    priorityHistory: z.boolean(),
-    statusHistory: z.boolean(),
-    pointHistory: z.boolean(),
-    projects: z.boolean(),
+    parent: PZ.Scalar.bool(),
+    sprints: PZ.Scalar.bool(),
+    createdBy: PZ.Scalar.bool(),
+    tags: PZ.Scalar.bool(),
+    statuses: PZ.Scalar.bool(),
+    priorities: PZ.Scalar.bool(),
+    assignmentHistory: PZ.Scalar.bool(),
+    priorityHistory: PZ.Scalar.bool(),
+    statusHistory: PZ.Scalar.bool(),
+    pointHistory: PZ.Scalar.bool(),
+    projects: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ProjectOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectOwnIncludeSchema
 );
 
@@ -1195,13 +1165,13 @@ export const ProjectOwnQuerySchema = z
 
 export const TagOwnIncludeSchema = z
   .object({
-    tasks: z.boolean(),
-    projects: z.boolean(),
+    tasks: PZ.Scalar.bool(),
+    projects: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TagOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TagOwnIncludeSchema
 );
 
@@ -1221,14 +1191,14 @@ export const TagOwnQuerySchema = z
 
 export const CategoryOwnIncludeSchema = z
   .object({
-    parent: z.boolean(),
-    categories: z.boolean(),
-    tasks: z.boolean(),
+    parent: PZ.Scalar.bool(),
+    categories: PZ.Scalar.bool(),
+    tasks: PZ.Scalar.bool(),
   })
   .partial();
 
 export const CategoryOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CategoryOwnIncludeSchema
 );
 
@@ -1248,14 +1218,14 @@ export const CategoryOwnQuerySchema = z
 
 export const SprintOwnIncludeSchema = z
   .object({
-    project: z.boolean(),
-    tasks: z.boolean(),
-    createdBy: z.boolean(),
+    project: PZ.Scalar.bool(),
+    tasks: PZ.Scalar.bool(),
+    createdBy: PZ.Scalar.bool(),
   })
   .partial();
 
 export const SprintOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SprintOwnIncludeSchema
 );
 
@@ -1275,15 +1245,15 @@ export const SprintOwnQuerySchema = z
 
 export const PriorityOwnIncludeSchema = z
   .object({
-    tasks: z.boolean(),
-    projects: z.boolean(),
-    takenPriorities: z.boolean(),
-    givenPriorities: z.boolean(),
+    tasks: PZ.Scalar.bool(),
+    projects: PZ.Scalar.bool(),
+    takenPriorities: PZ.Scalar.bool(),
+    givenPriorities: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PriorityOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriorityOwnIncludeSchema
 );
 
@@ -1303,15 +1273,15 @@ export const PriorityOwnQuerySchema = z
 
 export const StatusOwnIncludeSchema = z
   .object({
-    tasks: z.boolean(),
-    projects: z.boolean(),
-    takenStatuses: z.boolean(),
-    givenStatuses: z.boolean(),
+    tasks: PZ.Scalar.bool(),
+    projects: PZ.Scalar.bool(),
+    takenStatuses: PZ.Scalar.bool(),
+    givenStatuses: PZ.Scalar.bool(),
   })
   .partial();
 
 export const StatusOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StatusOwnIncludeSchema
 );
 
@@ -1331,14 +1301,14 @@ export const StatusOwnQuerySchema = z
 
 export const PointOwnIncludeSchema = z
   .object({
-    tasks: z.boolean(),
-    takenPointes: z.boolean(),
-    givenPointes: z.boolean(),
+    tasks: PZ.Scalar.bool(),
+    takenPointes: PZ.Scalar.bool(),
+    givenPointes: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PointOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PointOwnIncludeSchema
 );
 
@@ -1358,26 +1328,26 @@ export const PointOwnQuerySchema = z
 
 export const TaskOwnIncludeSchema = z
   .object({
-    comments: z.boolean(),
-    parent: z.boolean(),
-    tasks: z.boolean(),
-    createdBy: z.boolean(),
-    assignments: z.boolean(),
-    tags: z.boolean(),
-    categories: z.boolean(),
-    point: z.boolean(),
-    priority: z.boolean(),
-    status: z.boolean(),
-    sprint: z.boolean(),
-    assignmentHistory: z.boolean(),
-    statusHistory: z.boolean(),
-    priorityHistory: z.boolean(),
-    pointHistory: z.boolean(),
+    comments: PZ.Scalar.bool(),
+    parent: PZ.Scalar.bool(),
+    tasks: PZ.Scalar.bool(),
+    createdBy: PZ.Scalar.bool(),
+    assignments: PZ.Scalar.bool(),
+    tags: PZ.Scalar.bool(),
+    categories: PZ.Scalar.bool(),
+    point: PZ.Scalar.bool(),
+    priority: PZ.Scalar.bool(),
+    status: PZ.Scalar.bool(),
+    sprint: PZ.Scalar.bool(),
+    assignmentHistory: PZ.Scalar.bool(),
+    statusHistory: PZ.Scalar.bool(),
+    priorityHistory: PZ.Scalar.bool(),
+    pointHistory: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TaskOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TaskOwnIncludeSchema
 );
 
@@ -1397,16 +1367,16 @@ export const TaskOwnQuerySchema = z
 
 export const AssignmentHistoryOwnIncludeSchema = z
   .object({
-    oldUser: z.boolean(),
-    newUser: z.boolean(),
-    createdBy: z.boolean(),
-    task: z.boolean(),
-    project: z.boolean(),
+    oldUser: PZ.Scalar.bool(),
+    newUser: PZ.Scalar.bool(),
+    createdBy: PZ.Scalar.bool(),
+    task: PZ.Scalar.bool(),
+    project: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AssignmentHistoryOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AssignmentHistoryOwnIncludeSchema
 );
 
@@ -1426,16 +1396,16 @@ export const AssignmentHistoryOwnQuerySchema = z
 
 export const PriorityHistoryOwnIncludeSchema = z
   .object({
-    oldPriority: z.boolean(),
-    newPriority: z.boolean(),
-    createdBy: z.boolean(),
-    task: z.boolean(),
-    project: z.boolean(),
+    oldPriority: PZ.Scalar.bool(),
+    newPriority: PZ.Scalar.bool(),
+    createdBy: PZ.Scalar.bool(),
+    task: PZ.Scalar.bool(),
+    project: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PriorityHistoryOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriorityHistoryOwnIncludeSchema
 );
 
@@ -1455,16 +1425,16 @@ export const PriorityHistoryOwnQuerySchema = z
 
 export const StatusHistoryOwnIncludeSchema = z
   .object({
-    task: z.boolean(),
-    oldStatus: z.boolean(),
-    newStatus: z.boolean(),
-    createdBy: z.boolean(),
-    project: z.boolean(),
+    task: PZ.Scalar.bool(),
+    oldStatus: PZ.Scalar.bool(),
+    newStatus: PZ.Scalar.bool(),
+    createdBy: PZ.Scalar.bool(),
+    project: PZ.Scalar.bool(),
   })
   .partial();
 
 export const StatusHistoryOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StatusHistoryOwnIncludeSchema
 );
 
@@ -1484,16 +1454,16 @@ export const StatusHistoryOwnQuerySchema = z
 
 export const PointHistoryOwnIncludeSchema = z
   .object({
-    task: z.boolean(),
-    oldPoint: z.boolean(),
-    newPoint: z.boolean(),
-    createdBy: z.boolean(),
-    project: z.boolean(),
+    task: PZ.Scalar.bool(),
+    oldPoint: PZ.Scalar.bool(),
+    newPoint: PZ.Scalar.bool(),
+    createdBy: PZ.Scalar.bool(),
+    project: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PointHistoryOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PointHistoryOwnIncludeSchema
 );
 
@@ -1513,14 +1483,14 @@ export const PointHistoryOwnQuerySchema = z
 
 export const TeamHistoryOwnIncludeSchema = z
   .object({
-    oldTeam: z.boolean(),
-    newTeam: z.boolean(),
-    createdBy: z.boolean(),
+    oldTeam: PZ.Scalar.bool(),
+    newTeam: PZ.Scalar.bool(),
+    createdBy: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TeamHistoryOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamHistoryOwnIncludeSchema
 );
 
@@ -1540,13 +1510,13 @@ export const TeamHistoryOwnQuerySchema = z
 
 export const TaskTagOwnIncludeSchema = z
   .object({
-    task: z.boolean(),
-    tag: z.boolean(),
+    task: PZ.Scalar.bool(),
+    tag: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TaskTagOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TaskTagOwnIncludeSchema
 );
 
@@ -1566,13 +1536,13 @@ export const TaskTagOwnQuerySchema = z
 
 export const TaskCategoryOwnIncludeSchema = z
   .object({
-    task: z.boolean(),
-    category: z.boolean(),
+    task: PZ.Scalar.bool(),
+    category: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TaskCategoryOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TaskCategoryOwnIncludeSchema
 );
 
@@ -1592,13 +1562,13 @@ export const TaskCategoryOwnQuerySchema = z
 
 export const AssignmentOwnIncludeSchema = z
   .object({
-    task: z.boolean(),
-    assignee: z.boolean(),
+    task: PZ.Scalar.bool(),
+    assignee: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AssignmentOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AssignmentOwnIncludeSchema
 );
 
@@ -1618,15 +1588,15 @@ export const AssignmentOwnQuerySchema = z
 
 export const CommentOwnIncludeSchema = z
   .object({
-    parent: z.boolean(),
-    comments: z.boolean(),
-    createdBy: z.boolean(),
-    task: z.boolean(),
+    parent: PZ.Scalar.bool(),
+    comments: PZ.Scalar.bool(),
+    createdBy: PZ.Scalar.bool(),
+    task: PZ.Scalar.bool(),
   })
   .partial();
 
 export const CommentOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CommentOwnIncludeSchema
 );
 
@@ -1646,13 +1616,13 @@ export const CommentOwnQuerySchema = z
 
 export const ProjectTaskTagOwnIncludeSchema = z
   .object({
-    tag: z.boolean(),
-    project: z.boolean(),
+    tag: PZ.Scalar.bool(),
+    project: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ProjectTaskTagOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectTaskTagOwnIncludeSchema
 );
 
@@ -1672,13 +1642,13 @@ export const ProjectTaskTagOwnQuerySchema = z
 
 export const ProjectTaskStatusOwnIncludeSchema = z
   .object({
-    project: z.boolean(),
-    status: z.boolean(),
+    project: PZ.Scalar.bool(),
+    status: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ProjectTaskStatusOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectTaskStatusOwnIncludeSchema
 );
 
@@ -1698,13 +1668,13 @@ export const ProjectTaskStatusOwnQuerySchema = z
 
 export const ProjectTaskPriorityOwnIncludeSchema = z
   .object({
-    project: z.boolean(),
-    priority: z.boolean(),
+    project: PZ.Scalar.bool(),
+    priority: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ProjectTaskPriorityOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectTaskPriorityOwnIncludeSchema
 );
 
@@ -1722,23 +1692,27 @@ export const ProjectTaskPriorityOwnQuerySchema = z
   })
   .partial();
 
-export const UserCreateSchema = z
-  .object({
-    uuid: z.string(),
-    displayName: z.string(),
-    slug: slugSchema.clone().optional(),
-    title: z.string(),
-  })
-  .transform(slugTransformer('title'));
+export const UserRawCreateSchema = z.object({
+  uuid: PZ.Scalar.string(),
+  displayName: PZ.Scalar.string(),
+  slug: PZ.Scalar.slug().optional(),
+  title: PZ.Scalar.string(),
+});
 
-export const UserUpdateSchema = z
-  .object({
-    uuid: z.string().optional(),
-    displayName: z.string().optional(),
-    slug: slugSchema.clone().optional().optional(),
-    title: z.string().optional(),
-  })
-  .transform(slugTransformer('title'));
+export const UserCreateSchema = UserRawCreateSchema.clone().transform(
+  PZ.slugTransformer('title')
+);
+
+export const UserRawUpdateSchema = z.object({
+  uuid: PZ.Scalar.string().optional(),
+  displayName: PZ.Scalar.string().optional(),
+  slug: PZ.Scalar.slug().optional().optional(),
+  title: PZ.Scalar.string().optional(),
+});
+
+export const UserUpdateSchema = UserRawUpdateSchema.clone().transform(
+  PZ.slugTransformer('title')
+);
 
 export const UserOrderBySchema = z
   .object({
@@ -1748,10 +1722,14 @@ export const UserOrderBySchema = z
     slug: PZ.OrderDirectionSchema,
     title: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const UserOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UserOrderBySchema
 );
 
@@ -1863,83 +1841,112 @@ export const UserWhereSchema = z
   })
   .partial();
 
-export const UserWhereSchemaJson = z.preprocess(jsonParser, UserWhereSchema);
+export const UserWhereSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  UserWhereSchema
+);
 
 export const UserSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    uuid: z.boolean(),
-    displayName: z.boolean(),
-    slug: z.boolean(),
-    title: z.boolean(),
-    assignments: z.boolean().or(AssignmentOwnQuerySchema),
-    managedTeams: z.boolean().or(TeamManagerOwnQuerySchema),
-    memberships: z.boolean().or(TeamMemberOwnQuerySchema),
-    createdProjects: z.boolean().or(ProjectOwnQuerySchema),
-    createdSprints: z.boolean().or(SprintOwnQuerySchema),
-    createdTasks: z.boolean().or(TaskOwnQuerySchema),
-    createdComments: z.boolean().or(CommentOwnQuerySchema),
-    takenAssignments: z.boolean().or(AssignmentHistoryOwnQuerySchema),
-    givenAssignments: z.boolean().or(AssignmentHistoryOwnQuerySchema),
-    changedAssignments: z.boolean().or(AssignmentHistoryOwnQuerySchema),
-    changedPriorities: z.boolean().or(PriorityHistoryOwnQuerySchema),
-    changedStatuses: z.boolean().or(StatusHistoryOwnQuerySchema),
-    changedPoints: z.boolean().or(PointHistoryOwnQuerySchema),
-    changedTeams: z.boolean().or(TeamHistoryOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    uuid: PZ.Scalar.bool(),
+    displayName: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    title: PZ.Scalar.bool(),
+    assignments: PZ.Scalar.bool().or(AssignmentOwnQuerySchema),
+    managedTeams: PZ.Scalar.bool().or(TeamManagerOwnQuerySchema),
+    memberships: PZ.Scalar.bool().or(TeamMemberOwnQuerySchema),
+    createdProjects: PZ.Scalar.bool().or(ProjectOwnQuerySchema),
+    createdSprints: PZ.Scalar.bool().or(SprintOwnQuerySchema),
+    createdTasks: PZ.Scalar.bool().or(TaskOwnQuerySchema),
+    createdComments: PZ.Scalar.bool().or(CommentOwnQuerySchema),
+    takenAssignments: PZ.Scalar.bool().or(AssignmentHistoryOwnQuerySchema),
+    givenAssignments: PZ.Scalar.bool().or(AssignmentHistoryOwnQuerySchema),
+    changedAssignments: PZ.Scalar.bool().or(AssignmentHistoryOwnQuerySchema),
+    changedPriorities: PZ.Scalar.bool().or(PriorityHistoryOwnQuerySchema),
+    changedStatuses: PZ.Scalar.bool().or(StatusHistoryOwnQuerySchema),
+    changedPoints: PZ.Scalar.bool().or(PointHistoryOwnQuerySchema),
+    changedTeams: PZ.Scalar.bool().or(TeamHistoryOwnQuerySchema),
   })
   .partial();
 
 export const UserSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UserSelectFieldsSchema
+);
+
+export const UserOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    uuid: PZ.Scalar.bool(),
+    displayName: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    title: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'uuid', 'displayName', 'slug', 'title'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const UserOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  UserOmitFieldsSchema
 );
 
 export const UserIncludeSchema = z
   .object({
-    assignments: z.boolean().or(AssignmentOwnQuerySchema),
-    managedTeams: z.boolean().or(TeamManagerOwnQuerySchema),
-    memberships: z.boolean().or(TeamMemberOwnQuerySchema),
-    createdProjects: z.boolean().or(ProjectOwnQuerySchema),
-    createdSprints: z.boolean().or(SprintOwnQuerySchema),
-    createdTasks: z.boolean().or(TaskOwnQuerySchema),
-    createdComments: z.boolean().or(CommentOwnQuerySchema),
-    takenAssignments: z.boolean().or(AssignmentHistoryOwnQuerySchema),
-    givenAssignments: z.boolean().or(AssignmentHistoryOwnQuerySchema),
-    changedAssignments: z.boolean().or(AssignmentHistoryOwnQuerySchema),
-    changedPriorities: z.boolean().or(PriorityHistoryOwnQuerySchema),
-    changedStatuses: z.boolean().or(StatusHistoryOwnQuerySchema),
-    changedPoints: z.boolean().or(PointHistoryOwnQuerySchema),
-    changedTeams: z.boolean().or(TeamHistoryOwnQuerySchema),
+    assignments: PZ.Scalar.bool().or(AssignmentOwnQuerySchema),
+    managedTeams: PZ.Scalar.bool().or(TeamManagerOwnQuerySchema),
+    memberships: PZ.Scalar.bool().or(TeamMemberOwnQuerySchema),
+    createdProjects: PZ.Scalar.bool().or(ProjectOwnQuerySchema),
+    createdSprints: PZ.Scalar.bool().or(SprintOwnQuerySchema),
+    createdTasks: PZ.Scalar.bool().or(TaskOwnQuerySchema),
+    createdComments: PZ.Scalar.bool().or(CommentOwnQuerySchema),
+    takenAssignments: PZ.Scalar.bool().or(AssignmentHistoryOwnQuerySchema),
+    givenAssignments: PZ.Scalar.bool().or(AssignmentHistoryOwnQuerySchema),
+    changedAssignments: PZ.Scalar.bool().or(AssignmentHistoryOwnQuerySchema),
+    changedPriorities: PZ.Scalar.bool().or(PriorityHistoryOwnQuerySchema),
+    changedStatuses: PZ.Scalar.bool().or(StatusHistoryOwnQuerySchema),
+    changedPoints: PZ.Scalar.bool().or(PointHistoryOwnQuerySchema),
+    changedTeams: PZ.Scalar.bool().or(TeamHistoryOwnQuerySchema),
   })
   .partial();
 
 export const UserIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UserIncludeSchema
 );
 
 export const UserProjectionSchema = z.union([
-  z.object({ omit: UserSelectFieldsSchemaJson }),
+  z.object({ omit: UserOmitFieldsSchemaJson }),
   z.object({ select: UserSelectFieldsSchemaJson }),
   z.object({ include: UserIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TeamCreateSchema = z
-  .object({
-    name: nameSchema.clone(),
-    slug: slugSchema.clone().optional(),
-    description: descriptionSchema.clone().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const TeamRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
+  slug: PZ.Scalar.slug().optional(),
+  description: PZ.Scalar.description().optional(),
+});
 
-export const TeamUpdateSchema = z
-  .object({
-    name: nameSchema.clone().optional(),
-    slug: slugSchema.clone().optional().optional(),
-    description: descriptionSchema.clone().optional().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const TeamCreateSchema = TeamRawCreateSchema.clone().transform(
+  PZ.slugTransformer('name')
+);
+
+export const TeamRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
+  slug: PZ.Scalar.slug().optional().optional(),
+  description: PZ.Scalar.description().optional().optional(),
+});
+
+export const TeamUpdateSchema = TeamRawUpdateSchema.clone().transform(
+  PZ.slugTransformer('name')
+);
 
 export const TeamOrderBySchema = z
   .object({
@@ -1948,10 +1955,14 @@ export const TeamOrderBySchema = z
     slug: PZ.OrderDirectionSchema,
     description: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const TeamOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamOrderBySchema
 );
 
@@ -1992,56 +2003,84 @@ export const TeamWhereSchema = z
   })
   .partial();
 
-export const TeamWhereSchemaJson = z.preprocess(jsonParser, TeamWhereSchema);
+export const TeamWhereSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TeamWhereSchema
+);
 
 export const TeamSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    description: z.boolean(),
-    managers: z.boolean().or(TeamManagerOwnQuerySchema),
-    members: z.boolean().or(TeamMemberOwnQuerySchema),
-    takenTeams: z.boolean().or(TeamHistoryOwnQuerySchema),
-    givenTeams: z.boolean().or(TeamHistoryOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    managers: PZ.Scalar.bool().or(TeamManagerOwnQuerySchema),
+    members: PZ.Scalar.bool().or(TeamMemberOwnQuerySchema),
+    takenTeams: PZ.Scalar.bool().or(TeamHistoryOwnQuerySchema),
+    givenTeams: PZ.Scalar.bool().or(TeamHistoryOwnQuerySchema),
   })
   .partial();
 
 export const TeamSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamSelectFieldsSchema
+);
+
+export const TeamOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'name', 'slug', 'description'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const TeamOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TeamOmitFieldsSchema
 );
 
 export const TeamIncludeSchema = z
   .object({
-    managers: z.boolean().or(TeamManagerOwnQuerySchema),
-    members: z.boolean().or(TeamMemberOwnQuerySchema),
-    takenTeams: z.boolean().or(TeamHistoryOwnQuerySchema),
-    givenTeams: z.boolean().or(TeamHistoryOwnQuerySchema),
+    managers: PZ.Scalar.bool().or(TeamManagerOwnQuerySchema),
+    members: PZ.Scalar.bool().or(TeamMemberOwnQuerySchema),
+    takenTeams: PZ.Scalar.bool().or(TeamHistoryOwnQuerySchema),
+    givenTeams: PZ.Scalar.bool().or(TeamHistoryOwnQuerySchema),
   })
   .partial();
 
 export const TeamIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamIncludeSchema
 );
 
 export const TeamProjectionSchema = z.union([
-  z.object({ omit: TeamSelectFieldsSchemaJson }),
+  z.object({ omit: TeamOmitFieldsSchemaJson }),
   z.object({ select: TeamSelectFieldsSchemaJson }),
   z.object({ include: TeamIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TeamManagerCreateSchema = z.object({
-  managerId: z.coerce.number().int(),
-  teamId: z.coerce.number().int(),
+export const TeamManagerRawCreateSchema = z.object({
+  managerId: PZ.Scalar.id(),
+  teamId: PZ.Scalar.id(),
 });
 
-export const TeamManagerUpdateSchema = z.object({
-  managerId: z.coerce.number().int().optional(),
-  teamId: z.coerce.number().int().optional(),
+export const TeamManagerCreateSchema = TeamManagerRawCreateSchema.clone();
+
+export const TeamManagerRawUpdateSchema = z.object({
+  managerId: PZ.Scalar.id().optional(),
+  teamId: PZ.Scalar.id().optional(),
 });
+
+export const TeamManagerUpdateSchema = TeamManagerRawUpdateSchema.clone();
 
 export const TeamManagerOrderBySchema = z
   .object({
@@ -2049,10 +2088,14 @@ export const TeamManagerOrderBySchema = z
     managerId: PZ.OrderDirectionSchema,
     teamId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const TeamManagerOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamManagerOrderBySchema
 );
 
@@ -2067,53 +2110,75 @@ export const TeamManagerWhereSchema = z
   .partial();
 
 export const TeamManagerWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamManagerWhereSchema
 );
 
 export const TeamManagerSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    managerId: z.boolean(),
-    teamId: z.boolean(),
-    manager: z.boolean().or(UserOwnQueryOneSchema),
-    team: z.boolean().or(TeamOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    managerId: PZ.Scalar.bool(),
+    teamId: PZ.Scalar.bool(),
+    manager: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    team: PZ.Scalar.bool().or(TeamOwnQueryOneSchema),
   })
   .partial();
 
 export const TeamManagerSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamManagerSelectFieldsSchema
+);
+
+export const TeamManagerOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    managerId: PZ.Scalar.bool(),
+    teamId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'managerId', 'teamId'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const TeamManagerOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TeamManagerOmitFieldsSchema
 );
 
 export const TeamManagerIncludeSchema = z
   .object({
-    manager: z.boolean().or(UserOwnQueryOneSchema),
-    team: z.boolean().or(TeamOwnQueryOneSchema),
+    manager: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    team: PZ.Scalar.bool().or(TeamOwnQueryOneSchema),
   })
   .partial();
 
 export const TeamManagerIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamManagerIncludeSchema
 );
 
 export const TeamManagerProjectionSchema = z.union([
-  z.object({ omit: TeamManagerSelectFieldsSchemaJson }),
+  z.object({ omit: TeamManagerOmitFieldsSchemaJson }),
   z.object({ select: TeamManagerSelectFieldsSchemaJson }),
   z.object({ include: TeamManagerIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TeamMemberCreateSchema = z.object({
-  teamId: z.coerce.number().int(),
-  memberId: z.coerce.number().int(),
+export const TeamMemberRawCreateSchema = z.object({
+  teamId: PZ.Scalar.id(),
+  memberId: PZ.Scalar.id(),
 });
 
-export const TeamMemberUpdateSchema = z.object({
-  teamId: z.coerce.number().int().optional(),
-  memberId: z.coerce.number().int().optional(),
+export const TeamMemberCreateSchema = TeamMemberRawCreateSchema.clone();
+
+export const TeamMemberRawUpdateSchema = z.object({
+  teamId: PZ.Scalar.id().optional(),
+  memberId: PZ.Scalar.id().optional(),
 });
+
+export const TeamMemberUpdateSchema = TeamMemberRawUpdateSchema.clone();
 
 export const TeamMemberOrderBySchema = z
   .object({
@@ -2121,10 +2186,14 @@ export const TeamMemberOrderBySchema = z
     teamId: PZ.OrderDirectionSchema,
     memberId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const TeamMemberOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamMemberOrderBySchema
 );
 
@@ -2139,69 +2208,91 @@ export const TeamMemberWhereSchema = z
   .partial();
 
 export const TeamMemberWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamMemberWhereSchema
 );
 
 export const TeamMemberSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    teamId: z.boolean(),
-    memberId: z.boolean(),
-    team: z.boolean().or(TeamOwnQueryOneSchema),
-    member: z.boolean().or(UserOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    teamId: PZ.Scalar.bool(),
+    memberId: PZ.Scalar.bool(),
+    team: PZ.Scalar.bool().or(TeamOwnQueryOneSchema),
+    member: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
   })
   .partial();
 
 export const TeamMemberSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamMemberSelectFieldsSchema
+);
+
+export const TeamMemberOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    teamId: PZ.Scalar.bool(),
+    memberId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'teamId', 'memberId'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const TeamMemberOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TeamMemberOmitFieldsSchema
 );
 
 export const TeamMemberIncludeSchema = z
   .object({
-    team: z.boolean().or(TeamOwnQueryOneSchema),
-    member: z.boolean().or(UserOwnQueryOneSchema),
+    team: PZ.Scalar.bool().or(TeamOwnQueryOneSchema),
+    member: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
   })
   .partial();
 
 export const TeamMemberIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamMemberIncludeSchema
 );
 
 export const TeamMemberProjectionSchema = z.union([
-  z.object({ omit: TeamMemberSelectFieldsSchemaJson }),
+  z.object({ omit: TeamMemberOmitFieldsSchemaJson }),
   z.object({ select: TeamMemberSelectFieldsSchemaJson }),
   z.object({ include: TeamMemberIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const ProjectCreateSchema = z
-  .object({
-    createdById: z.coerce.number().int(),
-    parentId: z.coerce.number().int().optional(),
-    name: nameSchema.clone(),
-    slug: slugSchema.clone().optional(),
-    description: descriptionSchema.clone().optional(),
-    startDate: dateSchema.clone().optional(),
-    dueDate: dateSchema.clone().optional(),
-    endDate: dateSchema.clone().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const ProjectRawCreateSchema = z.object({
+  createdById: PZ.Scalar.id(),
+  parentId: PZ.Scalar.id().optional(),
+  name: PZ.Scalar.name(),
+  slug: PZ.Scalar.slug().optional(),
+  description: PZ.Scalar.description().optional(),
+  startDate: PZ.Scalar.datetime().optional(),
+  dueDate: PZ.Scalar.datetime().optional(),
+  endDate: PZ.Scalar.datetime().optional(),
+});
 
-export const ProjectUpdateSchema = z
-  .object({
-    createdById: z.coerce.number().int().optional(),
-    parentId: z.coerce.number().int().optional().optional(),
-    name: nameSchema.clone().optional(),
-    slug: slugSchema.clone().optional().optional(),
-    description: descriptionSchema.clone().optional().optional(),
-    startDate: dateSchema.clone().optional().optional(),
-    dueDate: dateSchema.clone().optional().optional(),
-    endDate: dateSchema.clone().optional().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const ProjectCreateSchema = ProjectRawCreateSchema.clone().transform(
+  PZ.slugTransformer('name')
+);
+
+export const ProjectRawUpdateSchema = z.object({
+  createdById: PZ.Scalar.id().optional(),
+  parentId: PZ.Scalar.id().optional().optional(),
+  name: PZ.Scalar.name().optional(),
+  slug: PZ.Scalar.slug().optional().optional(),
+  description: PZ.Scalar.description().optional().optional(),
+  startDate: PZ.Scalar.datetime().optional().optional(),
+  dueDate: PZ.Scalar.datetime().optional().optional(),
+  endDate: PZ.Scalar.datetime().optional().optional(),
+});
+
+export const ProjectUpdateSchema = ProjectRawUpdateSchema.clone().transform(
+  PZ.slugTransformer('name')
+);
 
 export const ProjectOrderBySchema = z
   .object({
@@ -2215,10 +2306,14 @@ export const ProjectOrderBySchema = z
     dueDate: PZ.OrderDirectionSchema,
     endDate: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const ProjectOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectOrderBySchema
 );
 
@@ -2302,77 +2397,115 @@ export const ProjectWhereSchema = z
   .partial();
 
 export const ProjectWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectWhereSchema
 );
 
 export const ProjectSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdById: z.boolean(),
-    parentId: z.boolean(),
-    parent: z.boolean().or(ProjectOwnQueryOneSchema),
-    name: z.boolean(),
-    slug: z.boolean(),
-    description: z.boolean(),
-    startDate: z.boolean(),
-    dueDate: z.boolean(),
-    endDate: z.boolean(),
-    sprints: z.boolean().or(SprintOwnQuerySchema),
-    createdBy: z.boolean().or(UserOwnQueryOneSchema),
-    tags: z.boolean().or(ProjectTaskTagOwnQuerySchema),
-    statuses: z.boolean().or(ProjectTaskStatusOwnQuerySchema),
-    priorities: z.boolean().or(ProjectTaskPriorityOwnQuerySchema),
-    assignmentHistory: z.boolean().or(AssignmentHistoryOwnQuerySchema),
-    priorityHistory: z.boolean().or(PriorityHistoryOwnQuerySchema),
-    statusHistory: z.boolean().or(StatusHistoryOwnQuerySchema),
-    pointHistory: z.boolean().or(PointHistoryOwnQuerySchema),
-    projects: z.boolean().or(ProjectOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    parentId: PZ.Scalar.bool(),
+    parent: PZ.Scalar.bool().or(ProjectOwnQueryOneSchema),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    dueDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+    sprints: PZ.Scalar.bool().or(SprintOwnQuerySchema),
+    createdBy: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    tags: PZ.Scalar.bool().or(ProjectTaskTagOwnQuerySchema),
+    statuses: PZ.Scalar.bool().or(ProjectTaskStatusOwnQuerySchema),
+    priorities: PZ.Scalar.bool().or(ProjectTaskPriorityOwnQuerySchema),
+    assignmentHistory: PZ.Scalar.bool().or(AssignmentHistoryOwnQuerySchema),
+    priorityHistory: PZ.Scalar.bool().or(PriorityHistoryOwnQuerySchema),
+    statusHistory: PZ.Scalar.bool().or(StatusHistoryOwnQuerySchema),
+    pointHistory: PZ.Scalar.bool().or(PointHistoryOwnQuerySchema),
+    projects: PZ.Scalar.bool().or(ProjectOwnQuerySchema),
   })
   .partial();
 
 export const ProjectSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectSelectFieldsSchema
+);
+
+export const ProjectOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    parentId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    dueDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      ![
+        'id',
+        'createdById',
+        'parentId',
+        'name',
+        'slug',
+        'description',
+        'startDate',
+        'dueDate',
+        'endDate',
+      ].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const ProjectOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  ProjectOmitFieldsSchema
 );
 
 export const ProjectIncludeSchema = z
   .object({
-    parent: z.boolean().or(ProjectOwnQueryOneSchema),
-    sprints: z.boolean().or(SprintOwnQuerySchema),
-    createdBy: z.boolean().or(UserOwnQueryOneSchema),
-    tags: z.boolean().or(ProjectTaskTagOwnQuerySchema),
-    statuses: z.boolean().or(ProjectTaskStatusOwnQuerySchema),
-    priorities: z.boolean().or(ProjectTaskPriorityOwnQuerySchema),
-    assignmentHistory: z.boolean().or(AssignmentHistoryOwnQuerySchema),
-    priorityHistory: z.boolean().or(PriorityHistoryOwnQuerySchema),
-    statusHistory: z.boolean().or(StatusHistoryOwnQuerySchema),
-    pointHistory: z.boolean().or(PointHistoryOwnQuerySchema),
-    projects: z.boolean().or(ProjectOwnQuerySchema),
+    parent: PZ.Scalar.bool().or(ProjectOwnQueryOneSchema),
+    sprints: PZ.Scalar.bool().or(SprintOwnQuerySchema),
+    createdBy: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    tags: PZ.Scalar.bool().or(ProjectTaskTagOwnQuerySchema),
+    statuses: PZ.Scalar.bool().or(ProjectTaskStatusOwnQuerySchema),
+    priorities: PZ.Scalar.bool().or(ProjectTaskPriorityOwnQuerySchema),
+    assignmentHistory: PZ.Scalar.bool().or(AssignmentHistoryOwnQuerySchema),
+    priorityHistory: PZ.Scalar.bool().or(PriorityHistoryOwnQuerySchema),
+    statusHistory: PZ.Scalar.bool().or(StatusHistoryOwnQuerySchema),
+    pointHistory: PZ.Scalar.bool().or(PointHistoryOwnQuerySchema),
+    projects: PZ.Scalar.bool().or(ProjectOwnQuerySchema),
   })
   .partial();
 
 export const ProjectIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectIncludeSchema
 );
 
 export const ProjectProjectionSchema = z.union([
-  z.object({ omit: ProjectSelectFieldsSchemaJson }),
+  z.object({ omit: ProjectOmitFieldsSchemaJson }),
   z.object({ select: ProjectSelectFieldsSchemaJson }),
   z.object({ include: ProjectIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TagCreateSchema = z.object({
-  name: nameSchema.clone(),
-  isDefault: z.boolean().optional(),
+export const TagRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
+  isDefault: PZ.Scalar.bool().optional(),
 });
 
-export const TagUpdateSchema = z.object({
-  name: nameSchema.clone().optional(),
-  isDefault: z.boolean().optional().optional(),
+export const TagCreateSchema = TagRawCreateSchema.clone();
+
+export const TagRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
+  isDefault: PZ.Scalar.bool().optional().optional(),
 });
+
+export const TagUpdateSchema = TagRawUpdateSchema.clone();
 
 export const TagOrderBySchema = z
   .object({
@@ -2380,9 +2513,16 @@ export const TagOrderBySchema = z
     name: PZ.OrderDirectionSchema,
     isDefault: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
-export const TagOrderBySchemaJson = z.preprocess(jsonParser, TagOrderBySchema);
+export const TagOrderBySchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TagOrderBySchema
+);
 
 export const TagWhereSchema = z
   .object({
@@ -2406,52 +2546,80 @@ export const TagWhereSchema = z
   })
   .partial();
 
-export const TagWhereSchemaJson = z.preprocess(jsonParser, TagWhereSchema);
+export const TagWhereSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TagWhereSchema
+);
 
 export const TagSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    isDefault: z.boolean(),
-    tasks: z.boolean().or(TaskTagOwnQuerySchema),
-    projects: z.boolean().or(ProjectTaskTagOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    isDefault: PZ.Scalar.bool(),
+    tasks: PZ.Scalar.bool().or(TaskTagOwnQuerySchema),
+    projects: PZ.Scalar.bool().or(ProjectTaskTagOwnQuerySchema),
   })
   .partial();
 
 export const TagSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TagSelectFieldsSchema
+);
+
+export const TagOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    isDefault: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'name', 'isDefault'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const TagOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TagOmitFieldsSchema
 );
 
 export const TagIncludeSchema = z
   .object({
-    tasks: z.boolean().or(TaskTagOwnQuerySchema),
-    projects: z.boolean().or(ProjectTaskTagOwnQuerySchema),
+    tasks: PZ.Scalar.bool().or(TaskTagOwnQuerySchema),
+    projects: PZ.Scalar.bool().or(ProjectTaskTagOwnQuerySchema),
   })
   .partial();
 
-export const TagIncludeSchemaJson = z.preprocess(jsonParser, TagIncludeSchema);
+export const TagIncludeSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TagIncludeSchema
+);
 
 export const TagProjectionSchema = z.union([
-  z.object({ omit: TagSelectFieldsSchemaJson }),
+  z.object({ omit: TagOmitFieldsSchemaJson }),
   z.object({ select: TagSelectFieldsSchemaJson }),
   z.object({ include: TagIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const CategoryCreateSchema = z.object({
-  parentId: z.coerce.number().int().optional(),
-  name: nameSchema.clone(),
-  description: descriptionSchema.clone().optional(),
-  isDefault: z.boolean().optional(),
+export const CategoryRawCreateSchema = z.object({
+  parentId: PZ.Scalar.id().optional(),
+  name: PZ.Scalar.name(),
+  description: PZ.Scalar.description().optional(),
+  isDefault: PZ.Scalar.bool().optional(),
 });
 
-export const CategoryUpdateSchema = z.object({
-  parentId: z.coerce.number().int().optional().optional(),
-  name: nameSchema.clone().optional(),
-  description: descriptionSchema.clone().optional().optional(),
-  isDefault: z.boolean().optional().optional(),
+export const CategoryCreateSchema = CategoryRawCreateSchema.clone();
+
+export const CategoryRawUpdateSchema = z.object({
+  parentId: PZ.Scalar.id().optional().optional(),
+  name: PZ.Scalar.name().optional(),
+  description: PZ.Scalar.description().optional().optional(),
+  isDefault: PZ.Scalar.bool().optional().optional(),
 });
+
+export const CategoryUpdateSchema = CategoryRawUpdateSchema.clone();
 
 export const CategoryOrderBySchema = z
   .object({
@@ -2461,10 +2629,14 @@ export const CategoryOrderBySchema = z
     description: PZ.OrderDirectionSchema,
     isDefault: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const CategoryOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CategoryOrderBySchema
 );
 
@@ -2494,67 +2666,93 @@ export const CategoryWhereSchema = z
   .partial();
 
 export const CategoryWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CategoryWhereSchema
 );
 
 export const CategorySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    parentId: z.boolean(),
-    name: z.boolean(),
-    description: z.boolean(),
-    isDefault: z.boolean(),
-    parent: z.boolean().or(CategoryOwnQueryOneSchema),
-    categories: z.boolean().or(CategoryOwnQuerySchema),
-    tasks: z.boolean().or(TaskCategoryOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    parentId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    isDefault: PZ.Scalar.bool(),
+    parent: PZ.Scalar.bool().or(CategoryOwnQueryOneSchema),
+    categories: PZ.Scalar.bool().or(CategoryOwnQuerySchema),
+    tasks: PZ.Scalar.bool().or(TaskCategoryOwnQuerySchema),
   })
   .partial();
 
 export const CategorySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CategorySelectFieldsSchema
+);
+
+export const CategoryOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    parentId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    isDefault: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'parentId', 'name', 'description', 'isDefault'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const CategoryOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  CategoryOmitFieldsSchema
 );
 
 export const CategoryIncludeSchema = z
   .object({
-    parent: z.boolean().or(CategoryOwnQueryOneSchema),
-    categories: z.boolean().or(CategoryOwnQuerySchema),
-    tasks: z.boolean().or(TaskCategoryOwnQuerySchema),
+    parent: PZ.Scalar.bool().or(CategoryOwnQueryOneSchema),
+    categories: PZ.Scalar.bool().or(CategoryOwnQuerySchema),
+    tasks: PZ.Scalar.bool().or(TaskCategoryOwnQuerySchema),
   })
   .partial();
 
 export const CategoryIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CategoryIncludeSchema
 );
 
 export const CategoryProjectionSchema = z.union([
-  z.object({ omit: CategorySelectFieldsSchemaJson }),
+  z.object({ omit: CategoryOmitFieldsSchemaJson }),
   z.object({ select: CategorySelectFieldsSchemaJson }),
   z.object({ include: CategoryIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const SprintCreateSchema = z
-  .object({
-    createdById: z.coerce.number().int(),
-    projectId: z.coerce.number().int().optional(),
-    name: nameSchema.clone(),
-    slug: slugSchema.clone().optional(),
-    description: descriptionSchema.clone().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const SprintRawCreateSchema = z.object({
+  createdById: PZ.Scalar.id(),
+  projectId: PZ.Scalar.id().optional(),
+  name: PZ.Scalar.name(),
+  slug: PZ.Scalar.slug().optional(),
+  description: PZ.Scalar.description().optional(),
+});
 
-export const SprintUpdateSchema = z
-  .object({
-    createdById: z.coerce.number().int().optional(),
-    projectId: z.coerce.number().int().optional().optional(),
-    name: nameSchema.clone().optional(),
-    slug: slugSchema.clone().optional().optional(),
-    description: descriptionSchema.clone().optional().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const SprintCreateSchema = SprintRawCreateSchema.clone().transform(
+  PZ.slugTransformer('name')
+);
+
+export const SprintRawUpdateSchema = z.object({
+  createdById: PZ.Scalar.id().optional(),
+  projectId: PZ.Scalar.id().optional().optional(),
+  name: PZ.Scalar.name().optional(),
+  slug: PZ.Scalar.slug().optional().optional(),
+  description: PZ.Scalar.description().optional().optional(),
+});
+
+export const SprintUpdateSchema = SprintRawUpdateSchema.clone().transform(
+  PZ.slugTransformer('name')
+);
 
 export const SprintOrderBySchema = z
   .object({
@@ -2565,10 +2763,14 @@ export const SprintOrderBySchema = z
     slug: PZ.OrderDirectionSchema,
     description: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const SprintOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SprintOrderBySchema
 );
 
@@ -2593,60 +2795,87 @@ export const SprintWhereSchema = z
   .partial();
 
 export const SprintWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SprintWhereSchema
 );
 
 export const SprintSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdById: z.boolean(),
-    projectId: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    description: z.boolean(),
-    project: z.boolean().or(ProjectOwnQueryOneSchema),
-    tasks: z.boolean().or(TaskOwnQuerySchema),
-    createdBy: z.boolean().or(UserOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    project: PZ.Scalar.bool().or(ProjectOwnQueryOneSchema),
+    tasks: PZ.Scalar.bool().or(TaskOwnQuerySchema),
+    createdBy: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
   })
   .partial();
 
 export const SprintSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SprintSelectFieldsSchema
+);
+
+export const SprintOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'createdById', 'projectId', 'name', 'slug', 'description'].every(
+        (e) => Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const SprintOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  SprintOmitFieldsSchema
 );
 
 export const SprintIncludeSchema = z
   .object({
-    project: z.boolean().or(ProjectOwnQueryOneSchema),
-    tasks: z.boolean().or(TaskOwnQuerySchema),
-    createdBy: z.boolean().or(UserOwnQueryOneSchema),
+    project: PZ.Scalar.bool().or(ProjectOwnQueryOneSchema),
+    tasks: PZ.Scalar.bool().or(TaskOwnQuerySchema),
+    createdBy: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
   })
   .partial();
 
 export const SprintIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SprintIncludeSchema
 );
 
 export const SprintProjectionSchema = z.union([
-  z.object({ omit: SprintSelectFieldsSchemaJson }),
+  z.object({ omit: SprintOmitFieldsSchemaJson }),
   z.object({ select: SprintSelectFieldsSchemaJson }),
   z.object({ include: SprintIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PriorityCreateSchema = z.object({
-  name: nameSchema.clone(),
-  description: descriptionSchema.clone().optional(),
-  isDefault: z.boolean().optional(),
+export const PriorityRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
+  description: PZ.Scalar.description().optional(),
+  isDefault: PZ.Scalar.bool().optional(),
 });
 
-export const PriorityUpdateSchema = z.object({
-  name: nameSchema.clone().optional(),
-  description: descriptionSchema.clone().optional().optional(),
-  isDefault: z.boolean().optional().optional(),
+export const PriorityCreateSchema = PriorityRawCreateSchema.clone();
+
+export const PriorityRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
+  description: PZ.Scalar.description().optional().optional(),
+  isDefault: PZ.Scalar.bool().optional().optional(),
 });
+
+export const PriorityUpdateSchema = PriorityRawUpdateSchema.clone();
 
 export const PriorityOrderBySchema = z
   .object({
@@ -2655,10 +2884,14 @@ export const PriorityOrderBySchema = z
     description: PZ.OrderDirectionSchema,
     isDefault: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const PriorityOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriorityOrderBySchema
 );
 
@@ -2700,60 +2933,85 @@ export const PriorityWhereSchema = z
   .partial();
 
 export const PriorityWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriorityWhereSchema
 );
 
 export const PrioritySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    description: z.boolean(),
-    isDefault: z.boolean(),
-    tasks: z.boolean().or(TaskOwnQuerySchema),
-    projects: z.boolean().or(ProjectTaskPriorityOwnQuerySchema),
-    takenPriorities: z.boolean().or(PriorityHistoryOwnQuerySchema),
-    givenPriorities: z.boolean().or(PriorityHistoryOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    isDefault: PZ.Scalar.bool(),
+    tasks: PZ.Scalar.bool().or(TaskOwnQuerySchema),
+    projects: PZ.Scalar.bool().or(ProjectTaskPriorityOwnQuerySchema),
+    takenPriorities: PZ.Scalar.bool().or(PriorityHistoryOwnQuerySchema),
+    givenPriorities: PZ.Scalar.bool().or(PriorityHistoryOwnQuerySchema),
   })
   .partial();
 
 export const PrioritySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PrioritySelectFieldsSchema
+);
+
+export const PriorityOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    isDefault: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'name', 'description', 'isDefault'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const PriorityOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  PriorityOmitFieldsSchema
 );
 
 export const PriorityIncludeSchema = z
   .object({
-    tasks: z.boolean().or(TaskOwnQuerySchema),
-    projects: z.boolean().or(ProjectTaskPriorityOwnQuerySchema),
-    takenPriorities: z.boolean().or(PriorityHistoryOwnQuerySchema),
-    givenPriorities: z.boolean().or(PriorityHistoryOwnQuerySchema),
+    tasks: PZ.Scalar.bool().or(TaskOwnQuerySchema),
+    projects: PZ.Scalar.bool().or(ProjectTaskPriorityOwnQuerySchema),
+    takenPriorities: PZ.Scalar.bool().or(PriorityHistoryOwnQuerySchema),
+    givenPriorities: PZ.Scalar.bool().or(PriorityHistoryOwnQuerySchema),
   })
   .partial();
 
 export const PriorityIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriorityIncludeSchema
 );
 
 export const PriorityProjectionSchema = z.union([
-  z.object({ omit: PrioritySelectFieldsSchemaJson }),
+  z.object({ omit: PriorityOmitFieldsSchemaJson }),
   z.object({ select: PrioritySelectFieldsSchemaJson }),
   z.object({ include: PriorityIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const StatusCreateSchema = z.object({
-  name: nameSchema.clone(),
-  description: descriptionSchema.clone().optional(),
-  isDefault: z.boolean().optional(),
+export const StatusRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
+  description: PZ.Scalar.description().optional(),
+  isDefault: PZ.Scalar.bool().optional(),
 });
 
-export const StatusUpdateSchema = z.object({
-  name: nameSchema.clone().optional(),
-  description: descriptionSchema.clone().optional().optional(),
-  isDefault: z.boolean().optional().optional(),
+export const StatusCreateSchema = StatusRawCreateSchema.clone();
+
+export const StatusRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
+  description: PZ.Scalar.description().optional().optional(),
+  isDefault: PZ.Scalar.bool().optional().optional(),
 });
+
+export const StatusUpdateSchema = StatusRawUpdateSchema.clone();
 
 export const StatusOrderBySchema = z
   .object({
@@ -2762,10 +3020,14 @@ export const StatusOrderBySchema = z
     description: PZ.OrderDirectionSchema,
     isDefault: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const StatusOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StatusOrderBySchema
 );
 
@@ -2807,60 +3069,85 @@ export const StatusWhereSchema = z
   .partial();
 
 export const StatusWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StatusWhereSchema
 );
 
 export const StatusSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    description: z.boolean(),
-    isDefault: z.boolean(),
-    tasks: z.boolean().or(TaskOwnQuerySchema),
-    projects: z.boolean().or(ProjectTaskStatusOwnQuerySchema),
-    takenStatuses: z.boolean().or(StatusHistoryOwnQuerySchema),
-    givenStatuses: z.boolean().or(StatusHistoryOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    isDefault: PZ.Scalar.bool(),
+    tasks: PZ.Scalar.bool().or(TaskOwnQuerySchema),
+    projects: PZ.Scalar.bool().or(ProjectTaskStatusOwnQuerySchema),
+    takenStatuses: PZ.Scalar.bool().or(StatusHistoryOwnQuerySchema),
+    givenStatuses: PZ.Scalar.bool().or(StatusHistoryOwnQuerySchema),
   })
   .partial();
 
 export const StatusSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StatusSelectFieldsSchema
+);
+
+export const StatusOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    isDefault: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'name', 'description', 'isDefault'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const StatusOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  StatusOmitFieldsSchema
 );
 
 export const StatusIncludeSchema = z
   .object({
-    tasks: z.boolean().or(TaskOwnQuerySchema),
-    projects: z.boolean().or(ProjectTaskStatusOwnQuerySchema),
-    takenStatuses: z.boolean().or(StatusHistoryOwnQuerySchema),
-    givenStatuses: z.boolean().or(StatusHistoryOwnQuerySchema),
+    tasks: PZ.Scalar.bool().or(TaskOwnQuerySchema),
+    projects: PZ.Scalar.bool().or(ProjectTaskStatusOwnQuerySchema),
+    takenStatuses: PZ.Scalar.bool().or(StatusHistoryOwnQuerySchema),
+    givenStatuses: PZ.Scalar.bool().or(StatusHistoryOwnQuerySchema),
   })
   .partial();
 
 export const StatusIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StatusIncludeSchema
 );
 
 export const StatusProjectionSchema = z.union([
-  z.object({ omit: StatusSelectFieldsSchemaJson }),
+  z.object({ omit: StatusOmitFieldsSchemaJson }),
   z.object({ select: StatusSelectFieldsSchemaJson }),
   z.object({ include: StatusIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PointCreateSchema = z.object({
-  name: nameSchema.clone(),
-  point: z.coerce.number().int(),
-  description: descriptionSchema.clone().optional(),
+export const PointRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
+  point: PZ.Scalar.int(),
+  description: PZ.Scalar.description().optional(),
 });
 
-export const PointUpdateSchema = z.object({
-  name: nameSchema.clone().optional(),
-  point: z.coerce.number().int().optional(),
-  description: descriptionSchema.clone().optional().optional(),
+export const PointCreateSchema = PointRawCreateSchema.clone();
+
+export const PointRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
+  point: PZ.Scalar.int().optional(),
+  description: PZ.Scalar.description().optional().optional(),
 });
+
+export const PointUpdateSchema = PointRawUpdateSchema.clone();
 
 export const PointOrderBySchema = z
   .object({
@@ -2869,10 +3156,14 @@ export const PointOrderBySchema = z
     point: PZ.OrderDirectionSchema,
     description: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const PointOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PointOrderBySchema
 );
 
@@ -2906,76 +3197,104 @@ export const PointWhereSchema = z
   })
   .partial();
 
-export const PointWhereSchemaJson = z.preprocess(jsonParser, PointWhereSchema);
+export const PointWhereSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  PointWhereSchema
+);
 
 export const PointSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    point: z.boolean(),
-    description: z.boolean(),
-    tasks: z.boolean().or(TaskOwnQuerySchema),
-    takenPointes: z.boolean().or(PointHistoryOwnQuerySchema),
-    givenPointes: z.boolean().or(PointHistoryOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    point: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    tasks: PZ.Scalar.bool().or(TaskOwnQuerySchema),
+    takenPointes: PZ.Scalar.bool().or(PointHistoryOwnQuerySchema),
+    givenPointes: PZ.Scalar.bool().or(PointHistoryOwnQuerySchema),
   })
   .partial();
 
 export const PointSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PointSelectFieldsSchema
+);
+
+export const PointOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    point: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'name', 'point', 'description'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const PointOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  PointOmitFieldsSchema
 );
 
 export const PointIncludeSchema = z
   .object({
-    tasks: z.boolean().or(TaskOwnQuerySchema),
-    takenPointes: z.boolean().or(PointHistoryOwnQuerySchema),
-    givenPointes: z.boolean().or(PointHistoryOwnQuerySchema),
+    tasks: PZ.Scalar.bool().or(TaskOwnQuerySchema),
+    takenPointes: PZ.Scalar.bool().or(PointHistoryOwnQuerySchema),
+    givenPointes: PZ.Scalar.bool().or(PointHistoryOwnQuerySchema),
   })
   .partial();
 
 export const PointIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PointIncludeSchema
 );
 
 export const PointProjectionSchema = z.union([
-  z.object({ omit: PointSelectFieldsSchemaJson }),
+  z.object({ omit: PointOmitFieldsSchemaJson }),
   z.object({ select: PointSelectFieldsSchemaJson }),
   z.object({ include: PointIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TaskCreateSchema = z
-  .object({
-    sprintId: z.coerce.number().int().optional(),
-    createdById: z.coerce.number().int(),
-    priorityId: z.coerce.number().int().optional(),
-    pointId: z.coerce.number().int(),
-    statusId: z.coerce.number().int().optional(),
-    parentId: z.coerce.number().int().optional(),
-    title: z.string(),
-    slug: slugSchema.clone().optional(),
-    description: descriptionSchema.clone().optional(),
-    due: dateSchema.clone().optional(),
-    resolvedAt: dateSchema.clone().optional(),
-  })
-  .transform(slugTransformer('title'));
+export const TaskRawCreateSchema = z.object({
+  sprintId: PZ.Scalar.id().optional(),
+  createdById: PZ.Scalar.id(),
+  priorityId: PZ.Scalar.id().optional(),
+  pointId: PZ.Scalar.id(),
+  statusId: PZ.Scalar.id().optional(),
+  parentId: PZ.Scalar.id().optional(),
+  title: PZ.Scalar.string(),
+  slug: PZ.Scalar.slug().optional(),
+  description: PZ.Scalar.description().optional(),
+  due: PZ.Scalar.datetime().optional(),
+  resolvedAt: PZ.Scalar.datetime().optional(),
+});
 
-export const TaskUpdateSchema = z
-  .object({
-    sprintId: z.coerce.number().int().optional().optional(),
-    createdById: z.coerce.number().int().optional(),
-    priorityId: z.coerce.number().int().optional().optional(),
-    pointId: z.coerce.number().int().optional(),
-    statusId: z.coerce.number().int().optional().optional(),
-    parentId: z.coerce.number().int().optional().optional(),
-    title: z.string().optional(),
-    slug: slugSchema.clone().optional().optional(),
-    description: descriptionSchema.clone().optional().optional(),
-    due: dateSchema.clone().optional().optional(),
-    resolvedAt: dateSchema.clone().optional().optional(),
-  })
-  .transform(slugTransformer('title'));
+export const TaskCreateSchema = TaskRawCreateSchema.clone().transform(
+  PZ.slugTransformer('title')
+);
+
+export const TaskRawUpdateSchema = z.object({
+  sprintId: PZ.Scalar.id().optional().optional(),
+  createdById: PZ.Scalar.id().optional(),
+  priorityId: PZ.Scalar.id().optional().optional(),
+  pointId: PZ.Scalar.id().optional(),
+  statusId: PZ.Scalar.id().optional().optional(),
+  parentId: PZ.Scalar.id().optional().optional(),
+  title: PZ.Scalar.string().optional(),
+  slug: PZ.Scalar.slug().optional().optional(),
+  description: PZ.Scalar.description().optional().optional(),
+  due: PZ.Scalar.datetime().optional().optional(),
+  resolvedAt: PZ.Scalar.datetime().optional().optional(),
+});
+
+export const TaskUpdateSchema = TaskRawUpdateSchema.clone().transform(
+  PZ.slugTransformer('title')
+);
 
 export const TaskOrderBySchema = z
   .object({
@@ -2994,10 +3313,14 @@ export const TaskOrderBySchema = z
     due: PZ.OrderDirectionSchema,
     resolvedAt: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const TaskOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TaskOrderBySchema
 );
 
@@ -3089,94 +3412,147 @@ export const TaskWhereSchema = z
   })
   .partial();
 
-export const TaskWhereSchemaJson = z.preprocess(jsonParser, TaskWhereSchema);
+export const TaskWhereSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TaskWhereSchema
+);
 
 export const TaskSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    sprintId: z.boolean(),
-    createdAt: z.boolean(),
-    updatedAt: z.boolean(),
-    createdById: z.boolean(),
-    priorityId: z.boolean(),
-    pointId: z.boolean(),
-    statusId: z.boolean(),
-    parentId: z.boolean(),
-    title: z.boolean(),
-    slug: z.boolean(),
-    description: z.boolean(),
-    due: z.boolean(),
-    resolvedAt: z.boolean(),
-    comments: z.boolean().or(CommentOwnQuerySchema),
-    parent: z.boolean().or(TaskOwnQueryOneSchema),
-    tasks: z.boolean().or(TaskOwnQuerySchema),
-    createdBy: z.boolean().or(UserOwnQueryOneSchema),
-    assignments: z.boolean().or(AssignmentOwnQuerySchema),
-    tags: z.boolean().or(TaskTagOwnQuerySchema),
-    categories: z.boolean().or(TaskCategoryOwnQuerySchema),
-    point: z.boolean().or(PointOwnQueryOneSchema),
-    priority: z.boolean().or(PriorityOwnQueryOneSchema),
-    status: z.boolean().or(StatusOwnQueryOneSchema),
-    sprint: z.boolean().or(SprintOwnQueryOneSchema),
-    assignmentHistory: z.boolean().or(AssignmentHistoryOwnQuerySchema),
-    statusHistory: z.boolean().or(StatusHistoryOwnQuerySchema),
-    priorityHistory: z.boolean().or(PriorityHistoryOwnQuerySchema),
-    pointHistory: z.boolean().or(PointHistoryOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    sprintId: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    priorityId: PZ.Scalar.bool(),
+    pointId: PZ.Scalar.bool(),
+    statusId: PZ.Scalar.bool(),
+    parentId: PZ.Scalar.bool(),
+    title: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    due: PZ.Scalar.bool(),
+    resolvedAt: PZ.Scalar.bool(),
+    comments: PZ.Scalar.bool().or(CommentOwnQuerySchema),
+    parent: PZ.Scalar.bool().or(TaskOwnQueryOneSchema),
+    tasks: PZ.Scalar.bool().or(TaskOwnQuerySchema),
+    createdBy: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    assignments: PZ.Scalar.bool().or(AssignmentOwnQuerySchema),
+    tags: PZ.Scalar.bool().or(TaskTagOwnQuerySchema),
+    categories: PZ.Scalar.bool().or(TaskCategoryOwnQuerySchema),
+    point: PZ.Scalar.bool().or(PointOwnQueryOneSchema),
+    priority: PZ.Scalar.bool().or(PriorityOwnQueryOneSchema),
+    status: PZ.Scalar.bool().or(StatusOwnQueryOneSchema),
+    sprint: PZ.Scalar.bool().or(SprintOwnQueryOneSchema),
+    assignmentHistory: PZ.Scalar.bool().or(AssignmentHistoryOwnQuerySchema),
+    statusHistory: PZ.Scalar.bool().or(StatusHistoryOwnQuerySchema),
+    priorityHistory: PZ.Scalar.bool().or(PriorityHistoryOwnQuerySchema),
+    pointHistory: PZ.Scalar.bool().or(PointHistoryOwnQuerySchema),
   })
   .partial();
 
 export const TaskSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TaskSelectFieldsSchema
+);
+
+export const TaskOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    sprintId: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    priorityId: PZ.Scalar.bool(),
+    pointId: PZ.Scalar.bool(),
+    statusId: PZ.Scalar.bool(),
+    parentId: PZ.Scalar.bool(),
+    title: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    due: PZ.Scalar.bool(),
+    resolvedAt: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      ![
+        'id',
+        'sprintId',
+        'createdAt',
+        'updatedAt',
+        'createdById',
+        'priorityId',
+        'pointId',
+        'statusId',
+        'parentId',
+        'title',
+        'slug',
+        'description',
+        'due',
+        'resolvedAt',
+      ].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const TaskOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TaskOmitFieldsSchema
 );
 
 export const TaskIncludeSchema = z
   .object({
-    comments: z.boolean().or(CommentOwnQuerySchema),
-    parent: z.boolean().or(TaskOwnQueryOneSchema),
-    tasks: z.boolean().or(TaskOwnQuerySchema),
-    createdBy: z.boolean().or(UserOwnQueryOneSchema),
-    assignments: z.boolean().or(AssignmentOwnQuerySchema),
-    tags: z.boolean().or(TaskTagOwnQuerySchema),
-    categories: z.boolean().or(TaskCategoryOwnQuerySchema),
-    point: z.boolean().or(PointOwnQueryOneSchema),
-    priority: z.boolean().or(PriorityOwnQueryOneSchema),
-    status: z.boolean().or(StatusOwnQueryOneSchema),
-    sprint: z.boolean().or(SprintOwnQueryOneSchema),
-    assignmentHistory: z.boolean().or(AssignmentHistoryOwnQuerySchema),
-    statusHistory: z.boolean().or(StatusHistoryOwnQuerySchema),
-    priorityHistory: z.boolean().or(PriorityHistoryOwnQuerySchema),
-    pointHistory: z.boolean().or(PointHistoryOwnQuerySchema),
+    comments: PZ.Scalar.bool().or(CommentOwnQuerySchema),
+    parent: PZ.Scalar.bool().or(TaskOwnQueryOneSchema),
+    tasks: PZ.Scalar.bool().or(TaskOwnQuerySchema),
+    createdBy: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    assignments: PZ.Scalar.bool().or(AssignmentOwnQuerySchema),
+    tags: PZ.Scalar.bool().or(TaskTagOwnQuerySchema),
+    categories: PZ.Scalar.bool().or(TaskCategoryOwnQuerySchema),
+    point: PZ.Scalar.bool().or(PointOwnQueryOneSchema),
+    priority: PZ.Scalar.bool().or(PriorityOwnQueryOneSchema),
+    status: PZ.Scalar.bool().or(StatusOwnQueryOneSchema),
+    sprint: PZ.Scalar.bool().or(SprintOwnQueryOneSchema),
+    assignmentHistory: PZ.Scalar.bool().or(AssignmentHistoryOwnQuerySchema),
+    statusHistory: PZ.Scalar.bool().or(StatusHistoryOwnQuerySchema),
+    priorityHistory: PZ.Scalar.bool().or(PriorityHistoryOwnQuerySchema),
+    pointHistory: PZ.Scalar.bool().or(PointHistoryOwnQuerySchema),
   })
   .partial();
 
 export const TaskIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TaskIncludeSchema
 );
 
 export const TaskProjectionSchema = z.union([
-  z.object({ omit: TaskSelectFieldsSchemaJson }),
+  z.object({ omit: TaskOmitFieldsSchemaJson }),
   z.object({ select: TaskSelectFieldsSchemaJson }),
   z.object({ include: TaskIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const AssignmentHistoryCreateSchema = z.object({
-  createdById: z.coerce.number().int(),
-  projectId: z.coerce.number().int(),
-  taskId: z.coerce.number().int(),
-  oldUserId: z.coerce.number().int(),
-  newUserId: z.coerce.number().int(),
+export const AssignmentHistoryRawCreateSchema = z.object({
+  createdById: PZ.Scalar.id(),
+  projectId: PZ.Scalar.id(),
+  taskId: PZ.Scalar.id(),
+  oldUserId: PZ.Scalar.id(),
+  newUserId: PZ.Scalar.id(),
 });
 
-export const AssignmentHistoryUpdateSchema = z.object({
-  createdById: z.coerce.number().int().optional(),
-  projectId: z.coerce.number().int().optional(),
-  taskId: z.coerce.number().int().optional(),
-  oldUserId: z.coerce.number().int().optional(),
-  newUserId: z.coerce.number().int().optional(),
+export const AssignmentHistoryCreateSchema =
+  AssignmentHistoryRawCreateSchema.clone();
+
+export const AssignmentHistoryRawUpdateSchema = z.object({
+  createdById: PZ.Scalar.id().optional(),
+  projectId: PZ.Scalar.id().optional(),
+  taskId: PZ.Scalar.id().optional(),
+  oldUserId: PZ.Scalar.id().optional(),
+  newUserId: PZ.Scalar.id().optional(),
 });
+
+export const AssignmentHistoryUpdateSchema =
+  AssignmentHistoryRawUpdateSchema.clone();
 
 export const AssignmentHistoryOrderBySchema = z
   .object({
@@ -3189,10 +3565,14 @@ export const AssignmentHistoryOrderBySchema = z
     oldUserId: PZ.OrderDirectionSchema,
     newUserId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const AssignmentHistoryOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AssignmentHistoryOrderBySchema
 );
 
@@ -3215,70 +3595,108 @@ export const AssignmentHistoryWhereSchema = z
   .partial();
 
 export const AssignmentHistoryWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AssignmentHistoryWhereSchema
 );
 
 export const AssignmentHistorySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdById: z.boolean(),
-    createdAt: z.boolean(),
-    updatedAt: z.boolean(),
-    projectId: z.boolean(),
-    taskId: z.boolean(),
-    oldUserId: z.boolean(),
-    newUserId: z.boolean(),
-    oldUser: z.boolean().or(UserOwnQueryOneSchema),
-    newUser: z.boolean().or(UserOwnQueryOneSchema),
-    createdBy: z.boolean().or(UserOwnQueryOneSchema),
-    task: z.boolean().or(TaskOwnQueryOneSchema),
-    project: z.boolean().or(ProjectOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+    oldUserId: PZ.Scalar.bool(),
+    newUserId: PZ.Scalar.bool(),
+    oldUser: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    newUser: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    createdBy: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    task: PZ.Scalar.bool().or(TaskOwnQueryOneSchema),
+    project: PZ.Scalar.bool().or(ProjectOwnQueryOneSchema),
   })
   .partial();
 
 export const AssignmentHistorySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AssignmentHistorySelectFieldsSchema
+);
+
+export const AssignmentHistoryOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+    oldUserId: PZ.Scalar.bool(),
+    newUserId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      ![
+        'id',
+        'createdById',
+        'createdAt',
+        'updatedAt',
+        'projectId',
+        'taskId',
+        'oldUserId',
+        'newUserId',
+      ].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const AssignmentHistoryOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  AssignmentHistoryOmitFieldsSchema
 );
 
 export const AssignmentHistoryIncludeSchema = z
   .object({
-    oldUser: z.boolean().or(UserOwnQueryOneSchema),
-    newUser: z.boolean().or(UserOwnQueryOneSchema),
-    createdBy: z.boolean().or(UserOwnQueryOneSchema),
-    task: z.boolean().or(TaskOwnQueryOneSchema),
-    project: z.boolean().or(ProjectOwnQueryOneSchema),
+    oldUser: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    newUser: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    createdBy: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    task: PZ.Scalar.bool().or(TaskOwnQueryOneSchema),
+    project: PZ.Scalar.bool().or(ProjectOwnQueryOneSchema),
   })
   .partial();
 
 export const AssignmentHistoryIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AssignmentHistoryIncludeSchema
 );
 
 export const AssignmentHistoryProjectionSchema = z.union([
-  z.object({ omit: AssignmentHistorySelectFieldsSchemaJson }),
+  z.object({ omit: AssignmentHistoryOmitFieldsSchemaJson }),
   z.object({ select: AssignmentHistorySelectFieldsSchemaJson }),
   z.object({ include: AssignmentHistoryIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PriorityHistoryCreateSchema = z.object({
-  createdById: z.coerce.number().int(),
-  projectId: z.coerce.number().int(),
-  taskId: z.coerce.number().int(),
-  oldPriorityId: z.coerce.number().int().optional(),
-  newPriorityId: z.coerce.number().int(),
+export const PriorityHistoryRawCreateSchema = z.object({
+  createdById: PZ.Scalar.id(),
+  projectId: PZ.Scalar.id(),
+  taskId: PZ.Scalar.id(),
+  oldPriorityId: PZ.Scalar.id().optional(),
+  newPriorityId: PZ.Scalar.id(),
 });
 
-export const PriorityHistoryUpdateSchema = z.object({
-  createdById: z.coerce.number().int().optional(),
-  projectId: z.coerce.number().int().optional(),
-  taskId: z.coerce.number().int().optional(),
-  oldPriorityId: z.coerce.number().int().optional().optional(),
-  newPriorityId: z.coerce.number().int().optional(),
+export const PriorityHistoryCreateSchema =
+  PriorityHistoryRawCreateSchema.clone();
+
+export const PriorityHistoryRawUpdateSchema = z.object({
+  createdById: PZ.Scalar.id().optional(),
+  projectId: PZ.Scalar.id().optional(),
+  taskId: PZ.Scalar.id().optional(),
+  oldPriorityId: PZ.Scalar.id().optional().optional(),
+  newPriorityId: PZ.Scalar.id().optional(),
 });
+
+export const PriorityHistoryUpdateSchema =
+  PriorityHistoryRawUpdateSchema.clone();
 
 export const PriorityHistoryOrderBySchema = z
   .object({
@@ -3291,10 +3709,14 @@ export const PriorityHistoryOrderBySchema = z
     oldPriorityId: PZ.OrderDirectionSchema,
     newPriorityId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const PriorityHistoryOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriorityHistoryOrderBySchema
 );
 
@@ -3317,70 +3739,106 @@ export const PriorityHistoryWhereSchema = z
   .partial();
 
 export const PriorityHistoryWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriorityHistoryWhereSchema
 );
 
 export const PriorityHistorySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdById: z.boolean(),
-    createdAt: z.boolean(),
-    updatedAt: z.boolean(),
-    projectId: z.boolean(),
-    taskId: z.boolean(),
-    oldPriorityId: z.boolean(),
-    newPriorityId: z.boolean(),
-    oldPriority: z.boolean().or(PriorityOwnQueryOneSchema),
-    newPriority: z.boolean().or(PriorityOwnQueryOneSchema),
-    createdBy: z.boolean().or(UserOwnQueryOneSchema),
-    task: z.boolean().or(TaskOwnQueryOneSchema),
-    project: z.boolean().or(ProjectOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+    oldPriorityId: PZ.Scalar.bool(),
+    newPriorityId: PZ.Scalar.bool(),
+    oldPriority: PZ.Scalar.bool().or(PriorityOwnQueryOneSchema),
+    newPriority: PZ.Scalar.bool().or(PriorityOwnQueryOneSchema),
+    createdBy: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    task: PZ.Scalar.bool().or(TaskOwnQueryOneSchema),
+    project: PZ.Scalar.bool().or(ProjectOwnQueryOneSchema),
   })
   .partial();
 
 export const PriorityHistorySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriorityHistorySelectFieldsSchema
+);
+
+export const PriorityHistoryOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+    oldPriorityId: PZ.Scalar.bool(),
+    newPriorityId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      ![
+        'id',
+        'createdById',
+        'createdAt',
+        'updatedAt',
+        'projectId',
+        'taskId',
+        'oldPriorityId',
+        'newPriorityId',
+      ].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const PriorityHistoryOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  PriorityHistoryOmitFieldsSchema
 );
 
 export const PriorityHistoryIncludeSchema = z
   .object({
-    oldPriority: z.boolean().or(PriorityOwnQueryOneSchema),
-    newPriority: z.boolean().or(PriorityOwnQueryOneSchema),
-    createdBy: z.boolean().or(UserOwnQueryOneSchema),
-    task: z.boolean().or(TaskOwnQueryOneSchema),
-    project: z.boolean().or(ProjectOwnQueryOneSchema),
+    oldPriority: PZ.Scalar.bool().or(PriorityOwnQueryOneSchema),
+    newPriority: PZ.Scalar.bool().or(PriorityOwnQueryOneSchema),
+    createdBy: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    task: PZ.Scalar.bool().or(TaskOwnQueryOneSchema),
+    project: PZ.Scalar.bool().or(ProjectOwnQueryOneSchema),
   })
   .partial();
 
 export const PriorityHistoryIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriorityHistoryIncludeSchema
 );
 
 export const PriorityHistoryProjectionSchema = z.union([
-  z.object({ omit: PriorityHistorySelectFieldsSchemaJson }),
+  z.object({ omit: PriorityHistoryOmitFieldsSchemaJson }),
   z.object({ select: PriorityHistorySelectFieldsSchemaJson }),
   z.object({ include: PriorityHistoryIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const StatusHistoryCreateSchema = z.object({
-  createdById: z.coerce.number().int(),
-  oldStatusId: z.coerce.number().int().optional(),
-  newStatusId: z.coerce.number().int(),
-  projectId: z.coerce.number().int(),
-  taskId: z.coerce.number().int(),
+export const StatusHistoryRawCreateSchema = z.object({
+  createdById: PZ.Scalar.id(),
+  oldStatusId: PZ.Scalar.id().optional(),
+  newStatusId: PZ.Scalar.id(),
+  projectId: PZ.Scalar.id(),
+  taskId: PZ.Scalar.id(),
 });
 
-export const StatusHistoryUpdateSchema = z.object({
-  createdById: z.coerce.number().int().optional(),
-  oldStatusId: z.coerce.number().int().optional().optional(),
-  newStatusId: z.coerce.number().int().optional(),
-  projectId: z.coerce.number().int().optional(),
-  taskId: z.coerce.number().int().optional(),
+export const StatusHistoryCreateSchema = StatusHistoryRawCreateSchema.clone();
+
+export const StatusHistoryRawUpdateSchema = z.object({
+  createdById: PZ.Scalar.id().optional(),
+  oldStatusId: PZ.Scalar.id().optional().optional(),
+  newStatusId: PZ.Scalar.id().optional(),
+  projectId: PZ.Scalar.id().optional(),
+  taskId: PZ.Scalar.id().optional(),
 });
+
+export const StatusHistoryUpdateSchema = StatusHistoryRawUpdateSchema.clone();
 
 export const StatusHistoryOrderBySchema = z
   .object({
@@ -3392,10 +3850,14 @@ export const StatusHistoryOrderBySchema = z
     projectId: PZ.OrderDirectionSchema,
     taskId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const StatusHistoryOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StatusHistoryOrderBySchema
 );
 
@@ -3417,69 +3879,103 @@ export const StatusHistoryWhereSchema = z
   .partial();
 
 export const StatusHistoryWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StatusHistoryWhereSchema
 );
 
 export const StatusHistorySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdAt: z.boolean(),
-    createdById: z.boolean(),
-    oldStatusId: z.boolean(),
-    newStatusId: z.boolean(),
-    projectId: z.boolean(),
-    taskId: z.boolean(),
-    task: z.boolean().or(TaskOwnQueryOneSchema),
-    oldStatus: z.boolean().or(StatusOwnQueryOneSchema),
-    newStatus: z.boolean().or(StatusOwnQueryOneSchema),
-    createdBy: z.boolean().or(UserOwnQueryOneSchema),
-    project: z.boolean().or(ProjectOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    oldStatusId: PZ.Scalar.bool(),
+    newStatusId: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+    task: PZ.Scalar.bool().or(TaskOwnQueryOneSchema),
+    oldStatus: PZ.Scalar.bool().or(StatusOwnQueryOneSchema),
+    newStatus: PZ.Scalar.bool().or(StatusOwnQueryOneSchema),
+    createdBy: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    project: PZ.Scalar.bool().or(ProjectOwnQueryOneSchema),
   })
   .partial();
 
 export const StatusHistorySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StatusHistorySelectFieldsSchema
+);
+
+export const StatusHistoryOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    oldStatusId: PZ.Scalar.bool(),
+    newStatusId: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      ![
+        'id',
+        'createdAt',
+        'createdById',
+        'oldStatusId',
+        'newStatusId',
+        'projectId',
+        'taskId',
+      ].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const StatusHistoryOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  StatusHistoryOmitFieldsSchema
 );
 
 export const StatusHistoryIncludeSchema = z
   .object({
-    task: z.boolean().or(TaskOwnQueryOneSchema),
-    oldStatus: z.boolean().or(StatusOwnQueryOneSchema),
-    newStatus: z.boolean().or(StatusOwnQueryOneSchema),
-    createdBy: z.boolean().or(UserOwnQueryOneSchema),
-    project: z.boolean().or(ProjectOwnQueryOneSchema),
+    task: PZ.Scalar.bool().or(TaskOwnQueryOneSchema),
+    oldStatus: PZ.Scalar.bool().or(StatusOwnQueryOneSchema),
+    newStatus: PZ.Scalar.bool().or(StatusOwnQueryOneSchema),
+    createdBy: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    project: PZ.Scalar.bool().or(ProjectOwnQueryOneSchema),
   })
   .partial();
 
 export const StatusHistoryIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StatusHistoryIncludeSchema
 );
 
 export const StatusHistoryProjectionSchema = z.union([
-  z.object({ omit: StatusHistorySelectFieldsSchemaJson }),
+  z.object({ omit: StatusHistoryOmitFieldsSchemaJson }),
   z.object({ select: StatusHistorySelectFieldsSchemaJson }),
   z.object({ include: StatusHistoryIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PointHistoryCreateSchema = z.object({
-  createdById: z.coerce.number().int(),
-  oldPointId: z.coerce.number().int().optional(),
-  newPointId: z.coerce.number().int(),
-  projectId: z.coerce.number().int(),
-  taskId: z.coerce.number().int(),
+export const PointHistoryRawCreateSchema = z.object({
+  createdById: PZ.Scalar.id(),
+  oldPointId: PZ.Scalar.id().optional(),
+  newPointId: PZ.Scalar.id(),
+  projectId: PZ.Scalar.id(),
+  taskId: PZ.Scalar.id(),
 });
 
-export const PointHistoryUpdateSchema = z.object({
-  createdById: z.coerce.number().int().optional(),
-  oldPointId: z.coerce.number().int().optional().optional(),
-  newPointId: z.coerce.number().int().optional(),
-  projectId: z.coerce.number().int().optional(),
-  taskId: z.coerce.number().int().optional(),
+export const PointHistoryCreateSchema = PointHistoryRawCreateSchema.clone();
+
+export const PointHistoryRawUpdateSchema = z.object({
+  createdById: PZ.Scalar.id().optional(),
+  oldPointId: PZ.Scalar.id().optional().optional(),
+  newPointId: PZ.Scalar.id().optional(),
+  projectId: PZ.Scalar.id().optional(),
+  taskId: PZ.Scalar.id().optional(),
 });
+
+export const PointHistoryUpdateSchema = PointHistoryRawUpdateSchema.clone();
 
 export const PointHistoryOrderBySchema = z
   .object({
@@ -3491,10 +3987,14 @@ export const PointHistoryOrderBySchema = z
     projectId: PZ.OrderDirectionSchema,
     taskId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const PointHistoryOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PointHistoryOrderBySchema
 );
 
@@ -3516,65 +4016,99 @@ export const PointHistoryWhereSchema = z
   .partial();
 
 export const PointHistoryWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PointHistoryWhereSchema
 );
 
 export const PointHistorySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdAt: z.boolean(),
-    createdById: z.boolean(),
-    oldPointId: z.boolean(),
-    newPointId: z.boolean(),
-    projectId: z.boolean(),
-    taskId: z.boolean(),
-    task: z.boolean().or(TaskOwnQueryOneSchema),
-    oldPoint: z.boolean().or(PointOwnQueryOneSchema),
-    newPoint: z.boolean().or(PointOwnQueryOneSchema),
-    createdBy: z.boolean().or(UserOwnQueryOneSchema),
-    project: z.boolean().or(ProjectOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    oldPointId: PZ.Scalar.bool(),
+    newPointId: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+    task: PZ.Scalar.bool().or(TaskOwnQueryOneSchema),
+    oldPoint: PZ.Scalar.bool().or(PointOwnQueryOneSchema),
+    newPoint: PZ.Scalar.bool().or(PointOwnQueryOneSchema),
+    createdBy: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    project: PZ.Scalar.bool().or(ProjectOwnQueryOneSchema),
   })
   .partial();
 
 export const PointHistorySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PointHistorySelectFieldsSchema
+);
+
+export const PointHistoryOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    oldPointId: PZ.Scalar.bool(),
+    newPointId: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      ![
+        'id',
+        'createdAt',
+        'createdById',
+        'oldPointId',
+        'newPointId',
+        'projectId',
+        'taskId',
+      ].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const PointHistoryOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  PointHistoryOmitFieldsSchema
 );
 
 export const PointHistoryIncludeSchema = z
   .object({
-    task: z.boolean().or(TaskOwnQueryOneSchema),
-    oldPoint: z.boolean().or(PointOwnQueryOneSchema),
-    newPoint: z.boolean().or(PointOwnQueryOneSchema),
-    createdBy: z.boolean().or(UserOwnQueryOneSchema),
-    project: z.boolean().or(ProjectOwnQueryOneSchema),
+    task: PZ.Scalar.bool().or(TaskOwnQueryOneSchema),
+    oldPoint: PZ.Scalar.bool().or(PointOwnQueryOneSchema),
+    newPoint: PZ.Scalar.bool().or(PointOwnQueryOneSchema),
+    createdBy: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    project: PZ.Scalar.bool().or(ProjectOwnQueryOneSchema),
   })
   .partial();
 
 export const PointHistoryIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PointHistoryIncludeSchema
 );
 
 export const PointHistoryProjectionSchema = z.union([
-  z.object({ omit: PointHistorySelectFieldsSchemaJson }),
+  z.object({ omit: PointHistoryOmitFieldsSchemaJson }),
   z.object({ select: PointHistorySelectFieldsSchemaJson }),
   z.object({ include: PointHistoryIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TeamHistoryCreateSchema = z.object({
-  createdById: z.coerce.number().int(),
-  oldTeamId: z.coerce.number().int().optional(),
-  newTeamId: z.coerce.number().int(),
+export const TeamHistoryRawCreateSchema = z.object({
+  createdById: PZ.Scalar.id(),
+  oldTeamId: PZ.Scalar.id().optional(),
+  newTeamId: PZ.Scalar.id(),
 });
 
-export const TeamHistoryUpdateSchema = z.object({
-  createdById: z.coerce.number().int().optional(),
-  oldTeamId: z.coerce.number().int().optional().optional(),
-  newTeamId: z.coerce.number().int().optional(),
+export const TeamHistoryCreateSchema = TeamHistoryRawCreateSchema.clone();
+
+export const TeamHistoryRawUpdateSchema = z.object({
+  createdById: PZ.Scalar.id().optional(),
+  oldTeamId: PZ.Scalar.id().optional().optional(),
+  newTeamId: PZ.Scalar.id().optional(),
 });
+
+export const TeamHistoryUpdateSchema = TeamHistoryRawUpdateSchema.clone();
 
 export const TeamHistoryOrderBySchema = z
   .object({
@@ -3584,10 +4118,14 @@ export const TeamHistoryOrderBySchema = z
     oldTeamId: PZ.OrderDirectionSchema,
     newTeamId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const TeamHistoryOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamHistoryOrderBySchema
 );
 
@@ -3605,57 +4143,83 @@ export const TeamHistoryWhereSchema = z
   .partial();
 
 export const TeamHistoryWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamHistoryWhereSchema
 );
 
 export const TeamHistorySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdAt: z.boolean(),
-    createdById: z.boolean(),
-    oldTeamId: z.boolean(),
-    newTeamId: z.boolean(),
-    oldTeam: z.boolean().or(TeamOwnQueryOneSchema),
-    newTeam: z.boolean().or(TeamOwnQueryOneSchema),
-    createdBy: z.boolean().or(UserOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    oldTeamId: PZ.Scalar.bool(),
+    newTeamId: PZ.Scalar.bool(),
+    oldTeam: PZ.Scalar.bool().or(TeamOwnQueryOneSchema),
+    newTeam: PZ.Scalar.bool().or(TeamOwnQueryOneSchema),
+    createdBy: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
   })
   .partial();
 
 export const TeamHistorySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamHistorySelectFieldsSchema
+);
+
+export const TeamHistoryOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    oldTeamId: PZ.Scalar.bool(),
+    newTeamId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'createdAt', 'createdById', 'oldTeamId', 'newTeamId'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const TeamHistoryOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TeamHistoryOmitFieldsSchema
 );
 
 export const TeamHistoryIncludeSchema = z
   .object({
-    oldTeam: z.boolean().or(TeamOwnQueryOneSchema),
-    newTeam: z.boolean().or(TeamOwnQueryOneSchema),
-    createdBy: z.boolean().or(UserOwnQueryOneSchema),
+    oldTeam: PZ.Scalar.bool().or(TeamOwnQueryOneSchema),
+    newTeam: PZ.Scalar.bool().or(TeamOwnQueryOneSchema),
+    createdBy: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
   })
   .partial();
 
 export const TeamHistoryIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamHistoryIncludeSchema
 );
 
 export const TeamHistoryProjectionSchema = z.union([
-  z.object({ omit: TeamHistorySelectFieldsSchemaJson }),
+  z.object({ omit: TeamHistoryOmitFieldsSchemaJson }),
   z.object({ select: TeamHistorySelectFieldsSchemaJson }),
   z.object({ include: TeamHistoryIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TaskTagCreateSchema = z.object({
-  taskId: z.coerce.number().int(),
-  tagId: z.coerce.number().int(),
+export const TaskTagRawCreateSchema = z.object({
+  taskId: PZ.Scalar.id(),
+  tagId: PZ.Scalar.id(),
 });
 
-export const TaskTagUpdateSchema = z.object({
-  taskId: z.coerce.number().int().optional(),
-  tagId: z.coerce.number().int().optional(),
+export const TaskTagCreateSchema = TaskTagRawCreateSchema.clone();
+
+export const TaskTagRawUpdateSchema = z.object({
+  taskId: PZ.Scalar.id().optional(),
+  tagId: PZ.Scalar.id().optional(),
 });
+
+export const TaskTagUpdateSchema = TaskTagRawUpdateSchema.clone();
 
 export const TaskTagOrderBySchema = z
   .object({
@@ -3663,10 +4227,14 @@ export const TaskTagOrderBySchema = z
     taskId: PZ.OrderDirectionSchema,
     tagId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const TaskTagOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TaskTagOrderBySchema
 );
 
@@ -3681,53 +4249,74 @@ export const TaskTagWhereSchema = z
   .partial();
 
 export const TaskTagWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TaskTagWhereSchema
 );
 
 export const TaskTagSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    taskId: z.boolean(),
-    tagId: z.boolean(),
-    task: z.boolean().or(TaskOwnQueryOneSchema),
-    tag: z.boolean().or(TagOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+    tagId: PZ.Scalar.bool(),
+    task: PZ.Scalar.bool().or(TaskOwnQueryOneSchema),
+    tag: PZ.Scalar.bool().or(TagOwnQueryOneSchema),
   })
   .partial();
 
 export const TaskTagSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TaskTagSelectFieldsSchema
+);
+
+export const TaskTagOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+    tagId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) => !['id', 'taskId', 'tagId'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const TaskTagOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TaskTagOmitFieldsSchema
 );
 
 export const TaskTagIncludeSchema = z
   .object({
-    task: z.boolean().or(TaskOwnQueryOneSchema),
-    tag: z.boolean().or(TagOwnQueryOneSchema),
+    task: PZ.Scalar.bool().or(TaskOwnQueryOneSchema),
+    tag: PZ.Scalar.bool().or(TagOwnQueryOneSchema),
   })
   .partial();
 
 export const TaskTagIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TaskTagIncludeSchema
 );
 
 export const TaskTagProjectionSchema = z.union([
-  z.object({ omit: TaskTagSelectFieldsSchemaJson }),
+  z.object({ omit: TaskTagOmitFieldsSchemaJson }),
   z.object({ select: TaskTagSelectFieldsSchemaJson }),
   z.object({ include: TaskTagIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TaskCategoryCreateSchema = z.object({
-  categoryId: z.coerce.number().int(),
-  taskId: z.coerce.number().int(),
+export const TaskCategoryRawCreateSchema = z.object({
+  categoryId: PZ.Scalar.id(),
+  taskId: PZ.Scalar.id(),
 });
 
-export const TaskCategoryUpdateSchema = z.object({
-  categoryId: z.coerce.number().int().optional(),
-  taskId: z.coerce.number().int().optional(),
+export const TaskCategoryCreateSchema = TaskCategoryRawCreateSchema.clone();
+
+export const TaskCategoryRawUpdateSchema = z.object({
+  categoryId: PZ.Scalar.id().optional(),
+  taskId: PZ.Scalar.id().optional(),
 });
+
+export const TaskCategoryUpdateSchema = TaskCategoryRawUpdateSchema.clone();
 
 export const TaskCategoryOrderBySchema = z
   .object({
@@ -3735,10 +4324,14 @@ export const TaskCategoryOrderBySchema = z
     categoryId: PZ.OrderDirectionSchema,
     taskId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const TaskCategoryOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TaskCategoryOrderBySchema
 );
 
@@ -3753,53 +4346,75 @@ export const TaskCategoryWhereSchema = z
   .partial();
 
 export const TaskCategoryWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TaskCategoryWhereSchema
 );
 
 export const TaskCategorySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    categoryId: z.boolean(),
-    taskId: z.boolean(),
-    task: z.boolean().or(TaskOwnQueryOneSchema),
-    category: z.boolean().or(CategoryOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    categoryId: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+    task: PZ.Scalar.bool().or(TaskOwnQueryOneSchema),
+    category: PZ.Scalar.bool().or(CategoryOwnQueryOneSchema),
   })
   .partial();
 
 export const TaskCategorySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TaskCategorySelectFieldsSchema
+);
+
+export const TaskCategoryOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    categoryId: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'categoryId', 'taskId'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const TaskCategoryOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TaskCategoryOmitFieldsSchema
 );
 
 export const TaskCategoryIncludeSchema = z
   .object({
-    task: z.boolean().or(TaskOwnQueryOneSchema),
-    category: z.boolean().or(CategoryOwnQueryOneSchema),
+    task: PZ.Scalar.bool().or(TaskOwnQueryOneSchema),
+    category: PZ.Scalar.bool().or(CategoryOwnQueryOneSchema),
   })
   .partial();
 
 export const TaskCategoryIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TaskCategoryIncludeSchema
 );
 
 export const TaskCategoryProjectionSchema = z.union([
-  z.object({ omit: TaskCategorySelectFieldsSchemaJson }),
+  z.object({ omit: TaskCategoryOmitFieldsSchemaJson }),
   z.object({ select: TaskCategorySelectFieldsSchemaJson }),
   z.object({ include: TaskCategoryIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const AssignmentCreateSchema = z.object({
-  assigneeId: z.coerce.number().int(),
-  taskId: z.coerce.number().int(),
+export const AssignmentRawCreateSchema = z.object({
+  assigneeId: PZ.Scalar.id(),
+  taskId: PZ.Scalar.id(),
 });
 
-export const AssignmentUpdateSchema = z.object({
-  assigneeId: z.coerce.number().int().optional(),
-  taskId: z.coerce.number().int().optional(),
+export const AssignmentCreateSchema = AssignmentRawCreateSchema.clone();
+
+export const AssignmentRawUpdateSchema = z.object({
+  assigneeId: PZ.Scalar.id().optional(),
+  taskId: PZ.Scalar.id().optional(),
 });
+
+export const AssignmentUpdateSchema = AssignmentRawUpdateSchema.clone();
 
 export const AssignmentOrderBySchema = z
   .object({
@@ -3809,10 +4424,14 @@ export const AssignmentOrderBySchema = z
     assigneeId: PZ.OrderDirectionSchema,
     taskId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const AssignmentOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AssignmentOrderBySchema
 );
 
@@ -3829,59 +4448,85 @@ export const AssignmentWhereSchema = z
   .partial();
 
 export const AssignmentWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AssignmentWhereSchema
 );
 
 export const AssignmentSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdAt: z.boolean(),
-    updatedAt: z.boolean(),
-    assigneeId: z.boolean(),
-    taskId: z.boolean(),
-    task: z.boolean().or(TaskOwnQueryOneSchema),
-    assignee: z.boolean().or(UserOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    assigneeId: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+    task: PZ.Scalar.bool().or(TaskOwnQueryOneSchema),
+    assignee: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
   })
   .partial();
 
 export const AssignmentSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AssignmentSelectFieldsSchema
+);
+
+export const AssignmentOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    assigneeId: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'createdAt', 'updatedAt', 'assigneeId', 'taskId'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const AssignmentOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  AssignmentOmitFieldsSchema
 );
 
 export const AssignmentIncludeSchema = z
   .object({
-    task: z.boolean().or(TaskOwnQueryOneSchema),
-    assignee: z.boolean().or(UserOwnQueryOneSchema),
+    task: PZ.Scalar.bool().or(TaskOwnQueryOneSchema),
+    assignee: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
   })
   .partial();
 
 export const AssignmentIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AssignmentIncludeSchema
 );
 
 export const AssignmentProjectionSchema = z.union([
-  z.object({ omit: AssignmentSelectFieldsSchemaJson }),
+  z.object({ omit: AssignmentOmitFieldsSchemaJson }),
   z.object({ select: AssignmentSelectFieldsSchemaJson }),
   z.object({ include: AssignmentIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const CommentCreateSchema = z.object({
-  parentId: z.coerce.number().int().optional(),
-  createdById: z.coerce.number().int(),
-  taskId: z.coerce.number().int(),
-  comment: z.string(),
+export const CommentRawCreateSchema = z.object({
+  parentId: PZ.Scalar.id().optional(),
+  createdById: PZ.Scalar.id(),
+  taskId: PZ.Scalar.id(),
+  comment: PZ.Scalar.string(),
 });
 
-export const CommentUpdateSchema = z.object({
-  parentId: z.coerce.number().int().optional().optional(),
-  createdById: z.coerce.number().int().optional(),
-  taskId: z.coerce.number().int().optional(),
-  comment: z.string().optional(),
+export const CommentCreateSchema = CommentRawCreateSchema.clone();
+
+export const CommentRawUpdateSchema = z.object({
+  parentId: PZ.Scalar.id().optional().optional(),
+  createdById: PZ.Scalar.id().optional(),
+  taskId: PZ.Scalar.id().optional(),
+  comment: PZ.Scalar.string().optional(),
 });
+
+export const CommentUpdateSchema = CommentRawUpdateSchema.clone();
 
 export const CommentOrderBySchema = z
   .object({
@@ -3893,10 +4538,14 @@ export const CommentOrderBySchema = z
     taskId: PZ.OrderDirectionSchema,
     comment: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const CommentOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CommentOrderBySchema
 );
 
@@ -3923,61 +4572,95 @@ export const CommentWhereSchema = z
   .partial();
 
 export const CommentWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CommentWhereSchema
 );
 
 export const CommentSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdAt: z.boolean(),
-    updatedAt: z.boolean(),
-    parentId: z.boolean(),
-    createdById: z.boolean(),
-    taskId: z.boolean(),
-    comment: z.boolean(),
-    parent: z.boolean().or(CommentOwnQueryOneSchema),
-    comments: z.boolean().or(CommentOwnQuerySchema),
-    createdBy: z.boolean().or(UserOwnQueryOneSchema),
-    task: z.boolean().or(TaskOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    parentId: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+    comment: PZ.Scalar.bool(),
+    parent: PZ.Scalar.bool().or(CommentOwnQueryOneSchema),
+    comments: PZ.Scalar.bool().or(CommentOwnQuerySchema),
+    createdBy: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    task: PZ.Scalar.bool().or(TaskOwnQueryOneSchema),
   })
   .partial();
 
 export const CommentSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CommentSelectFieldsSchema
+);
+
+export const CommentOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    parentId: PZ.Scalar.bool(),
+    createdById: PZ.Scalar.bool(),
+    taskId: PZ.Scalar.bool(),
+    comment: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      ![
+        'id',
+        'createdAt',
+        'updatedAt',
+        'parentId',
+        'createdById',
+        'taskId',
+        'comment',
+      ].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const CommentOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  CommentOmitFieldsSchema
 );
 
 export const CommentIncludeSchema = z
   .object({
-    parent: z.boolean().or(CommentOwnQueryOneSchema),
-    comments: z.boolean().or(CommentOwnQuerySchema),
-    createdBy: z.boolean().or(UserOwnQueryOneSchema),
-    task: z.boolean().or(TaskOwnQueryOneSchema),
+    parent: PZ.Scalar.bool().or(CommentOwnQueryOneSchema),
+    comments: PZ.Scalar.bool().or(CommentOwnQuerySchema),
+    createdBy: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    task: PZ.Scalar.bool().or(TaskOwnQueryOneSchema),
   })
   .partial();
 
 export const CommentIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CommentIncludeSchema
 );
 
 export const CommentProjectionSchema = z.union([
-  z.object({ omit: CommentSelectFieldsSchemaJson }),
+  z.object({ omit: CommentOmitFieldsSchemaJson }),
   z.object({ select: CommentSelectFieldsSchemaJson }),
   z.object({ include: CommentIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const ProjectTaskTagCreateSchema = z.object({
-  projectId: z.coerce.number().int(),
-  tagId: z.coerce.number().int(),
+export const ProjectTaskTagRawCreateSchema = z.object({
+  projectId: PZ.Scalar.id(),
+  tagId: PZ.Scalar.id(),
 });
 
-export const ProjectTaskTagUpdateSchema = z.object({
-  projectId: z.coerce.number().int().optional(),
-  tagId: z.coerce.number().int().optional(),
+export const ProjectTaskTagCreateSchema = ProjectTaskTagRawCreateSchema.clone();
+
+export const ProjectTaskTagRawUpdateSchema = z.object({
+  projectId: PZ.Scalar.id().optional(),
+  tagId: PZ.Scalar.id().optional(),
 });
+
+export const ProjectTaskTagUpdateSchema = ProjectTaskTagRawUpdateSchema.clone();
 
 export const ProjectTaskTagOrderBySchema = z
   .object({
@@ -3985,10 +4668,14 @@ export const ProjectTaskTagOrderBySchema = z
     projectId: PZ.OrderDirectionSchema,
     tagId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const ProjectTaskTagOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectTaskTagOrderBySchema
 );
 
@@ -4003,53 +4690,77 @@ export const ProjectTaskTagWhereSchema = z
   .partial();
 
 export const ProjectTaskTagWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectTaskTagWhereSchema
 );
 
 export const ProjectTaskTagSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    projectId: z.boolean(),
-    tagId: z.boolean(),
-    tag: z.boolean().or(TagOwnQueryOneSchema),
-    project: z.boolean().or(ProjectOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    tagId: PZ.Scalar.bool(),
+    tag: PZ.Scalar.bool().or(TagOwnQueryOneSchema),
+    project: PZ.Scalar.bool().or(ProjectOwnQueryOneSchema),
   })
   .partial();
 
 export const ProjectTaskTagSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectTaskTagSelectFieldsSchema
+);
+
+export const ProjectTaskTagOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    tagId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'projectId', 'tagId'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const ProjectTaskTagOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  ProjectTaskTagOmitFieldsSchema
 );
 
 export const ProjectTaskTagIncludeSchema = z
   .object({
-    tag: z.boolean().or(TagOwnQueryOneSchema),
-    project: z.boolean().or(ProjectOwnQueryOneSchema),
+    tag: PZ.Scalar.bool().or(TagOwnQueryOneSchema),
+    project: PZ.Scalar.bool().or(ProjectOwnQueryOneSchema),
   })
   .partial();
 
 export const ProjectTaskTagIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectTaskTagIncludeSchema
 );
 
 export const ProjectTaskTagProjectionSchema = z.union([
-  z.object({ omit: ProjectTaskTagSelectFieldsSchemaJson }),
+  z.object({ omit: ProjectTaskTagOmitFieldsSchemaJson }),
   z.object({ select: ProjectTaskTagSelectFieldsSchemaJson }),
   z.object({ include: ProjectTaskTagIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const ProjectTaskStatusCreateSchema = z.object({
-  projectId: z.coerce.number().int(),
-  statusId: z.coerce.number().int(),
+export const ProjectTaskStatusRawCreateSchema = z.object({
+  projectId: PZ.Scalar.id(),
+  statusId: PZ.Scalar.id(),
 });
 
-export const ProjectTaskStatusUpdateSchema = z.object({
-  projectId: z.coerce.number().int().optional(),
-  statusId: z.coerce.number().int().optional(),
+export const ProjectTaskStatusCreateSchema =
+  ProjectTaskStatusRawCreateSchema.clone();
+
+export const ProjectTaskStatusRawUpdateSchema = z.object({
+  projectId: PZ.Scalar.id().optional(),
+  statusId: PZ.Scalar.id().optional(),
 });
+
+export const ProjectTaskStatusUpdateSchema =
+  ProjectTaskStatusRawUpdateSchema.clone();
 
 export const ProjectTaskStatusOrderBySchema = z
   .object({
@@ -4057,10 +4768,14 @@ export const ProjectTaskStatusOrderBySchema = z
     projectId: PZ.OrderDirectionSchema,
     statusId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const ProjectTaskStatusOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectTaskStatusOrderBySchema
 );
 
@@ -4075,53 +4790,77 @@ export const ProjectTaskStatusWhereSchema = z
   .partial();
 
 export const ProjectTaskStatusWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectTaskStatusWhereSchema
 );
 
 export const ProjectTaskStatusSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    projectId: z.boolean(),
-    statusId: z.boolean(),
-    project: z.boolean().or(ProjectOwnQueryOneSchema),
-    status: z.boolean().or(StatusOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    statusId: PZ.Scalar.bool(),
+    project: PZ.Scalar.bool().or(ProjectOwnQueryOneSchema),
+    status: PZ.Scalar.bool().or(StatusOwnQueryOneSchema),
   })
   .partial();
 
 export const ProjectTaskStatusSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectTaskStatusSelectFieldsSchema
+);
+
+export const ProjectTaskStatusOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    statusId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'projectId', 'statusId'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const ProjectTaskStatusOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  ProjectTaskStatusOmitFieldsSchema
 );
 
 export const ProjectTaskStatusIncludeSchema = z
   .object({
-    project: z.boolean().or(ProjectOwnQueryOneSchema),
-    status: z.boolean().or(StatusOwnQueryOneSchema),
+    project: PZ.Scalar.bool().or(ProjectOwnQueryOneSchema),
+    status: PZ.Scalar.bool().or(StatusOwnQueryOneSchema),
   })
   .partial();
 
 export const ProjectTaskStatusIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectTaskStatusIncludeSchema
 );
 
 export const ProjectTaskStatusProjectionSchema = z.union([
-  z.object({ omit: ProjectTaskStatusSelectFieldsSchemaJson }),
+  z.object({ omit: ProjectTaskStatusOmitFieldsSchemaJson }),
   z.object({ select: ProjectTaskStatusSelectFieldsSchemaJson }),
   z.object({ include: ProjectTaskStatusIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const ProjectTaskPriorityCreateSchema = z.object({
-  projectId: z.coerce.number().int(),
-  priorityId: z.coerce.number().int(),
+export const ProjectTaskPriorityRawCreateSchema = z.object({
+  projectId: PZ.Scalar.id(),
+  priorityId: PZ.Scalar.id(),
 });
 
-export const ProjectTaskPriorityUpdateSchema = z.object({
-  projectId: z.coerce.number().int().optional(),
-  priorityId: z.coerce.number().int().optional(),
+export const ProjectTaskPriorityCreateSchema =
+  ProjectTaskPriorityRawCreateSchema.clone();
+
+export const ProjectTaskPriorityRawUpdateSchema = z.object({
+  projectId: PZ.Scalar.id().optional(),
+  priorityId: PZ.Scalar.id().optional(),
 });
+
+export const ProjectTaskPriorityUpdateSchema =
+  ProjectTaskPriorityRawUpdateSchema.clone();
 
 export const ProjectTaskPriorityOrderBySchema = z
   .object({
@@ -4129,10 +4868,14 @@ export const ProjectTaskPriorityOrderBySchema = z
     projectId: PZ.OrderDirectionSchema,
     priorityId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const ProjectTaskPriorityOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectTaskPriorityOrderBySchema
 );
 
@@ -4147,39 +4890,57 @@ export const ProjectTaskPriorityWhereSchema = z
   .partial();
 
 export const ProjectTaskPriorityWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectTaskPriorityWhereSchema
 );
 
 export const ProjectTaskPrioritySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    projectId: z.boolean(),
-    priorityId: z.boolean(),
-    project: z.boolean().or(ProjectOwnQueryOneSchema),
-    priority: z.boolean().or(PriorityOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    priorityId: PZ.Scalar.bool(),
+    project: PZ.Scalar.bool().or(ProjectOwnQueryOneSchema),
+    priority: PZ.Scalar.bool().or(PriorityOwnQueryOneSchema),
   })
   .partial();
 
 export const ProjectTaskPrioritySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectTaskPrioritySelectFieldsSchema
+);
+
+export const ProjectTaskPriorityOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    projectId: PZ.Scalar.bool(),
+    priorityId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'projectId', 'priorityId'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const ProjectTaskPriorityOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  ProjectTaskPriorityOmitFieldsSchema
 );
 
 export const ProjectTaskPriorityIncludeSchema = z
   .object({
-    project: z.boolean().or(ProjectOwnQueryOneSchema),
-    priority: z.boolean().or(PriorityOwnQueryOneSchema),
+    project: PZ.Scalar.bool().or(ProjectOwnQueryOneSchema),
+    priority: PZ.Scalar.bool().or(PriorityOwnQueryOneSchema),
   })
   .partial();
 
 export const ProjectTaskPriorityIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProjectTaskPriorityIncludeSchema
 );
 
 export const ProjectTaskPriorityProjectionSchema = z.union([
-  z.object({ omit: ProjectTaskPrioritySelectFieldsSchemaJson }),
+  z.object({ omit: ProjectTaskPriorityOmitFieldsSchemaJson }),
   z.object({ select: ProjectTaskPrioritySelectFieldsSchemaJson }),
   z.object({ include: ProjectTaskPriorityIncludeSchemaJson }),
   z.object({}),
@@ -4201,9 +4962,9 @@ export const UserQuerySchema = z
   })
   .partial();
 
-export type UserCreate = z.infer<typeof UserCreateSchema>;
+export type UserCreate = z.infer<typeof UserRawCreateSchema>;
 
-export type UserUpdate = z.infer<typeof UserUpdateSchema>;
+export type UserUpdate = z.infer<typeof UserRawUpdateSchema>;
 
 export type UserOrderBy = z.infer<typeof UserOrderBySchema>;
 
@@ -4222,6 +4983,8 @@ export type UserInclude = z.infer<typeof UserIncludeSchema>;
 export type UserQueryOne = z.infer<typeof UserQueryOneSchema>;
 
 export type UserQuery = z.infer<typeof UserQuerySchema>;
+
+export type UserOmitFields = z.infer<typeof UserOmitFieldsSchema>;
 
 export type UserSelectFields = z.infer<typeof UserSelectFieldsSchema>;
 
@@ -4243,9 +5006,9 @@ export const TeamQuerySchema = z
   })
   .partial();
 
-export type TeamCreate = z.infer<typeof TeamCreateSchema>;
+export type TeamCreate = z.infer<typeof TeamRawCreateSchema>;
 
-export type TeamUpdate = z.infer<typeof TeamUpdateSchema>;
+export type TeamUpdate = z.infer<typeof TeamRawUpdateSchema>;
 
 export type TeamOrderBy = z.infer<typeof TeamOrderBySchema>;
 
@@ -4264,6 +5027,8 @@ export type TeamInclude = z.infer<typeof TeamIncludeSchema>;
 export type TeamQueryOne = z.infer<typeof TeamQueryOneSchema>;
 
 export type TeamQuery = z.infer<typeof TeamQuerySchema>;
+
+export type TeamOmitFields = z.infer<typeof TeamOmitFieldsSchema>;
 
 export type TeamSelectFields = z.infer<typeof TeamSelectFieldsSchema>;
 
@@ -4285,9 +5050,9 @@ export const TeamManagerQuerySchema = z
   })
   .partial();
 
-export type TeamManagerCreate = z.infer<typeof TeamManagerCreateSchema>;
+export type TeamManagerCreate = z.infer<typeof TeamManagerRawCreateSchema>;
 
-export type TeamManagerUpdate = z.infer<typeof TeamManagerUpdateSchema>;
+export type TeamManagerUpdate = z.infer<typeof TeamManagerRawUpdateSchema>;
 
 export type TeamManagerOrderBy = z.infer<typeof TeamManagerOrderBySchema>;
 
@@ -4311,6 +5076,8 @@ export type TeamManagerQueryOne = z.infer<typeof TeamManagerQueryOneSchema>;
 
 export type TeamManagerQuery = z.infer<typeof TeamManagerQuerySchema>;
 
+export type TeamManagerOmitFields = z.infer<typeof TeamManagerOmitFieldsSchema>;
+
 export type TeamManagerSelectFields = z.infer<
   typeof TeamManagerSelectFieldsSchema
 >;
@@ -4333,9 +5100,9 @@ export const TeamMemberQuerySchema = z
   })
   .partial();
 
-export type TeamMemberCreate = z.infer<typeof TeamMemberCreateSchema>;
+export type TeamMemberCreate = z.infer<typeof TeamMemberRawCreateSchema>;
 
-export type TeamMemberUpdate = z.infer<typeof TeamMemberUpdateSchema>;
+export type TeamMemberUpdate = z.infer<typeof TeamMemberRawUpdateSchema>;
 
 export type TeamMemberOrderBy = z.infer<typeof TeamMemberOrderBySchema>;
 
@@ -4356,6 +5123,8 @@ export type TeamMemberInclude = z.infer<typeof TeamMemberIncludeSchema>;
 export type TeamMemberQueryOne = z.infer<typeof TeamMemberQueryOneSchema>;
 
 export type TeamMemberQuery = z.infer<typeof TeamMemberQuerySchema>;
+
+export type TeamMemberOmitFields = z.infer<typeof TeamMemberOmitFieldsSchema>;
 
 export type TeamMemberSelectFields = z.infer<
   typeof TeamMemberSelectFieldsSchema
@@ -4379,9 +5148,9 @@ export const ProjectQuerySchema = z
   })
   .partial();
 
-export type ProjectCreate = z.infer<typeof ProjectCreateSchema>;
+export type ProjectCreate = z.infer<typeof ProjectRawCreateSchema>;
 
-export type ProjectUpdate = z.infer<typeof ProjectUpdateSchema>;
+export type ProjectUpdate = z.infer<typeof ProjectRawUpdateSchema>;
 
 export type ProjectOrderBy = z.infer<typeof ProjectOrderBySchema>;
 
@@ -4403,6 +5172,8 @@ export type ProjectQueryOne = z.infer<typeof ProjectQueryOneSchema>;
 
 export type ProjectQuery = z.infer<typeof ProjectQuerySchema>;
 
+export type ProjectOmitFields = z.infer<typeof ProjectOmitFieldsSchema>;
+
 export type ProjectSelectFields = z.infer<typeof ProjectSelectFieldsSchema>;
 
 export type ProjectProjection = z.infer<typeof ProjectProjectionSchema>;
@@ -4423,9 +5194,9 @@ export const TagQuerySchema = z
   })
   .partial();
 
-export type TagCreate = z.infer<typeof TagCreateSchema>;
+export type TagCreate = z.infer<typeof TagRawCreateSchema>;
 
-export type TagUpdate = z.infer<typeof TagUpdateSchema>;
+export type TagUpdate = z.infer<typeof TagRawUpdateSchema>;
 
 export type TagOrderBy = z.infer<typeof TagOrderBySchema>;
 
@@ -4444,6 +5215,8 @@ export type TagInclude = z.infer<typeof TagIncludeSchema>;
 export type TagQueryOne = z.infer<typeof TagQueryOneSchema>;
 
 export type TagQuery = z.infer<typeof TagQuerySchema>;
+
+export type TagOmitFields = z.infer<typeof TagOmitFieldsSchema>;
 
 export type TagSelectFields = z.infer<typeof TagSelectFieldsSchema>;
 
@@ -4465,9 +5238,9 @@ export const CategoryQuerySchema = z
   })
   .partial();
 
-export type CategoryCreate = z.infer<typeof CategoryCreateSchema>;
+export type CategoryCreate = z.infer<typeof CategoryRawCreateSchema>;
 
-export type CategoryUpdate = z.infer<typeof CategoryUpdateSchema>;
+export type CategoryUpdate = z.infer<typeof CategoryRawUpdateSchema>;
 
 export type CategoryOrderBy = z.infer<typeof CategoryOrderBySchema>;
 
@@ -4489,6 +5262,8 @@ export type CategoryQueryOne = z.infer<typeof CategoryQueryOneSchema>;
 
 export type CategoryQuery = z.infer<typeof CategoryQuerySchema>;
 
+export type CategoryOmitFields = z.infer<typeof CategoryOmitFieldsSchema>;
+
 export type CategorySelectFields = z.infer<typeof CategorySelectFieldsSchema>;
 
 export type CategoryProjection = z.infer<typeof CategoryProjectionSchema>;
@@ -4509,9 +5284,9 @@ export const SprintQuerySchema = z
   })
   .partial();
 
-export type SprintCreate = z.infer<typeof SprintCreateSchema>;
+export type SprintCreate = z.infer<typeof SprintRawCreateSchema>;
 
-export type SprintUpdate = z.infer<typeof SprintUpdateSchema>;
+export type SprintUpdate = z.infer<typeof SprintRawUpdateSchema>;
 
 export type SprintOrderBy = z.infer<typeof SprintOrderBySchema>;
 
@@ -4530,6 +5305,8 @@ export type SprintInclude = z.infer<typeof SprintIncludeSchema>;
 export type SprintQueryOne = z.infer<typeof SprintQueryOneSchema>;
 
 export type SprintQuery = z.infer<typeof SprintQuerySchema>;
+
+export type SprintOmitFields = z.infer<typeof SprintOmitFieldsSchema>;
 
 export type SprintSelectFields = z.infer<typeof SprintSelectFieldsSchema>;
 
@@ -4551,9 +5328,9 @@ export const PriorityQuerySchema = z
   })
   .partial();
 
-export type PriorityCreate = z.infer<typeof PriorityCreateSchema>;
+export type PriorityCreate = z.infer<typeof PriorityRawCreateSchema>;
 
-export type PriorityUpdate = z.infer<typeof PriorityUpdateSchema>;
+export type PriorityUpdate = z.infer<typeof PriorityRawUpdateSchema>;
 
 export type PriorityOrderBy = z.infer<typeof PriorityOrderBySchema>;
 
@@ -4575,6 +5352,8 @@ export type PriorityQueryOne = z.infer<typeof PriorityQueryOneSchema>;
 
 export type PriorityQuery = z.infer<typeof PriorityQuerySchema>;
 
+export type PriorityOmitFields = z.infer<typeof PriorityOmitFieldsSchema>;
+
 export type PrioritySelectFields = z.infer<typeof PrioritySelectFieldsSchema>;
 
 export type PriorityProjection = z.infer<typeof PriorityProjectionSchema>;
@@ -4595,9 +5374,9 @@ export const StatusQuerySchema = z
   })
   .partial();
 
-export type StatusCreate = z.infer<typeof StatusCreateSchema>;
+export type StatusCreate = z.infer<typeof StatusRawCreateSchema>;
 
-export type StatusUpdate = z.infer<typeof StatusUpdateSchema>;
+export type StatusUpdate = z.infer<typeof StatusRawUpdateSchema>;
 
 export type StatusOrderBy = z.infer<typeof StatusOrderBySchema>;
 
@@ -4616,6 +5395,8 @@ export type StatusInclude = z.infer<typeof StatusIncludeSchema>;
 export type StatusQueryOne = z.infer<typeof StatusQueryOneSchema>;
 
 export type StatusQuery = z.infer<typeof StatusQuerySchema>;
+
+export type StatusOmitFields = z.infer<typeof StatusOmitFieldsSchema>;
 
 export type StatusSelectFields = z.infer<typeof StatusSelectFieldsSchema>;
 
@@ -4637,9 +5418,9 @@ export const PointQuerySchema = z
   })
   .partial();
 
-export type PointCreate = z.infer<typeof PointCreateSchema>;
+export type PointCreate = z.infer<typeof PointRawCreateSchema>;
 
-export type PointUpdate = z.infer<typeof PointUpdateSchema>;
+export type PointUpdate = z.infer<typeof PointRawUpdateSchema>;
 
 export type PointOrderBy = z.infer<typeof PointOrderBySchema>;
 
@@ -4658,6 +5439,8 @@ export type PointInclude = z.infer<typeof PointIncludeSchema>;
 export type PointQueryOne = z.infer<typeof PointQueryOneSchema>;
 
 export type PointQuery = z.infer<typeof PointQuerySchema>;
+
+export type PointOmitFields = z.infer<typeof PointOmitFieldsSchema>;
 
 export type PointSelectFields = z.infer<typeof PointSelectFieldsSchema>;
 
@@ -4679,9 +5462,9 @@ export const TaskQuerySchema = z
   })
   .partial();
 
-export type TaskCreate = z.infer<typeof TaskCreateSchema>;
+export type TaskCreate = z.infer<typeof TaskRawCreateSchema>;
 
-export type TaskUpdate = z.infer<typeof TaskUpdateSchema>;
+export type TaskUpdate = z.infer<typeof TaskRawUpdateSchema>;
 
 export type TaskOrderBy = z.infer<typeof TaskOrderBySchema>;
 
@@ -4700,6 +5483,8 @@ export type TaskInclude = z.infer<typeof TaskIncludeSchema>;
 export type TaskQueryOne = z.infer<typeof TaskQueryOneSchema>;
 
 export type TaskQuery = z.infer<typeof TaskQuerySchema>;
+
+export type TaskOmitFields = z.infer<typeof TaskOmitFieldsSchema>;
 
 export type TaskSelectFields = z.infer<typeof TaskSelectFieldsSchema>;
 
@@ -4722,11 +5507,11 @@ export const AssignmentHistoryQuerySchema = z
   .partial();
 
 export type AssignmentHistoryCreate = z.infer<
-  typeof AssignmentHistoryCreateSchema
+  typeof AssignmentHistoryRawCreateSchema
 >;
 
 export type AssignmentHistoryUpdate = z.infer<
-  typeof AssignmentHistoryUpdateSchema
+  typeof AssignmentHistoryRawUpdateSchema
 >;
 
 export type AssignmentHistoryOrderBy = z.infer<
@@ -4765,6 +5550,10 @@ export type AssignmentHistoryQuery = z.infer<
   typeof AssignmentHistoryQuerySchema
 >;
 
+export type AssignmentHistoryOmitFields = z.infer<
+  typeof AssignmentHistoryOmitFieldsSchema
+>;
+
 export type AssignmentHistorySelectFields = z.infer<
   typeof AssignmentHistorySelectFieldsSchema
 >;
@@ -4789,9 +5578,13 @@ export const PriorityHistoryQuerySchema = z
   })
   .partial();
 
-export type PriorityHistoryCreate = z.infer<typeof PriorityHistoryCreateSchema>;
+export type PriorityHistoryCreate = z.infer<
+  typeof PriorityHistoryRawCreateSchema
+>;
 
-export type PriorityHistoryUpdate = z.infer<typeof PriorityHistoryUpdateSchema>;
+export type PriorityHistoryUpdate = z.infer<
+  typeof PriorityHistoryRawUpdateSchema
+>;
 
 export type PriorityHistoryOrderBy = z.infer<
   typeof PriorityHistoryOrderBySchema
@@ -4825,6 +5618,10 @@ export type PriorityHistoryQueryOne = z.infer<
 
 export type PriorityHistoryQuery = z.infer<typeof PriorityHistoryQuerySchema>;
 
+export type PriorityHistoryOmitFields = z.infer<
+  typeof PriorityHistoryOmitFieldsSchema
+>;
+
 export type PriorityHistorySelectFields = z.infer<
   typeof PriorityHistorySelectFieldsSchema
 >;
@@ -4849,9 +5646,9 @@ export const StatusHistoryQuerySchema = z
   })
   .partial();
 
-export type StatusHistoryCreate = z.infer<typeof StatusHistoryCreateSchema>;
+export type StatusHistoryCreate = z.infer<typeof StatusHistoryRawCreateSchema>;
 
-export type StatusHistoryUpdate = z.infer<typeof StatusHistoryUpdateSchema>;
+export type StatusHistoryUpdate = z.infer<typeof StatusHistoryRawUpdateSchema>;
 
 export type StatusHistoryOrderBy = z.infer<typeof StatusHistoryOrderBySchema>;
 
@@ -4874,6 +5671,10 @@ export type StatusHistoryInclude = z.infer<typeof StatusHistoryIncludeSchema>;
 export type StatusHistoryQueryOne = z.infer<typeof StatusHistoryQueryOneSchema>;
 
 export type StatusHistoryQuery = z.infer<typeof StatusHistoryQuerySchema>;
+
+export type StatusHistoryOmitFields = z.infer<
+  typeof StatusHistoryOmitFieldsSchema
+>;
 
 export type StatusHistorySelectFields = z.infer<
   typeof StatusHistorySelectFieldsSchema
@@ -4899,9 +5700,9 @@ export const PointHistoryQuerySchema = z
   })
   .partial();
 
-export type PointHistoryCreate = z.infer<typeof PointHistoryCreateSchema>;
+export type PointHistoryCreate = z.infer<typeof PointHistoryRawCreateSchema>;
 
-export type PointHistoryUpdate = z.infer<typeof PointHistoryUpdateSchema>;
+export type PointHistoryUpdate = z.infer<typeof PointHistoryRawUpdateSchema>;
 
 export type PointHistoryOrderBy = z.infer<typeof PointHistoryOrderBySchema>;
 
@@ -4924,6 +5725,10 @@ export type PointHistoryInclude = z.infer<typeof PointHistoryIncludeSchema>;
 export type PointHistoryQueryOne = z.infer<typeof PointHistoryQueryOneSchema>;
 
 export type PointHistoryQuery = z.infer<typeof PointHistoryQuerySchema>;
+
+export type PointHistoryOmitFields = z.infer<
+  typeof PointHistoryOmitFieldsSchema
+>;
 
 export type PointHistorySelectFields = z.infer<
   typeof PointHistorySelectFieldsSchema
@@ -4949,9 +5754,9 @@ export const TeamHistoryQuerySchema = z
   })
   .partial();
 
-export type TeamHistoryCreate = z.infer<typeof TeamHistoryCreateSchema>;
+export type TeamHistoryCreate = z.infer<typeof TeamHistoryRawCreateSchema>;
 
-export type TeamHistoryUpdate = z.infer<typeof TeamHistoryUpdateSchema>;
+export type TeamHistoryUpdate = z.infer<typeof TeamHistoryRawUpdateSchema>;
 
 export type TeamHistoryOrderBy = z.infer<typeof TeamHistoryOrderBySchema>;
 
@@ -4975,6 +5780,8 @@ export type TeamHistoryQueryOne = z.infer<typeof TeamHistoryQueryOneSchema>;
 
 export type TeamHistoryQuery = z.infer<typeof TeamHistoryQuerySchema>;
 
+export type TeamHistoryOmitFields = z.infer<typeof TeamHistoryOmitFieldsSchema>;
+
 export type TeamHistorySelectFields = z.infer<
   typeof TeamHistorySelectFieldsSchema
 >;
@@ -4997,9 +5804,9 @@ export const TaskTagQuerySchema = z
   })
   .partial();
 
-export type TaskTagCreate = z.infer<typeof TaskTagCreateSchema>;
+export type TaskTagCreate = z.infer<typeof TaskTagRawCreateSchema>;
 
-export type TaskTagUpdate = z.infer<typeof TaskTagUpdateSchema>;
+export type TaskTagUpdate = z.infer<typeof TaskTagRawUpdateSchema>;
 
 export type TaskTagOrderBy = z.infer<typeof TaskTagOrderBySchema>;
 
@@ -5021,6 +5828,8 @@ export type TaskTagQueryOne = z.infer<typeof TaskTagQueryOneSchema>;
 
 export type TaskTagQuery = z.infer<typeof TaskTagQuerySchema>;
 
+export type TaskTagOmitFields = z.infer<typeof TaskTagOmitFieldsSchema>;
+
 export type TaskTagSelectFields = z.infer<typeof TaskTagSelectFieldsSchema>;
 
 export type TaskTagProjection = z.infer<typeof TaskTagProjectionSchema>;
@@ -5041,9 +5850,9 @@ export const TaskCategoryQuerySchema = z
   })
   .partial();
 
-export type TaskCategoryCreate = z.infer<typeof TaskCategoryCreateSchema>;
+export type TaskCategoryCreate = z.infer<typeof TaskCategoryRawCreateSchema>;
 
-export type TaskCategoryUpdate = z.infer<typeof TaskCategoryUpdateSchema>;
+export type TaskCategoryUpdate = z.infer<typeof TaskCategoryRawUpdateSchema>;
 
 export type TaskCategoryOrderBy = z.infer<typeof TaskCategoryOrderBySchema>;
 
@@ -5066,6 +5875,10 @@ export type TaskCategoryInclude = z.infer<typeof TaskCategoryIncludeSchema>;
 export type TaskCategoryQueryOne = z.infer<typeof TaskCategoryQueryOneSchema>;
 
 export type TaskCategoryQuery = z.infer<typeof TaskCategoryQuerySchema>;
+
+export type TaskCategoryOmitFields = z.infer<
+  typeof TaskCategoryOmitFieldsSchema
+>;
 
 export type TaskCategorySelectFields = z.infer<
   typeof TaskCategorySelectFieldsSchema
@@ -5091,9 +5904,9 @@ export const AssignmentQuerySchema = z
   })
   .partial();
 
-export type AssignmentCreate = z.infer<typeof AssignmentCreateSchema>;
+export type AssignmentCreate = z.infer<typeof AssignmentRawCreateSchema>;
 
-export type AssignmentUpdate = z.infer<typeof AssignmentUpdateSchema>;
+export type AssignmentUpdate = z.infer<typeof AssignmentRawUpdateSchema>;
 
 export type AssignmentOrderBy = z.infer<typeof AssignmentOrderBySchema>;
 
@@ -5114,6 +5927,8 @@ export type AssignmentInclude = z.infer<typeof AssignmentIncludeSchema>;
 export type AssignmentQueryOne = z.infer<typeof AssignmentQueryOneSchema>;
 
 export type AssignmentQuery = z.infer<typeof AssignmentQuerySchema>;
+
+export type AssignmentOmitFields = z.infer<typeof AssignmentOmitFieldsSchema>;
 
 export type AssignmentSelectFields = z.infer<
   typeof AssignmentSelectFieldsSchema
@@ -5137,9 +5952,9 @@ export const CommentQuerySchema = z
   })
   .partial();
 
-export type CommentCreate = z.infer<typeof CommentCreateSchema>;
+export type CommentCreate = z.infer<typeof CommentRawCreateSchema>;
 
-export type CommentUpdate = z.infer<typeof CommentUpdateSchema>;
+export type CommentUpdate = z.infer<typeof CommentRawUpdateSchema>;
 
 export type CommentOrderBy = z.infer<typeof CommentOrderBySchema>;
 
@@ -5161,6 +5976,8 @@ export type CommentQueryOne = z.infer<typeof CommentQueryOneSchema>;
 
 export type CommentQuery = z.infer<typeof CommentQuerySchema>;
 
+export type CommentOmitFields = z.infer<typeof CommentOmitFieldsSchema>;
+
 export type CommentSelectFields = z.infer<typeof CommentSelectFieldsSchema>;
 
 export type CommentProjection = z.infer<typeof CommentProjectionSchema>;
@@ -5181,9 +5998,13 @@ export const ProjectTaskTagQuerySchema = z
   })
   .partial();
 
-export type ProjectTaskTagCreate = z.infer<typeof ProjectTaskTagCreateSchema>;
+export type ProjectTaskTagCreate = z.infer<
+  typeof ProjectTaskTagRawCreateSchema
+>;
 
-export type ProjectTaskTagUpdate = z.infer<typeof ProjectTaskTagUpdateSchema>;
+export type ProjectTaskTagUpdate = z.infer<
+  typeof ProjectTaskTagRawUpdateSchema
+>;
 
 export type ProjectTaskTagOrderBy = z.infer<typeof ProjectTaskTagOrderBySchema>;
 
@@ -5213,6 +6034,10 @@ export type ProjectTaskTagQueryOne = z.infer<
 
 export type ProjectTaskTagQuery = z.infer<typeof ProjectTaskTagQuerySchema>;
 
+export type ProjectTaskTagOmitFields = z.infer<
+  typeof ProjectTaskTagOmitFieldsSchema
+>;
+
 export type ProjectTaskTagSelectFields = z.infer<
   typeof ProjectTaskTagSelectFieldsSchema
 >;
@@ -5238,11 +6063,11 @@ export const ProjectTaskStatusQuerySchema = z
   .partial();
 
 export type ProjectTaskStatusCreate = z.infer<
-  typeof ProjectTaskStatusCreateSchema
+  typeof ProjectTaskStatusRawCreateSchema
 >;
 
 export type ProjectTaskStatusUpdate = z.infer<
-  typeof ProjectTaskStatusUpdateSchema
+  typeof ProjectTaskStatusRawUpdateSchema
 >;
 
 export type ProjectTaskStatusOrderBy = z.infer<
@@ -5281,6 +6106,10 @@ export type ProjectTaskStatusQuery = z.infer<
   typeof ProjectTaskStatusQuerySchema
 >;
 
+export type ProjectTaskStatusOmitFields = z.infer<
+  typeof ProjectTaskStatusOmitFieldsSchema
+>;
+
 export type ProjectTaskStatusSelectFields = z.infer<
   typeof ProjectTaskStatusSelectFieldsSchema
 >;
@@ -5306,11 +6135,11 @@ export const ProjectTaskPriorityQuerySchema = z
   .partial();
 
 export type ProjectTaskPriorityCreate = z.infer<
-  typeof ProjectTaskPriorityCreateSchema
+  typeof ProjectTaskPriorityRawCreateSchema
 >;
 
 export type ProjectTaskPriorityUpdate = z.infer<
-  typeof ProjectTaskPriorityUpdateSchema
+  typeof ProjectTaskPriorityRawUpdateSchema
 >;
 
 export type ProjectTaskPriorityOrderBy = z.infer<
@@ -5347,6 +6176,10 @@ export type ProjectTaskPriorityQueryOne = z.infer<
 
 export type ProjectTaskPriorityQuery = z.infer<
   typeof ProjectTaskPriorityQuerySchema
+>;
+
+export type ProjectTaskPriorityOmitFields = z.infer<
+  typeof ProjectTaskPriorityOmitFieldsSchema
 >;
 
 export type ProjectTaskPrioritySelectFields = z.infer<

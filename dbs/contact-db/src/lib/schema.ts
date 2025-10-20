@@ -1,43 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as PZ from '@puq/zod';
 import { z } from 'zod';
-import { slugify } from '@puq/names';
 
-export const takeSchema = z.coerce.number().int().min(1).default(20).optional();
-export const skipSchema = z.coerce.number().int().min(0).default(0).optional();
 export const PaginationSchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
+    take: PZ.Scalar.take(),
+    skip: PZ.Scalar.skip(),
   })
   .partial();
-
-export const nameSchema = z.string().min(2).max(30);
-export const descriptionSchema = z.string().max(1000);
-export const currencySchema = z.coerce.number().positive();
-export const positiveIntegerSchema = z.coerce.number().int().positive();
-export const emailSchema = z.email();
-export const dateSchema = z.iso.datetime();
-export const slugSchema = z.string().regex(/^[a-z-]{2,}$/);
-
-export function jsonParser<T>(value: T) {
-  if (typeof value === 'string') {
-    return JSON.parse(value);
-  }
-  return value;
-}
-
-export function slugTransformer(key: string) {
-  return (value: any) => {
-    if (value.slug == undefined && value[key] != undefined) {
-      return {
-        ...value,
-        slug: value[key] ? slugify(value[key].toString()) : null,
-      };
-    }
-    return value;
-  };
-}
 
 export const ContactTypeSchema = z.enum(['WORK', 'HOME', 'EMERGENCY']);
 
@@ -45,16 +15,16 @@ export const GenderSchema = z.enum(['MALE', 'FEMALE']);
 
 export const IndustryOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    description: z.boolean(),
-    companies: z.boolean(),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    companies: PZ.Scalar.bool(),
   })
   .partial();
 
 export const IndustryOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   IndustryOwnSelectFieldsSchema
 );
 
@@ -64,17 +34,17 @@ export const IndustryDistinctFieldsSchema = z
 
 export const CompanyOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    uuid: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    agents: z.boolean(),
-    industries: z.boolean(),
+    id: PZ.Scalar.bool(),
+    uuid: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    agents: PZ.Scalar.bool(),
+    industries: PZ.Scalar.bool(),
   })
   .partial();
 
 export const CompanyOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CompanyOwnSelectFieldsSchema
 );
 
@@ -84,16 +54,16 @@ export const CompanyDistinctFieldsSchema = z
 
 export const CompanyIndustryOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    companyId: z.boolean(),
-    industryId: z.boolean(),
-    industry: z.boolean(),
-    company: z.boolean(),
+    id: PZ.Scalar.bool(),
+    companyId: PZ.Scalar.bool(),
+    industryId: PZ.Scalar.bool(),
+    industry: PZ.Scalar.bool(),
+    company: PZ.Scalar.bool(),
   })
   .partial();
 
 export const CompanyIndustryOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CompanyIndustryOwnSelectFieldsSchema
 );
 
@@ -103,18 +73,18 @@ export const CompanyIndustryDistinctFieldsSchema = z
 
 export const DepartmentOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    parentId: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    parent: z.boolean(),
-    children: z.boolean(),
-    titles: z.boolean(),
+    id: PZ.Scalar.bool(),
+    parentId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    parent: PZ.Scalar.bool(),
+    children: PZ.Scalar.bool(),
+    titles: PZ.Scalar.bool(),
   })
   .partial();
 
 export const DepartmentOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DepartmentOwnSelectFieldsSchema
 );
 
@@ -124,18 +94,18 @@ export const DepartmentDistinctFieldsSchema = z
 
 export const TitleOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    departmentId: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    description: z.boolean(),
-    agents: z.boolean(),
-    department: z.boolean(),
+    id: PZ.Scalar.bool(),
+    departmentId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    agents: PZ.Scalar.bool(),
+    department: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TitleOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TitleOwnSelectFieldsSchema
 );
 
@@ -145,24 +115,24 @@ export const TitleDistinctFieldsSchema = z
 
 export const AgentOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    companyId: z.boolean(),
-    titleId: z.boolean(),
-    firstName: z.boolean(),
-    middleName: z.boolean(),
-    lastName: z.boolean(),
-    preferedName: z.boolean(),
-    gender: z.boolean(),
-    slug: z.boolean(),
-    note: z.boolean(),
-    company: z.boolean(),
-    contacts: z.boolean(),
-    title: z.boolean(),
+    id: PZ.Scalar.bool(),
+    companyId: PZ.Scalar.bool(),
+    titleId: PZ.Scalar.bool(),
+    firstName: PZ.Scalar.bool(),
+    middleName: PZ.Scalar.bool(),
+    lastName: PZ.Scalar.bool(),
+    preferedName: PZ.Scalar.bool(),
+    gender: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    note: PZ.Scalar.bool(),
+    company: PZ.Scalar.bool(),
+    contacts: PZ.Scalar.bool(),
+    title: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AgentOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AgentOwnSelectFieldsSchema
 );
 
@@ -183,21 +153,21 @@ export const AgentDistinctFieldsSchema = z
 
 export const ContactOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    uuid: z.boolean(),
-    agentId: z.boolean(),
-    type: z.boolean(),
-    order: z.boolean(),
-    emails: z.boolean(),
-    phones: z.boolean(),
-    addresses: z.boolean(),
-    websites: z.boolean(),
-    agent: z.boolean(),
+    id: PZ.Scalar.bool(),
+    uuid: PZ.Scalar.bool(),
+    agentId: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    order: PZ.Scalar.bool(),
+    emails: PZ.Scalar.bool(),
+    phones: PZ.Scalar.bool(),
+    addresses: PZ.Scalar.bool(),
+    websites: PZ.Scalar.bool(),
+    agent: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ContactOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ContactOwnSelectFieldsSchema
 );
 
@@ -207,17 +177,17 @@ export const ContactDistinctFieldsSchema = z
 
 export const StateOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    countryId: z.boolean(),
-    state: z.boolean(),
-    code: z.boolean(),
-    country: z.boolean(),
-    cities: z.boolean(),
+    id: PZ.Scalar.bool(),
+    countryId: PZ.Scalar.bool(),
+    state: PZ.Scalar.bool(),
+    code: PZ.Scalar.bool(),
+    country: PZ.Scalar.bool(),
+    cities: PZ.Scalar.bool(),
   })
   .partial();
 
 export const StateOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StateOwnSelectFieldsSchema
 );
 
@@ -227,15 +197,15 @@ export const StateDistinctFieldsSchema = z
 
 export const CountryOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    code: z.boolean(),
-    states: z.boolean(),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    code: PZ.Scalar.bool(),
+    states: PZ.Scalar.bool(),
   })
   .partial();
 
 export const CountryOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CountryOwnSelectFieldsSchema
 );
 
@@ -245,16 +215,16 @@ export const CountryDistinctFieldsSchema = z
 
 export const CityOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    stateId: z.boolean(),
-    name: z.boolean(),
-    state: z.boolean(),
-    addresses: z.boolean(),
+    id: PZ.Scalar.bool(),
+    stateId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    state: PZ.Scalar.bool(),
+    addresses: PZ.Scalar.bool(),
   })
   .partial();
 
 export const CityOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CityOwnSelectFieldsSchema
 );
 
@@ -264,19 +234,19 @@ export const CityDistinctFieldsSchema = z
 
 export const AddressOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    contactId: z.boolean(),
-    cityId: z.boolean(),
-    street: z.boolean(),
-    zip: z.boolean(),
-    order: z.boolean(),
-    city: z.boolean(),
-    contact: z.boolean(),
+    id: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    cityId: PZ.Scalar.bool(),
+    street: PZ.Scalar.bool(),
+    zip: PZ.Scalar.bool(),
+    order: PZ.Scalar.bool(),
+    city: PZ.Scalar.bool(),
+    contact: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AddressOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AddressOwnSelectFieldsSchema
 );
 
@@ -286,16 +256,16 @@ export const AddressDistinctFieldsSchema = z
 
 export const EmailOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    contactId: z.boolean(),
-    email: z.boolean(),
-    order: z.boolean(),
-    contact: z.boolean(),
+    id: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    email: PZ.Scalar.bool(),
+    order: PZ.Scalar.bool(),
+    contact: PZ.Scalar.bool(),
   })
   .partial();
 
 export const EmailOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmailOwnSelectFieldsSchema
 );
 
@@ -305,16 +275,16 @@ export const EmailDistinctFieldsSchema = z
 
 export const PhoneOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    contactId: z.boolean(),
-    phone: z.boolean(),
-    order: z.boolean(),
-    contact: z.boolean(),
+    id: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    phone: PZ.Scalar.bool(),
+    order: PZ.Scalar.bool(),
+    contact: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PhoneOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PhoneOwnSelectFieldsSchema
 );
 
@@ -324,16 +294,16 @@ export const PhoneDistinctFieldsSchema = z
 
 export const WebsiteOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    contactId: z.boolean(),
-    url: z.boolean(),
-    order: z.boolean(),
-    contact: z.boolean(),
+    id: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    url: PZ.Scalar.bool(),
+    order: PZ.Scalar.bool(),
+    contact: PZ.Scalar.bool(),
   })
   .partial();
 
 export const WebsiteOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   WebsiteOwnSelectFieldsSchema
 );
 
@@ -351,7 +321,7 @@ export const IndustryOwnWhereSchema = z
   .partial();
 
 export const IndustryOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   IndustryOwnWhereSchema
 );
 
@@ -365,7 +335,7 @@ export const CompanyOwnWhereSchema = z
   .partial();
 
 export const CompanyOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CompanyOwnWhereSchema
 );
 
@@ -378,7 +348,7 @@ export const CompanyIndustryOwnWhereSchema = z
   .partial();
 
 export const CompanyIndustryOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CompanyIndustryOwnWhereSchema
 );
 
@@ -392,7 +362,7 @@ export const DepartmentOwnWhereSchema = z
   .partial();
 
 export const DepartmentOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DepartmentOwnWhereSchema
 );
 
@@ -407,7 +377,7 @@ export const TitleOwnWhereSchema = z
   .partial();
 
 export const TitleOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TitleOwnWhereSchema
 );
 
@@ -427,7 +397,7 @@ export const AgentOwnWhereSchema = z
   .partial();
 
 export const AgentOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AgentOwnWhereSchema
 );
 
@@ -442,7 +412,7 @@ export const ContactOwnWhereSchema = z
   .partial();
 
 export const ContactOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ContactOwnWhereSchema
 );
 
@@ -456,7 +426,7 @@ export const StateOwnWhereSchema = z
   .partial();
 
 export const StateOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StateOwnWhereSchema
 );
 
@@ -469,7 +439,7 @@ export const CountryOwnWhereSchema = z
   .partial();
 
 export const CountryOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CountryOwnWhereSchema
 );
 
@@ -482,7 +452,7 @@ export const CityOwnWhereSchema = z
   .partial();
 
 export const CityOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CityOwnWhereSchema
 );
 
@@ -498,7 +468,7 @@ export const AddressOwnWhereSchema = z
   .partial();
 
 export const AddressOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AddressOwnWhereSchema
 );
 
@@ -512,7 +482,7 @@ export const EmailOwnWhereSchema = z
   .partial();
 
 export const EmailOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmailOwnWhereSchema
 );
 
@@ -526,7 +496,7 @@ export const PhoneOwnWhereSchema = z
   .partial();
 
 export const PhoneOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PhoneOwnWhereSchema
 );
 
@@ -540,18 +510,18 @@ export const WebsiteOwnWhereSchema = z
   .partial();
 
 export const WebsiteOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   WebsiteOwnWhereSchema
 );
 
 export const IndustryOwnIncludeSchema = z
   .object({
-    companies: z.boolean(),
+    companies: PZ.Scalar.bool(),
   })
   .partial();
 
 export const IndustryOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   IndustryOwnIncludeSchema
 );
 
@@ -571,13 +541,13 @@ export const IndustryOwnQuerySchema = z
 
 export const CompanyOwnIncludeSchema = z
   .object({
-    agents: z.boolean(),
-    industries: z.boolean(),
+    agents: PZ.Scalar.bool(),
+    industries: PZ.Scalar.bool(),
   })
   .partial();
 
 export const CompanyOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CompanyOwnIncludeSchema
 );
 
@@ -597,13 +567,13 @@ export const CompanyOwnQuerySchema = z
 
 export const CompanyIndustryOwnIncludeSchema = z
   .object({
-    industry: z.boolean(),
-    company: z.boolean(),
+    industry: PZ.Scalar.bool(),
+    company: PZ.Scalar.bool(),
   })
   .partial();
 
 export const CompanyIndustryOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CompanyIndustryOwnIncludeSchema
 );
 
@@ -623,14 +593,14 @@ export const CompanyIndustryOwnQuerySchema = z
 
 export const DepartmentOwnIncludeSchema = z
   .object({
-    parent: z.boolean(),
-    children: z.boolean(),
-    titles: z.boolean(),
+    parent: PZ.Scalar.bool(),
+    children: PZ.Scalar.bool(),
+    titles: PZ.Scalar.bool(),
   })
   .partial();
 
 export const DepartmentOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DepartmentOwnIncludeSchema
 );
 
@@ -650,13 +620,13 @@ export const DepartmentOwnQuerySchema = z
 
 export const TitleOwnIncludeSchema = z
   .object({
-    agents: z.boolean(),
-    department: z.boolean(),
+    agents: PZ.Scalar.bool(),
+    department: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TitleOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TitleOwnIncludeSchema
 );
 
@@ -676,14 +646,14 @@ export const TitleOwnQuerySchema = z
 
 export const AgentOwnIncludeSchema = z
   .object({
-    company: z.boolean(),
-    contacts: z.boolean(),
-    title: z.boolean(),
+    company: PZ.Scalar.bool(),
+    contacts: PZ.Scalar.bool(),
+    title: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AgentOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AgentOwnIncludeSchema
 );
 
@@ -703,16 +673,16 @@ export const AgentOwnQuerySchema = z
 
 export const ContactOwnIncludeSchema = z
   .object({
-    emails: z.boolean(),
-    phones: z.boolean(),
-    addresses: z.boolean(),
-    websites: z.boolean(),
-    agent: z.boolean(),
+    emails: PZ.Scalar.bool(),
+    phones: PZ.Scalar.bool(),
+    addresses: PZ.Scalar.bool(),
+    websites: PZ.Scalar.bool(),
+    agent: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ContactOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ContactOwnIncludeSchema
 );
 
@@ -732,13 +702,13 @@ export const ContactOwnQuerySchema = z
 
 export const StateOwnIncludeSchema = z
   .object({
-    country: z.boolean(),
-    cities: z.boolean(),
+    country: PZ.Scalar.bool(),
+    cities: PZ.Scalar.bool(),
   })
   .partial();
 
 export const StateOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StateOwnIncludeSchema
 );
 
@@ -758,12 +728,12 @@ export const StateOwnQuerySchema = z
 
 export const CountryOwnIncludeSchema = z
   .object({
-    states: z.boolean(),
+    states: PZ.Scalar.bool(),
   })
   .partial();
 
 export const CountryOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CountryOwnIncludeSchema
 );
 
@@ -783,13 +753,13 @@ export const CountryOwnQuerySchema = z
 
 export const CityOwnIncludeSchema = z
   .object({
-    state: z.boolean(),
-    addresses: z.boolean(),
+    state: PZ.Scalar.bool(),
+    addresses: PZ.Scalar.bool(),
   })
   .partial();
 
 export const CityOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CityOwnIncludeSchema
 );
 
@@ -809,13 +779,13 @@ export const CityOwnQuerySchema = z
 
 export const AddressOwnIncludeSchema = z
   .object({
-    city: z.boolean(),
-    contact: z.boolean(),
+    city: PZ.Scalar.bool(),
+    contact: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AddressOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AddressOwnIncludeSchema
 );
 
@@ -835,12 +805,12 @@ export const AddressOwnQuerySchema = z
 
 export const EmailOwnIncludeSchema = z
   .object({
-    contact: z.boolean(),
+    contact: PZ.Scalar.bool(),
   })
   .partial();
 
 export const EmailOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmailOwnIncludeSchema
 );
 
@@ -860,12 +830,12 @@ export const EmailOwnQuerySchema = z
 
 export const PhoneOwnIncludeSchema = z
   .object({
-    contact: z.boolean(),
+    contact: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PhoneOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PhoneOwnIncludeSchema
 );
 
@@ -885,12 +855,12 @@ export const PhoneOwnQuerySchema = z
 
 export const WebsiteOwnIncludeSchema = z
   .object({
-    contact: z.boolean(),
+    contact: PZ.Scalar.bool(),
   })
   .partial();
 
 export const WebsiteOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   WebsiteOwnIncludeSchema
 );
 
@@ -908,21 +878,25 @@ export const WebsiteOwnQuerySchema = z
   })
   .partial();
 
-export const IndustryCreateSchema = z
-  .object({
-    name: nameSchema.clone(),
-    slug: slugSchema.clone().optional(),
-    description: descriptionSchema.clone().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const IndustryRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
+  slug: PZ.Scalar.slug().optional(),
+  description: PZ.Scalar.description().optional(),
+});
 
-export const IndustryUpdateSchema = z
-  .object({
-    name: nameSchema.clone().optional(),
-    slug: slugSchema.clone().optional().optional(),
-    description: descriptionSchema.clone().optional().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const IndustryCreateSchema = IndustryRawCreateSchema.clone().transform(
+  PZ.slugTransformer('name')
+);
+
+export const IndustryRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
+  slug: PZ.Scalar.slug().optional().optional(),
+  description: PZ.Scalar.description().optional().optional(),
+});
+
+export const IndustryUpdateSchema = IndustryRawUpdateSchema.clone().transform(
+  PZ.slugTransformer('name')
+);
 
 export const IndustryOrderBySchema = z
   .object({
@@ -931,10 +905,14 @@ export const IndustryOrderBySchema = z
     slug: PZ.OrderDirectionSchema,
     description: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const IndustryOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   IndustryOrderBySchema
 );
 
@@ -955,56 +933,81 @@ export const IndustryWhereSchema = z
   .partial();
 
 export const IndustryWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   IndustryWhereSchema
 );
 
 export const IndustrySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    description: z.boolean(),
-    companies: z.boolean().or(CompanyIndustryOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    companies: PZ.Scalar.bool().or(CompanyIndustryOwnQuerySchema),
   })
   .partial();
 
 export const IndustrySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   IndustrySelectFieldsSchema
+);
+
+export const IndustryOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'name', 'slug', 'description'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const IndustryOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  IndustryOmitFieldsSchema
 );
 
 export const IndustryIncludeSchema = z
   .object({
-    companies: z.boolean().or(CompanyIndustryOwnQuerySchema),
+    companies: PZ.Scalar.bool().or(CompanyIndustryOwnQuerySchema),
   })
   .partial();
 
 export const IndustryIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   IndustryIncludeSchema
 );
 
 export const IndustryProjectionSchema = z.union([
-  z.object({ omit: IndustrySelectFieldsSchemaJson }),
+  z.object({ omit: IndustryOmitFieldsSchemaJson }),
   z.object({ select: IndustrySelectFieldsSchemaJson }),
   z.object({ include: IndustryIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const CompanyCreateSchema = z
-  .object({
-    name: nameSchema.clone(),
-    slug: slugSchema.clone().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const CompanyRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
+  slug: PZ.Scalar.slug().optional(),
+});
 
-export const CompanyUpdateSchema = z
-  .object({
-    name: nameSchema.clone().optional(),
-    slug: slugSchema.clone().optional().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const CompanyCreateSchema = CompanyRawCreateSchema.clone().transform(
+  PZ.slugTransformer('name')
+);
+
+export const CompanyRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
+  slug: PZ.Scalar.slug().optional().optional(),
+});
+
+export const CompanyUpdateSchema = CompanyRawUpdateSchema.clone().transform(
+  PZ.slugTransformer('name')
+);
 
 export const CompanyOrderBySchema = z
   .object({
@@ -1013,10 +1016,14 @@ export const CompanyOrderBySchema = z
     name: PZ.OrderDirectionSchema,
     slug: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const CompanyOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CompanyOrderBySchema
 );
 
@@ -1044,54 +1051,79 @@ export const CompanyWhereSchema = z
   .partial();
 
 export const CompanyWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CompanyWhereSchema
 );
 
 export const CompanySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    uuid: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    agents: z.boolean().or(AgentOwnQuerySchema),
-    industries: z.boolean().or(CompanyIndustryOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    uuid: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    agents: PZ.Scalar.bool().or(AgentOwnQuerySchema),
+    industries: PZ.Scalar.bool().or(CompanyIndustryOwnQuerySchema),
   })
   .partial();
 
 export const CompanySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CompanySelectFieldsSchema
+);
+
+export const CompanyOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    uuid: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'uuid', 'name', 'slug'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const CompanyOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  CompanyOmitFieldsSchema
 );
 
 export const CompanyIncludeSchema = z
   .object({
-    agents: z.boolean().or(AgentOwnQuerySchema),
-    industries: z.boolean().or(CompanyIndustryOwnQuerySchema),
+    agents: PZ.Scalar.bool().or(AgentOwnQuerySchema),
+    industries: PZ.Scalar.bool().or(CompanyIndustryOwnQuerySchema),
   })
   .partial();
 
 export const CompanyIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CompanyIncludeSchema
 );
 
 export const CompanyProjectionSchema = z.union([
-  z.object({ omit: CompanySelectFieldsSchemaJson }),
+  z.object({ omit: CompanyOmitFieldsSchemaJson }),
   z.object({ select: CompanySelectFieldsSchemaJson }),
   z.object({ include: CompanyIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const CompanyIndustryCreateSchema = z.object({
-  companyId: z.coerce.number().int(),
-  industryId: z.coerce.number().int(),
+export const CompanyIndustryRawCreateSchema = z.object({
+  companyId: PZ.Scalar.id(),
+  industryId: PZ.Scalar.id(),
 });
 
-export const CompanyIndustryUpdateSchema = z.object({
-  companyId: z.coerce.number().int().optional(),
-  industryId: z.coerce.number().int().optional(),
+export const CompanyIndustryCreateSchema =
+  CompanyIndustryRawCreateSchema.clone();
+
+export const CompanyIndustryRawUpdateSchema = z.object({
+  companyId: PZ.Scalar.id().optional(),
+  industryId: PZ.Scalar.id().optional(),
 });
+
+export const CompanyIndustryUpdateSchema =
+  CompanyIndustryRawUpdateSchema.clone();
 
 export const CompanyIndustryOrderBySchema = z
   .object({
@@ -1099,10 +1131,14 @@ export const CompanyIndustryOrderBySchema = z
     companyId: PZ.OrderDirectionSchema,
     industryId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const CompanyIndustryOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CompanyIndustryOrderBySchema
 );
 
@@ -1117,59 +1153,79 @@ export const CompanyIndustryWhereSchema = z
   .partial();
 
 export const CompanyIndustryWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CompanyIndustryWhereSchema
 );
 
 export const CompanyIndustrySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    companyId: z.boolean(),
-    industryId: z.boolean(),
-    industry: z.boolean().or(IndustryOwnQueryOneSchema),
-    company: z.boolean().or(CompanyOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    companyId: PZ.Scalar.bool(),
+    industryId: PZ.Scalar.bool(),
+    industry: PZ.Scalar.bool().or(IndustryOwnQueryOneSchema),
+    company: PZ.Scalar.bool().or(CompanyOwnQueryOneSchema),
   })
   .partial();
 
 export const CompanyIndustrySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CompanyIndustrySelectFieldsSchema
+);
+
+export const CompanyIndustryOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    companyId: PZ.Scalar.bool(),
+    industryId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'companyId', 'industryId'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const CompanyIndustryOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  CompanyIndustryOmitFieldsSchema
 );
 
 export const CompanyIndustryIncludeSchema = z
   .object({
-    industry: z.boolean().or(IndustryOwnQueryOneSchema),
-    company: z.boolean().or(CompanyOwnQueryOneSchema),
+    industry: PZ.Scalar.bool().or(IndustryOwnQueryOneSchema),
+    company: PZ.Scalar.bool().or(CompanyOwnQueryOneSchema),
   })
   .partial();
 
 export const CompanyIndustryIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CompanyIndustryIncludeSchema
 );
 
 export const CompanyIndustryProjectionSchema = z.union([
-  z.object({ omit: CompanyIndustrySelectFieldsSchemaJson }),
+  z.object({ omit: CompanyIndustryOmitFieldsSchemaJson }),
   z.object({ select: CompanyIndustrySelectFieldsSchemaJson }),
   z.object({ include: CompanyIndustryIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const DepartmentCreateSchema = z
-  .object({
-    parentId: z.coerce.number().int().optional(),
-    name: nameSchema.clone(),
-    slug: slugSchema.clone().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const DepartmentRawCreateSchema = z.object({
+  parentId: PZ.Scalar.id().optional(),
+  name: PZ.Scalar.name(),
+  slug: PZ.Scalar.slug().optional(),
+});
 
-export const DepartmentUpdateSchema = z
-  .object({
-    parentId: z.coerce.number().int().optional().optional(),
-    name: nameSchema.clone().optional(),
-    slug: slugSchema.clone().optional().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const DepartmentCreateSchema =
+  DepartmentRawCreateSchema.clone().transform(PZ.slugTransformer('name'));
+
+export const DepartmentRawUpdateSchema = z.object({
+  parentId: PZ.Scalar.id().optional().optional(),
+  name: PZ.Scalar.name().optional(),
+  slug: PZ.Scalar.slug().optional().optional(),
+});
+
+export const DepartmentUpdateSchema =
+  DepartmentRawUpdateSchema.clone().transform(PZ.slugTransformer('name'));
 
 export const DepartmentOrderBySchema = z
   .object({
@@ -1178,10 +1234,14 @@ export const DepartmentOrderBySchema = z
     name: PZ.OrderDirectionSchema,
     slug: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const DepartmentOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DepartmentOrderBySchema
 );
 
@@ -1210,64 +1270,87 @@ export const DepartmentWhereSchema = z
   .partial();
 
 export const DepartmentWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DepartmentWhereSchema
 );
 
 export const DepartmentSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    parentId: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    parent: z.boolean().or(DepartmentOwnQueryOneSchema),
-    children: z.boolean().or(DepartmentOwnQuerySchema),
-    titles: z.boolean().or(TitleOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    parentId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    parent: PZ.Scalar.bool().or(DepartmentOwnQueryOneSchema),
+    children: PZ.Scalar.bool().or(DepartmentOwnQuerySchema),
+    titles: PZ.Scalar.bool().or(TitleOwnQuerySchema),
   })
   .partial();
 
 export const DepartmentSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DepartmentSelectFieldsSchema
+);
+
+export const DepartmentOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    parentId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'parentId', 'name', 'slug'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const DepartmentOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  DepartmentOmitFieldsSchema
 );
 
 export const DepartmentIncludeSchema = z
   .object({
-    parent: z.boolean().or(DepartmentOwnQueryOneSchema),
-    children: z.boolean().or(DepartmentOwnQuerySchema),
-    titles: z.boolean().or(TitleOwnQuerySchema),
+    parent: PZ.Scalar.bool().or(DepartmentOwnQueryOneSchema),
+    children: PZ.Scalar.bool().or(DepartmentOwnQuerySchema),
+    titles: PZ.Scalar.bool().or(TitleOwnQuerySchema),
   })
   .partial();
 
 export const DepartmentIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DepartmentIncludeSchema
 );
 
 export const DepartmentProjectionSchema = z.union([
-  z.object({ omit: DepartmentSelectFieldsSchemaJson }),
+  z.object({ omit: DepartmentOmitFieldsSchemaJson }),
   z.object({ select: DepartmentSelectFieldsSchemaJson }),
   z.object({ include: DepartmentIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TitleCreateSchema = z
-  .object({
-    departmentId: z.coerce.number().int().optional(),
-    name: nameSchema.clone(),
-    slug: slugSchema.clone().optional(),
-    description: descriptionSchema.clone().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const TitleRawCreateSchema = z.object({
+  departmentId: PZ.Scalar.id().optional(),
+  name: PZ.Scalar.name(),
+  slug: PZ.Scalar.slug().optional(),
+  description: PZ.Scalar.description().optional(),
+});
 
-export const TitleUpdateSchema = z
-  .object({
-    departmentId: z.coerce.number().int().optional().optional(),
-    name: nameSchema.clone().optional(),
-    slug: slugSchema.clone().optional().optional(),
-    description: descriptionSchema.clone().optional().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const TitleCreateSchema = TitleRawCreateSchema.clone().transform(
+  PZ.slugTransformer('name')
+);
+
+export const TitleRawUpdateSchema = z.object({
+  departmentId: PZ.Scalar.id().optional().optional(),
+  name: PZ.Scalar.name().optional(),
+  slug: PZ.Scalar.slug().optional().optional(),
+  description: PZ.Scalar.description().optional().optional(),
+});
+
+export const TitleUpdateSchema = TitleRawUpdateSchema.clone().transform(
+  PZ.slugTransformer('name')
+);
 
 export const TitleOrderBySchema = z
   .object({
@@ -1277,10 +1360,14 @@ export const TitleOrderBySchema = z
     slug: PZ.OrderDirectionSchema,
     description: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const TitleOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TitleOrderBySchema
 );
 
@@ -1302,67 +1389,96 @@ export const TitleWhereSchema = z
   })
   .partial();
 
-export const TitleWhereSchemaJson = z.preprocess(jsonParser, TitleWhereSchema);
+export const TitleWhereSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TitleWhereSchema
+);
 
 export const TitleSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    departmentId: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    description: z.boolean(),
-    agents: z.boolean().or(AgentOwnQuerySchema),
-    department: z.boolean().or(DepartmentOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    departmentId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    agents: PZ.Scalar.bool().or(AgentOwnQuerySchema),
+    department: PZ.Scalar.bool().or(DepartmentOwnQueryOneSchema),
   })
   .partial();
 
 export const TitleSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TitleSelectFieldsSchema
+);
+
+export const TitleOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    departmentId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'departmentId', 'name', 'slug', 'description'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const TitleOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TitleOmitFieldsSchema
 );
 
 export const TitleIncludeSchema = z
   .object({
-    agents: z.boolean().or(AgentOwnQuerySchema),
-    department: z.boolean().or(DepartmentOwnQueryOneSchema),
+    agents: PZ.Scalar.bool().or(AgentOwnQuerySchema),
+    department: PZ.Scalar.bool().or(DepartmentOwnQueryOneSchema),
   })
   .partial();
 
 export const TitleIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TitleIncludeSchema
 );
 
 export const TitleProjectionSchema = z.union([
-  z.object({ omit: TitleSelectFieldsSchemaJson }),
+  z.object({ omit: TitleOmitFieldsSchemaJson }),
   z.object({ select: TitleSelectFieldsSchemaJson }),
   z.object({ include: TitleIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const AgentCreateSchema = z.object({
-  companyId: z.coerce.number().int().optional(),
-  titleId: z.coerce.number().int().optional(),
-  firstName: z.string(),
-  middleName: z.string().optional(),
-  lastName: z.string(),
-  preferedName: z.string().optional(),
+export const AgentRawCreateSchema = z.object({
+  companyId: PZ.Scalar.id().optional(),
+  titleId: PZ.Scalar.id().optional(),
+  firstName: PZ.Scalar.string(),
+  middleName: PZ.Scalar.string().optional(),
+  lastName: PZ.Scalar.string(),
+  preferedName: PZ.Scalar.string().optional(),
   gender: GenderSchema.optional(),
-  slug: slugSchema.clone().optional(),
-  note: z.string().optional(),
+  slug: PZ.Scalar.slug().optional(),
+  note: PZ.Scalar.string().optional(),
 });
 
-export const AgentUpdateSchema = z.object({
-  companyId: z.coerce.number().int().optional().optional(),
-  titleId: z.coerce.number().int().optional().optional(),
-  firstName: z.string().optional(),
-  middleName: z.string().optional().optional(),
-  lastName: z.string().optional(),
-  preferedName: z.string().optional().optional(),
+export const AgentCreateSchema = AgentRawCreateSchema.clone();
+
+export const AgentRawUpdateSchema = z.object({
+  companyId: PZ.Scalar.id().optional().optional(),
+  titleId: PZ.Scalar.id().optional().optional(),
+  firstName: PZ.Scalar.string().optional(),
+  middleName: PZ.Scalar.string().optional().optional(),
+  lastName: PZ.Scalar.string().optional(),
+  preferedName: PZ.Scalar.string().optional().optional(),
   gender: GenderSchema.optional().optional(),
-  slug: slugSchema.clone().optional().optional(),
-  note: z.string().optional().optional(),
+  slug: PZ.Scalar.slug().optional().optional(),
+  note: PZ.Scalar.string().optional().optional(),
 });
+
+export const AgentUpdateSchema = AgentRawUpdateSchema.clone();
 
 export const AgentOrderBySchema = z
   .object({
@@ -1376,10 +1492,14 @@ export const AgentOrderBySchema = z
     slug: PZ.OrderDirectionSchema,
     note: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const AgentOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AgentOrderBySchema
 );
 
@@ -1407,62 +1527,105 @@ export const AgentWhereSchema = z
   })
   .partial();
 
-export const AgentWhereSchemaJson = z.preprocess(jsonParser, AgentWhereSchema);
+export const AgentWhereSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  AgentWhereSchema
+);
 
 export const AgentSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    companyId: z.boolean(),
-    titleId: z.boolean(),
-    firstName: z.boolean(),
-    middleName: z.boolean(),
-    lastName: z.boolean(),
-    preferedName: z.boolean(),
-    gender: z.boolean(),
-    slug: z.boolean(),
-    note: z.boolean(),
-    company: z.boolean().or(CompanyOwnQueryOneSchema),
-    contacts: z.boolean().or(ContactOwnQuerySchema),
-    title: z.boolean().or(TitleOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    companyId: PZ.Scalar.bool(),
+    titleId: PZ.Scalar.bool(),
+    firstName: PZ.Scalar.bool(),
+    middleName: PZ.Scalar.bool(),
+    lastName: PZ.Scalar.bool(),
+    preferedName: PZ.Scalar.bool(),
+    gender: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    note: PZ.Scalar.bool(),
+    company: PZ.Scalar.bool().or(CompanyOwnQueryOneSchema),
+    contacts: PZ.Scalar.bool().or(ContactOwnQuerySchema),
+    title: PZ.Scalar.bool().or(TitleOwnQueryOneSchema),
   })
   .partial();
 
 export const AgentSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AgentSelectFieldsSchema
+);
+
+export const AgentOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    companyId: PZ.Scalar.bool(),
+    titleId: PZ.Scalar.bool(),
+    firstName: PZ.Scalar.bool(),
+    middleName: PZ.Scalar.bool(),
+    lastName: PZ.Scalar.bool(),
+    preferedName: PZ.Scalar.bool(),
+    gender: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    note: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      ![
+        'id',
+        'companyId',
+        'titleId',
+        'firstName',
+        'middleName',
+        'lastName',
+        'preferedName',
+        'gender',
+        'slug',
+        'note',
+      ].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const AgentOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  AgentOmitFieldsSchema
 );
 
 export const AgentIncludeSchema = z
   .object({
-    company: z.boolean().or(CompanyOwnQueryOneSchema),
-    contacts: z.boolean().or(ContactOwnQuerySchema),
-    title: z.boolean().or(TitleOwnQueryOneSchema),
+    company: PZ.Scalar.bool().or(CompanyOwnQueryOneSchema),
+    contacts: PZ.Scalar.bool().or(ContactOwnQuerySchema),
+    title: PZ.Scalar.bool().or(TitleOwnQueryOneSchema),
   })
   .partial();
 
 export const AgentIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AgentIncludeSchema
 );
 
 export const AgentProjectionSchema = z.union([
-  z.object({ omit: AgentSelectFieldsSchemaJson }),
+  z.object({ omit: AgentOmitFieldsSchemaJson }),
   z.object({ select: AgentSelectFieldsSchemaJson }),
   z.object({ include: AgentIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const ContactCreateSchema = z.object({
-  agentId: z.coerce.number().int(),
+export const ContactRawCreateSchema = z.object({
+  agentId: PZ.Scalar.id(),
   type: ContactTypeSchema,
-  order: z.coerce.number().int().optional(),
+  order: PZ.Scalar.int().optional(),
 });
 
-export const ContactUpdateSchema = z.object({
-  agentId: z.coerce.number().int().optional(),
+export const ContactCreateSchema = ContactRawCreateSchema.clone();
+
+export const ContactRawUpdateSchema = z.object({
+  agentId: PZ.Scalar.id().optional(),
   type: ContactTypeSchema.optional(),
-  order: z.coerce.number().int().optional().optional(),
+  order: PZ.Scalar.int().optional().optional(),
 });
+
+export const ContactUpdateSchema = ContactRawUpdateSchema.clone();
 
 export const ContactOrderBySchema = z
   .object({
@@ -1471,10 +1634,14 @@ export const ContactOrderBySchema = z
     agentId: PZ.OrderDirectionSchema,
     order: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const ContactOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ContactOrderBySchema
 );
 
@@ -1518,63 +1685,89 @@ export const ContactWhereSchema = z
   .partial();
 
 export const ContactWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ContactWhereSchema
 );
 
 export const ContactSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    uuid: z.boolean(),
-    agentId: z.boolean(),
-    type: z.boolean(),
-    order: z.boolean(),
-    emails: z.boolean().or(EmailOwnQuerySchema),
-    phones: z.boolean().or(PhoneOwnQuerySchema),
-    addresses: z.boolean().or(AddressOwnQuerySchema),
-    websites: z.boolean().or(WebsiteOwnQuerySchema),
-    agent: z.boolean().or(AgentOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    uuid: PZ.Scalar.bool(),
+    agentId: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    order: PZ.Scalar.bool(),
+    emails: PZ.Scalar.bool().or(EmailOwnQuerySchema),
+    phones: PZ.Scalar.bool().or(PhoneOwnQuerySchema),
+    addresses: PZ.Scalar.bool().or(AddressOwnQuerySchema),
+    websites: PZ.Scalar.bool().or(WebsiteOwnQuerySchema),
+    agent: PZ.Scalar.bool().or(AgentOwnQueryOneSchema),
   })
   .partial();
 
 export const ContactSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ContactSelectFieldsSchema
+);
+
+export const ContactOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    uuid: PZ.Scalar.bool(),
+    agentId: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    order: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'uuid', 'agentId', 'type', 'order'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const ContactOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  ContactOmitFieldsSchema
 );
 
 export const ContactIncludeSchema = z
   .object({
-    emails: z.boolean().or(EmailOwnQuerySchema),
-    phones: z.boolean().or(PhoneOwnQuerySchema),
-    addresses: z.boolean().or(AddressOwnQuerySchema),
-    websites: z.boolean().or(WebsiteOwnQuerySchema),
-    agent: z.boolean().or(AgentOwnQueryOneSchema),
+    emails: PZ.Scalar.bool().or(EmailOwnQuerySchema),
+    phones: PZ.Scalar.bool().or(PhoneOwnQuerySchema),
+    addresses: PZ.Scalar.bool().or(AddressOwnQuerySchema),
+    websites: PZ.Scalar.bool().or(WebsiteOwnQuerySchema),
+    agent: PZ.Scalar.bool().or(AgentOwnQueryOneSchema),
   })
   .partial();
 
 export const ContactIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ContactIncludeSchema
 );
 
 export const ContactProjectionSchema = z.union([
-  z.object({ omit: ContactSelectFieldsSchemaJson }),
+  z.object({ omit: ContactOmitFieldsSchemaJson }),
   z.object({ select: ContactSelectFieldsSchemaJson }),
   z.object({ include: ContactIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const StateCreateSchema = z.object({
-  countryId: z.coerce.number().int(),
-  state: z.string(),
-  code: z.string(),
+export const StateRawCreateSchema = z.object({
+  countryId: PZ.Scalar.id(),
+  state: PZ.Scalar.string(),
+  code: PZ.Scalar.string(),
 });
 
-export const StateUpdateSchema = z.object({
-  countryId: z.coerce.number().int().optional(),
-  state: z.string().optional(),
-  code: z.string().optional(),
+export const StateCreateSchema = StateRawCreateSchema.clone();
+
+export const StateRawUpdateSchema = z.object({
+  countryId: PZ.Scalar.id().optional(),
+  state: PZ.Scalar.string().optional(),
+  code: PZ.Scalar.string().optional(),
 });
+
+export const StateUpdateSchema = StateRawUpdateSchema.clone();
 
 export const StateOrderBySchema = z
   .object({
@@ -1583,10 +1776,14 @@ export const StateOrderBySchema = z
     state: PZ.OrderDirectionSchema,
     code: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const StateOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StateOrderBySchema
 );
 
@@ -1607,52 +1804,80 @@ export const StateWhereSchema = z
   })
   .partial();
 
-export const StateWhereSchemaJson = z.preprocess(jsonParser, StateWhereSchema);
+export const StateWhereSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  StateWhereSchema
+);
 
 export const StateSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    countryId: z.boolean(),
-    state: z.boolean(),
-    code: z.boolean(),
-    country: z.boolean().or(CountryOwnQueryOneSchema),
-    cities: z.boolean().or(CityOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    countryId: PZ.Scalar.bool(),
+    state: PZ.Scalar.bool(),
+    code: PZ.Scalar.bool(),
+    country: PZ.Scalar.bool().or(CountryOwnQueryOneSchema),
+    cities: PZ.Scalar.bool().or(CityOwnQuerySchema),
   })
   .partial();
 
 export const StateSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StateSelectFieldsSchema
+);
+
+export const StateOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    countryId: PZ.Scalar.bool(),
+    state: PZ.Scalar.bool(),
+    code: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'countryId', 'state', 'code'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const StateOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  StateOmitFieldsSchema
 );
 
 export const StateIncludeSchema = z
   .object({
-    country: z.boolean().or(CountryOwnQueryOneSchema),
-    cities: z.boolean().or(CityOwnQuerySchema),
+    country: PZ.Scalar.bool().or(CountryOwnQueryOneSchema),
+    cities: PZ.Scalar.bool().or(CityOwnQuerySchema),
   })
   .partial();
 
 export const StateIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StateIncludeSchema
 );
 
 export const StateProjectionSchema = z.union([
-  z.object({ omit: StateSelectFieldsSchemaJson }),
+  z.object({ omit: StateOmitFieldsSchemaJson }),
   z.object({ select: StateSelectFieldsSchemaJson }),
   z.object({ include: StateIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const CountryCreateSchema = z.object({
-  name: nameSchema.clone(),
-  code: z.string(),
+export const CountryRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
+  code: PZ.Scalar.string(),
 });
 
-export const CountryUpdateSchema = z.object({
-  name: nameSchema.clone().optional(),
-  code: z.string().optional(),
+export const CountryCreateSchema = CountryRawCreateSchema.clone();
+
+export const CountryRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
+  code: PZ.Scalar.string().optional(),
 });
+
+export const CountryUpdateSchema = CountryRawUpdateSchema.clone();
 
 export const CountryOrderBySchema = z
   .object({
@@ -1660,10 +1885,14 @@ export const CountryOrderBySchema = z
     name: PZ.OrderDirectionSchema,
     code: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const CountryOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CountryOrderBySchema
 );
 
@@ -1683,51 +1912,72 @@ export const CountryWhereSchema = z
   .partial();
 
 export const CountryWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CountryWhereSchema
 );
 
 export const CountrySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    code: z.boolean(),
-    states: z.boolean().or(StateOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    code: PZ.Scalar.bool(),
+    states: PZ.Scalar.bool().or(StateOwnQuerySchema),
   })
   .partial();
 
 export const CountrySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CountrySelectFieldsSchema
+);
+
+export const CountryOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    code: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) => !['id', 'name', 'code'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const CountryOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  CountryOmitFieldsSchema
 );
 
 export const CountryIncludeSchema = z
   .object({
-    states: z.boolean().or(StateOwnQuerySchema),
+    states: PZ.Scalar.bool().or(StateOwnQuerySchema),
   })
   .partial();
 
 export const CountryIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CountryIncludeSchema
 );
 
 export const CountryProjectionSchema = z.union([
-  z.object({ omit: CountrySelectFieldsSchemaJson }),
+  z.object({ omit: CountryOmitFieldsSchemaJson }),
   z.object({ select: CountrySelectFieldsSchemaJson }),
   z.object({ include: CountryIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const CityCreateSchema = z.object({
-  stateId: z.coerce.number().int(),
-  name: nameSchema.clone(),
+export const CityRawCreateSchema = z.object({
+  stateId: PZ.Scalar.id(),
+  name: PZ.Scalar.name(),
 });
 
-export const CityUpdateSchema = z.object({
-  stateId: z.coerce.number().int().optional(),
-  name: nameSchema.clone().optional(),
+export const CityCreateSchema = CityRawCreateSchema.clone();
+
+export const CityRawUpdateSchema = z.object({
+  stateId: PZ.Scalar.id().optional(),
+  name: PZ.Scalar.name().optional(),
 });
+
+export const CityUpdateSchema = CityRawUpdateSchema.clone();
 
 export const CityOrderBySchema = z
   .object({
@@ -1735,10 +1985,14 @@ export const CityOrderBySchema = z
     stateId: PZ.OrderDirectionSchema,
     name: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const CityOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CityOrderBySchema
 );
 
@@ -1758,57 +2012,81 @@ export const CityWhereSchema = z
   })
   .partial();
 
-export const CityWhereSchemaJson = z.preprocess(jsonParser, CityWhereSchema);
+export const CityWhereSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  CityWhereSchema
+);
 
 export const CitySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    stateId: z.boolean(),
-    name: z.boolean(),
-    state: z.boolean().or(StateOwnQueryOneSchema),
-    addresses: z.boolean().or(AddressOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    stateId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    state: PZ.Scalar.bool().or(StateOwnQueryOneSchema),
+    addresses: PZ.Scalar.bool().or(AddressOwnQuerySchema),
   })
   .partial();
 
 export const CitySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CitySelectFieldsSchema
+);
+
+export const CityOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    stateId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) => !['id', 'stateId', 'name'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const CityOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  CityOmitFieldsSchema
 );
 
 export const CityIncludeSchema = z
   .object({
-    state: z.boolean().or(StateOwnQueryOneSchema),
-    addresses: z.boolean().or(AddressOwnQuerySchema),
+    state: PZ.Scalar.bool().or(StateOwnQueryOneSchema),
+    addresses: PZ.Scalar.bool().or(AddressOwnQuerySchema),
   })
   .partial();
 
 export const CityIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CityIncludeSchema
 );
 
 export const CityProjectionSchema = z.union([
-  z.object({ omit: CitySelectFieldsSchemaJson }),
+  z.object({ omit: CityOmitFieldsSchemaJson }),
   z.object({ select: CitySelectFieldsSchemaJson }),
   z.object({ include: CityIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const AddressCreateSchema = z.object({
-  contactId: z.coerce.number().int(),
-  cityId: z.coerce.number().int(),
-  street: z.string(),
-  zip: z.string(),
-  order: z.coerce.number().int().optional(),
+export const AddressRawCreateSchema = z.object({
+  contactId: PZ.Scalar.id(),
+  cityId: PZ.Scalar.id(),
+  street: PZ.Scalar.string(),
+  zip: PZ.Scalar.string(),
+  order: PZ.Scalar.int().optional(),
 });
 
-export const AddressUpdateSchema = z.object({
-  contactId: z.coerce.number().int().optional(),
-  cityId: z.coerce.number().int().optional(),
-  street: z.string().optional(),
-  zip: z.string().optional(),
-  order: z.coerce.number().int().optional().optional(),
+export const AddressCreateSchema = AddressRawCreateSchema.clone();
+
+export const AddressRawUpdateSchema = z.object({
+  contactId: PZ.Scalar.id().optional(),
+  cityId: PZ.Scalar.id().optional(),
+  street: PZ.Scalar.string().optional(),
+  zip: PZ.Scalar.string().optional(),
+  order: PZ.Scalar.int().optional().optional(),
 });
+
+export const AddressUpdateSchema = AddressRawUpdateSchema.clone();
 
 export const AddressOrderBySchema = z
   .object({
@@ -1819,10 +2097,14 @@ export const AddressOrderBySchema = z
     zip: PZ.OrderDirectionSchema,
     order: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const AddressOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AddressOrderBySchema
 );
 
@@ -1840,58 +2122,85 @@ export const AddressWhereSchema = z
   .partial();
 
 export const AddressWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AddressWhereSchema
 );
 
 export const AddressSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    contactId: z.boolean(),
-    cityId: z.boolean(),
-    street: z.boolean(),
-    zip: z.boolean(),
-    order: z.boolean(),
-    city: z.boolean().or(CityOwnQueryOneSchema),
-    contact: z.boolean().or(ContactOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    cityId: PZ.Scalar.bool(),
+    street: PZ.Scalar.bool(),
+    zip: PZ.Scalar.bool(),
+    order: PZ.Scalar.bool(),
+    city: PZ.Scalar.bool().or(CityOwnQueryOneSchema),
+    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
 export const AddressSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AddressSelectFieldsSchema
+);
+
+export const AddressOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    cityId: PZ.Scalar.bool(),
+    street: PZ.Scalar.bool(),
+    zip: PZ.Scalar.bool(),
+    order: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'contactId', 'cityId', 'street', 'zip', 'order'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const AddressOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  AddressOmitFieldsSchema
 );
 
 export const AddressIncludeSchema = z
   .object({
-    city: z.boolean().or(CityOwnQueryOneSchema),
-    contact: z.boolean().or(ContactOwnQueryOneSchema),
+    city: PZ.Scalar.bool().or(CityOwnQueryOneSchema),
+    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
 export const AddressIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AddressIncludeSchema
 );
 
 export const AddressProjectionSchema = z.union([
-  z.object({ omit: AddressSelectFieldsSchemaJson }),
+  z.object({ omit: AddressOmitFieldsSchemaJson }),
   z.object({ select: AddressSelectFieldsSchemaJson }),
   z.object({ include: AddressIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const EmailCreateSchema = z.object({
-  contactId: z.coerce.number().int(),
-  email: emailSchema.clone(),
-  order: z.coerce.number().int().optional(),
+export const EmailRawCreateSchema = z.object({
+  contactId: PZ.Scalar.id(),
+  email: PZ.Scalar.email(),
+  order: PZ.Scalar.int().optional(),
 });
 
-export const EmailUpdateSchema = z.object({
-  contactId: z.coerce.number().int().optional(),
-  email: emailSchema.clone().optional(),
-  order: z.coerce.number().int().optional().optional(),
+export const EmailCreateSchema = EmailRawCreateSchema.clone();
+
+export const EmailRawUpdateSchema = z.object({
+  contactId: PZ.Scalar.id().optional(),
+  email: PZ.Scalar.email().optional(),
+  order: PZ.Scalar.int().optional().optional(),
 });
+
+export const EmailUpdateSchema = EmailRawUpdateSchema.clone();
 
 export const EmailOrderBySchema = z
   .object({
@@ -1900,10 +2209,14 @@ export const EmailOrderBySchema = z
     email: PZ.OrderDirectionSchema,
     order: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const EmailOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmailOrderBySchema
 );
 
@@ -1917,52 +2230,80 @@ export const EmailWhereSchema = z
   })
   .partial();
 
-export const EmailWhereSchemaJson = z.preprocess(jsonParser, EmailWhereSchema);
+export const EmailWhereSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  EmailWhereSchema
+);
 
 export const EmailSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    contactId: z.boolean(),
-    email: z.boolean(),
-    order: z.boolean(),
-    contact: z.boolean().or(ContactOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    email: PZ.Scalar.bool(),
+    order: PZ.Scalar.bool(),
+    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
 export const EmailSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmailSelectFieldsSchema
+);
+
+export const EmailOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    email: PZ.Scalar.bool(),
+    order: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'contactId', 'email', 'order'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const EmailOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  EmailOmitFieldsSchema
 );
 
 export const EmailIncludeSchema = z
   .object({
-    contact: z.boolean().or(ContactOwnQueryOneSchema),
+    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
 export const EmailIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmailIncludeSchema
 );
 
 export const EmailProjectionSchema = z.union([
-  z.object({ omit: EmailSelectFieldsSchemaJson }),
+  z.object({ omit: EmailOmitFieldsSchemaJson }),
   z.object({ select: EmailSelectFieldsSchemaJson }),
   z.object({ include: EmailIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PhoneCreateSchema = z.object({
-  contactId: z.coerce.number().int(),
-  phone: z.string(),
-  order: z.coerce.number().int().optional(),
+export const PhoneRawCreateSchema = z.object({
+  contactId: PZ.Scalar.id(),
+  phone: PZ.Scalar.string(),
+  order: PZ.Scalar.int().optional(),
 });
 
-export const PhoneUpdateSchema = z.object({
-  contactId: z.coerce.number().int().optional(),
-  phone: z.string().optional(),
-  order: z.coerce.number().int().optional().optional(),
+export const PhoneCreateSchema = PhoneRawCreateSchema.clone();
+
+export const PhoneRawUpdateSchema = z.object({
+  contactId: PZ.Scalar.id().optional(),
+  phone: PZ.Scalar.string().optional(),
+  order: PZ.Scalar.int().optional().optional(),
 });
+
+export const PhoneUpdateSchema = PhoneRawUpdateSchema.clone();
 
 export const PhoneOrderBySchema = z
   .object({
@@ -1971,10 +2312,14 @@ export const PhoneOrderBySchema = z
     phone: PZ.OrderDirectionSchema,
     order: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const PhoneOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PhoneOrderBySchema
 );
 
@@ -1988,52 +2333,80 @@ export const PhoneWhereSchema = z
   })
   .partial();
 
-export const PhoneWhereSchemaJson = z.preprocess(jsonParser, PhoneWhereSchema);
+export const PhoneWhereSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  PhoneWhereSchema
+);
 
 export const PhoneSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    contactId: z.boolean(),
-    phone: z.boolean(),
-    order: z.boolean(),
-    contact: z.boolean().or(ContactOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    phone: PZ.Scalar.bool(),
+    order: PZ.Scalar.bool(),
+    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
 export const PhoneSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PhoneSelectFieldsSchema
+);
+
+export const PhoneOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    phone: PZ.Scalar.bool(),
+    order: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'contactId', 'phone', 'order'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const PhoneOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  PhoneOmitFieldsSchema
 );
 
 export const PhoneIncludeSchema = z
   .object({
-    contact: z.boolean().or(ContactOwnQueryOneSchema),
+    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
 export const PhoneIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PhoneIncludeSchema
 );
 
 export const PhoneProjectionSchema = z.union([
-  z.object({ omit: PhoneSelectFieldsSchemaJson }),
+  z.object({ omit: PhoneOmitFieldsSchemaJson }),
   z.object({ select: PhoneSelectFieldsSchemaJson }),
   z.object({ include: PhoneIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const WebsiteCreateSchema = z.object({
-  contactId: z.coerce.number().int(),
-  url: z.string(),
-  order: z.coerce.number().int().optional(),
+export const WebsiteRawCreateSchema = z.object({
+  contactId: PZ.Scalar.id(),
+  url: PZ.Scalar.string(),
+  order: PZ.Scalar.int().optional(),
 });
 
-export const WebsiteUpdateSchema = z.object({
-  contactId: z.coerce.number().int().optional(),
-  url: z.string().optional(),
-  order: z.coerce.number().int().optional().optional(),
+export const WebsiteCreateSchema = WebsiteRawCreateSchema.clone();
+
+export const WebsiteRawUpdateSchema = z.object({
+  contactId: PZ.Scalar.id().optional(),
+  url: PZ.Scalar.string().optional(),
+  order: PZ.Scalar.int().optional().optional(),
 });
+
+export const WebsiteUpdateSchema = WebsiteRawUpdateSchema.clone();
 
 export const WebsiteOrderBySchema = z
   .object({
@@ -2042,10 +2415,14 @@ export const WebsiteOrderBySchema = z
     url: PZ.OrderDirectionSchema,
     order: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const WebsiteOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   WebsiteOrderBySchema
 );
 
@@ -2060,38 +2437,59 @@ export const WebsiteWhereSchema = z
   .partial();
 
 export const WebsiteWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   WebsiteWhereSchema
 );
 
 export const WebsiteSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    contactId: z.boolean(),
-    url: z.boolean(),
-    order: z.boolean(),
-    contact: z.boolean().or(ContactOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    url: PZ.Scalar.bool(),
+    order: PZ.Scalar.bool(),
+    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
 export const WebsiteSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   WebsiteSelectFieldsSchema
+);
+
+export const WebsiteOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    url: PZ.Scalar.bool(),
+    order: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'contactId', 'url', 'order'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const WebsiteOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  WebsiteOmitFieldsSchema
 );
 
 export const WebsiteIncludeSchema = z
   .object({
-    contact: z.boolean().or(ContactOwnQueryOneSchema),
+    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
 export const WebsiteIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   WebsiteIncludeSchema
 );
 
 export const WebsiteProjectionSchema = z.union([
-  z.object({ omit: WebsiteSelectFieldsSchemaJson }),
+  z.object({ omit: WebsiteOmitFieldsSchemaJson }),
   z.object({ select: WebsiteSelectFieldsSchemaJson }),
   z.object({ include: WebsiteIncludeSchemaJson }),
   z.object({}),
@@ -2113,9 +2511,9 @@ export const IndustryQuerySchema = z
   })
   .partial();
 
-export type IndustryCreate = z.infer<typeof IndustryCreateSchema>;
+export type IndustryCreate = z.infer<typeof IndustryRawCreateSchema>;
 
-export type IndustryUpdate = z.infer<typeof IndustryUpdateSchema>;
+export type IndustryUpdate = z.infer<typeof IndustryRawUpdateSchema>;
 
 export type IndustryOrderBy = z.infer<typeof IndustryOrderBySchema>;
 
@@ -2137,6 +2535,8 @@ export type IndustryQueryOne = z.infer<typeof IndustryQueryOneSchema>;
 
 export type IndustryQuery = z.infer<typeof IndustryQuerySchema>;
 
+export type IndustryOmitFields = z.infer<typeof IndustryOmitFieldsSchema>;
+
 export type IndustrySelectFields = z.infer<typeof IndustrySelectFieldsSchema>;
 
 export type IndustryProjection = z.infer<typeof IndustryProjectionSchema>;
@@ -2157,9 +2557,9 @@ export const CompanyQuerySchema = z
   })
   .partial();
 
-export type CompanyCreate = z.infer<typeof CompanyCreateSchema>;
+export type CompanyCreate = z.infer<typeof CompanyRawCreateSchema>;
 
-export type CompanyUpdate = z.infer<typeof CompanyUpdateSchema>;
+export type CompanyUpdate = z.infer<typeof CompanyRawUpdateSchema>;
 
 export type CompanyOrderBy = z.infer<typeof CompanyOrderBySchema>;
 
@@ -2181,6 +2581,8 @@ export type CompanyQueryOne = z.infer<typeof CompanyQueryOneSchema>;
 
 export type CompanyQuery = z.infer<typeof CompanyQuerySchema>;
 
+export type CompanyOmitFields = z.infer<typeof CompanyOmitFieldsSchema>;
+
 export type CompanySelectFields = z.infer<typeof CompanySelectFieldsSchema>;
 
 export type CompanyProjection = z.infer<typeof CompanyProjectionSchema>;
@@ -2201,9 +2603,13 @@ export const CompanyIndustryQuerySchema = z
   })
   .partial();
 
-export type CompanyIndustryCreate = z.infer<typeof CompanyIndustryCreateSchema>;
+export type CompanyIndustryCreate = z.infer<
+  typeof CompanyIndustryRawCreateSchema
+>;
 
-export type CompanyIndustryUpdate = z.infer<typeof CompanyIndustryUpdateSchema>;
+export type CompanyIndustryUpdate = z.infer<
+  typeof CompanyIndustryRawUpdateSchema
+>;
 
 export type CompanyIndustryOrderBy = z.infer<
   typeof CompanyIndustryOrderBySchema
@@ -2237,6 +2643,10 @@ export type CompanyIndustryQueryOne = z.infer<
 
 export type CompanyIndustryQuery = z.infer<typeof CompanyIndustryQuerySchema>;
 
+export type CompanyIndustryOmitFields = z.infer<
+  typeof CompanyIndustryOmitFieldsSchema
+>;
+
 export type CompanyIndustrySelectFields = z.infer<
   typeof CompanyIndustrySelectFieldsSchema
 >;
@@ -2261,9 +2671,9 @@ export const DepartmentQuerySchema = z
   })
   .partial();
 
-export type DepartmentCreate = z.infer<typeof DepartmentCreateSchema>;
+export type DepartmentCreate = z.infer<typeof DepartmentRawCreateSchema>;
 
-export type DepartmentUpdate = z.infer<typeof DepartmentUpdateSchema>;
+export type DepartmentUpdate = z.infer<typeof DepartmentRawUpdateSchema>;
 
 export type DepartmentOrderBy = z.infer<typeof DepartmentOrderBySchema>;
 
@@ -2284,6 +2694,8 @@ export type DepartmentInclude = z.infer<typeof DepartmentIncludeSchema>;
 export type DepartmentQueryOne = z.infer<typeof DepartmentQueryOneSchema>;
 
 export type DepartmentQuery = z.infer<typeof DepartmentQuerySchema>;
+
+export type DepartmentOmitFields = z.infer<typeof DepartmentOmitFieldsSchema>;
 
 export type DepartmentSelectFields = z.infer<
   typeof DepartmentSelectFieldsSchema
@@ -2307,9 +2719,9 @@ export const TitleQuerySchema = z
   })
   .partial();
 
-export type TitleCreate = z.infer<typeof TitleCreateSchema>;
+export type TitleCreate = z.infer<typeof TitleRawCreateSchema>;
 
-export type TitleUpdate = z.infer<typeof TitleUpdateSchema>;
+export type TitleUpdate = z.infer<typeof TitleRawUpdateSchema>;
 
 export type TitleOrderBy = z.infer<typeof TitleOrderBySchema>;
 
@@ -2328,6 +2740,8 @@ export type TitleInclude = z.infer<typeof TitleIncludeSchema>;
 export type TitleQueryOne = z.infer<typeof TitleQueryOneSchema>;
 
 export type TitleQuery = z.infer<typeof TitleQuerySchema>;
+
+export type TitleOmitFields = z.infer<typeof TitleOmitFieldsSchema>;
 
 export type TitleSelectFields = z.infer<typeof TitleSelectFieldsSchema>;
 
@@ -2349,9 +2763,9 @@ export const AgentQuerySchema = z
   })
   .partial();
 
-export type AgentCreate = z.infer<typeof AgentCreateSchema>;
+export type AgentCreate = z.infer<typeof AgentRawCreateSchema>;
 
-export type AgentUpdate = z.infer<typeof AgentUpdateSchema>;
+export type AgentUpdate = z.infer<typeof AgentRawUpdateSchema>;
 
 export type AgentOrderBy = z.infer<typeof AgentOrderBySchema>;
 
@@ -2370,6 +2784,8 @@ export type AgentInclude = z.infer<typeof AgentIncludeSchema>;
 export type AgentQueryOne = z.infer<typeof AgentQueryOneSchema>;
 
 export type AgentQuery = z.infer<typeof AgentQuerySchema>;
+
+export type AgentOmitFields = z.infer<typeof AgentOmitFieldsSchema>;
 
 export type AgentSelectFields = z.infer<typeof AgentSelectFieldsSchema>;
 
@@ -2391,9 +2807,9 @@ export const ContactQuerySchema = z
   })
   .partial();
 
-export type ContactCreate = z.infer<typeof ContactCreateSchema>;
+export type ContactCreate = z.infer<typeof ContactRawCreateSchema>;
 
-export type ContactUpdate = z.infer<typeof ContactUpdateSchema>;
+export type ContactUpdate = z.infer<typeof ContactRawUpdateSchema>;
 
 export type ContactOrderBy = z.infer<typeof ContactOrderBySchema>;
 
@@ -2415,6 +2831,8 @@ export type ContactQueryOne = z.infer<typeof ContactQueryOneSchema>;
 
 export type ContactQuery = z.infer<typeof ContactQuerySchema>;
 
+export type ContactOmitFields = z.infer<typeof ContactOmitFieldsSchema>;
+
 export type ContactSelectFields = z.infer<typeof ContactSelectFieldsSchema>;
 
 export type ContactProjection = z.infer<typeof ContactProjectionSchema>;
@@ -2435,9 +2853,9 @@ export const StateQuerySchema = z
   })
   .partial();
 
-export type StateCreate = z.infer<typeof StateCreateSchema>;
+export type StateCreate = z.infer<typeof StateRawCreateSchema>;
 
-export type StateUpdate = z.infer<typeof StateUpdateSchema>;
+export type StateUpdate = z.infer<typeof StateRawUpdateSchema>;
 
 export type StateOrderBy = z.infer<typeof StateOrderBySchema>;
 
@@ -2456,6 +2874,8 @@ export type StateInclude = z.infer<typeof StateIncludeSchema>;
 export type StateQueryOne = z.infer<typeof StateQueryOneSchema>;
 
 export type StateQuery = z.infer<typeof StateQuerySchema>;
+
+export type StateOmitFields = z.infer<typeof StateOmitFieldsSchema>;
 
 export type StateSelectFields = z.infer<typeof StateSelectFieldsSchema>;
 
@@ -2477,9 +2897,9 @@ export const CountryQuerySchema = z
   })
   .partial();
 
-export type CountryCreate = z.infer<typeof CountryCreateSchema>;
+export type CountryCreate = z.infer<typeof CountryRawCreateSchema>;
 
-export type CountryUpdate = z.infer<typeof CountryUpdateSchema>;
+export type CountryUpdate = z.infer<typeof CountryRawUpdateSchema>;
 
 export type CountryOrderBy = z.infer<typeof CountryOrderBySchema>;
 
@@ -2501,6 +2921,8 @@ export type CountryQueryOne = z.infer<typeof CountryQueryOneSchema>;
 
 export type CountryQuery = z.infer<typeof CountryQuerySchema>;
 
+export type CountryOmitFields = z.infer<typeof CountryOmitFieldsSchema>;
+
 export type CountrySelectFields = z.infer<typeof CountrySelectFieldsSchema>;
 
 export type CountryProjection = z.infer<typeof CountryProjectionSchema>;
@@ -2521,9 +2943,9 @@ export const CityQuerySchema = z
   })
   .partial();
 
-export type CityCreate = z.infer<typeof CityCreateSchema>;
+export type CityCreate = z.infer<typeof CityRawCreateSchema>;
 
-export type CityUpdate = z.infer<typeof CityUpdateSchema>;
+export type CityUpdate = z.infer<typeof CityRawUpdateSchema>;
 
 export type CityOrderBy = z.infer<typeof CityOrderBySchema>;
 
@@ -2542,6 +2964,8 @@ export type CityInclude = z.infer<typeof CityIncludeSchema>;
 export type CityQueryOne = z.infer<typeof CityQueryOneSchema>;
 
 export type CityQuery = z.infer<typeof CityQuerySchema>;
+
+export type CityOmitFields = z.infer<typeof CityOmitFieldsSchema>;
 
 export type CitySelectFields = z.infer<typeof CitySelectFieldsSchema>;
 
@@ -2563,9 +2987,9 @@ export const AddressQuerySchema = z
   })
   .partial();
 
-export type AddressCreate = z.infer<typeof AddressCreateSchema>;
+export type AddressCreate = z.infer<typeof AddressRawCreateSchema>;
 
-export type AddressUpdate = z.infer<typeof AddressUpdateSchema>;
+export type AddressUpdate = z.infer<typeof AddressRawUpdateSchema>;
 
 export type AddressOrderBy = z.infer<typeof AddressOrderBySchema>;
 
@@ -2587,6 +3011,8 @@ export type AddressQueryOne = z.infer<typeof AddressQueryOneSchema>;
 
 export type AddressQuery = z.infer<typeof AddressQuerySchema>;
 
+export type AddressOmitFields = z.infer<typeof AddressOmitFieldsSchema>;
+
 export type AddressSelectFields = z.infer<typeof AddressSelectFieldsSchema>;
 
 export type AddressProjection = z.infer<typeof AddressProjectionSchema>;
@@ -2607,9 +3033,9 @@ export const EmailQuerySchema = z
   })
   .partial();
 
-export type EmailCreate = z.infer<typeof EmailCreateSchema>;
+export type EmailCreate = z.infer<typeof EmailRawCreateSchema>;
 
-export type EmailUpdate = z.infer<typeof EmailUpdateSchema>;
+export type EmailUpdate = z.infer<typeof EmailRawUpdateSchema>;
 
 export type EmailOrderBy = z.infer<typeof EmailOrderBySchema>;
 
@@ -2628,6 +3054,8 @@ export type EmailInclude = z.infer<typeof EmailIncludeSchema>;
 export type EmailQueryOne = z.infer<typeof EmailQueryOneSchema>;
 
 export type EmailQuery = z.infer<typeof EmailQuerySchema>;
+
+export type EmailOmitFields = z.infer<typeof EmailOmitFieldsSchema>;
 
 export type EmailSelectFields = z.infer<typeof EmailSelectFieldsSchema>;
 
@@ -2649,9 +3077,9 @@ export const PhoneQuerySchema = z
   })
   .partial();
 
-export type PhoneCreate = z.infer<typeof PhoneCreateSchema>;
+export type PhoneCreate = z.infer<typeof PhoneRawCreateSchema>;
 
-export type PhoneUpdate = z.infer<typeof PhoneUpdateSchema>;
+export type PhoneUpdate = z.infer<typeof PhoneRawUpdateSchema>;
 
 export type PhoneOrderBy = z.infer<typeof PhoneOrderBySchema>;
 
@@ -2670,6 +3098,8 @@ export type PhoneInclude = z.infer<typeof PhoneIncludeSchema>;
 export type PhoneQueryOne = z.infer<typeof PhoneQueryOneSchema>;
 
 export type PhoneQuery = z.infer<typeof PhoneQuerySchema>;
+
+export type PhoneOmitFields = z.infer<typeof PhoneOmitFieldsSchema>;
 
 export type PhoneSelectFields = z.infer<typeof PhoneSelectFieldsSchema>;
 
@@ -2691,9 +3121,9 @@ export const WebsiteQuerySchema = z
   })
   .partial();
 
-export type WebsiteCreate = z.infer<typeof WebsiteCreateSchema>;
+export type WebsiteCreate = z.infer<typeof WebsiteRawCreateSchema>;
 
-export type WebsiteUpdate = z.infer<typeof WebsiteUpdateSchema>;
+export type WebsiteUpdate = z.infer<typeof WebsiteRawUpdateSchema>;
 
 export type WebsiteOrderBy = z.infer<typeof WebsiteOrderBySchema>;
 
@@ -2714,6 +3144,8 @@ export type WebsiteInclude = z.infer<typeof WebsiteIncludeSchema>;
 export type WebsiteQueryOne = z.infer<typeof WebsiteQueryOneSchema>;
 
 export type WebsiteQuery = z.infer<typeof WebsiteQuerySchema>;
+
+export type WebsiteOmitFields = z.infer<typeof WebsiteOmitFieldsSchema>;
 
 export type WebsiteSelectFields = z.infer<typeof WebsiteSelectFieldsSchema>;
 

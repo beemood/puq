@@ -7,11 +7,16 @@ import {
 } from '@nestjs/common';
 import type { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
-export function createPrismaExceptionFilter(errorClass: Type) {
-  @Catch(errorClass)
+/**
+ * Create PrismaException fitler that catches prisma errors and transform them into nestjs exceeptions.
+ *
+ * @param prismaErrorClass
+ * @returns nestjs exception filter {@link ExceptionFilter}
+ */
+export function createPrismaExceptionFilter(prismaErrorClass: Type) {
+  @Catch(prismaErrorClass)
   class PrismaExceptionFilter implements ExceptionFilter {
     catch(exception: PrismaClientKnownRequestError) {
-      // Unique
       switch (exception.code) {
         case 'P2002': {
           throw new UnprocessableEntityException({

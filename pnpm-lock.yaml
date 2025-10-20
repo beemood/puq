@@ -150,13 +150,13 @@ importers:
     devDependencies:
       '@prisma/client':
         specifier: 6.16.2
-        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.2))(typescript@5.9.2)
+        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)
       '@puq/inventory-db':
         specifier: workspace:*
         version: link:../inventory-db
       prisma:
         specifier: ^6.16.2
-        version: 6.16.2(magicast@0.3.5)(typescript@5.9.2)
+        version: 6.16.2(magicast@0.3.5)(typescript@5.9.3)
 
   dbs/asset-db:
     dependencies:
@@ -181,13 +181,13 @@ importers:
     devDependencies:
       '@prisma/client':
         specifier: 6.16.2
-        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.2))(typescript@5.9.2)
+        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)
       '@puq/inventory-db':
         specifier: workspace:*
         version: link:../inventory-db
       prisma:
         specifier: ^6.16.2
-        version: 6.16.2(magicast@0.3.5)(typescript@5.9.2)
+        version: 6.16.2(magicast@0.3.5)(typescript@5.9.3)
 
   dbs/auth-db:
     dependencies:
@@ -212,13 +212,13 @@ importers:
     devDependencies:
       '@prisma/client':
         specifier: 6.16.2
-        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.2))(typescript@5.9.2)
+        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)
       '@puq/inventory-db':
         specifier: workspace:*
         version: link:../inventory-db
       prisma:
         specifier: ^6.16.2
-        version: 6.16.2(magicast@0.3.5)(typescript@5.9.2)
+        version: 6.16.2(magicast@0.3.5)(typescript@5.9.3)
 
   dbs/contact-db:
     dependencies:
@@ -243,13 +243,13 @@ importers:
     devDependencies:
       '@prisma/client':
         specifier: 6.16.2
-        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.2))(typescript@5.9.2)
+        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)
       '@puq/inventory-db':
         specifier: workspace:*
         version: link:../inventory-db
       prisma:
         specifier: ^6.16.2
-        version: 6.16.2(magicast@0.3.5)(typescript@5.9.2)
+        version: 6.16.2(magicast@0.3.5)(typescript@5.9.3)
 
   dbs/hr-db:
     dependencies:
@@ -274,13 +274,13 @@ importers:
     devDependencies:
       '@prisma/client':
         specifier: 6.16.2
-        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.2))(typescript@5.9.2)
+        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)
       '@puq/inventory-db':
         specifier: workspace:*
         version: link:../inventory-db
       prisma:
         specifier: ^6.16.2
-        version: 6.16.2(magicast@0.3.5)(typescript@5.9.2)
+        version: 6.16.2(magicast@0.3.5)(typescript@5.9.3)
 
   dbs/inventory-db:
     dependencies:
@@ -305,7 +305,7 @@ importers:
     devDependencies:
       '@prisma/client':
         specifier: 6.16.2
-        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.2))(typescript@5.9.2)
+        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)
       '@puq/barcode':
         specifier: workspace:*
         version: link:../../libs/barcode
@@ -314,7 +314,7 @@ importers:
         version: 'link:'
       prisma:
         specifier: ^6.16.2
-        version: 6.16.2(magicast@0.3.5)(typescript@5.9.2)
+        version: 6.16.2(magicast@0.3.5)(typescript@5.9.3)
 
   dbs/pm-db:
     dependencies:
@@ -339,13 +339,13 @@ importers:
     devDependencies:
       '@prisma/client':
         specifier: 6.16.2
-        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.2))(typescript@5.9.2)
+        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)
       '@puq/inventory-db':
         specifier: workspace:*
         version: link:../inventory-db
       prisma:
         specifier: ^6.16.2
-        version: 6.16.2(magicast@0.3.5)(typescript@5.9.2)
+        version: 6.16.2(magicast@0.3.5)(typescript@5.9.3)
 
   libs/barcode:
     dependencies:
@@ -434,7 +434,7 @@ importers:
         version: 6.4.0(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.6)(reflect-metadata@0.2.2)
       '@prisma/client':
         specifier: 6.16.2
-        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.2))(typescript@5.9.2)
+        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)
       '@puq/errors':
         specifier: workspace:*
         version: link:../errors
@@ -489,7 +489,7 @@ importers:
         version: 11.1.6(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.6)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@prisma/client':
         specifier: 6.16.2
-        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.2))(typescript@5.9.2)
+        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)
       '@puq/names':
         specifier: workspace:*
         version: link:../names
@@ -517,7 +517,7 @@ importers:
     dependencies:
       '@prisma/client':
         specifier: 6.16.2
-        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.2))(typescript@5.9.2)
+        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)
       '@swc/helpers':
         specifier: ~0.5.11
         version: 0.5.17
@@ -542,6 +542,9 @@ importers:
 
   libs/zod:
     dependencies:
+      '@puq/names':
+        specifier: workspace:*
+        version: link:../names
       '@puq/types':
         specifier: workspace:*
         version: link:../types
@@ -588,7 +591,7 @@ importers:
     dependencies:
       '@prisma/client':
         specifier: ^6.16.2
-        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.2))(typescript@5.9.2)
+        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)
       '@swc/helpers':
         specifier: ~0.5.11
         version: 0.5.17
@@ -598,7 +601,7 @@ importers:
         version: 'link:'
       prisma:
         specifier: ^6.16.2
-        version: 6.16.2(magicast@0.3.5)(typescript@5.9.2)
+        version: 6.16.2(magicast@0.3.5)(typescript@5.9.3)
 
 packages:
 
@@ -8009,10 +8012,10 @@ snapshots:
 
   '@polka/url@1.0.0-next.29': {}
 
-  '@prisma/client@6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.2))(typescript@5.9.2)':
+  '@prisma/client@6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)':
     optionalDependencies:
-      prisma: 6.16.2(magicast@0.3.5)(typescript@5.9.2)
-      typescript: 5.9.2
+      prisma: 6.16.2(magicast@0.3.5)(typescript@5.9.3)
+      typescript: 5.9.3
 
   '@prisma/config@6.16.2(magicast@0.3.5)':
     dependencies:
@@ -11779,6 +11782,15 @@ snapshots:
       '@prisma/engines': 6.16.2
     optionalDependencies:
       typescript: 5.9.2
+    transitivePeerDependencies:
+      - magicast
+
+  prisma@6.16.2(magicast@0.3.5)(typescript@5.9.3):
+    dependencies:
+      '@prisma/config': 6.16.2(magicast@0.3.5)
+      '@prisma/engines': 6.16.2
+    optionalDependencies:
+      typescript: 5.9.3
     transitivePeerDependencies:
       - magicast
 

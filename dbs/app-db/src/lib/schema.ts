@@ -1,58 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as PZ from '@puq/zod';
 import { z } from 'zod';
-import { slugify } from '@puq/names';
 
-export const takeSchema = z.coerce.number().int().min(1).default(20).optional();
-export const skipSchema = z.coerce.number().int().min(0).default(0).optional();
 export const PaginationSchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
+    take: PZ.Scalar.take(),
+    skip: PZ.Scalar.skip(),
   })
   .partial();
 
-export const nameSchema = z.string().min(2).max(30);
-export const descriptionSchema = z.string().max(1000);
-export const currencySchema = z.coerce.number().positive();
-export const positiveIntegerSchema = z.coerce.number().int().positive();
-export const emailSchema = z.email();
-export const dateSchema = z.iso.datetime();
-export const slugSchema = z.string().regex(/^[a-z-]{2,}$/);
-
-export function jsonParser<T>(value: T) {
-  if (typeof value === 'string') {
-    return JSON.parse(value);
-  }
-  return value;
-}
-
-export function slugTransformer(key: string) {
-  return (value: any) => {
-    if (value.slug == undefined && value[key] != undefined) {
-      return {
-        ...value,
-        slug: value[key] ? slugify(value[key].toString()) : null,
-      };
-    }
-    return value;
-  };
-}
-
 export const AppOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    description: z.boolean(),
-    version: z.boolean(),
-    host: z.boolean(),
-    port: z.boolean(),
-    history: z.boolean(),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    version: PZ.Scalar.bool(),
+    host: PZ.Scalar.bool(),
+    port: PZ.Scalar.bool(),
+    history: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AppOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AppOwnSelectFieldsSchema
 );
 
@@ -62,16 +32,16 @@ export const AppDistinctFieldsSchema = z
 
 export const SecretOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdAt: z.boolean(),
-    updatedAt: z.boolean(),
-    version: z.boolean(),
-    secret: z.boolean(),
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    version: PZ.Scalar.bool(),
+    secret: PZ.Scalar.bool(),
   })
   .partial();
 
 export const SecretOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SecretOwnSelectFieldsSchema
 );
 
@@ -81,16 +51,16 @@ export const SecretDistinctFieldsSchema = z
 
 export const AppHistoryOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    appId: z.boolean(),
-    startedAt: z.boolean(),
-    stopeedAt: z.boolean(),
-    app: z.boolean(),
+    id: PZ.Scalar.bool(),
+    appId: PZ.Scalar.bool(),
+    startedAt: PZ.Scalar.bool(),
+    stopeedAt: PZ.Scalar.bool(),
+    app: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AppHistoryOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AppHistoryOwnSelectFieldsSchema
 );
 
@@ -110,7 +80,7 @@ export const AppOwnWhereSchema = z
   .partial();
 
 export const AppOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AppOwnWhereSchema
 );
 
@@ -125,7 +95,7 @@ export const SecretOwnWhereSchema = z
   .partial();
 
 export const SecretOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SecretOwnWhereSchema
 );
 
@@ -139,18 +109,18 @@ export const AppHistoryOwnWhereSchema = z
   .partial();
 
 export const AppHistoryOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AppHistoryOwnWhereSchema
 );
 
 export const AppOwnIncludeSchema = z
   .object({
-    history: z.boolean(),
+    history: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AppOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AppOwnIncludeSchema
 );
 
@@ -171,7 +141,7 @@ export const AppOwnQuerySchema = z
 export const SecretOwnIncludeSchema = z.object({}).partial();
 
 export const SecretOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SecretOwnIncludeSchema
 );
 
@@ -191,12 +161,12 @@ export const SecretOwnQuerySchema = z
 
 export const AppHistoryOwnIncludeSchema = z
   .object({
-    app: z.boolean(),
+    app: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AppHistoryOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AppHistoryOwnIncludeSchema
 );
 
@@ -214,21 +184,25 @@ export const AppHistoryOwnQuerySchema = z
   })
   .partial();
 
-export const AppCreateSchema = z.object({
-  name: nameSchema.clone(),
-  description: descriptionSchema.clone().optional(),
-  version: z.string().optional(),
-  host: z.string(),
-  port: z.string(),
+export const AppRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
+  description: PZ.Scalar.description().optional(),
+  version: PZ.Scalar.string().optional(),
+  host: PZ.Scalar.string(),
+  port: PZ.Scalar.string(),
 });
 
-export const AppUpdateSchema = z.object({
-  name: nameSchema.clone().optional(),
-  description: descriptionSchema.clone().optional().optional(),
-  version: z.string().optional().optional(),
-  host: z.string().optional(),
-  port: z.string().optional(),
+export const AppCreateSchema = AppRawCreateSchema.clone();
+
+export const AppRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
+  description: PZ.Scalar.description().optional().optional(),
+  version: PZ.Scalar.string().optional().optional(),
+  host: PZ.Scalar.string().optional(),
+  port: PZ.Scalar.string().optional(),
 });
+
+export const AppUpdateSchema = AppRawUpdateSchema.clone();
 
 export const AppOrderBySchema = z
   .object({
@@ -239,9 +213,16 @@ export const AppOrderBySchema = z
     host: PZ.OrderDirectionSchema,
     port: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
-export const AppOrderBySchemaJson = z.preprocess(jsonParser, AppOrderBySchema);
+export const AppOrderBySchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  AppOrderBySchema
+);
 
 export const AppWhereSchema = z
   .object({
@@ -261,47 +242,80 @@ export const AppWhereSchema = z
   })
   .partial();
 
-export const AppWhereSchemaJson = z.preprocess(jsonParser, AppWhereSchema);
+export const AppWhereSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  AppWhereSchema
+);
 
 export const AppSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    description: z.boolean(),
-    version: z.boolean(),
-    host: z.boolean(),
-    port: z.boolean(),
-    history: z.boolean().or(AppHistoryOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    version: PZ.Scalar.bool(),
+    host: PZ.Scalar.bool(),
+    port: PZ.Scalar.bool(),
+    history: PZ.Scalar.bool().or(AppHistoryOwnQuerySchema),
   })
   .partial();
 
 export const AppSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AppSelectFieldsSchema
+);
+
+export const AppOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    version: PZ.Scalar.bool(),
+    host: PZ.Scalar.bool(),
+    port: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'name', 'description', 'version', 'host', 'port'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const AppOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  AppOmitFieldsSchema
 );
 
 export const AppIncludeSchema = z
   .object({
-    history: z.boolean().or(AppHistoryOwnQuerySchema),
+    history: PZ.Scalar.bool().or(AppHistoryOwnQuerySchema),
   })
   .partial();
 
-export const AppIncludeSchemaJson = z.preprocess(jsonParser, AppIncludeSchema);
+export const AppIncludeSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  AppIncludeSchema
+);
 
 export const AppProjectionSchema = z.union([
-  z.object({ omit: AppSelectFieldsSchemaJson }),
+  z.object({ omit: AppOmitFieldsSchemaJson }),
   z.object({ select: AppSelectFieldsSchemaJson }),
   z.object({ include: AppIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const SecretCreateSchema = z.object({
-  secret: z.string(),
+export const SecretRawCreateSchema = z.object({
+  secret: PZ.Scalar.string(),
 });
 
-export const SecretUpdateSchema = z.object({
-  secret: z.string().optional(),
+export const SecretCreateSchema = SecretRawCreateSchema.clone();
+
+export const SecretRawUpdateSchema = z.object({
+  secret: PZ.Scalar.string().optional(),
 });
+
+export const SecretUpdateSchema = SecretRawUpdateSchema.clone();
 
 export const SecretOrderBySchema = z
   .object({
@@ -311,10 +325,14 @@ export const SecretOrderBySchema = z
     version: PZ.OrderDirectionSchema,
     secret: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const SecretOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SecretOrderBySchema
 );
 
@@ -329,48 +347,74 @@ export const SecretWhereSchema = z
   .partial();
 
 export const SecretWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SecretWhereSchema
 );
 
 export const SecretSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdAt: z.boolean(),
-    updatedAt: z.boolean(),
-    version: z.boolean(),
-    secret: z.boolean(),
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    version: PZ.Scalar.bool(),
+    secret: PZ.Scalar.bool(),
   })
   .partial();
 
 export const SecretSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SecretSelectFieldsSchema
+);
+
+export const SecretOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    version: PZ.Scalar.bool(),
+    secret: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'createdAt', 'updatedAt', 'version', 'secret'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const SecretOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  SecretOmitFieldsSchema
 );
 
 export const SecretIncludeSchema = z.object({}).partial();
 
 export const SecretIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SecretIncludeSchema
 );
 
 export const SecretProjectionSchema = z.union([
-  z.object({ omit: SecretSelectFieldsSchemaJson }),
+  z.object({ omit: SecretOmitFieldsSchemaJson }),
   z.object({ select: SecretSelectFieldsSchemaJson }),
   z.object({ include: SecretIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const AppHistoryCreateSchema = z.object({
-  appId: z.coerce.number().int(),
-  stopeedAt: dateSchema.clone().optional(),
+export const AppHistoryRawCreateSchema = z.object({
+  appId: PZ.Scalar.id(),
+  stopeedAt: PZ.Scalar.datetime().optional(),
 });
 
-export const AppHistoryUpdateSchema = z.object({
-  appId: z.coerce.number().int().optional(),
-  stopeedAt: dateSchema.clone().optional().optional(),
+export const AppHistoryCreateSchema = AppHistoryRawCreateSchema.clone();
+
+export const AppHistoryRawUpdateSchema = z.object({
+  appId: PZ.Scalar.id().optional(),
+  stopeedAt: PZ.Scalar.datetime().optional().optional(),
 });
+
+export const AppHistoryUpdateSchema = AppHistoryRawUpdateSchema.clone();
 
 export const AppHistoryOrderBySchema = z
   .object({
@@ -379,10 +423,14 @@ export const AppHistoryOrderBySchema = z
     startedAt: PZ.OrderDirectionSchema,
     stopeedAt: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const AppHistoryOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AppHistoryOrderBySchema
 );
 
@@ -397,38 +445,59 @@ export const AppHistoryWhereSchema = z
   .partial();
 
 export const AppHistoryWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AppHistoryWhereSchema
 );
 
 export const AppHistorySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    appId: z.boolean(),
-    startedAt: z.boolean(),
-    stopeedAt: z.boolean(),
-    app: z.boolean().or(AppOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    appId: PZ.Scalar.bool(),
+    startedAt: PZ.Scalar.bool(),
+    stopeedAt: PZ.Scalar.bool(),
+    app: PZ.Scalar.bool().or(AppOwnQueryOneSchema),
   })
   .partial();
 
 export const AppHistorySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AppHistorySelectFieldsSchema
+);
+
+export const AppHistoryOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    appId: PZ.Scalar.bool(),
+    startedAt: PZ.Scalar.bool(),
+    stopeedAt: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'appId', 'startedAt', 'stopeedAt'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const AppHistoryOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  AppHistoryOmitFieldsSchema
 );
 
 export const AppHistoryIncludeSchema = z
   .object({
-    app: z.boolean().or(AppOwnQueryOneSchema),
+    app: PZ.Scalar.bool().or(AppOwnQueryOneSchema),
   })
   .partial();
 
 export const AppHistoryIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AppHistoryIncludeSchema
 );
 
 export const AppHistoryProjectionSchema = z.union([
-  z.object({ omit: AppHistorySelectFieldsSchemaJson }),
+  z.object({ omit: AppHistoryOmitFieldsSchemaJson }),
   z.object({ select: AppHistorySelectFieldsSchemaJson }),
   z.object({ include: AppHistoryIncludeSchemaJson }),
   z.object({}),
@@ -450,9 +519,9 @@ export const AppQuerySchema = z
   })
   .partial();
 
-export type AppCreate = z.infer<typeof AppCreateSchema>;
+export type AppCreate = z.infer<typeof AppRawCreateSchema>;
 
-export type AppUpdate = z.infer<typeof AppUpdateSchema>;
+export type AppUpdate = z.infer<typeof AppRawUpdateSchema>;
 
 export type AppOrderBy = z.infer<typeof AppOrderBySchema>;
 
@@ -471,6 +540,8 @@ export type AppInclude = z.infer<typeof AppIncludeSchema>;
 export type AppQueryOne = z.infer<typeof AppQueryOneSchema>;
 
 export type AppQuery = z.infer<typeof AppQuerySchema>;
+
+export type AppOmitFields = z.infer<typeof AppOmitFieldsSchema>;
 
 export type AppSelectFields = z.infer<typeof AppSelectFieldsSchema>;
 
@@ -492,9 +563,9 @@ export const SecretQuerySchema = z
   })
   .partial();
 
-export type SecretCreate = z.infer<typeof SecretCreateSchema>;
+export type SecretCreate = z.infer<typeof SecretRawCreateSchema>;
 
-export type SecretUpdate = z.infer<typeof SecretUpdateSchema>;
+export type SecretUpdate = z.infer<typeof SecretRawUpdateSchema>;
 
 export type SecretOrderBy = z.infer<typeof SecretOrderBySchema>;
 
@@ -513,6 +584,8 @@ export type SecretInclude = z.infer<typeof SecretIncludeSchema>;
 export type SecretQueryOne = z.infer<typeof SecretQueryOneSchema>;
 
 export type SecretQuery = z.infer<typeof SecretQuerySchema>;
+
+export type SecretOmitFields = z.infer<typeof SecretOmitFieldsSchema>;
 
 export type SecretSelectFields = z.infer<typeof SecretSelectFieldsSchema>;
 
@@ -534,9 +607,9 @@ export const AppHistoryQuerySchema = z
   })
   .partial();
 
-export type AppHistoryCreate = z.infer<typeof AppHistoryCreateSchema>;
+export type AppHistoryCreate = z.infer<typeof AppHistoryRawCreateSchema>;
 
-export type AppHistoryUpdate = z.infer<typeof AppHistoryUpdateSchema>;
+export type AppHistoryUpdate = z.infer<typeof AppHistoryRawUpdateSchema>;
 
 export type AppHistoryOrderBy = z.infer<typeof AppHistoryOrderBySchema>;
 
@@ -557,6 +630,8 @@ export type AppHistoryInclude = z.infer<typeof AppHistoryIncludeSchema>;
 export type AppHistoryQueryOne = z.infer<typeof AppHistoryQueryOneSchema>;
 
 export type AppHistoryQuery = z.infer<typeof AppHistoryQuerySchema>;
+
+export type AppHistoryOmitFields = z.infer<typeof AppHistoryOmitFieldsSchema>;
 
 export type AppHistorySelectFields = z.infer<
   typeof AppHistorySelectFieldsSchema

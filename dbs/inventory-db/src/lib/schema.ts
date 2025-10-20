@@ -1,43 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as PZ from '@puq/zod';
 import { z } from 'zod';
-import { slugify } from '@puq/names';
 
-export const takeSchema = z.coerce.number().int().min(1).default(20).optional();
-export const skipSchema = z.coerce.number().int().min(0).default(0).optional();
 export const PaginationSchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
+    take: PZ.Scalar.take(),
+    skip: PZ.Scalar.skip(),
   })
   .partial();
-
-export const nameSchema = z.string().min(2).max(30);
-export const descriptionSchema = z.string().max(1000);
-export const currencySchema = z.coerce.number().positive();
-export const positiveIntegerSchema = z.coerce.number().int().positive();
-export const emailSchema = z.email();
-export const dateSchema = z.iso.datetime();
-export const slugSchema = z.string().regex(/^[a-z-]{2,}$/);
-
-export function jsonParser<T>(value: T) {
-  if (typeof value === 'string') {
-    return JSON.parse(value);
-  }
-  return value;
-}
-
-export function slugTransformer(key: string) {
-  return (value: any) => {
-    if (value.slug == undefined && value[key] != undefined) {
-      return {
-        ...value,
-        slug: value[key] ? slugify(value[key].toString()) : null,
-      };
-    }
-    return value;
-  };
-}
 
 export const DiscountTargetTypeSchema = z.enum([
   'STORE',
@@ -75,19 +45,19 @@ export const TimeUnitSchema = z.enum([
 
 export const CategoryOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    parentId: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    parent: z.boolean(),
-    children: z.boolean(),
-    products: z.boolean(),
-    discountTargets: z.boolean(),
+    id: PZ.Scalar.bool(),
+    parentId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    parent: PZ.Scalar.bool(),
+    children: PZ.Scalar.bool(),
+    products: PZ.Scalar.bool(),
+    discountTargets: PZ.Scalar.bool(),
   })
   .partial();
 
 export const CategoryOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CategoryOwnSelectFieldsSchema
 );
 
@@ -97,23 +67,23 @@ export const CategoryDistinctFieldsSchema = z
 
 export const ProductOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdAt: z.boolean(),
-    updatedAt: z.boolean(),
-    isActive: z.boolean(),
-    uuid: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    description: z.boolean(),
-    variants: z.boolean(),
-    categories: z.boolean(),
-    discounts: z.boolean(),
-    warranties: z.boolean(),
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    isActive: PZ.Scalar.bool(),
+    uuid: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    variants: PZ.Scalar.bool(),
+    categories: PZ.Scalar.bool(),
+    discounts: PZ.Scalar.bool(),
+    warranties: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ProductOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProductOwnSelectFieldsSchema
 );
 
@@ -132,16 +102,16 @@ export const ProductDistinctFieldsSchema = z
 
 export const ProductCategoryOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    productId: z.boolean(),
-    categoryId: z.boolean(),
-    product: z.boolean(),
-    category: z.boolean(),
+    id: PZ.Scalar.bool(),
+    productId: PZ.Scalar.bool(),
+    categoryId: PZ.Scalar.bool(),
+    product: PZ.Scalar.bool(),
+    category: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ProductCategoryOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProductCategoryOwnSelectFieldsSchema
 );
 
@@ -151,23 +121,23 @@ export const ProductCategoryDistinctFieldsSchema = z
 
 export const VariantOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    uuid: z.boolean(),
-    productId: z.boolean(),
-    sku: z.boolean(),
-    upc: z.boolean(),
-    product: z.boolean(),
-    attributes: z.boolean(),
-    prices: z.boolean(),
-    quantities: z.boolean(),
-    discounts: z.boolean(),
-    serrialNumbers: z.boolean(),
-    warranties: z.boolean(),
+    id: PZ.Scalar.bool(),
+    uuid: PZ.Scalar.bool(),
+    productId: PZ.Scalar.bool(),
+    sku: PZ.Scalar.bool(),
+    upc: PZ.Scalar.bool(),
+    product: PZ.Scalar.bool(),
+    attributes: PZ.Scalar.bool(),
+    prices: PZ.Scalar.bool(),
+    quantities: PZ.Scalar.bool(),
+    discounts: PZ.Scalar.bool(),
+    serrialNumbers: PZ.Scalar.bool(),
+    warranties: PZ.Scalar.bool(),
   })
   .partial();
 
 export const VariantOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   VariantOwnSelectFieldsSchema
 );
 
@@ -177,15 +147,15 @@ export const VariantDistinctFieldsSchema = z
 
 export const AttributeCategoryOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    attributes: z.boolean(),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    attributes: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AttributeCategoryOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeCategoryOwnSelectFieldsSchema
 );
 
@@ -195,18 +165,18 @@ export const AttributeCategoryDistinctFieldsSchema = z
 
 export const AttributeOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    categoryId: z.boolean(),
-    name: z.boolean(),
-    description: z.boolean(),
-    category: z.boolean(),
-    unites: z.boolean(),
-    values: z.boolean(),
+    id: PZ.Scalar.bool(),
+    categoryId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    category: PZ.Scalar.bool(),
+    unites: PZ.Scalar.bool(),
+    values: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AttributeOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeOwnSelectFieldsSchema
 );
 
@@ -216,15 +186,15 @@ export const AttributeDistinctFieldsSchema = z
 
 export const UnitOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    symbol: z.boolean(),
-    attributes: z.boolean(),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    symbol: PZ.Scalar.bool(),
+    attributes: PZ.Scalar.bool(),
   })
   .partial();
 
 export const UnitOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UnitOwnSelectFieldsSchema
 );
 
@@ -234,16 +204,16 @@ export const UnitDistinctFieldsSchema = z
 
 export const AttributeUnitOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    attributeId: z.boolean(),
-    unitId: z.boolean(),
-    attribute: z.boolean(),
-    unit: z.boolean(),
+    id: PZ.Scalar.bool(),
+    attributeId: PZ.Scalar.bool(),
+    unitId: PZ.Scalar.bool(),
+    attribute: PZ.Scalar.bool(),
+    unit: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AttributeUnitOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeUnitOwnSelectFieldsSchema
 );
 
@@ -253,19 +223,19 @@ export const AttributeUnitDistinctFieldsSchema = z
 
 export const AttributeValueOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    attributeId: z.boolean(),
-    variantId: z.boolean(),
-    textValue: z.boolean(),
-    booleanValue: z.boolean(),
-    floatValue: z.boolean(),
-    variant: z.boolean(),
-    attribute: z.boolean(),
+    id: PZ.Scalar.bool(),
+    attributeId: PZ.Scalar.bool(),
+    variantId: PZ.Scalar.bool(),
+    textValue: PZ.Scalar.bool(),
+    booleanValue: PZ.Scalar.bool(),
+    floatValue: PZ.Scalar.bool(),
+    variant: PZ.Scalar.bool(),
+    attribute: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AttributeValueOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeValueOwnSelectFieldsSchema
 );
 
@@ -282,16 +252,16 @@ export const AttributeValueDistinctFieldsSchema = z
 
 export const CurrencyOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    code: z.boolean(),
-    symbol: z.boolean(),
-    priceLevels: z.boolean(),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    code: PZ.Scalar.bool(),
+    symbol: PZ.Scalar.bool(),
+    priceLevels: PZ.Scalar.bool(),
   })
   .partial();
 
 export const CurrencyOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CurrencyOwnSelectFieldsSchema
 );
 
@@ -301,21 +271,21 @@ export const CurrencyDistinctFieldsSchema = z
 
 export const PriceLevelOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    currencyId: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    taxrate: z.boolean(),
-    notes: z.boolean(),
-    currency: z.boolean(),
-    stores: z.boolean(),
-    prices: z.boolean(),
-    discounts: z.boolean(),
+    id: PZ.Scalar.bool(),
+    currencyId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    taxrate: PZ.Scalar.bool(),
+    notes: PZ.Scalar.bool(),
+    currency: PZ.Scalar.bool(),
+    stores: PZ.Scalar.bool(),
+    prices: PZ.Scalar.bool(),
+    discounts: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PriceLevelOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriceLevelOwnSelectFieldsSchema
 );
 
@@ -325,19 +295,19 @@ export const PriceLevelDistinctFieldsSchema = z
 
 export const PriceOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    variantId: z.boolean(),
-    priceLevelId: z.boolean(),
-    price: z.boolean(),
-    cost: z.boolean(),
-    description: z.boolean(),
-    variant: z.boolean(),
-    priceLevel: z.boolean(),
+    id: PZ.Scalar.bool(),
+    variantId: PZ.Scalar.bool(),
+    priceLevelId: PZ.Scalar.bool(),
+    price: PZ.Scalar.bool(),
+    cost: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    variant: PZ.Scalar.bool(),
+    priceLevel: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PriceOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriceOwnSelectFieldsSchema
 );
 
@@ -347,18 +317,18 @@ export const PriceDistinctFieldsSchema = z
 
 export const QuantityOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    variantId: z.boolean(),
-    storeId: z.boolean(),
-    quantity: z.boolean(),
-    alertThreshold: z.boolean(),
-    variant: z.boolean(),
-    store: z.boolean(),
+    id: PZ.Scalar.bool(),
+    variantId: PZ.Scalar.bool(),
+    storeId: PZ.Scalar.bool(),
+    quantity: PZ.Scalar.bool(),
+    alertThreshold: PZ.Scalar.bool(),
+    variant: PZ.Scalar.bool(),
+    store: PZ.Scalar.bool(),
   })
   .partial();
 
 export const QuantityOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   QuantityOwnSelectFieldsSchema
 );
 
@@ -368,18 +338,18 @@ export const QuantityDistinctFieldsSchema = z
 
 export const SerialNumberOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    variantId: z.boolean(),
-    storeId: z.boolean(),
-    serialNumber: z.boolean(),
-    inStock: z.boolean(),
-    variant: z.boolean(),
-    store: z.boolean(),
+    id: PZ.Scalar.bool(),
+    variantId: PZ.Scalar.bool(),
+    storeId: PZ.Scalar.bool(),
+    serialNumber: PZ.Scalar.bool(),
+    inStock: PZ.Scalar.bool(),
+    variant: PZ.Scalar.bool(),
+    store: PZ.Scalar.bool(),
   })
   .partial();
 
 export const SerialNumberOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SerialNumberOwnSelectFieldsSchema
 );
 
@@ -389,25 +359,25 @@ export const SerialNumberDistinctFieldsSchema = z
 
 export const DiscountOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    code: z.boolean(),
-    type: z.boolean(),
-    valueType: z.boolean(),
-    value: z.boolean(),
-    minQuantity: z.boolean(),
-    maxQuantity: z.boolean(),
-    minOrderTotal: z.boolean(),
-    maxOrderTotal: z.boolean(),
-    startDate: z.boolean(),
-    endDate: z.boolean(),
-    usageLimit: z.boolean(),
-    usageCount: z.boolean(),
-    targets: z.boolean(),
+    id: PZ.Scalar.bool(),
+    code: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    valueType: PZ.Scalar.bool(),
+    value: PZ.Scalar.bool(),
+    minQuantity: PZ.Scalar.bool(),
+    maxQuantity: PZ.Scalar.bool(),
+    minOrderTotal: PZ.Scalar.bool(),
+    maxOrderTotal: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+    usageLimit: PZ.Scalar.bool(),
+    usageCount: PZ.Scalar.bool(),
+    targets: PZ.Scalar.bool(),
   })
   .partial();
 
 export const DiscountOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DiscountOwnSelectFieldsSchema
 );
 
@@ -431,25 +401,25 @@ export const DiscountDistinctFieldsSchema = z
 
 export const DiscountTargetOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    type: z.boolean(),
-    discountId: z.boolean(),
-    storeId: z.boolean(),
-    productId: z.boolean(),
-    variantId: z.boolean(),
-    priceLevelId: z.boolean(),
-    categoryId: z.boolean(),
-    discount: z.boolean(),
-    store: z.boolean(),
-    category: z.boolean(),
-    priceLevel: z.boolean(),
-    product: z.boolean(),
-    variant: z.boolean(),
+    id: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    discountId: PZ.Scalar.bool(),
+    storeId: PZ.Scalar.bool(),
+    productId: PZ.Scalar.bool(),
+    variantId: PZ.Scalar.bool(),
+    priceLevelId: PZ.Scalar.bool(),
+    categoryId: PZ.Scalar.bool(),
+    discount: PZ.Scalar.bool(),
+    store: PZ.Scalar.bool(),
+    category: PZ.Scalar.bool(),
+    priceLevel: PZ.Scalar.bool(),
+    product: PZ.Scalar.bool(),
+    variant: PZ.Scalar.bool(),
   })
   .partial();
 
 export const DiscountTargetOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DiscountTargetOwnSelectFieldsSchema
 );
 
@@ -468,20 +438,20 @@ export const DiscountTargetDistinctFieldsSchema = z
 
 export const StoreOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    priceLevelId: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    description: z.boolean(),
-    priceLevel: z.boolean(),
-    quantities: z.boolean(),
-    discounts: z.boolean(),
-    serialNumbers: z.boolean(),
+    id: PZ.Scalar.bool(),
+    priceLevelId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    priceLevel: PZ.Scalar.bool(),
+    quantities: PZ.Scalar.bool(),
+    discounts: PZ.Scalar.bool(),
+    serialNumbers: PZ.Scalar.bool(),
   })
   .partial();
 
 export const StoreOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StoreOwnSelectFieldsSchema
 );
 
@@ -491,17 +461,17 @@ export const StoreDistinctFieldsSchema = z
 
 export const WarrantyPolicyOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    description: z.boolean(),
-    duration: z.boolean(),
-    durationUnit: z.boolean(),
-    products: z.boolean(),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    duration: PZ.Scalar.bool(),
+    durationUnit: PZ.Scalar.bool(),
+    products: PZ.Scalar.bool(),
   })
   .partial();
 
 export const WarrantyPolicyOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   WarrantyPolicyOwnSelectFieldsSchema
 );
 
@@ -511,18 +481,18 @@ export const WarrantyPolicyDistinctFieldsSchema = z
 
 export const ProductWarrantyOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    productId: z.boolean(),
-    variantId: z.boolean(),
-    policyId: z.boolean(),
-    product: z.boolean(),
-    variant: z.boolean(),
-    policy: z.boolean(),
+    id: PZ.Scalar.bool(),
+    productId: PZ.Scalar.bool(),
+    variantId: PZ.Scalar.bool(),
+    policyId: PZ.Scalar.bool(),
+    product: PZ.Scalar.bool(),
+    variant: PZ.Scalar.bool(),
+    policy: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ProductWarrantyOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProductWarrantyOwnSelectFieldsSchema
 );
 
@@ -540,7 +510,7 @@ export const CategoryOwnWhereSchema = z
   .partial();
 
 export const CategoryOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CategoryOwnWhereSchema
 );
 
@@ -558,7 +528,7 @@ export const ProductOwnWhereSchema = z
   .partial();
 
 export const ProductOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProductOwnWhereSchema
 );
 
@@ -571,7 +541,7 @@ export const ProductCategoryOwnWhereSchema = z
   .partial();
 
 export const ProductCategoryOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProductCategoryOwnWhereSchema
 );
 
@@ -586,7 +556,7 @@ export const VariantOwnWhereSchema = z
   .partial();
 
 export const VariantOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   VariantOwnWhereSchema
 );
 
@@ -599,7 +569,7 @@ export const AttributeCategoryOwnWhereSchema = z
   .partial();
 
 export const AttributeCategoryOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeCategoryOwnWhereSchema
 );
 
@@ -613,7 +583,7 @@ export const AttributeOwnWhereSchema = z
   .partial();
 
 export const AttributeOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeOwnWhereSchema
 );
 
@@ -626,7 +596,7 @@ export const UnitOwnWhereSchema = z
   .partial();
 
 export const UnitOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UnitOwnWhereSchema
 );
 
@@ -639,7 +609,7 @@ export const AttributeUnitOwnWhereSchema = z
   .partial();
 
 export const AttributeUnitOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeUnitOwnWhereSchema
 );
 
@@ -655,7 +625,7 @@ export const AttributeValueOwnWhereSchema = z
   .partial();
 
 export const AttributeValueOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeValueOwnWhereSchema
 );
 
@@ -669,7 +639,7 @@ export const CurrencyOwnWhereSchema = z
   .partial();
 
 export const CurrencyOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CurrencyOwnWhereSchema
 );
 
@@ -685,7 +655,7 @@ export const PriceLevelOwnWhereSchema = z
   .partial();
 
 export const PriceLevelOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriceLevelOwnWhereSchema
 );
 
@@ -701,7 +671,7 @@ export const PriceOwnWhereSchema = z
   .partial();
 
 export const PriceOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriceOwnWhereSchema
 );
 
@@ -716,7 +686,7 @@ export const QuantityOwnWhereSchema = z
   .partial();
 
 export const QuantityOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   QuantityOwnWhereSchema
 );
 
@@ -731,7 +701,7 @@ export const SerialNumberOwnWhereSchema = z
   .partial();
 
 export const SerialNumberOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SerialNumberOwnWhereSchema
 );
 
@@ -754,7 +724,7 @@ export const DiscountOwnWhereSchema = z
   .partial();
 
 export const DiscountOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DiscountOwnWhereSchema
 );
 
@@ -772,7 +742,7 @@ export const DiscountTargetOwnWhereSchema = z
   .partial();
 
 export const DiscountTargetOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DiscountTargetOwnWhereSchema
 );
 
@@ -787,7 +757,7 @@ export const StoreOwnWhereSchema = z
   .partial();
 
 export const StoreOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StoreOwnWhereSchema
 );
 
@@ -802,7 +772,7 @@ export const WarrantyPolicyOwnWhereSchema = z
   .partial();
 
 export const WarrantyPolicyOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   WarrantyPolicyOwnWhereSchema
 );
 
@@ -816,21 +786,21 @@ export const ProductWarrantyOwnWhereSchema = z
   .partial();
 
 export const ProductWarrantyOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProductWarrantyOwnWhereSchema
 );
 
 export const CategoryOwnIncludeSchema = z
   .object({
-    parent: z.boolean(),
-    children: z.boolean(),
-    products: z.boolean(),
-    discountTargets: z.boolean(),
+    parent: PZ.Scalar.bool(),
+    children: PZ.Scalar.bool(),
+    products: PZ.Scalar.bool(),
+    discountTargets: PZ.Scalar.bool(),
   })
   .partial();
 
 export const CategoryOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CategoryOwnIncludeSchema
 );
 
@@ -850,15 +820,15 @@ export const CategoryOwnQuerySchema = z
 
 export const ProductOwnIncludeSchema = z
   .object({
-    variants: z.boolean(),
-    categories: z.boolean(),
-    discounts: z.boolean(),
-    warranties: z.boolean(),
+    variants: PZ.Scalar.bool(),
+    categories: PZ.Scalar.bool(),
+    discounts: PZ.Scalar.bool(),
+    warranties: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ProductOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProductOwnIncludeSchema
 );
 
@@ -878,13 +848,13 @@ export const ProductOwnQuerySchema = z
 
 export const ProductCategoryOwnIncludeSchema = z
   .object({
-    product: z.boolean(),
-    category: z.boolean(),
+    product: PZ.Scalar.bool(),
+    category: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ProductCategoryOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProductCategoryOwnIncludeSchema
 );
 
@@ -904,18 +874,18 @@ export const ProductCategoryOwnQuerySchema = z
 
 export const VariantOwnIncludeSchema = z
   .object({
-    product: z.boolean(),
-    attributes: z.boolean(),
-    prices: z.boolean(),
-    quantities: z.boolean(),
-    discounts: z.boolean(),
-    serrialNumbers: z.boolean(),
-    warranties: z.boolean(),
+    product: PZ.Scalar.bool(),
+    attributes: PZ.Scalar.bool(),
+    prices: PZ.Scalar.bool(),
+    quantities: PZ.Scalar.bool(),
+    discounts: PZ.Scalar.bool(),
+    serrialNumbers: PZ.Scalar.bool(),
+    warranties: PZ.Scalar.bool(),
   })
   .partial();
 
 export const VariantOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   VariantOwnIncludeSchema
 );
 
@@ -935,12 +905,12 @@ export const VariantOwnQuerySchema = z
 
 export const AttributeCategoryOwnIncludeSchema = z
   .object({
-    attributes: z.boolean(),
+    attributes: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AttributeCategoryOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeCategoryOwnIncludeSchema
 );
 
@@ -960,14 +930,14 @@ export const AttributeCategoryOwnQuerySchema = z
 
 export const AttributeOwnIncludeSchema = z
   .object({
-    category: z.boolean(),
-    unites: z.boolean(),
-    values: z.boolean(),
+    category: PZ.Scalar.bool(),
+    unites: PZ.Scalar.bool(),
+    values: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AttributeOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeOwnIncludeSchema
 );
 
@@ -987,12 +957,12 @@ export const AttributeOwnQuerySchema = z
 
 export const UnitOwnIncludeSchema = z
   .object({
-    attributes: z.boolean(),
+    attributes: PZ.Scalar.bool(),
   })
   .partial();
 
 export const UnitOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UnitOwnIncludeSchema
 );
 
@@ -1012,13 +982,13 @@ export const UnitOwnQuerySchema = z
 
 export const AttributeUnitOwnIncludeSchema = z
   .object({
-    attribute: z.boolean(),
-    unit: z.boolean(),
+    attribute: PZ.Scalar.bool(),
+    unit: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AttributeUnitOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeUnitOwnIncludeSchema
 );
 
@@ -1038,13 +1008,13 @@ export const AttributeUnitOwnQuerySchema = z
 
 export const AttributeValueOwnIncludeSchema = z
   .object({
-    variant: z.boolean(),
-    attribute: z.boolean(),
+    variant: PZ.Scalar.bool(),
+    attribute: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AttributeValueOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeValueOwnIncludeSchema
 );
 
@@ -1064,12 +1034,12 @@ export const AttributeValueOwnQuerySchema = z
 
 export const CurrencyOwnIncludeSchema = z
   .object({
-    priceLevels: z.boolean(),
+    priceLevels: PZ.Scalar.bool(),
   })
   .partial();
 
 export const CurrencyOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CurrencyOwnIncludeSchema
 );
 
@@ -1089,15 +1059,15 @@ export const CurrencyOwnQuerySchema = z
 
 export const PriceLevelOwnIncludeSchema = z
   .object({
-    currency: z.boolean(),
-    stores: z.boolean(),
-    prices: z.boolean(),
-    discounts: z.boolean(),
+    currency: PZ.Scalar.bool(),
+    stores: PZ.Scalar.bool(),
+    prices: PZ.Scalar.bool(),
+    discounts: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PriceLevelOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriceLevelOwnIncludeSchema
 );
 
@@ -1117,13 +1087,13 @@ export const PriceLevelOwnQuerySchema = z
 
 export const PriceOwnIncludeSchema = z
   .object({
-    variant: z.boolean(),
-    priceLevel: z.boolean(),
+    variant: PZ.Scalar.bool(),
+    priceLevel: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PriceOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriceOwnIncludeSchema
 );
 
@@ -1143,13 +1113,13 @@ export const PriceOwnQuerySchema = z
 
 export const QuantityOwnIncludeSchema = z
   .object({
-    variant: z.boolean(),
-    store: z.boolean(),
+    variant: PZ.Scalar.bool(),
+    store: PZ.Scalar.bool(),
   })
   .partial();
 
 export const QuantityOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   QuantityOwnIncludeSchema
 );
 
@@ -1169,13 +1139,13 @@ export const QuantityOwnQuerySchema = z
 
 export const SerialNumberOwnIncludeSchema = z
   .object({
-    variant: z.boolean(),
-    store: z.boolean(),
+    variant: PZ.Scalar.bool(),
+    store: PZ.Scalar.bool(),
   })
   .partial();
 
 export const SerialNumberOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SerialNumberOwnIncludeSchema
 );
 
@@ -1195,12 +1165,12 @@ export const SerialNumberOwnQuerySchema = z
 
 export const DiscountOwnIncludeSchema = z
   .object({
-    targets: z.boolean(),
+    targets: PZ.Scalar.bool(),
   })
   .partial();
 
 export const DiscountOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DiscountOwnIncludeSchema
 );
 
@@ -1220,17 +1190,17 @@ export const DiscountOwnQuerySchema = z
 
 export const DiscountTargetOwnIncludeSchema = z
   .object({
-    discount: z.boolean(),
-    store: z.boolean(),
-    category: z.boolean(),
-    priceLevel: z.boolean(),
-    product: z.boolean(),
-    variant: z.boolean(),
+    discount: PZ.Scalar.bool(),
+    store: PZ.Scalar.bool(),
+    category: PZ.Scalar.bool(),
+    priceLevel: PZ.Scalar.bool(),
+    product: PZ.Scalar.bool(),
+    variant: PZ.Scalar.bool(),
   })
   .partial();
 
 export const DiscountTargetOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DiscountTargetOwnIncludeSchema
 );
 
@@ -1250,15 +1220,15 @@ export const DiscountTargetOwnQuerySchema = z
 
 export const StoreOwnIncludeSchema = z
   .object({
-    priceLevel: z.boolean(),
-    quantities: z.boolean(),
-    discounts: z.boolean(),
-    serialNumbers: z.boolean(),
+    priceLevel: PZ.Scalar.bool(),
+    quantities: PZ.Scalar.bool(),
+    discounts: PZ.Scalar.bool(),
+    serialNumbers: PZ.Scalar.bool(),
   })
   .partial();
 
 export const StoreOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StoreOwnIncludeSchema
 );
 
@@ -1278,12 +1248,12 @@ export const StoreOwnQuerySchema = z
 
 export const WarrantyPolicyOwnIncludeSchema = z
   .object({
-    products: z.boolean(),
+    products: PZ.Scalar.bool(),
   })
   .partial();
 
 export const WarrantyPolicyOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   WarrantyPolicyOwnIncludeSchema
 );
 
@@ -1303,14 +1273,14 @@ export const WarrantyPolicyOwnQuerySchema = z
 
 export const ProductWarrantyOwnIncludeSchema = z
   .object({
-    product: z.boolean(),
-    variant: z.boolean(),
-    policy: z.boolean(),
+    product: PZ.Scalar.bool(),
+    variant: PZ.Scalar.bool(),
+    policy: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ProductWarrantyOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProductWarrantyOwnIncludeSchema
 );
 
@@ -1328,21 +1298,25 @@ export const ProductWarrantyOwnQuerySchema = z
   })
   .partial();
 
-export const CategoryCreateSchema = z
-  .object({
-    parentId: z.coerce.number().int().optional(),
-    name: nameSchema.clone(),
-    slug: slugSchema.clone().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const CategoryRawCreateSchema = z.object({
+  parentId: PZ.Scalar.id().optional(),
+  name: PZ.Scalar.name(),
+  slug: PZ.Scalar.slug().optional(),
+});
 
-export const CategoryUpdateSchema = z
-  .object({
-    parentId: z.coerce.number().int().optional().optional(),
-    name: nameSchema.clone().optional(),
-    slug: slugSchema.clone().optional().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const CategoryCreateSchema = CategoryRawCreateSchema.clone().transform(
+  PZ.slugTransformer('name')
+);
+
+export const CategoryRawUpdateSchema = z.object({
+  parentId: PZ.Scalar.id().optional().optional(),
+  name: PZ.Scalar.name().optional(),
+  slug: PZ.Scalar.slug().optional().optional(),
+});
+
+export const CategoryUpdateSchema = CategoryRawUpdateSchema.clone().transform(
+  PZ.slugTransformer('name')
+);
 
 export const CategoryOrderBySchema = z
   .object({
@@ -1351,10 +1325,14 @@ export const CategoryOrderBySchema = z
     name: PZ.OrderDirectionSchema,
     slug: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const CategoryOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CategoryOrderBySchema
 );
 
@@ -1390,66 +1368,89 @@ export const CategoryWhereSchema = z
   .partial();
 
 export const CategoryWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CategoryWhereSchema
 );
 
 export const CategorySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    parentId: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    parent: z.boolean().or(CategoryOwnQueryOneSchema),
-    children: z.boolean().or(CategoryOwnQuerySchema),
-    products: z.boolean().or(ProductCategoryOwnQuerySchema),
-    discountTargets: z.boolean().or(DiscountTargetOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    parentId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    parent: PZ.Scalar.bool().or(CategoryOwnQueryOneSchema),
+    children: PZ.Scalar.bool().or(CategoryOwnQuerySchema),
+    products: PZ.Scalar.bool().or(ProductCategoryOwnQuerySchema),
+    discountTargets: PZ.Scalar.bool().or(DiscountTargetOwnQuerySchema),
   })
   .partial();
 
 export const CategorySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CategorySelectFieldsSchema
+);
+
+export const CategoryOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    parentId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'parentId', 'name', 'slug'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const CategoryOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  CategoryOmitFieldsSchema
 );
 
 export const CategoryIncludeSchema = z
   .object({
-    parent: z.boolean().or(CategoryOwnQueryOneSchema),
-    children: z.boolean().or(CategoryOwnQuerySchema),
-    products: z.boolean().or(ProductCategoryOwnQuerySchema),
-    discountTargets: z.boolean().or(DiscountTargetOwnQuerySchema),
+    parent: PZ.Scalar.bool().or(CategoryOwnQueryOneSchema),
+    children: PZ.Scalar.bool().or(CategoryOwnQuerySchema),
+    products: PZ.Scalar.bool().or(ProductCategoryOwnQuerySchema),
+    discountTargets: PZ.Scalar.bool().or(DiscountTargetOwnQuerySchema),
   })
   .partial();
 
 export const CategoryIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CategoryIncludeSchema
 );
 
 export const CategoryProjectionSchema = z.union([
-  z.object({ omit: CategorySelectFieldsSchemaJson }),
+  z.object({ omit: CategoryOmitFieldsSchemaJson }),
   z.object({ select: CategorySelectFieldsSchemaJson }),
   z.object({ include: CategoryIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const ProductCreateSchema = z
-  .object({
-    isActive: z.boolean().optional(),
-    name: nameSchema.clone(),
-    slug: slugSchema.clone().optional(),
-    description: descriptionSchema.clone().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const ProductRawCreateSchema = z.object({
+  isActive: PZ.Scalar.bool().optional(),
+  name: PZ.Scalar.name(),
+  slug: PZ.Scalar.slug().optional(),
+  description: PZ.Scalar.description().optional(),
+});
 
-export const ProductUpdateSchema = z
-  .object({
-    isActive: z.boolean().optional().optional(),
-    name: nameSchema.clone().optional(),
-    slug: slugSchema.clone().optional().optional(),
-    description: descriptionSchema.clone().optional().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const ProductCreateSchema = ProductRawCreateSchema.clone().transform(
+  PZ.slugTransformer('name')
+);
+
+export const ProductRawUpdateSchema = z.object({
+  isActive: PZ.Scalar.bool().optional().optional(),
+  name: PZ.Scalar.name().optional(),
+  slug: PZ.Scalar.slug().optional().optional(),
+  description: PZ.Scalar.description().optional().optional(),
+});
+
+export const ProductUpdateSchema = ProductRawUpdateSchema.clone().transform(
+  PZ.slugTransformer('name')
+);
 
 export const ProductOrderBySchema = z
   .object({
@@ -1462,10 +1463,14 @@ export const ProductOrderBySchema = z
     slug: PZ.OrderDirectionSchema,
     description: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const ProductOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProductOrderBySchema
 );
 
@@ -1511,62 +1516,100 @@ export const ProductWhereSchema = z
   .partial();
 
 export const ProductWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProductWhereSchema
 );
 
 export const ProductSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdAt: z.boolean(),
-    updatedAt: z.boolean(),
-    isActive: z.boolean(),
-    uuid: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    description: z.boolean(),
-    variants: z.boolean().or(VariantOwnQuerySchema),
-    categories: z.boolean().or(ProductCategoryOwnQuerySchema),
-    discounts: z.boolean().or(DiscountTargetOwnQuerySchema),
-    warranties: z.boolean().or(ProductWarrantyOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    isActive: PZ.Scalar.bool(),
+    uuid: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    variants: PZ.Scalar.bool().or(VariantOwnQuerySchema),
+    categories: PZ.Scalar.bool().or(ProductCategoryOwnQuerySchema),
+    discounts: PZ.Scalar.bool().or(DiscountTargetOwnQuerySchema),
+    warranties: PZ.Scalar.bool().or(ProductWarrantyOwnQuerySchema),
   })
   .partial();
 
 export const ProductSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProductSelectFieldsSchema
+);
+
+export const ProductOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    isActive: PZ.Scalar.bool(),
+    uuid: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      ![
+        'id',
+        'createdAt',
+        'updatedAt',
+        'isActive',
+        'uuid',
+        'name',
+        'slug',
+        'description',
+      ].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const ProductOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  ProductOmitFieldsSchema
 );
 
 export const ProductIncludeSchema = z
   .object({
-    variants: z.boolean().or(VariantOwnQuerySchema),
-    categories: z.boolean().or(ProductCategoryOwnQuerySchema),
-    discounts: z.boolean().or(DiscountTargetOwnQuerySchema),
-    warranties: z.boolean().or(ProductWarrantyOwnQuerySchema),
+    variants: PZ.Scalar.bool().or(VariantOwnQuerySchema),
+    categories: PZ.Scalar.bool().or(ProductCategoryOwnQuerySchema),
+    discounts: PZ.Scalar.bool().or(DiscountTargetOwnQuerySchema),
+    warranties: PZ.Scalar.bool().or(ProductWarrantyOwnQuerySchema),
   })
   .partial();
 
 export const ProductIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProductIncludeSchema
 );
 
 export const ProductProjectionSchema = z.union([
-  z.object({ omit: ProductSelectFieldsSchemaJson }),
+  z.object({ omit: ProductOmitFieldsSchemaJson }),
   z.object({ select: ProductSelectFieldsSchemaJson }),
   z.object({ include: ProductIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const ProductCategoryCreateSchema = z.object({
-  productId: z.coerce.number().int(),
-  categoryId: z.coerce.number().int(),
+export const ProductCategoryRawCreateSchema = z.object({
+  productId: PZ.Scalar.id(),
+  categoryId: PZ.Scalar.id(),
 });
 
-export const ProductCategoryUpdateSchema = z.object({
-  productId: z.coerce.number().int().optional(),
-  categoryId: z.coerce.number().int().optional(),
+export const ProductCategoryCreateSchema =
+  ProductCategoryRawCreateSchema.clone();
+
+export const ProductCategoryRawUpdateSchema = z.object({
+  productId: PZ.Scalar.id().optional(),
+  categoryId: PZ.Scalar.id().optional(),
 });
+
+export const ProductCategoryUpdateSchema =
+  ProductCategoryRawUpdateSchema.clone();
 
 export const ProductCategoryOrderBySchema = z
   .object({
@@ -1574,10 +1617,14 @@ export const ProductCategoryOrderBySchema = z
     productId: PZ.OrderDirectionSchema,
     categoryId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const ProductCategoryOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProductCategoryOrderBySchema
 );
 
@@ -1592,55 +1639,77 @@ export const ProductCategoryWhereSchema = z
   .partial();
 
 export const ProductCategoryWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProductCategoryWhereSchema
 );
 
 export const ProductCategorySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    productId: z.boolean(),
-    categoryId: z.boolean(),
-    product: z.boolean().or(ProductOwnQueryOneSchema),
-    category: z.boolean().or(CategoryOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    productId: PZ.Scalar.bool(),
+    categoryId: PZ.Scalar.bool(),
+    product: PZ.Scalar.bool().or(ProductOwnQueryOneSchema),
+    category: PZ.Scalar.bool().or(CategoryOwnQueryOneSchema),
   })
   .partial();
 
 export const ProductCategorySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProductCategorySelectFieldsSchema
+);
+
+export const ProductCategoryOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    productId: PZ.Scalar.bool(),
+    categoryId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'productId', 'categoryId'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const ProductCategoryOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  ProductCategoryOmitFieldsSchema
 );
 
 export const ProductCategoryIncludeSchema = z
   .object({
-    product: z.boolean().or(ProductOwnQueryOneSchema),
-    category: z.boolean().or(CategoryOwnQueryOneSchema),
+    product: PZ.Scalar.bool().or(ProductOwnQueryOneSchema),
+    category: PZ.Scalar.bool().or(CategoryOwnQueryOneSchema),
   })
   .partial();
 
 export const ProductCategoryIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProductCategoryIncludeSchema
 );
 
 export const ProductCategoryProjectionSchema = z.union([
-  z.object({ omit: ProductCategorySelectFieldsSchemaJson }),
+  z.object({ omit: ProductCategoryOmitFieldsSchemaJson }),
   z.object({ select: ProductCategorySelectFieldsSchemaJson }),
   z.object({ include: ProductCategoryIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const VariantCreateSchema = z.object({
-  productId: z.coerce.number().int(),
-  sku: z.string(),
-  upc: z.string(),
+export const VariantRawCreateSchema = z.object({
+  productId: PZ.Scalar.id(),
+  sku: PZ.Scalar.string(),
+  upc: PZ.Scalar.string(),
 });
 
-export const VariantUpdateSchema = z.object({
-  productId: z.coerce.number().int().optional(),
-  sku: z.string().optional(),
-  upc: z.string().optional(),
+export const VariantCreateSchema = VariantRawCreateSchema.clone();
+
+export const VariantRawUpdateSchema = z.object({
+  productId: PZ.Scalar.id().optional(),
+  sku: PZ.Scalar.string().optional(),
+  upc: PZ.Scalar.string().optional(),
 });
+
+export const VariantUpdateSchema = VariantRawUpdateSchema.clone();
 
 export const VariantOrderBySchema = z
   .object({
@@ -1650,10 +1719,14 @@ export const VariantOrderBySchema = z
     sku: PZ.OrderDirectionSchema,
     upc: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const VariantOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   VariantOrderBySchema
 );
 
@@ -1711,69 +1784,97 @@ export const VariantWhereSchema = z
   .partial();
 
 export const VariantWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   VariantWhereSchema
 );
 
 export const VariantSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    uuid: z.boolean(),
-    productId: z.boolean(),
-    sku: z.boolean(),
-    upc: z.boolean(),
-    product: z.boolean().or(ProductOwnQueryOneSchema),
-    attributes: z.boolean().or(AttributeValueOwnQuerySchema),
-    prices: z.boolean().or(PriceOwnQuerySchema),
-    quantities: z.boolean().or(QuantityOwnQuerySchema),
-    discounts: z.boolean().or(DiscountTargetOwnQuerySchema),
-    serrialNumbers: z.boolean().or(SerialNumberOwnQuerySchema),
-    warranties: z.boolean().or(ProductWarrantyOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    uuid: PZ.Scalar.bool(),
+    productId: PZ.Scalar.bool(),
+    sku: PZ.Scalar.bool(),
+    upc: PZ.Scalar.bool(),
+    product: PZ.Scalar.bool().or(ProductOwnQueryOneSchema),
+    attributes: PZ.Scalar.bool().or(AttributeValueOwnQuerySchema),
+    prices: PZ.Scalar.bool().or(PriceOwnQuerySchema),
+    quantities: PZ.Scalar.bool().or(QuantityOwnQuerySchema),
+    discounts: PZ.Scalar.bool().or(DiscountTargetOwnQuerySchema),
+    serrialNumbers: PZ.Scalar.bool().or(SerialNumberOwnQuerySchema),
+    warranties: PZ.Scalar.bool().or(ProductWarrantyOwnQuerySchema),
   })
   .partial();
 
 export const VariantSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   VariantSelectFieldsSchema
+);
+
+export const VariantOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    uuid: PZ.Scalar.bool(),
+    productId: PZ.Scalar.bool(),
+    sku: PZ.Scalar.bool(),
+    upc: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'uuid', 'productId', 'sku', 'upc'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const VariantOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  VariantOmitFieldsSchema
 );
 
 export const VariantIncludeSchema = z
   .object({
-    product: z.boolean().or(ProductOwnQueryOneSchema),
-    attributes: z.boolean().or(AttributeValueOwnQuerySchema),
-    prices: z.boolean().or(PriceOwnQuerySchema),
-    quantities: z.boolean().or(QuantityOwnQuerySchema),
-    discounts: z.boolean().or(DiscountTargetOwnQuerySchema),
-    serrialNumbers: z.boolean().or(SerialNumberOwnQuerySchema),
-    warranties: z.boolean().or(ProductWarrantyOwnQuerySchema),
+    product: PZ.Scalar.bool().or(ProductOwnQueryOneSchema),
+    attributes: PZ.Scalar.bool().or(AttributeValueOwnQuerySchema),
+    prices: PZ.Scalar.bool().or(PriceOwnQuerySchema),
+    quantities: PZ.Scalar.bool().or(QuantityOwnQuerySchema),
+    discounts: PZ.Scalar.bool().or(DiscountTargetOwnQuerySchema),
+    serrialNumbers: PZ.Scalar.bool().or(SerialNumberOwnQuerySchema),
+    warranties: PZ.Scalar.bool().or(ProductWarrantyOwnQuerySchema),
   })
   .partial();
 
 export const VariantIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   VariantIncludeSchema
 );
 
 export const VariantProjectionSchema = z.union([
-  z.object({ omit: VariantSelectFieldsSchemaJson }),
+  z.object({ omit: VariantOmitFieldsSchemaJson }),
   z.object({ select: VariantSelectFieldsSchemaJson }),
   z.object({ include: VariantIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const AttributeCategoryCreateSchema = z
-  .object({
-    name: nameSchema.clone(),
-    slug: slugSchema.clone().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const AttributeCategoryRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
+  slug: PZ.Scalar.slug().optional(),
+});
 
-export const AttributeCategoryUpdateSchema = z
-  .object({
-    name: nameSchema.clone().optional(),
-    slug: slugSchema.clone().optional().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const AttributeCategoryCreateSchema =
+  AttributeCategoryRawCreateSchema.clone().transform(
+    PZ.slugTransformer('name')
+  );
+
+export const AttributeCategoryRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
+  slug: PZ.Scalar.slug().optional().optional(),
+});
+
+export const AttributeCategoryUpdateSchema =
+  AttributeCategoryRawUpdateSchema.clone().transform(
+    PZ.slugTransformer('name')
+  );
 
 export const AttributeCategoryOrderBySchema = z
   .object({
@@ -1781,10 +1882,14 @@ export const AttributeCategoryOrderBySchema = z
     name: PZ.OrderDirectionSchema,
     slug: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const AttributeCategoryOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeCategoryOrderBySchema
 );
 
@@ -1804,53 +1909,74 @@ export const AttributeCategoryWhereSchema = z
   .partial();
 
 export const AttributeCategoryWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeCategoryWhereSchema
 );
 
 export const AttributeCategorySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    attributes: z.boolean().or(AttributeOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    attributes: PZ.Scalar.bool().or(AttributeOwnQuerySchema),
   })
   .partial();
 
 export const AttributeCategorySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeCategorySelectFieldsSchema
+);
+
+export const AttributeCategoryOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) => !['id', 'name', 'slug'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const AttributeCategoryOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  AttributeCategoryOmitFieldsSchema
 );
 
 export const AttributeCategoryIncludeSchema = z
   .object({
-    attributes: z.boolean().or(AttributeOwnQuerySchema),
+    attributes: PZ.Scalar.bool().or(AttributeOwnQuerySchema),
   })
   .partial();
 
 export const AttributeCategoryIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeCategoryIncludeSchema
 );
 
 export const AttributeCategoryProjectionSchema = z.union([
-  z.object({ omit: AttributeCategorySelectFieldsSchemaJson }),
+  z.object({ omit: AttributeCategoryOmitFieldsSchemaJson }),
   z.object({ select: AttributeCategorySelectFieldsSchemaJson }),
   z.object({ include: AttributeCategoryIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const AttributeCreateSchema = z.object({
-  categoryId: z.coerce.number().int().optional(),
-  name: nameSchema.clone(),
-  description: descriptionSchema.clone().optional(),
+export const AttributeRawCreateSchema = z.object({
+  categoryId: PZ.Scalar.id().optional(),
+  name: PZ.Scalar.name(),
+  description: PZ.Scalar.description().optional(),
 });
 
-export const AttributeUpdateSchema = z.object({
-  categoryId: z.coerce.number().int().optional().optional(),
-  name: nameSchema.clone().optional(),
-  description: descriptionSchema.clone().optional().optional(),
+export const AttributeCreateSchema = AttributeRawCreateSchema.clone();
+
+export const AttributeRawUpdateSchema = z.object({
+  categoryId: PZ.Scalar.id().optional().optional(),
+  name: PZ.Scalar.name().optional(),
+  description: PZ.Scalar.description().optional().optional(),
 });
+
+export const AttributeUpdateSchema = AttributeRawUpdateSchema.clone();
 
 export const AttributeOrderBySchema = z
   .object({
@@ -1859,10 +1985,14 @@ export const AttributeOrderBySchema = z
     name: PZ.OrderDirectionSchema,
     description: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const AttributeOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeOrderBySchema
 );
 
@@ -1891,56 +2021,81 @@ export const AttributeWhereSchema = z
   .partial();
 
 export const AttributeWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeWhereSchema
 );
 
 export const AttributeSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    categoryId: z.boolean(),
-    name: z.boolean(),
-    description: z.boolean(),
-    category: z.boolean().or(AttributeCategoryOwnQueryOneSchema),
-    unites: z.boolean().or(AttributeUnitOwnQuerySchema),
-    values: z.boolean().or(AttributeValueOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    categoryId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    category: PZ.Scalar.bool().or(AttributeCategoryOwnQueryOneSchema),
+    unites: PZ.Scalar.bool().or(AttributeUnitOwnQuerySchema),
+    values: PZ.Scalar.bool().or(AttributeValueOwnQuerySchema),
   })
   .partial();
 
 export const AttributeSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeSelectFieldsSchema
+);
+
+export const AttributeOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    categoryId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'categoryId', 'name', 'description'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const AttributeOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  AttributeOmitFieldsSchema
 );
 
 export const AttributeIncludeSchema = z
   .object({
-    category: z.boolean().or(AttributeCategoryOwnQueryOneSchema),
-    unites: z.boolean().or(AttributeUnitOwnQuerySchema),
-    values: z.boolean().or(AttributeValueOwnQuerySchema),
+    category: PZ.Scalar.bool().or(AttributeCategoryOwnQueryOneSchema),
+    unites: PZ.Scalar.bool().or(AttributeUnitOwnQuerySchema),
+    values: PZ.Scalar.bool().or(AttributeValueOwnQuerySchema),
   })
   .partial();
 
 export const AttributeIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeIncludeSchema
 );
 
 export const AttributeProjectionSchema = z.union([
-  z.object({ omit: AttributeSelectFieldsSchemaJson }),
+  z.object({ omit: AttributeOmitFieldsSchemaJson }),
   z.object({ select: AttributeSelectFieldsSchemaJson }),
   z.object({ include: AttributeIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const UnitCreateSchema = z.object({
-  name: nameSchema.clone(),
-  symbol: z.string(),
+export const UnitRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
+  symbol: PZ.Scalar.string(),
 });
 
-export const UnitUpdateSchema = z.object({
-  name: nameSchema.clone().optional(),
-  symbol: z.string().optional(),
+export const UnitCreateSchema = UnitRawCreateSchema.clone();
+
+export const UnitRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
+  symbol: PZ.Scalar.string().optional(),
 });
+
+export const UnitUpdateSchema = UnitRawUpdateSchema.clone();
 
 export const UnitOrderBySchema = z
   .object({
@@ -1948,10 +2103,14 @@ export const UnitOrderBySchema = z
     name: PZ.OrderDirectionSchema,
     symbol: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const UnitOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UnitOrderBySchema
 );
 
@@ -1970,49 +2129,73 @@ export const UnitWhereSchema = z
   })
   .partial();
 
-export const UnitWhereSchemaJson = z.preprocess(jsonParser, UnitWhereSchema);
+export const UnitWhereSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  UnitWhereSchema
+);
 
 export const UnitSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    symbol: z.boolean(),
-    attributes: z.boolean().or(AttributeUnitOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    symbol: PZ.Scalar.bool(),
+    attributes: PZ.Scalar.bool().or(AttributeUnitOwnQuerySchema),
   })
   .partial();
 
 export const UnitSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UnitSelectFieldsSchema
+);
+
+export const UnitOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    symbol: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) => !['id', 'name', 'symbol'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const UnitOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  UnitOmitFieldsSchema
 );
 
 export const UnitIncludeSchema = z
   .object({
-    attributes: z.boolean().or(AttributeUnitOwnQuerySchema),
+    attributes: PZ.Scalar.bool().or(AttributeUnitOwnQuerySchema),
   })
   .partial();
 
 export const UnitIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UnitIncludeSchema
 );
 
 export const UnitProjectionSchema = z.union([
-  z.object({ omit: UnitSelectFieldsSchemaJson }),
+  z.object({ omit: UnitOmitFieldsSchemaJson }),
   z.object({ select: UnitSelectFieldsSchemaJson }),
   z.object({ include: UnitIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const AttributeUnitCreateSchema = z.object({
-  attributeId: z.coerce.number().int(),
-  unitId: z.coerce.number().int(),
+export const AttributeUnitRawCreateSchema = z.object({
+  attributeId: PZ.Scalar.id(),
+  unitId: PZ.Scalar.id(),
 });
 
-export const AttributeUnitUpdateSchema = z.object({
-  attributeId: z.coerce.number().int().optional(),
-  unitId: z.coerce.number().int().optional(),
+export const AttributeUnitCreateSchema = AttributeUnitRawCreateSchema.clone();
+
+export const AttributeUnitRawUpdateSchema = z.object({
+  attributeId: PZ.Scalar.id().optional(),
+  unitId: PZ.Scalar.id().optional(),
 });
+
+export const AttributeUnitUpdateSchema = AttributeUnitRawUpdateSchema.clone();
 
 export const AttributeUnitOrderBySchema = z
   .object({
@@ -2020,10 +2203,14 @@ export const AttributeUnitOrderBySchema = z
     attributeId: PZ.OrderDirectionSchema,
     unitId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const AttributeUnitOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeUnitOrderBySchema
 );
 
@@ -2038,59 +2225,81 @@ export const AttributeUnitWhereSchema = z
   .partial();
 
 export const AttributeUnitWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeUnitWhereSchema
 );
 
 export const AttributeUnitSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    attributeId: z.boolean(),
-    unitId: z.boolean(),
-    attribute: z.boolean().or(AttributeOwnQueryOneSchema),
-    unit: z.boolean().or(UnitOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    attributeId: PZ.Scalar.bool(),
+    unitId: PZ.Scalar.bool(),
+    attribute: PZ.Scalar.bool().or(AttributeOwnQueryOneSchema),
+    unit: PZ.Scalar.bool().or(UnitOwnQueryOneSchema),
   })
   .partial();
 
 export const AttributeUnitSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeUnitSelectFieldsSchema
+);
+
+export const AttributeUnitOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    attributeId: PZ.Scalar.bool(),
+    unitId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'attributeId', 'unitId'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const AttributeUnitOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  AttributeUnitOmitFieldsSchema
 );
 
 export const AttributeUnitIncludeSchema = z
   .object({
-    attribute: z.boolean().or(AttributeOwnQueryOneSchema),
-    unit: z.boolean().or(UnitOwnQueryOneSchema),
+    attribute: PZ.Scalar.bool().or(AttributeOwnQueryOneSchema),
+    unit: PZ.Scalar.bool().or(UnitOwnQueryOneSchema),
   })
   .partial();
 
 export const AttributeUnitIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeUnitIncludeSchema
 );
 
 export const AttributeUnitProjectionSchema = z.union([
-  z.object({ omit: AttributeUnitSelectFieldsSchemaJson }),
+  z.object({ omit: AttributeUnitOmitFieldsSchemaJson }),
   z.object({ select: AttributeUnitSelectFieldsSchemaJson }),
   z.object({ include: AttributeUnitIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const AttributeValueCreateSchema = z.object({
-  attributeId: z.coerce.number().int(),
-  variantId: z.coerce.number().int(),
-  textValue: z.string().optional(),
-  booleanValue: z.boolean().optional(),
-  floatValue: z.coerce.number().optional(),
+export const AttributeValueRawCreateSchema = z.object({
+  attributeId: PZ.Scalar.id(),
+  variantId: PZ.Scalar.id(),
+  textValue: PZ.Scalar.string().optional(),
+  booleanValue: PZ.Scalar.bool().optional(),
+  floatValue: PZ.Scalar.number().optional(),
 });
 
-export const AttributeValueUpdateSchema = z.object({
-  attributeId: z.coerce.number().int().optional(),
-  variantId: z.coerce.number().int().optional(),
-  textValue: z.string().optional().optional(),
-  booleanValue: z.boolean().optional().optional(),
-  floatValue: z.coerce.number().optional().optional(),
+export const AttributeValueCreateSchema = AttributeValueRawCreateSchema.clone();
+
+export const AttributeValueRawUpdateSchema = z.object({
+  attributeId: PZ.Scalar.id().optional(),
+  variantId: PZ.Scalar.id().optional(),
+  textValue: PZ.Scalar.string().optional().optional(),
+  booleanValue: PZ.Scalar.bool().optional().optional(),
+  floatValue: PZ.Scalar.number().optional().optional(),
 });
+
+export const AttributeValueUpdateSchema = AttributeValueRawUpdateSchema.clone();
 
 export const AttributeValueOrderBySchema = z
   .object({
@@ -2101,10 +2310,14 @@ export const AttributeValueOrderBySchema = z
     booleanValue: PZ.OrderDirectionSchema,
     floatValue: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const AttributeValueOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeValueOrderBySchema
 );
 
@@ -2122,58 +2335,90 @@ export const AttributeValueWhereSchema = z
   .partial();
 
 export const AttributeValueWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeValueWhereSchema
 );
 
 export const AttributeValueSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    attributeId: z.boolean(),
-    variantId: z.boolean(),
-    textValue: z.boolean(),
-    booleanValue: z.boolean(),
-    floatValue: z.boolean(),
-    variant: z.boolean().or(VariantOwnQueryOneSchema),
-    attribute: z.boolean().or(AttributeOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    attributeId: PZ.Scalar.bool(),
+    variantId: PZ.Scalar.bool(),
+    textValue: PZ.Scalar.bool(),
+    booleanValue: PZ.Scalar.bool(),
+    floatValue: PZ.Scalar.bool(),
+    variant: PZ.Scalar.bool().or(VariantOwnQueryOneSchema),
+    attribute: PZ.Scalar.bool().or(AttributeOwnQueryOneSchema),
   })
   .partial();
 
 export const AttributeValueSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeValueSelectFieldsSchema
+);
+
+export const AttributeValueOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    attributeId: PZ.Scalar.bool(),
+    variantId: PZ.Scalar.bool(),
+    textValue: PZ.Scalar.bool(),
+    booleanValue: PZ.Scalar.bool(),
+    floatValue: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      ![
+        'id',
+        'attributeId',
+        'variantId',
+        'textValue',
+        'booleanValue',
+        'floatValue',
+      ].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const AttributeValueOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  AttributeValueOmitFieldsSchema
 );
 
 export const AttributeValueIncludeSchema = z
   .object({
-    variant: z.boolean().or(VariantOwnQueryOneSchema),
-    attribute: z.boolean().or(AttributeOwnQueryOneSchema),
+    variant: PZ.Scalar.bool().or(VariantOwnQueryOneSchema),
+    attribute: PZ.Scalar.bool().or(AttributeOwnQueryOneSchema),
   })
   .partial();
 
 export const AttributeValueIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AttributeValueIncludeSchema
 );
 
 export const AttributeValueProjectionSchema = z.union([
-  z.object({ omit: AttributeValueSelectFieldsSchemaJson }),
+  z.object({ omit: AttributeValueOmitFieldsSchemaJson }),
   z.object({ select: AttributeValueSelectFieldsSchemaJson }),
   z.object({ include: AttributeValueIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const CurrencyCreateSchema = z.object({
-  name: nameSchema.clone(),
-  code: z.string(),
-  symbol: z.string().optional(),
+export const CurrencyRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
+  code: PZ.Scalar.string(),
+  symbol: PZ.Scalar.string().optional(),
 });
 
-export const CurrencyUpdateSchema = z.object({
-  name: nameSchema.clone().optional(),
-  code: z.string().optional(),
-  symbol: z.string().optional().optional(),
+export const CurrencyCreateSchema = CurrencyRawCreateSchema.clone();
+
+export const CurrencyRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
+  code: PZ.Scalar.string().optional(),
+  symbol: PZ.Scalar.string().optional().optional(),
 });
+
+export const CurrencyUpdateSchema = CurrencyRawUpdateSchema.clone();
 
 export const CurrencyOrderBySchema = z
   .object({
@@ -2182,10 +2427,14 @@ export const CurrencyOrderBySchema = z
     code: PZ.OrderDirectionSchema,
     symbol: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const CurrencyOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CurrencyOrderBySchema
 );
 
@@ -2206,62 +2455,83 @@ export const CurrencyWhereSchema = z
   .partial();
 
 export const CurrencyWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CurrencyWhereSchema
 );
 
 export const CurrencySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    code: z.boolean(),
-    symbol: z.boolean(),
-    priceLevels: z.boolean().or(PriceLevelOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    code: PZ.Scalar.bool(),
+    symbol: PZ.Scalar.bool(),
+    priceLevels: PZ.Scalar.bool().or(PriceLevelOwnQuerySchema),
   })
   .partial();
 
 export const CurrencySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CurrencySelectFieldsSchema
+);
+
+export const CurrencyOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    code: PZ.Scalar.bool(),
+    symbol: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'name', 'code', 'symbol'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const CurrencyOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  CurrencyOmitFieldsSchema
 );
 
 export const CurrencyIncludeSchema = z
   .object({
-    priceLevels: z.boolean().or(PriceLevelOwnQuerySchema),
+    priceLevels: PZ.Scalar.bool().or(PriceLevelOwnQuerySchema),
   })
   .partial();
 
 export const CurrencyIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CurrencyIncludeSchema
 );
 
 export const CurrencyProjectionSchema = z.union([
-  z.object({ omit: CurrencySelectFieldsSchemaJson }),
+  z.object({ omit: CurrencyOmitFieldsSchemaJson }),
   z.object({ select: CurrencySelectFieldsSchemaJson }),
   z.object({ include: CurrencyIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PriceLevelCreateSchema = z
-  .object({
-    currencyId: z.coerce.number().int(),
-    name: nameSchema.clone(),
-    slug: slugSchema.clone().optional(),
-    taxrate: z.coerce.number(),
-    notes: z.string().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const PriceLevelRawCreateSchema = z.object({
+  currencyId: PZ.Scalar.id(),
+  name: PZ.Scalar.name(),
+  slug: PZ.Scalar.slug().optional(),
+  taxrate: PZ.Scalar.number(),
+  notes: PZ.Scalar.string().optional(),
+});
 
-export const PriceLevelUpdateSchema = z
-  .object({
-    currencyId: z.coerce.number().int().optional(),
-    name: nameSchema.clone().optional(),
-    slug: slugSchema.clone().optional().optional(),
-    taxrate: z.coerce.number().optional(),
-    notes: z.string().optional().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const PriceLevelCreateSchema =
+  PriceLevelRawCreateSchema.clone().transform(PZ.slugTransformer('name'));
+
+export const PriceLevelRawUpdateSchema = z.object({
+  currencyId: PZ.Scalar.id().optional(),
+  name: PZ.Scalar.name().optional(),
+  slug: PZ.Scalar.slug().optional().optional(),
+  taxrate: PZ.Scalar.number().optional(),
+  notes: PZ.Scalar.string().optional().optional(),
+});
+
+export const PriceLevelUpdateSchema =
+  PriceLevelRawUpdateSchema.clone().transform(PZ.slugTransformer('name'));
 
 export const PriceLevelOrderBySchema = z
   .object({
@@ -2272,10 +2542,14 @@ export const PriceLevelOrderBySchema = z
     taxrate: PZ.OrderDirectionSchema,
     notes: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const PriceLevelOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriceLevelOrderBySchema
 );
 
@@ -2313,66 +2587,93 @@ export const PriceLevelWhereSchema = z
   .partial();
 
 export const PriceLevelWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriceLevelWhereSchema
 );
 
 export const PriceLevelSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    currencyId: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    taxrate: z.boolean(),
-    notes: z.boolean(),
-    currency: z.boolean().or(CurrencyOwnQueryOneSchema),
-    stores: z.boolean().or(StoreOwnQuerySchema),
-    prices: z.boolean().or(PriceOwnQuerySchema),
-    discounts: z.boolean().or(DiscountTargetOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    currencyId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    taxrate: PZ.Scalar.bool(),
+    notes: PZ.Scalar.bool(),
+    currency: PZ.Scalar.bool().or(CurrencyOwnQueryOneSchema),
+    stores: PZ.Scalar.bool().or(StoreOwnQuerySchema),
+    prices: PZ.Scalar.bool().or(PriceOwnQuerySchema),
+    discounts: PZ.Scalar.bool().or(DiscountTargetOwnQuerySchema),
   })
   .partial();
 
 export const PriceLevelSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriceLevelSelectFieldsSchema
+);
+
+export const PriceLevelOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    currencyId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    taxrate: PZ.Scalar.bool(),
+    notes: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'currencyId', 'name', 'slug', 'taxrate', 'notes'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const PriceLevelOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  PriceLevelOmitFieldsSchema
 );
 
 export const PriceLevelIncludeSchema = z
   .object({
-    currency: z.boolean().or(CurrencyOwnQueryOneSchema),
-    stores: z.boolean().or(StoreOwnQuerySchema),
-    prices: z.boolean().or(PriceOwnQuerySchema),
-    discounts: z.boolean().or(DiscountTargetOwnQuerySchema),
+    currency: PZ.Scalar.bool().or(CurrencyOwnQueryOneSchema),
+    stores: PZ.Scalar.bool().or(StoreOwnQuerySchema),
+    prices: PZ.Scalar.bool().or(PriceOwnQuerySchema),
+    discounts: PZ.Scalar.bool().or(DiscountTargetOwnQuerySchema),
   })
   .partial();
 
 export const PriceLevelIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriceLevelIncludeSchema
 );
 
 export const PriceLevelProjectionSchema = z.union([
-  z.object({ omit: PriceLevelSelectFieldsSchemaJson }),
+  z.object({ omit: PriceLevelOmitFieldsSchemaJson }),
   z.object({ select: PriceLevelSelectFieldsSchemaJson }),
   z.object({ include: PriceLevelIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PriceCreateSchema = z.object({
-  variantId: z.coerce.number().int(),
-  priceLevelId: z.coerce.number().int(),
-  price: currencySchema.clone(),
-  cost: currencySchema.clone(),
-  description: descriptionSchema.clone().optional(),
+export const PriceRawCreateSchema = z.object({
+  variantId: PZ.Scalar.id(),
+  priceLevelId: PZ.Scalar.id(),
+  price: PZ.Scalar.positive(),
+  cost: PZ.Scalar.positive(),
+  description: PZ.Scalar.description().optional(),
 });
 
-export const PriceUpdateSchema = z.object({
-  variantId: z.coerce.number().int().optional(),
-  priceLevelId: z.coerce.number().int().optional(),
-  price: currencySchema.clone().optional(),
-  cost: currencySchema.clone().optional(),
-  description: descriptionSchema.clone().optional().optional(),
+export const PriceCreateSchema = PriceRawCreateSchema.clone();
+
+export const PriceRawUpdateSchema = z.object({
+  variantId: PZ.Scalar.id().optional(),
+  priceLevelId: PZ.Scalar.id().optional(),
+  price: PZ.Scalar.positive().optional(),
+  cost: PZ.Scalar.positive().optional(),
+  description: PZ.Scalar.description().optional().optional(),
 });
+
+export const PriceUpdateSchema = PriceRawUpdateSchema.clone();
 
 export const PriceOrderBySchema = z
   .object({
@@ -2383,10 +2684,14 @@ export const PriceOrderBySchema = z
     cost: PZ.OrderDirectionSchema,
     description: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const PriceOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriceOrderBySchema
 );
 
@@ -2403,58 +2708,93 @@ export const PriceWhereSchema = z
   })
   .partial();
 
-export const PriceWhereSchemaJson = z.preprocess(jsonParser, PriceWhereSchema);
+export const PriceWhereSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  PriceWhereSchema
+);
 
 export const PriceSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    variantId: z.boolean(),
-    priceLevelId: z.boolean(),
-    price: z.boolean(),
-    cost: z.boolean(),
-    description: z.boolean(),
-    variant: z.boolean().or(VariantOwnQueryOneSchema),
-    priceLevel: z.boolean().or(PriceLevelOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    variantId: PZ.Scalar.bool(),
+    priceLevelId: PZ.Scalar.bool(),
+    price: PZ.Scalar.bool(),
+    cost: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    variant: PZ.Scalar.bool().or(VariantOwnQueryOneSchema),
+    priceLevel: PZ.Scalar.bool().or(PriceLevelOwnQueryOneSchema),
   })
   .partial();
 
 export const PriceSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriceSelectFieldsSchema
+);
+
+export const PriceOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    variantId: PZ.Scalar.bool(),
+    priceLevelId: PZ.Scalar.bool(),
+    price: PZ.Scalar.bool(),
+    cost: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      ![
+        'id',
+        'variantId',
+        'priceLevelId',
+        'price',
+        'cost',
+        'description',
+      ].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const PriceOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  PriceOmitFieldsSchema
 );
 
 export const PriceIncludeSchema = z
   .object({
-    variant: z.boolean().or(VariantOwnQueryOneSchema),
-    priceLevel: z.boolean().or(PriceLevelOwnQueryOneSchema),
+    variant: PZ.Scalar.bool().or(VariantOwnQueryOneSchema),
+    priceLevel: PZ.Scalar.bool().or(PriceLevelOwnQueryOneSchema),
   })
   .partial();
 
 export const PriceIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PriceIncludeSchema
 );
 
 export const PriceProjectionSchema = z.union([
-  z.object({ omit: PriceSelectFieldsSchemaJson }),
+  z.object({ omit: PriceOmitFieldsSchemaJson }),
   z.object({ select: PriceSelectFieldsSchemaJson }),
   z.object({ include: PriceIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const QuantityCreateSchema = z.object({
-  variantId: z.coerce.number().int(),
-  storeId: z.coerce.number().int(),
-  quantity: positiveIntegerSchema.clone(),
-  alertThreshold: z.coerce.number().int().optional(),
+export const QuantityRawCreateSchema = z.object({
+  variantId: PZ.Scalar.id(),
+  storeId: PZ.Scalar.id(),
+  quantity: PZ.Scalar.positiveInt(),
+  alertThreshold: PZ.Scalar.int().optional(),
 });
 
-export const QuantityUpdateSchema = z.object({
-  variantId: z.coerce.number().int().optional(),
-  storeId: z.coerce.number().int().optional(),
-  quantity: positiveIntegerSchema.clone().optional(),
-  alertThreshold: z.coerce.number().int().optional().optional(),
+export const QuantityCreateSchema = QuantityRawCreateSchema.clone();
+
+export const QuantityRawUpdateSchema = z.object({
+  variantId: PZ.Scalar.id().optional(),
+  storeId: PZ.Scalar.id().optional(),
+  quantity: PZ.Scalar.positiveInt().optional(),
+  alertThreshold: PZ.Scalar.int().optional().optional(),
 });
+
+export const QuantityUpdateSchema = QuantityRawUpdateSchema.clone();
 
 export const QuantityOrderBySchema = z
   .object({
@@ -2464,10 +2804,14 @@ export const QuantityOrderBySchema = z
     quantity: PZ.OrderDirectionSchema,
     alertThreshold: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const QuantityOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   QuantityOrderBySchema
 );
 
@@ -2484,59 +2828,85 @@ export const QuantityWhereSchema = z
   .partial();
 
 export const QuantityWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   QuantityWhereSchema
 );
 
 export const QuantitySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    variantId: z.boolean(),
-    storeId: z.boolean(),
-    quantity: z.boolean(),
-    alertThreshold: z.boolean(),
-    variant: z.boolean().or(VariantOwnQueryOneSchema),
-    store: z.boolean().or(StoreOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    variantId: PZ.Scalar.bool(),
+    storeId: PZ.Scalar.bool(),
+    quantity: PZ.Scalar.bool(),
+    alertThreshold: PZ.Scalar.bool(),
+    variant: PZ.Scalar.bool().or(VariantOwnQueryOneSchema),
+    store: PZ.Scalar.bool().or(StoreOwnQueryOneSchema),
   })
   .partial();
 
 export const QuantitySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   QuantitySelectFieldsSchema
+);
+
+export const QuantityOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    variantId: PZ.Scalar.bool(),
+    storeId: PZ.Scalar.bool(),
+    quantity: PZ.Scalar.bool(),
+    alertThreshold: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'variantId', 'storeId', 'quantity', 'alertThreshold'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const QuantityOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  QuantityOmitFieldsSchema
 );
 
 export const QuantityIncludeSchema = z
   .object({
-    variant: z.boolean().or(VariantOwnQueryOneSchema),
-    store: z.boolean().or(StoreOwnQueryOneSchema),
+    variant: PZ.Scalar.bool().or(VariantOwnQueryOneSchema),
+    store: PZ.Scalar.bool().or(StoreOwnQueryOneSchema),
   })
   .partial();
 
 export const QuantityIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   QuantityIncludeSchema
 );
 
 export const QuantityProjectionSchema = z.union([
-  z.object({ omit: QuantitySelectFieldsSchemaJson }),
+  z.object({ omit: QuantityOmitFieldsSchemaJson }),
   z.object({ select: QuantitySelectFieldsSchemaJson }),
   z.object({ include: QuantityIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const SerialNumberCreateSchema = z.object({
-  variantId: z.coerce.number().int(),
-  storeId: z.coerce.number().int(),
-  serialNumber: z.string(),
-  inStock: z.boolean(),
+export const SerialNumberRawCreateSchema = z.object({
+  variantId: PZ.Scalar.id(),
+  storeId: PZ.Scalar.id(),
+  serialNumber: PZ.Scalar.string(),
+  inStock: PZ.Scalar.bool(),
 });
 
-export const SerialNumberUpdateSchema = z.object({
-  variantId: z.coerce.number().int().optional(),
-  storeId: z.coerce.number().int().optional(),
-  serialNumber: z.string().optional(),
-  inStock: z.boolean().optional(),
+export const SerialNumberCreateSchema = SerialNumberRawCreateSchema.clone();
+
+export const SerialNumberRawUpdateSchema = z.object({
+  variantId: PZ.Scalar.id().optional(),
+  storeId: PZ.Scalar.id().optional(),
+  serialNumber: PZ.Scalar.string().optional(),
+  inStock: PZ.Scalar.bool().optional(),
 });
+
+export const SerialNumberUpdateSchema = SerialNumberRawUpdateSchema.clone();
 
 export const SerialNumberOrderBySchema = z
   .object({
@@ -2546,10 +2916,14 @@ export const SerialNumberOrderBySchema = z
     serialNumber: PZ.OrderDirectionSchema,
     inStock: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const SerialNumberOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SerialNumberOrderBySchema
 );
 
@@ -2566,75 +2940,101 @@ export const SerialNumberWhereSchema = z
   .partial();
 
 export const SerialNumberWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SerialNumberWhereSchema
 );
 
 export const SerialNumberSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    variantId: z.boolean(),
-    storeId: z.boolean(),
-    serialNumber: z.boolean(),
-    inStock: z.boolean(),
-    variant: z.boolean().or(VariantOwnQueryOneSchema),
-    store: z.boolean().or(StoreOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    variantId: PZ.Scalar.bool(),
+    storeId: PZ.Scalar.bool(),
+    serialNumber: PZ.Scalar.bool(),
+    inStock: PZ.Scalar.bool(),
+    variant: PZ.Scalar.bool().or(VariantOwnQueryOneSchema),
+    store: PZ.Scalar.bool().or(StoreOwnQueryOneSchema),
   })
   .partial();
 
 export const SerialNumberSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SerialNumberSelectFieldsSchema
+);
+
+export const SerialNumberOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    variantId: PZ.Scalar.bool(),
+    storeId: PZ.Scalar.bool(),
+    serialNumber: PZ.Scalar.bool(),
+    inStock: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'variantId', 'storeId', 'serialNumber', 'inStock'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const SerialNumberOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  SerialNumberOmitFieldsSchema
 );
 
 export const SerialNumberIncludeSchema = z
   .object({
-    variant: z.boolean().or(VariantOwnQueryOneSchema),
-    store: z.boolean().or(StoreOwnQueryOneSchema),
+    variant: PZ.Scalar.bool().or(VariantOwnQueryOneSchema),
+    store: PZ.Scalar.bool().or(StoreOwnQueryOneSchema),
   })
   .partial();
 
 export const SerialNumberIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SerialNumberIncludeSchema
 );
 
 export const SerialNumberProjectionSchema = z.union([
-  z.object({ omit: SerialNumberSelectFieldsSchemaJson }),
+  z.object({ omit: SerialNumberOmitFieldsSchemaJson }),
   z.object({ select: SerialNumberSelectFieldsSchemaJson }),
   z.object({ include: SerialNumberIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const DiscountCreateSchema = z.object({
-  code: z.string(),
+export const DiscountRawCreateSchema = z.object({
+  code: PZ.Scalar.string(),
   type: DiscountTypeSchema,
   valueType: ValueTypeSchema,
-  value: z.coerce.number().optional(),
-  minQuantity: z.coerce.number().int().optional(),
-  maxQuantity: z.coerce.number().int().optional(),
-  minOrderTotal: z.coerce.number().optional(),
-  maxOrderTotal: z.coerce.number().optional(),
-  startDate: dateSchema.clone().optional(),
-  endDate: dateSchema.clone().optional(),
-  usageLimit: z.coerce.number().int().optional(),
-  usageCount: z.coerce.number().int().optional(),
+  value: PZ.Scalar.number().optional(),
+  minQuantity: PZ.Scalar.int().optional(),
+  maxQuantity: PZ.Scalar.int().optional(),
+  minOrderTotal: PZ.Scalar.number().optional(),
+  maxOrderTotal: PZ.Scalar.number().optional(),
+  startDate: PZ.Scalar.datetime().optional(),
+  endDate: PZ.Scalar.datetime().optional(),
+  usageLimit: PZ.Scalar.int().optional(),
+  usageCount: PZ.Scalar.int().optional(),
 });
 
-export const DiscountUpdateSchema = z.object({
-  code: z.string().optional(),
+export const DiscountCreateSchema = DiscountRawCreateSchema.clone();
+
+export const DiscountRawUpdateSchema = z.object({
+  code: PZ.Scalar.string().optional(),
   type: DiscountTypeSchema.optional(),
   valueType: ValueTypeSchema.optional(),
-  value: z.coerce.number().optional().optional(),
-  minQuantity: z.coerce.number().int().optional().optional(),
-  maxQuantity: z.coerce.number().int().optional().optional(),
-  minOrderTotal: z.coerce.number().optional().optional(),
-  maxOrderTotal: z.coerce.number().optional().optional(),
-  startDate: dateSchema.clone().optional().optional(),
-  endDate: dateSchema.clone().optional().optional(),
-  usageLimit: z.coerce.number().int().optional().optional(),
-  usageCount: z.coerce.number().int().optional().optional(),
+  value: PZ.Scalar.number().optional().optional(),
+  minQuantity: PZ.Scalar.int().optional().optional(),
+  maxQuantity: PZ.Scalar.int().optional().optional(),
+  minOrderTotal: PZ.Scalar.number().optional().optional(),
+  maxOrderTotal: PZ.Scalar.number().optional().optional(),
+  startDate: PZ.Scalar.datetime().optional().optional(),
+  endDate: PZ.Scalar.datetime().optional().optional(),
+  usageLimit: PZ.Scalar.int().optional().optional(),
+  usageCount: PZ.Scalar.int().optional().optional(),
 });
+
+export const DiscountUpdateSchema = DiscountRawUpdateSchema.clone();
 
 export const DiscountOrderBySchema = z
   .object({
@@ -2650,10 +3050,14 @@ export const DiscountOrderBySchema = z
     usageLimit: PZ.OrderDirectionSchema,
     usageCount: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const DiscountOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DiscountOrderBySchema
 );
 
@@ -2683,71 +3087,117 @@ export const DiscountWhereSchema = z
   .partial();
 
 export const DiscountWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DiscountWhereSchema
 );
 
 export const DiscountSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    code: z.boolean(),
-    type: z.boolean(),
-    valueType: z.boolean(),
-    value: z.boolean(),
-    minQuantity: z.boolean(),
-    maxQuantity: z.boolean(),
-    minOrderTotal: z.boolean(),
-    maxOrderTotal: z.boolean(),
-    startDate: z.boolean(),
-    endDate: z.boolean(),
-    usageLimit: z.boolean(),
-    usageCount: z.boolean(),
-    targets: z.boolean().or(DiscountTargetOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    code: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    valueType: PZ.Scalar.bool(),
+    value: PZ.Scalar.bool(),
+    minQuantity: PZ.Scalar.bool(),
+    maxQuantity: PZ.Scalar.bool(),
+    minOrderTotal: PZ.Scalar.bool(),
+    maxOrderTotal: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+    usageLimit: PZ.Scalar.bool(),
+    usageCount: PZ.Scalar.bool(),
+    targets: PZ.Scalar.bool().or(DiscountTargetOwnQuerySchema),
   })
   .partial();
 
 export const DiscountSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DiscountSelectFieldsSchema
+);
+
+export const DiscountOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    code: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    valueType: PZ.Scalar.bool(),
+    value: PZ.Scalar.bool(),
+    minQuantity: PZ.Scalar.bool(),
+    maxQuantity: PZ.Scalar.bool(),
+    minOrderTotal: PZ.Scalar.bool(),
+    maxOrderTotal: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+    usageLimit: PZ.Scalar.bool(),
+    usageCount: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      ![
+        'id',
+        'code',
+        'type',
+        'valueType',
+        'value',
+        'minQuantity',
+        'maxQuantity',
+        'minOrderTotal',
+        'maxOrderTotal',
+        'startDate',
+        'endDate',
+        'usageLimit',
+        'usageCount',
+      ].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const DiscountOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  DiscountOmitFieldsSchema
 );
 
 export const DiscountIncludeSchema = z
   .object({
-    targets: z.boolean().or(DiscountTargetOwnQuerySchema),
+    targets: PZ.Scalar.bool().or(DiscountTargetOwnQuerySchema),
   })
   .partial();
 
 export const DiscountIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DiscountIncludeSchema
 );
 
 export const DiscountProjectionSchema = z.union([
-  z.object({ omit: DiscountSelectFieldsSchemaJson }),
+  z.object({ omit: DiscountOmitFieldsSchemaJson }),
   z.object({ select: DiscountSelectFieldsSchemaJson }),
   z.object({ include: DiscountIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const DiscountTargetCreateSchema = z.object({
+export const DiscountTargetRawCreateSchema = z.object({
   type: DiscountTargetTypeSchema,
-  discountId: z.coerce.number().int(),
-  storeId: z.coerce.number().int().optional(),
-  productId: z.coerce.number().int().optional(),
-  variantId: z.coerce.number().int().optional(),
-  priceLevelId: z.coerce.number().int().optional(),
-  categoryId: z.coerce.number().int().optional(),
+  discountId: PZ.Scalar.id(),
+  storeId: PZ.Scalar.id().optional(),
+  productId: PZ.Scalar.id().optional(),
+  variantId: PZ.Scalar.id().optional(),
+  priceLevelId: PZ.Scalar.id().optional(),
+  categoryId: PZ.Scalar.id().optional(),
 });
 
-export const DiscountTargetUpdateSchema = z.object({
+export const DiscountTargetCreateSchema = DiscountTargetRawCreateSchema.clone();
+
+export const DiscountTargetRawUpdateSchema = z.object({
   type: DiscountTargetTypeSchema.optional(),
-  discountId: z.coerce.number().int().optional(),
-  storeId: z.coerce.number().int().optional().optional(),
-  productId: z.coerce.number().int().optional().optional(),
-  variantId: z.coerce.number().int().optional().optional(),
-  priceLevelId: z.coerce.number().int().optional().optional(),
-  categoryId: z.coerce.number().int().optional().optional(),
+  discountId: PZ.Scalar.id().optional(),
+  storeId: PZ.Scalar.id().optional().optional(),
+  productId: PZ.Scalar.id().optional().optional(),
+  variantId: PZ.Scalar.id().optional().optional(),
+  priceLevelId: PZ.Scalar.id().optional().optional(),
+  categoryId: PZ.Scalar.id().optional().optional(),
 });
+
+export const DiscountTargetUpdateSchema = DiscountTargetRawUpdateSchema.clone();
 
 export const DiscountTargetOrderBySchema = z
   .object({
@@ -2759,10 +3209,14 @@ export const DiscountTargetOrderBySchema = z
     priceLevelId: PZ.OrderDirectionSchema,
     categoryId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const DiscountTargetOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DiscountTargetOrderBySchema
 );
 
@@ -2786,74 +3240,110 @@ export const DiscountTargetWhereSchema = z
   .partial();
 
 export const DiscountTargetWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DiscountTargetWhereSchema
 );
 
 export const DiscountTargetSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    type: z.boolean(),
-    discountId: z.boolean(),
-    storeId: z.boolean(),
-    productId: z.boolean(),
-    variantId: z.boolean(),
-    priceLevelId: z.boolean(),
-    categoryId: z.boolean(),
-    discount: z.boolean().or(DiscountOwnQueryOneSchema),
-    store: z.boolean().or(StoreOwnQueryOneSchema),
-    category: z.boolean().or(CategoryOwnQueryOneSchema),
-    priceLevel: z.boolean().or(PriceLevelOwnQueryOneSchema),
-    product: z.boolean().or(ProductOwnQueryOneSchema),
-    variant: z.boolean().or(VariantOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    discountId: PZ.Scalar.bool(),
+    storeId: PZ.Scalar.bool(),
+    productId: PZ.Scalar.bool(),
+    variantId: PZ.Scalar.bool(),
+    priceLevelId: PZ.Scalar.bool(),
+    categoryId: PZ.Scalar.bool(),
+    discount: PZ.Scalar.bool().or(DiscountOwnQueryOneSchema),
+    store: PZ.Scalar.bool().or(StoreOwnQueryOneSchema),
+    category: PZ.Scalar.bool().or(CategoryOwnQueryOneSchema),
+    priceLevel: PZ.Scalar.bool().or(PriceLevelOwnQueryOneSchema),
+    product: PZ.Scalar.bool().or(ProductOwnQueryOneSchema),
+    variant: PZ.Scalar.bool().or(VariantOwnQueryOneSchema),
   })
   .partial();
 
 export const DiscountTargetSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DiscountTargetSelectFieldsSchema
+);
+
+export const DiscountTargetOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    discountId: PZ.Scalar.bool(),
+    storeId: PZ.Scalar.bool(),
+    productId: PZ.Scalar.bool(),
+    variantId: PZ.Scalar.bool(),
+    priceLevelId: PZ.Scalar.bool(),
+    categoryId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      ![
+        'id',
+        'type',
+        'discountId',
+        'storeId',
+        'productId',
+        'variantId',
+        'priceLevelId',
+        'categoryId',
+      ].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const DiscountTargetOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  DiscountTargetOmitFieldsSchema
 );
 
 export const DiscountTargetIncludeSchema = z
   .object({
-    discount: z.boolean().or(DiscountOwnQueryOneSchema),
-    store: z.boolean().or(StoreOwnQueryOneSchema),
-    category: z.boolean().or(CategoryOwnQueryOneSchema),
-    priceLevel: z.boolean().or(PriceLevelOwnQueryOneSchema),
-    product: z.boolean().or(ProductOwnQueryOneSchema),
-    variant: z.boolean().or(VariantOwnQueryOneSchema),
+    discount: PZ.Scalar.bool().or(DiscountOwnQueryOneSchema),
+    store: PZ.Scalar.bool().or(StoreOwnQueryOneSchema),
+    category: PZ.Scalar.bool().or(CategoryOwnQueryOneSchema),
+    priceLevel: PZ.Scalar.bool().or(PriceLevelOwnQueryOneSchema),
+    product: PZ.Scalar.bool().or(ProductOwnQueryOneSchema),
+    variant: PZ.Scalar.bool().or(VariantOwnQueryOneSchema),
   })
   .partial();
 
 export const DiscountTargetIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DiscountTargetIncludeSchema
 );
 
 export const DiscountTargetProjectionSchema = z.union([
-  z.object({ omit: DiscountTargetSelectFieldsSchemaJson }),
+  z.object({ omit: DiscountTargetOmitFieldsSchemaJson }),
   z.object({ select: DiscountTargetSelectFieldsSchemaJson }),
   z.object({ include: DiscountTargetIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const StoreCreateSchema = z
-  .object({
-    priceLevelId: z.coerce.number().int(),
-    name: nameSchema.clone(),
-    slug: slugSchema.clone().optional(),
-    description: descriptionSchema.clone().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const StoreRawCreateSchema = z.object({
+  priceLevelId: PZ.Scalar.id(),
+  name: PZ.Scalar.name(),
+  slug: PZ.Scalar.slug().optional(),
+  description: PZ.Scalar.description().optional(),
+});
 
-export const StoreUpdateSchema = z
-  .object({
-    priceLevelId: z.coerce.number().int().optional(),
-    name: nameSchema.clone().optional(),
-    slug: slugSchema.clone().optional().optional(),
-    description: descriptionSchema.clone().optional().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const StoreCreateSchema = StoreRawCreateSchema.clone().transform(
+  PZ.slugTransformer('name')
+);
+
+export const StoreRawUpdateSchema = z.object({
+  priceLevelId: PZ.Scalar.id().optional(),
+  name: PZ.Scalar.name().optional(),
+  slug: PZ.Scalar.slug().optional().optional(),
+  description: PZ.Scalar.description().optional().optional(),
+});
+
+export const StoreUpdateSchema = StoreRawUpdateSchema.clone().transform(
+  PZ.slugTransformer('name')
+);
 
 export const StoreOrderBySchema = z
   .object({
@@ -2863,10 +3353,14 @@ export const StoreOrderBySchema = z
     slug: PZ.OrderDirectionSchema,
     description: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const StoreOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StoreOrderBySchema
 );
 
@@ -2902,61 +3396,90 @@ export const StoreWhereSchema = z
   })
   .partial();
 
-export const StoreWhereSchemaJson = z.preprocess(jsonParser, StoreWhereSchema);
+export const StoreWhereSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  StoreWhereSchema
+);
 
 export const StoreSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    priceLevelId: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    description: z.boolean(),
-    priceLevel: z.boolean().or(PriceLevelOwnQueryOneSchema),
-    quantities: z.boolean().or(QuantityOwnQuerySchema),
-    discounts: z.boolean().or(DiscountTargetOwnQuerySchema),
-    serialNumbers: z.boolean().or(SerialNumberOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    priceLevelId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    priceLevel: PZ.Scalar.bool().or(PriceLevelOwnQueryOneSchema),
+    quantities: PZ.Scalar.bool().or(QuantityOwnQuerySchema),
+    discounts: PZ.Scalar.bool().or(DiscountTargetOwnQuerySchema),
+    serialNumbers: PZ.Scalar.bool().or(SerialNumberOwnQuerySchema),
   })
   .partial();
 
 export const StoreSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StoreSelectFieldsSchema
+);
+
+export const StoreOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    priceLevelId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'priceLevelId', 'name', 'slug', 'description'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const StoreOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  StoreOmitFieldsSchema
 );
 
 export const StoreIncludeSchema = z
   .object({
-    priceLevel: z.boolean().or(PriceLevelOwnQueryOneSchema),
-    quantities: z.boolean().or(QuantityOwnQuerySchema),
-    discounts: z.boolean().or(DiscountTargetOwnQuerySchema),
-    serialNumbers: z.boolean().or(SerialNumberOwnQuerySchema),
+    priceLevel: PZ.Scalar.bool().or(PriceLevelOwnQueryOneSchema),
+    quantities: PZ.Scalar.bool().or(QuantityOwnQuerySchema),
+    discounts: PZ.Scalar.bool().or(DiscountTargetOwnQuerySchema),
+    serialNumbers: PZ.Scalar.bool().or(SerialNumberOwnQuerySchema),
   })
   .partial();
 
 export const StoreIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StoreIncludeSchema
 );
 
 export const StoreProjectionSchema = z.union([
-  z.object({ omit: StoreSelectFieldsSchemaJson }),
+  z.object({ omit: StoreOmitFieldsSchemaJson }),
   z.object({ select: StoreSelectFieldsSchemaJson }),
   z.object({ include: StoreIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const WarrantyPolicyCreateSchema = z.object({
-  name: nameSchema.clone(),
-  description: descriptionSchema.clone().optional(),
-  duration: z.coerce.number().int(),
+export const WarrantyPolicyRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
+  description: PZ.Scalar.description().optional(),
+  duration: PZ.Scalar.int(),
   durationUnit: TimeUnitSchema.optional(),
 });
 
-export const WarrantyPolicyUpdateSchema = z.object({
-  name: nameSchema.clone().optional(),
-  description: descriptionSchema.clone().optional().optional(),
-  duration: z.coerce.number().int().optional(),
+export const WarrantyPolicyCreateSchema = WarrantyPolicyRawCreateSchema.clone();
+
+export const WarrantyPolicyRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
+  description: PZ.Scalar.description().optional().optional(),
+  duration: PZ.Scalar.int().optional(),
   durationUnit: TimeUnitSchema.optional().optional(),
 });
+
+export const WarrantyPolicyUpdateSchema = WarrantyPolicyRawUpdateSchema.clone();
 
 export const WarrantyPolicyOrderBySchema = z
   .object({
@@ -2965,10 +3488,14 @@ export const WarrantyPolicyOrderBySchema = z
     description: PZ.OrderDirectionSchema,
     duration: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const WarrantyPolicyOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   WarrantyPolicyOrderBySchema
 );
 
@@ -2990,55 +3517,83 @@ export const WarrantyPolicyWhereSchema = z
   .partial();
 
 export const WarrantyPolicyWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   WarrantyPolicyWhereSchema
 );
 
 export const WarrantyPolicySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    description: z.boolean(),
-    duration: z.boolean(),
-    durationUnit: z.boolean(),
-    products: z.boolean().or(ProductWarrantyOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    duration: PZ.Scalar.bool(),
+    durationUnit: PZ.Scalar.bool(),
+    products: PZ.Scalar.bool().or(ProductWarrantyOwnQuerySchema),
   })
   .partial();
 
 export const WarrantyPolicySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   WarrantyPolicySelectFieldsSchema
+);
+
+export const WarrantyPolicyOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    duration: PZ.Scalar.bool(),
+    durationUnit: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'name', 'description', 'duration', 'durationUnit'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const WarrantyPolicyOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  WarrantyPolicyOmitFieldsSchema
 );
 
 export const WarrantyPolicyIncludeSchema = z
   .object({
-    products: z.boolean().or(ProductWarrantyOwnQuerySchema),
+    products: PZ.Scalar.bool().or(ProductWarrantyOwnQuerySchema),
   })
   .partial();
 
 export const WarrantyPolicyIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   WarrantyPolicyIncludeSchema
 );
 
 export const WarrantyPolicyProjectionSchema = z.union([
-  z.object({ omit: WarrantyPolicySelectFieldsSchemaJson }),
+  z.object({ omit: WarrantyPolicyOmitFieldsSchemaJson }),
   z.object({ select: WarrantyPolicySelectFieldsSchemaJson }),
   z.object({ include: WarrantyPolicyIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const ProductWarrantyCreateSchema = z.object({
-  productId: z.coerce.number().int().optional(),
-  variantId: z.coerce.number().int().optional(),
-  policyId: z.coerce.number().int(),
+export const ProductWarrantyRawCreateSchema = z.object({
+  productId: PZ.Scalar.id().optional(),
+  variantId: PZ.Scalar.id().optional(),
+  policyId: PZ.Scalar.id(),
 });
 
-export const ProductWarrantyUpdateSchema = z.object({
-  productId: z.coerce.number().int().optional().optional(),
-  variantId: z.coerce.number().int().optional().optional(),
-  policyId: z.coerce.number().int().optional(),
+export const ProductWarrantyCreateSchema =
+  ProductWarrantyRawCreateSchema.clone();
+
+export const ProductWarrantyRawUpdateSchema = z.object({
+  productId: PZ.Scalar.id().optional().optional(),
+  variantId: PZ.Scalar.id().optional().optional(),
+  policyId: PZ.Scalar.id().optional(),
 });
+
+export const ProductWarrantyUpdateSchema =
+  ProductWarrantyRawUpdateSchema.clone();
 
 export const ProductWarrantyOrderBySchema = z
   .object({
@@ -3047,10 +3602,14 @@ export const ProductWarrantyOrderBySchema = z
     variantId: PZ.OrderDirectionSchema,
     policyId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const ProductWarrantyOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProductWarrantyOrderBySchema
 );
 
@@ -3067,42 +3626,63 @@ export const ProductWarrantyWhereSchema = z
   .partial();
 
 export const ProductWarrantyWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProductWarrantyWhereSchema
 );
 
 export const ProductWarrantySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    productId: z.boolean(),
-    variantId: z.boolean(),
-    policyId: z.boolean(),
-    product: z.boolean().or(ProductOwnQueryOneSchema),
-    variant: z.boolean().or(VariantOwnQueryOneSchema),
-    policy: z.boolean().or(WarrantyPolicyOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    productId: PZ.Scalar.bool(),
+    variantId: PZ.Scalar.bool(),
+    policyId: PZ.Scalar.bool(),
+    product: PZ.Scalar.bool().or(ProductOwnQueryOneSchema),
+    variant: PZ.Scalar.bool().or(VariantOwnQueryOneSchema),
+    policy: PZ.Scalar.bool().or(WarrantyPolicyOwnQueryOneSchema),
   })
   .partial();
 
 export const ProductWarrantySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProductWarrantySelectFieldsSchema
+);
+
+export const ProductWarrantyOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    productId: PZ.Scalar.bool(),
+    variantId: PZ.Scalar.bool(),
+    policyId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'productId', 'variantId', 'policyId'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const ProductWarrantyOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  ProductWarrantyOmitFieldsSchema
 );
 
 export const ProductWarrantyIncludeSchema = z
   .object({
-    product: z.boolean().or(ProductOwnQueryOneSchema),
-    variant: z.boolean().or(VariantOwnQueryOneSchema),
-    policy: z.boolean().or(WarrantyPolicyOwnQueryOneSchema),
+    product: PZ.Scalar.bool().or(ProductOwnQueryOneSchema),
+    variant: PZ.Scalar.bool().or(VariantOwnQueryOneSchema),
+    policy: PZ.Scalar.bool().or(WarrantyPolicyOwnQueryOneSchema),
   })
   .partial();
 
 export const ProductWarrantyIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ProductWarrantyIncludeSchema
 );
 
 export const ProductWarrantyProjectionSchema = z.union([
-  z.object({ omit: ProductWarrantySelectFieldsSchemaJson }),
+  z.object({ omit: ProductWarrantyOmitFieldsSchemaJson }),
   z.object({ select: ProductWarrantySelectFieldsSchemaJson }),
   z.object({ include: ProductWarrantyIncludeSchemaJson }),
   z.object({}),
@@ -3124,9 +3704,9 @@ export const CategoryQuerySchema = z
   })
   .partial();
 
-export type CategoryCreate = z.infer<typeof CategoryCreateSchema>;
+export type CategoryCreate = z.infer<typeof CategoryRawCreateSchema>;
 
-export type CategoryUpdate = z.infer<typeof CategoryUpdateSchema>;
+export type CategoryUpdate = z.infer<typeof CategoryRawUpdateSchema>;
 
 export type CategoryOrderBy = z.infer<typeof CategoryOrderBySchema>;
 
@@ -3148,6 +3728,8 @@ export type CategoryQueryOne = z.infer<typeof CategoryQueryOneSchema>;
 
 export type CategoryQuery = z.infer<typeof CategoryQuerySchema>;
 
+export type CategoryOmitFields = z.infer<typeof CategoryOmitFieldsSchema>;
+
 export type CategorySelectFields = z.infer<typeof CategorySelectFieldsSchema>;
 
 export type CategoryProjection = z.infer<typeof CategoryProjectionSchema>;
@@ -3168,9 +3750,9 @@ export const ProductQuerySchema = z
   })
   .partial();
 
-export type ProductCreate = z.infer<typeof ProductCreateSchema>;
+export type ProductCreate = z.infer<typeof ProductRawCreateSchema>;
 
-export type ProductUpdate = z.infer<typeof ProductUpdateSchema>;
+export type ProductUpdate = z.infer<typeof ProductRawUpdateSchema>;
 
 export type ProductOrderBy = z.infer<typeof ProductOrderBySchema>;
 
@@ -3192,6 +3774,8 @@ export type ProductQueryOne = z.infer<typeof ProductQueryOneSchema>;
 
 export type ProductQuery = z.infer<typeof ProductQuerySchema>;
 
+export type ProductOmitFields = z.infer<typeof ProductOmitFieldsSchema>;
+
 export type ProductSelectFields = z.infer<typeof ProductSelectFieldsSchema>;
 
 export type ProductProjection = z.infer<typeof ProductProjectionSchema>;
@@ -3212,9 +3796,13 @@ export const ProductCategoryQuerySchema = z
   })
   .partial();
 
-export type ProductCategoryCreate = z.infer<typeof ProductCategoryCreateSchema>;
+export type ProductCategoryCreate = z.infer<
+  typeof ProductCategoryRawCreateSchema
+>;
 
-export type ProductCategoryUpdate = z.infer<typeof ProductCategoryUpdateSchema>;
+export type ProductCategoryUpdate = z.infer<
+  typeof ProductCategoryRawUpdateSchema
+>;
 
 export type ProductCategoryOrderBy = z.infer<
   typeof ProductCategoryOrderBySchema
@@ -3248,6 +3836,10 @@ export type ProductCategoryQueryOne = z.infer<
 
 export type ProductCategoryQuery = z.infer<typeof ProductCategoryQuerySchema>;
 
+export type ProductCategoryOmitFields = z.infer<
+  typeof ProductCategoryOmitFieldsSchema
+>;
+
 export type ProductCategorySelectFields = z.infer<
   typeof ProductCategorySelectFieldsSchema
 >;
@@ -3272,9 +3864,9 @@ export const VariantQuerySchema = z
   })
   .partial();
 
-export type VariantCreate = z.infer<typeof VariantCreateSchema>;
+export type VariantCreate = z.infer<typeof VariantRawCreateSchema>;
 
-export type VariantUpdate = z.infer<typeof VariantUpdateSchema>;
+export type VariantUpdate = z.infer<typeof VariantRawUpdateSchema>;
 
 export type VariantOrderBy = z.infer<typeof VariantOrderBySchema>;
 
@@ -3295,6 +3887,8 @@ export type VariantInclude = z.infer<typeof VariantIncludeSchema>;
 export type VariantQueryOne = z.infer<typeof VariantQueryOneSchema>;
 
 export type VariantQuery = z.infer<typeof VariantQuerySchema>;
+
+export type VariantOmitFields = z.infer<typeof VariantOmitFieldsSchema>;
 
 export type VariantSelectFields = z.infer<typeof VariantSelectFieldsSchema>;
 
@@ -3317,11 +3911,11 @@ export const AttributeCategoryQuerySchema = z
   .partial();
 
 export type AttributeCategoryCreate = z.infer<
-  typeof AttributeCategoryCreateSchema
+  typeof AttributeCategoryRawCreateSchema
 >;
 
 export type AttributeCategoryUpdate = z.infer<
-  typeof AttributeCategoryUpdateSchema
+  typeof AttributeCategoryRawUpdateSchema
 >;
 
 export type AttributeCategoryOrderBy = z.infer<
@@ -3360,6 +3954,10 @@ export type AttributeCategoryQuery = z.infer<
   typeof AttributeCategoryQuerySchema
 >;
 
+export type AttributeCategoryOmitFields = z.infer<
+  typeof AttributeCategoryOmitFieldsSchema
+>;
+
 export type AttributeCategorySelectFields = z.infer<
   typeof AttributeCategorySelectFieldsSchema
 >;
@@ -3384,9 +3982,9 @@ export const AttributeQuerySchema = z
   })
   .partial();
 
-export type AttributeCreate = z.infer<typeof AttributeCreateSchema>;
+export type AttributeCreate = z.infer<typeof AttributeRawCreateSchema>;
 
-export type AttributeUpdate = z.infer<typeof AttributeUpdateSchema>;
+export type AttributeUpdate = z.infer<typeof AttributeRawUpdateSchema>;
 
 export type AttributeOrderBy = z.infer<typeof AttributeOrderBySchema>;
 
@@ -3408,6 +4006,8 @@ export type AttributeQueryOne = z.infer<typeof AttributeQueryOneSchema>;
 
 export type AttributeQuery = z.infer<typeof AttributeQuerySchema>;
 
+export type AttributeOmitFields = z.infer<typeof AttributeOmitFieldsSchema>;
+
 export type AttributeSelectFields = z.infer<typeof AttributeSelectFieldsSchema>;
 
 export type AttributeProjection = z.infer<typeof AttributeProjectionSchema>;
@@ -3428,9 +4028,9 @@ export const UnitQuerySchema = z
   })
   .partial();
 
-export type UnitCreate = z.infer<typeof UnitCreateSchema>;
+export type UnitCreate = z.infer<typeof UnitRawCreateSchema>;
 
-export type UnitUpdate = z.infer<typeof UnitUpdateSchema>;
+export type UnitUpdate = z.infer<typeof UnitRawUpdateSchema>;
 
 export type UnitOrderBy = z.infer<typeof UnitOrderBySchema>;
 
@@ -3449,6 +4049,8 @@ export type UnitInclude = z.infer<typeof UnitIncludeSchema>;
 export type UnitQueryOne = z.infer<typeof UnitQueryOneSchema>;
 
 export type UnitQuery = z.infer<typeof UnitQuerySchema>;
+
+export type UnitOmitFields = z.infer<typeof UnitOmitFieldsSchema>;
 
 export type UnitSelectFields = z.infer<typeof UnitSelectFieldsSchema>;
 
@@ -3470,9 +4072,9 @@ export const AttributeUnitQuerySchema = z
   })
   .partial();
 
-export type AttributeUnitCreate = z.infer<typeof AttributeUnitCreateSchema>;
+export type AttributeUnitCreate = z.infer<typeof AttributeUnitRawCreateSchema>;
 
-export type AttributeUnitUpdate = z.infer<typeof AttributeUnitUpdateSchema>;
+export type AttributeUnitUpdate = z.infer<typeof AttributeUnitRawUpdateSchema>;
 
 export type AttributeUnitOrderBy = z.infer<typeof AttributeUnitOrderBySchema>;
 
@@ -3495,6 +4097,10 @@ export type AttributeUnitInclude = z.infer<typeof AttributeUnitIncludeSchema>;
 export type AttributeUnitQueryOne = z.infer<typeof AttributeUnitQueryOneSchema>;
 
 export type AttributeUnitQuery = z.infer<typeof AttributeUnitQuerySchema>;
+
+export type AttributeUnitOmitFields = z.infer<
+  typeof AttributeUnitOmitFieldsSchema
+>;
 
 export type AttributeUnitSelectFields = z.infer<
   typeof AttributeUnitSelectFieldsSchema
@@ -3520,9 +4126,13 @@ export const AttributeValueQuerySchema = z
   })
   .partial();
 
-export type AttributeValueCreate = z.infer<typeof AttributeValueCreateSchema>;
+export type AttributeValueCreate = z.infer<
+  typeof AttributeValueRawCreateSchema
+>;
 
-export type AttributeValueUpdate = z.infer<typeof AttributeValueUpdateSchema>;
+export type AttributeValueUpdate = z.infer<
+  typeof AttributeValueRawUpdateSchema
+>;
 
 export type AttributeValueOrderBy = z.infer<typeof AttributeValueOrderBySchema>;
 
@@ -3552,6 +4162,10 @@ export type AttributeValueQueryOne = z.infer<
 
 export type AttributeValueQuery = z.infer<typeof AttributeValueQuerySchema>;
 
+export type AttributeValueOmitFields = z.infer<
+  typeof AttributeValueOmitFieldsSchema
+>;
+
 export type AttributeValueSelectFields = z.infer<
   typeof AttributeValueSelectFieldsSchema
 >;
@@ -3576,9 +4190,9 @@ export const CurrencyQuerySchema = z
   })
   .partial();
 
-export type CurrencyCreate = z.infer<typeof CurrencyCreateSchema>;
+export type CurrencyCreate = z.infer<typeof CurrencyRawCreateSchema>;
 
-export type CurrencyUpdate = z.infer<typeof CurrencyUpdateSchema>;
+export type CurrencyUpdate = z.infer<typeof CurrencyRawUpdateSchema>;
 
 export type CurrencyOrderBy = z.infer<typeof CurrencyOrderBySchema>;
 
@@ -3600,6 +4214,8 @@ export type CurrencyQueryOne = z.infer<typeof CurrencyQueryOneSchema>;
 
 export type CurrencyQuery = z.infer<typeof CurrencyQuerySchema>;
 
+export type CurrencyOmitFields = z.infer<typeof CurrencyOmitFieldsSchema>;
+
 export type CurrencySelectFields = z.infer<typeof CurrencySelectFieldsSchema>;
 
 export type CurrencyProjection = z.infer<typeof CurrencyProjectionSchema>;
@@ -3620,9 +4236,9 @@ export const PriceLevelQuerySchema = z
   })
   .partial();
 
-export type PriceLevelCreate = z.infer<typeof PriceLevelCreateSchema>;
+export type PriceLevelCreate = z.infer<typeof PriceLevelRawCreateSchema>;
 
-export type PriceLevelUpdate = z.infer<typeof PriceLevelUpdateSchema>;
+export type PriceLevelUpdate = z.infer<typeof PriceLevelRawUpdateSchema>;
 
 export type PriceLevelOrderBy = z.infer<typeof PriceLevelOrderBySchema>;
 
@@ -3643,6 +4259,8 @@ export type PriceLevelInclude = z.infer<typeof PriceLevelIncludeSchema>;
 export type PriceLevelQueryOne = z.infer<typeof PriceLevelQueryOneSchema>;
 
 export type PriceLevelQuery = z.infer<typeof PriceLevelQuerySchema>;
+
+export type PriceLevelOmitFields = z.infer<typeof PriceLevelOmitFieldsSchema>;
 
 export type PriceLevelSelectFields = z.infer<
   typeof PriceLevelSelectFieldsSchema
@@ -3666,9 +4284,9 @@ export const PriceQuerySchema = z
   })
   .partial();
 
-export type PriceCreate = z.infer<typeof PriceCreateSchema>;
+export type PriceCreate = z.infer<typeof PriceRawCreateSchema>;
 
-export type PriceUpdate = z.infer<typeof PriceUpdateSchema>;
+export type PriceUpdate = z.infer<typeof PriceRawUpdateSchema>;
 
 export type PriceOrderBy = z.infer<typeof PriceOrderBySchema>;
 
@@ -3687,6 +4305,8 @@ export type PriceInclude = z.infer<typeof PriceIncludeSchema>;
 export type PriceQueryOne = z.infer<typeof PriceQueryOneSchema>;
 
 export type PriceQuery = z.infer<typeof PriceQuerySchema>;
+
+export type PriceOmitFields = z.infer<typeof PriceOmitFieldsSchema>;
 
 export type PriceSelectFields = z.infer<typeof PriceSelectFieldsSchema>;
 
@@ -3708,9 +4328,9 @@ export const QuantityQuerySchema = z
   })
   .partial();
 
-export type QuantityCreate = z.infer<typeof QuantityCreateSchema>;
+export type QuantityCreate = z.infer<typeof QuantityRawCreateSchema>;
 
-export type QuantityUpdate = z.infer<typeof QuantityUpdateSchema>;
+export type QuantityUpdate = z.infer<typeof QuantityRawUpdateSchema>;
 
 export type QuantityOrderBy = z.infer<typeof QuantityOrderBySchema>;
 
@@ -3732,6 +4352,8 @@ export type QuantityQueryOne = z.infer<typeof QuantityQueryOneSchema>;
 
 export type QuantityQuery = z.infer<typeof QuantityQuerySchema>;
 
+export type QuantityOmitFields = z.infer<typeof QuantityOmitFieldsSchema>;
+
 export type QuantitySelectFields = z.infer<typeof QuantitySelectFieldsSchema>;
 
 export type QuantityProjection = z.infer<typeof QuantityProjectionSchema>;
@@ -3752,9 +4374,9 @@ export const SerialNumberQuerySchema = z
   })
   .partial();
 
-export type SerialNumberCreate = z.infer<typeof SerialNumberCreateSchema>;
+export type SerialNumberCreate = z.infer<typeof SerialNumberRawCreateSchema>;
 
-export type SerialNumberUpdate = z.infer<typeof SerialNumberUpdateSchema>;
+export type SerialNumberUpdate = z.infer<typeof SerialNumberRawUpdateSchema>;
 
 export type SerialNumberOrderBy = z.infer<typeof SerialNumberOrderBySchema>;
 
@@ -3777,6 +4399,10 @@ export type SerialNumberInclude = z.infer<typeof SerialNumberIncludeSchema>;
 export type SerialNumberQueryOne = z.infer<typeof SerialNumberQueryOneSchema>;
 
 export type SerialNumberQuery = z.infer<typeof SerialNumberQuerySchema>;
+
+export type SerialNumberOmitFields = z.infer<
+  typeof SerialNumberOmitFieldsSchema
+>;
 
 export type SerialNumberSelectFields = z.infer<
   typeof SerialNumberSelectFieldsSchema
@@ -3802,9 +4428,9 @@ export const DiscountQuerySchema = z
   })
   .partial();
 
-export type DiscountCreate = z.infer<typeof DiscountCreateSchema>;
+export type DiscountCreate = z.infer<typeof DiscountRawCreateSchema>;
 
-export type DiscountUpdate = z.infer<typeof DiscountUpdateSchema>;
+export type DiscountUpdate = z.infer<typeof DiscountRawUpdateSchema>;
 
 export type DiscountOrderBy = z.infer<typeof DiscountOrderBySchema>;
 
@@ -3826,6 +4452,8 @@ export type DiscountQueryOne = z.infer<typeof DiscountQueryOneSchema>;
 
 export type DiscountQuery = z.infer<typeof DiscountQuerySchema>;
 
+export type DiscountOmitFields = z.infer<typeof DiscountOmitFieldsSchema>;
+
 export type DiscountSelectFields = z.infer<typeof DiscountSelectFieldsSchema>;
 
 export type DiscountProjection = z.infer<typeof DiscountProjectionSchema>;
@@ -3846,9 +4474,13 @@ export const DiscountTargetQuerySchema = z
   })
   .partial();
 
-export type DiscountTargetCreate = z.infer<typeof DiscountTargetCreateSchema>;
+export type DiscountTargetCreate = z.infer<
+  typeof DiscountTargetRawCreateSchema
+>;
 
-export type DiscountTargetUpdate = z.infer<typeof DiscountTargetUpdateSchema>;
+export type DiscountTargetUpdate = z.infer<
+  typeof DiscountTargetRawUpdateSchema
+>;
 
 export type DiscountTargetOrderBy = z.infer<typeof DiscountTargetOrderBySchema>;
 
@@ -3878,6 +4510,10 @@ export type DiscountTargetQueryOne = z.infer<
 
 export type DiscountTargetQuery = z.infer<typeof DiscountTargetQuerySchema>;
 
+export type DiscountTargetOmitFields = z.infer<
+  typeof DiscountTargetOmitFieldsSchema
+>;
+
 export type DiscountTargetSelectFields = z.infer<
   typeof DiscountTargetSelectFieldsSchema
 >;
@@ -3902,9 +4538,9 @@ export const StoreQuerySchema = z
   })
   .partial();
 
-export type StoreCreate = z.infer<typeof StoreCreateSchema>;
+export type StoreCreate = z.infer<typeof StoreRawCreateSchema>;
 
-export type StoreUpdate = z.infer<typeof StoreUpdateSchema>;
+export type StoreUpdate = z.infer<typeof StoreRawUpdateSchema>;
 
 export type StoreOrderBy = z.infer<typeof StoreOrderBySchema>;
 
@@ -3923,6 +4559,8 @@ export type StoreInclude = z.infer<typeof StoreIncludeSchema>;
 export type StoreQueryOne = z.infer<typeof StoreQueryOneSchema>;
 
 export type StoreQuery = z.infer<typeof StoreQuerySchema>;
+
+export type StoreOmitFields = z.infer<typeof StoreOmitFieldsSchema>;
 
 export type StoreSelectFields = z.infer<typeof StoreSelectFieldsSchema>;
 
@@ -3944,9 +4582,13 @@ export const WarrantyPolicyQuerySchema = z
   })
   .partial();
 
-export type WarrantyPolicyCreate = z.infer<typeof WarrantyPolicyCreateSchema>;
+export type WarrantyPolicyCreate = z.infer<
+  typeof WarrantyPolicyRawCreateSchema
+>;
 
-export type WarrantyPolicyUpdate = z.infer<typeof WarrantyPolicyUpdateSchema>;
+export type WarrantyPolicyUpdate = z.infer<
+  typeof WarrantyPolicyRawUpdateSchema
+>;
 
 export type WarrantyPolicyOrderBy = z.infer<typeof WarrantyPolicyOrderBySchema>;
 
@@ -3976,6 +4618,10 @@ export type WarrantyPolicyQueryOne = z.infer<
 
 export type WarrantyPolicyQuery = z.infer<typeof WarrantyPolicyQuerySchema>;
 
+export type WarrantyPolicyOmitFields = z.infer<
+  typeof WarrantyPolicyOmitFieldsSchema
+>;
+
 export type WarrantyPolicySelectFields = z.infer<
   typeof WarrantyPolicySelectFieldsSchema
 >;
@@ -4000,9 +4646,13 @@ export const ProductWarrantyQuerySchema = z
   })
   .partial();
 
-export type ProductWarrantyCreate = z.infer<typeof ProductWarrantyCreateSchema>;
+export type ProductWarrantyCreate = z.infer<
+  typeof ProductWarrantyRawCreateSchema
+>;
 
-export type ProductWarrantyUpdate = z.infer<typeof ProductWarrantyUpdateSchema>;
+export type ProductWarrantyUpdate = z.infer<
+  typeof ProductWarrantyRawUpdateSchema
+>;
 
 export type ProductWarrantyOrderBy = z.infer<
   typeof ProductWarrantyOrderBySchema
@@ -4035,6 +4685,10 @@ export type ProductWarrantyQueryOne = z.infer<
 >;
 
 export type ProductWarrantyQuery = z.infer<typeof ProductWarrantyQuerySchema>;
+
+export type ProductWarrantyOmitFields = z.infer<
+  typeof ProductWarrantyOmitFieldsSchema
+>;
 
 export type ProductWarrantySelectFields = z.infer<
   typeof ProductWarrantySelectFieldsSchema

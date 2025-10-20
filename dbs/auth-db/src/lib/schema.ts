@@ -1,60 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as PZ from '@puq/zod';
 import { z } from 'zod';
-import { slugify } from '@puq/names';
 
-export const takeSchema = z.coerce.number().int().min(1).default(20).optional();
-export const skipSchema = z.coerce.number().int().min(0).default(0).optional();
 export const PaginationSchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
+    take: PZ.Scalar.take(),
+    skip: PZ.Scalar.skip(),
   })
   .partial();
-
-export const nameSchema = z.string().min(2).max(30);
-export const descriptionSchema = z.string().max(1000);
-export const currencySchema = z.coerce.number().positive();
-export const positiveIntegerSchema = z.coerce.number().int().positive();
-export const emailSchema = z.email();
-export const dateSchema = z.iso.datetime();
-export const slugSchema = z.string().regex(/^[a-z-]{2,}$/);
-
-export function jsonParser<T>(value: T) {
-  if (typeof value === 'string') {
-    return JSON.parse(value);
-  }
-  return value;
-}
-
-export function slugTransformer(key: string) {
-  return (value: any) => {
-    if (value.slug == undefined && value[key] != undefined) {
-      return {
-        ...value,
-        slug: value[key] ? slugify(value[key].toString()) : null,
-      };
-    }
-    return value;
-  };
-}
 
 export const SessionStatusSchema = z.enum(['ACTIVE', 'EXPIRED', 'REVOKED']);
 
 export const UserOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    uuid: z.boolean(),
-    username: z.boolean(),
-    password: z.boolean(),
-    sessions: z.boolean(),
-    permissions: z.boolean(),
-    AccessToken: z.boolean(),
+    id: PZ.Scalar.bool(),
+    uuid: PZ.Scalar.bool(),
+    username: PZ.Scalar.bool(),
+    password: PZ.Scalar.bool(),
+    sessions: PZ.Scalar.bool(),
+    permissions: PZ.Scalar.bool(),
+    AccessToken: PZ.Scalar.bool(),
   })
   .partial();
 
 export const UserOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UserOwnSelectFieldsSchema
 );
 
@@ -64,16 +34,16 @@ export const UserDistinctFieldsSchema = z
 
 export const AccessTokenOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    userId: z.boolean(),
-    user: z.boolean(),
-    AccessTokenPermission: z.boolean(),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    userId: PZ.Scalar.bool(),
+    user: PZ.Scalar.bool(),
+    AccessTokenPermission: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AccessTokenOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AccessTokenOwnSelectFieldsSchema
 );
 
@@ -83,14 +53,14 @@ export const AccessTokenDistinctFieldsSchema = z
 
 export const ScopeOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    permissions: z.boolean(),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    permissions: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ScopeOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ScopeOwnSelectFieldsSchema
 );
 
@@ -98,14 +68,14 @@ export const ScopeDistinctFieldsSchema = z.enum(['id', 'name']).array();
 
 export const ResourceOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    activities: z.boolean(),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    activities: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ResourceOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ResourceOwnSelectFieldsSchema
 );
 
@@ -113,14 +83,14 @@ export const ResourceDistinctFieldsSchema = z.enum(['id', 'name']).array();
 
 export const OperationOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    activities: z.boolean(),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    activities: PZ.Scalar.bool(),
   })
   .partial();
 
 export const OperationOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   OperationOwnSelectFieldsSchema
 );
 
@@ -128,19 +98,19 @@ export const OperationDistinctFieldsSchema = z.enum(['id', 'name']).array();
 
 export const ActivityOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    resourceId: z.boolean(),
-    operationId: z.boolean(),
-    resouce: z.boolean(),
-    operation: z.boolean(),
-    permissions: z.boolean(),
-    logs: z.boolean(),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    resourceId: PZ.Scalar.bool(),
+    operationId: PZ.Scalar.bool(),
+    resouce: PZ.Scalar.bool(),
+    operation: PZ.Scalar.bool(),
+    permissions: PZ.Scalar.bool(),
+    logs: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ActivityOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ActivityOwnSelectFieldsSchema
 );
 
@@ -150,19 +120,19 @@ export const ActivityDistinctFieldsSchema = z
 
 export const PermissionOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    scopeId: z.boolean(),
-    activityId: z.boolean(),
-    scope: z.boolean(),
-    activity: z.boolean(),
-    roles: z.boolean(),
-    UserPermission: z.boolean(),
-    AccessTokenPermission: z.boolean(),
+    id: PZ.Scalar.bool(),
+    scopeId: PZ.Scalar.bool(),
+    activityId: PZ.Scalar.bool(),
+    scope: PZ.Scalar.bool(),
+    activity: PZ.Scalar.bool(),
+    roles: PZ.Scalar.bool(),
+    UserPermission: PZ.Scalar.bool(),
+    AccessTokenPermission: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PermissionOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PermissionOwnSelectFieldsSchema
 );
 
@@ -172,14 +142,14 @@ export const PermissionDistinctFieldsSchema = z
 
 export const RoleOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    permissions: z.boolean(),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    permissions: PZ.Scalar.bool(),
   })
   .partial();
 
 export const RoleOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   RoleOwnSelectFieldsSchema
 );
 
@@ -187,16 +157,16 @@ export const RoleDistinctFieldsSchema = z.enum(['id', 'name']).array();
 
 export const RolePermissionOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    roleId: z.boolean(),
-    permissionId: z.boolean(),
-    role: z.boolean(),
-    permission: z.boolean(),
+    id: PZ.Scalar.bool(),
+    roleId: PZ.Scalar.bool(),
+    permissionId: PZ.Scalar.bool(),
+    role: PZ.Scalar.bool(),
+    permission: PZ.Scalar.bool(),
   })
   .partial();
 
 export const RolePermissionOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   RolePermissionOwnSelectFieldsSchema
 );
 
@@ -206,19 +176,19 @@ export const RolePermissionDistinctFieldsSchema = z
 
 export const SessionOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    userId: z.boolean(),
-    description: z.boolean(),
-    status: z.boolean(),
-    startDate: z.boolean(),
-    endDate: z.boolean(),
-    user: z.boolean(),
-    logs: z.boolean(),
+    id: PZ.Scalar.bool(),
+    userId: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    status: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+    user: PZ.Scalar.bool(),
+    logs: PZ.Scalar.bool(),
   })
   .partial();
 
 export const SessionOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SessionOwnSelectFieldsSchema
 );
 
@@ -228,18 +198,18 @@ export const SessionDistinctFieldsSchema = z
 
 export const ActivityLogOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    sessionId: z.boolean(),
-    activityId: z.boolean(),
-    createdAt: z.boolean(),
-    notes: z.boolean(),
-    activity: z.boolean(),
-    session: z.boolean(),
+    id: PZ.Scalar.bool(),
+    sessionId: PZ.Scalar.bool(),
+    activityId: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    notes: PZ.Scalar.bool(),
+    activity: PZ.Scalar.bool(),
+    session: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ActivityLogOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ActivityLogOwnSelectFieldsSchema
 );
 
@@ -249,16 +219,16 @@ export const ActivityLogDistinctFieldsSchema = z
 
 export const UserPermissionOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    userId: z.boolean(),
-    permissionId: z.boolean(),
-    user: z.boolean(),
-    permission: z.boolean(),
+    id: PZ.Scalar.bool(),
+    userId: PZ.Scalar.bool(),
+    permissionId: PZ.Scalar.bool(),
+    user: PZ.Scalar.bool(),
+    permission: PZ.Scalar.bool(),
   })
   .partial();
 
 export const UserPermissionOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UserPermissionOwnSelectFieldsSchema
 );
 
@@ -268,16 +238,16 @@ export const UserPermissionDistinctFieldsSchema = z
 
 export const AccessTokenPermissionOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    permissionId: z.boolean(),
-    accessTokenId: z.boolean(),
-    permission: z.boolean(),
-    accessToken: z.boolean(),
+    id: PZ.Scalar.bool(),
+    permissionId: PZ.Scalar.bool(),
+    accessTokenId: PZ.Scalar.bool(),
+    permission: PZ.Scalar.bool(),
+    accessToken: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AccessTokenPermissionOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AccessTokenPermissionOwnSelectFieldsSchema
 );
 
@@ -295,7 +265,7 @@ export const UserOwnWhereSchema = z
   .partial();
 
 export const UserOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UserOwnWhereSchema
 );
 
@@ -308,7 +278,7 @@ export const AccessTokenOwnWhereSchema = z
   .partial();
 
 export const AccessTokenOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AccessTokenOwnWhereSchema
 );
 
@@ -320,7 +290,7 @@ export const ScopeOwnWhereSchema = z
   .partial();
 
 export const ScopeOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ScopeOwnWhereSchema
 );
 
@@ -332,7 +302,7 @@ export const ResourceOwnWhereSchema = z
   .partial();
 
 export const ResourceOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ResourceOwnWhereSchema
 );
 
@@ -344,7 +314,7 @@ export const OperationOwnWhereSchema = z
   .partial();
 
 export const OperationOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   OperationOwnWhereSchema
 );
 
@@ -358,7 +328,7 @@ export const ActivityOwnWhereSchema = z
   .partial();
 
 export const ActivityOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ActivityOwnWhereSchema
 );
 
@@ -371,7 +341,7 @@ export const PermissionOwnWhereSchema = z
   .partial();
 
 export const PermissionOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PermissionOwnWhereSchema
 );
 
@@ -383,7 +353,7 @@ export const RoleOwnWhereSchema = z
   .partial();
 
 export const RoleOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   RoleOwnWhereSchema
 );
 
@@ -396,7 +366,7 @@ export const RolePermissionOwnWhereSchema = z
   .partial();
 
 export const RolePermissionOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   RolePermissionOwnWhereSchema
 );
 
@@ -412,7 +382,7 @@ export const SessionOwnWhereSchema = z
   .partial();
 
 export const SessionOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SessionOwnWhereSchema
 );
 
@@ -427,7 +397,7 @@ export const ActivityLogOwnWhereSchema = z
   .partial();
 
 export const ActivityLogOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ActivityLogOwnWhereSchema
 );
 
@@ -440,7 +410,7 @@ export const UserPermissionOwnWhereSchema = z
   .partial();
 
 export const UserPermissionOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UserPermissionOwnWhereSchema
 );
 
@@ -453,20 +423,20 @@ export const AccessTokenPermissionOwnWhereSchema = z
   .partial();
 
 export const AccessTokenPermissionOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AccessTokenPermissionOwnWhereSchema
 );
 
 export const UserOwnIncludeSchema = z
   .object({
-    sessions: z.boolean(),
-    permissions: z.boolean(),
-    AccessToken: z.boolean(),
+    sessions: PZ.Scalar.bool(),
+    permissions: PZ.Scalar.bool(),
+    AccessToken: PZ.Scalar.bool(),
   })
   .partial();
 
 export const UserOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UserOwnIncludeSchema
 );
 
@@ -486,13 +456,13 @@ export const UserOwnQuerySchema = z
 
 export const AccessTokenOwnIncludeSchema = z
   .object({
-    user: z.boolean(),
-    AccessTokenPermission: z.boolean(),
+    user: PZ.Scalar.bool(),
+    AccessTokenPermission: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AccessTokenOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AccessTokenOwnIncludeSchema
 );
 
@@ -512,12 +482,12 @@ export const AccessTokenOwnQuerySchema = z
 
 export const ScopeOwnIncludeSchema = z
   .object({
-    permissions: z.boolean(),
+    permissions: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ScopeOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ScopeOwnIncludeSchema
 );
 
@@ -537,12 +507,12 @@ export const ScopeOwnQuerySchema = z
 
 export const ResourceOwnIncludeSchema = z
   .object({
-    activities: z.boolean(),
+    activities: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ResourceOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ResourceOwnIncludeSchema
 );
 
@@ -562,12 +532,12 @@ export const ResourceOwnQuerySchema = z
 
 export const OperationOwnIncludeSchema = z
   .object({
-    activities: z.boolean(),
+    activities: PZ.Scalar.bool(),
   })
   .partial();
 
 export const OperationOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   OperationOwnIncludeSchema
 );
 
@@ -587,15 +557,15 @@ export const OperationOwnQuerySchema = z
 
 export const ActivityOwnIncludeSchema = z
   .object({
-    resouce: z.boolean(),
-    operation: z.boolean(),
-    permissions: z.boolean(),
-    logs: z.boolean(),
+    resouce: PZ.Scalar.bool(),
+    operation: PZ.Scalar.bool(),
+    permissions: PZ.Scalar.bool(),
+    logs: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ActivityOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ActivityOwnIncludeSchema
 );
 
@@ -615,16 +585,16 @@ export const ActivityOwnQuerySchema = z
 
 export const PermissionOwnIncludeSchema = z
   .object({
-    scope: z.boolean(),
-    activity: z.boolean(),
-    roles: z.boolean(),
-    UserPermission: z.boolean(),
-    AccessTokenPermission: z.boolean(),
+    scope: PZ.Scalar.bool(),
+    activity: PZ.Scalar.bool(),
+    roles: PZ.Scalar.bool(),
+    UserPermission: PZ.Scalar.bool(),
+    AccessTokenPermission: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PermissionOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PermissionOwnIncludeSchema
 );
 
@@ -644,12 +614,12 @@ export const PermissionOwnQuerySchema = z
 
 export const RoleOwnIncludeSchema = z
   .object({
-    permissions: z.boolean(),
+    permissions: PZ.Scalar.bool(),
   })
   .partial();
 
 export const RoleOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   RoleOwnIncludeSchema
 );
 
@@ -669,13 +639,13 @@ export const RoleOwnQuerySchema = z
 
 export const RolePermissionOwnIncludeSchema = z
   .object({
-    role: z.boolean(),
-    permission: z.boolean(),
+    role: PZ.Scalar.bool(),
+    permission: PZ.Scalar.bool(),
   })
   .partial();
 
 export const RolePermissionOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   RolePermissionOwnIncludeSchema
 );
 
@@ -695,13 +665,13 @@ export const RolePermissionOwnQuerySchema = z
 
 export const SessionOwnIncludeSchema = z
   .object({
-    user: z.boolean(),
-    logs: z.boolean(),
+    user: PZ.Scalar.bool(),
+    logs: PZ.Scalar.bool(),
   })
   .partial();
 
 export const SessionOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SessionOwnIncludeSchema
 );
 
@@ -721,13 +691,13 @@ export const SessionOwnQuerySchema = z
 
 export const ActivityLogOwnIncludeSchema = z
   .object({
-    activity: z.boolean(),
-    session: z.boolean(),
+    activity: PZ.Scalar.bool(),
+    session: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ActivityLogOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ActivityLogOwnIncludeSchema
 );
 
@@ -747,13 +717,13 @@ export const ActivityLogOwnQuerySchema = z
 
 export const UserPermissionOwnIncludeSchema = z
   .object({
-    user: z.boolean(),
-    permission: z.boolean(),
+    user: PZ.Scalar.bool(),
+    permission: PZ.Scalar.bool(),
   })
   .partial();
 
 export const UserPermissionOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UserPermissionOwnIncludeSchema
 );
 
@@ -773,13 +743,13 @@ export const UserPermissionOwnQuerySchema = z
 
 export const AccessTokenPermissionOwnIncludeSchema = z
   .object({
-    permission: z.boolean(),
-    accessToken: z.boolean(),
+    permission: PZ.Scalar.bool(),
+    accessToken: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AccessTokenPermissionOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AccessTokenPermissionOwnIncludeSchema
 );
 
@@ -797,17 +767,21 @@ export const AccessTokenPermissionOwnQuerySchema = z
   })
   .partial();
 
-export const UserCreateSchema = z.object({
-  uuid: z.string(),
-  username: z.string(),
-  password: z.string(),
+export const UserRawCreateSchema = z.object({
+  uuid: PZ.Scalar.string(),
+  username: PZ.Scalar.string(),
+  password: PZ.Scalar.string(),
 });
 
-export const UserUpdateSchema = z.object({
-  uuid: z.string().optional(),
-  username: z.string().optional(),
-  password: z.string().optional(),
+export const UserCreateSchema = UserRawCreateSchema.clone();
+
+export const UserRawUpdateSchema = z.object({
+  uuid: PZ.Scalar.string().optional(),
+  username: PZ.Scalar.string().optional(),
+  password: PZ.Scalar.string().optional(),
 });
+
+export const UserUpdateSchema = UserRawUpdateSchema.clone();
 
 export const UserOrderBySchema = z
   .object({
@@ -816,10 +790,14 @@ export const UserOrderBySchema = z
     username: PZ.OrderDirectionSchema,
     password: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const UserOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UserOrderBySchema
 );
 
@@ -853,54 +831,82 @@ export const UserWhereSchema = z
   })
   .partial();
 
-export const UserWhereSchemaJson = z.preprocess(jsonParser, UserWhereSchema);
+export const UserWhereSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  UserWhereSchema
+);
 
 export const UserSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    uuid: z.boolean(),
-    username: z.boolean(),
-    password: z.boolean(),
-    sessions: z.boolean().or(SessionOwnQuerySchema),
-    permissions: z.boolean().or(UserPermissionOwnQuerySchema),
-    AccessToken: z.boolean().or(AccessTokenOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    uuid: PZ.Scalar.bool(),
+    username: PZ.Scalar.bool(),
+    password: PZ.Scalar.bool(),
+    sessions: PZ.Scalar.bool().or(SessionOwnQuerySchema),
+    permissions: PZ.Scalar.bool().or(UserPermissionOwnQuerySchema),
+    AccessToken: PZ.Scalar.bool().or(AccessTokenOwnQuerySchema),
   })
   .partial();
 
 export const UserSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UserSelectFieldsSchema
+);
+
+export const UserOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    uuid: PZ.Scalar.bool(),
+    username: PZ.Scalar.bool(),
+    password: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'uuid', 'username', 'password'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const UserOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  UserOmitFieldsSchema
 );
 
 export const UserIncludeSchema = z
   .object({
-    sessions: z.boolean().or(SessionOwnQuerySchema),
-    permissions: z.boolean().or(UserPermissionOwnQuerySchema),
-    AccessToken: z.boolean().or(AccessTokenOwnQuerySchema),
+    sessions: PZ.Scalar.bool().or(SessionOwnQuerySchema),
+    permissions: PZ.Scalar.bool().or(UserPermissionOwnQuerySchema),
+    AccessToken: PZ.Scalar.bool().or(AccessTokenOwnQuerySchema),
   })
   .partial();
 
 export const UserIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UserIncludeSchema
 );
 
 export const UserProjectionSchema = z.union([
-  z.object({ omit: UserSelectFieldsSchemaJson }),
+  z.object({ omit: UserOmitFieldsSchemaJson }),
   z.object({ select: UserSelectFieldsSchemaJson }),
   z.object({ include: UserIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const AccessTokenCreateSchema = z.object({
-  name: nameSchema.clone(),
-  userId: z.coerce.number().int(),
+export const AccessTokenRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
+  userId: PZ.Scalar.id(),
 });
 
-export const AccessTokenUpdateSchema = z.object({
-  name: nameSchema.clone().optional(),
-  userId: z.coerce.number().int().optional(),
+export const AccessTokenCreateSchema = AccessTokenRawCreateSchema.clone();
+
+export const AccessTokenRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
+  userId: PZ.Scalar.id().optional(),
 });
+
+export const AccessTokenUpdateSchema = AccessTokenRawUpdateSchema.clone();
 
 export const AccessTokenOrderBySchema = z
   .object({
@@ -908,10 +914,14 @@ export const AccessTokenOrderBySchema = z
     name: PZ.OrderDirectionSchema,
     userId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const AccessTokenOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AccessTokenOrderBySchema
 );
 
@@ -932,61 +942,90 @@ export const AccessTokenWhereSchema = z
   .partial();
 
 export const AccessTokenWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AccessTokenWhereSchema
 );
 
 export const AccessTokenSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    userId: z.boolean(),
-    user: z.boolean().or(UserOwnQueryOneSchema),
-    AccessTokenPermission: z.boolean().or(AccessTokenPermissionOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    userId: PZ.Scalar.bool(),
+    user: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    AccessTokenPermission: PZ.Scalar.bool().or(
+      AccessTokenPermissionOwnQuerySchema
+    ),
   })
   .partial();
 
 export const AccessTokenSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AccessTokenSelectFieldsSchema
+);
+
+export const AccessTokenOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    userId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) => !['id', 'name', 'userId'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const AccessTokenOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  AccessTokenOmitFieldsSchema
 );
 
 export const AccessTokenIncludeSchema = z
   .object({
-    user: z.boolean().or(UserOwnQueryOneSchema),
-    AccessTokenPermission: z.boolean().or(AccessTokenPermissionOwnQuerySchema),
+    user: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    AccessTokenPermission: PZ.Scalar.bool().or(
+      AccessTokenPermissionOwnQuerySchema
+    ),
   })
   .partial();
 
 export const AccessTokenIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AccessTokenIncludeSchema
 );
 
 export const AccessTokenProjectionSchema = z.union([
-  z.object({ omit: AccessTokenSelectFieldsSchemaJson }),
+  z.object({ omit: AccessTokenOmitFieldsSchemaJson }),
   z.object({ select: AccessTokenSelectFieldsSchemaJson }),
   z.object({ include: AccessTokenIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const ScopeCreateSchema = z.object({
-  name: nameSchema.clone(),
+export const ScopeRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
 });
 
-export const ScopeUpdateSchema = z.object({
-  name: nameSchema.clone().optional(),
+export const ScopeCreateSchema = ScopeRawCreateSchema.clone();
+
+export const ScopeRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
 });
+
+export const ScopeUpdateSchema = ScopeRawUpdateSchema.clone();
 
 export const ScopeOrderBySchema = z
   .object({
     id: PZ.OrderDirectionSchema,
     name: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const ScopeOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ScopeOrderBySchema
 );
 
@@ -1004,56 +1043,83 @@ export const ScopeWhereSchema = z
   })
   .partial();
 
-export const ScopeWhereSchemaJson = z.preprocess(jsonParser, ScopeWhereSchema);
+export const ScopeWhereSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  ScopeWhereSchema
+);
 
 export const ScopeSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    permissions: z.boolean().or(PermissionOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    permissions: PZ.Scalar.bool().or(PermissionOwnQuerySchema),
   })
   .partial();
 
 export const ScopeSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ScopeSelectFieldsSchema
+);
+
+export const ScopeOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine((value) => !['id', 'name'].every((e) => Object.hasOwn(value, e)), {
+    message: 'Cannot omit all fields',
+    path: ['omit'],
+  });
+
+export const ScopeOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  ScopeOmitFieldsSchema
 );
 
 export const ScopeIncludeSchema = z
   .object({
-    permissions: z.boolean().or(PermissionOwnQuerySchema),
+    permissions: PZ.Scalar.bool().or(PermissionOwnQuerySchema),
   })
   .partial();
 
 export const ScopeIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ScopeIncludeSchema
 );
 
 export const ScopeProjectionSchema = z.union([
-  z.object({ omit: ScopeSelectFieldsSchemaJson }),
+  z.object({ omit: ScopeOmitFieldsSchemaJson }),
   z.object({ select: ScopeSelectFieldsSchemaJson }),
   z.object({ include: ScopeIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const ResourceCreateSchema = z.object({
-  name: nameSchema.clone(),
+export const ResourceRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
 });
 
-export const ResourceUpdateSchema = z.object({
-  name: nameSchema.clone().optional(),
+export const ResourceCreateSchema = ResourceRawCreateSchema.clone();
+
+export const ResourceRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
 });
+
+export const ResourceUpdateSchema = ResourceRawUpdateSchema.clone();
 
 export const ResourceOrderBySchema = z
   .object({
     id: PZ.OrderDirectionSchema,
     name: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const ResourceOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ResourceOrderBySchema
 );
 
@@ -1072,58 +1138,82 @@ export const ResourceWhereSchema = z
   .partial();
 
 export const ResourceWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ResourceWhereSchema
 );
 
 export const ResourceSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    activities: z.boolean().or(ActivityOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    activities: PZ.Scalar.bool().or(ActivityOwnQuerySchema),
   })
   .partial();
 
 export const ResourceSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ResourceSelectFieldsSchema
+);
+
+export const ResourceOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine((value) => !['id', 'name'].every((e) => Object.hasOwn(value, e)), {
+    message: 'Cannot omit all fields',
+    path: ['omit'],
+  });
+
+export const ResourceOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  ResourceOmitFieldsSchema
 );
 
 export const ResourceIncludeSchema = z
   .object({
-    activities: z.boolean().or(ActivityOwnQuerySchema),
+    activities: PZ.Scalar.bool().or(ActivityOwnQuerySchema),
   })
   .partial();
 
 export const ResourceIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ResourceIncludeSchema
 );
 
 export const ResourceProjectionSchema = z.union([
-  z.object({ omit: ResourceSelectFieldsSchemaJson }),
+  z.object({ omit: ResourceOmitFieldsSchemaJson }),
   z.object({ select: ResourceSelectFieldsSchemaJson }),
   z.object({ include: ResourceIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const OperationCreateSchema = z.object({
-  name: nameSchema.clone(),
+export const OperationRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
 });
 
-export const OperationUpdateSchema = z.object({
-  name: nameSchema.clone().optional(),
+export const OperationCreateSchema = OperationRawCreateSchema.clone();
+
+export const OperationRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
 });
+
+export const OperationUpdateSchema = OperationRawUpdateSchema.clone();
 
 export const OperationOrderBySchema = z
   .object({
     id: PZ.OrderDirectionSchema,
     name: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const OperationOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   OperationOrderBySchema
 );
 
@@ -1142,52 +1232,72 @@ export const OperationWhereSchema = z
   .partial();
 
 export const OperationWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   OperationWhereSchema
 );
 
 export const OperationSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    activities: z.boolean().or(ActivityOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    activities: PZ.Scalar.bool().or(ActivityOwnQuerySchema),
   })
   .partial();
 
 export const OperationSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   OperationSelectFieldsSchema
+);
+
+export const OperationOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine((value) => !['id', 'name'].every((e) => Object.hasOwn(value, e)), {
+    message: 'Cannot omit all fields',
+    path: ['omit'],
+  });
+
+export const OperationOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  OperationOmitFieldsSchema
 );
 
 export const OperationIncludeSchema = z
   .object({
-    activities: z.boolean().or(ActivityOwnQuerySchema),
+    activities: PZ.Scalar.bool().or(ActivityOwnQuerySchema),
   })
   .partial();
 
 export const OperationIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   OperationIncludeSchema
 );
 
 export const OperationProjectionSchema = z.union([
-  z.object({ omit: OperationSelectFieldsSchemaJson }),
+  z.object({ omit: OperationOmitFieldsSchemaJson }),
   z.object({ select: OperationSelectFieldsSchemaJson }),
   z.object({ include: OperationIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const ActivityCreateSchema = z.object({
-  name: nameSchema.clone(),
-  resourceId: z.coerce.number().int(),
-  operationId: z.coerce.number().int(),
+export const ActivityRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
+  resourceId: PZ.Scalar.id(),
+  operationId: PZ.Scalar.id(),
 });
 
-export const ActivityUpdateSchema = z.object({
-  name: nameSchema.clone().optional(),
-  resourceId: z.coerce.number().int().optional(),
-  operationId: z.coerce.number().int().optional(),
+export const ActivityCreateSchema = ActivityRawCreateSchema.clone();
+
+export const ActivityRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
+  resourceId: PZ.Scalar.id().optional(),
+  operationId: PZ.Scalar.id().optional(),
 });
+
+export const ActivityUpdateSchema = ActivityRawUpdateSchema.clone();
 
 export const ActivityOrderBySchema = z
   .object({
@@ -1196,10 +1306,14 @@ export const ActivityOrderBySchema = z
     resourceId: PZ.OrderDirectionSchema,
     operationId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const ActivityOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ActivityOrderBySchema
 );
 
@@ -1229,58 +1343,83 @@ export const ActivityWhereSchema = z
   .partial();
 
 export const ActivityWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ActivityWhereSchema
 );
 
 export const ActivitySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    resourceId: z.boolean(),
-    operationId: z.boolean(),
-    resouce: z.boolean().or(ResourceOwnQueryOneSchema),
-    operation: z.boolean().or(OperationOwnQueryOneSchema),
-    permissions: z.boolean().or(PermissionOwnQuerySchema),
-    logs: z.boolean().or(ActivityLogOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    resourceId: PZ.Scalar.bool(),
+    operationId: PZ.Scalar.bool(),
+    resouce: PZ.Scalar.bool().or(ResourceOwnQueryOneSchema),
+    operation: PZ.Scalar.bool().or(OperationOwnQueryOneSchema),
+    permissions: PZ.Scalar.bool().or(PermissionOwnQuerySchema),
+    logs: PZ.Scalar.bool().or(ActivityLogOwnQuerySchema),
   })
   .partial();
 
 export const ActivitySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ActivitySelectFieldsSchema
+);
+
+export const ActivityOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    resourceId: PZ.Scalar.bool(),
+    operationId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'name', 'resourceId', 'operationId'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const ActivityOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  ActivityOmitFieldsSchema
 );
 
 export const ActivityIncludeSchema = z
   .object({
-    resouce: z.boolean().or(ResourceOwnQueryOneSchema),
-    operation: z.boolean().or(OperationOwnQueryOneSchema),
-    permissions: z.boolean().or(PermissionOwnQuerySchema),
-    logs: z.boolean().or(ActivityLogOwnQuerySchema),
+    resouce: PZ.Scalar.bool().or(ResourceOwnQueryOneSchema),
+    operation: PZ.Scalar.bool().or(OperationOwnQueryOneSchema),
+    permissions: PZ.Scalar.bool().or(PermissionOwnQuerySchema),
+    logs: PZ.Scalar.bool().or(ActivityLogOwnQuerySchema),
   })
   .partial();
 
 export const ActivityIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ActivityIncludeSchema
 );
 
 export const ActivityProjectionSchema = z.union([
-  z.object({ omit: ActivitySelectFieldsSchemaJson }),
+  z.object({ omit: ActivityOmitFieldsSchemaJson }),
   z.object({ select: ActivitySelectFieldsSchemaJson }),
   z.object({ include: ActivityIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PermissionCreateSchema = z.object({
-  scopeId: z.coerce.number().int(),
-  activityId: z.coerce.number().int(),
+export const PermissionRawCreateSchema = z.object({
+  scopeId: PZ.Scalar.id(),
+  activityId: PZ.Scalar.id(),
 });
 
-export const PermissionUpdateSchema = z.object({
-  scopeId: z.coerce.number().int().optional(),
-  activityId: z.coerce.number().int().optional(),
+export const PermissionCreateSchema = PermissionRawCreateSchema.clone();
+
+export const PermissionRawUpdateSchema = z.object({
+  scopeId: PZ.Scalar.id().optional(),
+  activityId: PZ.Scalar.id().optional(),
 });
+
+export const PermissionUpdateSchema = PermissionRawUpdateSchema.clone();
 
 export const PermissionOrderBySchema = z
   .object({
@@ -1288,10 +1427,14 @@ export const PermissionOrderBySchema = z
     scopeId: PZ.OrderDirectionSchema,
     activityId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const PermissionOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PermissionOrderBySchema
 );
 
@@ -1327,67 +1470,97 @@ export const PermissionWhereSchema = z
   .partial();
 
 export const PermissionWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PermissionWhereSchema
 );
 
 export const PermissionSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    scopeId: z.boolean(),
-    activityId: z.boolean(),
-    scope: z.boolean().or(ScopeOwnQueryOneSchema),
-    activity: z.boolean().or(ActivityOwnQueryOneSchema),
-    roles: z.boolean().or(RolePermissionOwnQuerySchema),
-    UserPermission: z.boolean().or(UserPermissionOwnQuerySchema),
-    AccessTokenPermission: z.boolean().or(AccessTokenPermissionOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    scopeId: PZ.Scalar.bool(),
+    activityId: PZ.Scalar.bool(),
+    scope: PZ.Scalar.bool().or(ScopeOwnQueryOneSchema),
+    activity: PZ.Scalar.bool().or(ActivityOwnQueryOneSchema),
+    roles: PZ.Scalar.bool().or(RolePermissionOwnQuerySchema),
+    UserPermission: PZ.Scalar.bool().or(UserPermissionOwnQuerySchema),
+    AccessTokenPermission: PZ.Scalar.bool().or(
+      AccessTokenPermissionOwnQuerySchema
+    ),
   })
   .partial();
 
 export const PermissionSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PermissionSelectFieldsSchema
+);
+
+export const PermissionOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    scopeId: PZ.Scalar.bool(),
+    activityId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'scopeId', 'activityId'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const PermissionOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  PermissionOmitFieldsSchema
 );
 
 export const PermissionIncludeSchema = z
   .object({
-    scope: z.boolean().or(ScopeOwnQueryOneSchema),
-    activity: z.boolean().or(ActivityOwnQueryOneSchema),
-    roles: z.boolean().or(RolePermissionOwnQuerySchema),
-    UserPermission: z.boolean().or(UserPermissionOwnQuerySchema),
-    AccessTokenPermission: z.boolean().or(AccessTokenPermissionOwnQuerySchema),
+    scope: PZ.Scalar.bool().or(ScopeOwnQueryOneSchema),
+    activity: PZ.Scalar.bool().or(ActivityOwnQueryOneSchema),
+    roles: PZ.Scalar.bool().or(RolePermissionOwnQuerySchema),
+    UserPermission: PZ.Scalar.bool().or(UserPermissionOwnQuerySchema),
+    AccessTokenPermission: PZ.Scalar.bool().or(
+      AccessTokenPermissionOwnQuerySchema
+    ),
   })
   .partial();
 
 export const PermissionIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PermissionIncludeSchema
 );
 
 export const PermissionProjectionSchema = z.union([
-  z.object({ omit: PermissionSelectFieldsSchemaJson }),
+  z.object({ omit: PermissionOmitFieldsSchemaJson }),
   z.object({ select: PermissionSelectFieldsSchemaJson }),
   z.object({ include: PermissionIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const RoleCreateSchema = z.object({
-  name: nameSchema.clone(),
+export const RoleRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
 });
 
-export const RoleUpdateSchema = z.object({
-  name: nameSchema.clone().optional(),
+export const RoleCreateSchema = RoleRawCreateSchema.clone();
+
+export const RoleRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
 });
+
+export const RoleUpdateSchema = RoleRawUpdateSchema.clone();
 
 export const RoleOrderBySchema = z
   .object({
     id: PZ.OrderDirectionSchema,
     name: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const RoleOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   RoleOrderBySchema
 );
 
@@ -1405,48 +1578,71 @@ export const RoleWhereSchema = z
   })
   .partial();
 
-export const RoleWhereSchemaJson = z.preprocess(jsonParser, RoleWhereSchema);
+export const RoleWhereSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  RoleWhereSchema
+);
 
 export const RoleSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    permissions: z.boolean().or(RolePermissionOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    permissions: PZ.Scalar.bool().or(RolePermissionOwnQuerySchema),
   })
   .partial();
 
 export const RoleSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   RoleSelectFieldsSchema
+);
+
+export const RoleOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine((value) => !['id', 'name'].every((e) => Object.hasOwn(value, e)), {
+    message: 'Cannot omit all fields',
+    path: ['omit'],
+  });
+
+export const RoleOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  RoleOmitFieldsSchema
 );
 
 export const RoleIncludeSchema = z
   .object({
-    permissions: z.boolean().or(RolePermissionOwnQuerySchema),
+    permissions: PZ.Scalar.bool().or(RolePermissionOwnQuerySchema),
   })
   .partial();
 
 export const RoleIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   RoleIncludeSchema
 );
 
 export const RoleProjectionSchema = z.union([
-  z.object({ omit: RoleSelectFieldsSchemaJson }),
+  z.object({ omit: RoleOmitFieldsSchemaJson }),
   z.object({ select: RoleSelectFieldsSchemaJson }),
   z.object({ include: RoleIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const RolePermissionCreateSchema = z.object({
-  roleId: z.coerce.number().int(),
-  permissionId: z.coerce.number().int(),
+export const RolePermissionRawCreateSchema = z.object({
+  roleId: PZ.Scalar.id(),
+  permissionId: PZ.Scalar.id(),
 });
 
-export const RolePermissionUpdateSchema = z.object({
-  roleId: z.coerce.number().int().optional(),
-  permissionId: z.coerce.number().int().optional(),
+export const RolePermissionCreateSchema = RolePermissionRawCreateSchema.clone();
+
+export const RolePermissionRawUpdateSchema = z.object({
+  roleId: PZ.Scalar.id().optional(),
+  permissionId: PZ.Scalar.id().optional(),
 });
+
+export const RolePermissionUpdateSchema = RolePermissionRawUpdateSchema.clone();
 
 export const RolePermissionOrderBySchema = z
   .object({
@@ -1454,10 +1650,14 @@ export const RolePermissionOrderBySchema = z
     roleId: PZ.OrderDirectionSchema,
     permissionId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const RolePermissionOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   RolePermissionOrderBySchema
 );
 
@@ -1472,57 +1672,79 @@ export const RolePermissionWhereSchema = z
   .partial();
 
 export const RolePermissionWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   RolePermissionWhereSchema
 );
 
 export const RolePermissionSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    roleId: z.boolean(),
-    permissionId: z.boolean(),
-    role: z.boolean().or(RoleOwnQueryOneSchema),
-    permission: z.boolean().or(PermissionOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    roleId: PZ.Scalar.bool(),
+    permissionId: PZ.Scalar.bool(),
+    role: PZ.Scalar.bool().or(RoleOwnQueryOneSchema),
+    permission: PZ.Scalar.bool().or(PermissionOwnQueryOneSchema),
   })
   .partial();
 
 export const RolePermissionSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   RolePermissionSelectFieldsSchema
+);
+
+export const RolePermissionOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    roleId: PZ.Scalar.bool(),
+    permissionId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'roleId', 'permissionId'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const RolePermissionOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  RolePermissionOmitFieldsSchema
 );
 
 export const RolePermissionIncludeSchema = z
   .object({
-    role: z.boolean().or(RoleOwnQueryOneSchema),
-    permission: z.boolean().or(PermissionOwnQueryOneSchema),
+    role: PZ.Scalar.bool().or(RoleOwnQueryOneSchema),
+    permission: PZ.Scalar.bool().or(PermissionOwnQueryOneSchema),
   })
   .partial();
 
 export const RolePermissionIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   RolePermissionIncludeSchema
 );
 
 export const RolePermissionProjectionSchema = z.union([
-  z.object({ omit: RolePermissionSelectFieldsSchemaJson }),
+  z.object({ omit: RolePermissionOmitFieldsSchemaJson }),
   z.object({ select: RolePermissionSelectFieldsSchemaJson }),
   z.object({ include: RolePermissionIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const SessionCreateSchema = z.object({
-  userId: z.coerce.number().int(),
-  description: descriptionSchema.clone().optional(),
+export const SessionRawCreateSchema = z.object({
+  userId: PZ.Scalar.id(),
+  description: PZ.Scalar.description().optional(),
   status: SessionStatusSchema.optional(),
-  endDate: dateSchema.clone(),
+  endDate: PZ.Scalar.datetime(),
 });
 
-export const SessionUpdateSchema = z.object({
-  userId: z.coerce.number().int().optional(),
-  description: descriptionSchema.clone().optional().optional(),
+export const SessionCreateSchema = SessionRawCreateSchema.clone();
+
+export const SessionRawUpdateSchema = z.object({
+  userId: PZ.Scalar.id().optional(),
+  description: PZ.Scalar.description().optional().optional(),
   status: SessionStatusSchema.optional().optional(),
-  endDate: dateSchema.clone().optional(),
+  endDate: PZ.Scalar.datetime().optional(),
 });
+
+export const SessionUpdateSchema = SessionRawUpdateSchema.clone();
 
 export const SessionOrderBySchema = z
   .object({
@@ -1532,10 +1754,14 @@ export const SessionOrderBySchema = z
     startDate: PZ.OrderDirectionSchema,
     endDate: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const SessionOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SessionOrderBySchema
 );
 
@@ -1559,58 +1785,85 @@ export const SessionWhereSchema = z
   .partial();
 
 export const SessionWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SessionWhereSchema
 );
 
 export const SessionSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    userId: z.boolean(),
-    description: z.boolean(),
-    status: z.boolean(),
-    startDate: z.boolean(),
-    endDate: z.boolean(),
-    user: z.boolean().or(UserOwnQueryOneSchema),
-    logs: z.boolean().or(ActivityLogOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    userId: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    status: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+    user: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    logs: PZ.Scalar.bool().or(ActivityLogOwnQuerySchema),
   })
   .partial();
 
 export const SessionSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SessionSelectFieldsSchema
+);
+
+export const SessionOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    userId: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    status: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'userId', 'description', 'status', 'startDate', 'endDate'].every(
+        (e) => Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const SessionOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  SessionOmitFieldsSchema
 );
 
 export const SessionIncludeSchema = z
   .object({
-    user: z.boolean().or(UserOwnQueryOneSchema),
-    logs: z.boolean().or(ActivityLogOwnQuerySchema),
+    user: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    logs: PZ.Scalar.bool().or(ActivityLogOwnQuerySchema),
   })
   .partial();
 
 export const SessionIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SessionIncludeSchema
 );
 
 export const SessionProjectionSchema = z.union([
-  z.object({ omit: SessionSelectFieldsSchemaJson }),
+  z.object({ omit: SessionOmitFieldsSchemaJson }),
   z.object({ select: SessionSelectFieldsSchemaJson }),
   z.object({ include: SessionIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const ActivityLogCreateSchema = z.object({
-  sessionId: z.coerce.number().int(),
-  activityId: z.coerce.number().int(),
-  notes: z.string().optional(),
+export const ActivityLogRawCreateSchema = z.object({
+  sessionId: PZ.Scalar.id(),
+  activityId: PZ.Scalar.id(),
+  notes: PZ.Scalar.string().optional(),
 });
 
-export const ActivityLogUpdateSchema = z.object({
-  sessionId: z.coerce.number().int().optional(),
-  activityId: z.coerce.number().int().optional(),
-  notes: z.string().optional().optional(),
+export const ActivityLogCreateSchema = ActivityLogRawCreateSchema.clone();
+
+export const ActivityLogRawUpdateSchema = z.object({
+  sessionId: PZ.Scalar.id().optional(),
+  activityId: PZ.Scalar.id().optional(),
+  notes: PZ.Scalar.string().optional().optional(),
 });
+
+export const ActivityLogUpdateSchema = ActivityLogRawUpdateSchema.clone();
 
 export const ActivityLogOrderBySchema = z
   .object({
@@ -1620,10 +1873,14 @@ export const ActivityLogOrderBySchema = z
     createdAt: PZ.OrderDirectionSchema,
     notes: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const ActivityLogOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ActivityLogOrderBySchema
 );
 
@@ -1640,55 +1897,81 @@ export const ActivityLogWhereSchema = z
   .partial();
 
 export const ActivityLogWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ActivityLogWhereSchema
 );
 
 export const ActivityLogSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    sessionId: z.boolean(),
-    activityId: z.boolean(),
-    createdAt: z.boolean(),
-    notes: z.boolean(),
-    activity: z.boolean().or(ActivityOwnQueryOneSchema),
-    session: z.boolean().or(SessionOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    sessionId: PZ.Scalar.bool(),
+    activityId: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    notes: PZ.Scalar.bool(),
+    activity: PZ.Scalar.bool().or(ActivityOwnQueryOneSchema),
+    session: PZ.Scalar.bool().or(SessionOwnQueryOneSchema),
   })
   .partial();
 
 export const ActivityLogSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ActivityLogSelectFieldsSchema
+);
+
+export const ActivityLogOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    sessionId: PZ.Scalar.bool(),
+    activityId: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    notes: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'sessionId', 'activityId', 'createdAt', 'notes'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const ActivityLogOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  ActivityLogOmitFieldsSchema
 );
 
 export const ActivityLogIncludeSchema = z
   .object({
-    activity: z.boolean().or(ActivityOwnQueryOneSchema),
-    session: z.boolean().or(SessionOwnQueryOneSchema),
+    activity: PZ.Scalar.bool().or(ActivityOwnQueryOneSchema),
+    session: PZ.Scalar.bool().or(SessionOwnQueryOneSchema),
   })
   .partial();
 
 export const ActivityLogIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ActivityLogIncludeSchema
 );
 
 export const ActivityLogProjectionSchema = z.union([
-  z.object({ omit: ActivityLogSelectFieldsSchemaJson }),
+  z.object({ omit: ActivityLogOmitFieldsSchemaJson }),
   z.object({ select: ActivityLogSelectFieldsSchemaJson }),
   z.object({ include: ActivityLogIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const UserPermissionCreateSchema = z.object({
-  userId: z.coerce.number().int(),
-  permissionId: z.coerce.number().int(),
+export const UserPermissionRawCreateSchema = z.object({
+  userId: PZ.Scalar.id(),
+  permissionId: PZ.Scalar.id(),
 });
 
-export const UserPermissionUpdateSchema = z.object({
-  userId: z.coerce.number().int().optional(),
-  permissionId: z.coerce.number().int().optional(),
+export const UserPermissionCreateSchema = UserPermissionRawCreateSchema.clone();
+
+export const UserPermissionRawUpdateSchema = z.object({
+  userId: PZ.Scalar.id().optional(),
+  permissionId: PZ.Scalar.id().optional(),
 });
+
+export const UserPermissionUpdateSchema = UserPermissionRawUpdateSchema.clone();
 
 export const UserPermissionOrderBySchema = z
   .object({
@@ -1696,10 +1979,14 @@ export const UserPermissionOrderBySchema = z
     userId: PZ.OrderDirectionSchema,
     permissionId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const UserPermissionOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UserPermissionOrderBySchema
 );
 
@@ -1714,53 +2001,77 @@ export const UserPermissionWhereSchema = z
   .partial();
 
 export const UserPermissionWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UserPermissionWhereSchema
 );
 
 export const UserPermissionSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    userId: z.boolean(),
-    permissionId: z.boolean(),
-    user: z.boolean().or(UserOwnQueryOneSchema),
-    permission: z.boolean().or(PermissionOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    userId: PZ.Scalar.bool(),
+    permissionId: PZ.Scalar.bool(),
+    user: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    permission: PZ.Scalar.bool().or(PermissionOwnQueryOneSchema),
   })
   .partial();
 
 export const UserPermissionSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UserPermissionSelectFieldsSchema
+);
+
+export const UserPermissionOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    userId: PZ.Scalar.bool(),
+    permissionId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'userId', 'permissionId'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const UserPermissionOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  UserPermissionOmitFieldsSchema
 );
 
 export const UserPermissionIncludeSchema = z
   .object({
-    user: z.boolean().or(UserOwnQueryOneSchema),
-    permission: z.boolean().or(PermissionOwnQueryOneSchema),
+    user: PZ.Scalar.bool().or(UserOwnQueryOneSchema),
+    permission: PZ.Scalar.bool().or(PermissionOwnQueryOneSchema),
   })
   .partial();
 
 export const UserPermissionIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   UserPermissionIncludeSchema
 );
 
 export const UserPermissionProjectionSchema = z.union([
-  z.object({ omit: UserPermissionSelectFieldsSchemaJson }),
+  z.object({ omit: UserPermissionOmitFieldsSchemaJson }),
   z.object({ select: UserPermissionSelectFieldsSchemaJson }),
   z.object({ include: UserPermissionIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const AccessTokenPermissionCreateSchema = z.object({
-  permissionId: z.coerce.number().int(),
-  accessTokenId: z.coerce.number().int(),
+export const AccessTokenPermissionRawCreateSchema = z.object({
+  permissionId: PZ.Scalar.id(),
+  accessTokenId: PZ.Scalar.id(),
 });
 
-export const AccessTokenPermissionUpdateSchema = z.object({
-  permissionId: z.coerce.number().int().optional(),
-  accessTokenId: z.coerce.number().int().optional(),
+export const AccessTokenPermissionCreateSchema =
+  AccessTokenPermissionRawCreateSchema.clone();
+
+export const AccessTokenPermissionRawUpdateSchema = z.object({
+  permissionId: PZ.Scalar.id().optional(),
+  accessTokenId: PZ.Scalar.id().optional(),
 });
+
+export const AccessTokenPermissionUpdateSchema =
+  AccessTokenPermissionRawUpdateSchema.clone();
 
 export const AccessTokenPermissionOrderBySchema = z
   .object({
@@ -1768,10 +2079,14 @@ export const AccessTokenPermissionOrderBySchema = z
     permissionId: PZ.OrderDirectionSchema,
     accessTokenId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const AccessTokenPermissionOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AccessTokenPermissionOrderBySchema
 );
 
@@ -1786,39 +2101,59 @@ export const AccessTokenPermissionWhereSchema = z
   .partial();
 
 export const AccessTokenPermissionWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AccessTokenPermissionWhereSchema
 );
 
 export const AccessTokenPermissionSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    permissionId: z.boolean(),
-    accessTokenId: z.boolean(),
-    permission: z.boolean().or(PermissionOwnQueryOneSchema),
-    accessToken: z.boolean().or(AccessTokenOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    permissionId: PZ.Scalar.bool(),
+    accessTokenId: PZ.Scalar.bool(),
+    permission: PZ.Scalar.bool().or(PermissionOwnQueryOneSchema),
+    accessToken: PZ.Scalar.bool().or(AccessTokenOwnQueryOneSchema),
   })
   .partial();
 
 export const AccessTokenPermissionSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AccessTokenPermissionSelectFieldsSchema
+);
+
+export const AccessTokenPermissionOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    permissionId: PZ.Scalar.bool(),
+    accessTokenId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'permissionId', 'accessTokenId'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const AccessTokenPermissionOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  AccessTokenPermissionOmitFieldsSchema
 );
 
 export const AccessTokenPermissionIncludeSchema = z
   .object({
-    permission: z.boolean().or(PermissionOwnQueryOneSchema),
-    accessToken: z.boolean().or(AccessTokenOwnQueryOneSchema),
+    permission: PZ.Scalar.bool().or(PermissionOwnQueryOneSchema),
+    accessToken: PZ.Scalar.bool().or(AccessTokenOwnQueryOneSchema),
   })
   .partial();
 
 export const AccessTokenPermissionIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AccessTokenPermissionIncludeSchema
 );
 
 export const AccessTokenPermissionProjectionSchema = z.union([
-  z.object({ omit: AccessTokenPermissionSelectFieldsSchemaJson }),
+  z.object({ omit: AccessTokenPermissionOmitFieldsSchemaJson }),
   z.object({ select: AccessTokenPermissionSelectFieldsSchemaJson }),
   z.object({ include: AccessTokenPermissionIncludeSchemaJson }),
   z.object({}),
@@ -1840,9 +2175,9 @@ export const UserQuerySchema = z
   })
   .partial();
 
-export type UserCreate = z.infer<typeof UserCreateSchema>;
+export type UserCreate = z.infer<typeof UserRawCreateSchema>;
 
-export type UserUpdate = z.infer<typeof UserUpdateSchema>;
+export type UserUpdate = z.infer<typeof UserRawUpdateSchema>;
 
 export type UserOrderBy = z.infer<typeof UserOrderBySchema>;
 
@@ -1861,6 +2196,8 @@ export type UserInclude = z.infer<typeof UserIncludeSchema>;
 export type UserQueryOne = z.infer<typeof UserQueryOneSchema>;
 
 export type UserQuery = z.infer<typeof UserQuerySchema>;
+
+export type UserOmitFields = z.infer<typeof UserOmitFieldsSchema>;
 
 export type UserSelectFields = z.infer<typeof UserSelectFieldsSchema>;
 
@@ -1882,9 +2219,9 @@ export const AccessTokenQuerySchema = z
   })
   .partial();
 
-export type AccessTokenCreate = z.infer<typeof AccessTokenCreateSchema>;
+export type AccessTokenCreate = z.infer<typeof AccessTokenRawCreateSchema>;
 
-export type AccessTokenUpdate = z.infer<typeof AccessTokenUpdateSchema>;
+export type AccessTokenUpdate = z.infer<typeof AccessTokenRawUpdateSchema>;
 
 export type AccessTokenOrderBy = z.infer<typeof AccessTokenOrderBySchema>;
 
@@ -1908,6 +2245,8 @@ export type AccessTokenQueryOne = z.infer<typeof AccessTokenQueryOneSchema>;
 
 export type AccessTokenQuery = z.infer<typeof AccessTokenQuerySchema>;
 
+export type AccessTokenOmitFields = z.infer<typeof AccessTokenOmitFieldsSchema>;
+
 export type AccessTokenSelectFields = z.infer<
   typeof AccessTokenSelectFieldsSchema
 >;
@@ -1930,9 +2269,9 @@ export const ScopeQuerySchema = z
   })
   .partial();
 
-export type ScopeCreate = z.infer<typeof ScopeCreateSchema>;
+export type ScopeCreate = z.infer<typeof ScopeRawCreateSchema>;
 
-export type ScopeUpdate = z.infer<typeof ScopeUpdateSchema>;
+export type ScopeUpdate = z.infer<typeof ScopeRawUpdateSchema>;
 
 export type ScopeOrderBy = z.infer<typeof ScopeOrderBySchema>;
 
@@ -1951,6 +2290,8 @@ export type ScopeInclude = z.infer<typeof ScopeIncludeSchema>;
 export type ScopeQueryOne = z.infer<typeof ScopeQueryOneSchema>;
 
 export type ScopeQuery = z.infer<typeof ScopeQuerySchema>;
+
+export type ScopeOmitFields = z.infer<typeof ScopeOmitFieldsSchema>;
 
 export type ScopeSelectFields = z.infer<typeof ScopeSelectFieldsSchema>;
 
@@ -1972,9 +2313,9 @@ export const ResourceQuerySchema = z
   })
   .partial();
 
-export type ResourceCreate = z.infer<typeof ResourceCreateSchema>;
+export type ResourceCreate = z.infer<typeof ResourceRawCreateSchema>;
 
-export type ResourceUpdate = z.infer<typeof ResourceUpdateSchema>;
+export type ResourceUpdate = z.infer<typeof ResourceRawUpdateSchema>;
 
 export type ResourceOrderBy = z.infer<typeof ResourceOrderBySchema>;
 
@@ -1996,6 +2337,8 @@ export type ResourceQueryOne = z.infer<typeof ResourceQueryOneSchema>;
 
 export type ResourceQuery = z.infer<typeof ResourceQuerySchema>;
 
+export type ResourceOmitFields = z.infer<typeof ResourceOmitFieldsSchema>;
+
 export type ResourceSelectFields = z.infer<typeof ResourceSelectFieldsSchema>;
 
 export type ResourceProjection = z.infer<typeof ResourceProjectionSchema>;
@@ -2016,9 +2359,9 @@ export const OperationQuerySchema = z
   })
   .partial();
 
-export type OperationCreate = z.infer<typeof OperationCreateSchema>;
+export type OperationCreate = z.infer<typeof OperationRawCreateSchema>;
 
-export type OperationUpdate = z.infer<typeof OperationUpdateSchema>;
+export type OperationUpdate = z.infer<typeof OperationRawUpdateSchema>;
 
 export type OperationOrderBy = z.infer<typeof OperationOrderBySchema>;
 
@@ -2040,6 +2383,8 @@ export type OperationQueryOne = z.infer<typeof OperationQueryOneSchema>;
 
 export type OperationQuery = z.infer<typeof OperationQuerySchema>;
 
+export type OperationOmitFields = z.infer<typeof OperationOmitFieldsSchema>;
+
 export type OperationSelectFields = z.infer<typeof OperationSelectFieldsSchema>;
 
 export type OperationProjection = z.infer<typeof OperationProjectionSchema>;
@@ -2060,9 +2405,9 @@ export const ActivityQuerySchema = z
   })
   .partial();
 
-export type ActivityCreate = z.infer<typeof ActivityCreateSchema>;
+export type ActivityCreate = z.infer<typeof ActivityRawCreateSchema>;
 
-export type ActivityUpdate = z.infer<typeof ActivityUpdateSchema>;
+export type ActivityUpdate = z.infer<typeof ActivityRawUpdateSchema>;
 
 export type ActivityOrderBy = z.infer<typeof ActivityOrderBySchema>;
 
@@ -2084,6 +2429,8 @@ export type ActivityQueryOne = z.infer<typeof ActivityQueryOneSchema>;
 
 export type ActivityQuery = z.infer<typeof ActivityQuerySchema>;
 
+export type ActivityOmitFields = z.infer<typeof ActivityOmitFieldsSchema>;
+
 export type ActivitySelectFields = z.infer<typeof ActivitySelectFieldsSchema>;
 
 export type ActivityProjection = z.infer<typeof ActivityProjectionSchema>;
@@ -2104,9 +2451,9 @@ export const PermissionQuerySchema = z
   })
   .partial();
 
-export type PermissionCreate = z.infer<typeof PermissionCreateSchema>;
+export type PermissionCreate = z.infer<typeof PermissionRawCreateSchema>;
 
-export type PermissionUpdate = z.infer<typeof PermissionUpdateSchema>;
+export type PermissionUpdate = z.infer<typeof PermissionRawUpdateSchema>;
 
 export type PermissionOrderBy = z.infer<typeof PermissionOrderBySchema>;
 
@@ -2127,6 +2474,8 @@ export type PermissionInclude = z.infer<typeof PermissionIncludeSchema>;
 export type PermissionQueryOne = z.infer<typeof PermissionQueryOneSchema>;
 
 export type PermissionQuery = z.infer<typeof PermissionQuerySchema>;
+
+export type PermissionOmitFields = z.infer<typeof PermissionOmitFieldsSchema>;
 
 export type PermissionSelectFields = z.infer<
   typeof PermissionSelectFieldsSchema
@@ -2150,9 +2499,9 @@ export const RoleQuerySchema = z
   })
   .partial();
 
-export type RoleCreate = z.infer<typeof RoleCreateSchema>;
+export type RoleCreate = z.infer<typeof RoleRawCreateSchema>;
 
-export type RoleUpdate = z.infer<typeof RoleUpdateSchema>;
+export type RoleUpdate = z.infer<typeof RoleRawUpdateSchema>;
 
 export type RoleOrderBy = z.infer<typeof RoleOrderBySchema>;
 
@@ -2171,6 +2520,8 @@ export type RoleInclude = z.infer<typeof RoleIncludeSchema>;
 export type RoleQueryOne = z.infer<typeof RoleQueryOneSchema>;
 
 export type RoleQuery = z.infer<typeof RoleQuerySchema>;
+
+export type RoleOmitFields = z.infer<typeof RoleOmitFieldsSchema>;
 
 export type RoleSelectFields = z.infer<typeof RoleSelectFieldsSchema>;
 
@@ -2192,9 +2543,13 @@ export const RolePermissionQuerySchema = z
   })
   .partial();
 
-export type RolePermissionCreate = z.infer<typeof RolePermissionCreateSchema>;
+export type RolePermissionCreate = z.infer<
+  typeof RolePermissionRawCreateSchema
+>;
 
-export type RolePermissionUpdate = z.infer<typeof RolePermissionUpdateSchema>;
+export type RolePermissionUpdate = z.infer<
+  typeof RolePermissionRawUpdateSchema
+>;
 
 export type RolePermissionOrderBy = z.infer<typeof RolePermissionOrderBySchema>;
 
@@ -2224,6 +2579,10 @@ export type RolePermissionQueryOne = z.infer<
 
 export type RolePermissionQuery = z.infer<typeof RolePermissionQuerySchema>;
 
+export type RolePermissionOmitFields = z.infer<
+  typeof RolePermissionOmitFieldsSchema
+>;
+
 export type RolePermissionSelectFields = z.infer<
   typeof RolePermissionSelectFieldsSchema
 >;
@@ -2248,9 +2607,9 @@ export const SessionQuerySchema = z
   })
   .partial();
 
-export type SessionCreate = z.infer<typeof SessionCreateSchema>;
+export type SessionCreate = z.infer<typeof SessionRawCreateSchema>;
 
-export type SessionUpdate = z.infer<typeof SessionUpdateSchema>;
+export type SessionUpdate = z.infer<typeof SessionRawUpdateSchema>;
 
 export type SessionOrderBy = z.infer<typeof SessionOrderBySchema>;
 
@@ -2272,6 +2631,8 @@ export type SessionQueryOne = z.infer<typeof SessionQueryOneSchema>;
 
 export type SessionQuery = z.infer<typeof SessionQuerySchema>;
 
+export type SessionOmitFields = z.infer<typeof SessionOmitFieldsSchema>;
+
 export type SessionSelectFields = z.infer<typeof SessionSelectFieldsSchema>;
 
 export type SessionProjection = z.infer<typeof SessionProjectionSchema>;
@@ -2292,9 +2653,9 @@ export const ActivityLogQuerySchema = z
   })
   .partial();
 
-export type ActivityLogCreate = z.infer<typeof ActivityLogCreateSchema>;
+export type ActivityLogCreate = z.infer<typeof ActivityLogRawCreateSchema>;
 
-export type ActivityLogUpdate = z.infer<typeof ActivityLogUpdateSchema>;
+export type ActivityLogUpdate = z.infer<typeof ActivityLogRawUpdateSchema>;
 
 export type ActivityLogOrderBy = z.infer<typeof ActivityLogOrderBySchema>;
 
@@ -2318,6 +2679,8 @@ export type ActivityLogQueryOne = z.infer<typeof ActivityLogQueryOneSchema>;
 
 export type ActivityLogQuery = z.infer<typeof ActivityLogQuerySchema>;
 
+export type ActivityLogOmitFields = z.infer<typeof ActivityLogOmitFieldsSchema>;
+
 export type ActivityLogSelectFields = z.infer<
   typeof ActivityLogSelectFieldsSchema
 >;
@@ -2340,9 +2703,13 @@ export const UserPermissionQuerySchema = z
   })
   .partial();
 
-export type UserPermissionCreate = z.infer<typeof UserPermissionCreateSchema>;
+export type UserPermissionCreate = z.infer<
+  typeof UserPermissionRawCreateSchema
+>;
 
-export type UserPermissionUpdate = z.infer<typeof UserPermissionUpdateSchema>;
+export type UserPermissionUpdate = z.infer<
+  typeof UserPermissionRawUpdateSchema
+>;
 
 export type UserPermissionOrderBy = z.infer<typeof UserPermissionOrderBySchema>;
 
@@ -2372,6 +2739,10 @@ export type UserPermissionQueryOne = z.infer<
 
 export type UserPermissionQuery = z.infer<typeof UserPermissionQuerySchema>;
 
+export type UserPermissionOmitFields = z.infer<
+  typeof UserPermissionOmitFieldsSchema
+>;
+
 export type UserPermissionSelectFields = z.infer<
   typeof UserPermissionSelectFieldsSchema
 >;
@@ -2397,11 +2768,11 @@ export const AccessTokenPermissionQuerySchema = z
   .partial();
 
 export type AccessTokenPermissionCreate = z.infer<
-  typeof AccessTokenPermissionCreateSchema
+  typeof AccessTokenPermissionRawCreateSchema
 >;
 
 export type AccessTokenPermissionUpdate = z.infer<
-  typeof AccessTokenPermissionUpdateSchema
+  typeof AccessTokenPermissionRawUpdateSchema
 >;
 
 export type AccessTokenPermissionOrderBy = z.infer<
@@ -2438,6 +2809,10 @@ export type AccessTokenPermissionQueryOne = z.infer<
 
 export type AccessTokenPermissionQuery = z.infer<
   typeof AccessTokenPermissionQuerySchema
+>;
+
+export type AccessTokenPermissionOmitFields = z.infer<
+  typeof AccessTokenPermissionOmitFieldsSchema
 >;
 
 export type AccessTokenPermissionSelectFields = z.infer<

@@ -1,43 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as PZ from '@puq/zod';
 import { z } from 'zod';
-import { slugify } from '@puq/names';
 
-export const takeSchema = z.coerce.number().int().min(1).default(20).optional();
-export const skipSchema = z.coerce.number().int().min(0).default(0).optional();
 export const PaginationSchema = z
   .object({
-    take: takeSchema.clone(),
-    skip: skipSchema.clone(),
+    take: PZ.Scalar.take(),
+    skip: PZ.Scalar.skip(),
   })
   .partial();
-
-export const nameSchema = z.string().min(2).max(30);
-export const descriptionSchema = z.string().max(1000);
-export const currencySchema = z.coerce.number().positive();
-export const positiveIntegerSchema = z.coerce.number().int().positive();
-export const emailSchema = z.email();
-export const dateSchema = z.iso.datetime();
-export const slugSchema = z.string().regex(/^[a-z-]{2,}$/);
-
-export function jsonParser<T>(value: T) {
-  if (typeof value === 'string') {
-    return JSON.parse(value);
-  }
-  return value;
-}
-
-export function slugTransformer(key: string) {
-  return (value: any) => {
-    if (value.slug == undefined && value[key] != undefined) {
-      return {
-        ...value,
-        slug: value[key] ? slugify(value[key].toString()) : null,
-      };
-    }
-    return value;
-  };
-}
 
 export const ContactTypeSchema = z.enum([
   'RESIDENCE_ADDRESS',
@@ -130,19 +100,19 @@ export const EarningTypeSchema = z.enum([
 
 export const DepartmentOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    parentId: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    isActive: z.boolean(),
-    parent: z.boolean(),
-    departments: z.boolean(),
-    titles: z.boolean(),
+    id: PZ.Scalar.bool(),
+    parentId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    isActive: PZ.Scalar.bool(),
+    parent: PZ.Scalar.bool(),
+    departments: PZ.Scalar.bool(),
+    titles: PZ.Scalar.bool(),
   })
   .partial();
 
 export const DepartmentOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DepartmentOwnSelectFieldsSchema
 );
 
@@ -152,20 +122,20 @@ export const DepartmentDistinctFieldsSchema = z
 
 export const TitleOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    departmentId: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    description: z.boolean(),
-    isActive: z.boolean(),
-    department: z.boolean(),
-    employees: z.boolean(),
-    histories: z.boolean(),
+    id: PZ.Scalar.bool(),
+    departmentId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    isActive: PZ.Scalar.bool(),
+    department: PZ.Scalar.bool(),
+    employees: PZ.Scalar.bool(),
+    histories: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TitleOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TitleOwnSelectFieldsSchema
 );
 
@@ -175,18 +145,18 @@ export const TitleDistinctFieldsSchema = z
 
 export const PersonalDataOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    employeeId: z.boolean(),
-    ein: z.boolean(),
-    gender: z.boolean(),
-    dob: z.boolean(),
-    maritalStatus: z.boolean(),
-    employee: z.boolean(),
+    id: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    ein: PZ.Scalar.bool(),
+    gender: PZ.Scalar.bool(),
+    dob: PZ.Scalar.bool(),
+    maritalStatus: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PersonalDataOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PersonalDataOwnSelectFieldsSchema
 );
 
@@ -196,42 +166,42 @@ export const PersonalDataDistinctFieldsSchema = z
 
 export const EmployeeOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    uuid: z.boolean(),
-    titleId: z.boolean(),
-    firstName: z.boolean(),
-    middleName: z.boolean(),
-    lastName: z.boolean(),
-    preferedName: z.boolean(),
-    status: z.boolean(),
-    title: z.boolean(),
-    hireDate: z.boolean(),
-    terminationDate: z.boolean(),
-    employmentType: z.boolean(),
-    salary: z.boolean(),
-    salaryHistory: z.boolean(),
-    benefits: z.boolean(),
-    titleHistory: z.boolean(),
-    timeOffBalances: z.boolean(),
-    timeOffRequests: z.boolean(),
-    resolvedTimeOffs: z.boolean(),
-    clockIns: z.boolean(),
-    personalData: z.boolean(),
-    taxData: z.boolean(),
-    memberships: z.boolean(),
-    managingTeams: z.boolean(),
-    managingEmployees: z.boolean(),
-    directManager: z.boolean(),
-    paychecks: z.boolean(),
-    directManagerId: z.boolean(),
-    deductions: z.boolean(),
-    resolvedPayrollRuns: z.boolean(),
-    contact: z.boolean(),
+    id: PZ.Scalar.bool(),
+    uuid: PZ.Scalar.bool(),
+    titleId: PZ.Scalar.bool(),
+    firstName: PZ.Scalar.bool(),
+    middleName: PZ.Scalar.bool(),
+    lastName: PZ.Scalar.bool(),
+    preferedName: PZ.Scalar.bool(),
+    status: PZ.Scalar.bool(),
+    title: PZ.Scalar.bool(),
+    hireDate: PZ.Scalar.bool(),
+    terminationDate: PZ.Scalar.bool(),
+    employmentType: PZ.Scalar.bool(),
+    salary: PZ.Scalar.bool(),
+    salaryHistory: PZ.Scalar.bool(),
+    benefits: PZ.Scalar.bool(),
+    titleHistory: PZ.Scalar.bool(),
+    timeOffBalances: PZ.Scalar.bool(),
+    timeOffRequests: PZ.Scalar.bool(),
+    resolvedTimeOffs: PZ.Scalar.bool(),
+    clockIns: PZ.Scalar.bool(),
+    personalData: PZ.Scalar.bool(),
+    taxData: PZ.Scalar.bool(),
+    memberships: PZ.Scalar.bool(),
+    managingTeams: PZ.Scalar.bool(),
+    managingEmployees: PZ.Scalar.bool(),
+    directManager: PZ.Scalar.bool(),
+    paychecks: PZ.Scalar.bool(),
+    directManagerId: PZ.Scalar.bool(),
+    deductions: PZ.Scalar.bool(),
+    resolvedPayrollRuns: PZ.Scalar.bool(),
+    contact: PZ.Scalar.bool(),
   })
   .partial();
 
 export const EmployeeOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmployeeOwnSelectFieldsSchema
 );
 
@@ -254,15 +224,15 @@ export const EmployeeDistinctFieldsSchema = z
 
 export const TeamOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    members: z.boolean(),
-    managers: z.boolean(),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    members: PZ.Scalar.bool(),
+    managers: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TeamOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamOwnSelectFieldsSchema
 );
 
@@ -270,16 +240,16 @@ export const TeamDistinctFieldsSchema = z.enum(['id', 'name']).array();
 
 export const TeamManagerOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    teamId: z.boolean(),
-    managerId: z.boolean(),
-    team: z.boolean(),
-    manager: z.boolean(),
+    id: PZ.Scalar.bool(),
+    teamId: PZ.Scalar.bool(),
+    managerId: PZ.Scalar.bool(),
+    team: PZ.Scalar.bool(),
+    manager: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TeamManagerOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamManagerOwnSelectFieldsSchema
 );
 
@@ -289,16 +259,16 @@ export const TeamManagerDistinctFieldsSchema = z
 
 export const TeamMemberOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    teamId: z.boolean(),
-    memberId: z.boolean(),
-    member: z.boolean(),
-    team: z.boolean(),
+    id: PZ.Scalar.bool(),
+    teamId: PZ.Scalar.bool(),
+    memberId: PZ.Scalar.bool(),
+    member: PZ.Scalar.bool(),
+    team: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TeamMemberOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamMemberOwnSelectFieldsSchema
 );
 
@@ -308,18 +278,18 @@ export const TeamMemberDistinctFieldsSchema = z
 
 export const SalaryOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    employeeId: z.boolean(),
-    gross: z.boolean(),
-    startDate: z.boolean(),
-    endDate: z.boolean(),
-    frequency: z.boolean(),
-    employee: z.boolean(),
+    id: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    gross: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+    frequency: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool(),
   })
   .partial();
 
 export const SalaryOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SalaryOwnSelectFieldsSchema
 );
 
@@ -329,18 +299,18 @@ export const SalaryDistinctFieldsSchema = z
 
 export const SalaryHistoryOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    employeeId: z.boolean(),
-    createdAt: z.boolean(),
-    oldSalary: z.boolean(),
-    newSalary: z.boolean(),
-    reason: z.boolean(),
-    employee: z.boolean(),
+    id: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    oldSalary: PZ.Scalar.bool(),
+    newSalary: PZ.Scalar.bool(),
+    reason: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool(),
   })
   .partial();
 
 export const SalaryHistoryOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SalaryHistoryOwnSelectFieldsSchema
 );
 
@@ -350,16 +320,16 @@ export const SalaryHistoryDistinctFieldsSchema = z
 
 export const BenefitOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    description: z.boolean(),
-    type: z.boolean(),
-    enrolments: z.boolean(),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    enrolments: PZ.Scalar.bool(),
   })
   .partial();
 
 export const BenefitOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   BenefitOwnSelectFieldsSchema
 );
 
@@ -369,18 +339,18 @@ export const BenefitDistinctFieldsSchema = z
 
 export const BenefitEnrolmentOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    benefitId: z.boolean(),
-    employeeId: z.boolean(),
-    startDate: z.boolean(),
-    status: z.boolean(),
-    benefit: z.boolean(),
-    employee: z.boolean(),
+    id: PZ.Scalar.bool(),
+    benefitId: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    status: PZ.Scalar.bool(),
+    benefit: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool(),
   })
   .partial();
 
 export const BenefitEnrolmentOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   BenefitEnrolmentOwnSelectFieldsSchema
 );
 
@@ -390,20 +360,20 @@ export const BenefitEnrolmentDistinctFieldsSchema = z
 
 export const TitleHistoryOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    employeeId: z.boolean(),
-    titleId: z.boolean(),
-    type: z.boolean(),
-    reason: z.boolean(),
-    startDate: z.boolean(),
-    endDate: z.boolean(),
-    employee: z.boolean(),
-    title: z.boolean(),
+    id: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    titleId: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    reason: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool(),
+    title: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TitleHistoryOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TitleHistoryOwnSelectFieldsSchema
 );
 
@@ -421,18 +391,18 @@ export const TitleHistoryDistinctFieldsSchema = z
 
 export const TimeOffPolicyOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    description: z.boolean(),
-    accrualRate: z.boolean(),
-    maxRollover: z.boolean(),
-    balances: z.boolean(),
-    requests: z.boolean(),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    accrualRate: PZ.Scalar.bool(),
+    maxRollover: PZ.Scalar.bool(),
+    balances: PZ.Scalar.bool(),
+    requests: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TimeOffPolicyOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffPolicyOwnSelectFieldsSchema
 );
 
@@ -442,20 +412,20 @@ export const TimeOffPolicyDistinctFieldsSchema = z
 
 export const TimeOffBalanceOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    policyId: z.boolean(),
-    employeeId: z.boolean(),
-    accruedHours: z.boolean(),
-    usedHours: z.boolean(),
-    availableHours: z.boolean(),
-    policy: z.boolean(),
-    employee: z.boolean(),
-    transactions: z.boolean(),
+    id: PZ.Scalar.bool(),
+    policyId: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    accruedHours: PZ.Scalar.bool(),
+    usedHours: PZ.Scalar.bool(),
+    availableHours: PZ.Scalar.bool(),
+    policy: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool(),
+    transactions: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TimeOffBalanceOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffBalanceOwnSelectFieldsSchema
 );
 
@@ -472,24 +442,24 @@ export const TimeOffBalanceDistinctFieldsSchema = z
 
 export const TimeOffRequestOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdAt: z.boolean(),
-    employeeId: z.boolean(),
-    reason: z.boolean(),
-    policyId: z.boolean(),
-    resolverId: z.boolean(),
-    status: z.boolean(),
-    startDate: z.boolean(),
-    endDate: z.boolean(),
-    employee: z.boolean(),
-    policy: z.boolean(),
-    resolver: z.boolean(),
-    transactions: z.boolean(),
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    reason: PZ.Scalar.bool(),
+    policyId: PZ.Scalar.bool(),
+    resolverId: PZ.Scalar.bool(),
+    status: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool(),
+    policy: PZ.Scalar.bool(),
+    resolver: PZ.Scalar.bool(),
+    transactions: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TimeOffRequestOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffRequestOwnSelectFieldsSchema
 );
 
@@ -509,20 +479,20 @@ export const TimeOffRequestDistinctFieldsSchema = z
 
 export const TimeOffTransactionOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdAt: z.boolean(),
-    updatedAt: z.boolean(),
-    type: z.boolean(),
-    balanceId: z.boolean(),
-    requestId: z.boolean(),
-    amount: z.boolean(),
-    balance: z.boolean(),
-    request: z.boolean(),
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    balanceId: PZ.Scalar.bool(),
+    requestId: PZ.Scalar.bool(),
+    amount: PZ.Scalar.bool(),
+    balance: PZ.Scalar.bool(),
+    request: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TimeOffTransactionOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffTransactionOwnSelectFieldsSchema
 );
 
@@ -540,16 +510,16 @@ export const TimeOffTransactionDistinctFieldsSchema = z
 
 export const ClockInOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    employeeId: z.boolean(),
-    clockIn: z.boolean(),
-    clockOut: z.boolean(),
-    employee: z.boolean(),
+    id: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    clockIn: PZ.Scalar.bool(),
+    clockOut: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ClockInOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ClockInOwnSelectFieldsSchema
 );
 
@@ -559,23 +529,23 @@ export const ClockInDistinctFieldsSchema = z
 
 export const PaycheckOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdAt: z.boolean(),
-    payrollRunId: z.boolean(),
-    updatedAt: z.boolean(),
-    employeeId: z.boolean(),
-    grossAmount: z.boolean(),
-    netAmount: z.boolean(),
-    employee: z.boolean(),
-    earnings: z.boolean(),
-    paycheckTaxes: z.boolean(),
-    deductions: z.boolean(),
-    payrollRun: z.boolean(),
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    payrollRunId: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    grossAmount: PZ.Scalar.bool(),
+    netAmount: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool(),
+    earnings: PZ.Scalar.bool(),
+    paycheckTaxes: PZ.Scalar.bool(),
+    deductions: PZ.Scalar.bool(),
+    payrollRun: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PaycheckOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PaycheckOwnSelectFieldsSchema
 );
 
@@ -593,18 +563,18 @@ export const PaycheckDistinctFieldsSchema = z
 
 export const EarningOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    type: z.boolean(),
-    hours: z.boolean(),
-    rate: z.boolean(),
-    amount: z.boolean(),
-    paycheckId: z.boolean(),
-    paycheck: z.boolean(),
+    id: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    hours: PZ.Scalar.bool(),
+    rate: PZ.Scalar.bool(),
+    amount: PZ.Scalar.bool(),
+    paycheckId: PZ.Scalar.bool(),
+    paycheck: PZ.Scalar.bool(),
   })
   .partial();
 
 export const EarningOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EarningOwnSelectFieldsSchema
 );
 
@@ -614,16 +584,16 @@ export const EarningDistinctFieldsSchema = z
 
 export const PaycheckTaxOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    paycheckId: z.boolean(),
-    taxAuthority: z.boolean(),
-    amount: z.boolean(),
-    paycheck: z.boolean(),
+    id: PZ.Scalar.bool(),
+    paycheckId: PZ.Scalar.bool(),
+    taxAuthority: PZ.Scalar.bool(),
+    amount: PZ.Scalar.bool(),
+    paycheck: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PaycheckTaxOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PaycheckTaxOwnSelectFieldsSchema
 );
 
@@ -633,17 +603,17 @@ export const PaycheckTaxDistinctFieldsSchema = z
 
 export const DeductionPolicyOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    type: z.boolean(),
-    defaultAmount: z.boolean(),
-    defaultPercent: z.boolean(),
-    employeeDeductions: z.boolean(),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    defaultAmount: PZ.Scalar.bool(),
+    defaultPercent: PZ.Scalar.bool(),
+    employeeDeductions: PZ.Scalar.bool(),
   })
   .partial();
 
 export const DeductionPolicyOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DeductionPolicyOwnSelectFieldsSchema
 );
 
@@ -653,18 +623,18 @@ export const DeductionPolicyDistinctFieldsSchema = z
 
 export const EmployeeDeductionOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    employeeId: z.boolean(),
-    policyId: z.boolean(),
-    employeeAmount: z.boolean(),
-    employee: z.boolean(),
-    policy: z.boolean(),
-    paycheckDeductions: z.boolean(),
+    id: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    policyId: PZ.Scalar.bool(),
+    employeeAmount: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool(),
+    policy: PZ.Scalar.bool(),
+    paycheckDeductions: PZ.Scalar.bool(),
   })
   .partial();
 
 export const EmployeeDeductionOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmployeeDeductionOwnSelectFieldsSchema
 );
 
@@ -674,17 +644,17 @@ export const EmployeeDeductionDistinctFieldsSchema = z
 
 export const PaycheckDeductionOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    paycheckId: z.boolean(),
-    employeeDeductionId: z.boolean(),
-    amount: z.boolean(),
-    paycheck: z.boolean(),
-    employeeDeduction: z.boolean(),
+    id: PZ.Scalar.bool(),
+    paycheckId: PZ.Scalar.bool(),
+    employeeDeductionId: PZ.Scalar.bool(),
+    amount: PZ.Scalar.bool(),
+    paycheck: PZ.Scalar.bool(),
+    employeeDeduction: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PaycheckDeductionOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PaycheckDeductionOwnSelectFieldsSchema
 );
 
@@ -694,28 +664,28 @@ export const PaycheckDeductionDistinctFieldsSchema = z
 
 export const EmployeeTaxDataOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdAt: z.boolean(),
-    updatedAt: z.boolean(),
-    startDate: z.boolean(),
-    endDate: z.boolean(),
-    employeeId: z.boolean(),
-    federalStatus: z.boolean(),
-    dependentsCredit: z.boolean(),
-    multipleJobs: z.boolean(),
-    otherIncome: z.boolean(),
-    deductionsAmount: z.boolean(),
-    extraWithholding: z.boolean(),
-    isExempt: z.boolean(),
-    isNonResidentAlien: z.boolean(),
-    stateTaxes: z.boolean(),
-    localTaxes: z.boolean(),
-    employee: z.boolean(),
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    federalStatus: PZ.Scalar.bool(),
+    dependentsCredit: PZ.Scalar.bool(),
+    multipleJobs: PZ.Scalar.bool(),
+    otherIncome: PZ.Scalar.bool(),
+    deductionsAmount: PZ.Scalar.bool(),
+    extraWithholding: PZ.Scalar.bool(),
+    isExempt: PZ.Scalar.bool(),
+    isNonResidentAlien: PZ.Scalar.bool(),
+    stateTaxes: PZ.Scalar.bool(),
+    localTaxes: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool(),
   })
   .partial();
 
 export const EmployeeTaxDataOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmployeeTaxDataOwnSelectFieldsSchema
 );
 
@@ -740,18 +710,18 @@ export const EmployeeTaxDataDistinctFieldsSchema = z
 
 export const StateTaxWithholdingOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    taxDataId: z.boolean(),
-    stateCode: z.boolean(),
-    stateStatus: z.boolean(),
-    allowances: z.boolean(),
-    extraWithholding: z.boolean(),
-    taxData: z.boolean(),
+    id: PZ.Scalar.bool(),
+    taxDataId: PZ.Scalar.bool(),
+    stateCode: PZ.Scalar.bool(),
+    stateStatus: PZ.Scalar.bool(),
+    allowances: PZ.Scalar.bool(),
+    extraWithholding: PZ.Scalar.bool(),
+    taxData: PZ.Scalar.bool(),
   })
   .partial();
 
 export const StateTaxWithholdingOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StateTaxWithholdingOwnSelectFieldsSchema
 );
 
@@ -768,17 +738,17 @@ export const StateTaxWithholdingDistinctFieldsSchema = z
 
 export const LocalTaxWithholdingOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    taxDataId: z.boolean(),
-    jurisdiction: z.boolean(),
-    localStatus: z.boolean(),
-    extraWithholding: z.boolean(),
-    taxData: z.boolean(),
+    id: PZ.Scalar.bool(),
+    taxDataId: PZ.Scalar.bool(),
+    jurisdiction: PZ.Scalar.bool(),
+    localStatus: PZ.Scalar.bool(),
+    extraWithholding: PZ.Scalar.bool(),
+    taxData: PZ.Scalar.bool(),
   })
   .partial();
 
 export const LocalTaxWithholdingOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   LocalTaxWithholdingOwnSelectFieldsSchema
 );
 
@@ -788,19 +758,19 @@ export const LocalTaxWithholdingDistinctFieldsSchema = z
 
 export const PayrollRunOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    resolverId: z.boolean(),
-    startDate: z.boolean(),
-    endDate: z.boolean(),
-    payDate: z.boolean(),
-    status: z.boolean(),
-    approvedBy: z.boolean(),
-    paychecks: z.boolean(),
+    id: PZ.Scalar.bool(),
+    resolverId: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+    payDate: PZ.Scalar.bool(),
+    status: PZ.Scalar.bool(),
+    approvedBy: PZ.Scalar.bool(),
+    paychecks: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PayrollRunOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PayrollRunOwnSelectFieldsSchema
 );
 
@@ -810,20 +780,20 @@ export const PayrollRunDistinctFieldsSchema = z
 
 export const ContactOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    employeeId: z.boolean(),
-    employee: z.boolean(),
-    emails: z.boolean(),
-    phones: z.boolean(),
-    addresses: z.boolean(),
-    primaryEmail: z.boolean(),
-    primaryPhone: z.boolean(),
-    primaryAddress: z.boolean(),
+    id: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool(),
+    emails: PZ.Scalar.bool(),
+    phones: PZ.Scalar.bool(),
+    addresses: PZ.Scalar.bool(),
+    primaryEmail: PZ.Scalar.bool(),
+    primaryPhone: PZ.Scalar.bool(),
+    primaryAddress: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ContactOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ContactOwnSelectFieldsSchema
 );
 
@@ -831,15 +801,15 @@ export const ContactDistinctFieldsSchema = z.enum(['id', 'employeeId']).array();
 
 export const CountryOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    code: z.boolean(),
-    states: z.boolean(),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    code: PZ.Scalar.bool(),
+    states: PZ.Scalar.bool(),
   })
   .partial();
 
 export const CountryOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CountryOwnSelectFieldsSchema
 );
 
@@ -849,17 +819,17 @@ export const CountryDistinctFieldsSchema = z
 
 export const StateOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    countryId: z.boolean(),
-    name: z.boolean(),
-    code: z.boolean(),
-    country: z.boolean(),
-    addresses: z.boolean(),
+    id: PZ.Scalar.bool(),
+    countryId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    code: PZ.Scalar.bool(),
+    country: PZ.Scalar.bool(),
+    addresses: PZ.Scalar.bool(),
   })
   .partial();
 
 export const StateOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StateOwnSelectFieldsSchema
 );
 
@@ -869,21 +839,21 @@ export const StateDistinctFieldsSchema = z
 
 export const AddressOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    type: z.boolean(),
-    contactId: z.boolean(),
-    stateId: z.boolean(),
-    street: z.boolean(),
-    zip: z.boolean(),
-    city: z.boolean(),
-    state: z.boolean(),
-    contact: z.boolean(),
-    primary: z.boolean(),
+    id: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    stateId: PZ.Scalar.bool(),
+    street: PZ.Scalar.bool(),
+    zip: PZ.Scalar.bool(),
+    city: PZ.Scalar.bool(),
+    state: PZ.Scalar.bool(),
+    contact: PZ.Scalar.bool(),
+    primary: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AddressOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AddressOwnSelectFieldsSchema
 );
 
@@ -893,17 +863,17 @@ export const AddressDistinctFieldsSchema = z
 
 export const EmailOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    type: z.boolean(),
-    contactId: z.boolean(),
-    email: z.boolean(),
-    contact: z.boolean(),
-    primary: z.boolean(),
+    id: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    email: PZ.Scalar.bool(),
+    contact: PZ.Scalar.bool(),
+    primary: PZ.Scalar.bool(),
   })
   .partial();
 
 export const EmailOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmailOwnSelectFieldsSchema
 );
 
@@ -913,17 +883,17 @@ export const EmailDistinctFieldsSchema = z
 
 export const PhoneOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    type: z.boolean(),
-    contactId: z.boolean(),
-    phone: z.boolean(),
-    contact: z.boolean(),
-    primary: z.boolean(),
+    id: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    phone: PZ.Scalar.bool(),
+    contact: PZ.Scalar.bool(),
+    primary: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PhoneOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PhoneOwnSelectFieldsSchema
 );
 
@@ -933,16 +903,16 @@ export const PhoneDistinctFieldsSchema = z
 
 export const PrimaryEmailOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    emailId: z.boolean(),
-    contactId: z.boolean(),
-    email: z.boolean(),
-    contact: z.boolean(),
+    id: PZ.Scalar.bool(),
+    emailId: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    email: PZ.Scalar.bool(),
+    contact: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PrimaryEmailOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PrimaryEmailOwnSelectFieldsSchema
 );
 
@@ -952,16 +922,16 @@ export const PrimaryEmailDistinctFieldsSchema = z
 
 export const PrimaryPhoneOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    phoneId: z.boolean(),
-    contactId: z.boolean(),
-    phone: z.boolean(),
-    contact: z.boolean(),
+    id: PZ.Scalar.bool(),
+    phoneId: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    phone: PZ.Scalar.bool(),
+    contact: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PrimaryPhoneOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PrimaryPhoneOwnSelectFieldsSchema
 );
 
@@ -971,16 +941,16 @@ export const PrimaryPhoneDistinctFieldsSchema = z
 
 export const PrimaryAddressOwnSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    addressId: z.boolean(),
-    contactId: z.boolean(),
-    address: z.boolean(),
-    contact: z.boolean(),
+    id: PZ.Scalar.bool(),
+    addressId: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    address: PZ.Scalar.bool(),
+    contact: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PrimaryAddressOwnSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PrimaryAddressOwnSelectFieldsSchema
 );
 
@@ -999,7 +969,7 @@ export const DepartmentOwnWhereSchema = z
   .partial();
 
 export const DepartmentOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DepartmentOwnWhereSchema
 );
 
@@ -1015,7 +985,7 @@ export const TitleOwnWhereSchema = z
   .partial();
 
 export const TitleOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TitleOwnWhereSchema
 );
 
@@ -1031,7 +1001,7 @@ export const PersonalDataOwnWhereSchema = z
   .partial();
 
 export const PersonalDataOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PersonalDataOwnWhereSchema
 );
 
@@ -1053,7 +1023,7 @@ export const EmployeeOwnWhereSchema = z
   .partial();
 
 export const EmployeeOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmployeeOwnWhereSchema
 );
 
@@ -1065,7 +1035,7 @@ export const TeamOwnWhereSchema = z
   .partial();
 
 export const TeamOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamOwnWhereSchema
 );
 
@@ -1078,7 +1048,7 @@ export const TeamManagerOwnWhereSchema = z
   .partial();
 
 export const TeamManagerOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamManagerOwnWhereSchema
 );
 
@@ -1091,7 +1061,7 @@ export const TeamMemberOwnWhereSchema = z
   .partial();
 
 export const TeamMemberOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamMemberOwnWhereSchema
 );
 
@@ -1107,7 +1077,7 @@ export const SalaryOwnWhereSchema = z
   .partial();
 
 export const SalaryOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SalaryOwnWhereSchema
 );
 
@@ -1123,7 +1093,7 @@ export const SalaryHistoryOwnWhereSchema = z
   .partial();
 
 export const SalaryHistoryOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SalaryHistoryOwnWhereSchema
 );
 
@@ -1137,7 +1107,7 @@ export const BenefitOwnWhereSchema = z
   .partial();
 
 export const BenefitOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   BenefitOwnWhereSchema
 );
 
@@ -1152,7 +1122,7 @@ export const BenefitEnrolmentOwnWhereSchema = z
   .partial();
 
 export const BenefitEnrolmentOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   BenefitEnrolmentOwnWhereSchema
 );
 
@@ -1169,7 +1139,7 @@ export const TitleHistoryOwnWhereSchema = z
   .partial();
 
 export const TitleHistoryOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TitleHistoryOwnWhereSchema
 );
 
@@ -1184,7 +1154,7 @@ export const TimeOffPolicyOwnWhereSchema = z
   .partial();
 
 export const TimeOffPolicyOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffPolicyOwnWhereSchema
 );
 
@@ -1200,7 +1170,7 @@ export const TimeOffBalanceOwnWhereSchema = z
   .partial();
 
 export const TimeOffBalanceOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffBalanceOwnWhereSchema
 );
 
@@ -1219,7 +1189,7 @@ export const TimeOffRequestOwnWhereSchema = z
   .partial();
 
 export const TimeOffRequestOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffRequestOwnWhereSchema
 );
 
@@ -1236,7 +1206,7 @@ export const TimeOffTransactionOwnWhereSchema = z
   .partial();
 
 export const TimeOffTransactionOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffTransactionOwnWhereSchema
 );
 
@@ -1250,7 +1220,7 @@ export const ClockInOwnWhereSchema = z
   .partial();
 
 export const ClockInOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ClockInOwnWhereSchema
 );
 
@@ -1267,7 +1237,7 @@ export const PaycheckOwnWhereSchema = z
   .partial();
 
 export const PaycheckOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PaycheckOwnWhereSchema
 );
 
@@ -1283,7 +1253,7 @@ export const EarningOwnWhereSchema = z
   .partial();
 
 export const EarningOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EarningOwnWhereSchema
 );
 
@@ -1297,7 +1267,7 @@ export const PaycheckTaxOwnWhereSchema = z
   .partial();
 
 export const PaycheckTaxOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PaycheckTaxOwnWhereSchema
 );
 
@@ -1312,7 +1282,7 @@ export const DeductionPolicyOwnWhereSchema = z
   .partial();
 
 export const DeductionPolicyOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DeductionPolicyOwnWhereSchema
 );
 
@@ -1326,7 +1296,7 @@ export const EmployeeDeductionOwnWhereSchema = z
   .partial();
 
 export const EmployeeDeductionOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmployeeDeductionOwnWhereSchema
 );
 
@@ -1340,7 +1310,7 @@ export const PaycheckDeductionOwnWhereSchema = z
   .partial();
 
 export const PaycheckDeductionOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PaycheckDeductionOwnWhereSchema
 );
 
@@ -1364,7 +1334,7 @@ export const EmployeeTaxDataOwnWhereSchema = z
   .partial();
 
 export const EmployeeTaxDataOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmployeeTaxDataOwnWhereSchema
 );
 
@@ -1380,7 +1350,7 @@ export const StateTaxWithholdingOwnWhereSchema = z
   .partial();
 
 export const StateTaxWithholdingOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StateTaxWithholdingOwnWhereSchema
 );
 
@@ -1395,7 +1365,7 @@ export const LocalTaxWithholdingOwnWhereSchema = z
   .partial();
 
 export const LocalTaxWithholdingOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   LocalTaxWithholdingOwnWhereSchema
 );
 
@@ -1411,7 +1381,7 @@ export const PayrollRunOwnWhereSchema = z
   .partial();
 
 export const PayrollRunOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PayrollRunOwnWhereSchema
 );
 
@@ -1423,7 +1393,7 @@ export const ContactOwnWhereSchema = z
   .partial();
 
 export const ContactOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ContactOwnWhereSchema
 );
 
@@ -1436,7 +1406,7 @@ export const CountryOwnWhereSchema = z
   .partial();
 
 export const CountryOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CountryOwnWhereSchema
 );
 
@@ -1450,7 +1420,7 @@ export const StateOwnWhereSchema = z
   .partial();
 
 export const StateOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StateOwnWhereSchema
 );
 
@@ -1467,7 +1437,7 @@ export const AddressOwnWhereSchema = z
   .partial();
 
 export const AddressOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AddressOwnWhereSchema
 );
 
@@ -1481,7 +1451,7 @@ export const EmailOwnWhereSchema = z
   .partial();
 
 export const EmailOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmailOwnWhereSchema
 );
 
@@ -1495,7 +1465,7 @@ export const PhoneOwnWhereSchema = z
   .partial();
 
 export const PhoneOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PhoneOwnWhereSchema
 );
 
@@ -1508,7 +1478,7 @@ export const PrimaryEmailOwnWhereSchema = z
   .partial();
 
 export const PrimaryEmailOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PrimaryEmailOwnWhereSchema
 );
 
@@ -1521,7 +1491,7 @@ export const PrimaryPhoneOwnWhereSchema = z
   .partial();
 
 export const PrimaryPhoneOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PrimaryPhoneOwnWhereSchema
 );
 
@@ -1534,20 +1504,20 @@ export const PrimaryAddressOwnWhereSchema = z
   .partial();
 
 export const PrimaryAddressOwnWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PrimaryAddressOwnWhereSchema
 );
 
 export const DepartmentOwnIncludeSchema = z
   .object({
-    parent: z.boolean(),
-    departments: z.boolean(),
-    titles: z.boolean(),
+    parent: PZ.Scalar.bool(),
+    departments: PZ.Scalar.bool(),
+    titles: PZ.Scalar.bool(),
   })
   .partial();
 
 export const DepartmentOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DepartmentOwnIncludeSchema
 );
 
@@ -1567,14 +1537,14 @@ export const DepartmentOwnQuerySchema = z
 
 export const TitleOwnIncludeSchema = z
   .object({
-    department: z.boolean(),
-    employees: z.boolean(),
-    histories: z.boolean(),
+    department: PZ.Scalar.bool(),
+    employees: PZ.Scalar.bool(),
+    histories: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TitleOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TitleOwnIncludeSchema
 );
 
@@ -1594,12 +1564,12 @@ export const TitleOwnQuerySchema = z
 
 export const PersonalDataOwnIncludeSchema = z
   .object({
-    employee: z.boolean(),
+    employee: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PersonalDataOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PersonalDataOwnIncludeSchema
 );
 
@@ -1619,30 +1589,30 @@ export const PersonalDataOwnQuerySchema = z
 
 export const EmployeeOwnIncludeSchema = z
   .object({
-    title: z.boolean(),
-    salary: z.boolean(),
-    salaryHistory: z.boolean(),
-    benefits: z.boolean(),
-    titleHistory: z.boolean(),
-    timeOffBalances: z.boolean(),
-    timeOffRequests: z.boolean(),
-    resolvedTimeOffs: z.boolean(),
-    clockIns: z.boolean(),
-    personalData: z.boolean(),
-    taxData: z.boolean(),
-    memberships: z.boolean(),
-    managingTeams: z.boolean(),
-    managingEmployees: z.boolean(),
-    directManager: z.boolean(),
-    paychecks: z.boolean(),
-    deductions: z.boolean(),
-    resolvedPayrollRuns: z.boolean(),
-    contact: z.boolean(),
+    title: PZ.Scalar.bool(),
+    salary: PZ.Scalar.bool(),
+    salaryHistory: PZ.Scalar.bool(),
+    benefits: PZ.Scalar.bool(),
+    titleHistory: PZ.Scalar.bool(),
+    timeOffBalances: PZ.Scalar.bool(),
+    timeOffRequests: PZ.Scalar.bool(),
+    resolvedTimeOffs: PZ.Scalar.bool(),
+    clockIns: PZ.Scalar.bool(),
+    personalData: PZ.Scalar.bool(),
+    taxData: PZ.Scalar.bool(),
+    memberships: PZ.Scalar.bool(),
+    managingTeams: PZ.Scalar.bool(),
+    managingEmployees: PZ.Scalar.bool(),
+    directManager: PZ.Scalar.bool(),
+    paychecks: PZ.Scalar.bool(),
+    deductions: PZ.Scalar.bool(),
+    resolvedPayrollRuns: PZ.Scalar.bool(),
+    contact: PZ.Scalar.bool(),
   })
   .partial();
 
 export const EmployeeOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmployeeOwnIncludeSchema
 );
 
@@ -1662,13 +1632,13 @@ export const EmployeeOwnQuerySchema = z
 
 export const TeamOwnIncludeSchema = z
   .object({
-    members: z.boolean(),
-    managers: z.boolean(),
+    members: PZ.Scalar.bool(),
+    managers: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TeamOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamOwnIncludeSchema
 );
 
@@ -1688,13 +1658,13 @@ export const TeamOwnQuerySchema = z
 
 export const TeamManagerOwnIncludeSchema = z
   .object({
-    team: z.boolean(),
-    manager: z.boolean(),
+    team: PZ.Scalar.bool(),
+    manager: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TeamManagerOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamManagerOwnIncludeSchema
 );
 
@@ -1714,13 +1684,13 @@ export const TeamManagerOwnQuerySchema = z
 
 export const TeamMemberOwnIncludeSchema = z
   .object({
-    member: z.boolean(),
-    team: z.boolean(),
+    member: PZ.Scalar.bool(),
+    team: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TeamMemberOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamMemberOwnIncludeSchema
 );
 
@@ -1740,12 +1710,12 @@ export const TeamMemberOwnQuerySchema = z
 
 export const SalaryOwnIncludeSchema = z
   .object({
-    employee: z.boolean(),
+    employee: PZ.Scalar.bool(),
   })
   .partial();
 
 export const SalaryOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SalaryOwnIncludeSchema
 );
 
@@ -1765,12 +1735,12 @@ export const SalaryOwnQuerySchema = z
 
 export const SalaryHistoryOwnIncludeSchema = z
   .object({
-    employee: z.boolean(),
+    employee: PZ.Scalar.bool(),
   })
   .partial();
 
 export const SalaryHistoryOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SalaryHistoryOwnIncludeSchema
 );
 
@@ -1790,12 +1760,12 @@ export const SalaryHistoryOwnQuerySchema = z
 
 export const BenefitOwnIncludeSchema = z
   .object({
-    enrolments: z.boolean(),
+    enrolments: PZ.Scalar.bool(),
   })
   .partial();
 
 export const BenefitOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   BenefitOwnIncludeSchema
 );
 
@@ -1815,13 +1785,13 @@ export const BenefitOwnQuerySchema = z
 
 export const BenefitEnrolmentOwnIncludeSchema = z
   .object({
-    benefit: z.boolean(),
-    employee: z.boolean(),
+    benefit: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool(),
   })
   .partial();
 
 export const BenefitEnrolmentOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   BenefitEnrolmentOwnIncludeSchema
 );
 
@@ -1841,13 +1811,13 @@ export const BenefitEnrolmentOwnQuerySchema = z
 
 export const TitleHistoryOwnIncludeSchema = z
   .object({
-    employee: z.boolean(),
-    title: z.boolean(),
+    employee: PZ.Scalar.bool(),
+    title: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TitleHistoryOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TitleHistoryOwnIncludeSchema
 );
 
@@ -1867,13 +1837,13 @@ export const TitleHistoryOwnQuerySchema = z
 
 export const TimeOffPolicyOwnIncludeSchema = z
   .object({
-    balances: z.boolean(),
-    requests: z.boolean(),
+    balances: PZ.Scalar.bool(),
+    requests: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TimeOffPolicyOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffPolicyOwnIncludeSchema
 );
 
@@ -1893,14 +1863,14 @@ export const TimeOffPolicyOwnQuerySchema = z
 
 export const TimeOffBalanceOwnIncludeSchema = z
   .object({
-    policy: z.boolean(),
-    employee: z.boolean(),
-    transactions: z.boolean(),
+    policy: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool(),
+    transactions: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TimeOffBalanceOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffBalanceOwnIncludeSchema
 );
 
@@ -1920,15 +1890,15 @@ export const TimeOffBalanceOwnQuerySchema = z
 
 export const TimeOffRequestOwnIncludeSchema = z
   .object({
-    employee: z.boolean(),
-    policy: z.boolean(),
-    resolver: z.boolean(),
-    transactions: z.boolean(),
+    employee: PZ.Scalar.bool(),
+    policy: PZ.Scalar.bool(),
+    resolver: PZ.Scalar.bool(),
+    transactions: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TimeOffRequestOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffRequestOwnIncludeSchema
 );
 
@@ -1948,13 +1918,13 @@ export const TimeOffRequestOwnQuerySchema = z
 
 export const TimeOffTransactionOwnIncludeSchema = z
   .object({
-    balance: z.boolean(),
-    request: z.boolean(),
+    balance: PZ.Scalar.bool(),
+    request: PZ.Scalar.bool(),
   })
   .partial();
 
 export const TimeOffTransactionOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffTransactionOwnIncludeSchema
 );
 
@@ -1974,12 +1944,12 @@ export const TimeOffTransactionOwnQuerySchema = z
 
 export const ClockInOwnIncludeSchema = z
   .object({
-    employee: z.boolean(),
+    employee: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ClockInOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ClockInOwnIncludeSchema
 );
 
@@ -1999,16 +1969,16 @@ export const ClockInOwnQuerySchema = z
 
 export const PaycheckOwnIncludeSchema = z
   .object({
-    employee: z.boolean(),
-    earnings: z.boolean(),
-    paycheckTaxes: z.boolean(),
-    deductions: z.boolean(),
-    payrollRun: z.boolean(),
+    employee: PZ.Scalar.bool(),
+    earnings: PZ.Scalar.bool(),
+    paycheckTaxes: PZ.Scalar.bool(),
+    deductions: PZ.Scalar.bool(),
+    payrollRun: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PaycheckOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PaycheckOwnIncludeSchema
 );
 
@@ -2028,12 +1998,12 @@ export const PaycheckOwnQuerySchema = z
 
 export const EarningOwnIncludeSchema = z
   .object({
-    paycheck: z.boolean(),
+    paycheck: PZ.Scalar.bool(),
   })
   .partial();
 
 export const EarningOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EarningOwnIncludeSchema
 );
 
@@ -2053,12 +2023,12 @@ export const EarningOwnQuerySchema = z
 
 export const PaycheckTaxOwnIncludeSchema = z
   .object({
-    paycheck: z.boolean(),
+    paycheck: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PaycheckTaxOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PaycheckTaxOwnIncludeSchema
 );
 
@@ -2078,12 +2048,12 @@ export const PaycheckTaxOwnQuerySchema = z
 
 export const DeductionPolicyOwnIncludeSchema = z
   .object({
-    employeeDeductions: z.boolean(),
+    employeeDeductions: PZ.Scalar.bool(),
   })
   .partial();
 
 export const DeductionPolicyOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DeductionPolicyOwnIncludeSchema
 );
 
@@ -2103,14 +2073,14 @@ export const DeductionPolicyOwnQuerySchema = z
 
 export const EmployeeDeductionOwnIncludeSchema = z
   .object({
-    employee: z.boolean(),
-    policy: z.boolean(),
-    paycheckDeductions: z.boolean(),
+    employee: PZ.Scalar.bool(),
+    policy: PZ.Scalar.bool(),
+    paycheckDeductions: PZ.Scalar.bool(),
   })
   .partial();
 
 export const EmployeeDeductionOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmployeeDeductionOwnIncludeSchema
 );
 
@@ -2130,13 +2100,13 @@ export const EmployeeDeductionOwnQuerySchema = z
 
 export const PaycheckDeductionOwnIncludeSchema = z
   .object({
-    paycheck: z.boolean(),
-    employeeDeduction: z.boolean(),
+    paycheck: PZ.Scalar.bool(),
+    employeeDeduction: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PaycheckDeductionOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PaycheckDeductionOwnIncludeSchema
 );
 
@@ -2156,14 +2126,14 @@ export const PaycheckDeductionOwnQuerySchema = z
 
 export const EmployeeTaxDataOwnIncludeSchema = z
   .object({
-    stateTaxes: z.boolean(),
-    localTaxes: z.boolean(),
-    employee: z.boolean(),
+    stateTaxes: PZ.Scalar.bool(),
+    localTaxes: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool(),
   })
   .partial();
 
 export const EmployeeTaxDataOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmployeeTaxDataOwnIncludeSchema
 );
 
@@ -2183,12 +2153,12 @@ export const EmployeeTaxDataOwnQuerySchema = z
 
 export const StateTaxWithholdingOwnIncludeSchema = z
   .object({
-    taxData: z.boolean(),
+    taxData: PZ.Scalar.bool(),
   })
   .partial();
 
 export const StateTaxWithholdingOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StateTaxWithholdingOwnIncludeSchema
 );
 
@@ -2208,12 +2178,12 @@ export const StateTaxWithholdingOwnQuerySchema = z
 
 export const LocalTaxWithholdingOwnIncludeSchema = z
   .object({
-    taxData: z.boolean(),
+    taxData: PZ.Scalar.bool(),
   })
   .partial();
 
 export const LocalTaxWithholdingOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   LocalTaxWithholdingOwnIncludeSchema
 );
 
@@ -2233,13 +2203,13 @@ export const LocalTaxWithholdingOwnQuerySchema = z
 
 export const PayrollRunOwnIncludeSchema = z
   .object({
-    approvedBy: z.boolean(),
-    paychecks: z.boolean(),
+    approvedBy: PZ.Scalar.bool(),
+    paychecks: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PayrollRunOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PayrollRunOwnIncludeSchema
 );
 
@@ -2259,18 +2229,18 @@ export const PayrollRunOwnQuerySchema = z
 
 export const ContactOwnIncludeSchema = z
   .object({
-    employee: z.boolean(),
-    emails: z.boolean(),
-    phones: z.boolean(),
-    addresses: z.boolean(),
-    primaryEmail: z.boolean(),
-    primaryPhone: z.boolean(),
-    primaryAddress: z.boolean(),
+    employee: PZ.Scalar.bool(),
+    emails: PZ.Scalar.bool(),
+    phones: PZ.Scalar.bool(),
+    addresses: PZ.Scalar.bool(),
+    primaryEmail: PZ.Scalar.bool(),
+    primaryPhone: PZ.Scalar.bool(),
+    primaryAddress: PZ.Scalar.bool(),
   })
   .partial();
 
 export const ContactOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ContactOwnIncludeSchema
 );
 
@@ -2290,12 +2260,12 @@ export const ContactOwnQuerySchema = z
 
 export const CountryOwnIncludeSchema = z
   .object({
-    states: z.boolean(),
+    states: PZ.Scalar.bool(),
   })
   .partial();
 
 export const CountryOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CountryOwnIncludeSchema
 );
 
@@ -2315,13 +2285,13 @@ export const CountryOwnQuerySchema = z
 
 export const StateOwnIncludeSchema = z
   .object({
-    country: z.boolean(),
-    addresses: z.boolean(),
+    country: PZ.Scalar.bool(),
+    addresses: PZ.Scalar.bool(),
   })
   .partial();
 
 export const StateOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StateOwnIncludeSchema
 );
 
@@ -2341,14 +2311,14 @@ export const StateOwnQuerySchema = z
 
 export const AddressOwnIncludeSchema = z
   .object({
-    state: z.boolean(),
-    contact: z.boolean(),
-    primary: z.boolean(),
+    state: PZ.Scalar.bool(),
+    contact: PZ.Scalar.bool(),
+    primary: PZ.Scalar.bool(),
   })
   .partial();
 
 export const AddressOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AddressOwnIncludeSchema
 );
 
@@ -2368,13 +2338,13 @@ export const AddressOwnQuerySchema = z
 
 export const EmailOwnIncludeSchema = z
   .object({
-    contact: z.boolean(),
-    primary: z.boolean(),
+    contact: PZ.Scalar.bool(),
+    primary: PZ.Scalar.bool(),
   })
   .partial();
 
 export const EmailOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmailOwnIncludeSchema
 );
 
@@ -2394,13 +2364,13 @@ export const EmailOwnQuerySchema = z
 
 export const PhoneOwnIncludeSchema = z
   .object({
-    contact: z.boolean(),
-    primary: z.boolean(),
+    contact: PZ.Scalar.bool(),
+    primary: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PhoneOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PhoneOwnIncludeSchema
 );
 
@@ -2420,13 +2390,13 @@ export const PhoneOwnQuerySchema = z
 
 export const PrimaryEmailOwnIncludeSchema = z
   .object({
-    email: z.boolean(),
-    contact: z.boolean(),
+    email: PZ.Scalar.bool(),
+    contact: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PrimaryEmailOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PrimaryEmailOwnIncludeSchema
 );
 
@@ -2446,13 +2416,13 @@ export const PrimaryEmailOwnQuerySchema = z
 
 export const PrimaryPhoneOwnIncludeSchema = z
   .object({
-    phone: z.boolean(),
-    contact: z.boolean(),
+    phone: PZ.Scalar.bool(),
+    contact: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PrimaryPhoneOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PrimaryPhoneOwnIncludeSchema
 );
 
@@ -2472,13 +2442,13 @@ export const PrimaryPhoneOwnQuerySchema = z
 
 export const PrimaryAddressOwnIncludeSchema = z
   .object({
-    address: z.boolean(),
-    contact: z.boolean(),
+    address: PZ.Scalar.bool(),
+    contact: PZ.Scalar.bool(),
   })
   .partial();
 
 export const PrimaryAddressOwnIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PrimaryAddressOwnIncludeSchema
 );
 
@@ -2496,23 +2466,25 @@ export const PrimaryAddressOwnQuerySchema = z
   })
   .partial();
 
-export const DepartmentCreateSchema = z
-  .object({
-    parentId: z.coerce.number().int().optional(),
-    name: nameSchema.clone(),
-    slug: slugSchema.clone().optional(),
-    isActive: z.boolean().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const DepartmentRawCreateSchema = z.object({
+  parentId: PZ.Scalar.id().optional(),
+  name: PZ.Scalar.name(),
+  slug: PZ.Scalar.slug().optional(),
+  isActive: PZ.Scalar.bool().optional(),
+});
 
-export const DepartmentUpdateSchema = z
-  .object({
-    parentId: z.coerce.number().int().optional().optional(),
-    name: nameSchema.clone().optional(),
-    slug: slugSchema.clone().optional().optional(),
-    isActive: z.boolean().optional().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const DepartmentCreateSchema =
+  DepartmentRawCreateSchema.clone().transform(PZ.slugTransformer('name'));
+
+export const DepartmentRawUpdateSchema = z.object({
+  parentId: PZ.Scalar.id().optional().optional(),
+  name: PZ.Scalar.name().optional(),
+  slug: PZ.Scalar.slug().optional().optional(),
+  isActive: PZ.Scalar.bool().optional().optional(),
+});
+
+export const DepartmentUpdateSchema =
+  DepartmentRawUpdateSchema.clone().transform(PZ.slugTransformer('name'));
 
 export const DepartmentOrderBySchema = z
   .object({
@@ -2522,10 +2494,14 @@ export const DepartmentOrderBySchema = z
     slug: PZ.OrderDirectionSchema,
     isActive: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const DepartmentOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DepartmentOrderBySchema
 );
 
@@ -2555,67 +2531,93 @@ export const DepartmentWhereSchema = z
   .partial();
 
 export const DepartmentWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DepartmentWhereSchema
 );
 
 export const DepartmentSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    parentId: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    isActive: z.boolean(),
-    parent: z.boolean().or(DepartmentOwnQueryOneSchema),
-    departments: z.boolean().or(DepartmentOwnQuerySchema),
-    titles: z.boolean().or(TitleOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    parentId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    isActive: PZ.Scalar.bool(),
+    parent: PZ.Scalar.bool().or(DepartmentOwnQueryOneSchema),
+    departments: PZ.Scalar.bool().or(DepartmentOwnQuerySchema),
+    titles: PZ.Scalar.bool().or(TitleOwnQuerySchema),
   })
   .partial();
 
 export const DepartmentSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DepartmentSelectFieldsSchema
+);
+
+export const DepartmentOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    parentId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    isActive: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'parentId', 'name', 'slug', 'isActive'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const DepartmentOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  DepartmentOmitFieldsSchema
 );
 
 export const DepartmentIncludeSchema = z
   .object({
-    parent: z.boolean().or(DepartmentOwnQueryOneSchema),
-    departments: z.boolean().or(DepartmentOwnQuerySchema),
-    titles: z.boolean().or(TitleOwnQuerySchema),
+    parent: PZ.Scalar.bool().or(DepartmentOwnQueryOneSchema),
+    departments: PZ.Scalar.bool().or(DepartmentOwnQuerySchema),
+    titles: PZ.Scalar.bool().or(TitleOwnQuerySchema),
   })
   .partial();
 
 export const DepartmentIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DepartmentIncludeSchema
 );
 
 export const DepartmentProjectionSchema = z.union([
-  z.object({ omit: DepartmentSelectFieldsSchemaJson }),
+  z.object({ omit: DepartmentOmitFieldsSchemaJson }),
   z.object({ select: DepartmentSelectFieldsSchemaJson }),
   z.object({ include: DepartmentIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TitleCreateSchema = z
-  .object({
-    departmentId: z.coerce.number().int(),
-    name: nameSchema.clone(),
-    slug: slugSchema.clone().optional(),
-    description: descriptionSchema.clone().optional(),
-    isActive: z.boolean().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const TitleRawCreateSchema = z.object({
+  departmentId: PZ.Scalar.id(),
+  name: PZ.Scalar.name(),
+  slug: PZ.Scalar.slug().optional(),
+  description: PZ.Scalar.description().optional(),
+  isActive: PZ.Scalar.bool().optional(),
+});
 
-export const TitleUpdateSchema = z
-  .object({
-    departmentId: z.coerce.number().int().optional(),
-    name: nameSchema.clone().optional(),
-    slug: slugSchema.clone().optional().optional(),
-    description: descriptionSchema.clone().optional().optional(),
-    isActive: z.boolean().optional().optional(),
-  })
-  .transform(slugTransformer('name'));
+export const TitleCreateSchema = TitleRawCreateSchema.clone().transform(
+  PZ.slugTransformer('name')
+);
+
+export const TitleRawUpdateSchema = z.object({
+  departmentId: PZ.Scalar.id().optional(),
+  name: PZ.Scalar.name().optional(),
+  slug: PZ.Scalar.slug().optional().optional(),
+  description: PZ.Scalar.description().optional().optional(),
+  isActive: PZ.Scalar.bool().optional().optional(),
+});
+
+export const TitleUpdateSchema = TitleRawUpdateSchema.clone().transform(
+  PZ.slugTransformer('name')
+);
 
 export const TitleOrderBySchema = z
   .object({
@@ -2626,10 +2628,14 @@ export const TitleOrderBySchema = z
     description: PZ.OrderDirectionSchema,
     isActive: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const TitleOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TitleOrderBySchema
 );
 
@@ -2659,62 +2665,92 @@ export const TitleWhereSchema = z
   })
   .partial();
 
-export const TitleWhereSchemaJson = z.preprocess(jsonParser, TitleWhereSchema);
+export const TitleWhereSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TitleWhereSchema
+);
 
 export const TitleSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    departmentId: z.boolean(),
-    name: z.boolean(),
-    slug: z.boolean(),
-    description: z.boolean(),
-    isActive: z.boolean(),
-    department: z.boolean().or(DepartmentOwnQueryOneSchema),
-    employees: z.boolean().or(EmployeeOwnQuerySchema),
-    histories: z.boolean().or(TitleHistoryOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    departmentId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    isActive: PZ.Scalar.bool(),
+    department: PZ.Scalar.bool().or(DepartmentOwnQueryOneSchema),
+    employees: PZ.Scalar.bool().or(EmployeeOwnQuerySchema),
+    histories: PZ.Scalar.bool().or(TitleHistoryOwnQuerySchema),
   })
   .partial();
 
 export const TitleSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TitleSelectFieldsSchema
+);
+
+export const TitleOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    departmentId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    slug: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    isActive: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'departmentId', 'name', 'slug', 'description', 'isActive'].every(
+        (e) => Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const TitleOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TitleOmitFieldsSchema
 );
 
 export const TitleIncludeSchema = z
   .object({
-    department: z.boolean().or(DepartmentOwnQueryOneSchema),
-    employees: z.boolean().or(EmployeeOwnQuerySchema),
-    histories: z.boolean().or(TitleHistoryOwnQuerySchema),
+    department: PZ.Scalar.bool().or(DepartmentOwnQueryOneSchema),
+    employees: PZ.Scalar.bool().or(EmployeeOwnQuerySchema),
+    histories: PZ.Scalar.bool().or(TitleHistoryOwnQuerySchema),
   })
   .partial();
 
 export const TitleIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TitleIncludeSchema
 );
 
 export const TitleProjectionSchema = z.union([
-  z.object({ omit: TitleSelectFieldsSchemaJson }),
+  z.object({ omit: TitleOmitFieldsSchemaJson }),
   z.object({ select: TitleSelectFieldsSchemaJson }),
   z.object({ include: TitleIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PersonalDataCreateSchema = z.object({
-  employeeId: z.coerce.number().int(),
-  ein: z.string(),
+export const PersonalDataRawCreateSchema = z.object({
+  employeeId: PZ.Scalar.id(),
+  ein: PZ.Scalar.string(),
   gender: GenderSchema,
-  dob: dateSchema.clone(),
+  dob: PZ.Scalar.datetime(),
   maritalStatus: MaritalStatusSchema,
 });
 
-export const PersonalDataUpdateSchema = z.object({
-  employeeId: z.coerce.number().int().optional(),
-  ein: z.string().optional(),
+export const PersonalDataCreateSchema = PersonalDataRawCreateSchema.clone();
+
+export const PersonalDataRawUpdateSchema = z.object({
+  employeeId: PZ.Scalar.id().optional(),
+  ein: PZ.Scalar.string().optional(),
   gender: GenderSchema.optional(),
-  dob: dateSchema.clone().optional(),
+  dob: PZ.Scalar.datetime().optional(),
   maritalStatus: MaritalStatusSchema.optional(),
 });
+
+export const PersonalDataUpdateSchema = PersonalDataRawUpdateSchema.clone();
 
 export const PersonalDataOrderBySchema = z
   .object({
@@ -2723,10 +2759,14 @@ export const PersonalDataOrderBySchema = z
     ein: PZ.OrderDirectionSchema,
     dob: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const PersonalDataOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PersonalDataOrderBySchema
 );
 
@@ -2743,70 +2783,97 @@ export const PersonalDataWhereSchema = z
   .partial();
 
 export const PersonalDataWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PersonalDataWhereSchema
 );
 
 export const PersonalDataSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    employeeId: z.boolean(),
-    ein: z.boolean(),
-    gender: z.boolean(),
-    dob: z.boolean(),
-    maritalStatus: z.boolean(),
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    ein: PZ.Scalar.bool(),
+    gender: PZ.Scalar.bool(),
+    dob: PZ.Scalar.bool(),
+    maritalStatus: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
 export const PersonalDataSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PersonalDataSelectFieldsSchema
+);
+
+export const PersonalDataOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    ein: PZ.Scalar.bool(),
+    gender: PZ.Scalar.bool(),
+    dob: PZ.Scalar.bool(),
+    maritalStatus: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'employeeId', 'ein', 'gender', 'dob', 'maritalStatus'].every(
+        (e) => Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const PersonalDataOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  PersonalDataOmitFieldsSchema
 );
 
 export const PersonalDataIncludeSchema = z
   .object({
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
 export const PersonalDataIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PersonalDataIncludeSchema
 );
 
 export const PersonalDataProjectionSchema = z.union([
-  z.object({ omit: PersonalDataSelectFieldsSchemaJson }),
+  z.object({ omit: PersonalDataOmitFieldsSchemaJson }),
   z.object({ select: PersonalDataSelectFieldsSchemaJson }),
   z.object({ include: PersonalDataIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const EmployeeCreateSchema = z.object({
-  titleId: z.coerce.number().int(),
-  firstName: z.string(),
-  middleName: z.string().optional(),
-  lastName: z.string(),
-  preferedName: z.string().optional(),
+export const EmployeeRawCreateSchema = z.object({
+  titleId: PZ.Scalar.id(),
+  firstName: PZ.Scalar.string(),
+  middleName: PZ.Scalar.string().optional(),
+  lastName: PZ.Scalar.string(),
+  preferedName: PZ.Scalar.string().optional(),
   status: EmployeeStatusSchema.optional(),
-  hireDate: dateSchema.clone().optional(),
-  terminationDate: dateSchema.clone().optional(),
+  hireDate: PZ.Scalar.datetime().optional(),
+  terminationDate: PZ.Scalar.datetime().optional(),
   employmentType: EmploymentTypeSchema,
-  directManagerId: z.coerce.number().int().optional(),
+  directManagerId: PZ.Scalar.id().optional(),
 });
 
-export const EmployeeUpdateSchema = z.object({
-  titleId: z.coerce.number().int().optional(),
-  firstName: z.string().optional(),
-  middleName: z.string().optional().optional(),
-  lastName: z.string().optional(),
-  preferedName: z.string().optional().optional(),
+export const EmployeeCreateSchema = EmployeeRawCreateSchema.clone();
+
+export const EmployeeRawUpdateSchema = z.object({
+  titleId: PZ.Scalar.id().optional(),
+  firstName: PZ.Scalar.string().optional(),
+  middleName: PZ.Scalar.string().optional().optional(),
+  lastName: PZ.Scalar.string().optional(),
+  preferedName: PZ.Scalar.string().optional().optional(),
   status: EmployeeStatusSchema.optional().optional(),
-  hireDate: dateSchema.clone().optional().optional(),
-  terminationDate: dateSchema.clone().optional().optional(),
+  hireDate: PZ.Scalar.datetime().optional().optional(),
+  terminationDate: PZ.Scalar.datetime().optional().optional(),
   employmentType: EmploymentTypeSchema.optional(),
-  directManagerId: z.coerce.number().int().optional().optional(),
+  directManagerId: PZ.Scalar.id().optional().optional(),
 });
+
+export const EmployeeUpdateSchema = EmployeeRawUpdateSchema.clone();
 
 export const EmployeeOrderBySchema = z
   .object({
@@ -2821,10 +2888,14 @@ export const EmployeeOrderBySchema = z
     terminationDate: PZ.OrderDirectionSchema,
     directManagerId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const EmployeeOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmployeeOrderBySchema
 );
 
@@ -2949,104 +3020,152 @@ export const EmployeeWhereSchema = z
   .partial();
 
 export const EmployeeWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmployeeWhereSchema
 );
 
 export const EmployeeSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    uuid: z.boolean(),
-    titleId: z.boolean(),
-    firstName: z.boolean(),
-    middleName: z.boolean(),
-    lastName: z.boolean(),
-    preferedName: z.boolean(),
-    status: z.boolean(),
-    title: z.boolean().or(TitleOwnQueryOneSchema),
-    hireDate: z.boolean(),
-    terminationDate: z.boolean(),
-    employmentType: z.boolean(),
-    salary: z.boolean().or(SalaryOwnQueryOneSchema),
-    salaryHistory: z.boolean().or(SalaryHistoryOwnQuerySchema),
-    benefits: z.boolean().or(BenefitEnrolmentOwnQuerySchema),
-    titleHistory: z.boolean().or(TitleHistoryOwnQuerySchema),
-    timeOffBalances: z.boolean().or(TimeOffBalanceOwnQuerySchema),
-    timeOffRequests: z.boolean().or(TimeOffRequestOwnQuerySchema),
-    resolvedTimeOffs: z.boolean().or(TimeOffRequestOwnQuerySchema),
-    clockIns: z.boolean().or(ClockInOwnQuerySchema),
-    personalData: z.boolean().or(PersonalDataOwnQueryOneSchema),
-    taxData: z.boolean().or(EmployeeTaxDataOwnQuerySchema),
-    memberships: z.boolean().or(TeamMemberOwnQuerySchema),
-    managingTeams: z.boolean().or(TeamManagerOwnQuerySchema),
-    managingEmployees: z.boolean().or(EmployeeOwnQuerySchema),
-    directManager: z.boolean().or(EmployeeOwnQueryOneSchema),
-    paychecks: z.boolean().or(PaycheckOwnQuerySchema),
-    directManagerId: z.boolean(),
-    deductions: z.boolean().or(EmployeeDeductionOwnQuerySchema),
-    resolvedPayrollRuns: z.boolean().or(PayrollRunOwnQuerySchema),
-    contact: z.boolean().or(ContactOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    uuid: PZ.Scalar.bool(),
+    titleId: PZ.Scalar.bool(),
+    firstName: PZ.Scalar.bool(),
+    middleName: PZ.Scalar.bool(),
+    lastName: PZ.Scalar.bool(),
+    preferedName: PZ.Scalar.bool(),
+    status: PZ.Scalar.bool(),
+    title: PZ.Scalar.bool().or(TitleOwnQueryOneSchema),
+    hireDate: PZ.Scalar.bool(),
+    terminationDate: PZ.Scalar.bool(),
+    employmentType: PZ.Scalar.bool(),
+    salary: PZ.Scalar.bool().or(SalaryOwnQueryOneSchema),
+    salaryHistory: PZ.Scalar.bool().or(SalaryHistoryOwnQuerySchema),
+    benefits: PZ.Scalar.bool().or(BenefitEnrolmentOwnQuerySchema),
+    titleHistory: PZ.Scalar.bool().or(TitleHistoryOwnQuerySchema),
+    timeOffBalances: PZ.Scalar.bool().or(TimeOffBalanceOwnQuerySchema),
+    timeOffRequests: PZ.Scalar.bool().or(TimeOffRequestOwnQuerySchema),
+    resolvedTimeOffs: PZ.Scalar.bool().or(TimeOffRequestOwnQuerySchema),
+    clockIns: PZ.Scalar.bool().or(ClockInOwnQuerySchema),
+    personalData: PZ.Scalar.bool().or(PersonalDataOwnQueryOneSchema),
+    taxData: PZ.Scalar.bool().or(EmployeeTaxDataOwnQuerySchema),
+    memberships: PZ.Scalar.bool().or(TeamMemberOwnQuerySchema),
+    managingTeams: PZ.Scalar.bool().or(TeamManagerOwnQuerySchema),
+    managingEmployees: PZ.Scalar.bool().or(EmployeeOwnQuerySchema),
+    directManager: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
+    paychecks: PZ.Scalar.bool().or(PaycheckOwnQuerySchema),
+    directManagerId: PZ.Scalar.bool(),
+    deductions: PZ.Scalar.bool().or(EmployeeDeductionOwnQuerySchema),
+    resolvedPayrollRuns: PZ.Scalar.bool().or(PayrollRunOwnQuerySchema),
+    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
 export const EmployeeSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmployeeSelectFieldsSchema
+);
+
+export const EmployeeOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    uuid: PZ.Scalar.bool(),
+    titleId: PZ.Scalar.bool(),
+    firstName: PZ.Scalar.bool(),
+    middleName: PZ.Scalar.bool(),
+    lastName: PZ.Scalar.bool(),
+    preferedName: PZ.Scalar.bool(),
+    status: PZ.Scalar.bool(),
+    hireDate: PZ.Scalar.bool(),
+    terminationDate: PZ.Scalar.bool(),
+    employmentType: PZ.Scalar.bool(),
+    directManagerId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      ![
+        'id',
+        'uuid',
+        'titleId',
+        'firstName',
+        'middleName',
+        'lastName',
+        'preferedName',
+        'status',
+        'hireDate',
+        'terminationDate',
+        'employmentType',
+        'directManagerId',
+      ].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const EmployeeOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  EmployeeOmitFieldsSchema
 );
 
 export const EmployeeIncludeSchema = z
   .object({
-    title: z.boolean().or(TitleOwnQueryOneSchema),
-    salary: z.boolean().or(SalaryOwnQueryOneSchema),
-    salaryHistory: z.boolean().or(SalaryHistoryOwnQuerySchema),
-    benefits: z.boolean().or(BenefitEnrolmentOwnQuerySchema),
-    titleHistory: z.boolean().or(TitleHistoryOwnQuerySchema),
-    timeOffBalances: z.boolean().or(TimeOffBalanceOwnQuerySchema),
-    timeOffRequests: z.boolean().or(TimeOffRequestOwnQuerySchema),
-    resolvedTimeOffs: z.boolean().or(TimeOffRequestOwnQuerySchema),
-    clockIns: z.boolean().or(ClockInOwnQuerySchema),
-    personalData: z.boolean().or(PersonalDataOwnQueryOneSchema),
-    taxData: z.boolean().or(EmployeeTaxDataOwnQuerySchema),
-    memberships: z.boolean().or(TeamMemberOwnQuerySchema),
-    managingTeams: z.boolean().or(TeamManagerOwnQuerySchema),
-    managingEmployees: z.boolean().or(EmployeeOwnQuerySchema),
-    directManager: z.boolean().or(EmployeeOwnQueryOneSchema),
-    paychecks: z.boolean().or(PaycheckOwnQuerySchema),
-    deductions: z.boolean().or(EmployeeDeductionOwnQuerySchema),
-    resolvedPayrollRuns: z.boolean().or(PayrollRunOwnQuerySchema),
-    contact: z.boolean().or(ContactOwnQueryOneSchema),
+    title: PZ.Scalar.bool().or(TitleOwnQueryOneSchema),
+    salary: PZ.Scalar.bool().or(SalaryOwnQueryOneSchema),
+    salaryHistory: PZ.Scalar.bool().or(SalaryHistoryOwnQuerySchema),
+    benefits: PZ.Scalar.bool().or(BenefitEnrolmentOwnQuerySchema),
+    titleHistory: PZ.Scalar.bool().or(TitleHistoryOwnQuerySchema),
+    timeOffBalances: PZ.Scalar.bool().or(TimeOffBalanceOwnQuerySchema),
+    timeOffRequests: PZ.Scalar.bool().or(TimeOffRequestOwnQuerySchema),
+    resolvedTimeOffs: PZ.Scalar.bool().or(TimeOffRequestOwnQuerySchema),
+    clockIns: PZ.Scalar.bool().or(ClockInOwnQuerySchema),
+    personalData: PZ.Scalar.bool().or(PersonalDataOwnQueryOneSchema),
+    taxData: PZ.Scalar.bool().or(EmployeeTaxDataOwnQuerySchema),
+    memberships: PZ.Scalar.bool().or(TeamMemberOwnQuerySchema),
+    managingTeams: PZ.Scalar.bool().or(TeamManagerOwnQuerySchema),
+    managingEmployees: PZ.Scalar.bool().or(EmployeeOwnQuerySchema),
+    directManager: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
+    paychecks: PZ.Scalar.bool().or(PaycheckOwnQuerySchema),
+    deductions: PZ.Scalar.bool().or(EmployeeDeductionOwnQuerySchema),
+    resolvedPayrollRuns: PZ.Scalar.bool().or(PayrollRunOwnQuerySchema),
+    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
 export const EmployeeIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmployeeIncludeSchema
 );
 
 export const EmployeeProjectionSchema = z.union([
-  z.object({ omit: EmployeeSelectFieldsSchemaJson }),
+  z.object({ omit: EmployeeOmitFieldsSchemaJson }),
   z.object({ select: EmployeeSelectFieldsSchemaJson }),
   z.object({ include: EmployeeIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TeamCreateSchema = z.object({
-  name: nameSchema.clone(),
+export const TeamRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
 });
 
-export const TeamUpdateSchema = z.object({
-  name: nameSchema.clone().optional(),
+export const TeamCreateSchema = TeamRawCreateSchema.clone();
+
+export const TeamRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
 });
+
+export const TeamUpdateSchema = TeamRawUpdateSchema.clone();
 
 export const TeamOrderBySchema = z
   .object({
     id: PZ.OrderDirectionSchema,
     name: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const TeamOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamOrderBySchema
 );
 
@@ -3071,50 +3190,73 @@ export const TeamWhereSchema = z
   })
   .partial();
 
-export const TeamWhereSchemaJson = z.preprocess(jsonParser, TeamWhereSchema);
+export const TeamWhereSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TeamWhereSchema
+);
 
 export const TeamSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    members: z.boolean().or(TeamMemberOwnQuerySchema),
-    managers: z.boolean().or(TeamManagerOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    members: PZ.Scalar.bool().or(TeamMemberOwnQuerySchema),
+    managers: PZ.Scalar.bool().or(TeamManagerOwnQuerySchema),
   })
   .partial();
 
 export const TeamSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamSelectFieldsSchema
+);
+
+export const TeamOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine((value) => !['id', 'name'].every((e) => Object.hasOwn(value, e)), {
+    message: 'Cannot omit all fields',
+    path: ['omit'],
+  });
+
+export const TeamOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TeamOmitFieldsSchema
 );
 
 export const TeamIncludeSchema = z
   .object({
-    members: z.boolean().or(TeamMemberOwnQuerySchema),
-    managers: z.boolean().or(TeamManagerOwnQuerySchema),
+    members: PZ.Scalar.bool().or(TeamMemberOwnQuerySchema),
+    managers: PZ.Scalar.bool().or(TeamManagerOwnQuerySchema),
   })
   .partial();
 
 export const TeamIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamIncludeSchema
 );
 
 export const TeamProjectionSchema = z.union([
-  z.object({ omit: TeamSelectFieldsSchemaJson }),
+  z.object({ omit: TeamOmitFieldsSchemaJson }),
   z.object({ select: TeamSelectFieldsSchemaJson }),
   z.object({ include: TeamIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TeamManagerCreateSchema = z.object({
-  teamId: z.coerce.number().int(),
-  managerId: z.coerce.number().int(),
+export const TeamManagerRawCreateSchema = z.object({
+  teamId: PZ.Scalar.id(),
+  managerId: PZ.Scalar.id(),
 });
 
-export const TeamManagerUpdateSchema = z.object({
-  teamId: z.coerce.number().int().optional(),
-  managerId: z.coerce.number().int().optional(),
+export const TeamManagerCreateSchema = TeamManagerRawCreateSchema.clone();
+
+export const TeamManagerRawUpdateSchema = z.object({
+  teamId: PZ.Scalar.id().optional(),
+  managerId: PZ.Scalar.id().optional(),
 });
+
+export const TeamManagerUpdateSchema = TeamManagerRawUpdateSchema.clone();
 
 export const TeamManagerOrderBySchema = z
   .object({
@@ -3122,10 +3264,14 @@ export const TeamManagerOrderBySchema = z
     teamId: PZ.OrderDirectionSchema,
     managerId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const TeamManagerOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamManagerOrderBySchema
 );
 
@@ -3140,53 +3286,75 @@ export const TeamManagerWhereSchema = z
   .partial();
 
 export const TeamManagerWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamManagerWhereSchema
 );
 
 export const TeamManagerSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    teamId: z.boolean(),
-    managerId: z.boolean(),
-    team: z.boolean().or(TeamOwnQueryOneSchema),
-    manager: z.boolean().or(EmployeeOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    teamId: PZ.Scalar.bool(),
+    managerId: PZ.Scalar.bool(),
+    team: PZ.Scalar.bool().or(TeamOwnQueryOneSchema),
+    manager: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
 export const TeamManagerSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamManagerSelectFieldsSchema
+);
+
+export const TeamManagerOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    teamId: PZ.Scalar.bool(),
+    managerId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'teamId', 'managerId'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const TeamManagerOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TeamManagerOmitFieldsSchema
 );
 
 export const TeamManagerIncludeSchema = z
   .object({
-    team: z.boolean().or(TeamOwnQueryOneSchema),
-    manager: z.boolean().or(EmployeeOwnQueryOneSchema),
+    team: PZ.Scalar.bool().or(TeamOwnQueryOneSchema),
+    manager: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
 export const TeamManagerIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamManagerIncludeSchema
 );
 
 export const TeamManagerProjectionSchema = z.union([
-  z.object({ omit: TeamManagerSelectFieldsSchemaJson }),
+  z.object({ omit: TeamManagerOmitFieldsSchemaJson }),
   z.object({ select: TeamManagerSelectFieldsSchemaJson }),
   z.object({ include: TeamManagerIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TeamMemberCreateSchema = z.object({
-  teamId: z.coerce.number().int(),
-  memberId: z.coerce.number().int(),
+export const TeamMemberRawCreateSchema = z.object({
+  teamId: PZ.Scalar.id(),
+  memberId: PZ.Scalar.id(),
 });
 
-export const TeamMemberUpdateSchema = z.object({
-  teamId: z.coerce.number().int().optional(),
-  memberId: z.coerce.number().int().optional(),
+export const TeamMemberCreateSchema = TeamMemberRawCreateSchema.clone();
+
+export const TeamMemberRawUpdateSchema = z.object({
+  teamId: PZ.Scalar.id().optional(),
+  memberId: PZ.Scalar.id().optional(),
 });
+
+export const TeamMemberUpdateSchema = TeamMemberRawUpdateSchema.clone();
 
 export const TeamMemberOrderBySchema = z
   .object({
@@ -3194,10 +3362,14 @@ export const TeamMemberOrderBySchema = z
     teamId: PZ.OrderDirectionSchema,
     memberId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const TeamMemberOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamMemberOrderBySchema
 );
 
@@ -3212,59 +3384,81 @@ export const TeamMemberWhereSchema = z
   .partial();
 
 export const TeamMemberWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamMemberWhereSchema
 );
 
 export const TeamMemberSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    teamId: z.boolean(),
-    memberId: z.boolean(),
-    member: z.boolean().or(EmployeeOwnQueryOneSchema),
-    team: z.boolean().or(TeamOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    teamId: PZ.Scalar.bool(),
+    memberId: PZ.Scalar.bool(),
+    member: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
+    team: PZ.Scalar.bool().or(TeamOwnQueryOneSchema),
   })
   .partial();
 
 export const TeamMemberSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamMemberSelectFieldsSchema
+);
+
+export const TeamMemberOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    teamId: PZ.Scalar.bool(),
+    memberId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'teamId', 'memberId'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const TeamMemberOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TeamMemberOmitFieldsSchema
 );
 
 export const TeamMemberIncludeSchema = z
   .object({
-    member: z.boolean().or(EmployeeOwnQueryOneSchema),
-    team: z.boolean().or(TeamOwnQueryOneSchema),
+    member: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
+    team: PZ.Scalar.bool().or(TeamOwnQueryOneSchema),
   })
   .partial();
 
 export const TeamMemberIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TeamMemberIncludeSchema
 );
 
 export const TeamMemberProjectionSchema = z.union([
-  z.object({ omit: TeamMemberSelectFieldsSchemaJson }),
+  z.object({ omit: TeamMemberOmitFieldsSchemaJson }),
   z.object({ select: TeamMemberSelectFieldsSchemaJson }),
   z.object({ include: TeamMemberIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const SalaryCreateSchema = z.object({
-  employeeId: z.coerce.number().int(),
-  gross: z.coerce.number(),
-  startDate: dateSchema.clone(),
-  endDate: dateSchema.clone().optional(),
+export const SalaryRawCreateSchema = z.object({
+  employeeId: PZ.Scalar.id(),
+  gross: PZ.Scalar.number(),
+  startDate: PZ.Scalar.datetime(),
+  endDate: PZ.Scalar.datetime().optional(),
   frequency: PayFrequencySchema,
 });
 
-export const SalaryUpdateSchema = z.object({
-  employeeId: z.coerce.number().int().optional(),
-  gross: z.coerce.number().optional(),
-  startDate: dateSchema.clone().optional(),
-  endDate: dateSchema.clone().optional().optional(),
+export const SalaryCreateSchema = SalaryRawCreateSchema.clone();
+
+export const SalaryRawUpdateSchema = z.object({
+  employeeId: PZ.Scalar.id().optional(),
+  gross: PZ.Scalar.number().optional(),
+  startDate: PZ.Scalar.datetime().optional(),
+  endDate: PZ.Scalar.datetime().optional().optional(),
   frequency: PayFrequencySchema.optional(),
 });
+
+export const SalaryUpdateSchema = SalaryRawUpdateSchema.clone();
 
 export const SalaryOrderBySchema = z
   .object({
@@ -3274,10 +3468,14 @@ export const SalaryOrderBySchema = z
     startDate: PZ.OrderDirectionSchema,
     endDate: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const SalaryOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SalaryOrderBySchema
 );
 
@@ -3294,58 +3492,85 @@ export const SalaryWhereSchema = z
   .partial();
 
 export const SalaryWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SalaryWhereSchema
 );
 
 export const SalarySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    employeeId: z.boolean(),
-    gross: z.boolean(),
-    startDate: z.boolean(),
-    endDate: z.boolean(),
-    frequency: z.boolean(),
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    gross: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+    frequency: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
 export const SalarySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SalarySelectFieldsSchema
+);
+
+export const SalaryOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    gross: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+    frequency: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'employeeId', 'gross', 'startDate', 'endDate', 'frequency'].every(
+        (e) => Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const SalaryOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  SalaryOmitFieldsSchema
 );
 
 export const SalaryIncludeSchema = z
   .object({
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
 export const SalaryIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SalaryIncludeSchema
 );
 
 export const SalaryProjectionSchema = z.union([
-  z.object({ omit: SalarySelectFieldsSchemaJson }),
+  z.object({ omit: SalaryOmitFieldsSchemaJson }),
   z.object({ select: SalarySelectFieldsSchemaJson }),
   z.object({ include: SalaryIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const SalaryHistoryCreateSchema = z.object({
-  employeeId: z.coerce.number().int(),
-  oldSalary: z.coerce.number(),
-  newSalary: z.coerce.number(),
-  reason: z.string().optional(),
+export const SalaryHistoryRawCreateSchema = z.object({
+  employeeId: PZ.Scalar.id(),
+  oldSalary: PZ.Scalar.number(),
+  newSalary: PZ.Scalar.number(),
+  reason: PZ.Scalar.string().optional(),
 });
 
-export const SalaryHistoryUpdateSchema = z.object({
-  employeeId: z.coerce.number().int().optional(),
-  oldSalary: z.coerce.number().optional(),
-  newSalary: z.coerce.number().optional(),
-  reason: z.string().optional().optional(),
+export const SalaryHistoryCreateSchema = SalaryHistoryRawCreateSchema.clone();
+
+export const SalaryHistoryRawUpdateSchema = z.object({
+  employeeId: PZ.Scalar.id().optional(),
+  oldSalary: PZ.Scalar.number().optional(),
+  newSalary: PZ.Scalar.number().optional(),
+  reason: PZ.Scalar.string().optional().optional(),
 });
+
+export const SalaryHistoryUpdateSchema = SalaryHistoryRawUpdateSchema.clone();
 
 export const SalaryHistoryOrderBySchema = z
   .object({
@@ -3356,10 +3581,14 @@ export const SalaryHistoryOrderBySchema = z
     newSalary: PZ.OrderDirectionSchema,
     reason: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const SalaryHistoryOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SalaryHistoryOrderBySchema
 );
 
@@ -3376,56 +3605,88 @@ export const SalaryHistoryWhereSchema = z
   .partial();
 
 export const SalaryHistoryWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SalaryHistoryWhereSchema
 );
 
 export const SalaryHistorySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    employeeId: z.boolean(),
-    createdAt: z.boolean(),
-    oldSalary: z.boolean(),
-    newSalary: z.boolean(),
-    reason: z.boolean(),
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    oldSalary: PZ.Scalar.bool(),
+    newSalary: PZ.Scalar.bool(),
+    reason: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
 export const SalaryHistorySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SalaryHistorySelectFieldsSchema
+);
+
+export const SalaryHistoryOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    oldSalary: PZ.Scalar.bool(),
+    newSalary: PZ.Scalar.bool(),
+    reason: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      ![
+        'id',
+        'employeeId',
+        'createdAt',
+        'oldSalary',
+        'newSalary',
+        'reason',
+      ].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const SalaryHistoryOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  SalaryHistoryOmitFieldsSchema
 );
 
 export const SalaryHistoryIncludeSchema = z
   .object({
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
 export const SalaryHistoryIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   SalaryHistoryIncludeSchema
 );
 
 export const SalaryHistoryProjectionSchema = z.union([
-  z.object({ omit: SalaryHistorySelectFieldsSchemaJson }),
+  z.object({ omit: SalaryHistoryOmitFieldsSchemaJson }),
   z.object({ select: SalaryHistorySelectFieldsSchemaJson }),
   z.object({ include: SalaryHistoryIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const BenefitCreateSchema = z.object({
-  name: nameSchema.clone(),
-  description: descriptionSchema.clone().optional(),
-  type: z.string().optional(),
+export const BenefitRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
+  description: PZ.Scalar.description().optional(),
+  type: PZ.Scalar.string().optional(),
 });
 
-export const BenefitUpdateSchema = z.object({
-  name: nameSchema.clone().optional(),
-  description: descriptionSchema.clone().optional().optional(),
-  type: z.string().optional().optional(),
+export const BenefitCreateSchema = BenefitRawCreateSchema.clone();
+
+export const BenefitRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
+  description: PZ.Scalar.description().optional().optional(),
+  type: PZ.Scalar.string().optional().optional(),
 });
+
+export const BenefitUpdateSchema = BenefitRawUpdateSchema.clone();
 
 export const BenefitOrderBySchema = z
   .object({
@@ -3434,10 +3695,14 @@ export const BenefitOrderBySchema = z
     description: PZ.OrderDirectionSchema,
     type: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const BenefitOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   BenefitOrderBySchema
 );
 
@@ -3458,56 +3723,83 @@ export const BenefitWhereSchema = z
   .partial();
 
 export const BenefitWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   BenefitWhereSchema
 );
 
 export const BenefitSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    description: z.boolean(),
-    type: z.boolean(),
-    enrolments: z.boolean().or(BenefitEnrolmentOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    enrolments: PZ.Scalar.bool().or(BenefitEnrolmentOwnQuerySchema),
   })
   .partial();
 
 export const BenefitSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   BenefitSelectFieldsSchema
+);
+
+export const BenefitOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'name', 'description', 'type'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const BenefitOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  BenefitOmitFieldsSchema
 );
 
 export const BenefitIncludeSchema = z
   .object({
-    enrolments: z.boolean().or(BenefitEnrolmentOwnQuerySchema),
+    enrolments: PZ.Scalar.bool().or(BenefitEnrolmentOwnQuerySchema),
   })
   .partial();
 
 export const BenefitIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   BenefitIncludeSchema
 );
 
 export const BenefitProjectionSchema = z.union([
-  z.object({ omit: BenefitSelectFieldsSchemaJson }),
+  z.object({ omit: BenefitOmitFieldsSchemaJson }),
   z.object({ select: BenefitSelectFieldsSchemaJson }),
   z.object({ include: BenefitIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const BenefitEnrolmentCreateSchema = z.object({
-  benefitId: z.coerce.number().int(),
-  employeeId: z.coerce.number().int(),
-  startDate: dateSchema.clone(),
+export const BenefitEnrolmentRawCreateSchema = z.object({
+  benefitId: PZ.Scalar.id(),
+  employeeId: PZ.Scalar.id(),
+  startDate: PZ.Scalar.datetime(),
   status: BenefitStatusSchema.optional(),
 });
 
-export const BenefitEnrolmentUpdateSchema = z.object({
-  benefitId: z.coerce.number().int().optional(),
-  employeeId: z.coerce.number().int().optional(),
-  startDate: dateSchema.clone().optional(),
+export const BenefitEnrolmentCreateSchema =
+  BenefitEnrolmentRawCreateSchema.clone();
+
+export const BenefitEnrolmentRawUpdateSchema = z.object({
+  benefitId: PZ.Scalar.id().optional(),
+  employeeId: PZ.Scalar.id().optional(),
+  startDate: PZ.Scalar.datetime().optional(),
   status: BenefitStatusSchema.optional().optional(),
 });
+
+export const BenefitEnrolmentUpdateSchema =
+  BenefitEnrolmentRawUpdateSchema.clone();
 
 export const BenefitEnrolmentOrderBySchema = z
   .object({
@@ -3516,10 +3808,14 @@ export const BenefitEnrolmentOrderBySchema = z
     employeeId: PZ.OrderDirectionSchema,
     startDate: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const BenefitEnrolmentOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   BenefitEnrolmentOrderBySchema
 );
 
@@ -3536,63 +3832,89 @@ export const BenefitEnrolmentWhereSchema = z
   .partial();
 
 export const BenefitEnrolmentWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   BenefitEnrolmentWhereSchema
 );
 
 export const BenefitEnrolmentSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    benefitId: z.boolean(),
-    employeeId: z.boolean(),
-    startDate: z.boolean(),
-    status: z.boolean(),
-    benefit: z.boolean().or(BenefitOwnQueryOneSchema),
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    benefitId: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    status: PZ.Scalar.bool(),
+    benefit: PZ.Scalar.bool().or(BenefitOwnQueryOneSchema),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
 export const BenefitEnrolmentSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   BenefitEnrolmentSelectFieldsSchema
+);
+
+export const BenefitEnrolmentOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    benefitId: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    status: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'benefitId', 'employeeId', 'startDate', 'status'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const BenefitEnrolmentOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  BenefitEnrolmentOmitFieldsSchema
 );
 
 export const BenefitEnrolmentIncludeSchema = z
   .object({
-    benefit: z.boolean().or(BenefitOwnQueryOneSchema),
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    benefit: PZ.Scalar.bool().or(BenefitOwnQueryOneSchema),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
 export const BenefitEnrolmentIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   BenefitEnrolmentIncludeSchema
 );
 
 export const BenefitEnrolmentProjectionSchema = z.union([
-  z.object({ omit: BenefitEnrolmentSelectFieldsSchemaJson }),
+  z.object({ omit: BenefitEnrolmentOmitFieldsSchemaJson }),
   z.object({ select: BenefitEnrolmentSelectFieldsSchemaJson }),
   z.object({ include: BenefitEnrolmentIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TitleHistoryCreateSchema = z.object({
-  employeeId: z.coerce.number().int(),
-  titleId: z.coerce.number().int(),
+export const TitleHistoryRawCreateSchema = z.object({
+  employeeId: PZ.Scalar.id(),
+  titleId: PZ.Scalar.id(),
   type: TitleChangeTypeSchema,
-  reason: z.string().optional(),
-  startDate: dateSchema.clone(),
-  endDate: dateSchema.clone().optional(),
+  reason: PZ.Scalar.string().optional(),
+  startDate: PZ.Scalar.datetime(),
+  endDate: PZ.Scalar.datetime().optional(),
 });
 
-export const TitleHistoryUpdateSchema = z.object({
-  employeeId: z.coerce.number().int().optional(),
-  titleId: z.coerce.number().int().optional(),
+export const TitleHistoryCreateSchema = TitleHistoryRawCreateSchema.clone();
+
+export const TitleHistoryRawUpdateSchema = z.object({
+  employeeId: PZ.Scalar.id().optional(),
+  titleId: PZ.Scalar.id().optional(),
   type: TitleChangeTypeSchema.optional(),
-  reason: z.string().optional().optional(),
-  startDate: dateSchema.clone().optional(),
-  endDate: dateSchema.clone().optional().optional(),
+  reason: PZ.Scalar.string().optional().optional(),
+  startDate: PZ.Scalar.datetime().optional(),
+  endDate: PZ.Scalar.datetime().optional().optional(),
 });
+
+export const TitleHistoryUpdateSchema = TitleHistoryRawUpdateSchema.clone();
 
 export const TitleHistoryOrderBySchema = z
   .object({
@@ -3603,10 +3925,14 @@ export const TitleHistoryOrderBySchema = z
     startDate: PZ.OrderDirectionSchema,
     endDate: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const TitleHistoryOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TitleHistoryOrderBySchema
 );
 
@@ -3625,61 +3951,95 @@ export const TitleHistoryWhereSchema = z
   .partial();
 
 export const TitleHistoryWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TitleHistoryWhereSchema
 );
 
 export const TitleHistorySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    employeeId: z.boolean(),
-    titleId: z.boolean(),
-    type: z.boolean(),
-    reason: z.boolean(),
-    startDate: z.boolean(),
-    endDate: z.boolean(),
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
-    title: z.boolean().or(TitleOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    titleId: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    reason: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
+    title: PZ.Scalar.bool().or(TitleOwnQueryOneSchema),
   })
   .partial();
 
 export const TitleHistorySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TitleHistorySelectFieldsSchema
+);
+
+export const TitleHistoryOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    titleId: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    reason: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      ![
+        'id',
+        'employeeId',
+        'titleId',
+        'type',
+        'reason',
+        'startDate',
+        'endDate',
+      ].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const TitleHistoryOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TitleHistoryOmitFieldsSchema
 );
 
 export const TitleHistoryIncludeSchema = z
   .object({
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
-    title: z.boolean().or(TitleOwnQueryOneSchema),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
+    title: PZ.Scalar.bool().or(TitleOwnQueryOneSchema),
   })
   .partial();
 
 export const TitleHistoryIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TitleHistoryIncludeSchema
 );
 
 export const TitleHistoryProjectionSchema = z.union([
-  z.object({ omit: TitleHistorySelectFieldsSchemaJson }),
+  z.object({ omit: TitleHistoryOmitFieldsSchemaJson }),
   z.object({ select: TitleHistorySelectFieldsSchemaJson }),
   z.object({ include: TitleHistoryIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TimeOffPolicyCreateSchema = z.object({
-  name: nameSchema.clone(),
-  description: descriptionSchema.clone().optional(),
-  accrualRate: z.coerce.number(),
-  maxRollover: z.coerce.number(),
+export const TimeOffPolicyRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
+  description: PZ.Scalar.description().optional(),
+  accrualRate: PZ.Scalar.number(),
+  maxRollover: PZ.Scalar.number(),
 });
 
-export const TimeOffPolicyUpdateSchema = z.object({
-  name: nameSchema.clone().optional(),
-  description: descriptionSchema.clone().optional().optional(),
-  accrualRate: z.coerce.number().optional(),
-  maxRollover: z.coerce.number().optional(),
+export const TimeOffPolicyCreateSchema = TimeOffPolicyRawCreateSchema.clone();
+
+export const TimeOffPolicyRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
+  description: PZ.Scalar.description().optional().optional(),
+  accrualRate: PZ.Scalar.number().optional(),
+  maxRollover: PZ.Scalar.number().optional(),
 });
+
+export const TimeOffPolicyUpdateSchema = TimeOffPolicyRawUpdateSchema.clone();
 
 export const TimeOffPolicyOrderBySchema = z
   .object({
@@ -3689,10 +4049,14 @@ export const TimeOffPolicyOrderBySchema = z
     accrualRate: PZ.OrderDirectionSchema,
     maxRollover: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const TimeOffPolicyOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffPolicyOrderBySchema
 );
 
@@ -3721,61 +4085,87 @@ export const TimeOffPolicyWhereSchema = z
   .partial();
 
 export const TimeOffPolicyWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffPolicyWhereSchema
 );
 
 export const TimeOffPolicySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    description: z.boolean(),
-    accrualRate: z.boolean(),
-    maxRollover: z.boolean(),
-    balances: z.boolean().or(TimeOffBalanceOwnQuerySchema),
-    requests: z.boolean().or(TimeOffRequestOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    accrualRate: PZ.Scalar.bool(),
+    maxRollover: PZ.Scalar.bool(),
+    balances: PZ.Scalar.bool().or(TimeOffBalanceOwnQuerySchema),
+    requests: PZ.Scalar.bool().or(TimeOffRequestOwnQuerySchema),
   })
   .partial();
 
 export const TimeOffPolicySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffPolicySelectFieldsSchema
+);
+
+export const TimeOffPolicyOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    description: PZ.Scalar.bool(),
+    accrualRate: PZ.Scalar.bool(),
+    maxRollover: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'name', 'description', 'accrualRate', 'maxRollover'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const TimeOffPolicyOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TimeOffPolicyOmitFieldsSchema
 );
 
 export const TimeOffPolicyIncludeSchema = z
   .object({
-    balances: z.boolean().or(TimeOffBalanceOwnQuerySchema),
-    requests: z.boolean().or(TimeOffRequestOwnQuerySchema),
+    balances: PZ.Scalar.bool().or(TimeOffBalanceOwnQuerySchema),
+    requests: PZ.Scalar.bool().or(TimeOffRequestOwnQuerySchema),
   })
   .partial();
 
 export const TimeOffPolicyIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffPolicyIncludeSchema
 );
 
 export const TimeOffPolicyProjectionSchema = z.union([
-  z.object({ omit: TimeOffPolicySelectFieldsSchemaJson }),
+  z.object({ omit: TimeOffPolicyOmitFieldsSchemaJson }),
   z.object({ select: TimeOffPolicySelectFieldsSchemaJson }),
   z.object({ include: TimeOffPolicyIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TimeOffBalanceCreateSchema = z.object({
-  policyId: z.coerce.number().int(),
-  employeeId: z.coerce.number().int(),
-  accruedHours: z.coerce.number(),
-  usedHours: z.coerce.number(),
-  availableHours: z.coerce.number(),
+export const TimeOffBalanceRawCreateSchema = z.object({
+  policyId: PZ.Scalar.id(),
+  employeeId: PZ.Scalar.id(),
+  accruedHours: PZ.Scalar.number(),
+  usedHours: PZ.Scalar.number(),
+  availableHours: PZ.Scalar.number(),
 });
 
-export const TimeOffBalanceUpdateSchema = z.object({
-  policyId: z.coerce.number().int().optional(),
-  employeeId: z.coerce.number().int().optional(),
-  accruedHours: z.coerce.number().optional(),
-  usedHours: z.coerce.number().optional(),
-  availableHours: z.coerce.number().optional(),
+export const TimeOffBalanceCreateSchema = TimeOffBalanceRawCreateSchema.clone();
+
+export const TimeOffBalanceRawUpdateSchema = z.object({
+  policyId: PZ.Scalar.id().optional(),
+  employeeId: PZ.Scalar.id().optional(),
+  accruedHours: PZ.Scalar.number().optional(),
+  usedHours: PZ.Scalar.number().optional(),
+  availableHours: PZ.Scalar.number().optional(),
 });
+
+export const TimeOffBalanceUpdateSchema = TimeOffBalanceRawUpdateSchema.clone();
 
 export const TimeOffBalanceOrderBySchema = z
   .object({
@@ -3786,10 +4176,14 @@ export const TimeOffBalanceOrderBySchema = z
     usedHours: PZ.OrderDirectionSchema,
     availableHours: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const TimeOffBalanceOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffBalanceOrderBySchema
 );
 
@@ -3814,68 +4208,100 @@ export const TimeOffBalanceWhereSchema = z
   .partial();
 
 export const TimeOffBalanceWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffBalanceWhereSchema
 );
 
 export const TimeOffBalanceSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    policyId: z.boolean(),
-    employeeId: z.boolean(),
-    accruedHours: z.boolean(),
-    usedHours: z.boolean(),
-    availableHours: z.boolean(),
-    policy: z.boolean().or(TimeOffPolicyOwnQueryOneSchema),
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
-    transactions: z.boolean().or(TimeOffTransactionOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    policyId: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    accruedHours: PZ.Scalar.bool(),
+    usedHours: PZ.Scalar.bool(),
+    availableHours: PZ.Scalar.bool(),
+    policy: PZ.Scalar.bool().or(TimeOffPolicyOwnQueryOneSchema),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
+    transactions: PZ.Scalar.bool().or(TimeOffTransactionOwnQuerySchema),
   })
   .partial();
 
 export const TimeOffBalanceSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffBalanceSelectFieldsSchema
+);
+
+export const TimeOffBalanceOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    policyId: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    accruedHours: PZ.Scalar.bool(),
+    usedHours: PZ.Scalar.bool(),
+    availableHours: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      ![
+        'id',
+        'policyId',
+        'employeeId',
+        'accruedHours',
+        'usedHours',
+        'availableHours',
+      ].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const TimeOffBalanceOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TimeOffBalanceOmitFieldsSchema
 );
 
 export const TimeOffBalanceIncludeSchema = z
   .object({
-    policy: z.boolean().or(TimeOffPolicyOwnQueryOneSchema),
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
-    transactions: z.boolean().or(TimeOffTransactionOwnQuerySchema),
+    policy: PZ.Scalar.bool().or(TimeOffPolicyOwnQueryOneSchema),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
+    transactions: PZ.Scalar.bool().or(TimeOffTransactionOwnQuerySchema),
   })
   .partial();
 
 export const TimeOffBalanceIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffBalanceIncludeSchema
 );
 
 export const TimeOffBalanceProjectionSchema = z.union([
-  z.object({ omit: TimeOffBalanceSelectFieldsSchemaJson }),
+  z.object({ omit: TimeOffBalanceOmitFieldsSchemaJson }),
   z.object({ select: TimeOffBalanceSelectFieldsSchemaJson }),
   z.object({ include: TimeOffBalanceIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TimeOffRequestCreateSchema = z.object({
-  employeeId: z.coerce.number().int(),
-  reason: z.string(),
-  policyId: z.coerce.number().int(),
-  resolverId: z.coerce.number().int().optional(),
+export const TimeOffRequestRawCreateSchema = z.object({
+  employeeId: PZ.Scalar.id(),
+  reason: PZ.Scalar.string(),
+  policyId: PZ.Scalar.id(),
+  resolverId: PZ.Scalar.id().optional(),
   status: RequestStatusSchema.optional(),
-  startDate: dateSchema.clone(),
-  endDate: dateSchema.clone(),
+  startDate: PZ.Scalar.datetime(),
+  endDate: PZ.Scalar.datetime(),
 });
 
-export const TimeOffRequestUpdateSchema = z.object({
-  employeeId: z.coerce.number().int().optional(),
-  reason: z.string().optional(),
-  policyId: z.coerce.number().int().optional(),
-  resolverId: z.coerce.number().int().optional().optional(),
+export const TimeOffRequestCreateSchema = TimeOffRequestRawCreateSchema.clone();
+
+export const TimeOffRequestRawUpdateSchema = z.object({
+  employeeId: PZ.Scalar.id().optional(),
+  reason: PZ.Scalar.string().optional(),
+  policyId: PZ.Scalar.id().optional(),
+  resolverId: PZ.Scalar.id().optional().optional(),
   status: RequestStatusSchema.optional().optional(),
-  startDate: dateSchema.clone().optional(),
-  endDate: dateSchema.clone().optional(),
+  startDate: PZ.Scalar.datetime().optional(),
+  endDate: PZ.Scalar.datetime().optional(),
 });
+
+export const TimeOffRequestUpdateSchema = TimeOffRequestRawUpdateSchema.clone();
 
 export const TimeOffRequestOrderBySchema = z
   .object({
@@ -3888,10 +4314,14 @@ export const TimeOffRequestOrderBySchema = z
     startDate: PZ.OrderDirectionSchema,
     endDate: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const TimeOffRequestOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffRequestOrderBySchema
 );
 
@@ -3920,67 +4350,107 @@ export const TimeOffRequestWhereSchema = z
   .partial();
 
 export const TimeOffRequestWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffRequestWhereSchema
 );
 
 export const TimeOffRequestSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdAt: z.boolean(),
-    employeeId: z.boolean(),
-    reason: z.boolean(),
-    policyId: z.boolean(),
-    resolverId: z.boolean(),
-    status: z.boolean(),
-    startDate: z.boolean(),
-    endDate: z.boolean(),
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
-    policy: z.boolean().or(TimeOffPolicyOwnQueryOneSchema),
-    resolver: z.boolean().or(EmployeeOwnQueryOneSchema),
-    transactions: z.boolean().or(TimeOffTransactionOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    reason: PZ.Scalar.bool(),
+    policyId: PZ.Scalar.bool(),
+    resolverId: PZ.Scalar.bool(),
+    status: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
+    policy: PZ.Scalar.bool().or(TimeOffPolicyOwnQueryOneSchema),
+    resolver: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
+    transactions: PZ.Scalar.bool().or(TimeOffTransactionOwnQuerySchema),
   })
   .partial();
 
 export const TimeOffRequestSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffRequestSelectFieldsSchema
+);
+
+export const TimeOffRequestOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    reason: PZ.Scalar.bool(),
+    policyId: PZ.Scalar.bool(),
+    resolverId: PZ.Scalar.bool(),
+    status: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      ![
+        'id',
+        'createdAt',
+        'employeeId',
+        'reason',
+        'policyId',
+        'resolverId',
+        'status',
+        'startDate',
+        'endDate',
+      ].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const TimeOffRequestOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TimeOffRequestOmitFieldsSchema
 );
 
 export const TimeOffRequestIncludeSchema = z
   .object({
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
-    policy: z.boolean().or(TimeOffPolicyOwnQueryOneSchema),
-    resolver: z.boolean().or(EmployeeOwnQueryOneSchema),
-    transactions: z.boolean().or(TimeOffTransactionOwnQuerySchema),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
+    policy: PZ.Scalar.bool().or(TimeOffPolicyOwnQueryOneSchema),
+    resolver: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
+    transactions: PZ.Scalar.bool().or(TimeOffTransactionOwnQuerySchema),
   })
   .partial();
 
 export const TimeOffRequestIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffRequestIncludeSchema
 );
 
 export const TimeOffRequestProjectionSchema = z.union([
-  z.object({ omit: TimeOffRequestSelectFieldsSchemaJson }),
+  z.object({ omit: TimeOffRequestOmitFieldsSchemaJson }),
   z.object({ select: TimeOffRequestSelectFieldsSchemaJson }),
   z.object({ include: TimeOffRequestIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TimeOffTransactionCreateSchema = z.object({
+export const TimeOffTransactionRawCreateSchema = z.object({
   type: TimeOffTransactionTypeSchema,
-  balanceId: z.coerce.number().int(),
-  requestId: z.coerce.number().int().optional(),
-  amount: z.coerce.number(),
+  balanceId: PZ.Scalar.id(),
+  requestId: PZ.Scalar.id().optional(),
+  amount: PZ.Scalar.number(),
 });
 
-export const TimeOffTransactionUpdateSchema = z.object({
+export const TimeOffTransactionCreateSchema =
+  TimeOffTransactionRawCreateSchema.clone();
+
+export const TimeOffTransactionRawUpdateSchema = z.object({
   type: TimeOffTransactionTypeSchema.optional(),
-  balanceId: z.coerce.number().int().optional(),
-  requestId: z.coerce.number().int().optional().optional(),
-  amount: z.coerce.number().optional(),
+  balanceId: PZ.Scalar.id().optional(),
+  requestId: PZ.Scalar.id().optional().optional(),
+  amount: PZ.Scalar.number().optional(),
 });
+
+export const TimeOffTransactionUpdateSchema =
+  TimeOffTransactionRawUpdateSchema.clone();
 
 export const TimeOffTransactionOrderBySchema = z
   .object({
@@ -3991,10 +4461,14 @@ export const TimeOffTransactionOrderBySchema = z
     requestId: PZ.OrderDirectionSchema,
     amount: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const TimeOffTransactionOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffTransactionOrderBySchema
 );
 
@@ -4013,57 +4487,91 @@ export const TimeOffTransactionWhereSchema = z
   .partial();
 
 export const TimeOffTransactionWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffTransactionWhereSchema
 );
 
 export const TimeOffTransactionSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdAt: z.boolean(),
-    updatedAt: z.boolean(),
-    type: z.boolean(),
-    balanceId: z.boolean(),
-    requestId: z.boolean(),
-    amount: z.boolean(),
-    balance: z.boolean().or(TimeOffBalanceOwnQueryOneSchema),
-    request: z.boolean().or(TimeOffRequestOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    balanceId: PZ.Scalar.bool(),
+    requestId: PZ.Scalar.bool(),
+    amount: PZ.Scalar.bool(),
+    balance: PZ.Scalar.bool().or(TimeOffBalanceOwnQueryOneSchema),
+    request: PZ.Scalar.bool().or(TimeOffRequestOwnQueryOneSchema),
   })
   .partial();
 
 export const TimeOffTransactionSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffTransactionSelectFieldsSchema
+);
+
+export const TimeOffTransactionOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    balanceId: PZ.Scalar.bool(),
+    requestId: PZ.Scalar.bool(),
+    amount: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      ![
+        'id',
+        'createdAt',
+        'updatedAt',
+        'type',
+        'balanceId',
+        'requestId',
+        'amount',
+      ].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const TimeOffTransactionOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  TimeOffTransactionOmitFieldsSchema
 );
 
 export const TimeOffTransactionIncludeSchema = z
   .object({
-    balance: z.boolean().or(TimeOffBalanceOwnQueryOneSchema),
-    request: z.boolean().or(TimeOffRequestOwnQueryOneSchema),
+    balance: PZ.Scalar.bool().or(TimeOffBalanceOwnQueryOneSchema),
+    request: PZ.Scalar.bool().or(TimeOffRequestOwnQueryOneSchema),
   })
   .partial();
 
 export const TimeOffTransactionIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   TimeOffTransactionIncludeSchema
 );
 
 export const TimeOffTransactionProjectionSchema = z.union([
-  z.object({ omit: TimeOffTransactionSelectFieldsSchemaJson }),
+  z.object({ omit: TimeOffTransactionOmitFieldsSchemaJson }),
   z.object({ select: TimeOffTransactionSelectFieldsSchemaJson }),
   z.object({ include: TimeOffTransactionIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const ClockInCreateSchema = z.object({
-  employeeId: z.coerce.number().int(),
-  clockOut: dateSchema.clone().optional(),
+export const ClockInRawCreateSchema = z.object({
+  employeeId: PZ.Scalar.id(),
+  clockOut: PZ.Scalar.datetime().optional(),
 });
 
-export const ClockInUpdateSchema = z.object({
-  employeeId: z.coerce.number().int().optional(),
-  clockOut: dateSchema.clone().optional().optional(),
+export const ClockInCreateSchema = ClockInRawCreateSchema.clone();
+
+export const ClockInRawUpdateSchema = z.object({
+  employeeId: PZ.Scalar.id().optional(),
+  clockOut: PZ.Scalar.datetime().optional().optional(),
 });
+
+export const ClockInUpdateSchema = ClockInRawUpdateSchema.clone();
 
 export const ClockInOrderBySchema = z
   .object({
@@ -4072,10 +4580,14 @@ export const ClockInOrderBySchema = z
     clockIn: PZ.OrderDirectionSchema,
     clockOut: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const ClockInOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ClockInOrderBySchema
 );
 
@@ -4090,56 +4602,81 @@ export const ClockInWhereSchema = z
   .partial();
 
 export const ClockInWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ClockInWhereSchema
 );
 
 export const ClockInSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    employeeId: z.boolean(),
-    clockIn: z.boolean(),
-    clockOut: z.boolean(),
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    clockIn: PZ.Scalar.bool(),
+    clockOut: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
 export const ClockInSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ClockInSelectFieldsSchema
+);
+
+export const ClockInOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    clockIn: PZ.Scalar.bool(),
+    clockOut: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'employeeId', 'clockIn', 'clockOut'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const ClockInOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  ClockInOmitFieldsSchema
 );
 
 export const ClockInIncludeSchema = z
   .object({
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
 export const ClockInIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ClockInIncludeSchema
 );
 
 export const ClockInProjectionSchema = z.union([
-  z.object({ omit: ClockInSelectFieldsSchemaJson }),
+  z.object({ omit: ClockInOmitFieldsSchemaJson }),
   z.object({ select: ClockInSelectFieldsSchemaJson }),
   z.object({ include: ClockInIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PaycheckCreateSchema = z.object({
-  payrollRunId: z.coerce.number().int(),
-  employeeId: z.coerce.number().int(),
-  grossAmount: z.coerce.number(),
-  netAmount: z.coerce.number(),
+export const PaycheckRawCreateSchema = z.object({
+  payrollRunId: PZ.Scalar.id(),
+  employeeId: PZ.Scalar.id(),
+  grossAmount: PZ.Scalar.number(),
+  netAmount: PZ.Scalar.number(),
 });
 
-export const PaycheckUpdateSchema = z.object({
-  payrollRunId: z.coerce.number().int().optional(),
-  employeeId: z.coerce.number().int().optional(),
-  grossAmount: z.coerce.number().optional(),
-  netAmount: z.coerce.number().optional(),
+export const PaycheckCreateSchema = PaycheckRawCreateSchema.clone();
+
+export const PaycheckRawUpdateSchema = z.object({
+  payrollRunId: PZ.Scalar.id().optional(),
+  employeeId: PZ.Scalar.id().optional(),
+  grossAmount: PZ.Scalar.number().optional(),
+  netAmount: PZ.Scalar.number().optional(),
 });
+
+export const PaycheckUpdateSchema = PaycheckRawUpdateSchema.clone();
 
 export const PaycheckOrderBySchema = z
   .object({
@@ -4151,10 +4688,14 @@ export const PaycheckOrderBySchema = z
     grossAmount: PZ.OrderDirectionSchema,
     netAmount: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const PaycheckOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PaycheckOrderBySchema
 );
 
@@ -4194,69 +4735,103 @@ export const PaycheckWhereSchema = z
   .partial();
 
 export const PaycheckWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PaycheckWhereSchema
 );
 
 export const PaycheckSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdAt: z.boolean(),
-    payrollRunId: z.boolean(),
-    updatedAt: z.boolean(),
-    employeeId: z.boolean(),
-    grossAmount: z.boolean(),
-    netAmount: z.boolean(),
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
-    earnings: z.boolean().or(EarningOwnQuerySchema),
-    paycheckTaxes: z.boolean().or(PaycheckTaxOwnQuerySchema),
-    deductions: z.boolean().or(PaycheckDeductionOwnQuerySchema),
-    payrollRun: z.boolean().or(PayrollRunOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    payrollRunId: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    grossAmount: PZ.Scalar.bool(),
+    netAmount: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
+    earnings: PZ.Scalar.bool().or(EarningOwnQuerySchema),
+    paycheckTaxes: PZ.Scalar.bool().or(PaycheckTaxOwnQuerySchema),
+    deductions: PZ.Scalar.bool().or(PaycheckDeductionOwnQuerySchema),
+    payrollRun: PZ.Scalar.bool().or(PayrollRunOwnQueryOneSchema),
   })
   .partial();
 
 export const PaycheckSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PaycheckSelectFieldsSchema
+);
+
+export const PaycheckOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    payrollRunId: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    grossAmount: PZ.Scalar.bool(),
+    netAmount: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      ![
+        'id',
+        'createdAt',
+        'payrollRunId',
+        'updatedAt',
+        'employeeId',
+        'grossAmount',
+        'netAmount',
+      ].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const PaycheckOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  PaycheckOmitFieldsSchema
 );
 
 export const PaycheckIncludeSchema = z
   .object({
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
-    earnings: z.boolean().or(EarningOwnQuerySchema),
-    paycheckTaxes: z.boolean().or(PaycheckTaxOwnQuerySchema),
-    deductions: z.boolean().or(PaycheckDeductionOwnQuerySchema),
-    payrollRun: z.boolean().or(PayrollRunOwnQueryOneSchema),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
+    earnings: PZ.Scalar.bool().or(EarningOwnQuerySchema),
+    paycheckTaxes: PZ.Scalar.bool().or(PaycheckTaxOwnQuerySchema),
+    deductions: PZ.Scalar.bool().or(PaycheckDeductionOwnQuerySchema),
+    payrollRun: PZ.Scalar.bool().or(PayrollRunOwnQueryOneSchema),
   })
   .partial();
 
 export const PaycheckIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PaycheckIncludeSchema
 );
 
 export const PaycheckProjectionSchema = z.union([
-  z.object({ omit: PaycheckSelectFieldsSchemaJson }),
+  z.object({ omit: PaycheckOmitFieldsSchemaJson }),
   z.object({ select: PaycheckSelectFieldsSchemaJson }),
   z.object({ include: PaycheckIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const EarningCreateSchema = z.object({
+export const EarningRawCreateSchema = z.object({
   type: EarningTypeSchema,
-  hours: z.coerce.number().optional(),
-  rate: z.coerce.number(),
-  amount: z.coerce.number(),
-  paycheckId: z.coerce.number().int(),
+  hours: PZ.Scalar.number().optional(),
+  rate: PZ.Scalar.number(),
+  amount: PZ.Scalar.number(),
+  paycheckId: PZ.Scalar.id(),
 });
 
-export const EarningUpdateSchema = z.object({
+export const EarningCreateSchema = EarningRawCreateSchema.clone();
+
+export const EarningRawUpdateSchema = z.object({
   type: EarningTypeSchema.optional(),
-  hours: z.coerce.number().optional().optional(),
-  rate: z.coerce.number().optional(),
-  amount: z.coerce.number().optional(),
-  paycheckId: z.coerce.number().int().optional(),
+  hours: PZ.Scalar.number().optional().optional(),
+  rate: PZ.Scalar.number().optional(),
+  amount: PZ.Scalar.number().optional(),
+  paycheckId: PZ.Scalar.id().optional(),
 });
+
+export const EarningUpdateSchema = EarningRawUpdateSchema.clone();
 
 export const EarningOrderBySchema = z
   .object({
@@ -4266,10 +4841,14 @@ export const EarningOrderBySchema = z
     amount: PZ.OrderDirectionSchema,
     paycheckId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const EarningOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EarningOrderBySchema
 );
 
@@ -4286,56 +4865,83 @@ export const EarningWhereSchema = z
   .partial();
 
 export const EarningWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EarningWhereSchema
 );
 
 export const EarningSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    type: z.boolean(),
-    hours: z.boolean(),
-    rate: z.boolean(),
-    amount: z.boolean(),
-    paycheckId: z.boolean(),
-    paycheck: z.boolean().or(PaycheckOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    hours: PZ.Scalar.bool(),
+    rate: PZ.Scalar.bool(),
+    amount: PZ.Scalar.bool(),
+    paycheckId: PZ.Scalar.bool(),
+    paycheck: PZ.Scalar.bool().or(PaycheckOwnQueryOneSchema),
   })
   .partial();
 
 export const EarningSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EarningSelectFieldsSchema
+);
+
+export const EarningOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    hours: PZ.Scalar.bool(),
+    rate: PZ.Scalar.bool(),
+    amount: PZ.Scalar.bool(),
+    paycheckId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'type', 'hours', 'rate', 'amount', 'paycheckId'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const EarningOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  EarningOmitFieldsSchema
 );
 
 export const EarningIncludeSchema = z
   .object({
-    paycheck: z.boolean().or(PaycheckOwnQueryOneSchema),
+    paycheck: PZ.Scalar.bool().or(PaycheckOwnQueryOneSchema),
   })
   .partial();
 
 export const EarningIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EarningIncludeSchema
 );
 
 export const EarningProjectionSchema = z.union([
-  z.object({ omit: EarningSelectFieldsSchemaJson }),
+  z.object({ omit: EarningOmitFieldsSchemaJson }),
   z.object({ select: EarningSelectFieldsSchemaJson }),
   z.object({ include: EarningIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PaycheckTaxCreateSchema = z.object({
-  paycheckId: z.coerce.number().int(),
-  taxAuthority: z.string(),
-  amount: z.coerce.number(),
+export const PaycheckTaxRawCreateSchema = z.object({
+  paycheckId: PZ.Scalar.id(),
+  taxAuthority: PZ.Scalar.string(),
+  amount: PZ.Scalar.number(),
 });
 
-export const PaycheckTaxUpdateSchema = z.object({
-  paycheckId: z.coerce.number().int().optional(),
-  taxAuthority: z.string().optional(),
-  amount: z.coerce.number().optional(),
+export const PaycheckTaxCreateSchema = PaycheckTaxRawCreateSchema.clone();
+
+export const PaycheckTaxRawUpdateSchema = z.object({
+  paycheckId: PZ.Scalar.id().optional(),
+  taxAuthority: PZ.Scalar.string().optional(),
+  amount: PZ.Scalar.number().optional(),
 });
+
+export const PaycheckTaxUpdateSchema = PaycheckTaxRawUpdateSchema.clone();
 
 export const PaycheckTaxOrderBySchema = z
   .object({
@@ -4344,10 +4950,14 @@ export const PaycheckTaxOrderBySchema = z
     taxAuthority: PZ.OrderDirectionSchema,
     amount: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const PaycheckTaxOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PaycheckTaxOrderBySchema
 );
 
@@ -4362,56 +4972,83 @@ export const PaycheckTaxWhereSchema = z
   .partial();
 
 export const PaycheckTaxWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PaycheckTaxWhereSchema
 );
 
 export const PaycheckTaxSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    paycheckId: z.boolean(),
-    taxAuthority: z.boolean(),
-    amount: z.boolean(),
-    paycheck: z.boolean().or(PaycheckOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    paycheckId: PZ.Scalar.bool(),
+    taxAuthority: PZ.Scalar.bool(),
+    amount: PZ.Scalar.bool(),
+    paycheck: PZ.Scalar.bool().or(PaycheckOwnQueryOneSchema),
   })
   .partial();
 
 export const PaycheckTaxSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PaycheckTaxSelectFieldsSchema
+);
+
+export const PaycheckTaxOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    paycheckId: PZ.Scalar.bool(),
+    taxAuthority: PZ.Scalar.bool(),
+    amount: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'paycheckId', 'taxAuthority', 'amount'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const PaycheckTaxOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  PaycheckTaxOmitFieldsSchema
 );
 
 export const PaycheckTaxIncludeSchema = z
   .object({
-    paycheck: z.boolean().or(PaycheckOwnQueryOneSchema),
+    paycheck: PZ.Scalar.bool().or(PaycheckOwnQueryOneSchema),
   })
   .partial();
 
 export const PaycheckTaxIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PaycheckTaxIncludeSchema
 );
 
 export const PaycheckTaxProjectionSchema = z.union([
-  z.object({ omit: PaycheckTaxSelectFieldsSchemaJson }),
+  z.object({ omit: PaycheckTaxOmitFieldsSchemaJson }),
   z.object({ select: PaycheckTaxSelectFieldsSchemaJson }),
   z.object({ include: PaycheckTaxIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const DeductionPolicyCreateSchema = z.object({
-  name: nameSchema.clone(),
+export const DeductionPolicyRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
   type: DeductionTypeSchema,
-  defaultAmount: z.coerce.number().optional(),
-  defaultPercent: z.coerce.number().optional(),
+  defaultAmount: PZ.Scalar.number().optional(),
+  defaultPercent: PZ.Scalar.number().optional(),
 });
 
-export const DeductionPolicyUpdateSchema = z.object({
-  name: nameSchema.clone().optional(),
+export const DeductionPolicyCreateSchema =
+  DeductionPolicyRawCreateSchema.clone();
+
+export const DeductionPolicyRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
   type: DeductionTypeSchema.optional(),
-  defaultAmount: z.coerce.number().optional().optional(),
-  defaultPercent: z.coerce.number().optional().optional(),
+  defaultAmount: PZ.Scalar.number().optional().optional(),
+  defaultPercent: PZ.Scalar.number().optional().optional(),
 });
+
+export const DeductionPolicyUpdateSchema =
+  DeductionPolicyRawUpdateSchema.clone();
 
 export const DeductionPolicyOrderBySchema = z
   .object({
@@ -4420,10 +5057,14 @@ export const DeductionPolicyOrderBySchema = z
     defaultAmount: PZ.OrderDirectionSchema,
     defaultPercent: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const DeductionPolicyOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DeductionPolicyOrderBySchema
 );
 
@@ -4445,55 +5086,83 @@ export const DeductionPolicyWhereSchema = z
   .partial();
 
 export const DeductionPolicyWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DeductionPolicyWhereSchema
 );
 
 export const DeductionPolicySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    type: z.boolean(),
-    defaultAmount: z.boolean(),
-    defaultPercent: z.boolean(),
-    employeeDeductions: z.boolean().or(EmployeeDeductionOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    defaultAmount: PZ.Scalar.bool(),
+    defaultPercent: PZ.Scalar.bool(),
+    employeeDeductions: PZ.Scalar.bool().or(EmployeeDeductionOwnQuerySchema),
   })
   .partial();
 
 export const DeductionPolicySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DeductionPolicySelectFieldsSchema
+);
+
+export const DeductionPolicyOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    defaultAmount: PZ.Scalar.bool(),
+    defaultPercent: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'name', 'type', 'defaultAmount', 'defaultPercent'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const DeductionPolicyOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  DeductionPolicyOmitFieldsSchema
 );
 
 export const DeductionPolicyIncludeSchema = z
   .object({
-    employeeDeductions: z.boolean().or(EmployeeDeductionOwnQuerySchema),
+    employeeDeductions: PZ.Scalar.bool().or(EmployeeDeductionOwnQuerySchema),
   })
   .partial();
 
 export const DeductionPolicyIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   DeductionPolicyIncludeSchema
 );
 
 export const DeductionPolicyProjectionSchema = z.union([
-  z.object({ omit: DeductionPolicySelectFieldsSchemaJson }),
+  z.object({ omit: DeductionPolicyOmitFieldsSchemaJson }),
   z.object({ select: DeductionPolicySelectFieldsSchemaJson }),
   z.object({ include: DeductionPolicyIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const EmployeeDeductionCreateSchema = z.object({
-  employeeId: z.coerce.number().int(),
-  policyId: z.coerce.number().int(),
-  employeeAmount: z.coerce.number().optional(),
+export const EmployeeDeductionRawCreateSchema = z.object({
+  employeeId: PZ.Scalar.id(),
+  policyId: PZ.Scalar.id(),
+  employeeAmount: PZ.Scalar.number().optional(),
 });
 
-export const EmployeeDeductionUpdateSchema = z.object({
-  employeeId: z.coerce.number().int().optional(),
-  policyId: z.coerce.number().int().optional(),
-  employeeAmount: z.coerce.number().optional().optional(),
+export const EmployeeDeductionCreateSchema =
+  EmployeeDeductionRawCreateSchema.clone();
+
+export const EmployeeDeductionRawUpdateSchema = z.object({
+  employeeId: PZ.Scalar.id().optional(),
+  policyId: PZ.Scalar.id().optional(),
+  employeeAmount: PZ.Scalar.number().optional().optional(),
 });
+
+export const EmployeeDeductionUpdateSchema =
+  EmployeeDeductionRawUpdateSchema.clone();
 
 export const EmployeeDeductionOrderBySchema = z
   .object({
@@ -4502,10 +5171,14 @@ export const EmployeeDeductionOrderBySchema = z
     policyId: PZ.OrderDirectionSchema,
     employeeAmount: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const EmployeeDeductionOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmployeeDeductionOrderBySchema
 );
 
@@ -4528,58 +5201,85 @@ export const EmployeeDeductionWhereSchema = z
   .partial();
 
 export const EmployeeDeductionWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmployeeDeductionWhereSchema
 );
 
 export const EmployeeDeductionSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    employeeId: z.boolean(),
-    policyId: z.boolean(),
-    employeeAmount: z.boolean(),
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
-    policy: z.boolean().or(DeductionPolicyOwnQueryOneSchema),
-    paycheckDeductions: z.boolean().or(PaycheckDeductionOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    policyId: PZ.Scalar.bool(),
+    employeeAmount: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
+    policy: PZ.Scalar.bool().or(DeductionPolicyOwnQueryOneSchema),
+    paycheckDeductions: PZ.Scalar.bool().or(PaycheckDeductionOwnQuerySchema),
   })
   .partial();
 
 export const EmployeeDeductionSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmployeeDeductionSelectFieldsSchema
+);
+
+export const EmployeeDeductionOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    policyId: PZ.Scalar.bool(),
+    employeeAmount: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'employeeId', 'policyId', 'employeeAmount'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const EmployeeDeductionOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  EmployeeDeductionOmitFieldsSchema
 );
 
 export const EmployeeDeductionIncludeSchema = z
   .object({
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
-    policy: z.boolean().or(DeductionPolicyOwnQueryOneSchema),
-    paycheckDeductions: z.boolean().or(PaycheckDeductionOwnQuerySchema),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
+    policy: PZ.Scalar.bool().or(DeductionPolicyOwnQueryOneSchema),
+    paycheckDeductions: PZ.Scalar.bool().or(PaycheckDeductionOwnQuerySchema),
   })
   .partial();
 
 export const EmployeeDeductionIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmployeeDeductionIncludeSchema
 );
 
 export const EmployeeDeductionProjectionSchema = z.union([
-  z.object({ omit: EmployeeDeductionSelectFieldsSchemaJson }),
+  z.object({ omit: EmployeeDeductionOmitFieldsSchemaJson }),
   z.object({ select: EmployeeDeductionSelectFieldsSchemaJson }),
   z.object({ include: EmployeeDeductionIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PaycheckDeductionCreateSchema = z.object({
-  paycheckId: z.coerce.number().int(),
-  employeeDeductionId: z.coerce.number().int(),
-  amount: z.coerce.number(),
+export const PaycheckDeductionRawCreateSchema = z.object({
+  paycheckId: PZ.Scalar.id(),
+  employeeDeductionId: PZ.Scalar.id(),
+  amount: PZ.Scalar.number(),
 });
 
-export const PaycheckDeductionUpdateSchema = z.object({
-  paycheckId: z.coerce.number().int().optional(),
-  employeeDeductionId: z.coerce.number().int().optional(),
-  amount: z.coerce.number().optional(),
+export const PaycheckDeductionCreateSchema =
+  PaycheckDeductionRawCreateSchema.clone();
+
+export const PaycheckDeductionRawUpdateSchema = z.object({
+  paycheckId: PZ.Scalar.id().optional(),
+  employeeDeductionId: PZ.Scalar.id().optional(),
+  amount: PZ.Scalar.number().optional(),
 });
+
+export const PaycheckDeductionUpdateSchema =
+  PaycheckDeductionRawUpdateSchema.clone();
 
 export const PaycheckDeductionOrderBySchema = z
   .object({
@@ -4588,10 +5288,14 @@ export const PaycheckDeductionOrderBySchema = z
     employeeDeductionId: PZ.OrderDirectionSchema,
     amount: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const PaycheckDeductionOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PaycheckDeductionOrderBySchema
 );
 
@@ -4607,72 +5311,99 @@ export const PaycheckDeductionWhereSchema = z
   .partial();
 
 export const PaycheckDeductionWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PaycheckDeductionWhereSchema
 );
 
 export const PaycheckDeductionSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    paycheckId: z.boolean(),
-    employeeDeductionId: z.boolean(),
-    amount: z.boolean(),
-    paycheck: z.boolean().or(PaycheckOwnQueryOneSchema),
-    employeeDeduction: z.boolean().or(EmployeeDeductionOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    paycheckId: PZ.Scalar.bool(),
+    employeeDeductionId: PZ.Scalar.bool(),
+    amount: PZ.Scalar.bool(),
+    paycheck: PZ.Scalar.bool().or(PaycheckOwnQueryOneSchema),
+    employeeDeduction: PZ.Scalar.bool().or(EmployeeDeductionOwnQueryOneSchema),
   })
   .partial();
 
 export const PaycheckDeductionSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PaycheckDeductionSelectFieldsSchema
+);
+
+export const PaycheckDeductionOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    paycheckId: PZ.Scalar.bool(),
+    employeeDeductionId: PZ.Scalar.bool(),
+    amount: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'paycheckId', 'employeeDeductionId', 'amount'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const PaycheckDeductionOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  PaycheckDeductionOmitFieldsSchema
 );
 
 export const PaycheckDeductionIncludeSchema = z
   .object({
-    paycheck: z.boolean().or(PaycheckOwnQueryOneSchema),
-    employeeDeduction: z.boolean().or(EmployeeDeductionOwnQueryOneSchema),
+    paycheck: PZ.Scalar.bool().or(PaycheckOwnQueryOneSchema),
+    employeeDeduction: PZ.Scalar.bool().or(EmployeeDeductionOwnQueryOneSchema),
   })
   .partial();
 
 export const PaycheckDeductionIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PaycheckDeductionIncludeSchema
 );
 
 export const PaycheckDeductionProjectionSchema = z.union([
-  z.object({ omit: PaycheckDeductionSelectFieldsSchemaJson }),
+  z.object({ omit: PaycheckDeductionOmitFieldsSchemaJson }),
   z.object({ select: PaycheckDeductionSelectFieldsSchemaJson }),
   z.object({ include: PaycheckDeductionIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const EmployeeTaxDataCreateSchema = z.object({
-  startDate: dateSchema.clone(),
-  endDate: dateSchema.clone().optional(),
-  employeeId: z.coerce.number().int(),
+export const EmployeeTaxDataRawCreateSchema = z.object({
+  startDate: PZ.Scalar.datetime(),
+  endDate: PZ.Scalar.datetime().optional(),
+  employeeId: PZ.Scalar.id(),
   federalStatus: TaxFilingStatusSchema.optional(),
-  dependentsCredit: z.coerce.number().optional(),
-  multipleJobs: z.boolean().optional(),
-  otherIncome: z.coerce.number().optional(),
-  deductionsAmount: z.coerce.number().optional(),
-  extraWithholding: z.coerce.number().optional(),
-  isExempt: z.boolean().optional(),
-  isNonResidentAlien: z.boolean().optional(),
+  dependentsCredit: PZ.Scalar.number().optional(),
+  multipleJobs: PZ.Scalar.bool().optional(),
+  otherIncome: PZ.Scalar.number().optional(),
+  deductionsAmount: PZ.Scalar.number().optional(),
+  extraWithholding: PZ.Scalar.number().optional(),
+  isExempt: PZ.Scalar.bool().optional(),
+  isNonResidentAlien: PZ.Scalar.bool().optional(),
 });
 
-export const EmployeeTaxDataUpdateSchema = z.object({
-  startDate: dateSchema.clone().optional(),
-  endDate: dateSchema.clone().optional().optional(),
-  employeeId: z.coerce.number().int().optional(),
+export const EmployeeTaxDataCreateSchema =
+  EmployeeTaxDataRawCreateSchema.clone();
+
+export const EmployeeTaxDataRawUpdateSchema = z.object({
+  startDate: PZ.Scalar.datetime().optional(),
+  endDate: PZ.Scalar.datetime().optional().optional(),
+  employeeId: PZ.Scalar.id().optional(),
   federalStatus: TaxFilingStatusSchema.optional().optional(),
-  dependentsCredit: z.coerce.number().optional().optional(),
-  multipleJobs: z.boolean().optional().optional(),
-  otherIncome: z.coerce.number().optional().optional(),
-  deductionsAmount: z.coerce.number().optional().optional(),
-  extraWithholding: z.coerce.number().optional().optional(),
-  isExempt: z.boolean().optional().optional(),
-  isNonResidentAlien: z.boolean().optional().optional(),
+  dependentsCredit: PZ.Scalar.number().optional().optional(),
+  multipleJobs: PZ.Scalar.bool().optional().optional(),
+  otherIncome: PZ.Scalar.number().optional().optional(),
+  deductionsAmount: PZ.Scalar.number().optional().optional(),
+  extraWithholding: PZ.Scalar.number().optional().optional(),
+  isExempt: PZ.Scalar.bool().optional().optional(),
+  isNonResidentAlien: PZ.Scalar.bool().optional().optional(),
 });
+
+export const EmployeeTaxDataUpdateSchema =
+  EmployeeTaxDataRawUpdateSchema.clone();
 
 export const EmployeeTaxDataOrderBySchema = z
   .object({
@@ -4690,10 +5421,14 @@ export const EmployeeTaxDataOrderBySchema = z
     isExempt: PZ.OrderDirectionSchema,
     isNonResidentAlien: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const EmployeeTaxDataOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmployeeTaxDataOrderBySchema
 );
 
@@ -4732,72 +5467,122 @@ export const EmployeeTaxDataWhereSchema = z
   .partial();
 
 export const EmployeeTaxDataWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmployeeTaxDataWhereSchema
 );
 
 export const EmployeeTaxDataSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    createdAt: z.boolean(),
-    updatedAt: z.boolean(),
-    startDate: z.boolean(),
-    endDate: z.boolean(),
-    employeeId: z.boolean(),
-    federalStatus: z.boolean(),
-    dependentsCredit: z.boolean(),
-    multipleJobs: z.boolean(),
-    otherIncome: z.boolean(),
-    deductionsAmount: z.boolean(),
-    extraWithholding: z.boolean(),
-    isExempt: z.boolean(),
-    isNonResidentAlien: z.boolean(),
-    stateTaxes: z.boolean().or(StateTaxWithholdingOwnQuerySchema),
-    localTaxes: z.boolean().or(LocalTaxWithholdingOwnQuerySchema),
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    federalStatus: PZ.Scalar.bool(),
+    dependentsCredit: PZ.Scalar.bool(),
+    multipleJobs: PZ.Scalar.bool(),
+    otherIncome: PZ.Scalar.bool(),
+    deductionsAmount: PZ.Scalar.bool(),
+    extraWithholding: PZ.Scalar.bool(),
+    isExempt: PZ.Scalar.bool(),
+    isNonResidentAlien: PZ.Scalar.bool(),
+    stateTaxes: PZ.Scalar.bool().or(StateTaxWithholdingOwnQuerySchema),
+    localTaxes: PZ.Scalar.bool().or(LocalTaxWithholdingOwnQuerySchema),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
 export const EmployeeTaxDataSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmployeeTaxDataSelectFieldsSchema
+);
+
+export const EmployeeTaxDataOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    createdAt: PZ.Scalar.bool(),
+    updatedAt: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    federalStatus: PZ.Scalar.bool(),
+    dependentsCredit: PZ.Scalar.bool(),
+    multipleJobs: PZ.Scalar.bool(),
+    otherIncome: PZ.Scalar.bool(),
+    deductionsAmount: PZ.Scalar.bool(),
+    extraWithholding: PZ.Scalar.bool(),
+    isExempt: PZ.Scalar.bool(),
+    isNonResidentAlien: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      ![
+        'id',
+        'createdAt',
+        'updatedAt',
+        'startDate',
+        'endDate',
+        'employeeId',
+        'federalStatus',
+        'dependentsCredit',
+        'multipleJobs',
+        'otherIncome',
+        'deductionsAmount',
+        'extraWithholding',
+        'isExempt',
+        'isNonResidentAlien',
+      ].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const EmployeeTaxDataOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  EmployeeTaxDataOmitFieldsSchema
 );
 
 export const EmployeeTaxDataIncludeSchema = z
   .object({
-    stateTaxes: z.boolean().or(StateTaxWithholdingOwnQuerySchema),
-    localTaxes: z.boolean().or(LocalTaxWithholdingOwnQuerySchema),
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
+    stateTaxes: PZ.Scalar.bool().or(StateTaxWithholdingOwnQuerySchema),
+    localTaxes: PZ.Scalar.bool().or(LocalTaxWithholdingOwnQuerySchema),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
   })
   .partial();
 
 export const EmployeeTaxDataIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmployeeTaxDataIncludeSchema
 );
 
 export const EmployeeTaxDataProjectionSchema = z.union([
-  z.object({ omit: EmployeeTaxDataSelectFieldsSchemaJson }),
+  z.object({ omit: EmployeeTaxDataOmitFieldsSchemaJson }),
   z.object({ select: EmployeeTaxDataSelectFieldsSchemaJson }),
   z.object({ include: EmployeeTaxDataIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const StateTaxWithholdingCreateSchema = z.object({
-  taxDataId: z.coerce.number().int(),
-  stateCode: z.string(),
-  stateStatus: z.string().optional(),
-  allowances: z.coerce.number().int().optional(),
-  extraWithholding: z.coerce.number().optional(),
+export const StateTaxWithholdingRawCreateSchema = z.object({
+  taxDataId: PZ.Scalar.id(),
+  stateCode: PZ.Scalar.string(),
+  stateStatus: PZ.Scalar.string().optional(),
+  allowances: PZ.Scalar.int().optional(),
+  extraWithholding: PZ.Scalar.number().optional(),
 });
 
-export const StateTaxWithholdingUpdateSchema = z.object({
-  taxDataId: z.coerce.number().int().optional(),
-  stateCode: z.string().optional(),
-  stateStatus: z.string().optional().optional(),
-  allowances: z.coerce.number().int().optional().optional(),
-  extraWithholding: z.coerce.number().optional().optional(),
+export const StateTaxWithholdingCreateSchema =
+  StateTaxWithholdingRawCreateSchema.clone();
+
+export const StateTaxWithholdingRawUpdateSchema = z.object({
+  taxDataId: PZ.Scalar.id().optional(),
+  stateCode: PZ.Scalar.string().optional(),
+  stateStatus: PZ.Scalar.string().optional().optional(),
+  allowances: PZ.Scalar.int().optional().optional(),
+  extraWithholding: PZ.Scalar.number().optional().optional(),
 });
+
+export const StateTaxWithholdingUpdateSchema =
+  StateTaxWithholdingRawUpdateSchema.clone();
 
 export const StateTaxWithholdingOrderBySchema = z
   .object({
@@ -4808,10 +5593,14 @@ export const StateTaxWithholdingOrderBySchema = z
     allowances: PZ.OrderDirectionSchema,
     extraWithholding: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const StateTaxWithholdingOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StateTaxWithholdingOrderBySchema
 );
 
@@ -4828,58 +5617,92 @@ export const StateTaxWithholdingWhereSchema = z
   .partial();
 
 export const StateTaxWithholdingWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StateTaxWithholdingWhereSchema
 );
 
 export const StateTaxWithholdingSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    taxDataId: z.boolean(),
-    stateCode: z.boolean(),
-    stateStatus: z.boolean(),
-    allowances: z.boolean(),
-    extraWithholding: z.boolean(),
-    taxData: z.boolean().or(EmployeeTaxDataOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    taxDataId: PZ.Scalar.bool(),
+    stateCode: PZ.Scalar.bool(),
+    stateStatus: PZ.Scalar.bool(),
+    allowances: PZ.Scalar.bool(),
+    extraWithholding: PZ.Scalar.bool(),
+    taxData: PZ.Scalar.bool().or(EmployeeTaxDataOwnQueryOneSchema),
   })
   .partial();
 
 export const StateTaxWithholdingSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StateTaxWithholdingSelectFieldsSchema
+);
+
+export const StateTaxWithholdingOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    taxDataId: PZ.Scalar.bool(),
+    stateCode: PZ.Scalar.bool(),
+    stateStatus: PZ.Scalar.bool(),
+    allowances: PZ.Scalar.bool(),
+    extraWithholding: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      ![
+        'id',
+        'taxDataId',
+        'stateCode',
+        'stateStatus',
+        'allowances',
+        'extraWithholding',
+      ].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const StateTaxWithholdingOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  StateTaxWithholdingOmitFieldsSchema
 );
 
 export const StateTaxWithholdingIncludeSchema = z
   .object({
-    taxData: z.boolean().or(EmployeeTaxDataOwnQueryOneSchema),
+    taxData: PZ.Scalar.bool().or(EmployeeTaxDataOwnQueryOneSchema),
   })
   .partial();
 
 export const StateTaxWithholdingIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StateTaxWithholdingIncludeSchema
 );
 
 export const StateTaxWithholdingProjectionSchema = z.union([
-  z.object({ omit: StateTaxWithholdingSelectFieldsSchemaJson }),
+  z.object({ omit: StateTaxWithholdingOmitFieldsSchemaJson }),
   z.object({ select: StateTaxWithholdingSelectFieldsSchemaJson }),
   z.object({ include: StateTaxWithholdingIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const LocalTaxWithholdingCreateSchema = z.object({
-  taxDataId: z.coerce.number().int(),
-  jurisdiction: z.string(),
-  localStatus: z.string().optional(),
-  extraWithholding: z.coerce.number().optional(),
+export const LocalTaxWithholdingRawCreateSchema = z.object({
+  taxDataId: PZ.Scalar.id(),
+  jurisdiction: PZ.Scalar.string(),
+  localStatus: PZ.Scalar.string().optional(),
+  extraWithholding: PZ.Scalar.number().optional(),
 });
 
-export const LocalTaxWithholdingUpdateSchema = z.object({
-  taxDataId: z.coerce.number().int().optional(),
-  jurisdiction: z.string().optional(),
-  localStatus: z.string().optional().optional(),
-  extraWithholding: z.coerce.number().optional().optional(),
+export const LocalTaxWithholdingCreateSchema =
+  LocalTaxWithholdingRawCreateSchema.clone();
+
+export const LocalTaxWithholdingRawUpdateSchema = z.object({
+  taxDataId: PZ.Scalar.id().optional(),
+  jurisdiction: PZ.Scalar.string().optional(),
+  localStatus: PZ.Scalar.string().optional().optional(),
+  extraWithholding: PZ.Scalar.number().optional().optional(),
 });
+
+export const LocalTaxWithholdingUpdateSchema =
+  LocalTaxWithholdingRawUpdateSchema.clone();
 
 export const LocalTaxWithholdingOrderBySchema = z
   .object({
@@ -4889,10 +5712,14 @@ export const LocalTaxWithholdingOrderBySchema = z
     localStatus: PZ.OrderDirectionSchema,
     extraWithholding: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const LocalTaxWithholdingOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   LocalTaxWithholdingOrderBySchema
 );
 
@@ -4908,59 +5735,89 @@ export const LocalTaxWithholdingWhereSchema = z
   .partial();
 
 export const LocalTaxWithholdingWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   LocalTaxWithholdingWhereSchema
 );
 
 export const LocalTaxWithholdingSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    taxDataId: z.boolean(),
-    jurisdiction: z.boolean(),
-    localStatus: z.boolean(),
-    extraWithholding: z.boolean(),
-    taxData: z.boolean().or(EmployeeTaxDataOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    taxDataId: PZ.Scalar.bool(),
+    jurisdiction: PZ.Scalar.bool(),
+    localStatus: PZ.Scalar.bool(),
+    extraWithholding: PZ.Scalar.bool(),
+    taxData: PZ.Scalar.bool().or(EmployeeTaxDataOwnQueryOneSchema),
   })
   .partial();
 
 export const LocalTaxWithholdingSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   LocalTaxWithholdingSelectFieldsSchema
+);
+
+export const LocalTaxWithholdingOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    taxDataId: PZ.Scalar.bool(),
+    jurisdiction: PZ.Scalar.bool(),
+    localStatus: PZ.Scalar.bool(),
+    extraWithholding: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      ![
+        'id',
+        'taxDataId',
+        'jurisdiction',
+        'localStatus',
+        'extraWithholding',
+      ].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const LocalTaxWithholdingOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  LocalTaxWithholdingOmitFieldsSchema
 );
 
 export const LocalTaxWithholdingIncludeSchema = z
   .object({
-    taxData: z.boolean().or(EmployeeTaxDataOwnQueryOneSchema),
+    taxData: PZ.Scalar.bool().or(EmployeeTaxDataOwnQueryOneSchema),
   })
   .partial();
 
 export const LocalTaxWithholdingIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   LocalTaxWithholdingIncludeSchema
 );
 
 export const LocalTaxWithholdingProjectionSchema = z.union([
-  z.object({ omit: LocalTaxWithholdingSelectFieldsSchemaJson }),
+  z.object({ omit: LocalTaxWithholdingOmitFieldsSchemaJson }),
   z.object({ select: LocalTaxWithholdingSelectFieldsSchemaJson }),
   z.object({ include: LocalTaxWithholdingIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PayrollRunCreateSchema = z.object({
-  resolverId: z.coerce.number().int(),
-  startDate: dateSchema.clone(),
-  endDate: dateSchema.clone(),
-  payDate: dateSchema.clone(),
+export const PayrollRunRawCreateSchema = z.object({
+  resolverId: PZ.Scalar.id(),
+  startDate: PZ.Scalar.datetime(),
+  endDate: PZ.Scalar.datetime(),
+  payDate: PZ.Scalar.datetime(),
   status: PayrollStatusSchema.optional(),
 });
 
-export const PayrollRunUpdateSchema = z.object({
-  resolverId: z.coerce.number().int().optional(),
-  startDate: dateSchema.clone().optional(),
-  endDate: dateSchema.clone().optional(),
-  payDate: dateSchema.clone().optional(),
+export const PayrollRunCreateSchema = PayrollRunRawCreateSchema.clone();
+
+export const PayrollRunRawUpdateSchema = z.object({
+  resolverId: PZ.Scalar.id().optional(),
+  startDate: PZ.Scalar.datetime().optional(),
+  endDate: PZ.Scalar.datetime().optional(),
+  payDate: PZ.Scalar.datetime().optional(),
   status: PayrollStatusSchema.optional().optional(),
 });
+
+export const PayrollRunUpdateSchema = PayrollRunRawUpdateSchema.clone();
 
 export const PayrollRunOrderBySchema = z
   .object({
@@ -4970,10 +5827,14 @@ export const PayrollRunOrderBySchema = z
     endDate: PZ.OrderDirectionSchema,
     payDate: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const PayrollRunOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PayrollRunOrderBySchema
 );
 
@@ -4997,64 +5858,95 @@ export const PayrollRunWhereSchema = z
   .partial();
 
 export const PayrollRunWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PayrollRunWhereSchema
 );
 
 export const PayrollRunSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    resolverId: z.boolean(),
-    startDate: z.boolean(),
-    endDate: z.boolean(),
-    payDate: z.boolean(),
-    status: z.boolean(),
-    approvedBy: z.boolean().or(EmployeeOwnQueryOneSchema),
-    paychecks: z.boolean().or(PaycheckOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    resolverId: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+    payDate: PZ.Scalar.bool(),
+    status: PZ.Scalar.bool(),
+    approvedBy: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
+    paychecks: PZ.Scalar.bool().or(PaycheckOwnQuerySchema),
   })
   .partial();
 
 export const PayrollRunSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PayrollRunSelectFieldsSchema
+);
+
+export const PayrollRunOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    resolverId: PZ.Scalar.bool(),
+    startDate: PZ.Scalar.bool(),
+    endDate: PZ.Scalar.bool(),
+    payDate: PZ.Scalar.bool(),
+    status: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'resolverId', 'startDate', 'endDate', 'payDate', 'status'].every(
+        (e) => Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const PayrollRunOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  PayrollRunOmitFieldsSchema
 );
 
 export const PayrollRunIncludeSchema = z
   .object({
-    approvedBy: z.boolean().or(EmployeeOwnQueryOneSchema),
-    paychecks: z.boolean().or(PaycheckOwnQuerySchema),
+    approvedBy: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
+    paychecks: PZ.Scalar.bool().or(PaycheckOwnQuerySchema),
   })
   .partial();
 
 export const PayrollRunIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PayrollRunIncludeSchema
 );
 
 export const PayrollRunProjectionSchema = z.union([
-  z.object({ omit: PayrollRunSelectFieldsSchemaJson }),
+  z.object({ omit: PayrollRunOmitFieldsSchemaJson }),
   z.object({ select: PayrollRunSelectFieldsSchemaJson }),
   z.object({ include: PayrollRunIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const ContactCreateSchema = z.object({
-  employeeId: z.coerce.number().int(),
+export const ContactRawCreateSchema = z.object({
+  employeeId: PZ.Scalar.id(),
 });
 
-export const ContactUpdateSchema = z.object({
-  employeeId: z.coerce.number().int().optional(),
+export const ContactCreateSchema = ContactRawCreateSchema.clone();
+
+export const ContactRawUpdateSchema = z.object({
+  employeeId: PZ.Scalar.id().optional(),
 });
+
+export const ContactUpdateSchema = ContactRawUpdateSchema.clone();
 
 export const ContactOrderBySchema = z
   .object({
     id: PZ.OrderDirectionSchema,
     employeeId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const ContactOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ContactOrderBySchema
 );
 
@@ -5091,62 +5983,82 @@ export const ContactWhereSchema = z
   .partial();
 
 export const ContactWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ContactWhereSchema
 );
 
 export const ContactSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    employeeId: z.boolean(),
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
-    emails: z.boolean().or(EmailOwnQuerySchema),
-    phones: z.boolean().or(PhoneOwnQuerySchema),
-    addresses: z.boolean().or(AddressOwnQuerySchema),
-    primaryEmail: z.boolean().or(PrimaryEmailOwnQueryOneSchema),
-    primaryPhone: z.boolean().or(PrimaryPhoneOwnQueryOneSchema),
-    primaryAddress: z.boolean().or(PrimaryAddressOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
+    emails: PZ.Scalar.bool().or(EmailOwnQuerySchema),
+    phones: PZ.Scalar.bool().or(PhoneOwnQuerySchema),
+    addresses: PZ.Scalar.bool().or(AddressOwnQuerySchema),
+    primaryEmail: PZ.Scalar.bool().or(PrimaryEmailOwnQueryOneSchema),
+    primaryPhone: PZ.Scalar.bool().or(PrimaryPhoneOwnQueryOneSchema),
+    primaryAddress: PZ.Scalar.bool().or(PrimaryAddressOwnQueryOneSchema),
   })
   .partial();
 
 export const ContactSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ContactSelectFieldsSchema
+);
+
+export const ContactOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    employeeId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) => !['id', 'employeeId'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const ContactOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  ContactOmitFieldsSchema
 );
 
 export const ContactIncludeSchema = z
   .object({
-    employee: z.boolean().or(EmployeeOwnQueryOneSchema),
-    emails: z.boolean().or(EmailOwnQuerySchema),
-    phones: z.boolean().or(PhoneOwnQuerySchema),
-    addresses: z.boolean().or(AddressOwnQuerySchema),
-    primaryEmail: z.boolean().or(PrimaryEmailOwnQueryOneSchema),
-    primaryPhone: z.boolean().or(PrimaryPhoneOwnQueryOneSchema),
-    primaryAddress: z.boolean().or(PrimaryAddressOwnQueryOneSchema),
+    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
+    emails: PZ.Scalar.bool().or(EmailOwnQuerySchema),
+    phones: PZ.Scalar.bool().or(PhoneOwnQuerySchema),
+    addresses: PZ.Scalar.bool().or(AddressOwnQuerySchema),
+    primaryEmail: PZ.Scalar.bool().or(PrimaryEmailOwnQueryOneSchema),
+    primaryPhone: PZ.Scalar.bool().or(PrimaryPhoneOwnQueryOneSchema),
+    primaryAddress: PZ.Scalar.bool().or(PrimaryAddressOwnQueryOneSchema),
   })
   .partial();
 
 export const ContactIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   ContactIncludeSchema
 );
 
 export const ContactProjectionSchema = z.union([
-  z.object({ omit: ContactSelectFieldsSchemaJson }),
+  z.object({ omit: ContactOmitFieldsSchemaJson }),
   z.object({ select: ContactSelectFieldsSchemaJson }),
   z.object({ include: ContactIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const CountryCreateSchema = z.object({
-  name: nameSchema.clone(),
-  code: z.string(),
+export const CountryRawCreateSchema = z.object({
+  name: PZ.Scalar.name(),
+  code: PZ.Scalar.string(),
 });
 
-export const CountryUpdateSchema = z.object({
-  name: nameSchema.clone().optional(),
-  code: z.string().optional(),
+export const CountryCreateSchema = CountryRawCreateSchema.clone();
+
+export const CountryRawUpdateSchema = z.object({
+  name: PZ.Scalar.name().optional(),
+  code: PZ.Scalar.string().optional(),
 });
+
+export const CountryUpdateSchema = CountryRawUpdateSchema.clone();
 
 export const CountryOrderBySchema = z
   .object({
@@ -5154,10 +6066,14 @@ export const CountryOrderBySchema = z
     name: PZ.OrderDirectionSchema,
     code: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const CountryOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CountryOrderBySchema
 );
 
@@ -5177,53 +6093,74 @@ export const CountryWhereSchema = z
   .partial();
 
 export const CountryWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CountryWhereSchema
 );
 
 export const CountrySelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    name: z.boolean(),
-    code: z.boolean(),
-    states: z.boolean().or(StateOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    code: PZ.Scalar.bool(),
+    states: PZ.Scalar.bool().or(StateOwnQuerySchema),
   })
   .partial();
 
 export const CountrySelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CountrySelectFieldsSchema
+);
+
+export const CountryOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    code: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) => !['id', 'name', 'code'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const CountryOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  CountryOmitFieldsSchema
 );
 
 export const CountryIncludeSchema = z
   .object({
-    states: z.boolean().or(StateOwnQuerySchema),
+    states: PZ.Scalar.bool().or(StateOwnQuerySchema),
   })
   .partial();
 
 export const CountryIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   CountryIncludeSchema
 );
 
 export const CountryProjectionSchema = z.union([
-  z.object({ omit: CountrySelectFieldsSchemaJson }),
+  z.object({ omit: CountryOmitFieldsSchemaJson }),
   z.object({ select: CountrySelectFieldsSchemaJson }),
   z.object({ include: CountryIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const StateCreateSchema = z.object({
-  countryId: z.coerce.number().int(),
-  name: nameSchema.clone(),
-  code: z.string(),
+export const StateRawCreateSchema = z.object({
+  countryId: PZ.Scalar.id(),
+  name: PZ.Scalar.name(),
+  code: PZ.Scalar.string(),
 });
 
-export const StateUpdateSchema = z.object({
-  countryId: z.coerce.number().int().optional(),
-  name: nameSchema.clone().optional(),
-  code: z.string().optional(),
+export const StateCreateSchema = StateRawCreateSchema.clone();
+
+export const StateRawUpdateSchema = z.object({
+  countryId: PZ.Scalar.id().optional(),
+  name: PZ.Scalar.name().optional(),
+  code: PZ.Scalar.string().optional(),
 });
+
+export const StateUpdateSchema = StateRawUpdateSchema.clone();
 
 export const StateOrderBySchema = z
   .object({
@@ -5232,10 +6169,14 @@ export const StateOrderBySchema = z
     name: PZ.OrderDirectionSchema,
     code: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const StateOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StateOrderBySchema
 );
 
@@ -5256,60 +6197,88 @@ export const StateWhereSchema = z
   })
   .partial();
 
-export const StateWhereSchemaJson = z.preprocess(jsonParser, StateWhereSchema);
+export const StateWhereSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  StateWhereSchema
+);
 
 export const StateSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    countryId: z.boolean(),
-    name: z.boolean(),
-    code: z.boolean(),
-    country: z.boolean().or(CountryOwnQueryOneSchema),
-    addresses: z.boolean().or(AddressOwnQuerySchema),
+    id: PZ.Scalar.bool(),
+    countryId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    code: PZ.Scalar.bool(),
+    country: PZ.Scalar.bool().or(CountryOwnQueryOneSchema),
+    addresses: PZ.Scalar.bool().or(AddressOwnQuerySchema),
   })
   .partial();
 
 export const StateSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StateSelectFieldsSchema
+);
+
+export const StateOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    countryId: PZ.Scalar.bool(),
+    name: PZ.Scalar.bool(),
+    code: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'countryId', 'name', 'code'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const StateOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  StateOmitFieldsSchema
 );
 
 export const StateIncludeSchema = z
   .object({
-    country: z.boolean().or(CountryOwnQueryOneSchema),
-    addresses: z.boolean().or(AddressOwnQuerySchema),
+    country: PZ.Scalar.bool().or(CountryOwnQueryOneSchema),
+    addresses: PZ.Scalar.bool().or(AddressOwnQuerySchema),
   })
   .partial();
 
 export const StateIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   StateIncludeSchema
 );
 
 export const StateProjectionSchema = z.union([
-  z.object({ omit: StateSelectFieldsSchemaJson }),
+  z.object({ omit: StateOmitFieldsSchemaJson }),
   z.object({ select: StateSelectFieldsSchemaJson }),
   z.object({ include: StateIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const AddressCreateSchema = z.object({
+export const AddressRawCreateSchema = z.object({
   type: ContactTypeSchema,
-  contactId: z.coerce.number().int(),
-  stateId: z.coerce.number().int(),
-  street: z.string(),
-  zip: z.string(),
-  city: z.string(),
+  contactId: PZ.Scalar.id(),
+  stateId: PZ.Scalar.id(),
+  street: PZ.Scalar.string(),
+  zip: PZ.Scalar.string(),
+  city: PZ.Scalar.string(),
 });
 
-export const AddressUpdateSchema = z.object({
+export const AddressCreateSchema = AddressRawCreateSchema.clone();
+
+export const AddressRawUpdateSchema = z.object({
   type: ContactTypeSchema.optional(),
-  contactId: z.coerce.number().int().optional(),
-  stateId: z.coerce.number().int().optional(),
-  street: z.string().optional(),
-  zip: z.string().optional(),
-  city: z.string().optional(),
+  contactId: PZ.Scalar.id().optional(),
+  stateId: PZ.Scalar.id().optional(),
+  street: PZ.Scalar.string().optional(),
+  zip: PZ.Scalar.string().optional(),
+  city: PZ.Scalar.string().optional(),
 });
+
+export const AddressUpdateSchema = AddressRawUpdateSchema.clone();
 
 export const AddressOrderBySchema = z
   .object({
@@ -5320,10 +6289,14 @@ export const AddressOrderBySchema = z
     zip: PZ.OrderDirectionSchema,
     city: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const AddressOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AddressOrderBySchema
 );
 
@@ -5343,61 +6316,89 @@ export const AddressWhereSchema = z
   .partial();
 
 export const AddressWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AddressWhereSchema
 );
 
 export const AddressSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    type: z.boolean(),
-    contactId: z.boolean(),
-    stateId: z.boolean(),
-    street: z.boolean(),
-    zip: z.boolean(),
-    city: z.boolean(),
-    state: z.boolean().or(StateOwnQueryOneSchema),
-    contact: z.boolean().or(ContactOwnQueryOneSchema),
-    primary: z.boolean().or(PrimaryAddressOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    stateId: PZ.Scalar.bool(),
+    street: PZ.Scalar.bool(),
+    zip: PZ.Scalar.bool(),
+    city: PZ.Scalar.bool(),
+    state: PZ.Scalar.bool().or(StateOwnQueryOneSchema),
+    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
+    primary: PZ.Scalar.bool().or(PrimaryAddressOwnQueryOneSchema),
   })
   .partial();
 
 export const AddressSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AddressSelectFieldsSchema
+);
+
+export const AddressOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    stateId: PZ.Scalar.bool(),
+    street: PZ.Scalar.bool(),
+    zip: PZ.Scalar.bool(),
+    city: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'type', 'contactId', 'stateId', 'street', 'zip', 'city'].every(
+        (e) => Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const AddressOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  AddressOmitFieldsSchema
 );
 
 export const AddressIncludeSchema = z
   .object({
-    state: z.boolean().or(StateOwnQueryOneSchema),
-    contact: z.boolean().or(ContactOwnQueryOneSchema),
-    primary: z.boolean().or(PrimaryAddressOwnQueryOneSchema),
+    state: PZ.Scalar.bool().or(StateOwnQueryOneSchema),
+    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
+    primary: PZ.Scalar.bool().or(PrimaryAddressOwnQueryOneSchema),
   })
   .partial();
 
 export const AddressIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   AddressIncludeSchema
 );
 
 export const AddressProjectionSchema = z.union([
-  z.object({ omit: AddressSelectFieldsSchemaJson }),
+  z.object({ omit: AddressOmitFieldsSchemaJson }),
   z.object({ select: AddressSelectFieldsSchemaJson }),
   z.object({ include: AddressIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const EmailCreateSchema = z.object({
+export const EmailRawCreateSchema = z.object({
   type: ContactTypeSchema,
-  contactId: z.coerce.number().int(),
-  email: emailSchema.clone(),
+  contactId: PZ.Scalar.id(),
+  email: PZ.Scalar.email(),
 });
 
-export const EmailUpdateSchema = z.object({
+export const EmailCreateSchema = EmailRawCreateSchema.clone();
+
+export const EmailRawUpdateSchema = z.object({
   type: ContactTypeSchema.optional(),
-  contactId: z.coerce.number().int().optional(),
-  email: emailSchema.clone().optional(),
+  contactId: PZ.Scalar.id().optional(),
+  email: PZ.Scalar.email().optional(),
 });
+
+export const EmailUpdateSchema = EmailRawUpdateSchema.clone();
 
 export const EmailOrderBySchema = z
   .object({
@@ -5405,10 +6406,14 @@ export const EmailOrderBySchema = z
     contactId: PZ.OrderDirectionSchema,
     email: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const EmailOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmailOrderBySchema
 );
 
@@ -5423,54 +6428,82 @@ export const EmailWhereSchema = z
   })
   .partial();
 
-export const EmailWhereSchemaJson = z.preprocess(jsonParser, EmailWhereSchema);
+export const EmailWhereSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  EmailWhereSchema
+);
 
 export const EmailSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    type: z.boolean(),
-    contactId: z.boolean(),
-    email: z.boolean(),
-    contact: z.boolean().or(ContactOwnQueryOneSchema),
-    primary: z.boolean().or(PrimaryEmailOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    email: PZ.Scalar.bool(),
+    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
+    primary: PZ.Scalar.bool().or(PrimaryEmailOwnQueryOneSchema),
   })
   .partial();
 
 export const EmailSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmailSelectFieldsSchema
+);
+
+export const EmailOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    email: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'type', 'contactId', 'email'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const EmailOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  EmailOmitFieldsSchema
 );
 
 export const EmailIncludeSchema = z
   .object({
-    contact: z.boolean().or(ContactOwnQueryOneSchema),
-    primary: z.boolean().or(PrimaryEmailOwnQueryOneSchema),
+    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
+    primary: PZ.Scalar.bool().or(PrimaryEmailOwnQueryOneSchema),
   })
   .partial();
 
 export const EmailIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   EmailIncludeSchema
 );
 
 export const EmailProjectionSchema = z.union([
-  z.object({ omit: EmailSelectFieldsSchemaJson }),
+  z.object({ omit: EmailOmitFieldsSchemaJson }),
   z.object({ select: EmailSelectFieldsSchemaJson }),
   z.object({ include: EmailIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PhoneCreateSchema = z.object({
+export const PhoneRawCreateSchema = z.object({
   type: ContactTypeSchema,
-  contactId: z.coerce.number().int(),
-  phone: z.string(),
+  contactId: PZ.Scalar.id(),
+  phone: PZ.Scalar.string(),
 });
 
-export const PhoneUpdateSchema = z.object({
+export const PhoneCreateSchema = PhoneRawCreateSchema.clone();
+
+export const PhoneRawUpdateSchema = z.object({
   type: ContactTypeSchema.optional(),
-  contactId: z.coerce.number().int().optional(),
-  phone: z.string().optional(),
+  contactId: PZ.Scalar.id().optional(),
+  phone: PZ.Scalar.string().optional(),
 });
+
+export const PhoneUpdateSchema = PhoneRawUpdateSchema.clone();
 
 export const PhoneOrderBySchema = z
   .object({
@@ -5478,10 +6511,14 @@ export const PhoneOrderBySchema = z
     contactId: PZ.OrderDirectionSchema,
     phone: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const PhoneOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PhoneOrderBySchema
 );
 
@@ -5496,52 +6533,80 @@ export const PhoneWhereSchema = z
   })
   .partial();
 
-export const PhoneWhereSchemaJson = z.preprocess(jsonParser, PhoneWhereSchema);
+export const PhoneWhereSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  PhoneWhereSchema
+);
 
 export const PhoneSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    type: z.boolean(),
-    contactId: z.boolean(),
-    phone: z.boolean(),
-    contact: z.boolean().or(ContactOwnQueryOneSchema),
-    primary: z.boolean().or(PrimaryPhoneOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    phone: PZ.Scalar.bool(),
+    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
+    primary: PZ.Scalar.bool().or(PrimaryPhoneOwnQueryOneSchema),
   })
   .partial();
 
 export const PhoneSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PhoneSelectFieldsSchema
+);
+
+export const PhoneOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    type: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    phone: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'type', 'contactId', 'phone'].every((e) =>
+        Object.hasOwn(value, e)
+      ),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const PhoneOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  PhoneOmitFieldsSchema
 );
 
 export const PhoneIncludeSchema = z
   .object({
-    contact: z.boolean().or(ContactOwnQueryOneSchema),
-    primary: z.boolean().or(PrimaryPhoneOwnQueryOneSchema),
+    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
+    primary: PZ.Scalar.bool().or(PrimaryPhoneOwnQueryOneSchema),
   })
   .partial();
 
 export const PhoneIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PhoneIncludeSchema
 );
 
 export const PhoneProjectionSchema = z.union([
-  z.object({ omit: PhoneSelectFieldsSchemaJson }),
+  z.object({ omit: PhoneOmitFieldsSchemaJson }),
   z.object({ select: PhoneSelectFieldsSchemaJson }),
   z.object({ include: PhoneIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PrimaryEmailCreateSchema = z.object({
-  emailId: z.coerce.number().int(),
-  contactId: z.coerce.number().int(),
+export const PrimaryEmailRawCreateSchema = z.object({
+  emailId: PZ.Scalar.id(),
+  contactId: PZ.Scalar.id(),
 });
 
-export const PrimaryEmailUpdateSchema = z.object({
-  emailId: z.coerce.number().int().optional(),
-  contactId: z.coerce.number().int().optional(),
+export const PrimaryEmailCreateSchema = PrimaryEmailRawCreateSchema.clone();
+
+export const PrimaryEmailRawUpdateSchema = z.object({
+  emailId: PZ.Scalar.id().optional(),
+  contactId: PZ.Scalar.id().optional(),
 });
+
+export const PrimaryEmailUpdateSchema = PrimaryEmailRawUpdateSchema.clone();
 
 export const PrimaryEmailOrderBySchema = z
   .object({
@@ -5549,10 +6614,14 @@ export const PrimaryEmailOrderBySchema = z
     emailId: PZ.OrderDirectionSchema,
     contactId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const PrimaryEmailOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PrimaryEmailOrderBySchema
 );
 
@@ -5567,53 +6636,75 @@ export const PrimaryEmailWhereSchema = z
   .partial();
 
 export const PrimaryEmailWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PrimaryEmailWhereSchema
 );
 
 export const PrimaryEmailSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    emailId: z.boolean(),
-    contactId: z.boolean(),
-    email: z.boolean().or(EmailOwnQueryOneSchema),
-    contact: z.boolean().or(ContactOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    emailId: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    email: PZ.Scalar.bool().or(EmailOwnQueryOneSchema),
+    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
 export const PrimaryEmailSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PrimaryEmailSelectFieldsSchema
+);
+
+export const PrimaryEmailOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    emailId: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'emailId', 'contactId'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const PrimaryEmailOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  PrimaryEmailOmitFieldsSchema
 );
 
 export const PrimaryEmailIncludeSchema = z
   .object({
-    email: z.boolean().or(EmailOwnQueryOneSchema),
-    contact: z.boolean().or(ContactOwnQueryOneSchema),
+    email: PZ.Scalar.bool().or(EmailOwnQueryOneSchema),
+    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
 export const PrimaryEmailIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PrimaryEmailIncludeSchema
 );
 
 export const PrimaryEmailProjectionSchema = z.union([
-  z.object({ omit: PrimaryEmailSelectFieldsSchemaJson }),
+  z.object({ omit: PrimaryEmailOmitFieldsSchemaJson }),
   z.object({ select: PrimaryEmailSelectFieldsSchemaJson }),
   z.object({ include: PrimaryEmailIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PrimaryPhoneCreateSchema = z.object({
-  phoneId: z.coerce.number().int(),
-  contactId: z.coerce.number().int(),
+export const PrimaryPhoneRawCreateSchema = z.object({
+  phoneId: PZ.Scalar.id(),
+  contactId: PZ.Scalar.id(),
 });
 
-export const PrimaryPhoneUpdateSchema = z.object({
-  phoneId: z.coerce.number().int().optional(),
-  contactId: z.coerce.number().int().optional(),
+export const PrimaryPhoneCreateSchema = PrimaryPhoneRawCreateSchema.clone();
+
+export const PrimaryPhoneRawUpdateSchema = z.object({
+  phoneId: PZ.Scalar.id().optional(),
+  contactId: PZ.Scalar.id().optional(),
 });
+
+export const PrimaryPhoneUpdateSchema = PrimaryPhoneRawUpdateSchema.clone();
 
 export const PrimaryPhoneOrderBySchema = z
   .object({
@@ -5621,10 +6712,14 @@ export const PrimaryPhoneOrderBySchema = z
     phoneId: PZ.OrderDirectionSchema,
     contactId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const PrimaryPhoneOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PrimaryPhoneOrderBySchema
 );
 
@@ -5639,53 +6734,75 @@ export const PrimaryPhoneWhereSchema = z
   .partial();
 
 export const PrimaryPhoneWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PrimaryPhoneWhereSchema
 );
 
 export const PrimaryPhoneSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    phoneId: z.boolean(),
-    contactId: z.boolean(),
-    phone: z.boolean().or(PhoneOwnQueryOneSchema),
-    contact: z.boolean().or(ContactOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    phoneId: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    phone: PZ.Scalar.bool().or(PhoneOwnQueryOneSchema),
+    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
 export const PrimaryPhoneSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PrimaryPhoneSelectFieldsSchema
+);
+
+export const PrimaryPhoneOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    phoneId: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'phoneId', 'contactId'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const PrimaryPhoneOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  PrimaryPhoneOmitFieldsSchema
 );
 
 export const PrimaryPhoneIncludeSchema = z
   .object({
-    phone: z.boolean().or(PhoneOwnQueryOneSchema),
-    contact: z.boolean().or(ContactOwnQueryOneSchema),
+    phone: PZ.Scalar.bool().or(PhoneOwnQueryOneSchema),
+    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
 export const PrimaryPhoneIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PrimaryPhoneIncludeSchema
 );
 
 export const PrimaryPhoneProjectionSchema = z.union([
-  z.object({ omit: PrimaryPhoneSelectFieldsSchemaJson }),
+  z.object({ omit: PrimaryPhoneOmitFieldsSchemaJson }),
   z.object({ select: PrimaryPhoneSelectFieldsSchemaJson }),
   z.object({ include: PrimaryPhoneIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PrimaryAddressCreateSchema = z.object({
-  addressId: z.coerce.number().int(),
-  contactId: z.coerce.number().int(),
+export const PrimaryAddressRawCreateSchema = z.object({
+  addressId: PZ.Scalar.id(),
+  contactId: PZ.Scalar.id(),
 });
 
-export const PrimaryAddressUpdateSchema = z.object({
-  addressId: z.coerce.number().int().optional(),
-  contactId: z.coerce.number().int().optional(),
+export const PrimaryAddressCreateSchema = PrimaryAddressRawCreateSchema.clone();
+
+export const PrimaryAddressRawUpdateSchema = z.object({
+  addressId: PZ.Scalar.id().optional(),
+  contactId: PZ.Scalar.id().optional(),
 });
+
+export const PrimaryAddressUpdateSchema = PrimaryAddressRawUpdateSchema.clone();
 
 export const PrimaryAddressOrderBySchema = z
   .object({
@@ -5693,10 +6810,14 @@ export const PrimaryAddressOrderBySchema = z
     addressId: PZ.OrderDirectionSchema,
     contactId: PZ.OrderDirectionSchema,
   })
-  .partial();
+  .partial()
+  .refine(
+    (value) => typeof value === 'object' && Object.keys(value).length === 1
+  )
+  .array();
 
 export const PrimaryAddressOrderBySchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PrimaryAddressOrderBySchema
 );
 
@@ -5711,39 +6832,57 @@ export const PrimaryAddressWhereSchema = z
   .partial();
 
 export const PrimaryAddressWhereSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PrimaryAddressWhereSchema
 );
 
 export const PrimaryAddressSelectFieldsSchema = z
   .object({
-    id: z.boolean(),
-    addressId: z.boolean(),
-    contactId: z.boolean(),
-    address: z.boolean().or(AddressOwnQueryOneSchema),
-    contact: z.boolean().or(ContactOwnQueryOneSchema),
+    id: PZ.Scalar.bool(),
+    addressId: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+    address: PZ.Scalar.bool().or(AddressOwnQueryOneSchema),
+    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
 export const PrimaryAddressSelectFieldsSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PrimaryAddressSelectFieldsSchema
+);
+
+export const PrimaryAddressOmitFieldsSchema = z
+  .object({
+    id: PZ.Scalar.bool(),
+    addressId: PZ.Scalar.bool(),
+    contactId: PZ.Scalar.bool(),
+  })
+  .partial()
+  .refine(
+    (value) =>
+      !['id', 'addressId', 'contactId'].every((e) => Object.hasOwn(value, e)),
+    { message: 'Cannot omit all fields', path: ['omit'] }
+  );
+
+export const PrimaryAddressOmitFieldsSchemaJson = z.preprocess(
+  PZ.jsonPreprocessor,
+  PrimaryAddressOmitFieldsSchema
 );
 
 export const PrimaryAddressIncludeSchema = z
   .object({
-    address: z.boolean().or(AddressOwnQueryOneSchema),
-    contact: z.boolean().or(ContactOwnQueryOneSchema),
+    address: PZ.Scalar.bool().or(AddressOwnQueryOneSchema),
+    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
   })
   .partial();
 
 export const PrimaryAddressIncludeSchemaJson = z.preprocess(
-  jsonParser,
+  PZ.jsonPreprocessor,
   PrimaryAddressIncludeSchema
 );
 
 export const PrimaryAddressProjectionSchema = z.union([
-  z.object({ omit: PrimaryAddressSelectFieldsSchemaJson }),
+  z.object({ omit: PrimaryAddressOmitFieldsSchemaJson }),
   z.object({ select: PrimaryAddressSelectFieldsSchemaJson }),
   z.object({ include: PrimaryAddressIncludeSchemaJson }),
   z.object({}),
@@ -5765,9 +6904,9 @@ export const DepartmentQuerySchema = z
   })
   .partial();
 
-export type DepartmentCreate = z.infer<typeof DepartmentCreateSchema>;
+export type DepartmentCreate = z.infer<typeof DepartmentRawCreateSchema>;
 
-export type DepartmentUpdate = z.infer<typeof DepartmentUpdateSchema>;
+export type DepartmentUpdate = z.infer<typeof DepartmentRawUpdateSchema>;
 
 export type DepartmentOrderBy = z.infer<typeof DepartmentOrderBySchema>;
 
@@ -5788,6 +6927,8 @@ export type DepartmentInclude = z.infer<typeof DepartmentIncludeSchema>;
 export type DepartmentQueryOne = z.infer<typeof DepartmentQueryOneSchema>;
 
 export type DepartmentQuery = z.infer<typeof DepartmentQuerySchema>;
+
+export type DepartmentOmitFields = z.infer<typeof DepartmentOmitFieldsSchema>;
 
 export type DepartmentSelectFields = z.infer<
   typeof DepartmentSelectFieldsSchema
@@ -5811,9 +6952,9 @@ export const TitleQuerySchema = z
   })
   .partial();
 
-export type TitleCreate = z.infer<typeof TitleCreateSchema>;
+export type TitleCreate = z.infer<typeof TitleRawCreateSchema>;
 
-export type TitleUpdate = z.infer<typeof TitleUpdateSchema>;
+export type TitleUpdate = z.infer<typeof TitleRawUpdateSchema>;
 
 export type TitleOrderBy = z.infer<typeof TitleOrderBySchema>;
 
@@ -5832,6 +6973,8 @@ export type TitleInclude = z.infer<typeof TitleIncludeSchema>;
 export type TitleQueryOne = z.infer<typeof TitleQueryOneSchema>;
 
 export type TitleQuery = z.infer<typeof TitleQuerySchema>;
+
+export type TitleOmitFields = z.infer<typeof TitleOmitFieldsSchema>;
 
 export type TitleSelectFields = z.infer<typeof TitleSelectFieldsSchema>;
 
@@ -5853,9 +6996,9 @@ export const PersonalDataQuerySchema = z
   })
   .partial();
 
-export type PersonalDataCreate = z.infer<typeof PersonalDataCreateSchema>;
+export type PersonalDataCreate = z.infer<typeof PersonalDataRawCreateSchema>;
 
-export type PersonalDataUpdate = z.infer<typeof PersonalDataUpdateSchema>;
+export type PersonalDataUpdate = z.infer<typeof PersonalDataRawUpdateSchema>;
 
 export type PersonalDataOrderBy = z.infer<typeof PersonalDataOrderBySchema>;
 
@@ -5878,6 +7021,10 @@ export type PersonalDataInclude = z.infer<typeof PersonalDataIncludeSchema>;
 export type PersonalDataQueryOne = z.infer<typeof PersonalDataQueryOneSchema>;
 
 export type PersonalDataQuery = z.infer<typeof PersonalDataQuerySchema>;
+
+export type PersonalDataOmitFields = z.infer<
+  typeof PersonalDataOmitFieldsSchema
+>;
 
 export type PersonalDataSelectFields = z.infer<
   typeof PersonalDataSelectFieldsSchema
@@ -5903,9 +7050,9 @@ export const EmployeeQuerySchema = z
   })
   .partial();
 
-export type EmployeeCreate = z.infer<typeof EmployeeCreateSchema>;
+export type EmployeeCreate = z.infer<typeof EmployeeRawCreateSchema>;
 
-export type EmployeeUpdate = z.infer<typeof EmployeeUpdateSchema>;
+export type EmployeeUpdate = z.infer<typeof EmployeeRawUpdateSchema>;
 
 export type EmployeeOrderBy = z.infer<typeof EmployeeOrderBySchema>;
 
@@ -5927,6 +7074,8 @@ export type EmployeeQueryOne = z.infer<typeof EmployeeQueryOneSchema>;
 
 export type EmployeeQuery = z.infer<typeof EmployeeQuerySchema>;
 
+export type EmployeeOmitFields = z.infer<typeof EmployeeOmitFieldsSchema>;
+
 export type EmployeeSelectFields = z.infer<typeof EmployeeSelectFieldsSchema>;
 
 export type EmployeeProjection = z.infer<typeof EmployeeProjectionSchema>;
@@ -5947,9 +7096,9 @@ export const TeamQuerySchema = z
   })
   .partial();
 
-export type TeamCreate = z.infer<typeof TeamCreateSchema>;
+export type TeamCreate = z.infer<typeof TeamRawCreateSchema>;
 
-export type TeamUpdate = z.infer<typeof TeamUpdateSchema>;
+export type TeamUpdate = z.infer<typeof TeamRawUpdateSchema>;
 
 export type TeamOrderBy = z.infer<typeof TeamOrderBySchema>;
 
@@ -5968,6 +7117,8 @@ export type TeamInclude = z.infer<typeof TeamIncludeSchema>;
 export type TeamQueryOne = z.infer<typeof TeamQueryOneSchema>;
 
 export type TeamQuery = z.infer<typeof TeamQuerySchema>;
+
+export type TeamOmitFields = z.infer<typeof TeamOmitFieldsSchema>;
 
 export type TeamSelectFields = z.infer<typeof TeamSelectFieldsSchema>;
 
@@ -5989,9 +7140,9 @@ export const TeamManagerQuerySchema = z
   })
   .partial();
 
-export type TeamManagerCreate = z.infer<typeof TeamManagerCreateSchema>;
+export type TeamManagerCreate = z.infer<typeof TeamManagerRawCreateSchema>;
 
-export type TeamManagerUpdate = z.infer<typeof TeamManagerUpdateSchema>;
+export type TeamManagerUpdate = z.infer<typeof TeamManagerRawUpdateSchema>;
 
 export type TeamManagerOrderBy = z.infer<typeof TeamManagerOrderBySchema>;
 
@@ -6015,6 +7166,8 @@ export type TeamManagerQueryOne = z.infer<typeof TeamManagerQueryOneSchema>;
 
 export type TeamManagerQuery = z.infer<typeof TeamManagerQuerySchema>;
 
+export type TeamManagerOmitFields = z.infer<typeof TeamManagerOmitFieldsSchema>;
+
 export type TeamManagerSelectFields = z.infer<
   typeof TeamManagerSelectFieldsSchema
 >;
@@ -6037,9 +7190,9 @@ export const TeamMemberQuerySchema = z
   })
   .partial();
 
-export type TeamMemberCreate = z.infer<typeof TeamMemberCreateSchema>;
+export type TeamMemberCreate = z.infer<typeof TeamMemberRawCreateSchema>;
 
-export type TeamMemberUpdate = z.infer<typeof TeamMemberUpdateSchema>;
+export type TeamMemberUpdate = z.infer<typeof TeamMemberRawUpdateSchema>;
 
 export type TeamMemberOrderBy = z.infer<typeof TeamMemberOrderBySchema>;
 
@@ -6060,6 +7213,8 @@ export type TeamMemberInclude = z.infer<typeof TeamMemberIncludeSchema>;
 export type TeamMemberQueryOne = z.infer<typeof TeamMemberQueryOneSchema>;
 
 export type TeamMemberQuery = z.infer<typeof TeamMemberQuerySchema>;
+
+export type TeamMemberOmitFields = z.infer<typeof TeamMemberOmitFieldsSchema>;
 
 export type TeamMemberSelectFields = z.infer<
   typeof TeamMemberSelectFieldsSchema
@@ -6083,9 +7238,9 @@ export const SalaryQuerySchema = z
   })
   .partial();
 
-export type SalaryCreate = z.infer<typeof SalaryCreateSchema>;
+export type SalaryCreate = z.infer<typeof SalaryRawCreateSchema>;
 
-export type SalaryUpdate = z.infer<typeof SalaryUpdateSchema>;
+export type SalaryUpdate = z.infer<typeof SalaryRawUpdateSchema>;
 
 export type SalaryOrderBy = z.infer<typeof SalaryOrderBySchema>;
 
@@ -6104,6 +7259,8 @@ export type SalaryInclude = z.infer<typeof SalaryIncludeSchema>;
 export type SalaryQueryOne = z.infer<typeof SalaryQueryOneSchema>;
 
 export type SalaryQuery = z.infer<typeof SalaryQuerySchema>;
+
+export type SalaryOmitFields = z.infer<typeof SalaryOmitFieldsSchema>;
 
 export type SalarySelectFields = z.infer<typeof SalarySelectFieldsSchema>;
 
@@ -6125,9 +7282,9 @@ export const SalaryHistoryQuerySchema = z
   })
   .partial();
 
-export type SalaryHistoryCreate = z.infer<typeof SalaryHistoryCreateSchema>;
+export type SalaryHistoryCreate = z.infer<typeof SalaryHistoryRawCreateSchema>;
 
-export type SalaryHistoryUpdate = z.infer<typeof SalaryHistoryUpdateSchema>;
+export type SalaryHistoryUpdate = z.infer<typeof SalaryHistoryRawUpdateSchema>;
 
 export type SalaryHistoryOrderBy = z.infer<typeof SalaryHistoryOrderBySchema>;
 
@@ -6150,6 +7307,10 @@ export type SalaryHistoryInclude = z.infer<typeof SalaryHistoryIncludeSchema>;
 export type SalaryHistoryQueryOne = z.infer<typeof SalaryHistoryQueryOneSchema>;
 
 export type SalaryHistoryQuery = z.infer<typeof SalaryHistoryQuerySchema>;
+
+export type SalaryHistoryOmitFields = z.infer<
+  typeof SalaryHistoryOmitFieldsSchema
+>;
 
 export type SalaryHistorySelectFields = z.infer<
   typeof SalaryHistorySelectFieldsSchema
@@ -6175,9 +7336,9 @@ export const BenefitQuerySchema = z
   })
   .partial();
 
-export type BenefitCreate = z.infer<typeof BenefitCreateSchema>;
+export type BenefitCreate = z.infer<typeof BenefitRawCreateSchema>;
 
-export type BenefitUpdate = z.infer<typeof BenefitUpdateSchema>;
+export type BenefitUpdate = z.infer<typeof BenefitRawUpdateSchema>;
 
 export type BenefitOrderBy = z.infer<typeof BenefitOrderBySchema>;
 
@@ -6198,6 +7359,8 @@ export type BenefitInclude = z.infer<typeof BenefitIncludeSchema>;
 export type BenefitQueryOne = z.infer<typeof BenefitQueryOneSchema>;
 
 export type BenefitQuery = z.infer<typeof BenefitQuerySchema>;
+
+export type BenefitOmitFields = z.infer<typeof BenefitOmitFieldsSchema>;
 
 export type BenefitSelectFields = z.infer<typeof BenefitSelectFieldsSchema>;
 
@@ -6220,11 +7383,11 @@ export const BenefitEnrolmentQuerySchema = z
   .partial();
 
 export type BenefitEnrolmentCreate = z.infer<
-  typeof BenefitEnrolmentCreateSchema
+  typeof BenefitEnrolmentRawCreateSchema
 >;
 
 export type BenefitEnrolmentUpdate = z.infer<
-  typeof BenefitEnrolmentUpdateSchema
+  typeof BenefitEnrolmentRawUpdateSchema
 >;
 
 export type BenefitEnrolmentOrderBy = z.infer<
@@ -6259,6 +7422,10 @@ export type BenefitEnrolmentQueryOne = z.infer<
 
 export type BenefitEnrolmentQuery = z.infer<typeof BenefitEnrolmentQuerySchema>;
 
+export type BenefitEnrolmentOmitFields = z.infer<
+  typeof BenefitEnrolmentOmitFieldsSchema
+>;
+
 export type BenefitEnrolmentSelectFields = z.infer<
   typeof BenefitEnrolmentSelectFieldsSchema
 >;
@@ -6283,9 +7450,9 @@ export const TitleHistoryQuerySchema = z
   })
   .partial();
 
-export type TitleHistoryCreate = z.infer<typeof TitleHistoryCreateSchema>;
+export type TitleHistoryCreate = z.infer<typeof TitleHistoryRawCreateSchema>;
 
-export type TitleHistoryUpdate = z.infer<typeof TitleHistoryUpdateSchema>;
+export type TitleHistoryUpdate = z.infer<typeof TitleHistoryRawUpdateSchema>;
 
 export type TitleHistoryOrderBy = z.infer<typeof TitleHistoryOrderBySchema>;
 
@@ -6308,6 +7475,10 @@ export type TitleHistoryInclude = z.infer<typeof TitleHistoryIncludeSchema>;
 export type TitleHistoryQueryOne = z.infer<typeof TitleHistoryQueryOneSchema>;
 
 export type TitleHistoryQuery = z.infer<typeof TitleHistoryQuerySchema>;
+
+export type TitleHistoryOmitFields = z.infer<
+  typeof TitleHistoryOmitFieldsSchema
+>;
 
 export type TitleHistorySelectFields = z.infer<
   typeof TitleHistorySelectFieldsSchema
@@ -6333,9 +7504,9 @@ export const TimeOffPolicyQuerySchema = z
   })
   .partial();
 
-export type TimeOffPolicyCreate = z.infer<typeof TimeOffPolicyCreateSchema>;
+export type TimeOffPolicyCreate = z.infer<typeof TimeOffPolicyRawCreateSchema>;
 
-export type TimeOffPolicyUpdate = z.infer<typeof TimeOffPolicyUpdateSchema>;
+export type TimeOffPolicyUpdate = z.infer<typeof TimeOffPolicyRawUpdateSchema>;
 
 export type TimeOffPolicyOrderBy = z.infer<typeof TimeOffPolicyOrderBySchema>;
 
@@ -6358,6 +7529,10 @@ export type TimeOffPolicyInclude = z.infer<typeof TimeOffPolicyIncludeSchema>;
 export type TimeOffPolicyQueryOne = z.infer<typeof TimeOffPolicyQueryOneSchema>;
 
 export type TimeOffPolicyQuery = z.infer<typeof TimeOffPolicyQuerySchema>;
+
+export type TimeOffPolicyOmitFields = z.infer<
+  typeof TimeOffPolicyOmitFieldsSchema
+>;
 
 export type TimeOffPolicySelectFields = z.infer<
   typeof TimeOffPolicySelectFieldsSchema
@@ -6383,9 +7558,13 @@ export const TimeOffBalanceQuerySchema = z
   })
   .partial();
 
-export type TimeOffBalanceCreate = z.infer<typeof TimeOffBalanceCreateSchema>;
+export type TimeOffBalanceCreate = z.infer<
+  typeof TimeOffBalanceRawCreateSchema
+>;
 
-export type TimeOffBalanceUpdate = z.infer<typeof TimeOffBalanceUpdateSchema>;
+export type TimeOffBalanceUpdate = z.infer<
+  typeof TimeOffBalanceRawUpdateSchema
+>;
 
 export type TimeOffBalanceOrderBy = z.infer<typeof TimeOffBalanceOrderBySchema>;
 
@@ -6415,6 +7594,10 @@ export type TimeOffBalanceQueryOne = z.infer<
 
 export type TimeOffBalanceQuery = z.infer<typeof TimeOffBalanceQuerySchema>;
 
+export type TimeOffBalanceOmitFields = z.infer<
+  typeof TimeOffBalanceOmitFieldsSchema
+>;
+
 export type TimeOffBalanceSelectFields = z.infer<
   typeof TimeOffBalanceSelectFieldsSchema
 >;
@@ -6439,9 +7622,13 @@ export const TimeOffRequestQuerySchema = z
   })
   .partial();
 
-export type TimeOffRequestCreate = z.infer<typeof TimeOffRequestCreateSchema>;
+export type TimeOffRequestCreate = z.infer<
+  typeof TimeOffRequestRawCreateSchema
+>;
 
-export type TimeOffRequestUpdate = z.infer<typeof TimeOffRequestUpdateSchema>;
+export type TimeOffRequestUpdate = z.infer<
+  typeof TimeOffRequestRawUpdateSchema
+>;
 
 export type TimeOffRequestOrderBy = z.infer<typeof TimeOffRequestOrderBySchema>;
 
@@ -6471,6 +7658,10 @@ export type TimeOffRequestQueryOne = z.infer<
 
 export type TimeOffRequestQuery = z.infer<typeof TimeOffRequestQuerySchema>;
 
+export type TimeOffRequestOmitFields = z.infer<
+  typeof TimeOffRequestOmitFieldsSchema
+>;
+
 export type TimeOffRequestSelectFields = z.infer<
   typeof TimeOffRequestSelectFieldsSchema
 >;
@@ -6496,11 +7687,11 @@ export const TimeOffTransactionQuerySchema = z
   .partial();
 
 export type TimeOffTransactionCreate = z.infer<
-  typeof TimeOffTransactionCreateSchema
+  typeof TimeOffTransactionRawCreateSchema
 >;
 
 export type TimeOffTransactionUpdate = z.infer<
-  typeof TimeOffTransactionUpdateSchema
+  typeof TimeOffTransactionRawUpdateSchema
 >;
 
 export type TimeOffTransactionOrderBy = z.infer<
@@ -6539,6 +7730,10 @@ export type TimeOffTransactionQuery = z.infer<
   typeof TimeOffTransactionQuerySchema
 >;
 
+export type TimeOffTransactionOmitFields = z.infer<
+  typeof TimeOffTransactionOmitFieldsSchema
+>;
+
 export type TimeOffTransactionSelectFields = z.infer<
   typeof TimeOffTransactionSelectFieldsSchema
 >;
@@ -6563,9 +7758,9 @@ export const ClockInQuerySchema = z
   })
   .partial();
 
-export type ClockInCreate = z.infer<typeof ClockInCreateSchema>;
+export type ClockInCreate = z.infer<typeof ClockInRawCreateSchema>;
 
-export type ClockInUpdate = z.infer<typeof ClockInUpdateSchema>;
+export type ClockInUpdate = z.infer<typeof ClockInRawUpdateSchema>;
 
 export type ClockInOrderBy = z.infer<typeof ClockInOrderBySchema>;
 
@@ -6587,6 +7782,8 @@ export type ClockInQueryOne = z.infer<typeof ClockInQueryOneSchema>;
 
 export type ClockInQuery = z.infer<typeof ClockInQuerySchema>;
 
+export type ClockInOmitFields = z.infer<typeof ClockInOmitFieldsSchema>;
+
 export type ClockInSelectFields = z.infer<typeof ClockInSelectFieldsSchema>;
 
 export type ClockInProjection = z.infer<typeof ClockInProjectionSchema>;
@@ -6607,9 +7804,9 @@ export const PaycheckQuerySchema = z
   })
   .partial();
 
-export type PaycheckCreate = z.infer<typeof PaycheckCreateSchema>;
+export type PaycheckCreate = z.infer<typeof PaycheckRawCreateSchema>;
 
-export type PaycheckUpdate = z.infer<typeof PaycheckUpdateSchema>;
+export type PaycheckUpdate = z.infer<typeof PaycheckRawUpdateSchema>;
 
 export type PaycheckOrderBy = z.infer<typeof PaycheckOrderBySchema>;
 
@@ -6631,6 +7828,8 @@ export type PaycheckQueryOne = z.infer<typeof PaycheckQueryOneSchema>;
 
 export type PaycheckQuery = z.infer<typeof PaycheckQuerySchema>;
 
+export type PaycheckOmitFields = z.infer<typeof PaycheckOmitFieldsSchema>;
+
 export type PaycheckSelectFields = z.infer<typeof PaycheckSelectFieldsSchema>;
 
 export type PaycheckProjection = z.infer<typeof PaycheckProjectionSchema>;
@@ -6651,9 +7850,9 @@ export const EarningQuerySchema = z
   })
   .partial();
 
-export type EarningCreate = z.infer<typeof EarningCreateSchema>;
+export type EarningCreate = z.infer<typeof EarningRawCreateSchema>;
 
-export type EarningUpdate = z.infer<typeof EarningUpdateSchema>;
+export type EarningUpdate = z.infer<typeof EarningRawUpdateSchema>;
 
 export type EarningOrderBy = z.infer<typeof EarningOrderBySchema>;
 
@@ -6675,6 +7874,8 @@ export type EarningQueryOne = z.infer<typeof EarningQueryOneSchema>;
 
 export type EarningQuery = z.infer<typeof EarningQuerySchema>;
 
+export type EarningOmitFields = z.infer<typeof EarningOmitFieldsSchema>;
+
 export type EarningSelectFields = z.infer<typeof EarningSelectFieldsSchema>;
 
 export type EarningProjection = z.infer<typeof EarningProjectionSchema>;
@@ -6695,9 +7896,9 @@ export const PaycheckTaxQuerySchema = z
   })
   .partial();
 
-export type PaycheckTaxCreate = z.infer<typeof PaycheckTaxCreateSchema>;
+export type PaycheckTaxCreate = z.infer<typeof PaycheckTaxRawCreateSchema>;
 
-export type PaycheckTaxUpdate = z.infer<typeof PaycheckTaxUpdateSchema>;
+export type PaycheckTaxUpdate = z.infer<typeof PaycheckTaxRawUpdateSchema>;
 
 export type PaycheckTaxOrderBy = z.infer<typeof PaycheckTaxOrderBySchema>;
 
@@ -6721,6 +7922,8 @@ export type PaycheckTaxQueryOne = z.infer<typeof PaycheckTaxQueryOneSchema>;
 
 export type PaycheckTaxQuery = z.infer<typeof PaycheckTaxQuerySchema>;
 
+export type PaycheckTaxOmitFields = z.infer<typeof PaycheckTaxOmitFieldsSchema>;
+
 export type PaycheckTaxSelectFields = z.infer<
   typeof PaycheckTaxSelectFieldsSchema
 >;
@@ -6743,9 +7946,13 @@ export const DeductionPolicyQuerySchema = z
   })
   .partial();
 
-export type DeductionPolicyCreate = z.infer<typeof DeductionPolicyCreateSchema>;
+export type DeductionPolicyCreate = z.infer<
+  typeof DeductionPolicyRawCreateSchema
+>;
 
-export type DeductionPolicyUpdate = z.infer<typeof DeductionPolicyUpdateSchema>;
+export type DeductionPolicyUpdate = z.infer<
+  typeof DeductionPolicyRawUpdateSchema
+>;
 
 export type DeductionPolicyOrderBy = z.infer<
   typeof DeductionPolicyOrderBySchema
@@ -6779,6 +7986,10 @@ export type DeductionPolicyQueryOne = z.infer<
 
 export type DeductionPolicyQuery = z.infer<typeof DeductionPolicyQuerySchema>;
 
+export type DeductionPolicyOmitFields = z.infer<
+  typeof DeductionPolicyOmitFieldsSchema
+>;
+
 export type DeductionPolicySelectFields = z.infer<
   typeof DeductionPolicySelectFieldsSchema
 >;
@@ -6804,11 +8015,11 @@ export const EmployeeDeductionQuerySchema = z
   .partial();
 
 export type EmployeeDeductionCreate = z.infer<
-  typeof EmployeeDeductionCreateSchema
+  typeof EmployeeDeductionRawCreateSchema
 >;
 
 export type EmployeeDeductionUpdate = z.infer<
-  typeof EmployeeDeductionUpdateSchema
+  typeof EmployeeDeductionRawUpdateSchema
 >;
 
 export type EmployeeDeductionOrderBy = z.infer<
@@ -6847,6 +8058,10 @@ export type EmployeeDeductionQuery = z.infer<
   typeof EmployeeDeductionQuerySchema
 >;
 
+export type EmployeeDeductionOmitFields = z.infer<
+  typeof EmployeeDeductionOmitFieldsSchema
+>;
+
 export type EmployeeDeductionSelectFields = z.infer<
   typeof EmployeeDeductionSelectFieldsSchema
 >;
@@ -6872,11 +8087,11 @@ export const PaycheckDeductionQuerySchema = z
   .partial();
 
 export type PaycheckDeductionCreate = z.infer<
-  typeof PaycheckDeductionCreateSchema
+  typeof PaycheckDeductionRawCreateSchema
 >;
 
 export type PaycheckDeductionUpdate = z.infer<
-  typeof PaycheckDeductionUpdateSchema
+  typeof PaycheckDeductionRawUpdateSchema
 >;
 
 export type PaycheckDeductionOrderBy = z.infer<
@@ -6915,6 +8130,10 @@ export type PaycheckDeductionQuery = z.infer<
   typeof PaycheckDeductionQuerySchema
 >;
 
+export type PaycheckDeductionOmitFields = z.infer<
+  typeof PaycheckDeductionOmitFieldsSchema
+>;
+
 export type PaycheckDeductionSelectFields = z.infer<
   typeof PaycheckDeductionSelectFieldsSchema
 >;
@@ -6939,9 +8158,13 @@ export const EmployeeTaxDataQuerySchema = z
   })
   .partial();
 
-export type EmployeeTaxDataCreate = z.infer<typeof EmployeeTaxDataCreateSchema>;
+export type EmployeeTaxDataCreate = z.infer<
+  typeof EmployeeTaxDataRawCreateSchema
+>;
 
-export type EmployeeTaxDataUpdate = z.infer<typeof EmployeeTaxDataUpdateSchema>;
+export type EmployeeTaxDataUpdate = z.infer<
+  typeof EmployeeTaxDataRawUpdateSchema
+>;
 
 export type EmployeeTaxDataOrderBy = z.infer<
   typeof EmployeeTaxDataOrderBySchema
@@ -6975,6 +8198,10 @@ export type EmployeeTaxDataQueryOne = z.infer<
 
 export type EmployeeTaxDataQuery = z.infer<typeof EmployeeTaxDataQuerySchema>;
 
+export type EmployeeTaxDataOmitFields = z.infer<
+  typeof EmployeeTaxDataOmitFieldsSchema
+>;
+
 export type EmployeeTaxDataSelectFields = z.infer<
   typeof EmployeeTaxDataSelectFieldsSchema
 >;
@@ -7000,11 +8227,11 @@ export const StateTaxWithholdingQuerySchema = z
   .partial();
 
 export type StateTaxWithholdingCreate = z.infer<
-  typeof StateTaxWithholdingCreateSchema
+  typeof StateTaxWithholdingRawCreateSchema
 >;
 
 export type StateTaxWithholdingUpdate = z.infer<
-  typeof StateTaxWithholdingUpdateSchema
+  typeof StateTaxWithholdingRawUpdateSchema
 >;
 
 export type StateTaxWithholdingOrderBy = z.infer<
@@ -7043,6 +8270,10 @@ export type StateTaxWithholdingQuery = z.infer<
   typeof StateTaxWithholdingQuerySchema
 >;
 
+export type StateTaxWithholdingOmitFields = z.infer<
+  typeof StateTaxWithholdingOmitFieldsSchema
+>;
+
 export type StateTaxWithholdingSelectFields = z.infer<
   typeof StateTaxWithholdingSelectFieldsSchema
 >;
@@ -7068,11 +8299,11 @@ export const LocalTaxWithholdingQuerySchema = z
   .partial();
 
 export type LocalTaxWithholdingCreate = z.infer<
-  typeof LocalTaxWithholdingCreateSchema
+  typeof LocalTaxWithholdingRawCreateSchema
 >;
 
 export type LocalTaxWithholdingUpdate = z.infer<
-  typeof LocalTaxWithholdingUpdateSchema
+  typeof LocalTaxWithholdingRawUpdateSchema
 >;
 
 export type LocalTaxWithholdingOrderBy = z.infer<
@@ -7111,6 +8342,10 @@ export type LocalTaxWithholdingQuery = z.infer<
   typeof LocalTaxWithholdingQuerySchema
 >;
 
+export type LocalTaxWithholdingOmitFields = z.infer<
+  typeof LocalTaxWithholdingOmitFieldsSchema
+>;
+
 export type LocalTaxWithholdingSelectFields = z.infer<
   typeof LocalTaxWithholdingSelectFieldsSchema
 >;
@@ -7135,9 +8370,9 @@ export const PayrollRunQuerySchema = z
   })
   .partial();
 
-export type PayrollRunCreate = z.infer<typeof PayrollRunCreateSchema>;
+export type PayrollRunCreate = z.infer<typeof PayrollRunRawCreateSchema>;
 
-export type PayrollRunUpdate = z.infer<typeof PayrollRunUpdateSchema>;
+export type PayrollRunUpdate = z.infer<typeof PayrollRunRawUpdateSchema>;
 
 export type PayrollRunOrderBy = z.infer<typeof PayrollRunOrderBySchema>;
 
@@ -7158,6 +8393,8 @@ export type PayrollRunInclude = z.infer<typeof PayrollRunIncludeSchema>;
 export type PayrollRunQueryOne = z.infer<typeof PayrollRunQueryOneSchema>;
 
 export type PayrollRunQuery = z.infer<typeof PayrollRunQuerySchema>;
+
+export type PayrollRunOmitFields = z.infer<typeof PayrollRunOmitFieldsSchema>;
 
 export type PayrollRunSelectFields = z.infer<
   typeof PayrollRunSelectFieldsSchema
@@ -7181,9 +8418,9 @@ export const ContactQuerySchema = z
   })
   .partial();
 
-export type ContactCreate = z.infer<typeof ContactCreateSchema>;
+export type ContactCreate = z.infer<typeof ContactRawCreateSchema>;
 
-export type ContactUpdate = z.infer<typeof ContactUpdateSchema>;
+export type ContactUpdate = z.infer<typeof ContactRawUpdateSchema>;
 
 export type ContactOrderBy = z.infer<typeof ContactOrderBySchema>;
 
@@ -7205,6 +8442,8 @@ export type ContactQueryOne = z.infer<typeof ContactQueryOneSchema>;
 
 export type ContactQuery = z.infer<typeof ContactQuerySchema>;
 
+export type ContactOmitFields = z.infer<typeof ContactOmitFieldsSchema>;
+
 export type ContactSelectFields = z.infer<typeof ContactSelectFieldsSchema>;
 
 export type ContactProjection = z.infer<typeof ContactProjectionSchema>;
@@ -7225,9 +8464,9 @@ export const CountryQuerySchema = z
   })
   .partial();
 
-export type CountryCreate = z.infer<typeof CountryCreateSchema>;
+export type CountryCreate = z.infer<typeof CountryRawCreateSchema>;
 
-export type CountryUpdate = z.infer<typeof CountryUpdateSchema>;
+export type CountryUpdate = z.infer<typeof CountryRawUpdateSchema>;
 
 export type CountryOrderBy = z.infer<typeof CountryOrderBySchema>;
 
@@ -7249,6 +8488,8 @@ export type CountryQueryOne = z.infer<typeof CountryQueryOneSchema>;
 
 export type CountryQuery = z.infer<typeof CountryQuerySchema>;
 
+export type CountryOmitFields = z.infer<typeof CountryOmitFieldsSchema>;
+
 export type CountrySelectFields = z.infer<typeof CountrySelectFieldsSchema>;
 
 export type CountryProjection = z.infer<typeof CountryProjectionSchema>;
@@ -7269,9 +8510,9 @@ export const StateQuerySchema = z
   })
   .partial();
 
-export type StateCreate = z.infer<typeof StateCreateSchema>;
+export type StateCreate = z.infer<typeof StateRawCreateSchema>;
 
-export type StateUpdate = z.infer<typeof StateUpdateSchema>;
+export type StateUpdate = z.infer<typeof StateRawUpdateSchema>;
 
 export type StateOrderBy = z.infer<typeof StateOrderBySchema>;
 
@@ -7290,6 +8531,8 @@ export type StateInclude = z.infer<typeof StateIncludeSchema>;
 export type StateQueryOne = z.infer<typeof StateQueryOneSchema>;
 
 export type StateQuery = z.infer<typeof StateQuerySchema>;
+
+export type StateOmitFields = z.infer<typeof StateOmitFieldsSchema>;
 
 export type StateSelectFields = z.infer<typeof StateSelectFieldsSchema>;
 
@@ -7311,9 +8554,9 @@ export const AddressQuerySchema = z
   })
   .partial();
 
-export type AddressCreate = z.infer<typeof AddressCreateSchema>;
+export type AddressCreate = z.infer<typeof AddressRawCreateSchema>;
 
-export type AddressUpdate = z.infer<typeof AddressUpdateSchema>;
+export type AddressUpdate = z.infer<typeof AddressRawUpdateSchema>;
 
 export type AddressOrderBy = z.infer<typeof AddressOrderBySchema>;
 
@@ -7335,6 +8578,8 @@ export type AddressQueryOne = z.infer<typeof AddressQueryOneSchema>;
 
 export type AddressQuery = z.infer<typeof AddressQuerySchema>;
 
+export type AddressOmitFields = z.infer<typeof AddressOmitFieldsSchema>;
+
 export type AddressSelectFields = z.infer<typeof AddressSelectFieldsSchema>;
 
 export type AddressProjection = z.infer<typeof AddressProjectionSchema>;
@@ -7355,9 +8600,9 @@ export const EmailQuerySchema = z
   })
   .partial();
 
-export type EmailCreate = z.infer<typeof EmailCreateSchema>;
+export type EmailCreate = z.infer<typeof EmailRawCreateSchema>;
 
-export type EmailUpdate = z.infer<typeof EmailUpdateSchema>;
+export type EmailUpdate = z.infer<typeof EmailRawUpdateSchema>;
 
 export type EmailOrderBy = z.infer<typeof EmailOrderBySchema>;
 
@@ -7376,6 +8621,8 @@ export type EmailInclude = z.infer<typeof EmailIncludeSchema>;
 export type EmailQueryOne = z.infer<typeof EmailQueryOneSchema>;
 
 export type EmailQuery = z.infer<typeof EmailQuerySchema>;
+
+export type EmailOmitFields = z.infer<typeof EmailOmitFieldsSchema>;
 
 export type EmailSelectFields = z.infer<typeof EmailSelectFieldsSchema>;
 
@@ -7397,9 +8644,9 @@ export const PhoneQuerySchema = z
   })
   .partial();
 
-export type PhoneCreate = z.infer<typeof PhoneCreateSchema>;
+export type PhoneCreate = z.infer<typeof PhoneRawCreateSchema>;
 
-export type PhoneUpdate = z.infer<typeof PhoneUpdateSchema>;
+export type PhoneUpdate = z.infer<typeof PhoneRawUpdateSchema>;
 
 export type PhoneOrderBy = z.infer<typeof PhoneOrderBySchema>;
 
@@ -7418,6 +8665,8 @@ export type PhoneInclude = z.infer<typeof PhoneIncludeSchema>;
 export type PhoneQueryOne = z.infer<typeof PhoneQueryOneSchema>;
 
 export type PhoneQuery = z.infer<typeof PhoneQuerySchema>;
+
+export type PhoneOmitFields = z.infer<typeof PhoneOmitFieldsSchema>;
 
 export type PhoneSelectFields = z.infer<typeof PhoneSelectFieldsSchema>;
 
@@ -7439,9 +8688,9 @@ export const PrimaryEmailQuerySchema = z
   })
   .partial();
 
-export type PrimaryEmailCreate = z.infer<typeof PrimaryEmailCreateSchema>;
+export type PrimaryEmailCreate = z.infer<typeof PrimaryEmailRawCreateSchema>;
 
-export type PrimaryEmailUpdate = z.infer<typeof PrimaryEmailUpdateSchema>;
+export type PrimaryEmailUpdate = z.infer<typeof PrimaryEmailRawUpdateSchema>;
 
 export type PrimaryEmailOrderBy = z.infer<typeof PrimaryEmailOrderBySchema>;
 
@@ -7464,6 +8713,10 @@ export type PrimaryEmailInclude = z.infer<typeof PrimaryEmailIncludeSchema>;
 export type PrimaryEmailQueryOne = z.infer<typeof PrimaryEmailQueryOneSchema>;
 
 export type PrimaryEmailQuery = z.infer<typeof PrimaryEmailQuerySchema>;
+
+export type PrimaryEmailOmitFields = z.infer<
+  typeof PrimaryEmailOmitFieldsSchema
+>;
 
 export type PrimaryEmailSelectFields = z.infer<
   typeof PrimaryEmailSelectFieldsSchema
@@ -7489,9 +8742,9 @@ export const PrimaryPhoneQuerySchema = z
   })
   .partial();
 
-export type PrimaryPhoneCreate = z.infer<typeof PrimaryPhoneCreateSchema>;
+export type PrimaryPhoneCreate = z.infer<typeof PrimaryPhoneRawCreateSchema>;
 
-export type PrimaryPhoneUpdate = z.infer<typeof PrimaryPhoneUpdateSchema>;
+export type PrimaryPhoneUpdate = z.infer<typeof PrimaryPhoneRawUpdateSchema>;
 
 export type PrimaryPhoneOrderBy = z.infer<typeof PrimaryPhoneOrderBySchema>;
 
@@ -7514,6 +8767,10 @@ export type PrimaryPhoneInclude = z.infer<typeof PrimaryPhoneIncludeSchema>;
 export type PrimaryPhoneQueryOne = z.infer<typeof PrimaryPhoneQueryOneSchema>;
 
 export type PrimaryPhoneQuery = z.infer<typeof PrimaryPhoneQuerySchema>;
+
+export type PrimaryPhoneOmitFields = z.infer<
+  typeof PrimaryPhoneOmitFieldsSchema
+>;
 
 export type PrimaryPhoneSelectFields = z.infer<
   typeof PrimaryPhoneSelectFieldsSchema
@@ -7539,9 +8796,13 @@ export const PrimaryAddressQuerySchema = z
   })
   .partial();
 
-export type PrimaryAddressCreate = z.infer<typeof PrimaryAddressCreateSchema>;
+export type PrimaryAddressCreate = z.infer<
+  typeof PrimaryAddressRawCreateSchema
+>;
 
-export type PrimaryAddressUpdate = z.infer<typeof PrimaryAddressUpdateSchema>;
+export type PrimaryAddressUpdate = z.infer<
+  typeof PrimaryAddressRawUpdateSchema
+>;
 
 export type PrimaryAddressOrderBy = z.infer<typeof PrimaryAddressOrderBySchema>;
 
@@ -7570,6 +8831,10 @@ export type PrimaryAddressQueryOne = z.infer<
 >;
 
 export type PrimaryAddressQuery = z.infer<typeof PrimaryAddressQuerySchema>;
+
+export type PrimaryAddressOmitFields = z.infer<
+  typeof PrimaryAddressOmitFieldsSchema
+>;
 
 export type PrimaryAddressSelectFields = z.infer<
   typeof PrimaryAddressSelectFieldsSchema

@@ -138,7 +138,7 @@ export function generateSlugExtension(model: DMMF.Model) {
     })?.name;
 
     if (sluggingFieldName) {
-      return `.transform(slugTransformer("${sluggingFieldName}"))`;
+      return `.transform(PZ.slugTransformer("${sluggingFieldName}"))`;
     }
   }
 
@@ -149,8 +149,8 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
   const importList: string[] = [
     '/* eslint-disable @typescript-eslint/no-explicit-any */',
     `import * as PZ from '@puq/zod';`,
-    `import { z } from 'zod';`,
-    `import { slugify } from '@puq/names';`,
+    `import { z } from 'zod';
+    `,
   ];
   const firstResult: string[] = [];
   const secondResult: string[] = [];
@@ -165,7 +165,7 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
     switch (field.kind) {
       case 'object': {
         if (field.type === 'Json') {
-          pt.push('z.json()');
+          pt.push('PZ.Scalar.json()');
         }
         break;
       }
@@ -174,20 +174,20 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
           case 'String': {
             // Specific stirng schemas  by property name
             if (field.name === 'name') {
-              pt.push('nameSchema.clone()');
+              pt.push('PZ.Scalar.name()');
             } else if (field.name === 'description') {
-              pt.push('descriptionSchema.clone()');
+              pt.push('PZ.Scalar.description()');
             } else if (field.name === 'email') {
-              pt.push('emailSchema.clone()');
+              pt.push('PZ.Scalar.email()');
             } else if (field.name === 'slug') {
-              pt.push('slugSchema.clone()');
+              pt.push('PZ.Scalar.slug()');
             } else {
-              pt.push('z.string()');
+              pt.push('PZ.Scalar.string()');
             }
             break;
           }
           case 'Boolean': {
-            pt.push('z.boolean()');
+            pt.push('PZ.Scalar.bool()');
             break;
           }
           case 'Float':
@@ -199,29 +199,27 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
               field.name === 'subtotal' ||
               field.name === 'taxtotal'
             ) {
-              pt.push('currencySchema.clone()');
+              pt.push('PZ.Scalar.positive()');
             } else {
-              pt.push('z.coerce.number()');
+              pt.push('PZ.Scalar.number()');
             }
 
             break;
           }
 
           case 'Int': {
-            if (
-              field.name === 'id' ||
-              field.name === 'quantity' ||
-              field.name === 'age'
-            ) {
-              pt.push('positiveIntegerSchema.clone()');
+            if (field.name === 'id' || field.name.endsWith('Id')) {
+              pt.push('PZ.Scalar.id()');
+            } else if (field.name === 'quantity' || field.name === 'age') {
+              pt.push('PZ.Scalar.positiveInt()');
             } else {
-              pt.push('z.coerce.number().int()');
+              pt.push('PZ.Scalar.int()');
             }
             break;
           }
 
           case 'DateTime': {
-            pt.push('dateSchema.clone()');
+            pt.push('PZ.Scalar.datetime()');
 
             break;
           }
@@ -265,6 +263,7 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
     const orderFields: DMMF.Field[] = [];
     const whereFields: DMMF.Field[] = [];
     const selectFields: DMMF.Field[] = [];
+    const omitFields: DMMF.Field[] = [];
     const relationFields: DMMF.Field[] = [];
     const distinctFields: DMMF.Field[] = [];
 
@@ -284,6 +283,7 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
       }
       if (!field.relationName) {
         distinctFields.push(field);
+        omitFields.push(field);
       }
 
       if (field.kind === 'scalar') {
@@ -297,26 +297,25 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
 
     const slugTransformer = generateSlugExtension(model);
 
-    if (slugTransformer) {
-      const slugifyImport = `import { slugify } from '@puq/names';`;
-      if (!importList.includes(slugifyImport)) {
-        importList.push(slugifyImport);
-      }
-    }
-
     const createSchema = `
-    export const ${model.name}CreateSchema = z.object({ 
+    export const ${model.name}RawCreateSchema = z.object({ 
       ${createSchemaFields}
-    })${slugTransformer}
+    })
+
+    export const ${model.name}CreateSchema = ${model.name}RawCreateSchema.clone()${slugTransformer}
     `;
 
     const updateSchema = `
-    export const ${model.name}UpdateSchema = z.object({ 
+    export const ${model.name}RawUpdateSchema = z.object({ 
         ${updateFields
           .map(toZodPropertyDefinition)
           .map((e) => e + '.optional()')
           .join(',\n')}
-    })${slugTransformer}
+    });
+
+    export const ${model.name}UpdateSchema = ${
+      model.name
+    }RawUpdateSchema.clone()${slugTransformer}
     `;
 
     const distinctFieldsString = distinctFields
@@ -332,20 +331,25 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
     const orderBySchema = `
     export const ${model.name}OrderBySchema = z.object({
         ${orderBySchemaFields}
-    }).partial()
+    })
+        .partial()
+        .refine(value=> typeof value ==='object' && Object.keys(value).length === 1)
+        .array()
 
-    export const ${model.name}OrderBySchemaJson = z.preprocess(jsonParser, ${model.name}OrderBySchema);
+    export const ${model.name}OrderBySchemaJson = z.preprocess(PZ.jsonPreprocessor, ${model.name}OrderBySchema);
     `;
 
     const ownSelectFieldsFields = selectFields
-      .map((e) => `${e.name}: z.boolean()`)
+      .map((e) => `${e.name}: PZ.Scalar.bool()`)
       .join(',\n');
+
     const ownSelectFieldsSchema = `
       export const ${model.name}OwnSelectFieldsSchema = z.object({ 
           ${ownSelectFieldsFields}
       }).partial()
+
+      export const ${model.name}OwnSelectFieldsSchemaJson = z.preprocess(PZ.jsonPreprocessor, ${model.name}OwnSelectFieldsSchema);
       
-      export const ${model.name}OwnSelectFieldsSchemaJson = z.preprocess(jsonParser, ${model.name}OwnSelectFieldsSchema);
       `;
 
     const ownWhereSchemaFields = whereFields
@@ -357,7 +361,7 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
       ${ownWhereSchemaFields}
     }).partial()
 
-    export const ${model.name}OwnWhereSchemaJson = z.preprocess(jsonParser, ${model.name}OwnWhereSchema);
+    export const ${model.name}OwnWhereSchemaJson = z.preprocess(PZ.jsonPreprocessor, ${model.name}OwnWhereSchema);
     `;
 
     const ownQuerySchema = `
@@ -382,28 +386,26 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
         ${whereSchemaFields}
     }).partial()
 
-    export const ${model.name}WhereSchemaJson = z.preprocess(jsonParser, ${model.name}WhereSchema);
+    export const ${model.name}WhereSchemaJson = z.preprocess(PZ.jsonPreprocessor, ${model.name}WhereSchema);
     `;
 
     const ownIncludeSchemaFields = relationFields
-      .map((e) => {
-        return `${e.name}: z.boolean()`;
-      })
+      .map((e) => `${e.name}: PZ.Scalar.bool()`)
       .join(',\n');
     const ownIncludeSchema = `
     export const ${model.name}OwnIncludeSchema = z.object({ 
       ${ownIncludeSchemaFields}
     }).partial()
 
-    export const ${model.name}OwnIncludeSchemaJson = z.preprocess(jsonParser, ${model.name}OwnIncludeSchema);
+    export const ${model.name}OwnIncludeSchemaJson = z.preprocess(PZ.jsonPreprocessor, ${model.name}OwnIncludeSchema);
     `;
 
     const includeSchemaFields = relationFields
       .map((e) => {
         if (e.isList) {
-          return `${e.name}: z.boolean().or(${e.type}OwnQuerySchema)`;
+          return `${e.name}: PZ.Scalar.bool().or(${e.type}OwnQuerySchema)`;
         } else {
-          return `${e.name}: z.boolean().or(${e.type}OwnQueryOneSchema)`;
+          return `${e.name}: PZ.Scalar.bool().or(${e.type}OwnQueryOneSchema)`;
         }
       })
       .join(',\n');
@@ -412,7 +414,7 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
       ${includeSchemaFields}
     }).partial()
 
-    export const ${model.name}IncludeSchemaJson = z.preprocess(jsonParser, ${model.name}IncludeSchema);
+    export const ${model.name}IncludeSchemaJson = z.preprocess(PZ.jsonPreprocessor, ${model.name}IncludeSchema);
     `;
 
     const queryOneSchema = `
@@ -431,16 +433,38 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
     }).partial()
     `;
 
+    const omitFieldSchemaFields = omitFields
+      .map((e) => `${e.name}: PZ.Scalar.bool()`)
+      .join(',\n');
+
+    const omitFieldsSchema = `
+     export const ${model.name}OmitFieldsSchema = z.object({ 
+          ${omitFieldSchemaFields}
+     })
+          .partial()
+          .refine(
+           value=>![${omitFields.map(
+             (e) => `"${e.name}"`
+           )}].every(e=>Object.hasOwn(value,e)),
+           {message:"Cannot omit all fields", path:["omit"] })
+    
+     export const ${
+       model.name
+     }OmitFieldsSchemaJson = z.preprocess(PZ.jsonPreprocessor, ${
+      model.name
+    }OmitFieldsSchema);
+      `;
+
     const selectFieldSchemaFields = selectFields
       .map((e) => {
         if (e.relationName) {
           if (e.isList) {
-            return `${e.name}: z.boolean().or(${e.type}OwnQuerySchema)`;
+            return `${e.name}: PZ.Scalar.bool().or(${e.type}OwnQuerySchema)`;
           } else {
-            return `${e.name}: z.boolean().or(${e.type}OwnQueryOneSchema)`;
+            return `${e.name}: PZ.Scalar.bool().or(${e.type}OwnQueryOneSchema)`;
           }
         }
-        return `${e.name}: z.boolean()`;
+        return `${e.name}: PZ.Scalar.bool()`;
       })
       .join(',\n');
 
@@ -448,13 +472,13 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
     export const ${model.name}SelectFieldsSchema = z.object({ 
           ${selectFieldSchemaFields}
      }).partial()
-
-    export const ${model.name}SelectFieldsSchemaJson = z.preprocess(jsonParser, ${model.name}SelectFieldsSchema);
-     `;
+ 
+    export const ${model.name}SelectFieldsSchemaJson = z.preprocess(PZ.jsonPreprocessor, ${model.name}SelectFieldsSchema);
+   `;
 
     const projectionSchema = `
      export const ${model.name}ProjectionSchema = z.union([
-        z.object({ omit: ${model.name}SelectFieldsSchemaJson }),
+        z.object({ omit: ${model.name}OmitFieldsSchemaJson }),
         z.object({ select: ${model.name}SelectFieldsSchemaJson }),
         z.object({ include: ${model.name}IncludeSchemaJson }),
         z.object({})
@@ -472,17 +496,17 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
     result.push(updateSchema);
     result.push(orderBySchema);
     result.push(whereSchema);
-    // result.push(selectFieldsSchema);
     result.push(selectFieldsSchema);
+    result.push(omitFieldsSchema);
     result.push(includeSchema);
     result.push(projectionSchema);
     postResult.push(queryOneSchema);
     postResult.push(querySchema);
 
     const allTypes = `
-    export type  ${model.name}Create = z.infer<typeof ${model.name}CreateSchema>;
+    export type  ${model.name}Create = z.infer<typeof ${model.name}RawCreateSchema>;
 
-    export type  ${model.name}Update = z.infer<typeof ${model.name}UpdateSchema>;
+    export type  ${model.name}Update = z.infer<typeof ${model.name}RawUpdateSchema>;
 
     export type  ${model.name}OrderBy = z.infer<typeof ${model.name}OrderBySchema>;
 
@@ -502,6 +526,8 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
 
     export type  ${model.name}Query = z.infer<typeof ${model.name}QuerySchema>;
 
+    export type  ${model.name}OmitFields = z.infer<typeof ${model.name}OmitFieldsSchema>;
+
     export type  ${model.name}SelectFields = z.infer<typeof ${model.name}SelectFieldsSchema>;
 
     export type  ${model.name}Projection = z.infer<typeof ${model.name}ProjectionSchema>;
@@ -513,44 +539,11 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
 
   const commonCode = [
     `
-export const takeSchema = z.coerce.number().int().min(1).default(20).optional();
-export const skipSchema = z.coerce.number().int().min(0).default(0).optional();
 export const PaginationSchema = z.object({ 
-  take: takeSchema.clone(), 
-  skip: skipSchema.clone() 
+  take: PZ.Scalar.take(),
+  skip: PZ.Scalar.skip()
 }).partial()
 `,
-
-    `
-export const nameSchema = z.string().min(2).max(30); 
-export const descriptionSchema= z.string().max(1000); 
-export const currencySchema =  z.coerce.number().positive(); 
-export const positiveIntegerSchema = z.coerce.number().int().positive();
-export const emailSchema = z.email();
-export const dateSchema = z.iso.datetime()
-export const slugSchema = z.string().regex(/^[a-z-]{2,}$/)
-`,
-    `
-export function jsonParser<T>(value: T) {
-  if (typeof value === 'string') {
-    return JSON.parse(value);
-  }
-  return value;
-};
-`,
-    `
-export function slugTransformer(key: string) {
-  return (value: any) => {
-    if (value.slug == undefined && value[key] != undefined) {
-      return {
-        ...value,
-        slug: value[key] ? slugify(value[key].toString()) : null,
-      };
-    }
-    return value;
-  };
-}
-  `,
   ];
 
   return [
