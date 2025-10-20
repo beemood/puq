@@ -1,6 +1,6 @@
 {
   "name": "@puq/nest",
-  "version": "0.29.6",
+  "version": "0.29.7",
   "license": "MIT",
   "displayName": "Nestjs Extention",
   "description": "Extended nestjs decorators provides combined decorators to keep code base clean and consistent. The project follows the common standard implementaions pattern of nestjs, swagger, zod, and prisma orm.",

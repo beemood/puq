@@ -1,6 +1,6 @@
 {
   "name": "@puq/testing",
-  "version": "0.29.6",
+  "version": "0.29.7",
   "license": "MIT",
   "description": "Common testing utilities",
   "publishConfig": {

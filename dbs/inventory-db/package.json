@@ -1,6 +1,6 @@
 {
   "name": "@puq/inventory-db",
-  "version": "0.29.6",
+  "version": "0.29.7",
   "license": "MIT",
   "displayName": "Inventory Database | Prisma Client And Zod Schemas",
   "description": "Inventory database to manage products, price, quantity",
