@@ -1,3 +1,14 @@
+## 0.29.8 (2025-10-20)
+
+### 🩹 Fixes
+
+- fixed the omit, and order-by schemas, and ([e6be942](https://github.com/beemood/puq/commit/e6be942))
+- fixed the omit, and order-by schemas, and ([7572fac](https://github.com/beemood/puq/commit/7572fac))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.29.7 (2025-10-20)
 
 ### 🩹 Fixes

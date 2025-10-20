@@ -1,6 +1,6 @@
 {
   "name": "@puq/app-db",
-  "version": "0.29.7",
+  "version": "0.29.8",
   "license": "MIT",
   "displayName": "App Database | Prisma Client And Zod Schemas",
   "description": "App database to manage applications, installations, start, and stop operations",
