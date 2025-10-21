@@ -2466,25 +2466,22 @@ export const PrimaryAddressOwnQuerySchema = z
   })
   .partial();
 
-export const DepartmentRawCreateSchema = z.object({
-  parentId: PZ.Scalar.id().optional(),
-  name: PZ.Scalar.name(),
-  slug: PZ.Scalar.slug().optional(),
-  isActive: PZ.Scalar.bool().optional(),
-});
+export const DepartmentCreateSchema = z.preprocess(
+  PZ.slugTransformer('name'),
+  z.object({
+    parentId: PZ.Scalar.id().optional(),
+    name: PZ.Scalar.name(),
+    slug: PZ.Scalar.slug().optional(),
+    isActive: PZ.Scalar.bool().optional(),
+  })
+);
 
-export const DepartmentCreateSchema =
-  DepartmentRawCreateSchema.clone().transform(PZ.slugTransformer('name'));
-
-export const DepartmentRawUpdateSchema = z.object({
+export const DepartmentUpdateSchema = z.object({
   parentId: PZ.Scalar.id().optional().optional(),
   name: PZ.Scalar.name().optional(),
   slug: PZ.Scalar.slug().optional().optional(),
   isActive: PZ.Scalar.bool().optional().optional(),
 });
-
-export const DepartmentUpdateSchema =
-  DepartmentRawUpdateSchema.clone().transform(PZ.slugTransformer('name'));
 
 export const DepartmentOrderBySchema = z
   .object({
@@ -2595,29 +2592,24 @@ export const DepartmentProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const TitleRawCreateSchema = z.object({
-  departmentId: PZ.Scalar.id(),
-  name: PZ.Scalar.name(),
-  slug: PZ.Scalar.slug().optional(),
-  description: PZ.Scalar.description().optional(),
-  isActive: PZ.Scalar.bool().optional(),
-});
-
-export const TitleCreateSchema = TitleRawCreateSchema.clone().transform(
-  PZ.slugTransformer('name')
+export const TitleCreateSchema = z.preprocess(
+  PZ.slugTransformer('name'),
+  z.object({
+    departmentId: PZ.Scalar.id(),
+    name: PZ.Scalar.name(),
+    slug: PZ.Scalar.slug().optional(),
+    description: PZ.Scalar.description().optional(),
+    isActive: PZ.Scalar.bool().optional(),
+  })
 );
 
-export const TitleRawUpdateSchema = z.object({
+export const TitleUpdateSchema = z.object({
   departmentId: PZ.Scalar.id().optional(),
   name: PZ.Scalar.name().optional(),
   slug: PZ.Scalar.slug().optional().optional(),
   description: PZ.Scalar.description().optional().optional(),
   isActive: PZ.Scalar.bool().optional().optional(),
 });
-
-export const TitleUpdateSchema = TitleRawUpdateSchema.clone().transform(
-  PZ.slugTransformer('name')
-);
 
 export const TitleOrderBySchema = z
   .object({
@@ -2732,25 +2724,24 @@ export const TitleProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const PersonalDataRawCreateSchema = z.object({
-  employeeId: PZ.Scalar.id(),
-  ein: PZ.Scalar.string(),
-  gender: GenderSchema,
-  dob: PZ.Scalar.datetime(),
-  maritalStatus: MaritalStatusSchema,
-});
+export const PersonalDataCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    employeeId: PZ.Scalar.id(),
+    ein: PZ.Scalar.string(),
+    gender: GenderSchema,
+    dob: PZ.Scalar.datetime(),
+    maritalStatus: MaritalStatusSchema,
+  })
+);
 
-export const PersonalDataCreateSchema = PersonalDataRawCreateSchema.clone();
-
-export const PersonalDataRawUpdateSchema = z.object({
+export const PersonalDataUpdateSchema = z.object({
   employeeId: PZ.Scalar.id().optional(),
   ein: PZ.Scalar.string().optional(),
   gender: GenderSchema.optional(),
   dob: PZ.Scalar.datetime().optional(),
   maritalStatus: MaritalStatusSchema.optional(),
 });
-
-export const PersonalDataUpdateSchema = PersonalDataRawUpdateSchema.clone();
 
 export const PersonalDataOrderBySchema = z
   .object({
@@ -2845,22 +2836,23 @@ export const PersonalDataProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const EmployeeRawCreateSchema = z.object({
-  titleId: PZ.Scalar.id(),
-  firstName: PZ.Scalar.string(),
-  middleName: PZ.Scalar.string().optional(),
-  lastName: PZ.Scalar.string(),
-  preferedName: PZ.Scalar.string().optional(),
-  status: EmployeeStatusSchema.optional(),
-  hireDate: PZ.Scalar.datetime().optional(),
-  terminationDate: PZ.Scalar.datetime().optional(),
-  employmentType: EmploymentTypeSchema,
-  directManagerId: PZ.Scalar.id().optional(),
-});
+export const EmployeeCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    titleId: PZ.Scalar.id(),
+    firstName: PZ.Scalar.string(),
+    middleName: PZ.Scalar.string().optional(),
+    lastName: PZ.Scalar.string(),
+    preferedName: PZ.Scalar.string().optional(),
+    status: EmployeeStatusSchema.optional(),
+    hireDate: PZ.Scalar.datetime().optional(),
+    terminationDate: PZ.Scalar.datetime().optional(),
+    employmentType: EmploymentTypeSchema,
+    directManagerId: PZ.Scalar.id().optional(),
+  })
+);
 
-export const EmployeeCreateSchema = EmployeeRawCreateSchema.clone();
-
-export const EmployeeRawUpdateSchema = z.object({
+export const EmployeeUpdateSchema = z.object({
   titleId: PZ.Scalar.id().optional(),
   firstName: PZ.Scalar.string().optional(),
   middleName: PZ.Scalar.string().optional().optional(),
@@ -2872,8 +2864,6 @@ export const EmployeeRawUpdateSchema = z.object({
   employmentType: EmploymentTypeSchema.optional(),
   directManagerId: PZ.Scalar.id().optional().optional(),
 });
-
-export const EmployeeUpdateSchema = EmployeeRawUpdateSchema.clone();
 
 export const EmployeeOrderBySchema = z
   .object({
@@ -3141,17 +3131,16 @@ export const EmployeeProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const TeamRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-});
+export const TeamCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    name: PZ.Scalar.name(),
+  })
+);
 
-export const TeamCreateSchema = TeamRawCreateSchema.clone();
-
-export const TeamRawUpdateSchema = z.object({
+export const TeamUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
 });
-
-export const TeamUpdateSchema = TeamRawUpdateSchema.clone();
 
 export const TeamOrderBySchema = z
   .object({
@@ -3244,19 +3233,18 @@ export const TeamProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const TeamManagerRawCreateSchema = z.object({
-  teamId: PZ.Scalar.id(),
-  managerId: PZ.Scalar.id(),
-});
+export const TeamManagerCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    teamId: PZ.Scalar.id(),
+    managerId: PZ.Scalar.id(),
+  })
+);
 
-export const TeamManagerCreateSchema = TeamManagerRawCreateSchema.clone();
-
-export const TeamManagerRawUpdateSchema = z.object({
+export const TeamManagerUpdateSchema = z.object({
   teamId: PZ.Scalar.id().optional(),
   managerId: PZ.Scalar.id().optional(),
 });
-
-export const TeamManagerUpdateSchema = TeamManagerRawUpdateSchema.clone();
 
 export const TeamManagerOrderBySchema = z
   .object({
@@ -3342,19 +3330,18 @@ export const TeamManagerProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const TeamMemberRawCreateSchema = z.object({
-  teamId: PZ.Scalar.id(),
-  memberId: PZ.Scalar.id(),
-});
+export const TeamMemberCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    teamId: PZ.Scalar.id(),
+    memberId: PZ.Scalar.id(),
+  })
+);
 
-export const TeamMemberCreateSchema = TeamMemberRawCreateSchema.clone();
-
-export const TeamMemberRawUpdateSchema = z.object({
+export const TeamMemberUpdateSchema = z.object({
   teamId: PZ.Scalar.id().optional(),
   memberId: PZ.Scalar.id().optional(),
 });
-
-export const TeamMemberUpdateSchema = TeamMemberRawUpdateSchema.clone();
 
 export const TeamMemberOrderBySchema = z
   .object({
@@ -3440,25 +3427,24 @@ export const TeamMemberProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const SalaryRawCreateSchema = z.object({
-  employeeId: PZ.Scalar.id(),
-  gross: PZ.Scalar.number(),
-  startDate: PZ.Scalar.datetime(),
-  endDate: PZ.Scalar.datetime().optional(),
-  frequency: PayFrequencySchema,
-});
+export const SalaryCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    employeeId: PZ.Scalar.id(),
+    gross: PZ.Scalar.number(),
+    startDate: PZ.Scalar.datetime(),
+    endDate: PZ.Scalar.datetime().optional(),
+    frequency: PayFrequencySchema,
+  })
+);
 
-export const SalaryCreateSchema = SalaryRawCreateSchema.clone();
-
-export const SalaryRawUpdateSchema = z.object({
+export const SalaryUpdateSchema = z.object({
   employeeId: PZ.Scalar.id().optional(),
   gross: PZ.Scalar.number().optional(),
   startDate: PZ.Scalar.datetime().optional(),
   endDate: PZ.Scalar.datetime().optional().optional(),
   frequency: PayFrequencySchema.optional(),
 });
-
-export const SalaryUpdateSchema = SalaryRawUpdateSchema.clone();
 
 export const SalaryOrderBySchema = z
   .object({
@@ -3554,23 +3540,22 @@ export const SalaryProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const SalaryHistoryRawCreateSchema = z.object({
-  employeeId: PZ.Scalar.id(),
-  oldSalary: PZ.Scalar.number(),
-  newSalary: PZ.Scalar.number(),
-  reason: PZ.Scalar.string().optional(),
-});
+export const SalaryHistoryCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    employeeId: PZ.Scalar.id(),
+    oldSalary: PZ.Scalar.number(),
+    newSalary: PZ.Scalar.number(),
+    reason: PZ.Scalar.string().optional(),
+  })
+);
 
-export const SalaryHistoryCreateSchema = SalaryHistoryRawCreateSchema.clone();
-
-export const SalaryHistoryRawUpdateSchema = z.object({
+export const SalaryHistoryUpdateSchema = z.object({
   employeeId: PZ.Scalar.id().optional(),
   oldSalary: PZ.Scalar.number().optional(),
   newSalary: PZ.Scalar.number().optional(),
   reason: PZ.Scalar.string().optional().optional(),
 });
-
-export const SalaryHistoryUpdateSchema = SalaryHistoryRawUpdateSchema.clone();
 
 export const SalaryHistoryOrderBySchema = z
   .object({
@@ -3672,21 +3657,20 @@ export const SalaryHistoryProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const BenefitRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-  description: PZ.Scalar.description().optional(),
-  type: PZ.Scalar.string().optional(),
-});
+export const BenefitCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    name: PZ.Scalar.name(),
+    description: PZ.Scalar.description().optional(),
+    type: PZ.Scalar.string().optional(),
+  })
+);
 
-export const BenefitCreateSchema = BenefitRawCreateSchema.clone();
-
-export const BenefitRawUpdateSchema = z.object({
+export const BenefitUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
   description: PZ.Scalar.description().optional().optional(),
   type: PZ.Scalar.string().optional().optional(),
 });
-
-export const BenefitUpdateSchema = BenefitRawUpdateSchema.clone();
 
 export const BenefitOrderBySchema = z
   .object({
@@ -3781,25 +3765,22 @@ export const BenefitProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const BenefitEnrolmentRawCreateSchema = z.object({
-  benefitId: PZ.Scalar.id(),
-  employeeId: PZ.Scalar.id(),
-  startDate: PZ.Scalar.datetime(),
-  status: BenefitStatusSchema.optional(),
-});
+export const BenefitEnrolmentCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    benefitId: PZ.Scalar.id(),
+    employeeId: PZ.Scalar.id(),
+    startDate: PZ.Scalar.datetime(),
+    status: BenefitStatusSchema.optional(),
+  })
+);
 
-export const BenefitEnrolmentCreateSchema =
-  BenefitEnrolmentRawCreateSchema.clone();
-
-export const BenefitEnrolmentRawUpdateSchema = z.object({
+export const BenefitEnrolmentUpdateSchema = z.object({
   benefitId: PZ.Scalar.id().optional(),
   employeeId: PZ.Scalar.id().optional(),
   startDate: PZ.Scalar.datetime().optional(),
   status: BenefitStatusSchema.optional().optional(),
 });
-
-export const BenefitEnrolmentUpdateSchema =
-  BenefitEnrolmentRawUpdateSchema.clone();
 
 export const BenefitEnrolmentOrderBySchema = z
   .object({
@@ -3894,18 +3875,19 @@ export const BenefitEnrolmentProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const TitleHistoryRawCreateSchema = z.object({
-  employeeId: PZ.Scalar.id(),
-  titleId: PZ.Scalar.id(),
-  type: TitleChangeTypeSchema,
-  reason: PZ.Scalar.string().optional(),
-  startDate: PZ.Scalar.datetime(),
-  endDate: PZ.Scalar.datetime().optional(),
-});
+export const TitleHistoryCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    employeeId: PZ.Scalar.id(),
+    titleId: PZ.Scalar.id(),
+    type: TitleChangeTypeSchema,
+    reason: PZ.Scalar.string().optional(),
+    startDate: PZ.Scalar.datetime(),
+    endDate: PZ.Scalar.datetime().optional(),
+  })
+);
 
-export const TitleHistoryCreateSchema = TitleHistoryRawCreateSchema.clone();
-
-export const TitleHistoryRawUpdateSchema = z.object({
+export const TitleHistoryUpdateSchema = z.object({
   employeeId: PZ.Scalar.id().optional(),
   titleId: PZ.Scalar.id().optional(),
   type: TitleChangeTypeSchema.optional(),
@@ -3913,8 +3895,6 @@ export const TitleHistoryRawUpdateSchema = z.object({
   startDate: PZ.Scalar.datetime().optional(),
   endDate: PZ.Scalar.datetime().optional().optional(),
 });
-
-export const TitleHistoryUpdateSchema = TitleHistoryRawUpdateSchema.clone();
 
 export const TitleHistoryOrderBySchema = z
   .object({
@@ -4023,23 +4003,22 @@ export const TitleHistoryProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const TimeOffPolicyRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-  description: PZ.Scalar.description().optional(),
-  accrualRate: PZ.Scalar.number(),
-  maxRollover: PZ.Scalar.number(),
-});
+export const TimeOffPolicyCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    name: PZ.Scalar.name(),
+    description: PZ.Scalar.description().optional(),
+    accrualRate: PZ.Scalar.number(),
+    maxRollover: PZ.Scalar.number(),
+  })
+);
 
-export const TimeOffPolicyCreateSchema = TimeOffPolicyRawCreateSchema.clone();
-
-export const TimeOffPolicyRawUpdateSchema = z.object({
+export const TimeOffPolicyUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
   description: PZ.Scalar.description().optional().optional(),
   accrualRate: PZ.Scalar.number().optional(),
   maxRollover: PZ.Scalar.number().optional(),
 });
-
-export const TimeOffPolicyUpdateSchema = TimeOffPolicyRawUpdateSchema.clone();
 
 export const TimeOffPolicyOrderBySchema = z
   .object({
@@ -4147,25 +4126,24 @@ export const TimeOffPolicyProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const TimeOffBalanceRawCreateSchema = z.object({
-  policyId: PZ.Scalar.id(),
-  employeeId: PZ.Scalar.id(),
-  accruedHours: PZ.Scalar.number(),
-  usedHours: PZ.Scalar.number(),
-  availableHours: PZ.Scalar.number(),
-});
+export const TimeOffBalanceCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    policyId: PZ.Scalar.id(),
+    employeeId: PZ.Scalar.id(),
+    accruedHours: PZ.Scalar.number(),
+    usedHours: PZ.Scalar.number(),
+    availableHours: PZ.Scalar.number(),
+  })
+);
 
-export const TimeOffBalanceCreateSchema = TimeOffBalanceRawCreateSchema.clone();
-
-export const TimeOffBalanceRawUpdateSchema = z.object({
+export const TimeOffBalanceUpdateSchema = z.object({
   policyId: PZ.Scalar.id().optional(),
   employeeId: PZ.Scalar.id().optional(),
   accruedHours: PZ.Scalar.number().optional(),
   usedHours: PZ.Scalar.number().optional(),
   availableHours: PZ.Scalar.number().optional(),
 });
-
-export const TimeOffBalanceUpdateSchema = TimeOffBalanceRawUpdateSchema.clone();
 
 export const TimeOffBalanceOrderBySchema = z
   .object({
@@ -4279,19 +4257,20 @@ export const TimeOffBalanceProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const TimeOffRequestRawCreateSchema = z.object({
-  employeeId: PZ.Scalar.id(),
-  reason: PZ.Scalar.string(),
-  policyId: PZ.Scalar.id(),
-  resolverId: PZ.Scalar.id().optional(),
-  status: RequestStatusSchema.optional(),
-  startDate: PZ.Scalar.datetime(),
-  endDate: PZ.Scalar.datetime(),
-});
+export const TimeOffRequestCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    employeeId: PZ.Scalar.id(),
+    reason: PZ.Scalar.string(),
+    policyId: PZ.Scalar.id(),
+    resolverId: PZ.Scalar.id().optional(),
+    status: RequestStatusSchema.optional(),
+    startDate: PZ.Scalar.datetime(),
+    endDate: PZ.Scalar.datetime(),
+  })
+);
 
-export const TimeOffRequestCreateSchema = TimeOffRequestRawCreateSchema.clone();
-
-export const TimeOffRequestRawUpdateSchema = z.object({
+export const TimeOffRequestUpdateSchema = z.object({
   employeeId: PZ.Scalar.id().optional(),
   reason: PZ.Scalar.string().optional(),
   policyId: PZ.Scalar.id().optional(),
@@ -4300,8 +4279,6 @@ export const TimeOffRequestRawUpdateSchema = z.object({
   startDate: PZ.Scalar.datetime().optional(),
   endDate: PZ.Scalar.datetime().optional(),
 });
-
-export const TimeOffRequestUpdateSchema = TimeOffRequestRawUpdateSchema.clone();
 
 export const TimeOffRequestOrderBySchema = z
   .object({
@@ -4432,25 +4409,22 @@ export const TimeOffRequestProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const TimeOffTransactionRawCreateSchema = z.object({
-  type: TimeOffTransactionTypeSchema,
-  balanceId: PZ.Scalar.id(),
-  requestId: PZ.Scalar.id().optional(),
-  amount: PZ.Scalar.number(),
-});
+export const TimeOffTransactionCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    type: TimeOffTransactionTypeSchema,
+    balanceId: PZ.Scalar.id(),
+    requestId: PZ.Scalar.id().optional(),
+    amount: PZ.Scalar.number(),
+  })
+);
 
-export const TimeOffTransactionCreateSchema =
-  TimeOffTransactionRawCreateSchema.clone();
-
-export const TimeOffTransactionRawUpdateSchema = z.object({
+export const TimeOffTransactionUpdateSchema = z.object({
   type: TimeOffTransactionTypeSchema.optional(),
   balanceId: PZ.Scalar.id().optional(),
   requestId: PZ.Scalar.id().optional().optional(),
   amount: PZ.Scalar.number().optional(),
 });
-
-export const TimeOffTransactionUpdateSchema =
-  TimeOffTransactionRawUpdateSchema.clone();
 
 export const TimeOffTransactionOrderBySchema = z
   .object({
@@ -4559,19 +4533,18 @@ export const TimeOffTransactionProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const ClockInRawCreateSchema = z.object({
-  employeeId: PZ.Scalar.id(),
-  clockOut: PZ.Scalar.datetime().optional(),
-});
+export const ClockInCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    employeeId: PZ.Scalar.id(),
+    clockOut: PZ.Scalar.datetime().optional(),
+  })
+);
 
-export const ClockInCreateSchema = ClockInRawCreateSchema.clone();
-
-export const ClockInRawUpdateSchema = z.object({
+export const ClockInUpdateSchema = z.object({
   employeeId: PZ.Scalar.id().optional(),
   clockOut: PZ.Scalar.datetime().optional().optional(),
 });
-
-export const ClockInUpdateSchema = ClockInRawUpdateSchema.clone();
 
 export const ClockInOrderBySchema = z
   .object({
@@ -4660,23 +4633,22 @@ export const ClockInProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const PaycheckRawCreateSchema = z.object({
-  payrollRunId: PZ.Scalar.id(),
-  employeeId: PZ.Scalar.id(),
-  grossAmount: PZ.Scalar.number(),
-  netAmount: PZ.Scalar.number(),
-});
+export const PaycheckCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    payrollRunId: PZ.Scalar.id(),
+    employeeId: PZ.Scalar.id(),
+    grossAmount: PZ.Scalar.number(),
+    netAmount: PZ.Scalar.number(),
+  })
+);
 
-export const PaycheckCreateSchema = PaycheckRawCreateSchema.clone();
-
-export const PaycheckRawUpdateSchema = z.object({
+export const PaycheckUpdateSchema = z.object({
   payrollRunId: PZ.Scalar.id().optional(),
   employeeId: PZ.Scalar.id().optional(),
   grossAmount: PZ.Scalar.number().optional(),
   netAmount: PZ.Scalar.number().optional(),
 });
-
-export const PaycheckUpdateSchema = PaycheckRawUpdateSchema.clone();
 
 export const PaycheckOrderBySchema = z
   .object({
@@ -4813,25 +4785,24 @@ export const PaycheckProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const EarningRawCreateSchema = z.object({
-  type: EarningTypeSchema,
-  hours: PZ.Scalar.number().optional(),
-  rate: PZ.Scalar.number(),
-  amount: PZ.Scalar.number(),
-  paycheckId: PZ.Scalar.id(),
-});
+export const EarningCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    type: EarningTypeSchema,
+    hours: PZ.Scalar.number().optional(),
+    rate: PZ.Scalar.number(),
+    amount: PZ.Scalar.number(),
+    paycheckId: PZ.Scalar.id(),
+  })
+);
 
-export const EarningCreateSchema = EarningRawCreateSchema.clone();
-
-export const EarningRawUpdateSchema = z.object({
+export const EarningUpdateSchema = z.object({
   type: EarningTypeSchema.optional(),
   hours: PZ.Scalar.number().optional().optional(),
   rate: PZ.Scalar.number().optional(),
   amount: PZ.Scalar.number().optional(),
   paycheckId: PZ.Scalar.id().optional(),
 });
-
-export const EarningUpdateSchema = EarningRawUpdateSchema.clone();
 
 export const EarningOrderBySchema = z
   .object({
@@ -4927,21 +4898,20 @@ export const EarningProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const PaycheckTaxRawCreateSchema = z.object({
-  paycheckId: PZ.Scalar.id(),
-  taxAuthority: PZ.Scalar.string(),
-  amount: PZ.Scalar.number(),
-});
+export const PaycheckTaxCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    paycheckId: PZ.Scalar.id(),
+    taxAuthority: PZ.Scalar.string(),
+    amount: PZ.Scalar.number(),
+  })
+);
 
-export const PaycheckTaxCreateSchema = PaycheckTaxRawCreateSchema.clone();
-
-export const PaycheckTaxRawUpdateSchema = z.object({
+export const PaycheckTaxUpdateSchema = z.object({
   paycheckId: PZ.Scalar.id().optional(),
   taxAuthority: PZ.Scalar.string().optional(),
   amount: PZ.Scalar.number().optional(),
 });
-
-export const PaycheckTaxUpdateSchema = PaycheckTaxRawUpdateSchema.clone();
 
 export const PaycheckTaxOrderBySchema = z
   .object({
@@ -5030,25 +5000,22 @@ export const PaycheckTaxProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const DeductionPolicyRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-  type: DeductionTypeSchema,
-  defaultAmount: PZ.Scalar.number().optional(),
-  defaultPercent: PZ.Scalar.number().optional(),
-});
+export const DeductionPolicyCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    name: PZ.Scalar.name(),
+    type: DeductionTypeSchema,
+    defaultAmount: PZ.Scalar.number().optional(),
+    defaultPercent: PZ.Scalar.number().optional(),
+  })
+);
 
-export const DeductionPolicyCreateSchema =
-  DeductionPolicyRawCreateSchema.clone();
-
-export const DeductionPolicyRawUpdateSchema = z.object({
+export const DeductionPolicyUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
   type: DeductionTypeSchema.optional(),
   defaultAmount: PZ.Scalar.number().optional().optional(),
   defaultPercent: PZ.Scalar.number().optional().optional(),
 });
-
-export const DeductionPolicyUpdateSchema =
-  DeductionPolicyRawUpdateSchema.clone();
 
 export const DeductionPolicyOrderBySchema = z
   .object({
@@ -5146,23 +5113,20 @@ export const DeductionPolicyProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const EmployeeDeductionRawCreateSchema = z.object({
-  employeeId: PZ.Scalar.id(),
-  policyId: PZ.Scalar.id(),
-  employeeAmount: PZ.Scalar.number().optional(),
-});
+export const EmployeeDeductionCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    employeeId: PZ.Scalar.id(),
+    policyId: PZ.Scalar.id(),
+    employeeAmount: PZ.Scalar.number().optional(),
+  })
+);
 
-export const EmployeeDeductionCreateSchema =
-  EmployeeDeductionRawCreateSchema.clone();
-
-export const EmployeeDeductionRawUpdateSchema = z.object({
+export const EmployeeDeductionUpdateSchema = z.object({
   employeeId: PZ.Scalar.id().optional(),
   policyId: PZ.Scalar.id().optional(),
   employeeAmount: PZ.Scalar.number().optional().optional(),
 });
-
-export const EmployeeDeductionUpdateSchema =
-  EmployeeDeductionRawUpdateSchema.clone();
 
 export const EmployeeDeductionOrderBySchema = z
   .object({
@@ -5263,23 +5227,20 @@ export const EmployeeDeductionProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const PaycheckDeductionRawCreateSchema = z.object({
-  paycheckId: PZ.Scalar.id(),
-  employeeDeductionId: PZ.Scalar.id(),
-  amount: PZ.Scalar.number(),
-});
+export const PaycheckDeductionCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    paycheckId: PZ.Scalar.id(),
+    employeeDeductionId: PZ.Scalar.id(),
+    amount: PZ.Scalar.number(),
+  })
+);
 
-export const PaycheckDeductionCreateSchema =
-  PaycheckDeductionRawCreateSchema.clone();
-
-export const PaycheckDeductionRawUpdateSchema = z.object({
+export const PaycheckDeductionUpdateSchema = z.object({
   paycheckId: PZ.Scalar.id().optional(),
   employeeDeductionId: PZ.Scalar.id().optional(),
   amount: PZ.Scalar.number().optional(),
 });
-
-export const PaycheckDeductionUpdateSchema =
-  PaycheckDeductionRawUpdateSchema.clone();
 
 export const PaycheckDeductionOrderBySchema = z
   .object({
@@ -5371,24 +5332,24 @@ export const PaycheckDeductionProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const EmployeeTaxDataRawCreateSchema = z.object({
-  startDate: PZ.Scalar.datetime(),
-  endDate: PZ.Scalar.datetime().optional(),
-  employeeId: PZ.Scalar.id(),
-  federalStatus: TaxFilingStatusSchema.optional(),
-  dependentsCredit: PZ.Scalar.number().optional(),
-  multipleJobs: PZ.Scalar.bool().optional(),
-  otherIncome: PZ.Scalar.number().optional(),
-  deductionsAmount: PZ.Scalar.number().optional(),
-  extraWithholding: PZ.Scalar.number().optional(),
-  isExempt: PZ.Scalar.bool().optional(),
-  isNonResidentAlien: PZ.Scalar.bool().optional(),
-});
+export const EmployeeTaxDataCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    startDate: PZ.Scalar.datetime(),
+    endDate: PZ.Scalar.datetime().optional(),
+    employeeId: PZ.Scalar.id(),
+    federalStatus: TaxFilingStatusSchema.optional(),
+    dependentsCredit: PZ.Scalar.number().optional(),
+    multipleJobs: PZ.Scalar.bool().optional(),
+    otherIncome: PZ.Scalar.number().optional(),
+    deductionsAmount: PZ.Scalar.number().optional(),
+    extraWithholding: PZ.Scalar.number().optional(),
+    isExempt: PZ.Scalar.bool().optional(),
+    isNonResidentAlien: PZ.Scalar.bool().optional(),
+  })
+);
 
-export const EmployeeTaxDataCreateSchema =
-  EmployeeTaxDataRawCreateSchema.clone();
-
-export const EmployeeTaxDataRawUpdateSchema = z.object({
+export const EmployeeTaxDataUpdateSchema = z.object({
   startDate: PZ.Scalar.datetime().optional(),
   endDate: PZ.Scalar.datetime().optional().optional(),
   employeeId: PZ.Scalar.id().optional(),
@@ -5401,9 +5362,6 @@ export const EmployeeTaxDataRawUpdateSchema = z.object({
   isExempt: PZ.Scalar.bool().optional().optional(),
   isNonResidentAlien: PZ.Scalar.bool().optional().optional(),
 });
-
-export const EmployeeTaxDataUpdateSchema =
-  EmployeeTaxDataRawUpdateSchema.clone();
 
 export const EmployeeTaxDataOrderBySchema = z
   .object({
@@ -5562,27 +5520,24 @@ export const EmployeeTaxDataProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const StateTaxWithholdingRawCreateSchema = z.object({
-  taxDataId: PZ.Scalar.id(),
-  stateCode: PZ.Scalar.string(),
-  stateStatus: PZ.Scalar.string().optional(),
-  allowances: PZ.Scalar.int().optional(),
-  extraWithholding: PZ.Scalar.number().optional(),
-});
+export const StateTaxWithholdingCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    taxDataId: PZ.Scalar.id(),
+    stateCode: PZ.Scalar.string(),
+    stateStatus: PZ.Scalar.string().optional(),
+    allowances: PZ.Scalar.int().optional(),
+    extraWithholding: PZ.Scalar.number().optional(),
+  })
+);
 
-export const StateTaxWithholdingCreateSchema =
-  StateTaxWithholdingRawCreateSchema.clone();
-
-export const StateTaxWithholdingRawUpdateSchema = z.object({
+export const StateTaxWithholdingUpdateSchema = z.object({
   taxDataId: PZ.Scalar.id().optional(),
   stateCode: PZ.Scalar.string().optional(),
   stateStatus: PZ.Scalar.string().optional().optional(),
   allowances: PZ.Scalar.int().optional().optional(),
   extraWithholding: PZ.Scalar.number().optional().optional(),
 });
-
-export const StateTaxWithholdingUpdateSchema =
-  StateTaxWithholdingRawUpdateSchema.clone();
 
 export const StateTaxWithholdingOrderBySchema = z
   .object({
@@ -5684,25 +5639,22 @@ export const StateTaxWithholdingProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const LocalTaxWithholdingRawCreateSchema = z.object({
-  taxDataId: PZ.Scalar.id(),
-  jurisdiction: PZ.Scalar.string(),
-  localStatus: PZ.Scalar.string().optional(),
-  extraWithholding: PZ.Scalar.number().optional(),
-});
+export const LocalTaxWithholdingCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    taxDataId: PZ.Scalar.id(),
+    jurisdiction: PZ.Scalar.string(),
+    localStatus: PZ.Scalar.string().optional(),
+    extraWithholding: PZ.Scalar.number().optional(),
+  })
+);
 
-export const LocalTaxWithholdingCreateSchema =
-  LocalTaxWithholdingRawCreateSchema.clone();
-
-export const LocalTaxWithholdingRawUpdateSchema = z.object({
+export const LocalTaxWithholdingUpdateSchema = z.object({
   taxDataId: PZ.Scalar.id().optional(),
   jurisdiction: PZ.Scalar.string().optional(),
   localStatus: PZ.Scalar.string().optional().optional(),
   extraWithholding: PZ.Scalar.number().optional().optional(),
 });
-
-export const LocalTaxWithholdingUpdateSchema =
-  LocalTaxWithholdingRawUpdateSchema.clone();
 
 export const LocalTaxWithholdingOrderBySchema = z
   .object({
@@ -5799,25 +5751,24 @@ export const LocalTaxWithholdingProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const PayrollRunRawCreateSchema = z.object({
-  resolverId: PZ.Scalar.id(),
-  startDate: PZ.Scalar.datetime(),
-  endDate: PZ.Scalar.datetime(),
-  payDate: PZ.Scalar.datetime(),
-  status: PayrollStatusSchema.optional(),
-});
+export const PayrollRunCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    resolverId: PZ.Scalar.id(),
+    startDate: PZ.Scalar.datetime(),
+    endDate: PZ.Scalar.datetime(),
+    payDate: PZ.Scalar.datetime(),
+    status: PayrollStatusSchema.optional(),
+  })
+);
 
-export const PayrollRunCreateSchema = PayrollRunRawCreateSchema.clone();
-
-export const PayrollRunRawUpdateSchema = z.object({
+export const PayrollRunUpdateSchema = z.object({
   resolverId: PZ.Scalar.id().optional(),
   startDate: PZ.Scalar.datetime().optional(),
   endDate: PZ.Scalar.datetime().optional(),
   payDate: PZ.Scalar.datetime().optional(),
   status: PayrollStatusSchema.optional().optional(),
 });
-
-export const PayrollRunUpdateSchema = PayrollRunRawUpdateSchema.clone();
 
 export const PayrollRunOrderBySchema = z
   .object({
@@ -5922,17 +5873,16 @@ export const PayrollRunProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const ContactRawCreateSchema = z.object({
-  employeeId: PZ.Scalar.id(),
-});
+export const ContactCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    employeeId: PZ.Scalar.id(),
+  })
+);
 
-export const ContactCreateSchema = ContactRawCreateSchema.clone();
-
-export const ContactRawUpdateSchema = z.object({
+export const ContactUpdateSchema = z.object({
   employeeId: PZ.Scalar.id().optional(),
 });
-
-export const ContactUpdateSchema = ContactRawUpdateSchema.clone();
 
 export const ContactOrderBySchema = z
   .object({
@@ -6046,19 +5996,18 @@ export const ContactProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const CountryRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-  code: PZ.Scalar.string(),
-});
+export const CountryCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    name: PZ.Scalar.name(),
+    code: PZ.Scalar.string(),
+  })
+);
 
-export const CountryCreateSchema = CountryRawCreateSchema.clone();
-
-export const CountryRawUpdateSchema = z.object({
+export const CountryUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
   code: PZ.Scalar.string().optional(),
 });
-
-export const CountryUpdateSchema = CountryRawUpdateSchema.clone();
 
 export const CountryOrderBySchema = z
   .object({
@@ -6146,21 +6095,20 @@ export const CountryProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const StateRawCreateSchema = z.object({
-  countryId: PZ.Scalar.id(),
-  name: PZ.Scalar.name(),
-  code: PZ.Scalar.string(),
-});
+export const StateCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    countryId: PZ.Scalar.id(),
+    name: PZ.Scalar.name(),
+    code: PZ.Scalar.string(),
+  })
+);
 
-export const StateCreateSchema = StateRawCreateSchema.clone();
-
-export const StateRawUpdateSchema = z.object({
+export const StateUpdateSchema = z.object({
   countryId: PZ.Scalar.id().optional(),
   name: PZ.Scalar.name().optional(),
   code: PZ.Scalar.string().optional(),
 });
-
-export const StateUpdateSchema = StateRawUpdateSchema.clone();
 
 export const StateOrderBySchema = z
   .object({
@@ -6258,18 +6206,19 @@ export const StateProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const AddressRawCreateSchema = z.object({
-  type: ContactTypeSchema,
-  contactId: PZ.Scalar.id(),
-  stateId: PZ.Scalar.id(),
-  street: PZ.Scalar.string(),
-  zip: PZ.Scalar.string(),
-  city: PZ.Scalar.string(),
-});
+export const AddressCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    type: ContactTypeSchema,
+    contactId: PZ.Scalar.id(),
+    stateId: PZ.Scalar.id(),
+    street: PZ.Scalar.string(),
+    zip: PZ.Scalar.string(),
+    city: PZ.Scalar.string(),
+  })
+);
 
-export const AddressCreateSchema = AddressRawCreateSchema.clone();
-
-export const AddressRawUpdateSchema = z.object({
+export const AddressUpdateSchema = z.object({
   type: ContactTypeSchema.optional(),
   contactId: PZ.Scalar.id().optional(),
   stateId: PZ.Scalar.id().optional(),
@@ -6277,8 +6226,6 @@ export const AddressRawUpdateSchema = z.object({
   zip: PZ.Scalar.string().optional(),
   city: PZ.Scalar.string().optional(),
 });
-
-export const AddressUpdateSchema = AddressRawUpdateSchema.clone();
 
 export const AddressOrderBySchema = z
   .object({
@@ -6384,21 +6331,20 @@ export const AddressProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const EmailRawCreateSchema = z.object({
-  type: ContactTypeSchema,
-  contactId: PZ.Scalar.id(),
-  email: PZ.Scalar.email(),
-});
+export const EmailCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    type: ContactTypeSchema,
+    contactId: PZ.Scalar.id(),
+    email: PZ.Scalar.email(),
+  })
+);
 
-export const EmailCreateSchema = EmailRawCreateSchema.clone();
-
-export const EmailRawUpdateSchema = z.object({
+export const EmailUpdateSchema = z.object({
   type: ContactTypeSchema.optional(),
   contactId: PZ.Scalar.id().optional(),
   email: PZ.Scalar.email().optional(),
 });
-
-export const EmailUpdateSchema = EmailRawUpdateSchema.clone();
 
 export const EmailOrderBySchema = z
   .object({
@@ -6489,21 +6435,20 @@ export const EmailProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const PhoneRawCreateSchema = z.object({
-  type: ContactTypeSchema,
-  contactId: PZ.Scalar.id(),
-  phone: PZ.Scalar.string(),
-});
+export const PhoneCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    type: ContactTypeSchema,
+    contactId: PZ.Scalar.id(),
+    phone: PZ.Scalar.string(),
+  })
+);
 
-export const PhoneCreateSchema = PhoneRawCreateSchema.clone();
-
-export const PhoneRawUpdateSchema = z.object({
+export const PhoneUpdateSchema = z.object({
   type: ContactTypeSchema.optional(),
   contactId: PZ.Scalar.id().optional(),
   phone: PZ.Scalar.string().optional(),
 });
-
-export const PhoneUpdateSchema = PhoneRawUpdateSchema.clone();
 
 export const PhoneOrderBySchema = z
   .object({
@@ -6594,19 +6539,18 @@ export const PhoneProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const PrimaryEmailRawCreateSchema = z.object({
-  emailId: PZ.Scalar.id(),
-  contactId: PZ.Scalar.id(),
-});
+export const PrimaryEmailCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    emailId: PZ.Scalar.id(),
+    contactId: PZ.Scalar.id(),
+  })
+);
 
-export const PrimaryEmailCreateSchema = PrimaryEmailRawCreateSchema.clone();
-
-export const PrimaryEmailRawUpdateSchema = z.object({
+export const PrimaryEmailUpdateSchema = z.object({
   emailId: PZ.Scalar.id().optional(),
   contactId: PZ.Scalar.id().optional(),
 });
-
-export const PrimaryEmailUpdateSchema = PrimaryEmailRawUpdateSchema.clone();
 
 export const PrimaryEmailOrderBySchema = z
   .object({
@@ -6692,19 +6636,18 @@ export const PrimaryEmailProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const PrimaryPhoneRawCreateSchema = z.object({
-  phoneId: PZ.Scalar.id(),
-  contactId: PZ.Scalar.id(),
-});
+export const PrimaryPhoneCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    phoneId: PZ.Scalar.id(),
+    contactId: PZ.Scalar.id(),
+  })
+);
 
-export const PrimaryPhoneCreateSchema = PrimaryPhoneRawCreateSchema.clone();
-
-export const PrimaryPhoneRawUpdateSchema = z.object({
+export const PrimaryPhoneUpdateSchema = z.object({
   phoneId: PZ.Scalar.id().optional(),
   contactId: PZ.Scalar.id().optional(),
 });
-
-export const PrimaryPhoneUpdateSchema = PrimaryPhoneRawUpdateSchema.clone();
 
 export const PrimaryPhoneOrderBySchema = z
   .object({
@@ -6790,19 +6733,18 @@ export const PrimaryPhoneProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const PrimaryAddressRawCreateSchema = z.object({
-  addressId: PZ.Scalar.id(),
-  contactId: PZ.Scalar.id(),
-});
+export const PrimaryAddressCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    addressId: PZ.Scalar.id(),
+    contactId: PZ.Scalar.id(),
+  })
+);
 
-export const PrimaryAddressCreateSchema = PrimaryAddressRawCreateSchema.clone();
-
-export const PrimaryAddressRawUpdateSchema = z.object({
+export const PrimaryAddressUpdateSchema = z.object({
   addressId: PZ.Scalar.id().optional(),
   contactId: PZ.Scalar.id().optional(),
 });
-
-export const PrimaryAddressUpdateSchema = PrimaryAddressRawUpdateSchema.clone();
 
 export const PrimaryAddressOrderBySchema = z
   .object({
@@ -6904,9 +6846,9 @@ export const DepartmentQuerySchema = z
   })
   .partial();
 
-export type DepartmentCreate = z.infer<typeof DepartmentRawCreateSchema>;
+export type DepartmentCreate = z.infer<typeof DepartmentCreateSchema>;
 
-export type DepartmentUpdate = z.infer<typeof DepartmentRawUpdateSchema>;
+export type DepartmentUpdate = z.infer<typeof DepartmentUpdateSchema>;
 
 export type DepartmentOrderBy = z.infer<typeof DepartmentOrderBySchema>;
 
@@ -6952,9 +6894,9 @@ export const TitleQuerySchema = z
   })
   .partial();
 
-export type TitleCreate = z.infer<typeof TitleRawCreateSchema>;
+export type TitleCreate = z.infer<typeof TitleCreateSchema>;
 
-export type TitleUpdate = z.infer<typeof TitleRawUpdateSchema>;
+export type TitleUpdate = z.infer<typeof TitleUpdateSchema>;
 
 export type TitleOrderBy = z.infer<typeof TitleOrderBySchema>;
 
@@ -6996,9 +6938,9 @@ export const PersonalDataQuerySchema = z
   })
   .partial();
 
-export type PersonalDataCreate = z.infer<typeof PersonalDataRawCreateSchema>;
+export type PersonalDataCreate = z.infer<typeof PersonalDataCreateSchema>;
 
-export type PersonalDataUpdate = z.infer<typeof PersonalDataRawUpdateSchema>;
+export type PersonalDataUpdate = z.infer<typeof PersonalDataUpdateSchema>;
 
 export type PersonalDataOrderBy = z.infer<typeof PersonalDataOrderBySchema>;
 
@@ -7050,9 +6992,9 @@ export const EmployeeQuerySchema = z
   })
   .partial();
 
-export type EmployeeCreate = z.infer<typeof EmployeeRawCreateSchema>;
+export type EmployeeCreate = z.infer<typeof EmployeeCreateSchema>;
 
-export type EmployeeUpdate = z.infer<typeof EmployeeRawUpdateSchema>;
+export type EmployeeUpdate = z.infer<typeof EmployeeUpdateSchema>;
 
 export type EmployeeOrderBy = z.infer<typeof EmployeeOrderBySchema>;
 
@@ -7096,9 +7038,9 @@ export const TeamQuerySchema = z
   })
   .partial();
 
-export type TeamCreate = z.infer<typeof TeamRawCreateSchema>;
+export type TeamCreate = z.infer<typeof TeamCreateSchema>;
 
-export type TeamUpdate = z.infer<typeof TeamRawUpdateSchema>;
+export type TeamUpdate = z.infer<typeof TeamUpdateSchema>;
 
 export type TeamOrderBy = z.infer<typeof TeamOrderBySchema>;
 
@@ -7140,9 +7082,9 @@ export const TeamManagerQuerySchema = z
   })
   .partial();
 
-export type TeamManagerCreate = z.infer<typeof TeamManagerRawCreateSchema>;
+export type TeamManagerCreate = z.infer<typeof TeamManagerCreateSchema>;
 
-export type TeamManagerUpdate = z.infer<typeof TeamManagerRawUpdateSchema>;
+export type TeamManagerUpdate = z.infer<typeof TeamManagerUpdateSchema>;
 
 export type TeamManagerOrderBy = z.infer<typeof TeamManagerOrderBySchema>;
 
@@ -7190,9 +7132,9 @@ export const TeamMemberQuerySchema = z
   })
   .partial();
 
-export type TeamMemberCreate = z.infer<typeof TeamMemberRawCreateSchema>;
+export type TeamMemberCreate = z.infer<typeof TeamMemberCreateSchema>;
 
-export type TeamMemberUpdate = z.infer<typeof TeamMemberRawUpdateSchema>;
+export type TeamMemberUpdate = z.infer<typeof TeamMemberUpdateSchema>;
 
 export type TeamMemberOrderBy = z.infer<typeof TeamMemberOrderBySchema>;
 
@@ -7238,9 +7180,9 @@ export const SalaryQuerySchema = z
   })
   .partial();
 
-export type SalaryCreate = z.infer<typeof SalaryRawCreateSchema>;
+export type SalaryCreate = z.infer<typeof SalaryCreateSchema>;
 
-export type SalaryUpdate = z.infer<typeof SalaryRawUpdateSchema>;
+export type SalaryUpdate = z.infer<typeof SalaryUpdateSchema>;
 
 export type SalaryOrderBy = z.infer<typeof SalaryOrderBySchema>;
 
@@ -7282,9 +7224,9 @@ export const SalaryHistoryQuerySchema = z
   })
   .partial();
 
-export type SalaryHistoryCreate = z.infer<typeof SalaryHistoryRawCreateSchema>;
+export type SalaryHistoryCreate = z.infer<typeof SalaryHistoryCreateSchema>;
 
-export type SalaryHistoryUpdate = z.infer<typeof SalaryHistoryRawUpdateSchema>;
+export type SalaryHistoryUpdate = z.infer<typeof SalaryHistoryUpdateSchema>;
 
 export type SalaryHistoryOrderBy = z.infer<typeof SalaryHistoryOrderBySchema>;
 
@@ -7336,9 +7278,9 @@ export const BenefitQuerySchema = z
   })
   .partial();
 
-export type BenefitCreate = z.infer<typeof BenefitRawCreateSchema>;
+export type BenefitCreate = z.infer<typeof BenefitCreateSchema>;
 
-export type BenefitUpdate = z.infer<typeof BenefitRawUpdateSchema>;
+export type BenefitUpdate = z.infer<typeof BenefitUpdateSchema>;
 
 export type BenefitOrderBy = z.infer<typeof BenefitOrderBySchema>;
 
@@ -7383,11 +7325,11 @@ export const BenefitEnrolmentQuerySchema = z
   .partial();
 
 export type BenefitEnrolmentCreate = z.infer<
-  typeof BenefitEnrolmentRawCreateSchema
+  typeof BenefitEnrolmentCreateSchema
 >;
 
 export type BenefitEnrolmentUpdate = z.infer<
-  typeof BenefitEnrolmentRawUpdateSchema
+  typeof BenefitEnrolmentUpdateSchema
 >;
 
 export type BenefitEnrolmentOrderBy = z.infer<
@@ -7450,9 +7392,9 @@ export const TitleHistoryQuerySchema = z
   })
   .partial();
 
-export type TitleHistoryCreate = z.infer<typeof TitleHistoryRawCreateSchema>;
+export type TitleHistoryCreate = z.infer<typeof TitleHistoryCreateSchema>;
 
-export type TitleHistoryUpdate = z.infer<typeof TitleHistoryRawUpdateSchema>;
+export type TitleHistoryUpdate = z.infer<typeof TitleHistoryUpdateSchema>;
 
 export type TitleHistoryOrderBy = z.infer<typeof TitleHistoryOrderBySchema>;
 
@@ -7504,9 +7446,9 @@ export const TimeOffPolicyQuerySchema = z
   })
   .partial();
 
-export type TimeOffPolicyCreate = z.infer<typeof TimeOffPolicyRawCreateSchema>;
+export type TimeOffPolicyCreate = z.infer<typeof TimeOffPolicyCreateSchema>;
 
-export type TimeOffPolicyUpdate = z.infer<typeof TimeOffPolicyRawUpdateSchema>;
+export type TimeOffPolicyUpdate = z.infer<typeof TimeOffPolicyUpdateSchema>;
 
 export type TimeOffPolicyOrderBy = z.infer<typeof TimeOffPolicyOrderBySchema>;
 
@@ -7558,13 +7500,9 @@ export const TimeOffBalanceQuerySchema = z
   })
   .partial();
 
-export type TimeOffBalanceCreate = z.infer<
-  typeof TimeOffBalanceRawCreateSchema
->;
+export type TimeOffBalanceCreate = z.infer<typeof TimeOffBalanceCreateSchema>;
 
-export type TimeOffBalanceUpdate = z.infer<
-  typeof TimeOffBalanceRawUpdateSchema
->;
+export type TimeOffBalanceUpdate = z.infer<typeof TimeOffBalanceUpdateSchema>;
 
 export type TimeOffBalanceOrderBy = z.infer<typeof TimeOffBalanceOrderBySchema>;
 
@@ -7622,13 +7560,9 @@ export const TimeOffRequestQuerySchema = z
   })
   .partial();
 
-export type TimeOffRequestCreate = z.infer<
-  typeof TimeOffRequestRawCreateSchema
->;
+export type TimeOffRequestCreate = z.infer<typeof TimeOffRequestCreateSchema>;
 
-export type TimeOffRequestUpdate = z.infer<
-  typeof TimeOffRequestRawUpdateSchema
->;
+export type TimeOffRequestUpdate = z.infer<typeof TimeOffRequestUpdateSchema>;
 
 export type TimeOffRequestOrderBy = z.infer<typeof TimeOffRequestOrderBySchema>;
 
@@ -7687,11 +7621,11 @@ export const TimeOffTransactionQuerySchema = z
   .partial();
 
 export type TimeOffTransactionCreate = z.infer<
-  typeof TimeOffTransactionRawCreateSchema
+  typeof TimeOffTransactionCreateSchema
 >;
 
 export type TimeOffTransactionUpdate = z.infer<
-  typeof TimeOffTransactionRawUpdateSchema
+  typeof TimeOffTransactionUpdateSchema
 >;
 
 export type TimeOffTransactionOrderBy = z.infer<
@@ -7758,9 +7692,9 @@ export const ClockInQuerySchema = z
   })
   .partial();
 
-export type ClockInCreate = z.infer<typeof ClockInRawCreateSchema>;
+export type ClockInCreate = z.infer<typeof ClockInCreateSchema>;
 
-export type ClockInUpdate = z.infer<typeof ClockInRawUpdateSchema>;
+export type ClockInUpdate = z.infer<typeof ClockInUpdateSchema>;
 
 export type ClockInOrderBy = z.infer<typeof ClockInOrderBySchema>;
 
@@ -7804,9 +7738,9 @@ export const PaycheckQuerySchema = z
   })
   .partial();
 
-export type PaycheckCreate = z.infer<typeof PaycheckRawCreateSchema>;
+export type PaycheckCreate = z.infer<typeof PaycheckCreateSchema>;
 
-export type PaycheckUpdate = z.infer<typeof PaycheckRawUpdateSchema>;
+export type PaycheckUpdate = z.infer<typeof PaycheckUpdateSchema>;
 
 export type PaycheckOrderBy = z.infer<typeof PaycheckOrderBySchema>;
 
@@ -7850,9 +7784,9 @@ export const EarningQuerySchema = z
   })
   .partial();
 
-export type EarningCreate = z.infer<typeof EarningRawCreateSchema>;
+export type EarningCreate = z.infer<typeof EarningCreateSchema>;
 
-export type EarningUpdate = z.infer<typeof EarningRawUpdateSchema>;
+export type EarningUpdate = z.infer<typeof EarningUpdateSchema>;
 
 export type EarningOrderBy = z.infer<typeof EarningOrderBySchema>;
 
@@ -7896,9 +7830,9 @@ export const PaycheckTaxQuerySchema = z
   })
   .partial();
 
-export type PaycheckTaxCreate = z.infer<typeof PaycheckTaxRawCreateSchema>;
+export type PaycheckTaxCreate = z.infer<typeof PaycheckTaxCreateSchema>;
 
-export type PaycheckTaxUpdate = z.infer<typeof PaycheckTaxRawUpdateSchema>;
+export type PaycheckTaxUpdate = z.infer<typeof PaycheckTaxUpdateSchema>;
 
 export type PaycheckTaxOrderBy = z.infer<typeof PaycheckTaxOrderBySchema>;
 
@@ -7946,13 +7880,9 @@ export const DeductionPolicyQuerySchema = z
   })
   .partial();
 
-export type DeductionPolicyCreate = z.infer<
-  typeof DeductionPolicyRawCreateSchema
->;
+export type DeductionPolicyCreate = z.infer<typeof DeductionPolicyCreateSchema>;
 
-export type DeductionPolicyUpdate = z.infer<
-  typeof DeductionPolicyRawUpdateSchema
->;
+export type DeductionPolicyUpdate = z.infer<typeof DeductionPolicyUpdateSchema>;
 
 export type DeductionPolicyOrderBy = z.infer<
   typeof DeductionPolicyOrderBySchema
@@ -8015,11 +7945,11 @@ export const EmployeeDeductionQuerySchema = z
   .partial();
 
 export type EmployeeDeductionCreate = z.infer<
-  typeof EmployeeDeductionRawCreateSchema
+  typeof EmployeeDeductionCreateSchema
 >;
 
 export type EmployeeDeductionUpdate = z.infer<
-  typeof EmployeeDeductionRawUpdateSchema
+  typeof EmployeeDeductionUpdateSchema
 >;
 
 export type EmployeeDeductionOrderBy = z.infer<
@@ -8087,11 +8017,11 @@ export const PaycheckDeductionQuerySchema = z
   .partial();
 
 export type PaycheckDeductionCreate = z.infer<
-  typeof PaycheckDeductionRawCreateSchema
+  typeof PaycheckDeductionCreateSchema
 >;
 
 export type PaycheckDeductionUpdate = z.infer<
-  typeof PaycheckDeductionRawUpdateSchema
+  typeof PaycheckDeductionUpdateSchema
 >;
 
 export type PaycheckDeductionOrderBy = z.infer<
@@ -8158,13 +8088,9 @@ export const EmployeeTaxDataQuerySchema = z
   })
   .partial();
 
-export type EmployeeTaxDataCreate = z.infer<
-  typeof EmployeeTaxDataRawCreateSchema
->;
+export type EmployeeTaxDataCreate = z.infer<typeof EmployeeTaxDataCreateSchema>;
 
-export type EmployeeTaxDataUpdate = z.infer<
-  typeof EmployeeTaxDataRawUpdateSchema
->;
+export type EmployeeTaxDataUpdate = z.infer<typeof EmployeeTaxDataUpdateSchema>;
 
 export type EmployeeTaxDataOrderBy = z.infer<
   typeof EmployeeTaxDataOrderBySchema
@@ -8227,11 +8153,11 @@ export const StateTaxWithholdingQuerySchema = z
   .partial();
 
 export type StateTaxWithholdingCreate = z.infer<
-  typeof StateTaxWithholdingRawCreateSchema
+  typeof StateTaxWithholdingCreateSchema
 >;
 
 export type StateTaxWithholdingUpdate = z.infer<
-  typeof StateTaxWithholdingRawUpdateSchema
+  typeof StateTaxWithholdingUpdateSchema
 >;
 
 export type StateTaxWithholdingOrderBy = z.infer<
@@ -8299,11 +8225,11 @@ export const LocalTaxWithholdingQuerySchema = z
   .partial();
 
 export type LocalTaxWithholdingCreate = z.infer<
-  typeof LocalTaxWithholdingRawCreateSchema
+  typeof LocalTaxWithholdingCreateSchema
 >;
 
 export type LocalTaxWithholdingUpdate = z.infer<
-  typeof LocalTaxWithholdingRawUpdateSchema
+  typeof LocalTaxWithholdingUpdateSchema
 >;
 
 export type LocalTaxWithholdingOrderBy = z.infer<
@@ -8370,9 +8296,9 @@ export const PayrollRunQuerySchema = z
   })
   .partial();
 
-export type PayrollRunCreate = z.infer<typeof PayrollRunRawCreateSchema>;
+export type PayrollRunCreate = z.infer<typeof PayrollRunCreateSchema>;
 
-export type PayrollRunUpdate = z.infer<typeof PayrollRunRawUpdateSchema>;
+export type PayrollRunUpdate = z.infer<typeof PayrollRunUpdateSchema>;
 
 export type PayrollRunOrderBy = z.infer<typeof PayrollRunOrderBySchema>;
 
@@ -8418,9 +8344,9 @@ export const ContactQuerySchema = z
   })
   .partial();
 
-export type ContactCreate = z.infer<typeof ContactRawCreateSchema>;
+export type ContactCreate = z.infer<typeof ContactCreateSchema>;
 
-export type ContactUpdate = z.infer<typeof ContactRawUpdateSchema>;
+export type ContactUpdate = z.infer<typeof ContactUpdateSchema>;
 
 export type ContactOrderBy = z.infer<typeof ContactOrderBySchema>;
 
@@ -8464,9 +8390,9 @@ export const CountryQuerySchema = z
   })
   .partial();
 
-export type CountryCreate = z.infer<typeof CountryRawCreateSchema>;
+export type CountryCreate = z.infer<typeof CountryCreateSchema>;
 
-export type CountryUpdate = z.infer<typeof CountryRawUpdateSchema>;
+export type CountryUpdate = z.infer<typeof CountryUpdateSchema>;
 
 export type CountryOrderBy = z.infer<typeof CountryOrderBySchema>;
 
@@ -8510,9 +8436,9 @@ export const StateQuerySchema = z
   })
   .partial();
 
-export type StateCreate = z.infer<typeof StateRawCreateSchema>;
+export type StateCreate = z.infer<typeof StateCreateSchema>;
 
-export type StateUpdate = z.infer<typeof StateRawUpdateSchema>;
+export type StateUpdate = z.infer<typeof StateUpdateSchema>;
 
 export type StateOrderBy = z.infer<typeof StateOrderBySchema>;
 
@@ -8554,9 +8480,9 @@ export const AddressQuerySchema = z
   })
   .partial();
 
-export type AddressCreate = z.infer<typeof AddressRawCreateSchema>;
+export type AddressCreate = z.infer<typeof AddressCreateSchema>;
 
-export type AddressUpdate = z.infer<typeof AddressRawUpdateSchema>;
+export type AddressUpdate = z.infer<typeof AddressUpdateSchema>;
 
 export type AddressOrderBy = z.infer<typeof AddressOrderBySchema>;
 
@@ -8600,9 +8526,9 @@ export const EmailQuerySchema = z
   })
   .partial();
 
-export type EmailCreate = z.infer<typeof EmailRawCreateSchema>;
+export type EmailCreate = z.infer<typeof EmailCreateSchema>;
 
-export type EmailUpdate = z.infer<typeof EmailRawUpdateSchema>;
+export type EmailUpdate = z.infer<typeof EmailUpdateSchema>;
 
 export type EmailOrderBy = z.infer<typeof EmailOrderBySchema>;
 
@@ -8644,9 +8570,9 @@ export const PhoneQuerySchema = z
   })
   .partial();
 
-export type PhoneCreate = z.infer<typeof PhoneRawCreateSchema>;
+export type PhoneCreate = z.infer<typeof PhoneCreateSchema>;
 
-export type PhoneUpdate = z.infer<typeof PhoneRawUpdateSchema>;
+export type PhoneUpdate = z.infer<typeof PhoneUpdateSchema>;
 
 export type PhoneOrderBy = z.infer<typeof PhoneOrderBySchema>;
 
@@ -8688,9 +8614,9 @@ export const PrimaryEmailQuerySchema = z
   })
   .partial();
 
-export type PrimaryEmailCreate = z.infer<typeof PrimaryEmailRawCreateSchema>;
+export type PrimaryEmailCreate = z.infer<typeof PrimaryEmailCreateSchema>;
 
-export type PrimaryEmailUpdate = z.infer<typeof PrimaryEmailRawUpdateSchema>;
+export type PrimaryEmailUpdate = z.infer<typeof PrimaryEmailUpdateSchema>;
 
 export type PrimaryEmailOrderBy = z.infer<typeof PrimaryEmailOrderBySchema>;
 
@@ -8742,9 +8668,9 @@ export const PrimaryPhoneQuerySchema = z
   })
   .partial();
 
-export type PrimaryPhoneCreate = z.infer<typeof PrimaryPhoneRawCreateSchema>;
+export type PrimaryPhoneCreate = z.infer<typeof PrimaryPhoneCreateSchema>;
 
-export type PrimaryPhoneUpdate = z.infer<typeof PrimaryPhoneRawUpdateSchema>;
+export type PrimaryPhoneUpdate = z.infer<typeof PrimaryPhoneUpdateSchema>;
 
 export type PrimaryPhoneOrderBy = z.infer<typeof PrimaryPhoneOrderBySchema>;
 
@@ -8796,13 +8722,9 @@ export const PrimaryAddressQuerySchema = z
   })
   .partial();
 
-export type PrimaryAddressCreate = z.infer<
-  typeof PrimaryAddressRawCreateSchema
->;
+export type PrimaryAddressCreate = z.infer<typeof PrimaryAddressCreateSchema>;
 
-export type PrimaryAddressUpdate = z.infer<
-  typeof PrimaryAddressRawUpdateSchema
->;
+export type PrimaryAddressUpdate = z.infer<typeof PrimaryAddressUpdateSchema>;
 
 export type PrimaryAddressOrderBy = z.infer<typeof PrimaryAddressOrderBySchema>;
 

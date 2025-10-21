@@ -13,6 +13,10 @@ export class Scalar {
     return z.coerce.number();
   }
 
+  static currency() {
+    return z.coerce.number().min(0);
+  }
+
   static int() {
     return z.coerce.number().int();
   }

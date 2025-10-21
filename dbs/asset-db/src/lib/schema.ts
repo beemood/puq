@@ -1155,17 +1155,16 @@ export const EmployeeItemRequestOwnQuerySchema = z
   })
   .partial();
 
-export const RoomAttributeRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-});
+export const RoomAttributeCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    name: PZ.Scalar.name(),
+  })
+);
 
-export const RoomAttributeCreateSchema = RoomAttributeRawCreateSchema.clone();
-
-export const RoomAttributeRawUpdateSchema = z.object({
+export const RoomAttributeUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
 });
-
-export const RoomAttributeUpdateSchema = RoomAttributeRawUpdateSchema.clone();
 
 export const RoomAttributeOrderBySchema = z
   .object({
@@ -1249,23 +1248,20 @@ export const RoomAttributeProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const RoomAttributeValueRawCreateSchema = z.object({
-  roomId: PZ.Scalar.id(),
-  attributeId: PZ.Scalar.id(),
-  value: PZ.Scalar.string(),
-});
+export const RoomAttributeValueCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    roomId: PZ.Scalar.id(),
+    attributeId: PZ.Scalar.id(),
+    value: PZ.Scalar.string(),
+  })
+);
 
-export const RoomAttributeValueCreateSchema =
-  RoomAttributeValueRawCreateSchema.clone();
-
-export const RoomAttributeValueRawUpdateSchema = z.object({
+export const RoomAttributeValueUpdateSchema = z.object({
   roomId: PZ.Scalar.id().optional(),
   attributeId: PZ.Scalar.id().optional(),
   value: PZ.Scalar.string().optional(),
 });
-
-export const RoomAttributeValueUpdateSchema =
-  RoomAttributeValueRawUpdateSchema.clone();
 
 export const RoomAttributeValueOrderBySchema = z
   .object({
@@ -1357,17 +1353,16 @@ export const RoomAttributeValueProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const ItemAttributeRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-});
+export const ItemAttributeCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    name: PZ.Scalar.name(),
+  })
+);
 
-export const ItemAttributeCreateSchema = ItemAttributeRawCreateSchema.clone();
-
-export const ItemAttributeRawUpdateSchema = z.object({
+export const ItemAttributeUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
 });
-
-export const ItemAttributeUpdateSchema = ItemAttributeRawUpdateSchema.clone();
 
 export const ItemAttributeOrderBySchema = z
   .object({
@@ -1451,23 +1446,20 @@ export const ItemAttributeProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const ItemAttributeValueRawCreateSchema = z.object({
-  itemId: PZ.Scalar.id(),
-  attributeId: PZ.Scalar.id(),
-  value: PZ.Scalar.string(),
-});
+export const ItemAttributeValueCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    itemId: PZ.Scalar.id(),
+    attributeId: PZ.Scalar.id(),
+    value: PZ.Scalar.string(),
+  })
+);
 
-export const ItemAttributeValueCreateSchema =
-  ItemAttributeValueRawCreateSchema.clone();
-
-export const ItemAttributeValueRawUpdateSchema = z.object({
+export const ItemAttributeValueUpdateSchema = z.object({
   itemId: PZ.Scalar.id().optional(),
   attributeId: PZ.Scalar.id().optional(),
   value: PZ.Scalar.string().optional(),
 });
-
-export const ItemAttributeValueUpdateSchema =
-  ItemAttributeValueRawUpdateSchema.clone();
 
 export const ItemAttributeValueOrderBySchema = z
   .object({
@@ -1559,19 +1551,18 @@ export const ItemAttributeValueProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const CategoryRawCreateSchema = z.object({
-  parentId: PZ.Scalar.id().optional(),
-  name: PZ.Scalar.name(),
-});
+export const CategoryCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    parentId: PZ.Scalar.id().optional(),
+    name: PZ.Scalar.name(),
+  })
+);
 
-export const CategoryCreateSchema = CategoryRawCreateSchema.clone();
-
-export const CategoryRawUpdateSchema = z.object({
+export const CategoryUpdateSchema = z.object({
   parentId: PZ.Scalar.id().optional().optional(),
   name: PZ.Scalar.name().optional(),
 });
-
-export const CategoryUpdateSchema = CategoryRawUpdateSchema.clone();
 
 export const CategoryOrderBySchema = z
   .object({
@@ -1672,19 +1663,18 @@ export const CategoryProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const BuildingRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-  code: PZ.Scalar.string(),
-});
+export const BuildingCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    name: PZ.Scalar.name(),
+    code: PZ.Scalar.string(),
+  })
+);
 
-export const BuildingCreateSchema = BuildingRawCreateSchema.clone();
-
-export const BuildingRawUpdateSchema = z.object({
+export const BuildingUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
   code: PZ.Scalar.string().optional(),
 });
-
-export const BuildingUpdateSchema = BuildingRawUpdateSchema.clone();
 
 export const BuildingOrderBySchema = z
   .object({
@@ -1772,23 +1762,22 @@ export const BuildingProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const RoomRawCreateSchema = z.object({
-  buildingId: PZ.Scalar.id(),
-  name: PZ.Scalar.name(),
-  code: PZ.Scalar.string(),
-  floor: PZ.Scalar.int().optional(),
-});
+export const RoomCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    buildingId: PZ.Scalar.id(),
+    name: PZ.Scalar.name(),
+    code: PZ.Scalar.string(),
+    floor: PZ.Scalar.int().optional(),
+  })
+);
 
-export const RoomCreateSchema = RoomRawCreateSchema.clone();
-
-export const RoomRawUpdateSchema = z.object({
+export const RoomUpdateSchema = z.object({
   buildingId: PZ.Scalar.id().optional(),
   name: PZ.Scalar.name().optional(),
   code: PZ.Scalar.string().optional(),
   floor: PZ.Scalar.int().optional().optional(),
 });
-
-export const RoomUpdateSchema = RoomRawUpdateSchema.clone();
 
 export const RoomOrderBySchema = z
   .object({
@@ -1934,23 +1923,22 @@ export const RoomProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const ItemRawCreateSchema = z.object({
-  categoryId: PZ.Scalar.id().optional(),
-  name: PZ.Scalar.name(),
-  description: PZ.Scalar.description().optional(),
-  minQuantity: PZ.Scalar.int().optional(),
-});
+export const ItemCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    categoryId: PZ.Scalar.id().optional(),
+    name: PZ.Scalar.name(),
+    description: PZ.Scalar.description().optional(),
+    minQuantity: PZ.Scalar.int().optional(),
+  })
+);
 
-export const ItemCreateSchema = ItemRawCreateSchema.clone();
-
-export const ItemRawUpdateSchema = z.object({
+export const ItemUpdateSchema = z.object({
   categoryId: PZ.Scalar.id().optional().optional(),
   name: PZ.Scalar.name().optional(),
   description: PZ.Scalar.description().optional().optional(),
   minQuantity: PZ.Scalar.int().optional().optional(),
 });
-
-export const ItemUpdateSchema = ItemRawUpdateSchema.clone();
 
 export const ItemOrderBySchema = z
   .object({
@@ -2074,23 +2062,22 @@ export const ItemProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const QuantityRawCreateSchema = z.object({
-  roomId: PZ.Scalar.id(),
-  itemId: PZ.Scalar.id(),
-  quantity: PZ.Scalar.positiveInt().optional(),
-  minQuantity: PZ.Scalar.int().optional(),
-});
+export const QuantityCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    roomId: PZ.Scalar.id(),
+    itemId: PZ.Scalar.id(),
+    quantity: PZ.Scalar.positiveInt().optional(),
+    minQuantity: PZ.Scalar.int().optional(),
+  })
+);
 
-export const QuantityCreateSchema = QuantityRawCreateSchema.clone();
-
-export const QuantityRawUpdateSchema = z.object({
+export const QuantityUpdateSchema = z.object({
   roomId: PZ.Scalar.id().optional(),
   itemId: PZ.Scalar.id().optional(),
   quantity: PZ.Scalar.positiveInt().optional().optional(),
   minQuantity: PZ.Scalar.int().optional().optional(),
 });
-
-export const QuantityUpdateSchema = QuantityRawUpdateSchema.clone();
 
 export const QuantityOrderBySchema = z
   .object({
@@ -2204,21 +2191,20 @@ export const QuantityProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const SerialNumberRawCreateSchema = z.object({
-  serialNumber: PZ.Scalar.string(),
-  itemId: PZ.Scalar.id(),
-  roomId: PZ.Scalar.id(),
-});
+export const SerialNumberCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    serialNumber: PZ.Scalar.string(),
+    itemId: PZ.Scalar.id(),
+    roomId: PZ.Scalar.id(),
+  })
+);
 
-export const SerialNumberCreateSchema = SerialNumberRawCreateSchema.clone();
-
-export const SerialNumberRawUpdateSchema = z.object({
+export const SerialNumberUpdateSchema = z.object({
   serialNumber: PZ.Scalar.string().optional(),
   itemId: PZ.Scalar.id().optional(),
   roomId: PZ.Scalar.id().optional(),
 });
-
-export const SerialNumberUpdateSchema = SerialNumberRawUpdateSchema.clone();
 
 export const SerialNumberOrderBySchema = z
   .object({
@@ -2354,21 +2340,21 @@ export const SerialNumberProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const QuantityMoveRequestRawCreateSchema = z.object({
-  sourceId: PZ.Scalar.id(),
-  targetId: PZ.Scalar.id(),
-  requestedById: PZ.Scalar.id(),
-  resolvedById: PZ.Scalar.id().optional(),
-  quantity: PZ.Scalar.positiveInt(),
-  reason: PZ.Scalar.string().optional(),
-  status: RequestStatusSchema.optional(),
-  resolvedAt: PZ.Scalar.datetime().optional(),
-});
+export const QuantityMoveRequestCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    sourceId: PZ.Scalar.id(),
+    targetId: PZ.Scalar.id(),
+    requestedById: PZ.Scalar.id(),
+    resolvedById: PZ.Scalar.id().optional(),
+    quantity: PZ.Scalar.positiveInt(),
+    reason: PZ.Scalar.string().optional(),
+    status: RequestStatusSchema.optional(),
+    resolvedAt: PZ.Scalar.datetime().optional(),
+  })
+);
 
-export const QuantityMoveRequestCreateSchema =
-  QuantityMoveRequestRawCreateSchema.clone();
-
-export const QuantityMoveRequestRawUpdateSchema = z.object({
+export const QuantityMoveRequestUpdateSchema = z.object({
   sourceId: PZ.Scalar.id().optional(),
   targetId: PZ.Scalar.id().optional(),
   requestedById: PZ.Scalar.id().optional(),
@@ -2378,9 +2364,6 @@ export const QuantityMoveRequestRawUpdateSchema = z.object({
   status: RequestStatusSchema.optional().optional(),
   resolvedAt: PZ.Scalar.datetime().optional().optional(),
 });
-
-export const QuantityMoveRequestUpdateSchema =
-  QuantityMoveRequestRawUpdateSchema.clone();
 
 export const QuantityMoveRequestOrderBySchema = z
   .object({
@@ -2510,20 +2493,20 @@ export const QuantityMoveRequestProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const SerialMoveRequestRawCreateSchema = z.object({
-  sourceId: PZ.Scalar.id(),
-  targetId: PZ.Scalar.id(),
-  requestedById: PZ.Scalar.id(),
-  resolvedById: PZ.Scalar.id().optional(),
-  reason: PZ.Scalar.string().optional(),
-  status: RequestStatusSchema.optional(),
-  resolvedAt: PZ.Scalar.datetime().optional(),
-});
+export const SerialMoveRequestCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    sourceId: PZ.Scalar.id(),
+    targetId: PZ.Scalar.id(),
+    requestedById: PZ.Scalar.id(),
+    resolvedById: PZ.Scalar.id().optional(),
+    reason: PZ.Scalar.string().optional(),
+    status: RequestStatusSchema.optional(),
+    resolvedAt: PZ.Scalar.datetime().optional(),
+  })
+);
 
-export const SerialMoveRequestCreateSchema =
-  SerialMoveRequestRawCreateSchema.clone();
-
-export const SerialMoveRequestRawUpdateSchema = z.object({
+export const SerialMoveRequestUpdateSchema = z.object({
   sourceId: PZ.Scalar.id().optional(),
   targetId: PZ.Scalar.id().optional(),
   requestedById: PZ.Scalar.id().optional(),
@@ -2532,9 +2515,6 @@ export const SerialMoveRequestRawUpdateSchema = z.object({
   status: RequestStatusSchema.optional().optional(),
   resolvedAt: PZ.Scalar.datetime().optional().optional(),
 });
-
-export const SerialMoveRequestUpdateSchema =
-  SerialMoveRequestRawUpdateSchema.clone();
 
 export const SerialMoveRequestOrderBySchema = z
   .object({
@@ -2659,17 +2639,16 @@ export const SerialMoveRequestProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const EmployeeRawCreateSchema = z.object({
-  uuid: PZ.Scalar.string(),
-});
+export const EmployeeCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    uuid: PZ.Scalar.string(),
+  })
+);
 
-export const EmployeeCreateSchema = EmployeeRawCreateSchema.clone();
-
-export const EmployeeRawUpdateSchema = z.object({
+export const EmployeeUpdateSchema = z.object({
   uuid: PZ.Scalar.string().optional(),
 });
-
-export const EmployeeUpdateSchema = EmployeeRawUpdateSchema.clone();
 
 export const EmployeeOrderBySchema = z
   .object({
@@ -2842,21 +2821,20 @@ export const EmployeeProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const EmployeeRoomRawCreateSchema = z.object({
-  employeeId: PZ.Scalar.id(),
-  roomId: PZ.Scalar.id(),
-  takenAt: PZ.Scalar.datetime().optional(),
-});
+export const EmployeeRoomCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    employeeId: PZ.Scalar.id(),
+    roomId: PZ.Scalar.id(),
+    takenAt: PZ.Scalar.datetime().optional(),
+  })
+);
 
-export const EmployeeRoomCreateSchema = EmployeeRoomRawCreateSchema.clone();
-
-export const EmployeeRoomRawUpdateSchema = z.object({
+export const EmployeeRoomUpdateSchema = z.object({
   employeeId: PZ.Scalar.id().optional(),
   roomId: PZ.Scalar.id().optional(),
   takenAt: PZ.Scalar.datetime().optional().optional(),
 });
-
-export const EmployeeRoomUpdateSchema = EmployeeRoomRawUpdateSchema.clone();
 
 export const EmployeeRoomOrderBySchema = z
   .object({
@@ -2952,21 +2930,20 @@ export const EmployeeRoomProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const EmployeeItemRawCreateSchema = z.object({
-  employeeId: PZ.Scalar.id(),
-  serialNumberId: PZ.Scalar.id(),
-  takenAt: PZ.Scalar.datetime().optional(),
-});
+export const EmployeeItemCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    employeeId: PZ.Scalar.id(),
+    serialNumberId: PZ.Scalar.id(),
+    takenAt: PZ.Scalar.datetime().optional(),
+  })
+);
 
-export const EmployeeItemCreateSchema = EmployeeItemRawCreateSchema.clone();
-
-export const EmployeeItemRawUpdateSchema = z.object({
+export const EmployeeItemUpdateSchema = z.object({
   employeeId: PZ.Scalar.id().optional(),
   serialNumberId: PZ.Scalar.id().optional(),
   takenAt: PZ.Scalar.datetime().optional().optional(),
 });
-
-export const EmployeeItemUpdateSchema = EmployeeItemRawUpdateSchema.clone();
 
 export const EmployeeItemOrderBySchema = z
   .object({
@@ -3062,19 +3039,19 @@ export const EmployeeItemProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const EmployeeRoomRequestRawCreateSchema = z.object({
-  roomId: PZ.Scalar.id().optional(),
-  requestedById: PZ.Scalar.id(),
-  resolvedById: PZ.Scalar.id().optional(),
-  resolvedAt: PZ.Scalar.datetime().optional(),
-  status: RequestStatusSchema.optional(),
-  note: PZ.Scalar.string().optional(),
-});
+export const EmployeeRoomRequestCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    roomId: PZ.Scalar.id().optional(),
+    requestedById: PZ.Scalar.id(),
+    resolvedById: PZ.Scalar.id().optional(),
+    resolvedAt: PZ.Scalar.datetime().optional(),
+    status: RequestStatusSchema.optional(),
+    note: PZ.Scalar.string().optional(),
+  })
+);
 
-export const EmployeeRoomRequestCreateSchema =
-  EmployeeRoomRequestRawCreateSchema.clone();
-
-export const EmployeeRoomRequestRawUpdateSchema = z.object({
+export const EmployeeRoomRequestUpdateSchema = z.object({
   roomId: PZ.Scalar.id().optional().optional(),
   requestedById: PZ.Scalar.id().optional(),
   resolvedById: PZ.Scalar.id().optional().optional(),
@@ -3082,9 +3059,6 @@ export const EmployeeRoomRequestRawUpdateSchema = z.object({
   status: RequestStatusSchema.optional().optional(),
   note: PZ.Scalar.string().optional().optional(),
 });
-
-export const EmployeeRoomRequestUpdateSchema =
-  EmployeeRoomRequestRawUpdateSchema.clone();
 
 export const EmployeeRoomRequestOrderBySchema = z
   .object({
@@ -3201,19 +3175,19 @@ export const EmployeeRoomRequestProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const EmployeeItemRequestRawCreateSchema = z.object({
-  requestedById: PZ.Scalar.id(),
-  resolvedById: PZ.Scalar.id().optional(),
-  resolvedAt: PZ.Scalar.datetime().optional(),
-  serialNumberId: PZ.Scalar.id().optional(),
-  status: RequestStatusSchema.optional(),
-  note: PZ.Scalar.string().optional(),
-});
+export const EmployeeItemRequestCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    requestedById: PZ.Scalar.id(),
+    resolvedById: PZ.Scalar.id().optional(),
+    resolvedAt: PZ.Scalar.datetime().optional(),
+    serialNumberId: PZ.Scalar.id().optional(),
+    status: RequestStatusSchema.optional(),
+    note: PZ.Scalar.string().optional(),
+  })
+);
 
-export const EmployeeItemRequestCreateSchema =
-  EmployeeItemRequestRawCreateSchema.clone();
-
-export const EmployeeItemRequestRawUpdateSchema = z.object({
+export const EmployeeItemRequestUpdateSchema = z.object({
   requestedById: PZ.Scalar.id().optional(),
   resolvedById: PZ.Scalar.id().optional().optional(),
   resolvedAt: PZ.Scalar.datetime().optional().optional(),
@@ -3221,9 +3195,6 @@ export const EmployeeItemRequestRawUpdateSchema = z.object({
   status: RequestStatusSchema.optional().optional(),
   note: PZ.Scalar.string().optional().optional(),
 });
-
-export const EmployeeItemRequestUpdateSchema =
-  EmployeeItemRequestRawUpdateSchema.clone();
 
 export const EmployeeItemRequestOrderBySchema = z
   .object({
@@ -3356,9 +3327,9 @@ export const RoomAttributeQuerySchema = z
   })
   .partial();
 
-export type RoomAttributeCreate = z.infer<typeof RoomAttributeRawCreateSchema>;
+export type RoomAttributeCreate = z.infer<typeof RoomAttributeCreateSchema>;
 
-export type RoomAttributeUpdate = z.infer<typeof RoomAttributeRawUpdateSchema>;
+export type RoomAttributeUpdate = z.infer<typeof RoomAttributeUpdateSchema>;
 
 export type RoomAttributeOrderBy = z.infer<typeof RoomAttributeOrderBySchema>;
 
@@ -3411,11 +3382,11 @@ export const RoomAttributeValueQuerySchema = z
   .partial();
 
 export type RoomAttributeValueCreate = z.infer<
-  typeof RoomAttributeValueRawCreateSchema
+  typeof RoomAttributeValueCreateSchema
 >;
 
 export type RoomAttributeValueUpdate = z.infer<
-  typeof RoomAttributeValueRawUpdateSchema
+  typeof RoomAttributeValueUpdateSchema
 >;
 
 export type RoomAttributeValueOrderBy = z.infer<
@@ -3482,9 +3453,9 @@ export const ItemAttributeQuerySchema = z
   })
   .partial();
 
-export type ItemAttributeCreate = z.infer<typeof ItemAttributeRawCreateSchema>;
+export type ItemAttributeCreate = z.infer<typeof ItemAttributeCreateSchema>;
 
-export type ItemAttributeUpdate = z.infer<typeof ItemAttributeRawUpdateSchema>;
+export type ItemAttributeUpdate = z.infer<typeof ItemAttributeUpdateSchema>;
 
 export type ItemAttributeOrderBy = z.infer<typeof ItemAttributeOrderBySchema>;
 
@@ -3537,11 +3508,11 @@ export const ItemAttributeValueQuerySchema = z
   .partial();
 
 export type ItemAttributeValueCreate = z.infer<
-  typeof ItemAttributeValueRawCreateSchema
+  typeof ItemAttributeValueCreateSchema
 >;
 
 export type ItemAttributeValueUpdate = z.infer<
-  typeof ItemAttributeValueRawUpdateSchema
+  typeof ItemAttributeValueUpdateSchema
 >;
 
 export type ItemAttributeValueOrderBy = z.infer<
@@ -3608,9 +3579,9 @@ export const CategoryQuerySchema = z
   })
   .partial();
 
-export type CategoryCreate = z.infer<typeof CategoryRawCreateSchema>;
+export type CategoryCreate = z.infer<typeof CategoryCreateSchema>;
 
-export type CategoryUpdate = z.infer<typeof CategoryRawUpdateSchema>;
+export type CategoryUpdate = z.infer<typeof CategoryUpdateSchema>;
 
 export type CategoryOrderBy = z.infer<typeof CategoryOrderBySchema>;
 
@@ -3654,9 +3625,9 @@ export const BuildingQuerySchema = z
   })
   .partial();
 
-export type BuildingCreate = z.infer<typeof BuildingRawCreateSchema>;
+export type BuildingCreate = z.infer<typeof BuildingCreateSchema>;
 
-export type BuildingUpdate = z.infer<typeof BuildingRawUpdateSchema>;
+export type BuildingUpdate = z.infer<typeof BuildingUpdateSchema>;
 
 export type BuildingOrderBy = z.infer<typeof BuildingOrderBySchema>;
 
@@ -3700,9 +3671,9 @@ export const RoomQuerySchema = z
   })
   .partial();
 
-export type RoomCreate = z.infer<typeof RoomRawCreateSchema>;
+export type RoomCreate = z.infer<typeof RoomCreateSchema>;
 
-export type RoomUpdate = z.infer<typeof RoomRawUpdateSchema>;
+export type RoomUpdate = z.infer<typeof RoomUpdateSchema>;
 
 export type RoomOrderBy = z.infer<typeof RoomOrderBySchema>;
 
@@ -3744,9 +3715,9 @@ export const ItemQuerySchema = z
   })
   .partial();
 
-export type ItemCreate = z.infer<typeof ItemRawCreateSchema>;
+export type ItemCreate = z.infer<typeof ItemCreateSchema>;
 
-export type ItemUpdate = z.infer<typeof ItemRawUpdateSchema>;
+export type ItemUpdate = z.infer<typeof ItemUpdateSchema>;
 
 export type ItemOrderBy = z.infer<typeof ItemOrderBySchema>;
 
@@ -3788,9 +3759,9 @@ export const QuantityQuerySchema = z
   })
   .partial();
 
-export type QuantityCreate = z.infer<typeof QuantityRawCreateSchema>;
+export type QuantityCreate = z.infer<typeof QuantityCreateSchema>;
 
-export type QuantityUpdate = z.infer<typeof QuantityRawUpdateSchema>;
+export type QuantityUpdate = z.infer<typeof QuantityUpdateSchema>;
 
 export type QuantityOrderBy = z.infer<typeof QuantityOrderBySchema>;
 
@@ -3834,9 +3805,9 @@ export const SerialNumberQuerySchema = z
   })
   .partial();
 
-export type SerialNumberCreate = z.infer<typeof SerialNumberRawCreateSchema>;
+export type SerialNumberCreate = z.infer<typeof SerialNumberCreateSchema>;
 
-export type SerialNumberUpdate = z.infer<typeof SerialNumberRawUpdateSchema>;
+export type SerialNumberUpdate = z.infer<typeof SerialNumberUpdateSchema>;
 
 export type SerialNumberOrderBy = z.infer<typeof SerialNumberOrderBySchema>;
 
@@ -3889,11 +3860,11 @@ export const QuantityMoveRequestQuerySchema = z
   .partial();
 
 export type QuantityMoveRequestCreate = z.infer<
-  typeof QuantityMoveRequestRawCreateSchema
+  typeof QuantityMoveRequestCreateSchema
 >;
 
 export type QuantityMoveRequestUpdate = z.infer<
-  typeof QuantityMoveRequestRawUpdateSchema
+  typeof QuantityMoveRequestUpdateSchema
 >;
 
 export type QuantityMoveRequestOrderBy = z.infer<
@@ -3961,11 +3932,11 @@ export const SerialMoveRequestQuerySchema = z
   .partial();
 
 export type SerialMoveRequestCreate = z.infer<
-  typeof SerialMoveRequestRawCreateSchema
+  typeof SerialMoveRequestCreateSchema
 >;
 
 export type SerialMoveRequestUpdate = z.infer<
-  typeof SerialMoveRequestRawUpdateSchema
+  typeof SerialMoveRequestUpdateSchema
 >;
 
 export type SerialMoveRequestOrderBy = z.infer<
@@ -4032,9 +4003,9 @@ export const EmployeeQuerySchema = z
   })
   .partial();
 
-export type EmployeeCreate = z.infer<typeof EmployeeRawCreateSchema>;
+export type EmployeeCreate = z.infer<typeof EmployeeCreateSchema>;
 
-export type EmployeeUpdate = z.infer<typeof EmployeeRawUpdateSchema>;
+export type EmployeeUpdate = z.infer<typeof EmployeeUpdateSchema>;
 
 export type EmployeeOrderBy = z.infer<typeof EmployeeOrderBySchema>;
 
@@ -4078,9 +4049,9 @@ export const EmployeeRoomQuerySchema = z
   })
   .partial();
 
-export type EmployeeRoomCreate = z.infer<typeof EmployeeRoomRawCreateSchema>;
+export type EmployeeRoomCreate = z.infer<typeof EmployeeRoomCreateSchema>;
 
-export type EmployeeRoomUpdate = z.infer<typeof EmployeeRoomRawUpdateSchema>;
+export type EmployeeRoomUpdate = z.infer<typeof EmployeeRoomUpdateSchema>;
 
 export type EmployeeRoomOrderBy = z.infer<typeof EmployeeRoomOrderBySchema>;
 
@@ -4132,9 +4103,9 @@ export const EmployeeItemQuerySchema = z
   })
   .partial();
 
-export type EmployeeItemCreate = z.infer<typeof EmployeeItemRawCreateSchema>;
+export type EmployeeItemCreate = z.infer<typeof EmployeeItemCreateSchema>;
 
-export type EmployeeItemUpdate = z.infer<typeof EmployeeItemRawUpdateSchema>;
+export type EmployeeItemUpdate = z.infer<typeof EmployeeItemUpdateSchema>;
 
 export type EmployeeItemOrderBy = z.infer<typeof EmployeeItemOrderBySchema>;
 
@@ -4187,11 +4158,11 @@ export const EmployeeRoomRequestQuerySchema = z
   .partial();
 
 export type EmployeeRoomRequestCreate = z.infer<
-  typeof EmployeeRoomRequestRawCreateSchema
+  typeof EmployeeRoomRequestCreateSchema
 >;
 
 export type EmployeeRoomRequestUpdate = z.infer<
-  typeof EmployeeRoomRequestRawUpdateSchema
+  typeof EmployeeRoomRequestUpdateSchema
 >;
 
 export type EmployeeRoomRequestOrderBy = z.infer<
@@ -4259,11 +4230,11 @@ export const EmployeeItemRequestQuerySchema = z
   .partial();
 
 export type EmployeeItemRequestCreate = z.infer<
-  typeof EmployeeItemRequestRawCreateSchema
+  typeof EmployeeItemRequestCreateSchema
 >;
 
 export type EmployeeItemRequestUpdate = z.infer<
-  typeof EmployeeItemRequestRawUpdateSchema
+  typeof EmployeeItemRequestUpdateSchema
 >;
 
 export type EmployeeItemRequestOrderBy = z.infer<

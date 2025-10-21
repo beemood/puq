@@ -767,21 +767,20 @@ export const AccessTokenPermissionOwnQuerySchema = z
   })
   .partial();
 
-export const UserRawCreateSchema = z.object({
-  uuid: PZ.Scalar.string(),
-  username: PZ.Scalar.string(),
-  password: PZ.Scalar.string(),
-});
+export const UserCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    uuid: PZ.Scalar.string(),
+    username: PZ.Scalar.string(),
+    password: PZ.Scalar.string(),
+  })
+);
 
-export const UserCreateSchema = UserRawCreateSchema.clone();
-
-export const UserRawUpdateSchema = z.object({
+export const UserUpdateSchema = z.object({
   uuid: PZ.Scalar.string().optional(),
   username: PZ.Scalar.string().optional(),
   password: PZ.Scalar.string().optional(),
 });
-
-export const UserUpdateSchema = UserRawUpdateSchema.clone();
 
 export const UserOrderBySchema = z
   .object({
@@ -894,19 +893,18 @@ export const UserProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const AccessTokenRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-  userId: PZ.Scalar.id(),
-});
+export const AccessTokenCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    name: PZ.Scalar.name(),
+    userId: PZ.Scalar.id(),
+  })
+);
 
-export const AccessTokenCreateSchema = AccessTokenRawCreateSchema.clone();
-
-export const AccessTokenRawUpdateSchema = z.object({
+export const AccessTokenUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
   userId: PZ.Scalar.id().optional(),
 });
-
-export const AccessTokenUpdateSchema = AccessTokenRawUpdateSchema.clone();
 
 export const AccessTokenOrderBySchema = z
   .object({
@@ -1001,17 +999,16 @@ export const AccessTokenProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const ScopeRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-});
+export const ScopeCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    name: PZ.Scalar.name(),
+  })
+);
 
-export const ScopeCreateSchema = ScopeRawCreateSchema.clone();
-
-export const ScopeRawUpdateSchema = z.object({
+export const ScopeUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
 });
-
-export const ScopeUpdateSchema = ScopeRawUpdateSchema.clone();
 
 export const ScopeOrderBySchema = z
   .object({
@@ -1095,17 +1092,16 @@ export const ScopeProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const ResourceRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-});
+export const ResourceCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    name: PZ.Scalar.name(),
+  })
+);
 
-export const ResourceCreateSchema = ResourceRawCreateSchema.clone();
-
-export const ResourceRawUpdateSchema = z.object({
+export const ResourceUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
 });
-
-export const ResourceUpdateSchema = ResourceRawUpdateSchema.clone();
 
 export const ResourceOrderBySchema = z
   .object({
@@ -1189,17 +1185,16 @@ export const ResourceProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const OperationRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-});
+export const OperationCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    name: PZ.Scalar.name(),
+  })
+);
 
-export const OperationCreateSchema = OperationRawCreateSchema.clone();
-
-export const OperationRawUpdateSchema = z.object({
+export const OperationUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
 });
-
-export const OperationUpdateSchema = OperationRawUpdateSchema.clone();
 
 export const OperationOrderBySchema = z
   .object({
@@ -1283,21 +1278,20 @@ export const OperationProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const ActivityRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-  resourceId: PZ.Scalar.id(),
-  operationId: PZ.Scalar.id(),
-});
+export const ActivityCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    name: PZ.Scalar.name(),
+    resourceId: PZ.Scalar.id(),
+    operationId: PZ.Scalar.id(),
+  })
+);
 
-export const ActivityCreateSchema = ActivityRawCreateSchema.clone();
-
-export const ActivityRawUpdateSchema = z.object({
+export const ActivityUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
   resourceId: PZ.Scalar.id().optional(),
   operationId: PZ.Scalar.id().optional(),
 });
-
-export const ActivityUpdateSchema = ActivityRawUpdateSchema.clone();
 
 export const ActivityOrderBySchema = z
   .object({
@@ -1407,19 +1401,18 @@ export const ActivityProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const PermissionRawCreateSchema = z.object({
-  scopeId: PZ.Scalar.id(),
-  activityId: PZ.Scalar.id(),
-});
+export const PermissionCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    scopeId: PZ.Scalar.id(),
+    activityId: PZ.Scalar.id(),
+  })
+);
 
-export const PermissionCreateSchema = PermissionRawCreateSchema.clone();
-
-export const PermissionRawUpdateSchema = z.object({
+export const PermissionUpdateSchema = z.object({
   scopeId: PZ.Scalar.id().optional(),
   activityId: PZ.Scalar.id().optional(),
 });
-
-export const PermissionUpdateSchema = PermissionRawUpdateSchema.clone();
 
 export const PermissionOrderBySchema = z
   .object({
@@ -1536,17 +1529,16 @@ export const PermissionProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const RoleRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-});
+export const RoleCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    name: PZ.Scalar.name(),
+  })
+);
 
-export const RoleCreateSchema = RoleRawCreateSchema.clone();
-
-export const RoleRawUpdateSchema = z.object({
+export const RoleUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
 });
-
-export const RoleUpdateSchema = RoleRawUpdateSchema.clone();
 
 export const RoleOrderBySchema = z
   .object({
@@ -1630,19 +1622,18 @@ export const RoleProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const RolePermissionRawCreateSchema = z.object({
-  roleId: PZ.Scalar.id(),
-  permissionId: PZ.Scalar.id(),
-});
+export const RolePermissionCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    roleId: PZ.Scalar.id(),
+    permissionId: PZ.Scalar.id(),
+  })
+);
 
-export const RolePermissionCreateSchema = RolePermissionRawCreateSchema.clone();
-
-export const RolePermissionRawUpdateSchema = z.object({
+export const RolePermissionUpdateSchema = z.object({
   roleId: PZ.Scalar.id().optional(),
   permissionId: PZ.Scalar.id().optional(),
 });
-
-export const RolePermissionUpdateSchema = RolePermissionRawUpdateSchema.clone();
 
 export const RolePermissionOrderBySchema = z
   .object({
@@ -1728,23 +1719,22 @@ export const RolePermissionProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const SessionRawCreateSchema = z.object({
-  userId: PZ.Scalar.id(),
-  description: PZ.Scalar.description().optional(),
-  status: SessionStatusSchema.optional(),
-  endDate: PZ.Scalar.datetime(),
-});
+export const SessionCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    userId: PZ.Scalar.id(),
+    description: PZ.Scalar.description().optional(),
+    status: SessionStatusSchema.optional(),
+    endDate: PZ.Scalar.datetime(),
+  })
+);
 
-export const SessionCreateSchema = SessionRawCreateSchema.clone();
-
-export const SessionRawUpdateSchema = z.object({
+export const SessionUpdateSchema = z.object({
   userId: PZ.Scalar.id().optional(),
   description: PZ.Scalar.description().optional().optional(),
   status: SessionStatusSchema.optional().optional(),
   endDate: PZ.Scalar.datetime().optional(),
 });
-
-export const SessionUpdateSchema = SessionRawUpdateSchema.clone();
 
 export const SessionOrderBySchema = z
   .object({
@@ -1849,21 +1839,20 @@ export const SessionProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const ActivityLogRawCreateSchema = z.object({
-  sessionId: PZ.Scalar.id(),
-  activityId: PZ.Scalar.id(),
-  notes: PZ.Scalar.string().optional(),
-});
+export const ActivityLogCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    sessionId: PZ.Scalar.id(),
+    activityId: PZ.Scalar.id(),
+    notes: PZ.Scalar.string().optional(),
+  })
+);
 
-export const ActivityLogCreateSchema = ActivityLogRawCreateSchema.clone();
-
-export const ActivityLogRawUpdateSchema = z.object({
+export const ActivityLogUpdateSchema = z.object({
   sessionId: PZ.Scalar.id().optional(),
   activityId: PZ.Scalar.id().optional(),
   notes: PZ.Scalar.string().optional().optional(),
 });
-
-export const ActivityLogUpdateSchema = ActivityLogRawUpdateSchema.clone();
 
 export const ActivityLogOrderBySchema = z
   .object({
@@ -1959,19 +1948,18 @@ export const ActivityLogProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const UserPermissionRawCreateSchema = z.object({
-  userId: PZ.Scalar.id(),
-  permissionId: PZ.Scalar.id(),
-});
+export const UserPermissionCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    userId: PZ.Scalar.id(),
+    permissionId: PZ.Scalar.id(),
+  })
+);
 
-export const UserPermissionCreateSchema = UserPermissionRawCreateSchema.clone();
-
-export const UserPermissionRawUpdateSchema = z.object({
+export const UserPermissionUpdateSchema = z.object({
   userId: PZ.Scalar.id().optional(),
   permissionId: PZ.Scalar.id().optional(),
 });
-
-export const UserPermissionUpdateSchema = UserPermissionRawUpdateSchema.clone();
 
 export const UserPermissionOrderBySchema = z
   .object({
@@ -2057,21 +2045,18 @@ export const UserPermissionProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const AccessTokenPermissionRawCreateSchema = z.object({
-  permissionId: PZ.Scalar.id(),
-  accessTokenId: PZ.Scalar.id(),
-});
+export const AccessTokenPermissionCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    permissionId: PZ.Scalar.id(),
+    accessTokenId: PZ.Scalar.id(),
+  })
+);
 
-export const AccessTokenPermissionCreateSchema =
-  AccessTokenPermissionRawCreateSchema.clone();
-
-export const AccessTokenPermissionRawUpdateSchema = z.object({
+export const AccessTokenPermissionUpdateSchema = z.object({
   permissionId: PZ.Scalar.id().optional(),
   accessTokenId: PZ.Scalar.id().optional(),
 });
-
-export const AccessTokenPermissionUpdateSchema =
-  AccessTokenPermissionRawUpdateSchema.clone();
 
 export const AccessTokenPermissionOrderBySchema = z
   .object({
@@ -2175,9 +2160,9 @@ export const UserQuerySchema = z
   })
   .partial();
 
-export type UserCreate = z.infer<typeof UserRawCreateSchema>;
+export type UserCreate = z.infer<typeof UserCreateSchema>;
 
-export type UserUpdate = z.infer<typeof UserRawUpdateSchema>;
+export type UserUpdate = z.infer<typeof UserUpdateSchema>;
 
 export type UserOrderBy = z.infer<typeof UserOrderBySchema>;
 
@@ -2219,9 +2204,9 @@ export const AccessTokenQuerySchema = z
   })
   .partial();
 
-export type AccessTokenCreate = z.infer<typeof AccessTokenRawCreateSchema>;
+export type AccessTokenCreate = z.infer<typeof AccessTokenCreateSchema>;
 
-export type AccessTokenUpdate = z.infer<typeof AccessTokenRawUpdateSchema>;
+export type AccessTokenUpdate = z.infer<typeof AccessTokenUpdateSchema>;
 
 export type AccessTokenOrderBy = z.infer<typeof AccessTokenOrderBySchema>;
 
@@ -2269,9 +2254,9 @@ export const ScopeQuerySchema = z
   })
   .partial();
 
-export type ScopeCreate = z.infer<typeof ScopeRawCreateSchema>;
+export type ScopeCreate = z.infer<typeof ScopeCreateSchema>;
 
-export type ScopeUpdate = z.infer<typeof ScopeRawUpdateSchema>;
+export type ScopeUpdate = z.infer<typeof ScopeUpdateSchema>;
 
 export type ScopeOrderBy = z.infer<typeof ScopeOrderBySchema>;
 
@@ -2313,9 +2298,9 @@ export const ResourceQuerySchema = z
   })
   .partial();
 
-export type ResourceCreate = z.infer<typeof ResourceRawCreateSchema>;
+export type ResourceCreate = z.infer<typeof ResourceCreateSchema>;
 
-export type ResourceUpdate = z.infer<typeof ResourceRawUpdateSchema>;
+export type ResourceUpdate = z.infer<typeof ResourceUpdateSchema>;
 
 export type ResourceOrderBy = z.infer<typeof ResourceOrderBySchema>;
 
@@ -2359,9 +2344,9 @@ export const OperationQuerySchema = z
   })
   .partial();
 
-export type OperationCreate = z.infer<typeof OperationRawCreateSchema>;
+export type OperationCreate = z.infer<typeof OperationCreateSchema>;
 
-export type OperationUpdate = z.infer<typeof OperationRawUpdateSchema>;
+export type OperationUpdate = z.infer<typeof OperationUpdateSchema>;
 
 export type OperationOrderBy = z.infer<typeof OperationOrderBySchema>;
 
@@ -2405,9 +2390,9 @@ export const ActivityQuerySchema = z
   })
   .partial();
 
-export type ActivityCreate = z.infer<typeof ActivityRawCreateSchema>;
+export type ActivityCreate = z.infer<typeof ActivityCreateSchema>;
 
-export type ActivityUpdate = z.infer<typeof ActivityRawUpdateSchema>;
+export type ActivityUpdate = z.infer<typeof ActivityUpdateSchema>;
 
 export type ActivityOrderBy = z.infer<typeof ActivityOrderBySchema>;
 
@@ -2451,9 +2436,9 @@ export const PermissionQuerySchema = z
   })
   .partial();
 
-export type PermissionCreate = z.infer<typeof PermissionRawCreateSchema>;
+export type PermissionCreate = z.infer<typeof PermissionCreateSchema>;
 
-export type PermissionUpdate = z.infer<typeof PermissionRawUpdateSchema>;
+export type PermissionUpdate = z.infer<typeof PermissionUpdateSchema>;
 
 export type PermissionOrderBy = z.infer<typeof PermissionOrderBySchema>;
 
@@ -2499,9 +2484,9 @@ export const RoleQuerySchema = z
   })
   .partial();
 
-export type RoleCreate = z.infer<typeof RoleRawCreateSchema>;
+export type RoleCreate = z.infer<typeof RoleCreateSchema>;
 
-export type RoleUpdate = z.infer<typeof RoleRawUpdateSchema>;
+export type RoleUpdate = z.infer<typeof RoleUpdateSchema>;
 
 export type RoleOrderBy = z.infer<typeof RoleOrderBySchema>;
 
@@ -2543,13 +2528,9 @@ export const RolePermissionQuerySchema = z
   })
   .partial();
 
-export type RolePermissionCreate = z.infer<
-  typeof RolePermissionRawCreateSchema
->;
+export type RolePermissionCreate = z.infer<typeof RolePermissionCreateSchema>;
 
-export type RolePermissionUpdate = z.infer<
-  typeof RolePermissionRawUpdateSchema
->;
+export type RolePermissionUpdate = z.infer<typeof RolePermissionUpdateSchema>;
 
 export type RolePermissionOrderBy = z.infer<typeof RolePermissionOrderBySchema>;
 
@@ -2607,9 +2588,9 @@ export const SessionQuerySchema = z
   })
   .partial();
 
-export type SessionCreate = z.infer<typeof SessionRawCreateSchema>;
+export type SessionCreate = z.infer<typeof SessionCreateSchema>;
 
-export type SessionUpdate = z.infer<typeof SessionRawUpdateSchema>;
+export type SessionUpdate = z.infer<typeof SessionUpdateSchema>;
 
 export type SessionOrderBy = z.infer<typeof SessionOrderBySchema>;
 
@@ -2653,9 +2634,9 @@ export const ActivityLogQuerySchema = z
   })
   .partial();
 
-export type ActivityLogCreate = z.infer<typeof ActivityLogRawCreateSchema>;
+export type ActivityLogCreate = z.infer<typeof ActivityLogCreateSchema>;
 
-export type ActivityLogUpdate = z.infer<typeof ActivityLogRawUpdateSchema>;
+export type ActivityLogUpdate = z.infer<typeof ActivityLogUpdateSchema>;
 
 export type ActivityLogOrderBy = z.infer<typeof ActivityLogOrderBySchema>;
 
@@ -2703,13 +2684,9 @@ export const UserPermissionQuerySchema = z
   })
   .partial();
 
-export type UserPermissionCreate = z.infer<
-  typeof UserPermissionRawCreateSchema
->;
+export type UserPermissionCreate = z.infer<typeof UserPermissionCreateSchema>;
 
-export type UserPermissionUpdate = z.infer<
-  typeof UserPermissionRawUpdateSchema
->;
+export type UserPermissionUpdate = z.infer<typeof UserPermissionUpdateSchema>;
 
 export type UserPermissionOrderBy = z.infer<typeof UserPermissionOrderBySchema>;
 
@@ -2768,11 +2745,11 @@ export const AccessTokenPermissionQuerySchema = z
   .partial();
 
 export type AccessTokenPermissionCreate = z.infer<
-  typeof AccessTokenPermissionRawCreateSchema
+  typeof AccessTokenPermissionCreateSchema
 >;
 
 export type AccessTokenPermissionUpdate = z.infer<
-  typeof AccessTokenPermissionRawUpdateSchema
+  typeof AccessTokenPermissionUpdateSchema
 >;
 
 export type AccessTokenPermissionOrderBy = z.infer<

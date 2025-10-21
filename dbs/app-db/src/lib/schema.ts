@@ -184,25 +184,24 @@ export const AppHistoryOwnQuerySchema = z
   })
   .partial();
 
-export const AppRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-  description: PZ.Scalar.description().optional(),
-  version: PZ.Scalar.string().optional(),
-  host: PZ.Scalar.string(),
-  port: PZ.Scalar.string(),
-});
+export const AppCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    name: PZ.Scalar.name(),
+    description: PZ.Scalar.description().optional(),
+    version: PZ.Scalar.string().optional(),
+    host: PZ.Scalar.string(),
+    port: PZ.Scalar.string(),
+  })
+);
 
-export const AppCreateSchema = AppRawCreateSchema.clone();
-
-export const AppRawUpdateSchema = z.object({
+export const AppUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
   description: PZ.Scalar.description().optional().optional(),
   version: PZ.Scalar.string().optional().optional(),
   host: PZ.Scalar.string().optional(),
   port: PZ.Scalar.string().optional(),
 });
-
-export const AppUpdateSchema = AppRawUpdateSchema.clone();
 
 export const AppOrderBySchema = z
   .object({
@@ -305,17 +304,16 @@ export const AppProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const SecretRawCreateSchema = z.object({
-  secret: PZ.Scalar.string(),
-});
+export const SecretCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    secret: PZ.Scalar.string(),
+  })
+);
 
-export const SecretCreateSchema = SecretRawCreateSchema.clone();
-
-export const SecretRawUpdateSchema = z.object({
+export const SecretUpdateSchema = z.object({
   secret: PZ.Scalar.string().optional(),
 });
-
-export const SecretUpdateSchema = SecretRawUpdateSchema.clone();
 
 export const SecretOrderBySchema = z
   .object({
@@ -402,19 +400,18 @@ export const SecretProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const AppHistoryRawCreateSchema = z.object({
-  appId: PZ.Scalar.id(),
-  stopeedAt: PZ.Scalar.datetime().optional(),
-});
+export const AppHistoryCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    appId: PZ.Scalar.id(),
+    stopeedAt: PZ.Scalar.datetime().optional(),
+  })
+);
 
-export const AppHistoryCreateSchema = AppHistoryRawCreateSchema.clone();
-
-export const AppHistoryRawUpdateSchema = z.object({
+export const AppHistoryUpdateSchema = z.object({
   appId: PZ.Scalar.id().optional(),
   stopeedAt: PZ.Scalar.datetime().optional().optional(),
 });
-
-export const AppHistoryUpdateSchema = AppHistoryRawUpdateSchema.clone();
 
 export const AppHistoryOrderBySchema = z
   .object({
@@ -519,9 +516,9 @@ export const AppQuerySchema = z
   })
   .partial();
 
-export type AppCreate = z.infer<typeof AppRawCreateSchema>;
+export type AppCreate = z.infer<typeof AppCreateSchema>;
 
-export type AppUpdate = z.infer<typeof AppRawUpdateSchema>;
+export type AppUpdate = z.infer<typeof AppUpdateSchema>;
 
 export type AppOrderBy = z.infer<typeof AppOrderBySchema>;
 
@@ -563,9 +560,9 @@ export const SecretQuerySchema = z
   })
   .partial();
 
-export type SecretCreate = z.infer<typeof SecretRawCreateSchema>;
+export type SecretCreate = z.infer<typeof SecretCreateSchema>;
 
-export type SecretUpdate = z.infer<typeof SecretRawUpdateSchema>;
+export type SecretUpdate = z.infer<typeof SecretUpdateSchema>;
 
 export type SecretOrderBy = z.infer<typeof SecretOrderBySchema>;
 
@@ -607,9 +604,9 @@ export const AppHistoryQuerySchema = z
   })
   .partial();
 
-export type AppHistoryCreate = z.infer<typeof AppHistoryRawCreateSchema>;
+export type AppHistoryCreate = z.infer<typeof AppHistoryCreateSchema>;
 
-export type AppHistoryUpdate = z.infer<typeof AppHistoryRawUpdateSchema>;
+export type AppHistoryUpdate = z.infer<typeof AppHistoryUpdateSchema>;
 
 export type AppHistoryOrderBy = z.infer<typeof AppHistoryOrderBySchema>;
 

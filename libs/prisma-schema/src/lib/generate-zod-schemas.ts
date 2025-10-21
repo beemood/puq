@@ -138,11 +138,11 @@ export function generateSlugExtension(model: DMMF.Model) {
     })?.name;
 
     if (sluggingFieldName) {
-      return `.transform(PZ.slugTransformer("${sluggingFieldName}"))`;
+      return `PZ.slugTransformer("${sluggingFieldName}")`;
     }
   }
 
-  return '';
+  return '(value)=>value';
 }
 
 export function generateZodSchemas(datamodel: DMMF.Datamodel) {
@@ -298,24 +298,18 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
     const slugTransformer = generateSlugExtension(model);
 
     const createSchema = `
-    export const ${model.name}RawCreateSchema = z.object({ 
+    export const ${model.name}CreateSchema = z.preprocess(${slugTransformer}, z.object({ 
       ${createSchemaFields}
-    })
-
-    export const ${model.name}CreateSchema = ${model.name}RawCreateSchema.clone()${slugTransformer}
+    }))
     `;
 
     const updateSchema = `
-    export const ${model.name}RawUpdateSchema = z.object({ 
+    export const ${model.name}UpdateSchema = z.object({ 
         ${updateFields
           .map(toZodPropertyDefinition)
           .map((e) => e + '.optional()')
           .join(',\n')}
     });
-
-    export const ${model.name}UpdateSchema = ${
-      model.name
-    }RawUpdateSchema.clone()${slugTransformer}
     `;
 
     const distinctFieldsString = distinctFields
@@ -504,9 +498,9 @@ export function generateZodSchemas(datamodel: DMMF.Datamodel) {
     postResult.push(querySchema);
 
     const allTypes = `
-    export type  ${model.name}Create = z.infer<typeof ${model.name}RawCreateSchema>;
+    export type  ${model.name}Create = z.infer<typeof ${model.name}CreateSchema>;
 
-    export type  ${model.name}Update = z.infer<typeof ${model.name}RawUpdateSchema>;
+    export type  ${model.name}Update = z.infer<typeof ${model.name}UpdateSchema>;
 
     export type  ${model.name}OrderBy = z.infer<typeof ${model.name}OrderBySchema>;
 

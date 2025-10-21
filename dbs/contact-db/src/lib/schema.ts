@@ -878,25 +878,20 @@ export const WebsiteOwnQuerySchema = z
   })
   .partial();
 
-export const IndustryRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-  slug: PZ.Scalar.slug().optional(),
-  description: PZ.Scalar.description().optional(),
-});
-
-export const IndustryCreateSchema = IndustryRawCreateSchema.clone().transform(
-  PZ.slugTransformer('name')
+export const IndustryCreateSchema = z.preprocess(
+  PZ.slugTransformer('name'),
+  z.object({
+    name: PZ.Scalar.name(),
+    slug: PZ.Scalar.slug().optional(),
+    description: PZ.Scalar.description().optional(),
+  })
 );
 
-export const IndustryRawUpdateSchema = z.object({
+export const IndustryUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
   slug: PZ.Scalar.slug().optional().optional(),
   description: PZ.Scalar.description().optional().optional(),
 });
-
-export const IndustryUpdateSchema = IndustryRawUpdateSchema.clone().transform(
-  PZ.slugTransformer('name')
-);
 
 export const IndustryOrderBySchema = z
   .object({
@@ -991,23 +986,18 @@ export const IndustryProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const CompanyRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-  slug: PZ.Scalar.slug().optional(),
-});
-
-export const CompanyCreateSchema = CompanyRawCreateSchema.clone().transform(
-  PZ.slugTransformer('name')
+export const CompanyCreateSchema = z.preprocess(
+  PZ.slugTransformer('name'),
+  z.object({
+    name: PZ.Scalar.name(),
+    slug: PZ.Scalar.slug().optional(),
+  })
 );
 
-export const CompanyRawUpdateSchema = z.object({
+export const CompanyUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
   slug: PZ.Scalar.slug().optional().optional(),
 });
-
-export const CompanyUpdateSchema = CompanyRawUpdateSchema.clone().transform(
-  PZ.slugTransformer('name')
-);
 
 export const CompanyOrderBySchema = z
   .object({
@@ -1109,21 +1099,18 @@ export const CompanyProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const CompanyIndustryRawCreateSchema = z.object({
-  companyId: PZ.Scalar.id(),
-  industryId: PZ.Scalar.id(),
-});
+export const CompanyIndustryCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    companyId: PZ.Scalar.id(),
+    industryId: PZ.Scalar.id(),
+  })
+);
 
-export const CompanyIndustryCreateSchema =
-  CompanyIndustryRawCreateSchema.clone();
-
-export const CompanyIndustryRawUpdateSchema = z.object({
+export const CompanyIndustryUpdateSchema = z.object({
   companyId: PZ.Scalar.id().optional(),
   industryId: PZ.Scalar.id().optional(),
 });
-
-export const CompanyIndustryUpdateSchema =
-  CompanyIndustryRawUpdateSchema.clone();
 
 export const CompanyIndustryOrderBySchema = z
   .object({
@@ -1209,23 +1196,20 @@ export const CompanyIndustryProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const DepartmentRawCreateSchema = z.object({
-  parentId: PZ.Scalar.id().optional(),
-  name: PZ.Scalar.name(),
-  slug: PZ.Scalar.slug().optional(),
-});
+export const DepartmentCreateSchema = z.preprocess(
+  PZ.slugTransformer('name'),
+  z.object({
+    parentId: PZ.Scalar.id().optional(),
+    name: PZ.Scalar.name(),
+    slug: PZ.Scalar.slug().optional(),
+  })
+);
 
-export const DepartmentCreateSchema =
-  DepartmentRawCreateSchema.clone().transform(PZ.slugTransformer('name'));
-
-export const DepartmentRawUpdateSchema = z.object({
+export const DepartmentUpdateSchema = z.object({
   parentId: PZ.Scalar.id().optional().optional(),
   name: PZ.Scalar.name().optional(),
   slug: PZ.Scalar.slug().optional().optional(),
 });
-
-export const DepartmentUpdateSchema =
-  DepartmentRawUpdateSchema.clone().transform(PZ.slugTransformer('name'));
 
 export const DepartmentOrderBySchema = z
   .object({
@@ -1330,27 +1314,22 @@ export const DepartmentProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const TitleRawCreateSchema = z.object({
-  departmentId: PZ.Scalar.id().optional(),
-  name: PZ.Scalar.name(),
-  slug: PZ.Scalar.slug().optional(),
-  description: PZ.Scalar.description().optional(),
-});
-
-export const TitleCreateSchema = TitleRawCreateSchema.clone().transform(
-  PZ.slugTransformer('name')
+export const TitleCreateSchema = z.preprocess(
+  PZ.slugTransformer('name'),
+  z.object({
+    departmentId: PZ.Scalar.id().optional(),
+    name: PZ.Scalar.name(),
+    slug: PZ.Scalar.slug().optional(),
+    description: PZ.Scalar.description().optional(),
+  })
 );
 
-export const TitleRawUpdateSchema = z.object({
+export const TitleUpdateSchema = z.object({
   departmentId: PZ.Scalar.id().optional().optional(),
   name: PZ.Scalar.name().optional(),
   slug: PZ.Scalar.slug().optional().optional(),
   description: PZ.Scalar.description().optional().optional(),
 });
-
-export const TitleUpdateSchema = TitleRawUpdateSchema.clone().transform(
-  PZ.slugTransformer('name')
-);
 
 export const TitleOrderBySchema = z
   .object({
@@ -1452,21 +1431,22 @@ export const TitleProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const AgentRawCreateSchema = z.object({
-  companyId: PZ.Scalar.id().optional(),
-  titleId: PZ.Scalar.id().optional(),
-  firstName: PZ.Scalar.string(),
-  middleName: PZ.Scalar.string().optional(),
-  lastName: PZ.Scalar.string(),
-  preferedName: PZ.Scalar.string().optional(),
-  gender: GenderSchema.optional(),
-  slug: PZ.Scalar.slug().optional(),
-  note: PZ.Scalar.string().optional(),
-});
+export const AgentCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    companyId: PZ.Scalar.id().optional(),
+    titleId: PZ.Scalar.id().optional(),
+    firstName: PZ.Scalar.string(),
+    middleName: PZ.Scalar.string().optional(),
+    lastName: PZ.Scalar.string(),
+    preferedName: PZ.Scalar.string().optional(),
+    gender: GenderSchema.optional(),
+    slug: PZ.Scalar.slug().optional(),
+    note: PZ.Scalar.string().optional(),
+  })
+);
 
-export const AgentCreateSchema = AgentRawCreateSchema.clone();
-
-export const AgentRawUpdateSchema = z.object({
+export const AgentUpdateSchema = z.object({
   companyId: PZ.Scalar.id().optional().optional(),
   titleId: PZ.Scalar.id().optional().optional(),
   firstName: PZ.Scalar.string().optional(),
@@ -1477,8 +1457,6 @@ export const AgentRawUpdateSchema = z.object({
   slug: PZ.Scalar.slug().optional().optional(),
   note: PZ.Scalar.string().optional().optional(),
 });
-
-export const AgentUpdateSchema = AgentRawUpdateSchema.clone();
 
 export const AgentOrderBySchema = z
   .object({
@@ -1611,21 +1589,20 @@ export const AgentProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const ContactRawCreateSchema = z.object({
-  agentId: PZ.Scalar.id(),
-  type: ContactTypeSchema,
-  order: PZ.Scalar.int().optional(),
-});
+export const ContactCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    agentId: PZ.Scalar.id(),
+    type: ContactTypeSchema,
+    order: PZ.Scalar.int().optional(),
+  })
+);
 
-export const ContactCreateSchema = ContactRawCreateSchema.clone();
-
-export const ContactRawUpdateSchema = z.object({
+export const ContactUpdateSchema = z.object({
   agentId: PZ.Scalar.id().optional(),
   type: ContactTypeSchema.optional(),
   order: PZ.Scalar.int().optional().optional(),
 });
-
-export const ContactUpdateSchema = ContactRawUpdateSchema.clone();
 
 export const ContactOrderBySchema = z
   .object({
@@ -1753,21 +1730,20 @@ export const ContactProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const StateRawCreateSchema = z.object({
-  countryId: PZ.Scalar.id(),
-  state: PZ.Scalar.string(),
-  code: PZ.Scalar.string(),
-});
+export const StateCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    countryId: PZ.Scalar.id(),
+    state: PZ.Scalar.string(),
+    code: PZ.Scalar.string(),
+  })
+);
 
-export const StateCreateSchema = StateRawCreateSchema.clone();
-
-export const StateRawUpdateSchema = z.object({
+export const StateUpdateSchema = z.object({
   countryId: PZ.Scalar.id().optional(),
   state: PZ.Scalar.string().optional(),
   code: PZ.Scalar.string().optional(),
 });
-
-export const StateUpdateSchema = StateRawUpdateSchema.clone();
 
 export const StateOrderBySchema = z
   .object({
@@ -1865,19 +1841,18 @@ export const StateProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const CountryRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-  code: PZ.Scalar.string(),
-});
+export const CountryCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    name: PZ.Scalar.name(),
+    code: PZ.Scalar.string(),
+  })
+);
 
-export const CountryCreateSchema = CountryRawCreateSchema.clone();
-
-export const CountryRawUpdateSchema = z.object({
+export const CountryUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
   code: PZ.Scalar.string().optional(),
 });
-
-export const CountryUpdateSchema = CountryRawUpdateSchema.clone();
 
 export const CountryOrderBySchema = z
   .object({
@@ -1965,19 +1940,18 @@ export const CountryProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const CityRawCreateSchema = z.object({
-  stateId: PZ.Scalar.id(),
-  name: PZ.Scalar.name(),
-});
+export const CityCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    stateId: PZ.Scalar.id(),
+    name: PZ.Scalar.name(),
+  })
+);
 
-export const CityCreateSchema = CityRawCreateSchema.clone();
-
-export const CityRawUpdateSchema = z.object({
+export const CityUpdateSchema = z.object({
   stateId: PZ.Scalar.id().optional(),
   name: PZ.Scalar.name().optional(),
 });
-
-export const CityUpdateSchema = CityRawUpdateSchema.clone();
 
 export const CityOrderBySchema = z
   .object({
@@ -2068,25 +2042,24 @@ export const CityProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const AddressRawCreateSchema = z.object({
-  contactId: PZ.Scalar.id(),
-  cityId: PZ.Scalar.id(),
-  street: PZ.Scalar.string(),
-  zip: PZ.Scalar.string(),
-  order: PZ.Scalar.int().optional(),
-});
+export const AddressCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    contactId: PZ.Scalar.id(),
+    cityId: PZ.Scalar.id(),
+    street: PZ.Scalar.string(),
+    zip: PZ.Scalar.string(),
+    order: PZ.Scalar.int().optional(),
+  })
+);
 
-export const AddressCreateSchema = AddressRawCreateSchema.clone();
-
-export const AddressRawUpdateSchema = z.object({
+export const AddressUpdateSchema = z.object({
   contactId: PZ.Scalar.id().optional(),
   cityId: PZ.Scalar.id().optional(),
   street: PZ.Scalar.string().optional(),
   zip: PZ.Scalar.string().optional(),
   order: PZ.Scalar.int().optional().optional(),
 });
-
-export const AddressUpdateSchema = AddressRawUpdateSchema.clone();
 
 export const AddressOrderBySchema = z
   .object({
@@ -2186,21 +2159,20 @@ export const AddressProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const EmailRawCreateSchema = z.object({
-  contactId: PZ.Scalar.id(),
-  email: PZ.Scalar.email(),
-  order: PZ.Scalar.int().optional(),
-});
+export const EmailCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    contactId: PZ.Scalar.id(),
+    email: PZ.Scalar.email(),
+    order: PZ.Scalar.int().optional(),
+  })
+);
 
-export const EmailCreateSchema = EmailRawCreateSchema.clone();
-
-export const EmailRawUpdateSchema = z.object({
+export const EmailUpdateSchema = z.object({
   contactId: PZ.Scalar.id().optional(),
   email: PZ.Scalar.email().optional(),
   order: PZ.Scalar.int().optional().optional(),
 });
-
-export const EmailUpdateSchema = EmailRawUpdateSchema.clone();
 
 export const EmailOrderBySchema = z
   .object({
@@ -2289,21 +2261,20 @@ export const EmailProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const PhoneRawCreateSchema = z.object({
-  contactId: PZ.Scalar.id(),
-  phone: PZ.Scalar.string(),
-  order: PZ.Scalar.int().optional(),
-});
+export const PhoneCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    contactId: PZ.Scalar.id(),
+    phone: PZ.Scalar.string(),
+    order: PZ.Scalar.int().optional(),
+  })
+);
 
-export const PhoneCreateSchema = PhoneRawCreateSchema.clone();
-
-export const PhoneRawUpdateSchema = z.object({
+export const PhoneUpdateSchema = z.object({
   contactId: PZ.Scalar.id().optional(),
   phone: PZ.Scalar.string().optional(),
   order: PZ.Scalar.int().optional().optional(),
 });
-
-export const PhoneUpdateSchema = PhoneRawUpdateSchema.clone();
 
 export const PhoneOrderBySchema = z
   .object({
@@ -2392,21 +2363,20 @@ export const PhoneProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const WebsiteRawCreateSchema = z.object({
-  contactId: PZ.Scalar.id(),
-  url: PZ.Scalar.string(),
-  order: PZ.Scalar.int().optional(),
-});
+export const WebsiteCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    contactId: PZ.Scalar.id(),
+    url: PZ.Scalar.string(),
+    order: PZ.Scalar.int().optional(),
+  })
+);
 
-export const WebsiteCreateSchema = WebsiteRawCreateSchema.clone();
-
-export const WebsiteRawUpdateSchema = z.object({
+export const WebsiteUpdateSchema = z.object({
   contactId: PZ.Scalar.id().optional(),
   url: PZ.Scalar.string().optional(),
   order: PZ.Scalar.int().optional().optional(),
 });
-
-export const WebsiteUpdateSchema = WebsiteRawUpdateSchema.clone();
 
 export const WebsiteOrderBySchema = z
   .object({
@@ -2511,9 +2481,9 @@ export const IndustryQuerySchema = z
   })
   .partial();
 
-export type IndustryCreate = z.infer<typeof IndustryRawCreateSchema>;
+export type IndustryCreate = z.infer<typeof IndustryCreateSchema>;
 
-export type IndustryUpdate = z.infer<typeof IndustryRawUpdateSchema>;
+export type IndustryUpdate = z.infer<typeof IndustryUpdateSchema>;
 
 export type IndustryOrderBy = z.infer<typeof IndustryOrderBySchema>;
 
@@ -2557,9 +2527,9 @@ export const CompanyQuerySchema = z
   })
   .partial();
 
-export type CompanyCreate = z.infer<typeof CompanyRawCreateSchema>;
+export type CompanyCreate = z.infer<typeof CompanyCreateSchema>;
 
-export type CompanyUpdate = z.infer<typeof CompanyRawUpdateSchema>;
+export type CompanyUpdate = z.infer<typeof CompanyUpdateSchema>;
 
 export type CompanyOrderBy = z.infer<typeof CompanyOrderBySchema>;
 
@@ -2603,13 +2573,9 @@ export const CompanyIndustryQuerySchema = z
   })
   .partial();
 
-export type CompanyIndustryCreate = z.infer<
-  typeof CompanyIndustryRawCreateSchema
->;
+export type CompanyIndustryCreate = z.infer<typeof CompanyIndustryCreateSchema>;
 
-export type CompanyIndustryUpdate = z.infer<
-  typeof CompanyIndustryRawUpdateSchema
->;
+export type CompanyIndustryUpdate = z.infer<typeof CompanyIndustryUpdateSchema>;
 
 export type CompanyIndustryOrderBy = z.infer<
   typeof CompanyIndustryOrderBySchema
@@ -2671,9 +2637,9 @@ export const DepartmentQuerySchema = z
   })
   .partial();
 
-export type DepartmentCreate = z.infer<typeof DepartmentRawCreateSchema>;
+export type DepartmentCreate = z.infer<typeof DepartmentCreateSchema>;
 
-export type DepartmentUpdate = z.infer<typeof DepartmentRawUpdateSchema>;
+export type DepartmentUpdate = z.infer<typeof DepartmentUpdateSchema>;
 
 export type DepartmentOrderBy = z.infer<typeof DepartmentOrderBySchema>;
 
@@ -2719,9 +2685,9 @@ export const TitleQuerySchema = z
   })
   .partial();
 
-export type TitleCreate = z.infer<typeof TitleRawCreateSchema>;
+export type TitleCreate = z.infer<typeof TitleCreateSchema>;
 
-export type TitleUpdate = z.infer<typeof TitleRawUpdateSchema>;
+export type TitleUpdate = z.infer<typeof TitleUpdateSchema>;
 
 export type TitleOrderBy = z.infer<typeof TitleOrderBySchema>;
 
@@ -2763,9 +2729,9 @@ export const AgentQuerySchema = z
   })
   .partial();
 
-export type AgentCreate = z.infer<typeof AgentRawCreateSchema>;
+export type AgentCreate = z.infer<typeof AgentCreateSchema>;
 
-export type AgentUpdate = z.infer<typeof AgentRawUpdateSchema>;
+export type AgentUpdate = z.infer<typeof AgentUpdateSchema>;
 
 export type AgentOrderBy = z.infer<typeof AgentOrderBySchema>;
 
@@ -2807,9 +2773,9 @@ export const ContactQuerySchema = z
   })
   .partial();
 
-export type ContactCreate = z.infer<typeof ContactRawCreateSchema>;
+export type ContactCreate = z.infer<typeof ContactCreateSchema>;
 
-export type ContactUpdate = z.infer<typeof ContactRawUpdateSchema>;
+export type ContactUpdate = z.infer<typeof ContactUpdateSchema>;
 
 export type ContactOrderBy = z.infer<typeof ContactOrderBySchema>;
 
@@ -2853,9 +2819,9 @@ export const StateQuerySchema = z
   })
   .partial();
 
-export type StateCreate = z.infer<typeof StateRawCreateSchema>;
+export type StateCreate = z.infer<typeof StateCreateSchema>;
 
-export type StateUpdate = z.infer<typeof StateRawUpdateSchema>;
+export type StateUpdate = z.infer<typeof StateUpdateSchema>;
 
 export type StateOrderBy = z.infer<typeof StateOrderBySchema>;
 
@@ -2897,9 +2863,9 @@ export const CountryQuerySchema = z
   })
   .partial();
 
-export type CountryCreate = z.infer<typeof CountryRawCreateSchema>;
+export type CountryCreate = z.infer<typeof CountryCreateSchema>;
 
-export type CountryUpdate = z.infer<typeof CountryRawUpdateSchema>;
+export type CountryUpdate = z.infer<typeof CountryUpdateSchema>;
 
 export type CountryOrderBy = z.infer<typeof CountryOrderBySchema>;
 
@@ -2943,9 +2909,9 @@ export const CityQuerySchema = z
   })
   .partial();
 
-export type CityCreate = z.infer<typeof CityRawCreateSchema>;
+export type CityCreate = z.infer<typeof CityCreateSchema>;
 
-export type CityUpdate = z.infer<typeof CityRawUpdateSchema>;
+export type CityUpdate = z.infer<typeof CityUpdateSchema>;
 
 export type CityOrderBy = z.infer<typeof CityOrderBySchema>;
 
@@ -2987,9 +2953,9 @@ export const AddressQuerySchema = z
   })
   .partial();
 
-export type AddressCreate = z.infer<typeof AddressRawCreateSchema>;
+export type AddressCreate = z.infer<typeof AddressCreateSchema>;
 
-export type AddressUpdate = z.infer<typeof AddressRawUpdateSchema>;
+export type AddressUpdate = z.infer<typeof AddressUpdateSchema>;
 
 export type AddressOrderBy = z.infer<typeof AddressOrderBySchema>;
 
@@ -3033,9 +2999,9 @@ export const EmailQuerySchema = z
   })
   .partial();
 
-export type EmailCreate = z.infer<typeof EmailRawCreateSchema>;
+export type EmailCreate = z.infer<typeof EmailCreateSchema>;
 
-export type EmailUpdate = z.infer<typeof EmailRawUpdateSchema>;
+export type EmailUpdate = z.infer<typeof EmailUpdateSchema>;
 
 export type EmailOrderBy = z.infer<typeof EmailOrderBySchema>;
 
@@ -3077,9 +3043,9 @@ export const PhoneQuerySchema = z
   })
   .partial();
 
-export type PhoneCreate = z.infer<typeof PhoneRawCreateSchema>;
+export type PhoneCreate = z.infer<typeof PhoneCreateSchema>;
 
-export type PhoneUpdate = z.infer<typeof PhoneRawUpdateSchema>;
+export type PhoneUpdate = z.infer<typeof PhoneUpdateSchema>;
 
 export type PhoneOrderBy = z.infer<typeof PhoneOrderBySchema>;
 
@@ -3121,9 +3087,9 @@ export const WebsiteQuerySchema = z
   })
   .partial();
 
-export type WebsiteCreate = z.infer<typeof WebsiteRawCreateSchema>;
+export type WebsiteCreate = z.infer<typeof WebsiteCreateSchema>;
 
-export type WebsiteUpdate = z.infer<typeof WebsiteRawUpdateSchema>;
+export type WebsiteUpdate = z.infer<typeof WebsiteUpdateSchema>;
 
 export type WebsiteOrderBy = z.infer<typeof WebsiteOrderBySchema>;
 

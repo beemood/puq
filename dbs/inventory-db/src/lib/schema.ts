@@ -1298,25 +1298,20 @@ export const ProductWarrantyOwnQuerySchema = z
   })
   .partial();
 
-export const CategoryRawCreateSchema = z.object({
-  parentId: PZ.Scalar.id().optional(),
-  name: PZ.Scalar.name(),
-  slug: PZ.Scalar.slug().optional(),
-});
-
-export const CategoryCreateSchema = CategoryRawCreateSchema.clone().transform(
-  PZ.slugTransformer('name')
+export const CategoryCreateSchema = z.preprocess(
+  PZ.slugTransformer('name'),
+  z.object({
+    parentId: PZ.Scalar.id().optional(),
+    name: PZ.Scalar.name(),
+    slug: PZ.Scalar.slug().optional(),
+  })
 );
 
-export const CategoryRawUpdateSchema = z.object({
+export const CategoryUpdateSchema = z.object({
   parentId: PZ.Scalar.id().optional().optional(),
   name: PZ.Scalar.name().optional(),
   slug: PZ.Scalar.slug().optional().optional(),
 });
-
-export const CategoryUpdateSchema = CategoryRawUpdateSchema.clone().transform(
-  PZ.slugTransformer('name')
-);
 
 export const CategoryOrderBySchema = z
   .object({
@@ -1430,27 +1425,22 @@ export const CategoryProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const ProductRawCreateSchema = z.object({
-  isActive: PZ.Scalar.bool().optional(),
-  name: PZ.Scalar.name(),
-  slug: PZ.Scalar.slug().optional(),
-  description: PZ.Scalar.description().optional(),
-});
-
-export const ProductCreateSchema = ProductRawCreateSchema.clone().transform(
-  PZ.slugTransformer('name')
+export const ProductCreateSchema = z.preprocess(
+  PZ.slugTransformer('name'),
+  z.object({
+    isActive: PZ.Scalar.bool().optional(),
+    name: PZ.Scalar.name(),
+    slug: PZ.Scalar.slug().optional(),
+    description: PZ.Scalar.description().optional(),
+  })
 );
 
-export const ProductRawUpdateSchema = z.object({
+export const ProductUpdateSchema = z.object({
   isActive: PZ.Scalar.bool().optional().optional(),
   name: PZ.Scalar.name().optional(),
   slug: PZ.Scalar.slug().optional().optional(),
   description: PZ.Scalar.description().optional().optional(),
 });
-
-export const ProductUpdateSchema = ProductRawUpdateSchema.clone().transform(
-  PZ.slugTransformer('name')
-);
 
 export const ProductOrderBySchema = z
   .object({
@@ -1595,21 +1585,18 @@ export const ProductProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const ProductCategoryRawCreateSchema = z.object({
-  productId: PZ.Scalar.id(),
-  categoryId: PZ.Scalar.id(),
-});
+export const ProductCategoryCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    productId: PZ.Scalar.id(),
+    categoryId: PZ.Scalar.id(),
+  })
+);
 
-export const ProductCategoryCreateSchema =
-  ProductCategoryRawCreateSchema.clone();
-
-export const ProductCategoryRawUpdateSchema = z.object({
+export const ProductCategoryUpdateSchema = z.object({
   productId: PZ.Scalar.id().optional(),
   categoryId: PZ.Scalar.id().optional(),
 });
-
-export const ProductCategoryUpdateSchema =
-  ProductCategoryRawUpdateSchema.clone();
 
 export const ProductCategoryOrderBySchema = z
   .object({
@@ -1695,21 +1682,20 @@ export const ProductCategoryProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const VariantRawCreateSchema = z.object({
-  productId: PZ.Scalar.id(),
-  sku: PZ.Scalar.string(),
-  upc: PZ.Scalar.string(),
-});
+export const VariantCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    productId: PZ.Scalar.id(),
+    sku: PZ.Scalar.string(),
+    upc: PZ.Scalar.string(),
+  })
+);
 
-export const VariantCreateSchema = VariantRawCreateSchema.clone();
-
-export const VariantRawUpdateSchema = z.object({
+export const VariantUpdateSchema = z.object({
   productId: PZ.Scalar.id().optional(),
   sku: PZ.Scalar.string().optional(),
   upc: PZ.Scalar.string().optional(),
 });
-
-export const VariantUpdateSchema = VariantRawUpdateSchema.clone();
 
 export const VariantOrderBySchema = z
   .object({
@@ -1856,25 +1842,18 @@ export const VariantProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const AttributeCategoryRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-  slug: PZ.Scalar.slug().optional(),
-});
+export const AttributeCategoryCreateSchema = z.preprocess(
+  PZ.slugTransformer('name'),
+  z.object({
+    name: PZ.Scalar.name(),
+    slug: PZ.Scalar.slug().optional(),
+  })
+);
 
-export const AttributeCategoryCreateSchema =
-  AttributeCategoryRawCreateSchema.clone().transform(
-    PZ.slugTransformer('name')
-  );
-
-export const AttributeCategoryRawUpdateSchema = z.object({
+export const AttributeCategoryUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
   slug: PZ.Scalar.slug().optional().optional(),
 });
-
-export const AttributeCategoryUpdateSchema =
-  AttributeCategoryRawUpdateSchema.clone().transform(
-    PZ.slugTransformer('name')
-  );
 
 export const AttributeCategoryOrderBySchema = z
   .object({
@@ -1962,21 +1941,20 @@ export const AttributeCategoryProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const AttributeRawCreateSchema = z.object({
-  categoryId: PZ.Scalar.id().optional(),
-  name: PZ.Scalar.name(),
-  description: PZ.Scalar.description().optional(),
-});
+export const AttributeCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    categoryId: PZ.Scalar.id().optional(),
+    name: PZ.Scalar.name(),
+    description: PZ.Scalar.description().optional(),
+  })
+);
 
-export const AttributeCreateSchema = AttributeRawCreateSchema.clone();
-
-export const AttributeRawUpdateSchema = z.object({
+export const AttributeUpdateSchema = z.object({
   categoryId: PZ.Scalar.id().optional().optional(),
   name: PZ.Scalar.name().optional(),
   description: PZ.Scalar.description().optional().optional(),
 });
-
-export const AttributeUpdateSchema = AttributeRawUpdateSchema.clone();
 
 export const AttributeOrderBySchema = z
   .object({
@@ -2083,19 +2061,18 @@ export const AttributeProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const UnitRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-  symbol: PZ.Scalar.string(),
-});
+export const UnitCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    name: PZ.Scalar.name(),
+    symbol: PZ.Scalar.string(),
+  })
+);
 
-export const UnitCreateSchema = UnitRawCreateSchema.clone();
-
-export const UnitRawUpdateSchema = z.object({
+export const UnitUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
   symbol: PZ.Scalar.string().optional(),
 });
-
-export const UnitUpdateSchema = UnitRawUpdateSchema.clone();
 
 export const UnitOrderBySchema = z
   .object({
@@ -2183,19 +2160,18 @@ export const UnitProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const AttributeUnitRawCreateSchema = z.object({
-  attributeId: PZ.Scalar.id(),
-  unitId: PZ.Scalar.id(),
-});
+export const AttributeUnitCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    attributeId: PZ.Scalar.id(),
+    unitId: PZ.Scalar.id(),
+  })
+);
 
-export const AttributeUnitCreateSchema = AttributeUnitRawCreateSchema.clone();
-
-export const AttributeUnitRawUpdateSchema = z.object({
+export const AttributeUnitUpdateSchema = z.object({
   attributeId: PZ.Scalar.id().optional(),
   unitId: PZ.Scalar.id().optional(),
 });
-
-export const AttributeUnitUpdateSchema = AttributeUnitRawUpdateSchema.clone();
 
 export const AttributeUnitOrderBySchema = z
   .object({
@@ -2281,25 +2257,24 @@ export const AttributeUnitProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const AttributeValueRawCreateSchema = z.object({
-  attributeId: PZ.Scalar.id(),
-  variantId: PZ.Scalar.id(),
-  textValue: PZ.Scalar.string().optional(),
-  booleanValue: PZ.Scalar.bool().optional(),
-  floatValue: PZ.Scalar.number().optional(),
-});
+export const AttributeValueCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    attributeId: PZ.Scalar.id(),
+    variantId: PZ.Scalar.id(),
+    textValue: PZ.Scalar.string().optional(),
+    booleanValue: PZ.Scalar.bool().optional(),
+    floatValue: PZ.Scalar.number().optional(),
+  })
+);
 
-export const AttributeValueCreateSchema = AttributeValueRawCreateSchema.clone();
-
-export const AttributeValueRawUpdateSchema = z.object({
+export const AttributeValueUpdateSchema = z.object({
   attributeId: PZ.Scalar.id().optional(),
   variantId: PZ.Scalar.id().optional(),
   textValue: PZ.Scalar.string().optional().optional(),
   booleanValue: PZ.Scalar.bool().optional().optional(),
   floatValue: PZ.Scalar.number().optional().optional(),
 });
-
-export const AttributeValueUpdateSchema = AttributeValueRawUpdateSchema.clone();
 
 export const AttributeValueOrderBySchema = z
   .object({
@@ -2404,21 +2379,20 @@ export const AttributeValueProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const CurrencyRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-  code: PZ.Scalar.string(),
-  symbol: PZ.Scalar.string().optional(),
-});
+export const CurrencyCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    name: PZ.Scalar.name(),
+    code: PZ.Scalar.string(),
+    symbol: PZ.Scalar.string().optional(),
+  })
+);
 
-export const CurrencyCreateSchema = CurrencyRawCreateSchema.clone();
-
-export const CurrencyRawUpdateSchema = z.object({
+export const CurrencyUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
   code: PZ.Scalar.string().optional(),
   symbol: PZ.Scalar.string().optional().optional(),
 });
-
-export const CurrencyUpdateSchema = CurrencyRawUpdateSchema.clone();
 
 export const CurrencyOrderBySchema = z
   .object({
@@ -2511,27 +2485,24 @@ export const CurrencyProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const PriceLevelRawCreateSchema = z.object({
-  currencyId: PZ.Scalar.id(),
-  name: PZ.Scalar.name(),
-  slug: PZ.Scalar.slug().optional(),
-  taxrate: PZ.Scalar.number(),
-  notes: PZ.Scalar.string().optional(),
-});
+export const PriceLevelCreateSchema = z.preprocess(
+  PZ.slugTransformer('name'),
+  z.object({
+    currencyId: PZ.Scalar.id(),
+    name: PZ.Scalar.name(),
+    slug: PZ.Scalar.slug().optional(),
+    taxrate: PZ.Scalar.number(),
+    notes: PZ.Scalar.string().optional(),
+  })
+);
 
-export const PriceLevelCreateSchema =
-  PriceLevelRawCreateSchema.clone().transform(PZ.slugTransformer('name'));
-
-export const PriceLevelRawUpdateSchema = z.object({
+export const PriceLevelUpdateSchema = z.object({
   currencyId: PZ.Scalar.id().optional(),
   name: PZ.Scalar.name().optional(),
   slug: PZ.Scalar.slug().optional().optional(),
   taxrate: PZ.Scalar.number().optional(),
   notes: PZ.Scalar.string().optional().optional(),
 });
-
-export const PriceLevelUpdateSchema =
-  PriceLevelRawUpdateSchema.clone().transform(PZ.slugTransformer('name'));
 
 export const PriceLevelOrderBySchema = z
   .object({
@@ -2655,25 +2626,24 @@ export const PriceLevelProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const PriceRawCreateSchema = z.object({
-  variantId: PZ.Scalar.id(),
-  priceLevelId: PZ.Scalar.id(),
-  price: PZ.Scalar.positive(),
-  cost: PZ.Scalar.positive(),
-  description: PZ.Scalar.description().optional(),
-});
+export const PriceCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    variantId: PZ.Scalar.id(),
+    priceLevelId: PZ.Scalar.id(),
+    price: PZ.Scalar.positive(),
+    cost: PZ.Scalar.positive(),
+    description: PZ.Scalar.description().optional(),
+  })
+);
 
-export const PriceCreateSchema = PriceRawCreateSchema.clone();
-
-export const PriceRawUpdateSchema = z.object({
+export const PriceUpdateSchema = z.object({
   variantId: PZ.Scalar.id().optional(),
   priceLevelId: PZ.Scalar.id().optional(),
   price: PZ.Scalar.positive().optional(),
   cost: PZ.Scalar.positive().optional(),
   description: PZ.Scalar.description().optional().optional(),
 });
-
-export const PriceUpdateSchema = PriceRawUpdateSchema.clone();
 
 export const PriceOrderBySchema = z
   .object({
@@ -2778,23 +2748,22 @@ export const PriceProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const QuantityRawCreateSchema = z.object({
-  variantId: PZ.Scalar.id(),
-  storeId: PZ.Scalar.id(),
-  quantity: PZ.Scalar.positiveInt(),
-  alertThreshold: PZ.Scalar.int().optional(),
-});
+export const QuantityCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    variantId: PZ.Scalar.id(),
+    storeId: PZ.Scalar.id(),
+    quantity: PZ.Scalar.positiveInt(),
+    alertThreshold: PZ.Scalar.int().optional(),
+  })
+);
 
-export const QuantityCreateSchema = QuantityRawCreateSchema.clone();
-
-export const QuantityRawUpdateSchema = z.object({
+export const QuantityUpdateSchema = z.object({
   variantId: PZ.Scalar.id().optional(),
   storeId: PZ.Scalar.id().optional(),
   quantity: PZ.Scalar.positiveInt().optional(),
   alertThreshold: PZ.Scalar.int().optional().optional(),
 });
-
-export const QuantityUpdateSchema = QuantityRawUpdateSchema.clone();
 
 export const QuantityOrderBySchema = z
   .object({
@@ -2890,23 +2859,22 @@ export const QuantityProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const SerialNumberRawCreateSchema = z.object({
-  variantId: PZ.Scalar.id(),
-  storeId: PZ.Scalar.id(),
-  serialNumber: PZ.Scalar.string(),
-  inStock: PZ.Scalar.bool(),
-});
+export const SerialNumberCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    variantId: PZ.Scalar.id(),
+    storeId: PZ.Scalar.id(),
+    serialNumber: PZ.Scalar.string(),
+    inStock: PZ.Scalar.bool(),
+  })
+);
 
-export const SerialNumberCreateSchema = SerialNumberRawCreateSchema.clone();
-
-export const SerialNumberRawUpdateSchema = z.object({
+export const SerialNumberUpdateSchema = z.object({
   variantId: PZ.Scalar.id().optional(),
   storeId: PZ.Scalar.id().optional(),
   serialNumber: PZ.Scalar.string().optional(),
   inStock: PZ.Scalar.bool().optional(),
 });
-
-export const SerialNumberUpdateSchema = SerialNumberRawUpdateSchema.clone();
 
 export const SerialNumberOrderBySchema = z
   .object({
@@ -3002,24 +2970,25 @@ export const SerialNumberProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const DiscountRawCreateSchema = z.object({
-  code: PZ.Scalar.string(),
-  type: DiscountTypeSchema,
-  valueType: ValueTypeSchema,
-  value: PZ.Scalar.number().optional(),
-  minQuantity: PZ.Scalar.int().optional(),
-  maxQuantity: PZ.Scalar.int().optional(),
-  minOrderTotal: PZ.Scalar.number().optional(),
-  maxOrderTotal: PZ.Scalar.number().optional(),
-  startDate: PZ.Scalar.datetime().optional(),
-  endDate: PZ.Scalar.datetime().optional(),
-  usageLimit: PZ.Scalar.int().optional(),
-  usageCount: PZ.Scalar.int().optional(),
-});
+export const DiscountCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    code: PZ.Scalar.string(),
+    type: DiscountTypeSchema,
+    valueType: ValueTypeSchema,
+    value: PZ.Scalar.number().optional(),
+    minQuantity: PZ.Scalar.int().optional(),
+    maxQuantity: PZ.Scalar.int().optional(),
+    minOrderTotal: PZ.Scalar.number().optional(),
+    maxOrderTotal: PZ.Scalar.number().optional(),
+    startDate: PZ.Scalar.datetime().optional(),
+    endDate: PZ.Scalar.datetime().optional(),
+    usageLimit: PZ.Scalar.int().optional(),
+    usageCount: PZ.Scalar.int().optional(),
+  })
+);
 
-export const DiscountCreateSchema = DiscountRawCreateSchema.clone();
-
-export const DiscountRawUpdateSchema = z.object({
+export const DiscountUpdateSchema = z.object({
   code: PZ.Scalar.string().optional(),
   type: DiscountTypeSchema.optional(),
   valueType: ValueTypeSchema.optional(),
@@ -3033,8 +3002,6 @@ export const DiscountRawUpdateSchema = z.object({
   usageLimit: PZ.Scalar.int().optional().optional(),
   usageCount: PZ.Scalar.int().optional().optional(),
 });
-
-export const DiscountUpdateSchema = DiscountRawUpdateSchema.clone();
 
 export const DiscountOrderBySchema = z
   .object({
@@ -3175,19 +3142,20 @@ export const DiscountProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const DiscountTargetRawCreateSchema = z.object({
-  type: DiscountTargetTypeSchema,
-  discountId: PZ.Scalar.id(),
-  storeId: PZ.Scalar.id().optional(),
-  productId: PZ.Scalar.id().optional(),
-  variantId: PZ.Scalar.id().optional(),
-  priceLevelId: PZ.Scalar.id().optional(),
-  categoryId: PZ.Scalar.id().optional(),
-});
+export const DiscountTargetCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    type: DiscountTargetTypeSchema,
+    discountId: PZ.Scalar.id(),
+    storeId: PZ.Scalar.id().optional(),
+    productId: PZ.Scalar.id().optional(),
+    variantId: PZ.Scalar.id().optional(),
+    priceLevelId: PZ.Scalar.id().optional(),
+    categoryId: PZ.Scalar.id().optional(),
+  })
+);
 
-export const DiscountTargetCreateSchema = DiscountTargetRawCreateSchema.clone();
-
-export const DiscountTargetRawUpdateSchema = z.object({
+export const DiscountTargetUpdateSchema = z.object({
   type: DiscountTargetTypeSchema.optional(),
   discountId: PZ.Scalar.id().optional(),
   storeId: PZ.Scalar.id().optional().optional(),
@@ -3196,8 +3164,6 @@ export const DiscountTargetRawUpdateSchema = z.object({
   priceLevelId: PZ.Scalar.id().optional().optional(),
   categoryId: PZ.Scalar.id().optional().optional(),
 });
-
-export const DiscountTargetUpdateSchema = DiscountTargetRawUpdateSchema.clone();
 
 export const DiscountTargetOrderBySchema = z
   .object({
@@ -3323,27 +3289,22 @@ export const DiscountTargetProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const StoreRawCreateSchema = z.object({
-  priceLevelId: PZ.Scalar.id(),
-  name: PZ.Scalar.name(),
-  slug: PZ.Scalar.slug().optional(),
-  description: PZ.Scalar.description().optional(),
-});
-
-export const StoreCreateSchema = StoreRawCreateSchema.clone().transform(
-  PZ.slugTransformer('name')
+export const StoreCreateSchema = z.preprocess(
+  PZ.slugTransformer('name'),
+  z.object({
+    priceLevelId: PZ.Scalar.id(),
+    name: PZ.Scalar.name(),
+    slug: PZ.Scalar.slug().optional(),
+    description: PZ.Scalar.description().optional(),
+  })
 );
 
-export const StoreRawUpdateSchema = z.object({
+export const StoreUpdateSchema = z.object({
   priceLevelId: PZ.Scalar.id().optional(),
   name: PZ.Scalar.name().optional(),
   slug: PZ.Scalar.slug().optional().optional(),
   description: PZ.Scalar.description().optional().optional(),
 });
-
-export const StoreUpdateSchema = StoreRawUpdateSchema.clone().transform(
-  PZ.slugTransformer('name')
-);
 
 export const StoreOrderBySchema = z
   .object({
@@ -3463,23 +3424,22 @@ export const StoreProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const WarrantyPolicyRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-  description: PZ.Scalar.description().optional(),
-  duration: PZ.Scalar.int(),
-  durationUnit: TimeUnitSchema.optional(),
-});
+export const WarrantyPolicyCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    name: PZ.Scalar.name(),
+    description: PZ.Scalar.description().optional(),
+    duration: PZ.Scalar.int(),
+    durationUnit: TimeUnitSchema.optional(),
+  })
+);
 
-export const WarrantyPolicyCreateSchema = WarrantyPolicyRawCreateSchema.clone();
-
-export const WarrantyPolicyRawUpdateSchema = z.object({
+export const WarrantyPolicyUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
   description: PZ.Scalar.description().optional().optional(),
   duration: PZ.Scalar.int().optional(),
   durationUnit: TimeUnitSchema.optional().optional(),
 });
-
-export const WarrantyPolicyUpdateSchema = WarrantyPolicyRawUpdateSchema.clone();
 
 export const WarrantyPolicyOrderBySchema = z
   .object({
@@ -3577,23 +3537,20 @@ export const WarrantyPolicyProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const ProductWarrantyRawCreateSchema = z.object({
-  productId: PZ.Scalar.id().optional(),
-  variantId: PZ.Scalar.id().optional(),
-  policyId: PZ.Scalar.id(),
-});
+export const ProductWarrantyCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    productId: PZ.Scalar.id().optional(),
+    variantId: PZ.Scalar.id().optional(),
+    policyId: PZ.Scalar.id(),
+  })
+);
 
-export const ProductWarrantyCreateSchema =
-  ProductWarrantyRawCreateSchema.clone();
-
-export const ProductWarrantyRawUpdateSchema = z.object({
+export const ProductWarrantyUpdateSchema = z.object({
   productId: PZ.Scalar.id().optional().optional(),
   variantId: PZ.Scalar.id().optional().optional(),
   policyId: PZ.Scalar.id().optional(),
 });
-
-export const ProductWarrantyUpdateSchema =
-  ProductWarrantyRawUpdateSchema.clone();
 
 export const ProductWarrantyOrderBySchema = z
   .object({
@@ -3704,9 +3661,9 @@ export const CategoryQuerySchema = z
   })
   .partial();
 
-export type CategoryCreate = z.infer<typeof CategoryRawCreateSchema>;
+export type CategoryCreate = z.infer<typeof CategoryCreateSchema>;
 
-export type CategoryUpdate = z.infer<typeof CategoryRawUpdateSchema>;
+export type CategoryUpdate = z.infer<typeof CategoryUpdateSchema>;
 
 export type CategoryOrderBy = z.infer<typeof CategoryOrderBySchema>;
 
@@ -3750,9 +3707,9 @@ export const ProductQuerySchema = z
   })
   .partial();
 
-export type ProductCreate = z.infer<typeof ProductRawCreateSchema>;
+export type ProductCreate = z.infer<typeof ProductCreateSchema>;
 
-export type ProductUpdate = z.infer<typeof ProductRawUpdateSchema>;
+export type ProductUpdate = z.infer<typeof ProductUpdateSchema>;
 
 export type ProductOrderBy = z.infer<typeof ProductOrderBySchema>;
 
@@ -3796,13 +3753,9 @@ export const ProductCategoryQuerySchema = z
   })
   .partial();
 
-export type ProductCategoryCreate = z.infer<
-  typeof ProductCategoryRawCreateSchema
->;
+export type ProductCategoryCreate = z.infer<typeof ProductCategoryCreateSchema>;
 
-export type ProductCategoryUpdate = z.infer<
-  typeof ProductCategoryRawUpdateSchema
->;
+export type ProductCategoryUpdate = z.infer<typeof ProductCategoryUpdateSchema>;
 
 export type ProductCategoryOrderBy = z.infer<
   typeof ProductCategoryOrderBySchema
@@ -3864,9 +3817,9 @@ export const VariantQuerySchema = z
   })
   .partial();
 
-export type VariantCreate = z.infer<typeof VariantRawCreateSchema>;
+export type VariantCreate = z.infer<typeof VariantCreateSchema>;
 
-export type VariantUpdate = z.infer<typeof VariantRawUpdateSchema>;
+export type VariantUpdate = z.infer<typeof VariantUpdateSchema>;
 
 export type VariantOrderBy = z.infer<typeof VariantOrderBySchema>;
 
@@ -3911,11 +3864,11 @@ export const AttributeCategoryQuerySchema = z
   .partial();
 
 export type AttributeCategoryCreate = z.infer<
-  typeof AttributeCategoryRawCreateSchema
+  typeof AttributeCategoryCreateSchema
 >;
 
 export type AttributeCategoryUpdate = z.infer<
-  typeof AttributeCategoryRawUpdateSchema
+  typeof AttributeCategoryUpdateSchema
 >;
 
 export type AttributeCategoryOrderBy = z.infer<
@@ -3982,9 +3935,9 @@ export const AttributeQuerySchema = z
   })
   .partial();
 
-export type AttributeCreate = z.infer<typeof AttributeRawCreateSchema>;
+export type AttributeCreate = z.infer<typeof AttributeCreateSchema>;
 
-export type AttributeUpdate = z.infer<typeof AttributeRawUpdateSchema>;
+export type AttributeUpdate = z.infer<typeof AttributeUpdateSchema>;
 
 export type AttributeOrderBy = z.infer<typeof AttributeOrderBySchema>;
 
@@ -4028,9 +3981,9 @@ export const UnitQuerySchema = z
   })
   .partial();
 
-export type UnitCreate = z.infer<typeof UnitRawCreateSchema>;
+export type UnitCreate = z.infer<typeof UnitCreateSchema>;
 
-export type UnitUpdate = z.infer<typeof UnitRawUpdateSchema>;
+export type UnitUpdate = z.infer<typeof UnitUpdateSchema>;
 
 export type UnitOrderBy = z.infer<typeof UnitOrderBySchema>;
 
@@ -4072,9 +4025,9 @@ export const AttributeUnitQuerySchema = z
   })
   .partial();
 
-export type AttributeUnitCreate = z.infer<typeof AttributeUnitRawCreateSchema>;
+export type AttributeUnitCreate = z.infer<typeof AttributeUnitCreateSchema>;
 
-export type AttributeUnitUpdate = z.infer<typeof AttributeUnitRawUpdateSchema>;
+export type AttributeUnitUpdate = z.infer<typeof AttributeUnitUpdateSchema>;
 
 export type AttributeUnitOrderBy = z.infer<typeof AttributeUnitOrderBySchema>;
 
@@ -4126,13 +4079,9 @@ export const AttributeValueQuerySchema = z
   })
   .partial();
 
-export type AttributeValueCreate = z.infer<
-  typeof AttributeValueRawCreateSchema
->;
+export type AttributeValueCreate = z.infer<typeof AttributeValueCreateSchema>;
 
-export type AttributeValueUpdate = z.infer<
-  typeof AttributeValueRawUpdateSchema
->;
+export type AttributeValueUpdate = z.infer<typeof AttributeValueUpdateSchema>;
 
 export type AttributeValueOrderBy = z.infer<typeof AttributeValueOrderBySchema>;
 
@@ -4190,9 +4139,9 @@ export const CurrencyQuerySchema = z
   })
   .partial();
 
-export type CurrencyCreate = z.infer<typeof CurrencyRawCreateSchema>;
+export type CurrencyCreate = z.infer<typeof CurrencyCreateSchema>;
 
-export type CurrencyUpdate = z.infer<typeof CurrencyRawUpdateSchema>;
+export type CurrencyUpdate = z.infer<typeof CurrencyUpdateSchema>;
 
 export type CurrencyOrderBy = z.infer<typeof CurrencyOrderBySchema>;
 
@@ -4236,9 +4185,9 @@ export const PriceLevelQuerySchema = z
   })
   .partial();
 
-export type PriceLevelCreate = z.infer<typeof PriceLevelRawCreateSchema>;
+export type PriceLevelCreate = z.infer<typeof PriceLevelCreateSchema>;
 
-export type PriceLevelUpdate = z.infer<typeof PriceLevelRawUpdateSchema>;
+export type PriceLevelUpdate = z.infer<typeof PriceLevelUpdateSchema>;
 
 export type PriceLevelOrderBy = z.infer<typeof PriceLevelOrderBySchema>;
 
@@ -4284,9 +4233,9 @@ export const PriceQuerySchema = z
   })
   .partial();
 
-export type PriceCreate = z.infer<typeof PriceRawCreateSchema>;
+export type PriceCreate = z.infer<typeof PriceCreateSchema>;
 
-export type PriceUpdate = z.infer<typeof PriceRawUpdateSchema>;
+export type PriceUpdate = z.infer<typeof PriceUpdateSchema>;
 
 export type PriceOrderBy = z.infer<typeof PriceOrderBySchema>;
 
@@ -4328,9 +4277,9 @@ export const QuantityQuerySchema = z
   })
   .partial();
 
-export type QuantityCreate = z.infer<typeof QuantityRawCreateSchema>;
+export type QuantityCreate = z.infer<typeof QuantityCreateSchema>;
 
-export type QuantityUpdate = z.infer<typeof QuantityRawUpdateSchema>;
+export type QuantityUpdate = z.infer<typeof QuantityUpdateSchema>;
 
 export type QuantityOrderBy = z.infer<typeof QuantityOrderBySchema>;
 
@@ -4374,9 +4323,9 @@ export const SerialNumberQuerySchema = z
   })
   .partial();
 
-export type SerialNumberCreate = z.infer<typeof SerialNumberRawCreateSchema>;
+export type SerialNumberCreate = z.infer<typeof SerialNumberCreateSchema>;
 
-export type SerialNumberUpdate = z.infer<typeof SerialNumberRawUpdateSchema>;
+export type SerialNumberUpdate = z.infer<typeof SerialNumberUpdateSchema>;
 
 export type SerialNumberOrderBy = z.infer<typeof SerialNumberOrderBySchema>;
 
@@ -4428,9 +4377,9 @@ export const DiscountQuerySchema = z
   })
   .partial();
 
-export type DiscountCreate = z.infer<typeof DiscountRawCreateSchema>;
+export type DiscountCreate = z.infer<typeof DiscountCreateSchema>;
 
-export type DiscountUpdate = z.infer<typeof DiscountRawUpdateSchema>;
+export type DiscountUpdate = z.infer<typeof DiscountUpdateSchema>;
 
 export type DiscountOrderBy = z.infer<typeof DiscountOrderBySchema>;
 
@@ -4474,13 +4423,9 @@ export const DiscountTargetQuerySchema = z
   })
   .partial();
 
-export type DiscountTargetCreate = z.infer<
-  typeof DiscountTargetRawCreateSchema
->;
+export type DiscountTargetCreate = z.infer<typeof DiscountTargetCreateSchema>;
 
-export type DiscountTargetUpdate = z.infer<
-  typeof DiscountTargetRawUpdateSchema
->;
+export type DiscountTargetUpdate = z.infer<typeof DiscountTargetUpdateSchema>;
 
 export type DiscountTargetOrderBy = z.infer<typeof DiscountTargetOrderBySchema>;
 
@@ -4538,9 +4483,9 @@ export const StoreQuerySchema = z
   })
   .partial();
 
-export type StoreCreate = z.infer<typeof StoreRawCreateSchema>;
+export type StoreCreate = z.infer<typeof StoreCreateSchema>;
 
-export type StoreUpdate = z.infer<typeof StoreRawUpdateSchema>;
+export type StoreUpdate = z.infer<typeof StoreUpdateSchema>;
 
 export type StoreOrderBy = z.infer<typeof StoreOrderBySchema>;
 
@@ -4582,13 +4527,9 @@ export const WarrantyPolicyQuerySchema = z
   })
   .partial();
 
-export type WarrantyPolicyCreate = z.infer<
-  typeof WarrantyPolicyRawCreateSchema
->;
+export type WarrantyPolicyCreate = z.infer<typeof WarrantyPolicyCreateSchema>;
 
-export type WarrantyPolicyUpdate = z.infer<
-  typeof WarrantyPolicyRawUpdateSchema
->;
+export type WarrantyPolicyUpdate = z.infer<typeof WarrantyPolicyUpdateSchema>;
 
 export type WarrantyPolicyOrderBy = z.infer<typeof WarrantyPolicyOrderBySchema>;
 
@@ -4646,13 +4587,9 @@ export const ProductWarrantyQuerySchema = z
   })
   .partial();
 
-export type ProductWarrantyCreate = z.infer<
-  typeof ProductWarrantyRawCreateSchema
->;
+export type ProductWarrantyCreate = z.infer<typeof ProductWarrantyCreateSchema>;
 
-export type ProductWarrantyUpdate = z.infer<
-  typeof ProductWarrantyRawUpdateSchema
->;
+export type ProductWarrantyUpdate = z.infer<typeof ProductWarrantyUpdateSchema>;
 
 export type ProductWarrantyOrderBy = z.infer<
   typeof ProductWarrantyOrderBySchema

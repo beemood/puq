@@ -1692,27 +1692,22 @@ export const ProjectTaskPriorityOwnQuerySchema = z
   })
   .partial();
 
-export const UserRawCreateSchema = z.object({
-  uuid: PZ.Scalar.string(),
-  displayName: PZ.Scalar.string(),
-  slug: PZ.Scalar.slug().optional(),
-  title: PZ.Scalar.string(),
-});
-
-export const UserCreateSchema = UserRawCreateSchema.clone().transform(
-  PZ.slugTransformer('title')
+export const UserCreateSchema = z.preprocess(
+  PZ.slugTransformer('title'),
+  z.object({
+    uuid: PZ.Scalar.string(),
+    displayName: PZ.Scalar.string(),
+    slug: PZ.Scalar.slug().optional(),
+    title: PZ.Scalar.string(),
+  })
 );
 
-export const UserRawUpdateSchema = z.object({
+export const UserUpdateSchema = z.object({
   uuid: PZ.Scalar.string().optional(),
   displayName: PZ.Scalar.string().optional(),
   slug: PZ.Scalar.slug().optional().optional(),
   title: PZ.Scalar.string().optional(),
 });
-
-export const UserUpdateSchema = UserRawUpdateSchema.clone().transform(
-  PZ.slugTransformer('title')
-);
 
 export const UserOrderBySchema = z
   .object({
@@ -1928,25 +1923,20 @@ export const UserProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const TeamRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-  slug: PZ.Scalar.slug().optional(),
-  description: PZ.Scalar.description().optional(),
-});
-
-export const TeamCreateSchema = TeamRawCreateSchema.clone().transform(
-  PZ.slugTransformer('name')
+export const TeamCreateSchema = z.preprocess(
+  PZ.slugTransformer('name'),
+  z.object({
+    name: PZ.Scalar.name(),
+    slug: PZ.Scalar.slug().optional(),
+    description: PZ.Scalar.description().optional(),
+  })
 );
 
-export const TeamRawUpdateSchema = z.object({
+export const TeamUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
   slug: PZ.Scalar.slug().optional().optional(),
   description: PZ.Scalar.description().optional().optional(),
 });
-
-export const TeamUpdateSchema = TeamRawUpdateSchema.clone().transform(
-  PZ.slugTransformer('name')
-);
 
 export const TeamOrderBySchema = z
   .object({
@@ -2068,19 +2058,18 @@ export const TeamProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const TeamManagerRawCreateSchema = z.object({
-  managerId: PZ.Scalar.id(),
-  teamId: PZ.Scalar.id(),
-});
+export const TeamManagerCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    managerId: PZ.Scalar.id(),
+    teamId: PZ.Scalar.id(),
+  })
+);
 
-export const TeamManagerCreateSchema = TeamManagerRawCreateSchema.clone();
-
-export const TeamManagerRawUpdateSchema = z.object({
+export const TeamManagerUpdateSchema = z.object({
   managerId: PZ.Scalar.id().optional(),
   teamId: PZ.Scalar.id().optional(),
 });
-
-export const TeamManagerUpdateSchema = TeamManagerRawUpdateSchema.clone();
 
 export const TeamManagerOrderBySchema = z
   .object({
@@ -2166,19 +2155,18 @@ export const TeamManagerProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const TeamMemberRawCreateSchema = z.object({
-  teamId: PZ.Scalar.id(),
-  memberId: PZ.Scalar.id(),
-});
+export const TeamMemberCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    teamId: PZ.Scalar.id(),
+    memberId: PZ.Scalar.id(),
+  })
+);
 
-export const TeamMemberCreateSchema = TeamMemberRawCreateSchema.clone();
-
-export const TeamMemberRawUpdateSchema = z.object({
+export const TeamMemberUpdateSchema = z.object({
   teamId: PZ.Scalar.id().optional(),
   memberId: PZ.Scalar.id().optional(),
 });
-
-export const TeamMemberUpdateSchema = TeamMemberRawUpdateSchema.clone();
 
 export const TeamMemberOrderBySchema = z
   .object({
@@ -2264,22 +2252,21 @@ export const TeamMemberProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const ProjectRawCreateSchema = z.object({
-  createdById: PZ.Scalar.id(),
-  parentId: PZ.Scalar.id().optional(),
-  name: PZ.Scalar.name(),
-  slug: PZ.Scalar.slug().optional(),
-  description: PZ.Scalar.description().optional(),
-  startDate: PZ.Scalar.datetime().optional(),
-  dueDate: PZ.Scalar.datetime().optional(),
-  endDate: PZ.Scalar.datetime().optional(),
-});
-
-export const ProjectCreateSchema = ProjectRawCreateSchema.clone().transform(
-  PZ.slugTransformer('name')
+export const ProjectCreateSchema = z.preprocess(
+  PZ.slugTransformer('name'),
+  z.object({
+    createdById: PZ.Scalar.id(),
+    parentId: PZ.Scalar.id().optional(),
+    name: PZ.Scalar.name(),
+    slug: PZ.Scalar.slug().optional(),
+    description: PZ.Scalar.description().optional(),
+    startDate: PZ.Scalar.datetime().optional(),
+    dueDate: PZ.Scalar.datetime().optional(),
+    endDate: PZ.Scalar.datetime().optional(),
+  })
 );
 
-export const ProjectRawUpdateSchema = z.object({
+export const ProjectUpdateSchema = z.object({
   createdById: PZ.Scalar.id().optional(),
   parentId: PZ.Scalar.id().optional().optional(),
   name: PZ.Scalar.name().optional(),
@@ -2289,10 +2276,6 @@ export const ProjectRawUpdateSchema = z.object({
   dueDate: PZ.Scalar.datetime().optional().optional(),
   endDate: PZ.Scalar.datetime().optional().optional(),
 });
-
-export const ProjectUpdateSchema = ProjectRawUpdateSchema.clone().transform(
-  PZ.slugTransformer('name')
-);
 
 export const ProjectOrderBySchema = z
   .object({
@@ -2493,19 +2476,18 @@ export const ProjectProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const TagRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-  isDefault: PZ.Scalar.bool().optional(),
-});
+export const TagCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    name: PZ.Scalar.name(),
+    isDefault: PZ.Scalar.bool().optional(),
+  })
+);
 
-export const TagCreateSchema = TagRawCreateSchema.clone();
-
-export const TagRawUpdateSchema = z.object({
+export const TagUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
   isDefault: PZ.Scalar.bool().optional().optional(),
 });
-
-export const TagUpdateSchema = TagRawUpdateSchema.clone();
 
 export const TagOrderBySchema = z
   .object({
@@ -2603,23 +2585,22 @@ export const TagProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const CategoryRawCreateSchema = z.object({
-  parentId: PZ.Scalar.id().optional(),
-  name: PZ.Scalar.name(),
-  description: PZ.Scalar.description().optional(),
-  isDefault: PZ.Scalar.bool().optional(),
-});
+export const CategoryCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    parentId: PZ.Scalar.id().optional(),
+    name: PZ.Scalar.name(),
+    description: PZ.Scalar.description().optional(),
+    isDefault: PZ.Scalar.bool().optional(),
+  })
+);
 
-export const CategoryCreateSchema = CategoryRawCreateSchema.clone();
-
-export const CategoryRawUpdateSchema = z.object({
+export const CategoryUpdateSchema = z.object({
   parentId: PZ.Scalar.id().optional().optional(),
   name: PZ.Scalar.name().optional(),
   description: PZ.Scalar.description().optional().optional(),
   isDefault: PZ.Scalar.bool().optional().optional(),
 });
-
-export const CategoryUpdateSchema = CategoryRawUpdateSchema.clone();
 
 export const CategoryOrderBySchema = z
   .object({
@@ -2730,29 +2711,24 @@ export const CategoryProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const SprintRawCreateSchema = z.object({
-  createdById: PZ.Scalar.id(),
-  projectId: PZ.Scalar.id().optional(),
-  name: PZ.Scalar.name(),
-  slug: PZ.Scalar.slug().optional(),
-  description: PZ.Scalar.description().optional(),
-});
-
-export const SprintCreateSchema = SprintRawCreateSchema.clone().transform(
-  PZ.slugTransformer('name')
+export const SprintCreateSchema = z.preprocess(
+  PZ.slugTransformer('name'),
+  z.object({
+    createdById: PZ.Scalar.id(),
+    projectId: PZ.Scalar.id().optional(),
+    name: PZ.Scalar.name(),
+    slug: PZ.Scalar.slug().optional(),
+    description: PZ.Scalar.description().optional(),
+  })
 );
 
-export const SprintRawUpdateSchema = z.object({
+export const SprintUpdateSchema = z.object({
   createdById: PZ.Scalar.id().optional(),
   projectId: PZ.Scalar.id().optional().optional(),
   name: PZ.Scalar.name().optional(),
   slug: PZ.Scalar.slug().optional().optional(),
   description: PZ.Scalar.description().optional().optional(),
 });
-
-export const SprintUpdateSchema = SprintRawUpdateSchema.clone().transform(
-  PZ.slugTransformer('name')
-);
 
 export const SprintOrderBySchema = z
   .object({
@@ -2861,21 +2837,20 @@ export const SprintProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const PriorityRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-  description: PZ.Scalar.description().optional(),
-  isDefault: PZ.Scalar.bool().optional(),
-});
+export const PriorityCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    name: PZ.Scalar.name(),
+    description: PZ.Scalar.description().optional(),
+    isDefault: PZ.Scalar.bool().optional(),
+  })
+);
 
-export const PriorityCreateSchema = PriorityRawCreateSchema.clone();
-
-export const PriorityRawUpdateSchema = z.object({
+export const PriorityUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
   description: PZ.Scalar.description().optional().optional(),
   isDefault: PZ.Scalar.bool().optional().optional(),
 });
-
-export const PriorityUpdateSchema = PriorityRawUpdateSchema.clone();
 
 export const PriorityOrderBySchema = z
   .object({
@@ -2997,21 +2972,20 @@ export const PriorityProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const StatusRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-  description: PZ.Scalar.description().optional(),
-  isDefault: PZ.Scalar.bool().optional(),
-});
+export const StatusCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    name: PZ.Scalar.name(),
+    description: PZ.Scalar.description().optional(),
+    isDefault: PZ.Scalar.bool().optional(),
+  })
+);
 
-export const StatusCreateSchema = StatusRawCreateSchema.clone();
-
-export const StatusRawUpdateSchema = z.object({
+export const StatusUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
   description: PZ.Scalar.description().optional().optional(),
   isDefault: PZ.Scalar.bool().optional().optional(),
 });
-
-export const StatusUpdateSchema = StatusRawUpdateSchema.clone();
 
 export const StatusOrderBySchema = z
   .object({
@@ -3133,21 +3107,20 @@ export const StatusProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const PointRawCreateSchema = z.object({
-  name: PZ.Scalar.name(),
-  point: PZ.Scalar.int(),
-  description: PZ.Scalar.description().optional(),
-});
+export const PointCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    name: PZ.Scalar.name(),
+    point: PZ.Scalar.int(),
+    description: PZ.Scalar.description().optional(),
+  })
+);
 
-export const PointCreateSchema = PointRawCreateSchema.clone();
-
-export const PointRawUpdateSchema = z.object({
+export const PointUpdateSchema = z.object({
   name: PZ.Scalar.name().optional(),
   point: PZ.Scalar.int().optional(),
   description: PZ.Scalar.description().optional().optional(),
 });
-
-export const PointUpdateSchema = PointRawUpdateSchema.clone();
 
 export const PointOrderBySchema = z
   .object({
@@ -3260,25 +3233,24 @@ export const PointProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const TaskRawCreateSchema = z.object({
-  sprintId: PZ.Scalar.id().optional(),
-  createdById: PZ.Scalar.id(),
-  priorityId: PZ.Scalar.id().optional(),
-  pointId: PZ.Scalar.id(),
-  statusId: PZ.Scalar.id().optional(),
-  parentId: PZ.Scalar.id().optional(),
-  title: PZ.Scalar.string(),
-  slug: PZ.Scalar.slug().optional(),
-  description: PZ.Scalar.description().optional(),
-  due: PZ.Scalar.datetime().optional(),
-  resolvedAt: PZ.Scalar.datetime().optional(),
-});
-
-export const TaskCreateSchema = TaskRawCreateSchema.clone().transform(
-  PZ.slugTransformer('title')
+export const TaskCreateSchema = z.preprocess(
+  PZ.slugTransformer('title'),
+  z.object({
+    sprintId: PZ.Scalar.id().optional(),
+    createdById: PZ.Scalar.id(),
+    priorityId: PZ.Scalar.id().optional(),
+    pointId: PZ.Scalar.id(),
+    statusId: PZ.Scalar.id().optional(),
+    parentId: PZ.Scalar.id().optional(),
+    title: PZ.Scalar.string(),
+    slug: PZ.Scalar.slug().optional(),
+    description: PZ.Scalar.description().optional(),
+    due: PZ.Scalar.datetime().optional(),
+    resolvedAt: PZ.Scalar.datetime().optional(),
+  })
 );
 
-export const TaskRawUpdateSchema = z.object({
+export const TaskUpdateSchema = z.object({
   sprintId: PZ.Scalar.id().optional().optional(),
   createdById: PZ.Scalar.id().optional(),
   priorityId: PZ.Scalar.id().optional().optional(),
@@ -3291,10 +3263,6 @@ export const TaskRawUpdateSchema = z.object({
   due: PZ.Scalar.datetime().optional().optional(),
   resolvedAt: PZ.Scalar.datetime().optional().optional(),
 });
-
-export const TaskUpdateSchema = TaskRawUpdateSchema.clone().transform(
-  PZ.slugTransformer('title')
-);
 
 export const TaskOrderBySchema = z
   .object({
@@ -3532,27 +3500,24 @@ export const TaskProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const AssignmentHistoryRawCreateSchema = z.object({
-  createdById: PZ.Scalar.id(),
-  projectId: PZ.Scalar.id(),
-  taskId: PZ.Scalar.id(),
-  oldUserId: PZ.Scalar.id(),
-  newUserId: PZ.Scalar.id(),
-});
+export const AssignmentHistoryCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    createdById: PZ.Scalar.id(),
+    projectId: PZ.Scalar.id(),
+    taskId: PZ.Scalar.id(),
+    oldUserId: PZ.Scalar.id(),
+    newUserId: PZ.Scalar.id(),
+  })
+);
 
-export const AssignmentHistoryCreateSchema =
-  AssignmentHistoryRawCreateSchema.clone();
-
-export const AssignmentHistoryRawUpdateSchema = z.object({
+export const AssignmentHistoryUpdateSchema = z.object({
   createdById: PZ.Scalar.id().optional(),
   projectId: PZ.Scalar.id().optional(),
   taskId: PZ.Scalar.id().optional(),
   oldUserId: PZ.Scalar.id().optional(),
   newUserId: PZ.Scalar.id().optional(),
 });
-
-export const AssignmentHistoryUpdateSchema =
-  AssignmentHistoryRawUpdateSchema.clone();
 
 export const AssignmentHistoryOrderBySchema = z
   .object({
@@ -3676,27 +3641,24 @@ export const AssignmentHistoryProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const PriorityHistoryRawCreateSchema = z.object({
-  createdById: PZ.Scalar.id(),
-  projectId: PZ.Scalar.id(),
-  taskId: PZ.Scalar.id(),
-  oldPriorityId: PZ.Scalar.id().optional(),
-  newPriorityId: PZ.Scalar.id(),
-});
+export const PriorityHistoryCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    createdById: PZ.Scalar.id(),
+    projectId: PZ.Scalar.id(),
+    taskId: PZ.Scalar.id(),
+    oldPriorityId: PZ.Scalar.id().optional(),
+    newPriorityId: PZ.Scalar.id(),
+  })
+);
 
-export const PriorityHistoryCreateSchema =
-  PriorityHistoryRawCreateSchema.clone();
-
-export const PriorityHistoryRawUpdateSchema = z.object({
+export const PriorityHistoryUpdateSchema = z.object({
   createdById: PZ.Scalar.id().optional(),
   projectId: PZ.Scalar.id().optional(),
   taskId: PZ.Scalar.id().optional(),
   oldPriorityId: PZ.Scalar.id().optional().optional(),
   newPriorityId: PZ.Scalar.id().optional(),
 });
-
-export const PriorityHistoryUpdateSchema =
-  PriorityHistoryRawUpdateSchema.clone();
 
 export const PriorityHistoryOrderBySchema = z
   .object({
@@ -3820,25 +3782,24 @@ export const PriorityHistoryProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const StatusHistoryRawCreateSchema = z.object({
-  createdById: PZ.Scalar.id(),
-  oldStatusId: PZ.Scalar.id().optional(),
-  newStatusId: PZ.Scalar.id(),
-  projectId: PZ.Scalar.id(),
-  taskId: PZ.Scalar.id(),
-});
+export const StatusHistoryCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    createdById: PZ.Scalar.id(),
+    oldStatusId: PZ.Scalar.id().optional(),
+    newStatusId: PZ.Scalar.id(),
+    projectId: PZ.Scalar.id(),
+    taskId: PZ.Scalar.id(),
+  })
+);
 
-export const StatusHistoryCreateSchema = StatusHistoryRawCreateSchema.clone();
-
-export const StatusHistoryRawUpdateSchema = z.object({
+export const StatusHistoryUpdateSchema = z.object({
   createdById: PZ.Scalar.id().optional(),
   oldStatusId: PZ.Scalar.id().optional().optional(),
   newStatusId: PZ.Scalar.id().optional(),
   projectId: PZ.Scalar.id().optional(),
   taskId: PZ.Scalar.id().optional(),
 });
-
-export const StatusHistoryUpdateSchema = StatusHistoryRawUpdateSchema.clone();
 
 export const StatusHistoryOrderBySchema = z
   .object({
@@ -3957,25 +3918,24 @@ export const StatusHistoryProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const PointHistoryRawCreateSchema = z.object({
-  createdById: PZ.Scalar.id(),
-  oldPointId: PZ.Scalar.id().optional(),
-  newPointId: PZ.Scalar.id(),
-  projectId: PZ.Scalar.id(),
-  taskId: PZ.Scalar.id(),
-});
+export const PointHistoryCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    createdById: PZ.Scalar.id(),
+    oldPointId: PZ.Scalar.id().optional(),
+    newPointId: PZ.Scalar.id(),
+    projectId: PZ.Scalar.id(),
+    taskId: PZ.Scalar.id(),
+  })
+);
 
-export const PointHistoryCreateSchema = PointHistoryRawCreateSchema.clone();
-
-export const PointHistoryRawUpdateSchema = z.object({
+export const PointHistoryUpdateSchema = z.object({
   createdById: PZ.Scalar.id().optional(),
   oldPointId: PZ.Scalar.id().optional().optional(),
   newPointId: PZ.Scalar.id().optional(),
   projectId: PZ.Scalar.id().optional(),
   taskId: PZ.Scalar.id().optional(),
 });
-
-export const PointHistoryUpdateSchema = PointHistoryRawUpdateSchema.clone();
 
 export const PointHistoryOrderBySchema = z
   .object({
@@ -4094,21 +4054,20 @@ export const PointHistoryProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const TeamHistoryRawCreateSchema = z.object({
-  createdById: PZ.Scalar.id(),
-  oldTeamId: PZ.Scalar.id().optional(),
-  newTeamId: PZ.Scalar.id(),
-});
+export const TeamHistoryCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    createdById: PZ.Scalar.id(),
+    oldTeamId: PZ.Scalar.id().optional(),
+    newTeamId: PZ.Scalar.id(),
+  })
+);
 
-export const TeamHistoryCreateSchema = TeamHistoryRawCreateSchema.clone();
-
-export const TeamHistoryRawUpdateSchema = z.object({
+export const TeamHistoryUpdateSchema = z.object({
   createdById: PZ.Scalar.id().optional(),
   oldTeamId: PZ.Scalar.id().optional().optional(),
   newTeamId: PZ.Scalar.id().optional(),
 });
-
-export const TeamHistoryUpdateSchema = TeamHistoryRawUpdateSchema.clone();
 
 export const TeamHistoryOrderBySchema = z
   .object({
@@ -4207,19 +4166,18 @@ export const TeamHistoryProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const TaskTagRawCreateSchema = z.object({
-  taskId: PZ.Scalar.id(),
-  tagId: PZ.Scalar.id(),
-});
+export const TaskTagCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    taskId: PZ.Scalar.id(),
+    tagId: PZ.Scalar.id(),
+  })
+);
 
-export const TaskTagCreateSchema = TaskTagRawCreateSchema.clone();
-
-export const TaskTagRawUpdateSchema = z.object({
+export const TaskTagUpdateSchema = z.object({
   taskId: PZ.Scalar.id().optional(),
   tagId: PZ.Scalar.id().optional(),
 });
-
-export const TaskTagUpdateSchema = TaskTagRawUpdateSchema.clone();
 
 export const TaskTagOrderBySchema = z
   .object({
@@ -4304,19 +4262,18 @@ export const TaskTagProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const TaskCategoryRawCreateSchema = z.object({
-  categoryId: PZ.Scalar.id(),
-  taskId: PZ.Scalar.id(),
-});
+export const TaskCategoryCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    categoryId: PZ.Scalar.id(),
+    taskId: PZ.Scalar.id(),
+  })
+);
 
-export const TaskCategoryCreateSchema = TaskCategoryRawCreateSchema.clone();
-
-export const TaskCategoryRawUpdateSchema = z.object({
+export const TaskCategoryUpdateSchema = z.object({
   categoryId: PZ.Scalar.id().optional(),
   taskId: PZ.Scalar.id().optional(),
 });
-
-export const TaskCategoryUpdateSchema = TaskCategoryRawUpdateSchema.clone();
 
 export const TaskCategoryOrderBySchema = z
   .object({
@@ -4402,19 +4359,18 @@ export const TaskCategoryProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const AssignmentRawCreateSchema = z.object({
-  assigneeId: PZ.Scalar.id(),
-  taskId: PZ.Scalar.id(),
-});
+export const AssignmentCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    assigneeId: PZ.Scalar.id(),
+    taskId: PZ.Scalar.id(),
+  })
+);
 
-export const AssignmentCreateSchema = AssignmentRawCreateSchema.clone();
-
-export const AssignmentRawUpdateSchema = z.object({
+export const AssignmentUpdateSchema = z.object({
   assigneeId: PZ.Scalar.id().optional(),
   taskId: PZ.Scalar.id().optional(),
 });
-
-export const AssignmentUpdateSchema = AssignmentRawUpdateSchema.clone();
 
 export const AssignmentOrderBySchema = z
   .object({
@@ -4510,23 +4466,22 @@ export const AssignmentProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const CommentRawCreateSchema = z.object({
-  parentId: PZ.Scalar.id().optional(),
-  createdById: PZ.Scalar.id(),
-  taskId: PZ.Scalar.id(),
-  comment: PZ.Scalar.string(),
-});
+export const CommentCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    parentId: PZ.Scalar.id().optional(),
+    createdById: PZ.Scalar.id(),
+    taskId: PZ.Scalar.id(),
+    comment: PZ.Scalar.string(),
+  })
+);
 
-export const CommentCreateSchema = CommentRawCreateSchema.clone();
-
-export const CommentRawUpdateSchema = z.object({
+export const CommentUpdateSchema = z.object({
   parentId: PZ.Scalar.id().optional().optional(),
   createdById: PZ.Scalar.id().optional(),
   taskId: PZ.Scalar.id().optional(),
   comment: PZ.Scalar.string().optional(),
 });
-
-export const CommentUpdateSchema = CommentRawUpdateSchema.clone();
 
 export const CommentOrderBySchema = z
   .object({
@@ -4648,19 +4603,18 @@ export const CommentProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const ProjectTaskTagRawCreateSchema = z.object({
-  projectId: PZ.Scalar.id(),
-  tagId: PZ.Scalar.id(),
-});
+export const ProjectTaskTagCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    projectId: PZ.Scalar.id(),
+    tagId: PZ.Scalar.id(),
+  })
+);
 
-export const ProjectTaskTagCreateSchema = ProjectTaskTagRawCreateSchema.clone();
-
-export const ProjectTaskTagRawUpdateSchema = z.object({
+export const ProjectTaskTagUpdateSchema = z.object({
   projectId: PZ.Scalar.id().optional(),
   tagId: PZ.Scalar.id().optional(),
 });
-
-export const ProjectTaskTagUpdateSchema = ProjectTaskTagRawUpdateSchema.clone();
 
 export const ProjectTaskTagOrderBySchema = z
   .object({
@@ -4746,21 +4700,18 @@ export const ProjectTaskTagProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const ProjectTaskStatusRawCreateSchema = z.object({
-  projectId: PZ.Scalar.id(),
-  statusId: PZ.Scalar.id(),
-});
+export const ProjectTaskStatusCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    projectId: PZ.Scalar.id(),
+    statusId: PZ.Scalar.id(),
+  })
+);
 
-export const ProjectTaskStatusCreateSchema =
-  ProjectTaskStatusRawCreateSchema.clone();
-
-export const ProjectTaskStatusRawUpdateSchema = z.object({
+export const ProjectTaskStatusUpdateSchema = z.object({
   projectId: PZ.Scalar.id().optional(),
   statusId: PZ.Scalar.id().optional(),
 });
-
-export const ProjectTaskStatusUpdateSchema =
-  ProjectTaskStatusRawUpdateSchema.clone();
 
 export const ProjectTaskStatusOrderBySchema = z
   .object({
@@ -4846,21 +4797,18 @@ export const ProjectTaskStatusProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const ProjectTaskPriorityRawCreateSchema = z.object({
-  projectId: PZ.Scalar.id(),
-  priorityId: PZ.Scalar.id(),
-});
+export const ProjectTaskPriorityCreateSchema = z.preprocess(
+  (value) => value,
+  z.object({
+    projectId: PZ.Scalar.id(),
+    priorityId: PZ.Scalar.id(),
+  })
+);
 
-export const ProjectTaskPriorityCreateSchema =
-  ProjectTaskPriorityRawCreateSchema.clone();
-
-export const ProjectTaskPriorityRawUpdateSchema = z.object({
+export const ProjectTaskPriorityUpdateSchema = z.object({
   projectId: PZ.Scalar.id().optional(),
   priorityId: PZ.Scalar.id().optional(),
 });
-
-export const ProjectTaskPriorityUpdateSchema =
-  ProjectTaskPriorityRawUpdateSchema.clone();
 
 export const ProjectTaskPriorityOrderBySchema = z
   .object({
@@ -4962,9 +4910,9 @@ export const UserQuerySchema = z
   })
   .partial();
 
-export type UserCreate = z.infer<typeof UserRawCreateSchema>;
+export type UserCreate = z.infer<typeof UserCreateSchema>;
 
-export type UserUpdate = z.infer<typeof UserRawUpdateSchema>;
+export type UserUpdate = z.infer<typeof UserUpdateSchema>;
 
 export type UserOrderBy = z.infer<typeof UserOrderBySchema>;
 
@@ -5006,9 +4954,9 @@ export const TeamQuerySchema = z
   })
   .partial();
 
-export type TeamCreate = z.infer<typeof TeamRawCreateSchema>;
+export type TeamCreate = z.infer<typeof TeamCreateSchema>;
 
-export type TeamUpdate = z.infer<typeof TeamRawUpdateSchema>;
+export type TeamUpdate = z.infer<typeof TeamUpdateSchema>;
 
 export type TeamOrderBy = z.infer<typeof TeamOrderBySchema>;
 
@@ -5050,9 +4998,9 @@ export const TeamManagerQuerySchema = z
   })
   .partial();
 
-export type TeamManagerCreate = z.infer<typeof TeamManagerRawCreateSchema>;
+export type TeamManagerCreate = z.infer<typeof TeamManagerCreateSchema>;
 
-export type TeamManagerUpdate = z.infer<typeof TeamManagerRawUpdateSchema>;
+export type TeamManagerUpdate = z.infer<typeof TeamManagerUpdateSchema>;
 
 export type TeamManagerOrderBy = z.infer<typeof TeamManagerOrderBySchema>;
 
@@ -5100,9 +5048,9 @@ export const TeamMemberQuerySchema = z
   })
   .partial();
 
-export type TeamMemberCreate = z.infer<typeof TeamMemberRawCreateSchema>;
+export type TeamMemberCreate = z.infer<typeof TeamMemberCreateSchema>;
 
-export type TeamMemberUpdate = z.infer<typeof TeamMemberRawUpdateSchema>;
+export type TeamMemberUpdate = z.infer<typeof TeamMemberUpdateSchema>;
 
 export type TeamMemberOrderBy = z.infer<typeof TeamMemberOrderBySchema>;
 
@@ -5148,9 +5096,9 @@ export const ProjectQuerySchema = z
   })
   .partial();
 
-export type ProjectCreate = z.infer<typeof ProjectRawCreateSchema>;
+export type ProjectCreate = z.infer<typeof ProjectCreateSchema>;
 
-export type ProjectUpdate = z.infer<typeof ProjectRawUpdateSchema>;
+export type ProjectUpdate = z.infer<typeof ProjectUpdateSchema>;
 
 export type ProjectOrderBy = z.infer<typeof ProjectOrderBySchema>;
 
@@ -5194,9 +5142,9 @@ export const TagQuerySchema = z
   })
   .partial();
 
-export type TagCreate = z.infer<typeof TagRawCreateSchema>;
+export type TagCreate = z.infer<typeof TagCreateSchema>;
 
-export type TagUpdate = z.infer<typeof TagRawUpdateSchema>;
+export type TagUpdate = z.infer<typeof TagUpdateSchema>;
 
 export type TagOrderBy = z.infer<typeof TagOrderBySchema>;
 
@@ -5238,9 +5186,9 @@ export const CategoryQuerySchema = z
   })
   .partial();
 
-export type CategoryCreate = z.infer<typeof CategoryRawCreateSchema>;
+export type CategoryCreate = z.infer<typeof CategoryCreateSchema>;
 
-export type CategoryUpdate = z.infer<typeof CategoryRawUpdateSchema>;
+export type CategoryUpdate = z.infer<typeof CategoryUpdateSchema>;
 
 export type CategoryOrderBy = z.infer<typeof CategoryOrderBySchema>;
 
@@ -5284,9 +5232,9 @@ export const SprintQuerySchema = z
   })
   .partial();
 
-export type SprintCreate = z.infer<typeof SprintRawCreateSchema>;
+export type SprintCreate = z.infer<typeof SprintCreateSchema>;
 
-export type SprintUpdate = z.infer<typeof SprintRawUpdateSchema>;
+export type SprintUpdate = z.infer<typeof SprintUpdateSchema>;
 
 export type SprintOrderBy = z.infer<typeof SprintOrderBySchema>;
 
@@ -5328,9 +5276,9 @@ export const PriorityQuerySchema = z
   })
   .partial();
 
-export type PriorityCreate = z.infer<typeof PriorityRawCreateSchema>;
+export type PriorityCreate = z.infer<typeof PriorityCreateSchema>;
 
-export type PriorityUpdate = z.infer<typeof PriorityRawUpdateSchema>;
+export type PriorityUpdate = z.infer<typeof PriorityUpdateSchema>;
 
 export type PriorityOrderBy = z.infer<typeof PriorityOrderBySchema>;
 
@@ -5374,9 +5322,9 @@ export const StatusQuerySchema = z
   })
   .partial();
 
-export type StatusCreate = z.infer<typeof StatusRawCreateSchema>;
+export type StatusCreate = z.infer<typeof StatusCreateSchema>;
 
-export type StatusUpdate = z.infer<typeof StatusRawUpdateSchema>;
+export type StatusUpdate = z.infer<typeof StatusUpdateSchema>;
 
 export type StatusOrderBy = z.infer<typeof StatusOrderBySchema>;
 
@@ -5418,9 +5366,9 @@ export const PointQuerySchema = z
   })
   .partial();
 
-export type PointCreate = z.infer<typeof PointRawCreateSchema>;
+export type PointCreate = z.infer<typeof PointCreateSchema>;
 
-export type PointUpdate = z.infer<typeof PointRawUpdateSchema>;
+export type PointUpdate = z.infer<typeof PointUpdateSchema>;
 
 export type PointOrderBy = z.infer<typeof PointOrderBySchema>;
 
@@ -5462,9 +5410,9 @@ export const TaskQuerySchema = z
   })
   .partial();
 
-export type TaskCreate = z.infer<typeof TaskRawCreateSchema>;
+export type TaskCreate = z.infer<typeof TaskCreateSchema>;
 
-export type TaskUpdate = z.infer<typeof TaskRawUpdateSchema>;
+export type TaskUpdate = z.infer<typeof TaskUpdateSchema>;
 
 export type TaskOrderBy = z.infer<typeof TaskOrderBySchema>;
 
@@ -5507,11 +5455,11 @@ export const AssignmentHistoryQuerySchema = z
   .partial();
 
 export type AssignmentHistoryCreate = z.infer<
-  typeof AssignmentHistoryRawCreateSchema
+  typeof AssignmentHistoryCreateSchema
 >;
 
 export type AssignmentHistoryUpdate = z.infer<
-  typeof AssignmentHistoryRawUpdateSchema
+  typeof AssignmentHistoryUpdateSchema
 >;
 
 export type AssignmentHistoryOrderBy = z.infer<
@@ -5578,13 +5526,9 @@ export const PriorityHistoryQuerySchema = z
   })
   .partial();
 
-export type PriorityHistoryCreate = z.infer<
-  typeof PriorityHistoryRawCreateSchema
->;
+export type PriorityHistoryCreate = z.infer<typeof PriorityHistoryCreateSchema>;
 
-export type PriorityHistoryUpdate = z.infer<
-  typeof PriorityHistoryRawUpdateSchema
->;
+export type PriorityHistoryUpdate = z.infer<typeof PriorityHistoryUpdateSchema>;
 
 export type PriorityHistoryOrderBy = z.infer<
   typeof PriorityHistoryOrderBySchema
@@ -5646,9 +5590,9 @@ export const StatusHistoryQuerySchema = z
   })
   .partial();
 
-export type StatusHistoryCreate = z.infer<typeof StatusHistoryRawCreateSchema>;
+export type StatusHistoryCreate = z.infer<typeof StatusHistoryCreateSchema>;
 
-export type StatusHistoryUpdate = z.infer<typeof StatusHistoryRawUpdateSchema>;
+export type StatusHistoryUpdate = z.infer<typeof StatusHistoryUpdateSchema>;
 
 export type StatusHistoryOrderBy = z.infer<typeof StatusHistoryOrderBySchema>;
 
@@ -5700,9 +5644,9 @@ export const PointHistoryQuerySchema = z
   })
   .partial();
 
-export type PointHistoryCreate = z.infer<typeof PointHistoryRawCreateSchema>;
+export type PointHistoryCreate = z.infer<typeof PointHistoryCreateSchema>;
 
-export type PointHistoryUpdate = z.infer<typeof PointHistoryRawUpdateSchema>;
+export type PointHistoryUpdate = z.infer<typeof PointHistoryUpdateSchema>;
 
 export type PointHistoryOrderBy = z.infer<typeof PointHistoryOrderBySchema>;
 
@@ -5754,9 +5698,9 @@ export const TeamHistoryQuerySchema = z
   })
   .partial();
 
-export type TeamHistoryCreate = z.infer<typeof TeamHistoryRawCreateSchema>;
+export type TeamHistoryCreate = z.infer<typeof TeamHistoryCreateSchema>;
 
-export type TeamHistoryUpdate = z.infer<typeof TeamHistoryRawUpdateSchema>;
+export type TeamHistoryUpdate = z.infer<typeof TeamHistoryUpdateSchema>;
 
 export type TeamHistoryOrderBy = z.infer<typeof TeamHistoryOrderBySchema>;
 
@@ -5804,9 +5748,9 @@ export const TaskTagQuerySchema = z
   })
   .partial();
 
-export type TaskTagCreate = z.infer<typeof TaskTagRawCreateSchema>;
+export type TaskTagCreate = z.infer<typeof TaskTagCreateSchema>;
 
-export type TaskTagUpdate = z.infer<typeof TaskTagRawUpdateSchema>;
+export type TaskTagUpdate = z.infer<typeof TaskTagUpdateSchema>;
 
 export type TaskTagOrderBy = z.infer<typeof TaskTagOrderBySchema>;
 
@@ -5850,9 +5794,9 @@ export const TaskCategoryQuerySchema = z
   })
   .partial();
 
-export type TaskCategoryCreate = z.infer<typeof TaskCategoryRawCreateSchema>;
+export type TaskCategoryCreate = z.infer<typeof TaskCategoryCreateSchema>;
 
-export type TaskCategoryUpdate = z.infer<typeof TaskCategoryRawUpdateSchema>;
+export type TaskCategoryUpdate = z.infer<typeof TaskCategoryUpdateSchema>;
 
 export type TaskCategoryOrderBy = z.infer<typeof TaskCategoryOrderBySchema>;
 
@@ -5904,9 +5848,9 @@ export const AssignmentQuerySchema = z
   })
   .partial();
 
-export type AssignmentCreate = z.infer<typeof AssignmentRawCreateSchema>;
+export type AssignmentCreate = z.infer<typeof AssignmentCreateSchema>;
 
-export type AssignmentUpdate = z.infer<typeof AssignmentRawUpdateSchema>;
+export type AssignmentUpdate = z.infer<typeof AssignmentUpdateSchema>;
 
 export type AssignmentOrderBy = z.infer<typeof AssignmentOrderBySchema>;
 
@@ -5952,9 +5896,9 @@ export const CommentQuerySchema = z
   })
   .partial();
 
-export type CommentCreate = z.infer<typeof CommentRawCreateSchema>;
+export type CommentCreate = z.infer<typeof CommentCreateSchema>;
 
-export type CommentUpdate = z.infer<typeof CommentRawUpdateSchema>;
+export type CommentUpdate = z.infer<typeof CommentUpdateSchema>;
 
 export type CommentOrderBy = z.infer<typeof CommentOrderBySchema>;
 
@@ -5998,13 +5942,9 @@ export const ProjectTaskTagQuerySchema = z
   })
   .partial();
 
-export type ProjectTaskTagCreate = z.infer<
-  typeof ProjectTaskTagRawCreateSchema
->;
+export type ProjectTaskTagCreate = z.infer<typeof ProjectTaskTagCreateSchema>;
 
-export type ProjectTaskTagUpdate = z.infer<
-  typeof ProjectTaskTagRawUpdateSchema
->;
+export type ProjectTaskTagUpdate = z.infer<typeof ProjectTaskTagUpdateSchema>;
 
 export type ProjectTaskTagOrderBy = z.infer<typeof ProjectTaskTagOrderBySchema>;
 
@@ -6063,11 +6003,11 @@ export const ProjectTaskStatusQuerySchema = z
   .partial();
 
 export type ProjectTaskStatusCreate = z.infer<
-  typeof ProjectTaskStatusRawCreateSchema
+  typeof ProjectTaskStatusCreateSchema
 >;
 
 export type ProjectTaskStatusUpdate = z.infer<
-  typeof ProjectTaskStatusRawUpdateSchema
+  typeof ProjectTaskStatusUpdateSchema
 >;
 
 export type ProjectTaskStatusOrderBy = z.infer<
@@ -6135,11 +6075,11 @@ export const ProjectTaskPriorityQuerySchema = z
   .partial();
 
 export type ProjectTaskPriorityCreate = z.infer<
-  typeof ProjectTaskPriorityRawCreateSchema
+  typeof ProjectTaskPriorityCreateSchema
 >;
 
 export type ProjectTaskPriorityUpdate = z.infer<
-  typeof ProjectTaskPriorityRawUpdateSchema
+  typeof ProjectTaskPriorityUpdateSchema
 >;
 
 export type ProjectTaskPriorityOrderBy = z.infer<
