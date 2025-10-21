@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id          Int        @id @default(autoincrement())
+  parentId    Int?
+  name        String     @unique
+  description String     @default("Add description")
+  parent      Category?  @relation("children", fields: [parentId], references: [id], onDelete: SetNull)
+  children    Category[] @relation("children")
+  samples     Sample[]
+}
+
+model Tag {
+  id      Int         @id @default(autoincrement())
+  name    String      @unique
+  samples SampleTag[]
+}
+
+model Sample {
+  /// Unique id field
+  id Int @id @default(autoincrement())
+
+  /// Optional generated field @readonly @internal(not include in input schemas)
+  uuid String @default(uuid())
+
+  /// Optional generated field
+  otherUuid String @default(uuid())
+
+  createdAt DateTime @default(now())
+
+  /// Optional internal timestamp 
+  updatedAt DateTime @updatedAt
+
+  /// Optional internal timestamp 
+  deletedAt DateTime?
+
+  /// Optional category relation id
+  categoryId Int?
+
+  /// Required unique name
+  name String @unique
+
+  /// @generated slug from name field
+  slug String @unique
+
+  /// Long string field
+  description String?
+
+  /// Boolean field
+  active Boolean @default(true)
+
+  /// Sring array field
+  notes String[]
+
+  url String?
+
+  json Json?
+
+  email String
+
+  /// Sample currency field
+  price Decimal @db.Decimal(10, 2)
+
+  /// Sample currency field
+  cost Decimal @db.Decimal(10, 2)
+
+  /// Sample category relation one-to-one
+  category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  /// Sample tag relation one-to-many
+  tags SampleTag[]
+}
+
+model SampleTag {
+  id       Int    @id @default(autoincrement())
+  tagId    Int
+  sampleId Int
+  sample   Sample @relation(fields: [sampleId], references: [id])
+  tag      Tag    @relation(fields: [tagId], references: [id])
+
+  @@unique([sampleId, tagId])
+}

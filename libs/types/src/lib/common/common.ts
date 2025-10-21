@@ -27,3 +27,4 @@ export interface ClassType<T = Any> {
 
 export type Keys<T> = (keyof T)[];
 
+export type Predicate<T> = (value: T) => boolean;
