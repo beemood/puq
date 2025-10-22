@@ -1,6 +1,11 @@
 import type { DMMF } from '@prisma/client/runtime/library';
 import { inspect } from 'util';
-import { isCurrencyField, isIdField, isRequiredField } from './is-field.js';
+import {
+  isCurrencyField,
+  isIdField,
+  isRelationField,
+  isRequiredField,
+} from './is-field.js';
 /**
  * Print the zod schema definitions from prisma DMMF.Field options such as `z.int()`, `z.coerce.number().int()` etc.
  * @param field
@@ -17,7 +22,7 @@ export function printSchemaDefinition(
   // Define schema
   switch (field.kind) {
     case 'object': {
-      if (field.relationName) {
+      if (isRelationField(field)) {
         parts.add(`${field.type}OwnCreateSchema`);
       }
       break;
@@ -42,12 +47,12 @@ export function printSchemaDefinition(
           if (isCurrencyField(field.name)) {
             parts.add(`_currency`);
           } else {
-            parts.add(`_number`);
+            parts.add(`_num`);
           }
           break;
         }
         case 'DateTime': {
-          parts.add(`_datetime`);
+          parts.add(`_date`);
           break;
         }
         case 'String': {
@@ -84,11 +89,11 @@ export function printSchemaDefinition(
               break;
             }
             case 'zip': {
-              parts.add('_string');
+              parts.add('_str');
               break;
             }
             default: {
-              parts.add('_string');
+              parts.add('_str');
               break;
             }
           }
@@ -96,7 +101,7 @@ export function printSchemaDefinition(
           break;
         }
         case 'BigInt': {
-          parts.add(`_string`);
+          parts.add(`_str`);
           break;
         }
 

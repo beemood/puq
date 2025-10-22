@@ -66,6 +66,8 @@ model Sample {
   /// Sring array field
   notes String[]
 
+  nums Int[]
+
   url String?
 
   json Json?
@@ -87,6 +89,8 @@ model Sample {
   tags SampleTag[]
 
   status Status?
+
+  statuses Status[]
 }
 
 model SampleTag {

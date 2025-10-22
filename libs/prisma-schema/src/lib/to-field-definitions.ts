@@ -1,19 +1,32 @@
 import type { DMMF } from '@prisma/client/runtime/library';
+import { isRelationField } from './is-field.js';
 import { printSchemaDefinition } from './print-schema-definition.js';
+import { printWhereFieldSchemaDefinition } from './print-where-field-schema-defintion.js';
 import {
   toOwnOrderBySchemaName,
   toOwnQueryOneSchemaName,
+  toOwnQuerySchemaName,
 } from './to-schema-names.js';
 
-export function toOwnProjectionFieldDefinition(field: DMMF.Field) {
+/**
+ * Define a projection fields "key": _select
+ * @param field
+ * @returns
+ */
+export function toProjectionFieldDefinition(field: DMMF.Field) {
   return `${field.name}: _select`;
 }
 
-export function toProjectionFieldDefinition(field: DMMF.Field) {
-  if (field.relationName) {
-    return `${field.name}: z.boolean().or(${toOwnQueryOneSchemaName(
+export function toCompleteProjectionFieldDefinition(field: DMMF.Field) {
+  if (isRelationField(field)) {
+    if (field.isList) {
+      return `${field.name} : _select.or(${toOwnQuerySchemaName(
+        field.type
+      )}).optional()`;
+    }
+    return `${field.name} : _select.or(${toOwnQueryOneSchemaName(
       field.type
-    )}).optional() `;
+    )}).optional()`;
   }
   return `${field.name}: _select`;
 }
@@ -23,7 +36,7 @@ export function toInputFieldDefinition(model: DMMF.Model, field: DMMF.Field) {
 }
 
 export function toOrderByFieldDefinition(field: DMMF.Field) {
-  if (field.relationName != undefined) {
+  if (isRelationField(field)) {
     if (field.isList) {
       return `${field.name}: _orderByCount`;
     } else {
@@ -31,4 +44,8 @@ export function toOrderByFieldDefinition(field: DMMF.Field) {
     }
   }
   return `${field.name}: _direction`;
+}
+
+export function toWhereFieldDefinition(field: DMMF.Field) {
+  return `${field.name}: ${printWhereFieldSchemaDefinition(field)}`;
 }

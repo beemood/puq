@@ -1,46 +1,51 @@
 import type { DMMF } from '@prisma/client/runtime/library';
-import { printEnumSchema } from './print-enum-schema.js';
 import {
-  printCreateInputSchema,
-  printUpdateInputSchema,
-} from './print-input-schema.js';
-import {
-  printOrderBySchema,
-  printOwnOrderBySchema,
-} from './print-order-by-schema.js';
-import {
+  printCompleteSelectProjectionSchema,
+  printIncludeProjectionSchema,
+  printOmitProjectionSchema,
   printOwnSelectProjectionSchema,
   printSelectProjectionSchema,
 } from './print-projection-schema.js';
 
-import * as commonSchemas from './common-schemas.js';
+import { printCommonSchemas } from './print-common-schemas.js';
+import { printDistictSchema } from './print-distict-schema.js';
+import {
+  printEnumArrayFilterSchema,
+  printEnumFilterSchema,
+  printEnumSchema,
+} from './print-enum-schema.js';
+import {
+  printOwnQueryOneSchema,
+  printOwnQuerySchema,
+} from './print-query-schema.js';
+import { printOwnWhereSchema } from './print-where-schema.js';
 
 export function printSchemas(datamodel: Omit<DMMF.Datamodel, 'indexes'>) {
   const printerFns = new Set<(model: DMMF.Model) => string>();
 
   const content = new Set<string>();
   const models = datamodel.models;
-  const enums = datamodel.enums;
 
-  // Print own schemas without relations
-  printerFns.add(printOwnOrderBySchema);
+  // Projections
+  printerFns.add(printDistictSchema);
+  printerFns.add(printOwnWhereSchema);
   printerFns.add(printOwnSelectProjectionSchema);
-
-  //
-  printerFns.add(printOrderBySchema);
   printerFns.add(printSelectProjectionSchema);
+  printerFns.add(printOmitProjectionSchema);
+  printerFns.add(printOwnQueryOneSchema);
+  printerFns.add(printOwnQuerySchema);
+  printerFns.add(printIncludeProjectionSchema);
 
-  // Input scheams
-  printerFns.add(printCreateInputSchema);
-  printerFns.add(printUpdateInputSchema);
+  printerFns.add(printCompleteSelectProjectionSchema);
 
+  // Common Code
   content.add(`import z from 'zod';`);
+  content.add(printCommonSchemas());
 
-  const commonSchemasContent = Object.values(commonSchemas).join('\n');
-  content.add(commonSchemasContent);
-
-  for (const e of enums) {
+  for (const e of datamodel.enums) {
     content.add(printEnumSchema(e));
+    content.add(printEnumFilterSchema(e));
+    content.add(printEnumArrayFilterSchema(e));
   }
 
   for (const fn of printerFns)

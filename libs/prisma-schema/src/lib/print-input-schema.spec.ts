@@ -16,7 +16,7 @@ describe('printInputSchema', () => {
   describe('printOwnCreateInputSchema', () => {
     it('should print the schema', () => {
       const schema = printCreateInputSchema(model);
-      console.log(prettier.format(schema));
+      expect(schema).toBeDefined();
     });
   });
 });

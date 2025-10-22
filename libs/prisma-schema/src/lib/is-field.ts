@@ -90,12 +90,21 @@ export function isReadOnlyField(feild: DMMF.Field): boolean {
 }
 
 /**
- * Check the field is relation field or not
- * @param field
- * @returns
+ * Check the field is relation field
+ * @param field DMMF.Field
+ * @returns boolean
  */
 export function isRelationField(field: DMMF.Field) {
   return field.relationName != undefined;
+}
+
+/**
+ * Check the field is NOT relation field
+ * @param field DMMF.Field
+ * @returns boolean
+ */
+export function isOwnField(field: DMMF.Field) {
+  return field.relationName == undefined;
 }
 
 /**
