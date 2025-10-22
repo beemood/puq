@@ -1,16 +1,21 @@
 import type { DMMF } from '@prisma/client/runtime/library';
 import { printSchemaDefinition } from './print-schema-definition.js';
-import { toOwnQueryOneSchemaName } from './to-schema-names.js';
+import {
+  toOwnOrderBySchemaName,
+  toOwnQueryOneSchemaName,
+} from './to-schema-names.js';
 
 export function toOwnProjectionFieldDefinition(field: DMMF.Field) {
-  return `${field.name}: z.boolean().optional()`;
+  return `${field.name}: _select`;
 }
 
 export function toProjectionFieldDefinition(field: DMMF.Field) {
   if (field.relationName) {
-    return `${field.name}: ${toOwnQueryOneSchemaName(field.type)} `;
+    return `${field.name}: z.boolean().or(${toOwnQueryOneSchemaName(
+      field.type
+    )}).optional() `;
   }
-  return `${field.name}: z.boolean().optional()`;
+  return `${field.name}: _select`;
 }
 
 export function toInputFieldDefinition(model: DMMF.Model, field: DMMF.Field) {
@@ -19,7 +24,11 @@ export function toInputFieldDefinition(model: DMMF.Model, field: DMMF.Field) {
 
 export function toOrderByFieldDefinition(field: DMMF.Field) {
   if (field.relationName != undefined) {
-    return `${field.name}: ${toOwnQueryOneSchemaName(field.type)}`;
+    if (field.isList) {
+      return `${field.name}: _orderByCount`;
+    } else {
+      return `${field.name}: ${toOwnOrderBySchemaName(field.type)}`;
+    }
   }
-  return `${field.name}: z.enum(['asc', 'desc']).optional()`;
+  return `${field.name}: _direction`;
 }

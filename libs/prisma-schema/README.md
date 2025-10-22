@@ -4,7 +4,9 @@
 
 # @puq/prisma-schema
 
-Generate zod schemas from prisma schema
+The library provides functions to generate zod schemas for each prisma model including input, pagination, projection, and ordering.
+
+
 
 [Contact us](mailto:robert.brightline+prisma-schema@gmail.com?subject=@puq/prisma-schema)
 

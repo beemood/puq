@@ -1,9 +1,10 @@
 import type { DMMF } from '@prisma/client/runtime/library';
 import {
-    toCreateSchemaName,
-    toOwnOrderBySchemaName,
-    toOwnSelectSchemaName,
-    toUpdateSchemaName,
+  toCreateSchemaName,
+  toOwnOrderBySchemaName,
+  toOwnSelectSchemaName,
+  toSelectSchemaName,
+  toUpdateSchemaName,
 } from './to-schema-names.js';
 
 export function printSchemaTypes(datamodel: Omit<DMMF.Datamodel, 'indexes'>) {
@@ -14,14 +15,16 @@ export function printSchemaTypes(datamodel: Omit<DMMF.Datamodel, 'indexes'>) {
   nameFns.add(toOwnOrderBySchemaName);
   nameFns.add(toCreateSchemaName);
   nameFns.add(toUpdateSchemaName);
+  nameFns.add(toSelectSchemaName);
   //   nameFns.add(toOwnOmitSchemaName);
   //   nameFns.add(toOmitSchemaName);
-  //   nameFns.add(toSelectSchemaName);
   //   nameFns.add(toIncludeSchemaName);
   //   nameFns.add(toOrderBySchemaName);
 
   for (const fn of nameFns) {
     for (const m of datamodel.models) {
+      if (m.name !== 'Sample') continue;
+
       const schemaName = fn(m.name);
       const typeName = schemaName.replace('Schema', '');
 
