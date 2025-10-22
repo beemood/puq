@@ -25,7 +25,9 @@ export function printWhereFieldSchemaDefinition(field: DMMF.Field) {
     }
     case 'scalar': {
       switch (field.type) {
-        case 'Json':
+        case 'Json': {
+          return '_jsonFilter.optional()';
+        }
         case 'String': {
           if (field.isList) {
             return `_strArrayFilter.optional()`;

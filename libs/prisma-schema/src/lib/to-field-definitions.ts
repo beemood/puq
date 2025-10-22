@@ -5,7 +5,6 @@ import { printWhereFieldSchemaDefinition } from './print-where-field-schema-defi
 import {
   toOwnOrderBySchemaName,
   toOwnQueryOneSchemaName,
-  toOwnQuerySchemaName,
 } from './to-schema-names.js';
 
 /**
@@ -20,13 +19,13 @@ export function toProjectionFieldDefinition(field: DMMF.Field) {
 export function toCompleteProjectionFieldDefinition(field: DMMF.Field) {
   if (isRelationField(field)) {
     if (field.isList) {
-      return `${field.name} : _select.or(${toOwnQuerySchemaName(
-        field.type
-      )}).optional()`;
+      const schemaName = toOwnQueryOneSchemaName(field.type);
+      return `${field.name} : _select.or(${schemaName}).optional()`;
     }
-    return `${field.name} : _select.or(${toOwnQueryOneSchemaName(
-      field.type
-    )}).optional()`;
+    {
+      const schemaName = toOwnQueryOneSchemaName(field.type);
+      return `${field.name} : _select.or(${schemaName}).optional()`;
+    }
   }
   return `${field.name}: _select`;
 }
@@ -40,7 +39,7 @@ export function toOrderByFieldDefinition(field: DMMF.Field) {
     if (field.isList) {
       return `${field.name}: _orderByCount`;
     } else {
-      return `${field.name}: ${toOwnOrderBySchemaName(field.type)}`;
+      return `${field.name}: ${toOwnOrderBySchemaName(field.type)}.optional()`;
     }
   }
   return `${field.name}: _direction`;

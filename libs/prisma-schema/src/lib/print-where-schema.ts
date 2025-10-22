@@ -2,7 +2,7 @@ import type { DMMF } from '@prisma/client/runtime/library';
 import type { Predicate } from '@puq/types';
 import { isOwnField } from './is-field.js';
 import { toWhereFieldDefinition } from './to-field-definitions.js';
-import { toOwnWhereSchemaName } from './to-schema-names.js';
+import { toOwnWhereSchemaName, toWhereSchemaName } from './to-schema-names.js';
 
 export function _printWhereSchema(
   model: DMMF.Model,
@@ -28,4 +28,8 @@ export function printOwnWhereSchema(model: DMMF.Model) {
     toWhereFieldDefinition,
     isOwnField
   );
+}
+
+export function printWhereSchema(model: DMMF.Model) {
+  return _printWhereSchema(model, toWhereSchemaName, toWhereFieldDefinition);
 }

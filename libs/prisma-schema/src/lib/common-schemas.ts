@@ -223,6 +223,27 @@ export const _1_strFilter =  z.object({
 export const _strFilter = _str.or(_1_strFilter)
 `;
 
+export const _jsonFilter = `
+export const _jsonFilter = z.object({ 
+  path: _str.array().optional(),
+  array_contains: _str.optional(),
+  array_ends_with: _str.optional(),
+  array_starts_with: _str.optional(),
+  equals: _str.optional(),
+  gt: _str.optional(),
+  gte: _str.optional(),
+  lt: _str.optional(),
+  lte: _str.optional(),
+  mode: _strMode,
+  string_contains: _str.optional(),
+  string_ends_with: _str.optional(),
+  string_starts_with: _str.optional(),
+  not: _str.optional()
+})
+
+
+`;
+
 export const _strArrayFilter = `
 export const _strArrayFilter = z.object({
     equals: _str.array().optional(),

@@ -33,12 +33,28 @@ export function toOwnOrderBySchemaName(modelName: string) {
   return `${modelName}OwnOrderBySchema`;
 }
 
+export function toQueryOneSchemaName(modelName: string) {
+  return `${modelName}QueryOneSchema`;
+}
+
+export function toQuerySchemaName(modelName: string) {
+  return `${modelName}QuerySchema`;
+}
+
+
+
 export function toOwnQueryOneSchemaName(modelName: string) {
   return `${modelName}OwnQueryOneSchema`;
 }
 
 export function toOwnQuerySchemaName(modelName: string) {
   return `${modelName}OwnQuerySchema`;
+}
+export function toCompleteQueryOneSchemaName(modelName: string) {
+  return `${modelName}CompleteQueryOneSchema`;
+}
+export function toCompleteQuerySchemaName(modelName: string) {
+  return `${modelName}CompleteQuerySchema`;
 }
 
 export function toDistictSchemaName(modelName: string) {
@@ -69,6 +85,14 @@ export function toEnumArrayFilterSchemaName(modelName: string) {
   return `${modelName}ArrayFilterSchema`;
 }
 
+export function toProjectionSchemaName(modelName: string) {
+  return `${modelName}ProjectionSchema`;
+}
+
 export function toOwnProjectionSchemaName(modelName: string) {
   return `${modelName}OwnProjectionSchema`;
+}
+
+export function toJsonProcessorSchemaName(schemaName: string) {
+  return `${schemaName}Json`;
 }

@@ -8,8 +8,10 @@ import {
 import {
   toCompleteSelectSchemaName,
   toIncludeSchemaName,
+  toJsonProcessorSchemaName,
   toOmitSchemaName,
   toOwnSelectSchemaName,
+  toProjectionSchemaName,
   toSelectSchemaName,
 } from './to-schema-names.js';
 
@@ -85,4 +87,24 @@ export function printIncludeProjectionSchema(model: DMMF.Model) {
     );
   }
   return '';
+}
+
+export function printProjectionSchema(model: DMMF.Model) {
+  const schameName = toProjectionSchemaName(model.name);
+
+  const selectName = toJsonProcessorSchemaName(toSelectSchemaName(model.name));
+  const omitName = toJsonProcessorSchemaName(toOmitSchemaName(model.name));
+  const includeName = toJsonProcessorSchemaName(
+    toIncludeSchemaName(model.name)
+  );
+  return [
+    `export const ${schameName} = z.union([`,
+    [
+      `z.object({ omit: ${omitName}})`,
+      `z.object({ select: ${selectName}})`,
+      `z.object({ include: ${includeName}})`,
+      `z.object({})`,
+    ].join(','),
+    `]);`,
+  ].join('');
 }
