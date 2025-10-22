@@ -8,6 +8,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Status {
+  DONE
+  IN_PROGRESS
+  NEW
+}
+
 model Category {
   id          Int        @id @default(autoincrement())
   parentId    Int?
@@ -66,6 +72,8 @@ model Sample {
 
   email String
 
+  password String?
+
   /// Sample currency field
   price Decimal @db.Decimal(10, 2)
 
@@ -77,6 +85,8 @@ model Sample {
 
   /// Sample tag relation one-to-many
   tags SampleTag[]
+
+  status Status?
 }
 
 model SampleTag {

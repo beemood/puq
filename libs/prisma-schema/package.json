@@ -64,6 +64,10 @@
   },
   "dependencies": {
     "@puq/types": "workspace:*",
-    "@swc/helpers": "~0.5.11"
+    "@swc/helpers": "~0.5.11",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@puq/zod": "workspace:*"
   }
 }

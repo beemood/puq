@@ -5,7 +5,7 @@ import {
   isIdField,
   isPositiveIntegerField,
   isRequiredField,
-} from './field-filter-functions.js';
+} from './is-field.js';
 /**
  * Print the zod schema definitions from prisma DMMF.Field options such as `z.int()`, `z.coerce.number().int()` etc.
  * @param field
@@ -32,58 +32,65 @@ export function printSchemaDefinition(
       switch (field.type) {
         case 'Int': {
           if (isIdField(model, field)) {
-            parts.add('PZ.Scalar.id()');
+            parts.add('z.coerce.number().int().positive()');
           } else if (isPositiveIntegerField(field.name)) {
-            parts.add('PZ.Scalar.positiveInt()');
+            parts.add('z.coerce.number().int().positive()');
           } else {
-            parts.add('PZ.Scalar.int()');
+            parts.add('z.coerce.number().int()');
           }
           break;
         }
         case 'Boolean': {
-          parts.add(`PZ.Scalar.bool()`);
+          parts.add(`z.coerce.boolean()`);
           break;
         }
         case 'Decimal':
         case 'Float': {
           if (isCurrencyField(field.name)) {
-            parts.add(`PZ.Scalar.currency()`);
+            parts.add(`z.coerce.number().min(0)`);
           } else {
-            parts.add(`PZ.Scalar.number()`);
+            parts.add(`z.coerce.number()`);
           }
           break;
         }
         case 'DateTime': {
-          parts.add(`PZ.Scalar.datetime()`);
+          parts.add(`z.iso.datetime()`);
           break;
         }
         case 'String': {
           switch (field.name) {
             case 'name': {
-              parts.add('PZ.Scalar.name()');
+              parts.add('z.string().min(3).max(30)');
               break;
             }
             case 'description': {
-              parts.add('PZ.Scalar.description()');
+              parts.add('z.string().max(1000)');
               break;
             }
             case 'slug': {
-              parts.add('PZ.Scalar.slug()');
+              parts.add('z.string().min(3).max(35)');
               break;
             }
             case 'website':
             case 'uri':
             case 'url': {
-              parts.add('PZ.Scalar.url()');
+              parts.add('z.url()');
               break;
             }
             case 'username':
             case 'email': {
-              parts.add('PZ.Scalar.email()');
+              parts.add('z.email()');
               break;
             }
             case 'password': {
-              parts.add('PZ.Scalar.password()');
+              parts.add(`
+z.string()
+  .min(6)
+  .regex(/[A-Z]{1,}/, { error: 'must contain at least one upper-case letter' })
+  .regex(/[a-z]{1,}/, { error: 'must contain at least one lower-case letter' })
+  .regex(/[0-9]{1,}/, { error: 'must contain at least one number' })
+  .regex(/[~!@#$%^&*()_+{}":'<>?]{1,}/, {error: 'must contain at least one special character' })
+                `);
               break;
             }
             case 'phone': {

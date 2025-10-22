@@ -10,6 +10,10 @@ export function isRequiredField(field: DMMF.Field): boolean {
     return false;
   }
 
+  if (field.hasDefaultValue) {
+    return false;
+  }
+
   return field.isRequired == true;
 }
 
@@ -164,4 +168,12 @@ export function isIdField(model: DMMF.Model, field: DMMF.Field): boolean {
         e.relationFromFields?.includes(field.name) ||
         e.relationToFields?.includes(field.name)
     );
+}
+
+export function isOwnOrderByField(field: DMMF.Field) {
+  return !isRelationField(field);
+}
+
+export function isOrderByField(field: DMMF.Field) {
+  return !!field;
 }

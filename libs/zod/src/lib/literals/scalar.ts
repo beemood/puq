@@ -78,4 +78,8 @@ export class Scalar {
   static skip() {
     return this.int().min(0).default(0).optional();
   }
+
+  static orderBy() {
+    return z.enum(['asc', 'desc']).optional();
+  }
 }
