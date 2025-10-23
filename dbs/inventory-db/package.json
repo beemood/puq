@@ -222,9 +222,8 @@
         "executor": "nx:run-commands",
         "options": {
           "commands": [
-            "node ./generate-schemas.js"
-          ],
-          "cwd": "{projectRoot}"
+            "npx nx g @puq/plugin:schemas @puq/inventory-db"
+          ]
         }
       },
       "prisma-migrate": {
