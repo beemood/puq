@@ -43,6 +43,9 @@ export const _description = z.string().max(1000)
 export const _email = z.string().max(1000)
 
 
+export const _phone = z.string().regex(/^[0-9]{3} [0-9]{3} [0-9]{2}-[0-9]{2}$/, {error: 'Invalid phone format' })
+
+
 export const _url = z.url()
 
 

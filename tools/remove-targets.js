@@ -27,5 +27,5 @@ for (const d of dirs) {
   //   return value;
   // });
 
-  execSync(`npx nx g @puq/plugin:schemas @puq/${d}`);
+  // execSync(`npx nx g @puq/plugin:schemas @puq/${d}`);
 }
