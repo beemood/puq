@@ -1,3 +1,27 @@
+## 0.29.9 (2025-10-23)
+
+### 🚀 Features
+
+- omtimizing prisma-schema code ([fbb2391](https://github.com/beemood/puq/commit/fbb2391))
+- created CreateInputSchema, and UpdateInputSchema pritner ([44c6f84](https://github.com/beemood/puq/commit/44c6f84))
+- created the create, update, projection, and order-by schema printers, and tested ([c936d50](https://github.com/beemood/puq/commit/c936d50))
+- created the create, update, projection, and order-by schema printers, and tested ([a535f65](https://github.com/beemood/puq/commit/a535f65))
+- created the json preprocessor printers ([cea9e82](https://github.com/beemood/puq/commit/cea9e82))
+- created projections, orders, distict and common schemas ([e105ddb](https://github.com/beemood/puq/commit/e105ddb))
+- created the complete query, orderBy, select, where, and projection schemas ([285eb9e](https://github.com/beemood/puq/commit/285eb9e))
+- created package.json content replacer script ([3d37166](https://github.com/beemood/puq/commit/3d37166))
+
+### 🩹 Fixes
+
+- fixed the omit, and order-by schemas, and ([e6be942](https://github.com/beemood/puq/commit/e6be942))
+- fixed the omit, and order-by schemas, and ([7572fac](https://github.com/beemood/puq/commit/7572fac))
+- fixed omit, and orderBy schemas ([fd66471](https://github.com/beemood/puq/commit/fd66471))
+- fixed the homepage and icon link in package.json files ([d5ed85d](https://github.com/beemood/puq/commit/d5ed85d))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.29.8 (2025-10-20)
 
 ### 🩹 Fixes

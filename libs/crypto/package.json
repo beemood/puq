@@ -1,6 +1,6 @@
 {
   "name": "@puq/crypto",
-  "version": "0.29.8",
+  "version": "0.29.9",
   "license": "MIT",
   "displayName": "Encription & Hashing",
   "description": "Encription and hashing",
