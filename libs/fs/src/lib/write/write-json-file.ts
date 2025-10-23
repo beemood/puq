@@ -14,7 +14,7 @@ export async function __writeJsonFile<T>(
   content: T,
   options?: WriteFileOptions
 ) {
-  const stringContent = JSON.stringify(content);
+  const stringContent = JSON.stringify(content, undefined, 2);
   await __writeTextFile(filePath, stringContent, options);
 }
 

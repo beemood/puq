@@ -218,18 +218,6 @@
           "tsConfig": "dbs/app-db/tsconfig.lib.json",
           "skipTypeCheck": false,
           "stripLeadingPaths": true
-        },
-        "dependsOn": [
-          "generate-schemas"
-        ]
-      },
-      "generate-schemas": {
-        "executor": "nx:run-commands",
-        "options": {
-          "commands": [
-            "node ./generate-schemas.js"
-          ],
-          "cwd": "{projectRoot}"
         }
       },
       "prisma-migrate": {

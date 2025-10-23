@@ -213,17 +213,6 @@
           "tsConfig": "dbs/inventory-db/tsconfig.lib.json",
           "skipTypeCheck": false,
           "stripLeadingPaths": true
-        },
-        "dependsOn": [
-          "generate-schemas"
-        ]
-      },
-      "generate-schemas": {
-        "executor": "nx:run-commands",
-        "options": {
-          "commands": [
-            "npx nx g @puq/plugin:schemas @puq/inventory-db"
-          ]
         }
       },
       "prisma-migrate": {
