@@ -9,6 +9,11 @@
       "factory": "./dist/generators/readme/readme",
       "schema": "./dist/generators/readme/schema.json",
       "description": "readme generator"
+    },
+    "schemas": {
+      "factory": "./dist/generators/schemas/schemas",
+      "schema": "./dist/generators/schemas/schema.json",
+      "description": "schemas generator"
     }
   }
 }

@@ -263,7 +263,6 @@
   },
   "dependencies": {
     "@puq/names": "workspace:*",
-    "@puq/prisma-schema": "workspace:*",
     "@puq/types": "workspace:*",
     "@puq/zod": "workspace:*",
     "@swc/helpers": "~0.5.11"
@@ -272,6 +271,7 @@
     "@prisma/client": "6.17.1",
     "@puq/barcode": "workspace:*",
     "@puq/inventory-db": "workspace:*",
+    "@puq/prisma-schema": "workspace:*",
     "prisma": "^6.17.1"
   }
 }

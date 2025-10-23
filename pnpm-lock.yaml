@@ -293,9 +293,6 @@ importers:
       '@puq/names':
         specifier: workspace:*
         version: link:../../libs/names
-      '@puq/prisma-schema':
-        specifier: workspace:*
-        version: link:../../libs/prisma-schema
       '@puq/types':
         specifier: workspace:*
         version: link:../../libs/types
@@ -318,6 +315,9 @@ importers:
       '@puq/inventory-db':
         specifier: workspace:*
         version: 'link:'
+      '@puq/prisma-schema':
+        specifier: workspace:*
+        version: link:../../libs/prisma-schema
       prisma:
         specifier: ^6.17.1
         version: 6.17.1(magicast@0.3.5)(typescript@5.9.3)
@@ -573,6 +573,9 @@ importers:
       '@nx/devkit':
         specifier: 21.5.2
         version: 21.5.2(nx@21.5.2(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.5.29(@swc/helpers@0.5.17)))
+      '@puq/prisma-schema':
+        specifier: workspace:*
+        version: link:../../libs/prisma-schema
       commander:
         specifier: ^14.0.1
         version: 14.0.1

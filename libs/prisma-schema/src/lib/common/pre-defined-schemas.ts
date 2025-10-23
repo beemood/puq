@@ -166,8 +166,6 @@ export const _json = z.preprocess((value) => {
 }, z.any());
 `;
 
-
-
 /**
  * Json preprocessor definition
  */
@@ -183,7 +181,6 @@ export const _jsonPreprocessor = (value: unknown) => {
   return value;
 }
 `;
-
 
 /**
  * Object schema definition to validate boolean propery query
@@ -228,7 +225,6 @@ export const _1_intFilter =  z.object({
 
 export const _intFilter = _int.or(_1_intFilter)
 `;
-
 
 /**
  * Object schema definition to validate number propery query
@@ -286,7 +282,6 @@ export const _1_dateFilter =  z.object({
 export const _dateFilter = _date.or(_1_dateFilter)
 `;
 
-
 /**
  * Object schema definition to validate string propery query
  */
@@ -325,7 +320,6 @@ export const _1_strFilter =  z.object({
 export const _strFilter = _str.or(_1_strFilter)
 `;
 
-
 /**
  * Object schema definition to validate json propery query
  */
@@ -348,7 +342,6 @@ export const _jsonFilter = z.object({
 })
 `;
 
-
 /**
  * Object schema definition to validate string-array propery query
  */
@@ -361,7 +354,6 @@ export const _strArrayFilter = z.object({
     isEmpty: _bool.optional(),
 })
 `;
-
 
 /**
  * Object schema definition to validate number-array propery query
@@ -376,7 +368,6 @@ export const _numArrayFilter= z.object({
 })
 `;
 
-
 /**
  * Object schema definition to validate integer-array propery query
  */
@@ -389,7 +380,6 @@ export const _intArrayFilter= z.object({
     isEmpty: _bool.optional(),
 })
 `;
-
 
 /**
  * Object schema definition to validate date/datetime-array propery query
