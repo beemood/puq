@@ -33,6 +33,9 @@ export function printSchemaDefinition(
         case 'Int': {
           if (isIdField(model, field)) {
             parts.add('_id');
+            if (!isRequiredField(field)) {
+              parts.add('nullable()');
+            }
           } else {
             parts.add('_int');
           }
@@ -106,7 +109,7 @@ export function printSchemaDefinition(
         }
 
         case 'Json': {
-          parts.add('z.json()');
+          parts.add('_json');
           break;
         }
       }

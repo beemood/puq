@@ -87,6 +87,19 @@ export const _skip = `
 export const _skip = _int.min(0).optional()
 `;
 
+export const _json = `
+export const _json = z.preprocess((value) => {
+  if (typeof value === 'string') {
+    try {
+      return JSON.parse(value);
+    } catch {
+      return null;
+    }
+  }
+  return value;
+}, z.any());
+`;
+
 export const _jsonPreprocessor = `
 export const _jsonPreprocessor = (value: unknown) => {
   if (typeof value === "string") {

@@ -56,6 +56,17 @@ export const _take = _int.min(1).default(20).optional();
 
 export const _skip = _int.min(0).optional();
 
+export const _json = z.preprocess((value) => {
+  if (typeof value === "string") {
+    try {
+      return JSON.parse(value);
+    } catch {
+      return null;
+    }
+  }
+  return value;
+}, z.any());
+
 export const _jsonPreprocessor = (value: unknown) => {
   if (typeof value === "string") {
     try {
@@ -1180,3 +1191,59 @@ export const SampleTagProjectionSchema = z.union([
   z.object({ include: SampleTagIncludeSchemaJson }),
   z.object({}),
 ]);
+
+export const CategoryCreateSchema = z.object({
+  parentId: _id.nullable().optional(),
+  name: _name,
+  description: _description.optional(),
+});
+
+export const TagCreateSchema = z.object({ name: _name });
+
+export const SampleCreateSchema = z.object({
+  otherUuid: _str.optional(),
+  categoryId: _id.nullable().optional(),
+  name: _name,
+  slug: _slug,
+  description: _description.optional(),
+  active: _bool.optional(),
+  notes: _str.array(),
+  nums: _int.array(),
+  url: _url.optional(),
+  json: _json.optional(),
+  email: _email,
+  password: _password.optional(),
+  price: _currency,
+  cost: _currency,
+  status: StatusSchema.optional(),
+  statuses: StatusSchema.array(),
+});
+
+export const SampleTagCreateSchema = z.object({ tagId: _id, sampleId: _id });
+
+export const CategoryUpdateSchema = z.object({
+  parentId: _id.nullable().optional(),
+  name: _name,
+  description: _description.optional(),
+});
+
+export const TagUpdateSchema = z.object({ name: _name });
+
+export const SampleUpdateSchema = z.object({
+  categoryId: _id.nullable().optional(),
+  name: _name,
+  description: _description.optional(),
+  active: _bool.optional(),
+  notes: _str.array(),
+  nums: _int.array(),
+  url: _url.optional(),
+  json: _json.optional(),
+  email: _email,
+  password: _password.optional(),
+  price: _currency,
+  cost: _currency,
+  status: StatusSchema.optional(),
+  statuses: StatusSchema.array(),
+});
+
+export const SampleTagUpdateSchema = z.object({ tagId: _id, sampleId: _id });

@@ -16,6 +16,10 @@ import {
   printEnumSchema,
 } from './print-enum-schema.js';
 import {
+  printCreateInputSchema,
+  printUpdateInputSchema,
+} from './print-input-schema.js';
+import {
   printOrderBySchema,
   printOwnOrderBySchema,
 } from './print-order-by-schema.js';
@@ -45,7 +49,14 @@ import {
   toWhereSchemaName,
 } from './to-schema-names.js';
 
-export function printSchemas(datamodel: Omit<DMMF.Datamodel, 'indexes'>) {
+/**
+ * Print all zod schemas for each database model
+ * @param datamodel DMMF.Datamodel
+ * @returns string
+ */
+export function printSchemas(
+  datamodel: Omit<DMMF.Datamodel, 'indexes'>
+): string {
   const printerFns = new Set<(model: DMMF.Model) => string>();
 
   const content = new Set<string>();
@@ -100,6 +111,9 @@ export function printSchemas(datamodel: Omit<DMMF.Datamodel, 'indexes'>) {
   printerFns.add(printSchemaJsonProcessor(toCompleteQuerySchemaName));
 
   printerFns.add(printProjectionSchema);
+
+  printerFns.add(printCreateInputSchema);
+  printerFns.add(printUpdateInputSchema);
 
   // Common Code
   content.add(`import z from 'zod';`);

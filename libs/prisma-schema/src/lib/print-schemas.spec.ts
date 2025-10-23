@@ -1,15 +1,42 @@
 import { writeFileSync } from 'fs';
 import { join } from 'path';
-import { Prisma } from '../../generated/index.js';
+import { Prisma, PrismaClient } from '../../generated/index.js';
 import { printSchemas } from './print-schemas.js';
-
+import {
+  SampleCompleteQueryOneSchema,
+  SampleCompleteQuerySchema,
+  SampleCreateSchema,
+  SampleUpdateSchema,
+} from './sample-schemas.js';
 describe('printSchemas', () => {
-  it('should print schemas', () => {
-    const printableSchemas = printSchemas(Prisma.dmmf.datamodel);
-    const formatedSchemas = require('prettier').format(printableSchemas);
-    writeFileSync(
-      join(__dirname, 'sample-schema.ts'),
-      [formatedSchemas].join('\n\n')
-    );
+  beforeAll(() => {
+    const schemas = printSchemas(Prisma.dmmf.datamodel);
+    const formatted = require('prettier').format(schemas);
+    writeFileSync(join(__dirname, 'sample-schemas.ts'), formatted);
+  });
+
+  const client = new PrismaClient();
+
+  it('should work', () => {
+    try {
+      client.sample.findMany(SampleCompleteQuerySchema.parse({}));
+      client.sample.findUnique({
+        ...SampleCompleteQueryOneSchema.parse({}),
+        where: { id: 1 },
+      });
+      client.sample.findFirst(SampleCompleteQueryOneSchema.parse({}));
+      client.sample.create({ data: SampleCreateSchema.parse({}) });
+      client.sample.update({
+        where: { id: 1 },
+        data: SampleUpdateSchema.parse({}),
+      });
+
+      client.sample.delete({
+        ...SampleCompleteQueryOneSchema.parse({}),
+        where: { id: 1 },
+      });
+    } catch {
+      //
+    }
   });
 });

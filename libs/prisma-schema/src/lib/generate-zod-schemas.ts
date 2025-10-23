@@ -1,4 +1,5 @@
 import type { DMMF } from '@prisma/client/runtime/library.js';
+import { isTimestampField } from './is-field.js';
 
 /**
  * Check the field is included in create-operation
@@ -22,6 +23,10 @@ export function isCreteField(field: DMMF.Field) {
  */
 export function isUpdateField(field: DMMF.Field) {
   if (isGenerated(field)) {
+    return false;
+  }
+
+  if (isTimestampField(field)) {
     return false;
   }
 

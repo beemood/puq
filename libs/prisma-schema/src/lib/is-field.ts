@@ -157,6 +157,10 @@ export function isShortStringField(name: string) {
  * @returns
  */
 export function isIdField(model: DMMF.Model, field: DMMF.Field): boolean {
+  if (field.isId) {
+    return true;
+  }
+
   return model.fields
     .filter(isRelationField)
     .some(
