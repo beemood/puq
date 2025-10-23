@@ -69,6 +69,13 @@ export const _positiveInt = z.coerce.number().int().min(0)
 `;
 
 /**
+ * Coerced positive-integer schema definition
+ */
+export const _phone = `
+export const _phone = z.string().regex(/^[0-9]{3} [0-9]{3} [0-9]{2}-[0-9]{2}$/, {error: 'Invalid phone format' })
+`;
+
+/**
  * Name schema definition
  */
 export const _name = `

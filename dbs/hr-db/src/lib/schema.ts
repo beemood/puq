@@ -1,8767 +1,9333 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import * as PZ from '@puq/zod';
-import { z } from 'zod';
+import z from "zod";
 
-export const PaginationSchema = z
-  .object({
-    take: PZ.Scalar.take(),
-    skip: PZ.Scalar.skip(),
-  })
-  .partial();
+export const _int = z.coerce.number().int();
+
+export const _str = z.string();
+
+export const _num = z.coerce.number();
+
+export const _bool = z.coerce.boolean();
+
+export const _date = z.iso.datetime();
+
+export const _shortText = z.string().max(30);
+
+export const _longText = z.string().max(2000);
+
+export const _id = z.coerce.number().int().min(1);
+
+export const _currency = z.coerce.number().min(0);
+
+export const _positiveInt = z.coerce.number().int().min(0);
+
+export const _name = z.string().min(3).max(30);
+
+export const _slug = z
+  .string()
+  .min(3)
+  .max(30)
+  .regex(/[0-9a-z-]{0,30}/, {
+    error: "Slug must contain only lowercase letters, numbers, and dash.",
+  });
+
+export const _description = z.string().max(1000);
+
+export const _email = z.string().max(1000);
+
+export const _phone = z
+  .string()
+  .regex(/^[0-9]{3} [0-9]{3} [0-9]{2}-[0-9]{2}$/, {
+    error: "Invalid phone format",
+  });
+
+export const _url = z.url();
+
+export const _password = z
+  .string()
+  .min(6)
+  .regex(/[A-Z]{1,}/, { error: "must contain at least one upper-case letter" })
+  .regex(/[a-z]{1,}/, { error: "must contain at least one lower-case letter" })
+  .regex(/[0-9]{1,}/, { error: "must contain at least one number" })
+  .regex(/[~!@#$%^&*()_+{}":'<>?]{1,}/, {
+    error: "must contain at least one special character",
+  });
+
+export const _select = z.coerce.boolean().optional();
+
+export const _direction = z.enum(["asc", "desc"]).optional();
+
+export const _orderByCount = z.object({ _count: _direction }).optional();
+
+export const _take = _int.min(1).default(20).optional();
+
+export const _skip = _int.min(0).optional();
+
+export const _json = z.preprocess((value) => {
+  if (typeof value === "string") {
+    try {
+      return JSON.parse(value);
+    } catch {
+      return null;
+    }
+  }
+  return value;
+}, z.any());
+
+export const _jsonPreprocessor = (value: unknown) => {
+  if (typeof value === "string") {
+    try {
+      return JSON.parse(value);
+    } catch {
+      return value;
+    }
+  }
+  return value;
+};
+
+export const _0_boolFilter = z.object({
+  equals: _bool.optional(),
+});
+
+export const _1_boolFilter = z.object({
+  equals: _bool.optional(),
+  not: _bool.or(_0_boolFilter).optional(),
+});
+
+export const _boolFilter = _bool.or(_1_boolFilter);
+
+export const _0_intFilter = z.object({
+  equals: _int.optional(),
+  gt: _int.optional(),
+  gte: _int.optional(),
+  lt: _int.optional(),
+  lte: _int.optional(),
+  in: _int.array().optional(),
+  notIn: _int.array().optional(),
+});
+
+export const _1_intFilter = z.object({
+  equals: _int.optional(),
+  gt: _int.optional(),
+  gte: _int.optional(),
+  lt: _int.optional(),
+  lte: _int.optional(),
+  in: _int.array().optional(),
+  notIn: _int.array().optional(),
+  not: _0_intFilter.optional(),
+});
+
+export const _intFilter = _int.or(_1_intFilter);
+
+export const _0_numFilter = z.object({
+  equals: _num.optional(),
+  gt: _num.optional(),
+  gte: _num.optional(),
+  lt: _num.optional(),
+  lte: _num.optional(),
+  in: _num.array().optional(),
+  notIn: _num.array().optional(),
+});
+
+export const _1_numFilter = z.object({
+  equals: _num.optional(),
+  gt: _num.optional(),
+  gte: _num.optional(),
+  lt: _num.optional(),
+  lte: _num.optional(),
+  in: _num.array().optional(),
+  notIn: _num.array().optional(),
+  not: _0_numFilter.optional(),
+});
+
+export const _numFilter = _num.or(_1_numFilter);
+
+export const _0_dateFilter = z.object({
+  equals: _date.optional(),
+  gt: _date.optional(),
+  gte: _date.optional(),
+  lt: _date.optional(),
+  lte: _date.optional(),
+  in: _date.array().optional(),
+  notIn: _date.array().optional(),
+});
+
+export const _1_dateFilter = z.object({
+  equals: _date.optional(),
+  gt: _date.optional(),
+  gte: _date.optional(),
+  lt: _date.optional(),
+  lte: _date.optional(),
+  in: _date.array().optional(),
+  notIn: _date.array().optional(),
+  not: _0_dateFilter.optional(),
+});
+
+export const _dateFilter = _date.or(_1_dateFilter);
+
+export const _strMode = z.enum(["default", "insensitive"]);
+
+export const _0_strFilter = z.object({
+  contains: _str.optional(),
+  endsWith: _str.optional(),
+  equals: _str.optional(),
+  gt: _str.optional(),
+  gte: _str.optional(),
+  lt: _str.optional(),
+  lte: _str.optional(),
+  startsWith: _str.optional(),
+  in: _str.array().optional(),
+  notIn: _str.array().optional(),
+  mode: _strMode.optional(),
+});
+
+export const _1_strFilter = z.object({
+  contains: _str.optional(),
+  endsWith: _str.optional(),
+  equals: _str.optional(),
+  gt: _str.optional(),
+  gte: _str.optional(),
+  lt: _str.optional(),
+  lte: _str.optional(),
+  startsWith: _str.optional(),
+  in: _str.array().optional(),
+  notIn: _str.array().optional(),
+  mode: _strMode.optional(),
+  not: _str.or(_0_strFilter).optional(),
+});
+
+export const _strFilter = _str.or(_1_strFilter);
+
+export const _jsonFilter = z.object({
+  path: _str.array().optional(),
+  array_contains: _str.optional(),
+  array_ends_with: _str.optional(),
+  array_starts_with: _str.optional(),
+  equals: _str.optional(),
+  gt: _str.optional(),
+  gte: _str.optional(),
+  lt: _str.optional(),
+  lte: _str.optional(),
+  mode: _strMode,
+  string_contains: _str.optional(),
+  string_ends_with: _str.optional(),
+  string_starts_with: _str.optional(),
+  not: _str.optional(),
+});
+
+export const _strArrayFilter = z.object({
+  equals: _str.array().optional(),
+  has: _str.optional(),
+  hasEvery: _str.array().optional(),
+  hasSome: _str.array().optional(),
+  isEmpty: _bool.optional(),
+});
+
+export const _numArrayFilter = z.object({
+  equals: _num.array().optional(),
+  has: _num.optional(),
+  hasEvery: _num.array().optional(),
+  hasSome: _num.array().optional(),
+  isEmpty: _bool.optional(),
+});
+
+export const _intArrayFilter = z.object({
+  equals: _int.array().optional(),
+  has: _int.optional(),
+  hasEvery: _int.array().optional(),
+  hasSome: _int.array().optional(),
+  isEmpty: _bool.optional(),
+});
+
+export const _dateArrayFilter = z.object({
+  equals: _date.array().optional(),
+  has: _date.optional(),
+  hasEvery: _date.array().optional(),
+  hasSome: _date.array().optional(),
+  isEmpty: _bool.optional(),
+});
 
 export const ContactTypeSchema = z.enum([
-  'RESIDENCE_ADDRESS',
-  'WORK',
-  'EMERGENCY',
-  'OTHER',
+  "RESIDENCE_ADDRESS",
+  "WORK",
+  "EMERGENCY",
+  "OTHER",
 ]);
 
-export const GenderSchema = z.enum(['MALE', 'FEMALE', 'OTHER']);
+export const __ContactTypeFilterSchema = z.object({
+  equals: ContactTypeSchema.optional(),
+  in: ContactTypeSchema.array().optional(),
+  notIn: ContactTypeSchema.array().optional(),
+});
+export const ContactTypeFilterSchema = z.object({
+  equals: ContactTypeSchema.optional(),
+  in: ContactTypeSchema.array().optional(),
+  notIn: ContactTypeSchema.array().optional(),
+  not: ContactTypeSchema.or(__ContactTypeFilterSchema).optional(),
+});
 
-export const MaritalStatusSchema = z.enum(['SINGLE', 'MARRIED']);
+export const ContactTypeArrayFilterSchema = z.object({
+  equals: ContactTypeSchema.array().optional(),
+  has: ContactTypeSchema.optional(),
+  hasEvery: ContactTypeSchema.array().optional(),
+  hasSome: ContactTypeSchema.array().optional(),
+  isEmpty: _bool.optional(),
+});
+
+export const GenderSchema = z.enum(["MALE", "FEMALE", "OTHER"]);
+
+export const __GenderFilterSchema = z.object({
+  equals: GenderSchema.optional(),
+  in: GenderSchema.array().optional(),
+  notIn: GenderSchema.array().optional(),
+});
+export const GenderFilterSchema = z.object({
+  equals: GenderSchema.optional(),
+  in: GenderSchema.array().optional(),
+  notIn: GenderSchema.array().optional(),
+  not: GenderSchema.or(__GenderFilterSchema).optional(),
+});
+
+export const GenderArrayFilterSchema = z.object({
+  equals: GenderSchema.array().optional(),
+  has: GenderSchema.optional(),
+  hasEvery: GenderSchema.array().optional(),
+  hasSome: GenderSchema.array().optional(),
+  isEmpty: _bool.optional(),
+});
+
+export const MaritalStatusSchema = z.enum(["SINGLE", "MARRIED"]);
+
+export const __MaritalStatusFilterSchema = z.object({
+  equals: MaritalStatusSchema.optional(),
+  in: MaritalStatusSchema.array().optional(),
+  notIn: MaritalStatusSchema.array().optional(),
+});
+export const MaritalStatusFilterSchema = z.object({
+  equals: MaritalStatusSchema.optional(),
+  in: MaritalStatusSchema.array().optional(),
+  notIn: MaritalStatusSchema.array().optional(),
+  not: MaritalStatusSchema.or(__MaritalStatusFilterSchema).optional(),
+});
+
+export const MaritalStatusArrayFilterSchema = z.object({
+  equals: MaritalStatusSchema.array().optional(),
+  has: MaritalStatusSchema.optional(),
+  hasEvery: MaritalStatusSchema.array().optional(),
+  hasSome: MaritalStatusSchema.array().optional(),
+  isEmpty: _bool.optional(),
+});
 
 export const TaxFilingStatusSchema = z.enum([
-  'SINGLE',
-  'MARRIED_FILING_JOINTLY',
-  'MARRIED_FILING_SEPARATELY',
-  'HEAD_OF_HOUSEHOLD',
-  'QUALIFYING_WIDOW',
+  "SINGLE",
+  "MARRIED_FILING_JOINTLY",
+  "MARRIED_FILING_SEPARATELY",
+  "HEAD_OF_HOUSEHOLD",
+  "QUALIFYING_WIDOW",
 ]);
+
+export const __TaxFilingStatusFilterSchema = z.object({
+  equals: TaxFilingStatusSchema.optional(),
+  in: TaxFilingStatusSchema.array().optional(),
+  notIn: TaxFilingStatusSchema.array().optional(),
+});
+export const TaxFilingStatusFilterSchema = z.object({
+  equals: TaxFilingStatusSchema.optional(),
+  in: TaxFilingStatusSchema.array().optional(),
+  notIn: TaxFilingStatusSchema.array().optional(),
+  not: TaxFilingStatusSchema.or(__TaxFilingStatusFilterSchema).optional(),
+});
+
+export const TaxFilingStatusArrayFilterSchema = z.object({
+  equals: TaxFilingStatusSchema.array().optional(),
+  has: TaxFilingStatusSchema.optional(),
+  hasEvery: TaxFilingStatusSchema.array().optional(),
+  hasSome: TaxFilingStatusSchema.array().optional(),
+  isEmpty: _bool.optional(),
+});
 
 export const DeductionTypeSchema = z.enum([
-  'STATUTORY_PRE_TAX',
-  'NON_STATUTORY_PRE_TAX',
-  'POST_TAX',
-  'GARNISHMENT',
+  "STATUTORY_PRE_TAX",
+  "NON_STATUTORY_PRE_TAX",
+  "POST_TAX",
+  "GARNISHMENT",
 ]);
+
+export const __DeductionTypeFilterSchema = z.object({
+  equals: DeductionTypeSchema.optional(),
+  in: DeductionTypeSchema.array().optional(),
+  notIn: DeductionTypeSchema.array().optional(),
+});
+export const DeductionTypeFilterSchema = z.object({
+  equals: DeductionTypeSchema.optional(),
+  in: DeductionTypeSchema.array().optional(),
+  notIn: DeductionTypeSchema.array().optional(),
+  not: DeductionTypeSchema.or(__DeductionTypeFilterSchema).optional(),
+});
+
+export const DeductionTypeArrayFilterSchema = z.object({
+  equals: DeductionTypeSchema.array().optional(),
+  has: DeductionTypeSchema.optional(),
+  hasEvery: DeductionTypeSchema.array().optional(),
+  hasSome: DeductionTypeSchema.array().optional(),
+  isEmpty: _bool.optional(),
+});
 
 export const EmployeeStatusSchema = z.enum([
-  'INCOMMING',
-  'ACTIVE',
-  'INACTIVE',
-  'LEFT',
-  'TERMINATED',
+  "INCOMMING",
+  "ACTIVE",
+  "INACTIVE",
+  "LEFT",
+  "TERMINATED",
 ]);
+
+export const __EmployeeStatusFilterSchema = z.object({
+  equals: EmployeeStatusSchema.optional(),
+  in: EmployeeStatusSchema.array().optional(),
+  notIn: EmployeeStatusSchema.array().optional(),
+});
+export const EmployeeStatusFilterSchema = z.object({
+  equals: EmployeeStatusSchema.optional(),
+  in: EmployeeStatusSchema.array().optional(),
+  notIn: EmployeeStatusSchema.array().optional(),
+  not: EmployeeStatusSchema.or(__EmployeeStatusFilterSchema).optional(),
+});
+
+export const EmployeeStatusArrayFilterSchema = z.object({
+  equals: EmployeeStatusSchema.array().optional(),
+  has: EmployeeStatusSchema.optional(),
+  hasEvery: EmployeeStatusSchema.array().optional(),
+  hasSome: EmployeeStatusSchema.array().optional(),
+  isEmpty: _bool.optional(),
+});
 
 export const EmploymentTypeSchema = z.enum([
-  'FULL_TIME',
-  'PART_TIME',
-  'CONTRACTOR',
-  'INTERN',
+  "FULL_TIME",
+  "PART_TIME",
+  "CONTRACTOR",
+  "INTERN",
 ]);
+
+export const __EmploymentTypeFilterSchema = z.object({
+  equals: EmploymentTypeSchema.optional(),
+  in: EmploymentTypeSchema.array().optional(),
+  notIn: EmploymentTypeSchema.array().optional(),
+});
+export const EmploymentTypeFilterSchema = z.object({
+  equals: EmploymentTypeSchema.optional(),
+  in: EmploymentTypeSchema.array().optional(),
+  notIn: EmploymentTypeSchema.array().optional(),
+  not: EmploymentTypeSchema.or(__EmploymentTypeFilterSchema).optional(),
+});
+
+export const EmploymentTypeArrayFilterSchema = z.object({
+  equals: EmploymentTypeSchema.array().optional(),
+  has: EmploymentTypeSchema.optional(),
+  hasEvery: EmploymentTypeSchema.array().optional(),
+  hasSome: EmploymentTypeSchema.array().optional(),
+  isEmpty: _bool.optional(),
+});
 
 export const PayFrequencySchema = z.enum([
-  'ANNUAL',
-  'MONTHLY',
-  'BI_WEEKLY',
-  'WEEKLY',
-  'HOURLY',
+  "ANNUAL",
+  "MONTHLY",
+  "BI_WEEKLY",
+  "WEEKLY",
+  "HOURLY",
 ]);
 
-export const TitleChangeTypeSchema = z.enum(['PROMOTION', 'TRANSFER', 'OTHER']);
+export const __PayFrequencyFilterSchema = z.object({
+  equals: PayFrequencySchema.optional(),
+  in: PayFrequencySchema.array().optional(),
+  notIn: PayFrequencySchema.array().optional(),
+});
+export const PayFrequencyFilterSchema = z.object({
+  equals: PayFrequencySchema.optional(),
+  in: PayFrequencySchema.array().optional(),
+  notIn: PayFrequencySchema.array().optional(),
+  not: PayFrequencySchema.or(__PayFrequencyFilterSchema).optional(),
+});
+
+export const PayFrequencyArrayFilterSchema = z.object({
+  equals: PayFrequencySchema.array().optional(),
+  has: PayFrequencySchema.optional(),
+  hasEvery: PayFrequencySchema.array().optional(),
+  hasSome: PayFrequencySchema.array().optional(),
+  isEmpty: _bool.optional(),
+});
+
+export const TitleChangeTypeSchema = z.enum(["PROMOTION", "TRANSFER", "OTHER"]);
+
+export const __TitleChangeTypeFilterSchema = z.object({
+  equals: TitleChangeTypeSchema.optional(),
+  in: TitleChangeTypeSchema.array().optional(),
+  notIn: TitleChangeTypeSchema.array().optional(),
+});
+export const TitleChangeTypeFilterSchema = z.object({
+  equals: TitleChangeTypeSchema.optional(),
+  in: TitleChangeTypeSchema.array().optional(),
+  notIn: TitleChangeTypeSchema.array().optional(),
+  not: TitleChangeTypeSchema.or(__TitleChangeTypeFilterSchema).optional(),
+});
+
+export const TitleChangeTypeArrayFilterSchema = z.object({
+  equals: TitleChangeTypeSchema.array().optional(),
+  has: TitleChangeTypeSchema.optional(),
+  hasEvery: TitleChangeTypeSchema.array().optional(),
+  hasSome: TitleChangeTypeSchema.array().optional(),
+  isEmpty: _bool.optional(),
+});
 
 export const RequestStatusSchema = z.enum([
-  'PENDING',
-  'APPROVED',
-  'REJECTED',
-  'CANCELED',
+  "PENDING",
+  "APPROVED",
+  "REJECTED",
+  "CANCELED",
 ]);
+
+export const __RequestStatusFilterSchema = z.object({
+  equals: RequestStatusSchema.optional(),
+  in: RequestStatusSchema.array().optional(),
+  notIn: RequestStatusSchema.array().optional(),
+});
+export const RequestStatusFilterSchema = z.object({
+  equals: RequestStatusSchema.optional(),
+  in: RequestStatusSchema.array().optional(),
+  notIn: RequestStatusSchema.array().optional(),
+  not: RequestStatusSchema.or(__RequestStatusFilterSchema).optional(),
+});
+
+export const RequestStatusArrayFilterSchema = z.object({
+  equals: RequestStatusSchema.array().optional(),
+  has: RequestStatusSchema.optional(),
+  hasEvery: RequestStatusSchema.array().optional(),
+  hasSome: RequestStatusSchema.array().optional(),
+  isEmpty: _bool.optional(),
+});
 
 export const BenefitStatusSchema = z.enum([
-  'ACTIVE',
-  'PENDING',
-  'AWAITING_EOI',
-  'WAIVED',
-  'ENROLLED',
+  "ACTIVE",
+  "PENDING",
+  "AWAITING_EOI",
+  "WAIVED",
+  "ENROLLED",
 ]);
+
+export const __BenefitStatusFilterSchema = z.object({
+  equals: BenefitStatusSchema.optional(),
+  in: BenefitStatusSchema.array().optional(),
+  notIn: BenefitStatusSchema.array().optional(),
+});
+export const BenefitStatusFilterSchema = z.object({
+  equals: BenefitStatusSchema.optional(),
+  in: BenefitStatusSchema.array().optional(),
+  notIn: BenefitStatusSchema.array().optional(),
+  not: BenefitStatusSchema.or(__BenefitStatusFilterSchema).optional(),
+});
+
+export const BenefitStatusArrayFilterSchema = z.object({
+  equals: BenefitStatusSchema.array().optional(),
+  has: BenefitStatusSchema.optional(),
+  hasEvery: BenefitStatusSchema.array().optional(),
+  hasSome: BenefitStatusSchema.array().optional(),
+  isEmpty: _bool.optional(),
+});
 
 export const PayrollStatusSchema = z.enum([
-  'DRAFT',
-  'CALCULATED',
-  'APPROVED',
-  'PAID',
-  'CLOSED',
+  "DRAFT",
+  "CALCULATED",
+  "APPROVED",
+  "PAID",
+  "CLOSED",
 ]);
+
+export const __PayrollStatusFilterSchema = z.object({
+  equals: PayrollStatusSchema.optional(),
+  in: PayrollStatusSchema.array().optional(),
+  notIn: PayrollStatusSchema.array().optional(),
+});
+export const PayrollStatusFilterSchema = z.object({
+  equals: PayrollStatusSchema.optional(),
+  in: PayrollStatusSchema.array().optional(),
+  notIn: PayrollStatusSchema.array().optional(),
+  not: PayrollStatusSchema.or(__PayrollStatusFilterSchema).optional(),
+});
+
+export const PayrollStatusArrayFilterSchema = z.object({
+  equals: PayrollStatusSchema.array().optional(),
+  has: PayrollStatusSchema.optional(),
+  hasEvery: PayrollStatusSchema.array().optional(),
+  hasSome: PayrollStatusSchema.array().optional(),
+  isEmpty: _bool.optional(),
+});
 
 export const TimeOffTransactionTypeSchema = z.enum([
-  'ACCRUAL',
-  'USED_REQUEST',
-  'ROLLOVER',
-  'ADJUSTMENT',
-  'OTHER',
+  "ACCRUAL",
+  "USED_REQUEST",
+  "ROLLOVER",
+  "ADJUSTMENT",
+  "OTHER",
 ]);
+
+export const __TimeOffTransactionTypeFilterSchema = z.object({
+  equals: TimeOffTransactionTypeSchema.optional(),
+  in: TimeOffTransactionTypeSchema.array().optional(),
+  notIn: TimeOffTransactionTypeSchema.array().optional(),
+});
+export const TimeOffTransactionTypeFilterSchema = z.object({
+  equals: TimeOffTransactionTypeSchema.optional(),
+  in: TimeOffTransactionTypeSchema.array().optional(),
+  notIn: TimeOffTransactionTypeSchema.array().optional(),
+  not: TimeOffTransactionTypeSchema.or(
+    __TimeOffTransactionTypeFilterSchema
+  ).optional(),
+});
+
+export const TimeOffTransactionTypeArrayFilterSchema = z.object({
+  equals: TimeOffTransactionTypeSchema.array().optional(),
+  has: TimeOffTransactionTypeSchema.optional(),
+  hasEvery: TimeOffTransactionTypeSchema.array().optional(),
+  hasSome: TimeOffTransactionTypeSchema.array().optional(),
+  isEmpty: _bool.optional(),
+});
 
 export const EarningTypeSchema = z.enum([
-  'REGULAR',
-  'BONUS',
-  'OVERTIME',
-  'OTHER',
+  "REGULAR",
+  "BONUS",
+  "OVERTIME",
+  "OTHER",
 ]);
 
-export const DepartmentOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    parentId: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-    slug: PZ.Scalar.bool(),
-    isActive: PZ.Scalar.bool(),
-    parent: PZ.Scalar.bool(),
-    departments: PZ.Scalar.bool(),
-    titles: PZ.Scalar.bool(),
-  })
-  .partial();
+export const __EarningTypeFilterSchema = z.object({
+  equals: EarningTypeSchema.optional(),
+  in: EarningTypeSchema.array().optional(),
+  notIn: EarningTypeSchema.array().optional(),
+});
+export const EarningTypeFilterSchema = z.object({
+  equals: EarningTypeSchema.optional(),
+  in: EarningTypeSchema.array().optional(),
+  notIn: EarningTypeSchema.array().optional(),
+  not: EarningTypeSchema.or(__EarningTypeFilterSchema).optional(),
+});
 
-export const DepartmentOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  DepartmentOwnSelectFieldsSchema
-);
+export const EarningTypeArrayFilterSchema = z.object({
+  equals: EarningTypeSchema.array().optional(),
+  has: EarningTypeSchema.optional(),
+  hasEvery: EarningTypeSchema.array().optional(),
+  hasSome: EarningTypeSchema.array().optional(),
+  isEmpty: _bool.optional(),
+});
 
-export const DepartmentDistinctFieldsSchema = z
-  .enum(['id', 'parentId', 'name', 'slug', 'isActive'])
-  .array();
+export const DepartmentDistinctSchema = z
+  .enum(["id", "parentId", "name", "slug", "isActive"])
+  .array()
+  .optional();
 
-export const TitleOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    departmentId: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-    slug: PZ.Scalar.bool(),
-    description: PZ.Scalar.bool(),
-    isActive: PZ.Scalar.bool(),
-    department: PZ.Scalar.bool(),
-    employees: PZ.Scalar.bool(),
-    histories: PZ.Scalar.bool(),
-  })
-  .partial();
+export const TitleDistinctSchema = z
+  .enum(["id", "departmentId", "name", "slug", "description", "isActive"])
+  .array()
+  .optional();
 
-export const TitleOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TitleOwnSelectFieldsSchema
-);
+export const PersonalDataDistinctSchema = z
+  .enum(["id", "employeeId", "ein", "gender", "dob", "maritalStatus"])
+  .array()
+  .optional();
 
-export const TitleDistinctFieldsSchema = z
-  .enum(['id', 'departmentId', 'name', 'slug', 'description', 'isActive'])
-  .array();
-
-export const PersonalDataOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    ein: PZ.Scalar.bool(),
-    gender: PZ.Scalar.bool(),
-    dob: PZ.Scalar.bool(),
-    maritalStatus: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const PersonalDataOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PersonalDataOwnSelectFieldsSchema
-);
-
-export const PersonalDataDistinctFieldsSchema = z
-  .enum(['id', 'employeeId', 'ein', 'gender', 'dob', 'maritalStatus'])
-  .array();
-
-export const EmployeeOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    uuid: PZ.Scalar.bool(),
-    titleId: PZ.Scalar.bool(),
-    firstName: PZ.Scalar.bool(),
-    middleName: PZ.Scalar.bool(),
-    lastName: PZ.Scalar.bool(),
-    preferedName: PZ.Scalar.bool(),
-    status: PZ.Scalar.bool(),
-    title: PZ.Scalar.bool(),
-    hireDate: PZ.Scalar.bool(),
-    terminationDate: PZ.Scalar.bool(),
-    employmentType: PZ.Scalar.bool(),
-    salary: PZ.Scalar.bool(),
-    salaryHistory: PZ.Scalar.bool(),
-    benefits: PZ.Scalar.bool(),
-    titleHistory: PZ.Scalar.bool(),
-    timeOffBalances: PZ.Scalar.bool(),
-    timeOffRequests: PZ.Scalar.bool(),
-    resolvedTimeOffs: PZ.Scalar.bool(),
-    clockIns: PZ.Scalar.bool(),
-    personalData: PZ.Scalar.bool(),
-    taxData: PZ.Scalar.bool(),
-    memberships: PZ.Scalar.bool(),
-    managingTeams: PZ.Scalar.bool(),
-    managingEmployees: PZ.Scalar.bool(),
-    directManager: PZ.Scalar.bool(),
-    paychecks: PZ.Scalar.bool(),
-    directManagerId: PZ.Scalar.bool(),
-    deductions: PZ.Scalar.bool(),
-    resolvedPayrollRuns: PZ.Scalar.bool(),
-    contact: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const EmployeeOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmployeeOwnSelectFieldsSchema
-);
-
-export const EmployeeDistinctFieldsSchema = z
+export const EmployeeDistinctSchema = z
   .enum([
-    'id',
-    'uuid',
-    'titleId',
-    'firstName',
-    'middleName',
-    'lastName',
-    'preferedName',
-    'status',
-    'hireDate',
-    'terminationDate',
-    'employmentType',
-    'directManagerId',
+    "id",
+    "uuid",
+    "titleId",
+    "firstName",
+    "middleName",
+    "lastName",
+    "preferedName",
+    "status",
+    "hireDate",
+    "terminationDate",
+    "employmentType",
+    "directManagerId",
   ])
-  .array();
+  .array()
+  .optional();
 
-export const TeamOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-    members: PZ.Scalar.bool(),
-    managers: PZ.Scalar.bool(),
-  })
-  .partial();
+export const TeamDistinctSchema = z.enum(["id", "name"]).array().optional();
 
-export const TeamOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TeamOwnSelectFieldsSchema
-);
+export const TeamManagerDistinctSchema = z
+  .enum(["id", "teamId", "managerId"])
+  .array()
+  .optional();
 
-export const TeamDistinctFieldsSchema = z.enum(['id', 'name']).array();
+export const TeamMemberDistinctSchema = z
+  .enum(["id", "teamId", "memberId"])
+  .array()
+  .optional();
 
-export const TeamManagerOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    teamId: PZ.Scalar.bool(),
-    managerId: PZ.Scalar.bool(),
-    team: PZ.Scalar.bool(),
-    manager: PZ.Scalar.bool(),
-  })
-  .partial();
+export const SalaryDistinctSchema = z
+  .enum(["id", "employeeId", "gross", "startDate", "endDate", "frequency"])
+  .array()
+  .optional();
 
-export const TeamManagerOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TeamManagerOwnSelectFieldsSchema
-);
+export const SalaryHistoryDistinctSchema = z
+  .enum(["id", "employeeId", "createdAt", "oldSalary", "newSalary", "reason"])
+  .array()
+  .optional();
 
-export const TeamManagerDistinctFieldsSchema = z
-  .enum(['id', 'teamId', 'managerId'])
-  .array();
+export const BenefitDistinctSchema = z
+  .enum(["id", "name", "description", "type"])
+  .array()
+  .optional();
 
-export const TeamMemberOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    teamId: PZ.Scalar.bool(),
-    memberId: PZ.Scalar.bool(),
-    member: PZ.Scalar.bool(),
-    team: PZ.Scalar.bool(),
-  })
-  .partial();
+export const BenefitEnrolmentDistinctSchema = z
+  .enum(["id", "benefitId", "employeeId", "startDate", "status"])
+  .array()
+  .optional();
 
-export const TeamMemberOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TeamMemberOwnSelectFieldsSchema
-);
-
-export const TeamMemberDistinctFieldsSchema = z
-  .enum(['id', 'teamId', 'memberId'])
-  .array();
-
-export const SalaryOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    gross: PZ.Scalar.bool(),
-    startDate: PZ.Scalar.bool(),
-    endDate: PZ.Scalar.bool(),
-    frequency: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const SalaryOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  SalaryOwnSelectFieldsSchema
-);
-
-export const SalaryDistinctFieldsSchema = z
-  .enum(['id', 'employeeId', 'gross', 'startDate', 'endDate', 'frequency'])
-  .array();
-
-export const SalaryHistoryOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    createdAt: PZ.Scalar.bool(),
-    oldSalary: PZ.Scalar.bool(),
-    newSalary: PZ.Scalar.bool(),
-    reason: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const SalaryHistoryOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  SalaryHistoryOwnSelectFieldsSchema
-);
-
-export const SalaryHistoryDistinctFieldsSchema = z
-  .enum(['id', 'employeeId', 'createdAt', 'oldSalary', 'newSalary', 'reason'])
-  .array();
-
-export const BenefitOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-    description: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-    enrolments: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const BenefitOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  BenefitOwnSelectFieldsSchema
-);
-
-export const BenefitDistinctFieldsSchema = z
-  .enum(['id', 'name', 'description', 'type'])
-  .array();
-
-export const BenefitEnrolmentOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    benefitId: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    startDate: PZ.Scalar.bool(),
-    status: PZ.Scalar.bool(),
-    benefit: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const BenefitEnrolmentOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  BenefitEnrolmentOwnSelectFieldsSchema
-);
-
-export const BenefitEnrolmentDistinctFieldsSchema = z
-  .enum(['id', 'benefitId', 'employeeId', 'startDate', 'status'])
-  .array();
-
-export const TitleHistoryOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    titleId: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-    reason: PZ.Scalar.bool(),
-    startDate: PZ.Scalar.bool(),
-    endDate: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool(),
-    title: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const TitleHistoryOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TitleHistoryOwnSelectFieldsSchema
-);
-
-export const TitleHistoryDistinctFieldsSchema = z
+export const TitleHistoryDistinctSchema = z
   .enum([
-    'id',
-    'employeeId',
-    'titleId',
-    'type',
-    'reason',
-    'startDate',
-    'endDate',
+    "id",
+    "employeeId",
+    "titleId",
+    "type",
+    "reason",
+    "startDate",
+    "endDate",
   ])
-  .array();
+  .array()
+  .optional();
 
-export const TimeOffPolicyOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-    description: PZ.Scalar.bool(),
-    accrualRate: PZ.Scalar.bool(),
-    maxRollover: PZ.Scalar.bool(),
-    balances: PZ.Scalar.bool(),
-    requests: PZ.Scalar.bool(),
-  })
-  .partial();
+export const TimeOffPolicyDistinctSchema = z
+  .enum(["id", "name", "description", "accrualRate", "maxRollover"])
+  .array()
+  .optional();
 
-export const TimeOffPolicyOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffPolicyOwnSelectFieldsSchema
-);
-
-export const TimeOffPolicyDistinctFieldsSchema = z
-  .enum(['id', 'name', 'description', 'accrualRate', 'maxRollover'])
-  .array();
-
-export const TimeOffBalanceOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    policyId: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    accruedHours: PZ.Scalar.bool(),
-    usedHours: PZ.Scalar.bool(),
-    availableHours: PZ.Scalar.bool(),
-    policy: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool(),
-    transactions: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const TimeOffBalanceOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffBalanceOwnSelectFieldsSchema
-);
-
-export const TimeOffBalanceDistinctFieldsSchema = z
+export const TimeOffBalanceDistinctSchema = z
   .enum([
-    'id',
-    'policyId',
-    'employeeId',
-    'accruedHours',
-    'usedHours',
-    'availableHours',
+    "id",
+    "policyId",
+    "employeeId",
+    "accruedHours",
+    "usedHours",
+    "availableHours",
   ])
-  .array();
+  .array()
+  .optional();
 
-export const TimeOffRequestOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    createdAt: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    reason: PZ.Scalar.bool(),
-    policyId: PZ.Scalar.bool(),
-    resolverId: PZ.Scalar.bool(),
-    status: PZ.Scalar.bool(),
-    startDate: PZ.Scalar.bool(),
-    endDate: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool(),
-    policy: PZ.Scalar.bool(),
-    resolver: PZ.Scalar.bool(),
-    transactions: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const TimeOffRequestOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffRequestOwnSelectFieldsSchema
-);
-
-export const TimeOffRequestDistinctFieldsSchema = z
+export const TimeOffRequestDistinctSchema = z
   .enum([
-    'id',
-    'createdAt',
-    'employeeId',
-    'reason',
-    'policyId',
-    'resolverId',
-    'status',
-    'startDate',
-    'endDate',
+    "id",
+    "createdAt",
+    "employeeId",
+    "reason",
+    "policyId",
+    "resolverId",
+    "status",
+    "startDate",
+    "endDate",
   ])
-  .array();
+  .array()
+  .optional();
 
-export const TimeOffTransactionOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    createdAt: PZ.Scalar.bool(),
-    updatedAt: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-    balanceId: PZ.Scalar.bool(),
-    requestId: PZ.Scalar.bool(),
-    amount: PZ.Scalar.bool(),
-    balance: PZ.Scalar.bool(),
-    request: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const TimeOffTransactionOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffTransactionOwnSelectFieldsSchema
-);
-
-export const TimeOffTransactionDistinctFieldsSchema = z
+export const TimeOffTransactionDistinctSchema = z
   .enum([
-    'id',
-    'createdAt',
-    'updatedAt',
-    'type',
-    'balanceId',
-    'requestId',
-    'amount',
+    "id",
+    "createdAt",
+    "updatedAt",
+    "type",
+    "balanceId",
+    "requestId",
+    "amount",
   ])
-  .array();
+  .array()
+  .optional();
 
-export const ClockInOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    clockIn: PZ.Scalar.bool(),
-    clockOut: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool(),
-  })
-  .partial();
+export const ClockInDistinctSchema = z
+  .enum(["id", "employeeId", "clockIn", "clockOut"])
+  .array()
+  .optional();
 
-export const ClockInOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  ClockInOwnSelectFieldsSchema
-);
-
-export const ClockInDistinctFieldsSchema = z
-  .enum(['id', 'employeeId', 'clockIn', 'clockOut'])
-  .array();
-
-export const PaycheckOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    createdAt: PZ.Scalar.bool(),
-    payrollRunId: PZ.Scalar.bool(),
-    updatedAt: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    grossAmount: PZ.Scalar.bool(),
-    netAmount: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool(),
-    earnings: PZ.Scalar.bool(),
-    paycheckTaxes: PZ.Scalar.bool(),
-    deductions: PZ.Scalar.bool(),
-    payrollRun: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const PaycheckOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PaycheckOwnSelectFieldsSchema
-);
-
-export const PaycheckDistinctFieldsSchema = z
+export const PaycheckDistinctSchema = z
   .enum([
-    'id',
-    'createdAt',
-    'payrollRunId',
-    'updatedAt',
-    'employeeId',
-    'grossAmount',
-    'netAmount',
+    "id",
+    "createdAt",
+    "payrollRunId",
+    "updatedAt",
+    "employeeId",
+    "grossAmount",
+    "netAmount",
   ])
-  .array();
+  .array()
+  .optional();
 
-export const EarningOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-    hours: PZ.Scalar.bool(),
-    rate: PZ.Scalar.bool(),
-    amount: PZ.Scalar.bool(),
-    paycheckId: PZ.Scalar.bool(),
-    paycheck: PZ.Scalar.bool(),
-  })
-  .partial();
+export const EarningDistinctSchema = z
+  .enum(["id", "type", "hours", "rate", "amount", "paycheckId"])
+  .array()
+  .optional();
 
-export const EarningOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EarningOwnSelectFieldsSchema
-);
+export const PaycheckTaxDistinctSchema = z
+  .enum(["id", "paycheckId", "taxAuthority", "amount"])
+  .array()
+  .optional();
 
-export const EarningDistinctFieldsSchema = z
-  .enum(['id', 'type', 'hours', 'rate', 'amount', 'paycheckId'])
-  .array();
+export const DeductionPolicyDistinctSchema = z
+  .enum(["id", "name", "type", "defaultAmount", "defaultPercent"])
+  .array()
+  .optional();
 
-export const PaycheckTaxOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    paycheckId: PZ.Scalar.bool(),
-    taxAuthority: PZ.Scalar.bool(),
-    amount: PZ.Scalar.bool(),
-    paycheck: PZ.Scalar.bool(),
-  })
-  .partial();
+export const EmployeeDeductionDistinctSchema = z
+  .enum(["id", "employeeId", "policyId", "employeeAmount"])
+  .array()
+  .optional();
 
-export const PaycheckTaxOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PaycheckTaxOwnSelectFieldsSchema
-);
+export const PaycheckDeductionDistinctSchema = z
+  .enum(["id", "paycheckId", "employeeDeductionId", "amount"])
+  .array()
+  .optional();
 
-export const PaycheckTaxDistinctFieldsSchema = z
-  .enum(['id', 'paycheckId', 'taxAuthority', 'amount'])
-  .array();
-
-export const DeductionPolicyOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-    defaultAmount: PZ.Scalar.bool(),
-    defaultPercent: PZ.Scalar.bool(),
-    employeeDeductions: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const DeductionPolicyOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  DeductionPolicyOwnSelectFieldsSchema
-);
-
-export const DeductionPolicyDistinctFieldsSchema = z
-  .enum(['id', 'name', 'type', 'defaultAmount', 'defaultPercent'])
-  .array();
-
-export const EmployeeDeductionOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    policyId: PZ.Scalar.bool(),
-    employeeAmount: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool(),
-    policy: PZ.Scalar.bool(),
-    paycheckDeductions: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const EmployeeDeductionOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmployeeDeductionOwnSelectFieldsSchema
-);
-
-export const EmployeeDeductionDistinctFieldsSchema = z
-  .enum(['id', 'employeeId', 'policyId', 'employeeAmount'])
-  .array();
-
-export const PaycheckDeductionOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    paycheckId: PZ.Scalar.bool(),
-    employeeDeductionId: PZ.Scalar.bool(),
-    amount: PZ.Scalar.bool(),
-    paycheck: PZ.Scalar.bool(),
-    employeeDeduction: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const PaycheckDeductionOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PaycheckDeductionOwnSelectFieldsSchema
-);
-
-export const PaycheckDeductionDistinctFieldsSchema = z
-  .enum(['id', 'paycheckId', 'employeeDeductionId', 'amount'])
-  .array();
-
-export const EmployeeTaxDataOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    createdAt: PZ.Scalar.bool(),
-    updatedAt: PZ.Scalar.bool(),
-    startDate: PZ.Scalar.bool(),
-    endDate: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    federalStatus: PZ.Scalar.bool(),
-    dependentsCredit: PZ.Scalar.bool(),
-    multipleJobs: PZ.Scalar.bool(),
-    otherIncome: PZ.Scalar.bool(),
-    deductionsAmount: PZ.Scalar.bool(),
-    extraWithholding: PZ.Scalar.bool(),
-    isExempt: PZ.Scalar.bool(),
-    isNonResidentAlien: PZ.Scalar.bool(),
-    stateTaxes: PZ.Scalar.bool(),
-    localTaxes: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const EmployeeTaxDataOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmployeeTaxDataOwnSelectFieldsSchema
-);
-
-export const EmployeeTaxDataDistinctFieldsSchema = z
+export const EmployeeTaxDataDistinctSchema = z
   .enum([
-    'id',
-    'createdAt',
-    'updatedAt',
-    'startDate',
-    'endDate',
-    'employeeId',
-    'federalStatus',
-    'dependentsCredit',
-    'multipleJobs',
-    'otherIncome',
-    'deductionsAmount',
-    'extraWithholding',
-    'isExempt',
-    'isNonResidentAlien',
+    "id",
+    "createdAt",
+    "updatedAt",
+    "startDate",
+    "endDate",
+    "employeeId",
+    "federalStatus",
+    "dependentsCredit",
+    "multipleJobs",
+    "otherIncome",
+    "deductionsAmount",
+    "extraWithholding",
+    "isExempt",
+    "isNonResidentAlien",
   ])
-  .array();
+  .array()
+  .optional();
 
-export const StateTaxWithholdingOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    taxDataId: PZ.Scalar.bool(),
-    stateCode: PZ.Scalar.bool(),
-    stateStatus: PZ.Scalar.bool(),
-    allowances: PZ.Scalar.bool(),
-    extraWithholding: PZ.Scalar.bool(),
-    taxData: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const StateTaxWithholdingOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  StateTaxWithholdingOwnSelectFieldsSchema
-);
-
-export const StateTaxWithholdingDistinctFieldsSchema = z
+export const StateTaxWithholdingDistinctSchema = z
   .enum([
-    'id',
-    'taxDataId',
-    'stateCode',
-    'stateStatus',
-    'allowances',
-    'extraWithholding',
+    "id",
+    "taxDataId",
+    "stateCode",
+    "stateStatus",
+    "allowances",
+    "extraWithholding",
   ])
-  .array();
+  .array()
+  .optional();
 
-export const LocalTaxWithholdingOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    taxDataId: PZ.Scalar.bool(),
-    jurisdiction: PZ.Scalar.bool(),
-    localStatus: PZ.Scalar.bool(),
-    extraWithholding: PZ.Scalar.bool(),
-    taxData: PZ.Scalar.bool(),
-  })
-  .partial();
+export const LocalTaxWithholdingDistinctSchema = z
+  .enum(["id", "taxDataId", "jurisdiction", "localStatus", "extraWithholding"])
+  .array()
+  .optional();
 
-export const LocalTaxWithholdingOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  LocalTaxWithholdingOwnSelectFieldsSchema
-);
+export const PayrollRunDistinctSchema = z
+  .enum(["id", "resolverId", "startDate", "endDate", "payDate", "status"])
+  .array()
+  .optional();
 
-export const LocalTaxWithholdingDistinctFieldsSchema = z
-  .enum(['id', 'taxDataId', 'jurisdiction', 'localStatus', 'extraWithholding'])
-  .array();
+export const ContactDistinctSchema = z
+  .enum(["id", "employeeId"])
+  .array()
+  .optional();
 
-export const PayrollRunOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    resolverId: PZ.Scalar.bool(),
-    startDate: PZ.Scalar.bool(),
-    endDate: PZ.Scalar.bool(),
-    payDate: PZ.Scalar.bool(),
-    status: PZ.Scalar.bool(),
-    approvedBy: PZ.Scalar.bool(),
-    paychecks: PZ.Scalar.bool(),
-  })
-  .partial();
+export const CountryDistinctSchema = z
+  .enum(["id", "name", "code"])
+  .array()
+  .optional();
 
-export const PayrollRunOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PayrollRunOwnSelectFieldsSchema
-);
+export const StateDistinctSchema = z
+  .enum(["id", "countryId", "name", "code"])
+  .array()
+  .optional();
 
-export const PayrollRunDistinctFieldsSchema = z
-  .enum(['id', 'resolverId', 'startDate', 'endDate', 'payDate', 'status'])
-  .array();
+export const AddressDistinctSchema = z
+  .enum(["id", "type", "contactId", "stateId", "street", "zip", "city"])
+  .array()
+  .optional();
 
-export const ContactOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool(),
-    emails: PZ.Scalar.bool(),
-    phones: PZ.Scalar.bool(),
-    addresses: PZ.Scalar.bool(),
-    primaryEmail: PZ.Scalar.bool(),
-    primaryPhone: PZ.Scalar.bool(),
-    primaryAddress: PZ.Scalar.bool(),
-  })
-  .partial();
+export const EmailDistinctSchema = z
+  .enum(["id", "type", "contactId", "email"])
+  .array()
+  .optional();
 
-export const ContactOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  ContactOwnSelectFieldsSchema
-);
+export const PhoneDistinctSchema = z
+  .enum(["id", "type", "contactId", "phone"])
+  .array()
+  .optional();
 
-export const ContactDistinctFieldsSchema = z.enum(['id', 'employeeId']).array();
+export const PrimaryEmailDistinctSchema = z
+  .enum(["id", "emailId", "contactId"])
+  .array()
+  .optional();
 
-export const CountryOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-    code: PZ.Scalar.bool(),
-    states: PZ.Scalar.bool(),
-  })
-  .partial();
+export const PrimaryPhoneDistinctSchema = z
+  .enum(["id", "phoneId", "contactId"])
+  .array()
+  .optional();
 
-export const CountryOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  CountryOwnSelectFieldsSchema
-);
+export const PrimaryAddressDistinctSchema = z
+  .enum(["id", "addressId", "contactId"])
+  .array()
+  .optional();
 
-export const CountryDistinctFieldsSchema = z
-  .enum(['id', 'name', 'code'])
-  .array();
+export const DepartmentOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  parentId: _intFilter.optional(),
+  name: _strFilter.optional(),
+  slug: _strFilter.optional(),
+  isActive: _boolFilter.optional(),
+});
 
-export const StateOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    countryId: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-    code: PZ.Scalar.bool(),
-    country: PZ.Scalar.bool(),
-    addresses: PZ.Scalar.bool(),
-  })
-  .partial();
+export const TitleOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  departmentId: _intFilter.optional(),
+  name: _strFilter.optional(),
+  slug: _strFilter.optional(),
+  description: _strFilter.optional(),
+  isActive: _boolFilter.optional(),
+});
 
-export const StateOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  StateOwnSelectFieldsSchema
-);
+export const PersonalDataOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  employeeId: _intFilter.optional(),
+  ein: _strFilter.optional(),
+  gender: GenderFilterSchema.optional(),
+  dob: _dateFilter.optional(),
+  maritalStatus: MaritalStatusFilterSchema.optional(),
+});
 
-export const StateDistinctFieldsSchema = z
-  .enum(['id', 'countryId', 'name', 'code'])
-  .array();
+export const EmployeeOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  uuid: _strFilter.optional(),
+  titleId: _intFilter.optional(),
+  firstName: _strFilter.optional(),
+  middleName: _strFilter.optional(),
+  lastName: _strFilter.optional(),
+  preferedName: _strFilter.optional(),
+  status: EmployeeStatusFilterSchema.optional(),
+  hireDate: _dateFilter.optional(),
+  terminationDate: _dateFilter.optional(),
+  employmentType: EmploymentTypeFilterSchema.optional(),
+  directManagerId: _intFilter.optional(),
+});
 
-export const AddressOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-    contactId: PZ.Scalar.bool(),
-    stateId: PZ.Scalar.bool(),
-    street: PZ.Scalar.bool(),
-    zip: PZ.Scalar.bool(),
-    city: PZ.Scalar.bool(),
-    state: PZ.Scalar.bool(),
-    contact: PZ.Scalar.bool(),
-    primary: PZ.Scalar.bool(),
-  })
-  .partial();
+export const TeamOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  name: _strFilter.optional(),
+});
 
-export const AddressOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  AddressOwnSelectFieldsSchema
-);
+export const TeamManagerOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  teamId: _intFilter.optional(),
+  managerId: _intFilter.optional(),
+});
 
-export const AddressDistinctFieldsSchema = z
-  .enum(['id', 'type', 'contactId', 'stateId', 'street', 'zip', 'city'])
-  .array();
+export const TeamMemberOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  teamId: _intFilter.optional(),
+  memberId: _intFilter.optional(),
+});
 
-export const EmailOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-    contactId: PZ.Scalar.bool(),
-    email: PZ.Scalar.bool(),
-    contact: PZ.Scalar.bool(),
-    primary: PZ.Scalar.bool(),
-  })
-  .partial();
+export const SalaryOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  employeeId: _intFilter.optional(),
+  gross: _numFilter.optional(),
+  startDate: _dateFilter.optional(),
+  endDate: _dateFilter.optional(),
+  frequency: PayFrequencyFilterSchema.optional(),
+});
 
-export const EmailOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmailOwnSelectFieldsSchema
-);
+export const SalaryHistoryOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  employeeId: _intFilter.optional(),
+  createdAt: _dateFilter.optional(),
+  oldSalary: _numFilter.optional(),
+  newSalary: _numFilter.optional(),
+  reason: _strFilter.optional(),
+});
 
-export const EmailDistinctFieldsSchema = z
-  .enum(['id', 'type', 'contactId', 'email'])
-  .array();
+export const BenefitOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  name: _strFilter.optional(),
+  description: _strFilter.optional(),
+  type: _strFilter.optional(),
+});
 
-export const PhoneOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-    contactId: PZ.Scalar.bool(),
-    phone: PZ.Scalar.bool(),
-    contact: PZ.Scalar.bool(),
-    primary: PZ.Scalar.bool(),
-  })
-  .partial();
+export const BenefitEnrolmentOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  benefitId: _intFilter.optional(),
+  employeeId: _intFilter.optional(),
+  startDate: _dateFilter.optional(),
+  status: BenefitStatusFilterSchema.optional(),
+});
 
-export const PhoneOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PhoneOwnSelectFieldsSchema
-);
+export const TitleHistoryOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  employeeId: _intFilter.optional(),
+  titleId: _intFilter.optional(),
+  type: TitleChangeTypeFilterSchema.optional(),
+  reason: _strFilter.optional(),
+  startDate: _dateFilter.optional(),
+  endDate: _dateFilter.optional(),
+});
 
-export const PhoneDistinctFieldsSchema = z
-  .enum(['id', 'type', 'contactId', 'phone'])
-  .array();
+export const TimeOffPolicyOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  name: _strFilter.optional(),
+  description: _strFilter.optional(),
+  accrualRate: _numFilter.optional(),
+  maxRollover: _numFilter.optional(),
+});
 
-export const PrimaryEmailOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    emailId: PZ.Scalar.bool(),
-    contactId: PZ.Scalar.bool(),
-    email: PZ.Scalar.bool(),
-    contact: PZ.Scalar.bool(),
-  })
-  .partial();
+export const TimeOffBalanceOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  policyId: _intFilter.optional(),
+  employeeId: _intFilter.optional(),
+  accruedHours: _numFilter.optional(),
+  usedHours: _numFilter.optional(),
+  availableHours: _numFilter.optional(),
+});
 
-export const PrimaryEmailOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PrimaryEmailOwnSelectFieldsSchema
-);
+export const TimeOffRequestOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  createdAt: _dateFilter.optional(),
+  employeeId: _intFilter.optional(),
+  reason: _strFilter.optional(),
+  policyId: _intFilter.optional(),
+  resolverId: _intFilter.optional(),
+  status: RequestStatusFilterSchema.optional(),
+  startDate: _dateFilter.optional(),
+  endDate: _dateFilter.optional(),
+});
 
-export const PrimaryEmailDistinctFieldsSchema = z
-  .enum(['id', 'emailId', 'contactId'])
-  .array();
+export const TimeOffTransactionOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  createdAt: _dateFilter.optional(),
+  updatedAt: _dateFilter.optional(),
+  type: TimeOffTransactionTypeFilterSchema.optional(),
+  balanceId: _intFilter.optional(),
+  requestId: _intFilter.optional(),
+  amount: _numFilter.optional(),
+});
 
-export const PrimaryPhoneOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    phoneId: PZ.Scalar.bool(),
-    contactId: PZ.Scalar.bool(),
-    phone: PZ.Scalar.bool(),
-    contact: PZ.Scalar.bool(),
-  })
-  .partial();
+export const ClockInOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  employeeId: _intFilter.optional(),
+  clockIn: _dateFilter.optional(),
+  clockOut: _dateFilter.optional(),
+});
 
-export const PrimaryPhoneOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PrimaryPhoneOwnSelectFieldsSchema
-);
+export const PaycheckOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  createdAt: _dateFilter.optional(),
+  payrollRunId: _intFilter.optional(),
+  updatedAt: _dateFilter.optional(),
+  employeeId: _intFilter.optional(),
+  grossAmount: _numFilter.optional(),
+  netAmount: _numFilter.optional(),
+});
 
-export const PrimaryPhoneDistinctFieldsSchema = z
-  .enum(['id', 'phoneId', 'contactId'])
-  .array();
+export const EarningOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  type: EarningTypeFilterSchema.optional(),
+  hours: _numFilter.optional(),
+  rate: _numFilter.optional(),
+  amount: _numFilter.optional(),
+  paycheckId: _intFilter.optional(),
+});
 
-export const PrimaryAddressOwnSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    addressId: PZ.Scalar.bool(),
-    contactId: PZ.Scalar.bool(),
-    address: PZ.Scalar.bool(),
-    contact: PZ.Scalar.bool(),
-  })
-  .partial();
+export const PaycheckTaxOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  paycheckId: _intFilter.optional(),
+  taxAuthority: _strFilter.optional(),
+  amount: _numFilter.optional(),
+});
 
-export const PrimaryAddressOwnSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PrimaryAddressOwnSelectFieldsSchema
-);
+export const DeductionPolicyOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  name: _strFilter.optional(),
+  type: DeductionTypeFilterSchema.optional(),
+  defaultAmount: _numFilter.optional(),
+  defaultPercent: _numFilter.optional(),
+});
 
-export const PrimaryAddressDistinctFieldsSchema = z
-  .enum(['id', 'addressId', 'contactId'])
-  .array();
+export const EmployeeDeductionOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  employeeId: _intFilter.optional(),
+  policyId: _intFilter.optional(),
+  employeeAmount: _numFilter.optional(),
+});
 
-export const DepartmentOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    parentId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    name: z.string().or(PZ.StringFilterSchema),
-    slug: z.string().or(PZ.StringFilterSchema),
-    isActive: z.coerce.boolean().or(PZ.BooleanFilterSchema),
-  })
-  .partial();
+export const PaycheckDeductionOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  paycheckId: _intFilter.optional(),
+  employeeDeductionId: _intFilter.optional(),
+  amount: _numFilter.optional(),
+});
+
+export const EmployeeTaxDataOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  createdAt: _dateFilter.optional(),
+  updatedAt: _dateFilter.optional(),
+  startDate: _dateFilter.optional(),
+  endDate: _dateFilter.optional(),
+  employeeId: _intFilter.optional(),
+  federalStatus: TaxFilingStatusFilterSchema.optional(),
+  dependentsCredit: _numFilter.optional(),
+  multipleJobs: _boolFilter.optional(),
+  otherIncome: _numFilter.optional(),
+  deductionsAmount: _numFilter.optional(),
+  extraWithholding: _numFilter.optional(),
+  isExempt: _boolFilter.optional(),
+  isNonResidentAlien: _boolFilter.optional(),
+});
+
+export const StateTaxWithholdingOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  taxDataId: _intFilter.optional(),
+  stateCode: _strFilter.optional(),
+  stateStatus: _strFilter.optional(),
+  allowances: _intFilter.optional(),
+  extraWithholding: _numFilter.optional(),
+});
+
+export const LocalTaxWithholdingOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  taxDataId: _intFilter.optional(),
+  jurisdiction: _strFilter.optional(),
+  localStatus: _strFilter.optional(),
+  extraWithholding: _numFilter.optional(),
+});
+
+export const PayrollRunOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  resolverId: _intFilter.optional(),
+  startDate: _dateFilter.optional(),
+  endDate: _dateFilter.optional(),
+  payDate: _dateFilter.optional(),
+  status: PayrollStatusFilterSchema.optional(),
+});
+
+export const ContactOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  employeeId: _intFilter.optional(),
+});
+
+export const CountryOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  name: _strFilter.optional(),
+  code: _strFilter.optional(),
+});
+
+export const StateOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  countryId: _intFilter.optional(),
+  name: _strFilter.optional(),
+  code: _strFilter.optional(),
+});
+
+export const AddressOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  type: ContactTypeFilterSchema.optional(),
+  contactId: _intFilter.optional(),
+  stateId: _intFilter.optional(),
+  street: _strFilter.optional(),
+  zip: _strFilter.optional(),
+  city: _strFilter.optional(),
+});
+
+export const EmailOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  type: ContactTypeFilterSchema.optional(),
+  contactId: _intFilter.optional(),
+  email: _strFilter.optional(),
+});
+
+export const PhoneOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  type: ContactTypeFilterSchema.optional(),
+  contactId: _intFilter.optional(),
+  phone: _strFilter.optional(),
+});
+
+export const PrimaryEmailOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  emailId: _intFilter.optional(),
+  contactId: _intFilter.optional(),
+});
+
+export const PrimaryPhoneOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  phoneId: _intFilter.optional(),
+  contactId: _intFilter.optional(),
+});
+
+export const PrimaryAddressOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  addressId: _intFilter.optional(),
+  contactId: _intFilter.optional(),
+});
 
 export const DepartmentOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   DepartmentOwnWhereSchema
 );
 
-export const TitleOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    departmentId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    name: z.string().or(PZ.StringFilterSchema),
-    slug: z.string().or(PZ.StringFilterSchema),
-    description: z.string().or(PZ.StringFilterSchema),
-    isActive: z.coerce.boolean().or(PZ.BooleanFilterSchema),
-  })
-  .partial();
-
 export const TitleOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   TitleOwnWhereSchema
 );
 
-export const PersonalDataOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    ein: z.string().or(PZ.StringFilterSchema),
-    gender: GenderSchema,
-    dob: z.string().or(PZ.DateTimeFilterSchema),
-    maritalStatus: MaritalStatusSchema,
-  })
-  .partial();
-
 export const PersonalDataOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   PersonalDataOwnWhereSchema
 );
 
-export const EmployeeOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    uuid: z.string().or(PZ.StringFilterSchema),
-    titleId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    firstName: z.string().or(PZ.StringFilterSchema),
-    middleName: z.string().or(PZ.StringFilterSchema),
-    lastName: z.string().or(PZ.StringFilterSchema),
-    preferedName: z.string().or(PZ.StringFilterSchema),
-    status: EmployeeStatusSchema,
-    hireDate: z.string().or(PZ.DateTimeFilterSchema),
-    terminationDate: z.string().or(PZ.DateTimeFilterSchema),
-    employmentType: EmploymentTypeSchema,
-    directManagerId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-  })
-  .partial();
-
 export const EmployeeOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   EmployeeOwnWhereSchema
 );
 
-export const TeamOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    name: z.string().or(PZ.StringFilterSchema),
-  })
-  .partial();
-
 export const TeamOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   TeamOwnWhereSchema
 );
 
-export const TeamManagerOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    teamId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    managerId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-  })
-  .partial();
-
 export const TeamManagerOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   TeamManagerOwnWhereSchema
 );
 
-export const TeamMemberOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    teamId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    memberId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-  })
-  .partial();
-
 export const TeamMemberOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   TeamMemberOwnWhereSchema
 );
 
-export const SalaryOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    gross: z.coerce.number().or(PZ.NumberFilterSchema),
-    startDate: z.string().or(PZ.DateTimeFilterSchema),
-    endDate: z.string().or(PZ.DateTimeFilterSchema),
-    frequency: PayFrequencySchema,
-  })
-  .partial();
-
 export const SalaryOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   SalaryOwnWhereSchema
 );
 
-export const SalaryHistoryOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    createdAt: z.string().or(PZ.DateTimeFilterSchema),
-    oldSalary: z.coerce.number().or(PZ.NumberFilterSchema),
-    newSalary: z.coerce.number().or(PZ.NumberFilterSchema),
-    reason: z.string().or(PZ.StringFilterSchema),
-  })
-  .partial();
-
 export const SalaryHistoryOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   SalaryHistoryOwnWhereSchema
 );
 
-export const BenefitOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    name: z.string().or(PZ.StringFilterSchema),
-    description: z.string().or(PZ.StringFilterSchema),
-    type: z.string().or(PZ.StringFilterSchema),
-  })
-  .partial();
-
 export const BenefitOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   BenefitOwnWhereSchema
 );
 
-export const BenefitEnrolmentOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    benefitId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    startDate: z.string().or(PZ.DateTimeFilterSchema),
-    status: BenefitStatusSchema,
-  })
-  .partial();
-
 export const BenefitEnrolmentOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   BenefitEnrolmentOwnWhereSchema
 );
 
-export const TitleHistoryOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    titleId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    type: TitleChangeTypeSchema,
-    reason: z.string().or(PZ.StringFilterSchema),
-    startDate: z.string().or(PZ.DateTimeFilterSchema),
-    endDate: z.string().or(PZ.DateTimeFilterSchema),
-  })
-  .partial();
-
 export const TitleHistoryOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   TitleHistoryOwnWhereSchema
 );
 
-export const TimeOffPolicyOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    name: z.string().or(PZ.StringFilterSchema),
-    description: z.string().or(PZ.StringFilterSchema),
-    accrualRate: z.coerce.number().or(PZ.NumberFilterSchema),
-    maxRollover: z.coerce.number().or(PZ.NumberFilterSchema),
-  })
-  .partial();
-
 export const TimeOffPolicyOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   TimeOffPolicyOwnWhereSchema
 );
 
-export const TimeOffBalanceOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    policyId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    accruedHours: z.coerce.number().or(PZ.NumberFilterSchema),
-    usedHours: z.coerce.number().or(PZ.NumberFilterSchema),
-    availableHours: z.coerce.number().or(PZ.NumberFilterSchema),
-  })
-  .partial();
-
 export const TimeOffBalanceOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   TimeOffBalanceOwnWhereSchema
 );
 
-export const TimeOffRequestOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    createdAt: z.string().or(PZ.DateTimeFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    reason: z.string().or(PZ.StringFilterSchema),
-    policyId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    resolverId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    status: RequestStatusSchema,
-    startDate: z.string().or(PZ.DateTimeFilterSchema),
-    endDate: z.string().or(PZ.DateTimeFilterSchema),
-  })
-  .partial();
-
 export const TimeOffRequestOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   TimeOffRequestOwnWhereSchema
 );
 
-export const TimeOffTransactionOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    createdAt: z.string().or(PZ.DateTimeFilterSchema),
-    updatedAt: z.string().or(PZ.DateTimeFilterSchema),
-    type: TimeOffTransactionTypeSchema,
-    balanceId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    requestId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    amount: z.coerce.number().or(PZ.NumberFilterSchema),
-  })
-  .partial();
-
 export const TimeOffTransactionOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   TimeOffTransactionOwnWhereSchema
 );
 
-export const ClockInOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    clockIn: z.string().or(PZ.DateTimeFilterSchema),
-    clockOut: z.string().or(PZ.DateTimeFilterSchema),
-  })
-  .partial();
-
 export const ClockInOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   ClockInOwnWhereSchema
 );
 
-export const PaycheckOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    createdAt: z.string().or(PZ.DateTimeFilterSchema),
-    payrollRunId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    updatedAt: z.string().or(PZ.DateTimeFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    grossAmount: z.coerce.number().or(PZ.NumberFilterSchema),
-    netAmount: z.coerce.number().or(PZ.NumberFilterSchema),
-  })
-  .partial();
-
 export const PaycheckOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   PaycheckOwnWhereSchema
 );
 
-export const EarningOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    type: EarningTypeSchema,
-    hours: z.coerce.number().or(PZ.NumberFilterSchema),
-    rate: z.coerce.number().or(PZ.NumberFilterSchema),
-    amount: z.coerce.number().or(PZ.NumberFilterSchema),
-    paycheckId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-  })
-  .partial();
-
 export const EarningOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   EarningOwnWhereSchema
 );
 
-export const PaycheckTaxOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    paycheckId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    taxAuthority: z.string().or(PZ.StringFilterSchema),
-    amount: z.coerce.number().or(PZ.NumberFilterSchema),
-  })
-  .partial();
-
 export const PaycheckTaxOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   PaycheckTaxOwnWhereSchema
 );
 
-export const DeductionPolicyOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    name: z.string().or(PZ.StringFilterSchema),
-    type: DeductionTypeSchema,
-    defaultAmount: z.coerce.number().or(PZ.NumberFilterSchema),
-    defaultPercent: z.coerce.number().or(PZ.NumberFilterSchema),
-  })
-  .partial();
-
 export const DeductionPolicyOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   DeductionPolicyOwnWhereSchema
 );
 
-export const EmployeeDeductionOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    policyId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    employeeAmount: z.coerce.number().or(PZ.NumberFilterSchema),
-  })
-  .partial();
-
 export const EmployeeDeductionOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   EmployeeDeductionOwnWhereSchema
 );
 
-export const PaycheckDeductionOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    paycheckId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    employeeDeductionId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    amount: z.coerce.number().or(PZ.NumberFilterSchema),
-  })
-  .partial();
-
 export const PaycheckDeductionOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   PaycheckDeductionOwnWhereSchema
 );
 
-export const EmployeeTaxDataOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    createdAt: z.string().or(PZ.DateTimeFilterSchema),
-    updatedAt: z.string().or(PZ.DateTimeFilterSchema),
-    startDate: z.string().or(PZ.DateTimeFilterSchema),
-    endDate: z.string().or(PZ.DateTimeFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    federalStatus: TaxFilingStatusSchema,
-    dependentsCredit: z.coerce.number().or(PZ.NumberFilterSchema),
-    multipleJobs: z.coerce.boolean().or(PZ.BooleanFilterSchema),
-    otherIncome: z.coerce.number().or(PZ.NumberFilterSchema),
-    deductionsAmount: z.coerce.number().or(PZ.NumberFilterSchema),
-    extraWithholding: z.coerce.number().or(PZ.NumberFilterSchema),
-    isExempt: z.coerce.boolean().or(PZ.BooleanFilterSchema),
-    isNonResidentAlien: z.coerce.boolean().or(PZ.BooleanFilterSchema),
-  })
-  .partial();
-
 export const EmployeeTaxDataOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   EmployeeTaxDataOwnWhereSchema
 );
 
-export const StateTaxWithholdingOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    taxDataId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    stateCode: z.string().or(PZ.StringFilterSchema),
-    stateStatus: z.string().or(PZ.StringFilterSchema),
-    allowances: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    extraWithholding: z.coerce.number().or(PZ.NumberFilterSchema),
-  })
-  .partial();
-
 export const StateTaxWithholdingOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   StateTaxWithholdingOwnWhereSchema
 );
 
-export const LocalTaxWithholdingOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    taxDataId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    jurisdiction: z.string().or(PZ.StringFilterSchema),
-    localStatus: z.string().or(PZ.StringFilterSchema),
-    extraWithholding: z.coerce.number().or(PZ.NumberFilterSchema),
-  })
-  .partial();
-
 export const LocalTaxWithholdingOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   LocalTaxWithholdingOwnWhereSchema
 );
 
-export const PayrollRunOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    resolverId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    startDate: z.string().or(PZ.DateTimeFilterSchema),
-    endDate: z.string().or(PZ.DateTimeFilterSchema),
-    payDate: z.string().or(PZ.DateTimeFilterSchema),
-    status: PayrollStatusSchema,
-  })
-  .partial();
-
 export const PayrollRunOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   PayrollRunOwnWhereSchema
 );
 
-export const ContactOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-  })
-  .partial();
-
 export const ContactOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   ContactOwnWhereSchema
 );
 
-export const CountryOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    name: z.string().or(PZ.StringFilterSchema),
-    code: z.string().or(PZ.StringFilterSchema),
-  })
-  .partial();
-
 export const CountryOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   CountryOwnWhereSchema
 );
 
-export const StateOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    countryId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    name: z.string().or(PZ.StringFilterSchema),
-    code: z.string().or(PZ.StringFilterSchema),
-  })
-  .partial();
-
 export const StateOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   StateOwnWhereSchema
 );
 
-export const AddressOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    type: ContactTypeSchema,
-    contactId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    stateId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    street: z.string().or(PZ.StringFilterSchema),
-    zip: z.string().or(PZ.StringFilterSchema),
-    city: z.string().or(PZ.StringFilterSchema),
-  })
-  .partial();
-
 export const AddressOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   AddressOwnWhereSchema
 );
 
-export const EmailOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    type: ContactTypeSchema,
-    contactId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    email: z.string().or(PZ.StringFilterSchema),
-  })
-  .partial();
-
 export const EmailOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   EmailOwnWhereSchema
 );
 
-export const PhoneOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    type: ContactTypeSchema,
-    contactId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    phone: z.string().or(PZ.StringFilterSchema),
-  })
-  .partial();
-
 export const PhoneOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   PhoneOwnWhereSchema
 );
 
-export const PrimaryEmailOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    emailId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    contactId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-  })
-  .partial();
-
 export const PrimaryEmailOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   PrimaryEmailOwnWhereSchema
 );
 
-export const PrimaryPhoneOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    phoneId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    contactId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-  })
-  .partial();
-
 export const PrimaryPhoneOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   PrimaryPhoneOwnWhereSchema
 );
 
-export const PrimaryAddressOwnWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    addressId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    contactId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-  })
-  .partial();
-
 export const PrimaryAddressOwnWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   PrimaryAddressOwnWhereSchema
 );
 
-export const DepartmentOwnIncludeSchema = z
-  .object({
-    parent: PZ.Scalar.bool(),
-    departments: PZ.Scalar.bool(),
-    titles: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const DepartmentOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  DepartmentOwnIncludeSchema
-);
-
-export const DepartmentOwnQueryOneSchema = z
-  .object({
-    where: DepartmentOwnWhereSchemaJson,
-    distinct: DepartmentDistinctFieldsSchema,
-  })
-  .partial();
-
-export const DepartmentOwnQuerySchema = z
-  .object({
-    where: DepartmentOwnWhereSchemaJson,
-    distinct: DepartmentDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TitleOwnIncludeSchema = z
-  .object({
-    department: PZ.Scalar.bool(),
-    employees: PZ.Scalar.bool(),
-    histories: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const TitleOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TitleOwnIncludeSchema
-);
-
-export const TitleOwnQueryOneSchema = z
-  .object({
-    where: TitleOwnWhereSchemaJson,
-    distinct: TitleDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TitleOwnQuerySchema = z
-  .object({
-    where: TitleOwnWhereSchemaJson,
-    distinct: TitleDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PersonalDataOwnIncludeSchema = z
-  .object({
-    employee: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const PersonalDataOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PersonalDataOwnIncludeSchema
-);
-
-export const PersonalDataOwnQueryOneSchema = z
-  .object({
-    where: PersonalDataOwnWhereSchemaJson,
-    distinct: PersonalDataDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PersonalDataOwnQuerySchema = z
-  .object({
-    where: PersonalDataOwnWhereSchemaJson,
-    distinct: PersonalDataDistinctFieldsSchema,
-  })
-  .partial();
-
-export const EmployeeOwnIncludeSchema = z
-  .object({
-    title: PZ.Scalar.bool(),
-    salary: PZ.Scalar.bool(),
-    salaryHistory: PZ.Scalar.bool(),
-    benefits: PZ.Scalar.bool(),
-    titleHistory: PZ.Scalar.bool(),
-    timeOffBalances: PZ.Scalar.bool(),
-    timeOffRequests: PZ.Scalar.bool(),
-    resolvedTimeOffs: PZ.Scalar.bool(),
-    clockIns: PZ.Scalar.bool(),
-    personalData: PZ.Scalar.bool(),
-    taxData: PZ.Scalar.bool(),
-    memberships: PZ.Scalar.bool(),
-    managingTeams: PZ.Scalar.bool(),
-    managingEmployees: PZ.Scalar.bool(),
-    directManager: PZ.Scalar.bool(),
-    paychecks: PZ.Scalar.bool(),
-    deductions: PZ.Scalar.bool(),
-    resolvedPayrollRuns: PZ.Scalar.bool(),
-    contact: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const EmployeeOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmployeeOwnIncludeSchema
-);
-
-export const EmployeeOwnQueryOneSchema = z
-  .object({
-    where: EmployeeOwnWhereSchemaJson,
-    distinct: EmployeeDistinctFieldsSchema,
-  })
-  .partial();
-
-export const EmployeeOwnQuerySchema = z
-  .object({
-    where: EmployeeOwnWhereSchemaJson,
-    distinct: EmployeeDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TeamOwnIncludeSchema = z
-  .object({
-    members: PZ.Scalar.bool(),
-    managers: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const TeamOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TeamOwnIncludeSchema
-);
-
-export const TeamOwnQueryOneSchema = z
-  .object({
-    where: TeamOwnWhereSchemaJson,
-    distinct: TeamDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TeamOwnQuerySchema = z
-  .object({
-    where: TeamOwnWhereSchemaJson,
-    distinct: TeamDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TeamManagerOwnIncludeSchema = z
-  .object({
-    team: PZ.Scalar.bool(),
-    manager: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const TeamManagerOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TeamManagerOwnIncludeSchema
-);
-
-export const TeamManagerOwnQueryOneSchema = z
-  .object({
-    where: TeamManagerOwnWhereSchemaJson,
-    distinct: TeamManagerDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TeamManagerOwnQuerySchema = z
-  .object({
-    where: TeamManagerOwnWhereSchemaJson,
-    distinct: TeamManagerDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TeamMemberOwnIncludeSchema = z
-  .object({
-    member: PZ.Scalar.bool(),
-    team: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const TeamMemberOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TeamMemberOwnIncludeSchema
-);
-
-export const TeamMemberOwnQueryOneSchema = z
-  .object({
-    where: TeamMemberOwnWhereSchemaJson,
-    distinct: TeamMemberDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TeamMemberOwnQuerySchema = z
-  .object({
-    where: TeamMemberOwnWhereSchemaJson,
-    distinct: TeamMemberDistinctFieldsSchema,
-  })
-  .partial();
-
-export const SalaryOwnIncludeSchema = z
-  .object({
-    employee: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const SalaryOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  SalaryOwnIncludeSchema
-);
-
-export const SalaryOwnQueryOneSchema = z
-  .object({
-    where: SalaryOwnWhereSchemaJson,
-    distinct: SalaryDistinctFieldsSchema,
-  })
-  .partial();
-
-export const SalaryOwnQuerySchema = z
-  .object({
-    where: SalaryOwnWhereSchemaJson,
-    distinct: SalaryDistinctFieldsSchema,
-  })
-  .partial();
-
-export const SalaryHistoryOwnIncludeSchema = z
-  .object({
-    employee: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const SalaryHistoryOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  SalaryHistoryOwnIncludeSchema
-);
-
-export const SalaryHistoryOwnQueryOneSchema = z
-  .object({
-    where: SalaryHistoryOwnWhereSchemaJson,
-    distinct: SalaryHistoryDistinctFieldsSchema,
-  })
-  .partial();
-
-export const SalaryHistoryOwnQuerySchema = z
-  .object({
-    where: SalaryHistoryOwnWhereSchemaJson,
-    distinct: SalaryHistoryDistinctFieldsSchema,
-  })
-  .partial();
-
-export const BenefitOwnIncludeSchema = z
-  .object({
-    enrolments: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const BenefitOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  BenefitOwnIncludeSchema
-);
-
-export const BenefitOwnQueryOneSchema = z
-  .object({
-    where: BenefitOwnWhereSchemaJson,
-    distinct: BenefitDistinctFieldsSchema,
-  })
-  .partial();
-
-export const BenefitOwnQuerySchema = z
-  .object({
-    where: BenefitOwnWhereSchemaJson,
-    distinct: BenefitDistinctFieldsSchema,
-  })
-  .partial();
-
-export const BenefitEnrolmentOwnIncludeSchema = z
-  .object({
-    benefit: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const BenefitEnrolmentOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  BenefitEnrolmentOwnIncludeSchema
-);
-
-export const BenefitEnrolmentOwnQueryOneSchema = z
-  .object({
-    where: BenefitEnrolmentOwnWhereSchemaJson,
-    distinct: BenefitEnrolmentDistinctFieldsSchema,
-  })
-  .partial();
-
-export const BenefitEnrolmentOwnQuerySchema = z
-  .object({
-    where: BenefitEnrolmentOwnWhereSchemaJson,
-    distinct: BenefitEnrolmentDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TitleHistoryOwnIncludeSchema = z
-  .object({
-    employee: PZ.Scalar.bool(),
-    title: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const TitleHistoryOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TitleHistoryOwnIncludeSchema
-);
-
-export const TitleHistoryOwnQueryOneSchema = z
-  .object({
-    where: TitleHistoryOwnWhereSchemaJson,
-    distinct: TitleHistoryDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TitleHistoryOwnQuerySchema = z
-  .object({
-    where: TitleHistoryOwnWhereSchemaJson,
-    distinct: TitleHistoryDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TimeOffPolicyOwnIncludeSchema = z
-  .object({
-    balances: PZ.Scalar.bool(),
-    requests: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const TimeOffPolicyOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffPolicyOwnIncludeSchema
-);
-
-export const TimeOffPolicyOwnQueryOneSchema = z
-  .object({
-    where: TimeOffPolicyOwnWhereSchemaJson,
-    distinct: TimeOffPolicyDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TimeOffPolicyOwnQuerySchema = z
-  .object({
-    where: TimeOffPolicyOwnWhereSchemaJson,
-    distinct: TimeOffPolicyDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TimeOffBalanceOwnIncludeSchema = z
-  .object({
-    policy: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool(),
-    transactions: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const TimeOffBalanceOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffBalanceOwnIncludeSchema
-);
-
-export const TimeOffBalanceOwnQueryOneSchema = z
-  .object({
-    where: TimeOffBalanceOwnWhereSchemaJson,
-    distinct: TimeOffBalanceDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TimeOffBalanceOwnQuerySchema = z
-  .object({
-    where: TimeOffBalanceOwnWhereSchemaJson,
-    distinct: TimeOffBalanceDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TimeOffRequestOwnIncludeSchema = z
-  .object({
-    employee: PZ.Scalar.bool(),
-    policy: PZ.Scalar.bool(),
-    resolver: PZ.Scalar.bool(),
-    transactions: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const TimeOffRequestOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffRequestOwnIncludeSchema
-);
-
-export const TimeOffRequestOwnQueryOneSchema = z
-  .object({
-    where: TimeOffRequestOwnWhereSchemaJson,
-    distinct: TimeOffRequestDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TimeOffRequestOwnQuerySchema = z
-  .object({
-    where: TimeOffRequestOwnWhereSchemaJson,
-    distinct: TimeOffRequestDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TimeOffTransactionOwnIncludeSchema = z
-  .object({
-    balance: PZ.Scalar.bool(),
-    request: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const TimeOffTransactionOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffTransactionOwnIncludeSchema
-);
-
-export const TimeOffTransactionOwnQueryOneSchema = z
-  .object({
-    where: TimeOffTransactionOwnWhereSchemaJson,
-    distinct: TimeOffTransactionDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TimeOffTransactionOwnQuerySchema = z
-  .object({
-    where: TimeOffTransactionOwnWhereSchemaJson,
-    distinct: TimeOffTransactionDistinctFieldsSchema,
-  })
-  .partial();
-
-export const ClockInOwnIncludeSchema = z
-  .object({
-    employee: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const ClockInOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  ClockInOwnIncludeSchema
-);
-
-export const ClockInOwnQueryOneSchema = z
-  .object({
-    where: ClockInOwnWhereSchemaJson,
-    distinct: ClockInDistinctFieldsSchema,
-  })
-  .partial();
-
-export const ClockInOwnQuerySchema = z
-  .object({
-    where: ClockInOwnWhereSchemaJson,
-    distinct: ClockInDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PaycheckOwnIncludeSchema = z
-  .object({
-    employee: PZ.Scalar.bool(),
-    earnings: PZ.Scalar.bool(),
-    paycheckTaxes: PZ.Scalar.bool(),
-    deductions: PZ.Scalar.bool(),
-    payrollRun: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const PaycheckOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PaycheckOwnIncludeSchema
-);
-
-export const PaycheckOwnQueryOneSchema = z
-  .object({
-    where: PaycheckOwnWhereSchemaJson,
-    distinct: PaycheckDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PaycheckOwnQuerySchema = z
-  .object({
-    where: PaycheckOwnWhereSchemaJson,
-    distinct: PaycheckDistinctFieldsSchema,
-  })
-  .partial();
-
-export const EarningOwnIncludeSchema = z
-  .object({
-    paycheck: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const EarningOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EarningOwnIncludeSchema
-);
-
-export const EarningOwnQueryOneSchema = z
-  .object({
-    where: EarningOwnWhereSchemaJson,
-    distinct: EarningDistinctFieldsSchema,
-  })
-  .partial();
-
-export const EarningOwnQuerySchema = z
-  .object({
-    where: EarningOwnWhereSchemaJson,
-    distinct: EarningDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PaycheckTaxOwnIncludeSchema = z
-  .object({
-    paycheck: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const PaycheckTaxOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PaycheckTaxOwnIncludeSchema
-);
-
-export const PaycheckTaxOwnQueryOneSchema = z
-  .object({
-    where: PaycheckTaxOwnWhereSchemaJson,
-    distinct: PaycheckTaxDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PaycheckTaxOwnQuerySchema = z
-  .object({
-    where: PaycheckTaxOwnWhereSchemaJson,
-    distinct: PaycheckTaxDistinctFieldsSchema,
-  })
-  .partial();
-
-export const DeductionPolicyOwnIncludeSchema = z
-  .object({
-    employeeDeductions: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const DeductionPolicyOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  DeductionPolicyOwnIncludeSchema
-);
-
-export const DeductionPolicyOwnQueryOneSchema = z
-  .object({
-    where: DeductionPolicyOwnWhereSchemaJson,
-    distinct: DeductionPolicyDistinctFieldsSchema,
-  })
-  .partial();
-
-export const DeductionPolicyOwnQuerySchema = z
-  .object({
-    where: DeductionPolicyOwnWhereSchemaJson,
-    distinct: DeductionPolicyDistinctFieldsSchema,
-  })
-  .partial();
-
-export const EmployeeDeductionOwnIncludeSchema = z
-  .object({
-    employee: PZ.Scalar.bool(),
-    policy: PZ.Scalar.bool(),
-    paycheckDeductions: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const EmployeeDeductionOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmployeeDeductionOwnIncludeSchema
-);
-
-export const EmployeeDeductionOwnQueryOneSchema = z
-  .object({
-    where: EmployeeDeductionOwnWhereSchemaJson,
-    distinct: EmployeeDeductionDistinctFieldsSchema,
-  })
-  .partial();
-
-export const EmployeeDeductionOwnQuerySchema = z
-  .object({
-    where: EmployeeDeductionOwnWhereSchemaJson,
-    distinct: EmployeeDeductionDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PaycheckDeductionOwnIncludeSchema = z
-  .object({
-    paycheck: PZ.Scalar.bool(),
-    employeeDeduction: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const PaycheckDeductionOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PaycheckDeductionOwnIncludeSchema
-);
-
-export const PaycheckDeductionOwnQueryOneSchema = z
-  .object({
-    where: PaycheckDeductionOwnWhereSchemaJson,
-    distinct: PaycheckDeductionDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PaycheckDeductionOwnQuerySchema = z
-  .object({
-    where: PaycheckDeductionOwnWhereSchemaJson,
-    distinct: PaycheckDeductionDistinctFieldsSchema,
-  })
-  .partial();
-
-export const EmployeeTaxDataOwnIncludeSchema = z
-  .object({
-    stateTaxes: PZ.Scalar.bool(),
-    localTaxes: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const EmployeeTaxDataOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmployeeTaxDataOwnIncludeSchema
-);
-
-export const EmployeeTaxDataOwnQueryOneSchema = z
-  .object({
-    where: EmployeeTaxDataOwnWhereSchemaJson,
-    distinct: EmployeeTaxDataDistinctFieldsSchema,
-  })
-  .partial();
-
-export const EmployeeTaxDataOwnQuerySchema = z
-  .object({
-    where: EmployeeTaxDataOwnWhereSchemaJson,
-    distinct: EmployeeTaxDataDistinctFieldsSchema,
-  })
-  .partial();
-
-export const StateTaxWithholdingOwnIncludeSchema = z
-  .object({
-    taxData: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const StateTaxWithholdingOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  StateTaxWithholdingOwnIncludeSchema
-);
-
-export const StateTaxWithholdingOwnQueryOneSchema = z
-  .object({
-    where: StateTaxWithholdingOwnWhereSchemaJson,
-    distinct: StateTaxWithholdingDistinctFieldsSchema,
-  })
-  .partial();
-
-export const StateTaxWithholdingOwnQuerySchema = z
-  .object({
-    where: StateTaxWithholdingOwnWhereSchemaJson,
-    distinct: StateTaxWithholdingDistinctFieldsSchema,
-  })
-  .partial();
-
-export const LocalTaxWithholdingOwnIncludeSchema = z
-  .object({
-    taxData: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const LocalTaxWithholdingOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  LocalTaxWithholdingOwnIncludeSchema
-);
-
-export const LocalTaxWithholdingOwnQueryOneSchema = z
-  .object({
-    where: LocalTaxWithholdingOwnWhereSchemaJson,
-    distinct: LocalTaxWithholdingDistinctFieldsSchema,
-  })
-  .partial();
-
-export const LocalTaxWithholdingOwnQuerySchema = z
-  .object({
-    where: LocalTaxWithholdingOwnWhereSchemaJson,
-    distinct: LocalTaxWithholdingDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PayrollRunOwnIncludeSchema = z
-  .object({
-    approvedBy: PZ.Scalar.bool(),
-    paychecks: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const PayrollRunOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PayrollRunOwnIncludeSchema
-);
-
-export const PayrollRunOwnQueryOneSchema = z
-  .object({
-    where: PayrollRunOwnWhereSchemaJson,
-    distinct: PayrollRunDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PayrollRunOwnQuerySchema = z
-  .object({
-    where: PayrollRunOwnWhereSchemaJson,
-    distinct: PayrollRunDistinctFieldsSchema,
-  })
-  .partial();
-
-export const ContactOwnIncludeSchema = z
-  .object({
-    employee: PZ.Scalar.bool(),
-    emails: PZ.Scalar.bool(),
-    phones: PZ.Scalar.bool(),
-    addresses: PZ.Scalar.bool(),
-    primaryEmail: PZ.Scalar.bool(),
-    primaryPhone: PZ.Scalar.bool(),
-    primaryAddress: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const ContactOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  ContactOwnIncludeSchema
-);
-
-export const ContactOwnQueryOneSchema = z
-  .object({
-    where: ContactOwnWhereSchemaJson,
-    distinct: ContactDistinctFieldsSchema,
-  })
-  .partial();
-
-export const ContactOwnQuerySchema = z
-  .object({
-    where: ContactOwnWhereSchemaJson,
-    distinct: ContactDistinctFieldsSchema,
-  })
-  .partial();
-
-export const CountryOwnIncludeSchema = z
-  .object({
-    states: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const CountryOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  CountryOwnIncludeSchema
-);
-
-export const CountryOwnQueryOneSchema = z
-  .object({
-    where: CountryOwnWhereSchemaJson,
-    distinct: CountryDistinctFieldsSchema,
-  })
-  .partial();
-
-export const CountryOwnQuerySchema = z
-  .object({
-    where: CountryOwnWhereSchemaJson,
-    distinct: CountryDistinctFieldsSchema,
-  })
-  .partial();
-
-export const StateOwnIncludeSchema = z
-  .object({
-    country: PZ.Scalar.bool(),
-    addresses: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const StateOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  StateOwnIncludeSchema
-);
-
-export const StateOwnQueryOneSchema = z
-  .object({
-    where: StateOwnWhereSchemaJson,
-    distinct: StateDistinctFieldsSchema,
-  })
-  .partial();
-
-export const StateOwnQuerySchema = z
-  .object({
-    where: StateOwnWhereSchemaJson,
-    distinct: StateDistinctFieldsSchema,
-  })
-  .partial();
-
-export const AddressOwnIncludeSchema = z
-  .object({
-    state: PZ.Scalar.bool(),
-    contact: PZ.Scalar.bool(),
-    primary: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const AddressOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  AddressOwnIncludeSchema
-);
-
-export const AddressOwnQueryOneSchema = z
-  .object({
-    where: AddressOwnWhereSchemaJson,
-    distinct: AddressDistinctFieldsSchema,
-  })
-  .partial();
-
-export const AddressOwnQuerySchema = z
-  .object({
-    where: AddressOwnWhereSchemaJson,
-    distinct: AddressDistinctFieldsSchema,
-  })
-  .partial();
-
-export const EmailOwnIncludeSchema = z
-  .object({
-    contact: PZ.Scalar.bool(),
-    primary: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const EmailOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmailOwnIncludeSchema
-);
-
-export const EmailOwnQueryOneSchema = z
-  .object({
-    where: EmailOwnWhereSchemaJson,
-    distinct: EmailDistinctFieldsSchema,
-  })
-  .partial();
-
-export const EmailOwnQuerySchema = z
-  .object({
-    where: EmailOwnWhereSchemaJson,
-    distinct: EmailDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PhoneOwnIncludeSchema = z
-  .object({
-    contact: PZ.Scalar.bool(),
-    primary: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const PhoneOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PhoneOwnIncludeSchema
-);
-
-export const PhoneOwnQueryOneSchema = z
-  .object({
-    where: PhoneOwnWhereSchemaJson,
-    distinct: PhoneDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PhoneOwnQuerySchema = z
-  .object({
-    where: PhoneOwnWhereSchemaJson,
-    distinct: PhoneDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PrimaryEmailOwnIncludeSchema = z
-  .object({
-    email: PZ.Scalar.bool(),
-    contact: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const PrimaryEmailOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PrimaryEmailOwnIncludeSchema
-);
-
-export const PrimaryEmailOwnQueryOneSchema = z
-  .object({
-    where: PrimaryEmailOwnWhereSchemaJson,
-    distinct: PrimaryEmailDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PrimaryEmailOwnQuerySchema = z
-  .object({
-    where: PrimaryEmailOwnWhereSchemaJson,
-    distinct: PrimaryEmailDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PrimaryPhoneOwnIncludeSchema = z
-  .object({
-    phone: PZ.Scalar.bool(),
-    contact: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const PrimaryPhoneOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PrimaryPhoneOwnIncludeSchema
-);
-
-export const PrimaryPhoneOwnQueryOneSchema = z
-  .object({
-    where: PrimaryPhoneOwnWhereSchemaJson,
-    distinct: PrimaryPhoneDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PrimaryPhoneOwnQuerySchema = z
-  .object({
-    where: PrimaryPhoneOwnWhereSchemaJson,
-    distinct: PrimaryPhoneDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PrimaryAddressOwnIncludeSchema = z
-  .object({
-    address: PZ.Scalar.bool(),
-    contact: PZ.Scalar.bool(),
-  })
-  .partial();
-
-export const PrimaryAddressOwnIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PrimaryAddressOwnIncludeSchema
-);
-
-export const PrimaryAddressOwnQueryOneSchema = z
-  .object({
-    where: PrimaryAddressOwnWhereSchemaJson,
-    distinct: PrimaryAddressDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PrimaryAddressOwnQuerySchema = z
-  .object({
-    where: PrimaryAddressOwnWhereSchemaJson,
-    distinct: PrimaryAddressDistinctFieldsSchema,
-  })
-  .partial();
-
-export const DepartmentCreateSchema = z.preprocess(
-  PZ.slugTransformer('name'),
-  z.object({
-    parentId: PZ.Scalar.id().optional(),
-    name: PZ.Scalar.name(),
-    slug: PZ.Scalar.slug().optional(),
-    isActive: PZ.Scalar.bool().optional(),
-  })
-);
-
-export const DepartmentUpdateSchema = z.object({
-  parentId: PZ.Scalar.id().optional().optional(),
-  name: PZ.Scalar.name().optional(),
-  slug: PZ.Scalar.slug().optional().optional(),
-  isActive: PZ.Scalar.bool().optional().optional(),
+export const DepartmentWhereSchema = z.object({
+  id: _intFilter.optional(),
+  parentId: _intFilter.optional(),
+  name: _strFilter.optional(),
+  slug: _strFilter.optional(),
+  isActive: _boolFilter.optional(),
+  parent: DepartmentOwnWhereSchema.optional(),
+  departments: z
+    .object({
+      every: DepartmentOwnWhereSchema.optional(),
+      some: DepartmentOwnWhereSchema.optional(),
+      none: DepartmentOwnWhereSchema.optional(),
+    })
+    .optional(),
+  titles: z
+    .object({
+      every: TitleOwnWhereSchema.optional(),
+      some: TitleOwnWhereSchema.optional(),
+      none: TitleOwnWhereSchema.optional(),
+    })
+    .optional(),
 });
 
-export const DepartmentOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    parentId: PZ.OrderDirectionSchema,
-    name: PZ.OrderDirectionSchema,
-    slug: PZ.OrderDirectionSchema,
-    isActive: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
+export const TitleWhereSchema = z.object({
+  id: _intFilter.optional(),
+  departmentId: _intFilter.optional(),
+  name: _strFilter.optional(),
+  slug: _strFilter.optional(),
+  description: _strFilter.optional(),
+  isActive: _boolFilter.optional(),
+  department: DepartmentOwnWhereSchema.optional(),
+  employees: z
+    .object({
+      every: EmployeeOwnWhereSchema.optional(),
+      some: EmployeeOwnWhereSchema.optional(),
+      none: EmployeeOwnWhereSchema.optional(),
+    })
+    .optional(),
+  histories: z
+    .object({
+      every: TitleHistoryOwnWhereSchema.optional(),
+      some: TitleHistoryOwnWhereSchema.optional(),
+      none: TitleHistoryOwnWhereSchema.optional(),
+    })
+    .optional(),
+});
 
-export const DepartmentOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  DepartmentOrderBySchema
-);
+export const PersonalDataWhereSchema = z.object({
+  id: _intFilter.optional(),
+  employeeId: _intFilter.optional(),
+  ein: _strFilter.optional(),
+  gender: GenderFilterSchema.optional(),
+  dob: _dateFilter.optional(),
+  maritalStatus: MaritalStatusFilterSchema.optional(),
+  employee: EmployeeOwnWhereSchema.optional(),
+});
 
-export const DepartmentWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    parentId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    name: z.string().or(PZ.StringFilterSchema),
-    slug: z.string().or(PZ.StringFilterSchema),
-    isActive: z.coerce.boolean().or(PZ.BooleanFilterSchema),
-    parent: DepartmentOwnWhereSchema,
-    departments: z
-      .object({
-        some: DepartmentOwnWhereSchema,
-        every: DepartmentOwnWhereSchema,
-        none: DepartmentOwnWhereSchema,
-      })
-      .partial(),
-    titles: z
-      .object({
-        some: TitleOwnWhereSchema,
-        every: TitleOwnWhereSchema,
-        none: TitleOwnWhereSchema,
-      })
-      .partial(),
-  })
-  .partial();
+export const EmployeeWhereSchema = z.object({
+  id: _intFilter.optional(),
+  uuid: _strFilter.optional(),
+  titleId: _intFilter.optional(),
+  firstName: _strFilter.optional(),
+  middleName: _strFilter.optional(),
+  lastName: _strFilter.optional(),
+  preferedName: _strFilter.optional(),
+  status: EmployeeStatusFilterSchema.optional(),
+  title: TitleOwnWhereSchema.optional(),
+  hireDate: _dateFilter.optional(),
+  terminationDate: _dateFilter.optional(),
+  employmentType: EmploymentTypeFilterSchema.optional(),
+  salary: SalaryOwnWhereSchema.optional(),
+  salaryHistory: z
+    .object({
+      every: SalaryHistoryOwnWhereSchema.optional(),
+      some: SalaryHistoryOwnWhereSchema.optional(),
+      none: SalaryHistoryOwnWhereSchema.optional(),
+    })
+    .optional(),
+  benefits: z
+    .object({
+      every: BenefitEnrolmentOwnWhereSchema.optional(),
+      some: BenefitEnrolmentOwnWhereSchema.optional(),
+      none: BenefitEnrolmentOwnWhereSchema.optional(),
+    })
+    .optional(),
+  titleHistory: z
+    .object({
+      every: TitleHistoryOwnWhereSchema.optional(),
+      some: TitleHistoryOwnWhereSchema.optional(),
+      none: TitleHistoryOwnWhereSchema.optional(),
+    })
+    .optional(),
+  timeOffBalances: z
+    .object({
+      every: TimeOffBalanceOwnWhereSchema.optional(),
+      some: TimeOffBalanceOwnWhereSchema.optional(),
+      none: TimeOffBalanceOwnWhereSchema.optional(),
+    })
+    .optional(),
+  timeOffRequests: z
+    .object({
+      every: TimeOffRequestOwnWhereSchema.optional(),
+      some: TimeOffRequestOwnWhereSchema.optional(),
+      none: TimeOffRequestOwnWhereSchema.optional(),
+    })
+    .optional(),
+  resolvedTimeOffs: z
+    .object({
+      every: TimeOffRequestOwnWhereSchema.optional(),
+      some: TimeOffRequestOwnWhereSchema.optional(),
+      none: TimeOffRequestOwnWhereSchema.optional(),
+    })
+    .optional(),
+  clockIns: z
+    .object({
+      every: ClockInOwnWhereSchema.optional(),
+      some: ClockInOwnWhereSchema.optional(),
+      none: ClockInOwnWhereSchema.optional(),
+    })
+    .optional(),
+  personalData: PersonalDataOwnWhereSchema.optional(),
+  taxData: z
+    .object({
+      every: EmployeeTaxDataOwnWhereSchema.optional(),
+      some: EmployeeTaxDataOwnWhereSchema.optional(),
+      none: EmployeeTaxDataOwnWhereSchema.optional(),
+    })
+    .optional(),
+  memberships: z
+    .object({
+      every: TeamMemberOwnWhereSchema.optional(),
+      some: TeamMemberOwnWhereSchema.optional(),
+      none: TeamMemberOwnWhereSchema.optional(),
+    })
+    .optional(),
+  managingTeams: z
+    .object({
+      every: TeamManagerOwnWhereSchema.optional(),
+      some: TeamManagerOwnWhereSchema.optional(),
+      none: TeamManagerOwnWhereSchema.optional(),
+    })
+    .optional(),
+  managingEmployees: z
+    .object({
+      every: EmployeeOwnWhereSchema.optional(),
+      some: EmployeeOwnWhereSchema.optional(),
+      none: EmployeeOwnWhereSchema.optional(),
+    })
+    .optional(),
+  directManager: EmployeeOwnWhereSchema.optional(),
+  paychecks: z
+    .object({
+      every: PaycheckOwnWhereSchema.optional(),
+      some: PaycheckOwnWhereSchema.optional(),
+      none: PaycheckOwnWhereSchema.optional(),
+    })
+    .optional(),
+  directManagerId: _intFilter.optional(),
+  deductions: z
+    .object({
+      every: EmployeeDeductionOwnWhereSchema.optional(),
+      some: EmployeeDeductionOwnWhereSchema.optional(),
+      none: EmployeeDeductionOwnWhereSchema.optional(),
+    })
+    .optional(),
+  resolvedPayrollRuns: z
+    .object({
+      every: PayrollRunOwnWhereSchema.optional(),
+      some: PayrollRunOwnWhereSchema.optional(),
+      none: PayrollRunOwnWhereSchema.optional(),
+    })
+    .optional(),
+  contact: ContactOwnWhereSchema.optional(),
+});
+
+export const TeamWhereSchema = z.object({
+  id: _intFilter.optional(),
+  name: _strFilter.optional(),
+  members: z
+    .object({
+      every: TeamMemberOwnWhereSchema.optional(),
+      some: TeamMemberOwnWhereSchema.optional(),
+      none: TeamMemberOwnWhereSchema.optional(),
+    })
+    .optional(),
+  managers: z
+    .object({
+      every: TeamManagerOwnWhereSchema.optional(),
+      some: TeamManagerOwnWhereSchema.optional(),
+      none: TeamManagerOwnWhereSchema.optional(),
+    })
+    .optional(),
+});
+
+export const TeamManagerWhereSchema = z.object({
+  id: _intFilter.optional(),
+  teamId: _intFilter.optional(),
+  managerId: _intFilter.optional(),
+  team: TeamOwnWhereSchema.optional(),
+  manager: EmployeeOwnWhereSchema.optional(),
+});
+
+export const TeamMemberWhereSchema = z.object({
+  id: _intFilter.optional(),
+  teamId: _intFilter.optional(),
+  memberId: _intFilter.optional(),
+  member: EmployeeOwnWhereSchema.optional(),
+  team: TeamOwnWhereSchema.optional(),
+});
+
+export const SalaryWhereSchema = z.object({
+  id: _intFilter.optional(),
+  employeeId: _intFilter.optional(),
+  gross: _numFilter.optional(),
+  startDate: _dateFilter.optional(),
+  endDate: _dateFilter.optional(),
+  frequency: PayFrequencyFilterSchema.optional(),
+  employee: EmployeeOwnWhereSchema.optional(),
+});
+
+export const SalaryHistoryWhereSchema = z.object({
+  id: _intFilter.optional(),
+  employeeId: _intFilter.optional(),
+  createdAt: _dateFilter.optional(),
+  oldSalary: _numFilter.optional(),
+  newSalary: _numFilter.optional(),
+  reason: _strFilter.optional(),
+  employee: EmployeeOwnWhereSchema.optional(),
+});
+
+export const BenefitWhereSchema = z.object({
+  id: _intFilter.optional(),
+  name: _strFilter.optional(),
+  description: _strFilter.optional(),
+  type: _strFilter.optional(),
+  enrolments: z
+    .object({
+      every: BenefitEnrolmentOwnWhereSchema.optional(),
+      some: BenefitEnrolmentOwnWhereSchema.optional(),
+      none: BenefitEnrolmentOwnWhereSchema.optional(),
+    })
+    .optional(),
+});
+
+export const BenefitEnrolmentWhereSchema = z.object({
+  id: _intFilter.optional(),
+  benefitId: _intFilter.optional(),
+  employeeId: _intFilter.optional(),
+  startDate: _dateFilter.optional(),
+  status: BenefitStatusFilterSchema.optional(),
+  benefit: BenefitOwnWhereSchema.optional(),
+  employee: EmployeeOwnWhereSchema.optional(),
+});
+
+export const TitleHistoryWhereSchema = z.object({
+  id: _intFilter.optional(),
+  employeeId: _intFilter.optional(),
+  titleId: _intFilter.optional(),
+  type: TitleChangeTypeFilterSchema.optional(),
+  reason: _strFilter.optional(),
+  startDate: _dateFilter.optional(),
+  endDate: _dateFilter.optional(),
+  employee: EmployeeOwnWhereSchema.optional(),
+  title: TitleOwnWhereSchema.optional(),
+});
+
+export const TimeOffPolicyWhereSchema = z.object({
+  id: _intFilter.optional(),
+  name: _strFilter.optional(),
+  description: _strFilter.optional(),
+  accrualRate: _numFilter.optional(),
+  maxRollover: _numFilter.optional(),
+  balances: z
+    .object({
+      every: TimeOffBalanceOwnWhereSchema.optional(),
+      some: TimeOffBalanceOwnWhereSchema.optional(),
+      none: TimeOffBalanceOwnWhereSchema.optional(),
+    })
+    .optional(),
+  requests: z
+    .object({
+      every: TimeOffRequestOwnWhereSchema.optional(),
+      some: TimeOffRequestOwnWhereSchema.optional(),
+      none: TimeOffRequestOwnWhereSchema.optional(),
+    })
+    .optional(),
+});
+
+export const TimeOffBalanceWhereSchema = z.object({
+  id: _intFilter.optional(),
+  policyId: _intFilter.optional(),
+  employeeId: _intFilter.optional(),
+  accruedHours: _numFilter.optional(),
+  usedHours: _numFilter.optional(),
+  availableHours: _numFilter.optional(),
+  policy: TimeOffPolicyOwnWhereSchema.optional(),
+  employee: EmployeeOwnWhereSchema.optional(),
+  transactions: z
+    .object({
+      every: TimeOffTransactionOwnWhereSchema.optional(),
+      some: TimeOffTransactionOwnWhereSchema.optional(),
+      none: TimeOffTransactionOwnWhereSchema.optional(),
+    })
+    .optional(),
+});
+
+export const TimeOffRequestWhereSchema = z.object({
+  id: _intFilter.optional(),
+  createdAt: _dateFilter.optional(),
+  employeeId: _intFilter.optional(),
+  reason: _strFilter.optional(),
+  policyId: _intFilter.optional(),
+  resolverId: _intFilter.optional(),
+  status: RequestStatusFilterSchema.optional(),
+  startDate: _dateFilter.optional(),
+  endDate: _dateFilter.optional(),
+  employee: EmployeeOwnWhereSchema.optional(),
+  policy: TimeOffPolicyOwnWhereSchema.optional(),
+  resolver: EmployeeOwnWhereSchema.optional(),
+  transactions: z
+    .object({
+      every: TimeOffTransactionOwnWhereSchema.optional(),
+      some: TimeOffTransactionOwnWhereSchema.optional(),
+      none: TimeOffTransactionOwnWhereSchema.optional(),
+    })
+    .optional(),
+});
+
+export const TimeOffTransactionWhereSchema = z.object({
+  id: _intFilter.optional(),
+  createdAt: _dateFilter.optional(),
+  updatedAt: _dateFilter.optional(),
+  type: TimeOffTransactionTypeFilterSchema.optional(),
+  balanceId: _intFilter.optional(),
+  requestId: _intFilter.optional(),
+  amount: _numFilter.optional(),
+  balance: TimeOffBalanceOwnWhereSchema.optional(),
+  request: TimeOffRequestOwnWhereSchema.optional(),
+});
+
+export const ClockInWhereSchema = z.object({
+  id: _intFilter.optional(),
+  employeeId: _intFilter.optional(),
+  clockIn: _dateFilter.optional(),
+  clockOut: _dateFilter.optional(),
+  employee: EmployeeOwnWhereSchema.optional(),
+});
+
+export const PaycheckWhereSchema = z.object({
+  id: _intFilter.optional(),
+  createdAt: _dateFilter.optional(),
+  payrollRunId: _intFilter.optional(),
+  updatedAt: _dateFilter.optional(),
+  employeeId: _intFilter.optional(),
+  grossAmount: _numFilter.optional(),
+  netAmount: _numFilter.optional(),
+  employee: EmployeeOwnWhereSchema.optional(),
+  earnings: z
+    .object({
+      every: EarningOwnWhereSchema.optional(),
+      some: EarningOwnWhereSchema.optional(),
+      none: EarningOwnWhereSchema.optional(),
+    })
+    .optional(),
+  paycheckTaxes: z
+    .object({
+      every: PaycheckTaxOwnWhereSchema.optional(),
+      some: PaycheckTaxOwnWhereSchema.optional(),
+      none: PaycheckTaxOwnWhereSchema.optional(),
+    })
+    .optional(),
+  deductions: z
+    .object({
+      every: PaycheckDeductionOwnWhereSchema.optional(),
+      some: PaycheckDeductionOwnWhereSchema.optional(),
+      none: PaycheckDeductionOwnWhereSchema.optional(),
+    })
+    .optional(),
+  payrollRun: PayrollRunOwnWhereSchema.optional(),
+});
+
+export const EarningWhereSchema = z.object({
+  id: _intFilter.optional(),
+  type: EarningTypeFilterSchema.optional(),
+  hours: _numFilter.optional(),
+  rate: _numFilter.optional(),
+  amount: _numFilter.optional(),
+  paycheckId: _intFilter.optional(),
+  paycheck: PaycheckOwnWhereSchema.optional(),
+});
+
+export const PaycheckTaxWhereSchema = z.object({
+  id: _intFilter.optional(),
+  paycheckId: _intFilter.optional(),
+  taxAuthority: _strFilter.optional(),
+  amount: _numFilter.optional(),
+  paycheck: PaycheckOwnWhereSchema.optional(),
+});
+
+export const DeductionPolicyWhereSchema = z.object({
+  id: _intFilter.optional(),
+  name: _strFilter.optional(),
+  type: DeductionTypeFilterSchema.optional(),
+  defaultAmount: _numFilter.optional(),
+  defaultPercent: _numFilter.optional(),
+  employeeDeductions: z
+    .object({
+      every: EmployeeDeductionOwnWhereSchema.optional(),
+      some: EmployeeDeductionOwnWhereSchema.optional(),
+      none: EmployeeDeductionOwnWhereSchema.optional(),
+    })
+    .optional(),
+});
+
+export const EmployeeDeductionWhereSchema = z.object({
+  id: _intFilter.optional(),
+  employeeId: _intFilter.optional(),
+  policyId: _intFilter.optional(),
+  employeeAmount: _numFilter.optional(),
+  employee: EmployeeOwnWhereSchema.optional(),
+  policy: DeductionPolicyOwnWhereSchema.optional(),
+  paycheckDeductions: z
+    .object({
+      every: PaycheckDeductionOwnWhereSchema.optional(),
+      some: PaycheckDeductionOwnWhereSchema.optional(),
+      none: PaycheckDeductionOwnWhereSchema.optional(),
+    })
+    .optional(),
+});
+
+export const PaycheckDeductionWhereSchema = z.object({
+  id: _intFilter.optional(),
+  paycheckId: _intFilter.optional(),
+  employeeDeductionId: _intFilter.optional(),
+  amount: _numFilter.optional(),
+  paycheck: PaycheckOwnWhereSchema.optional(),
+  employeeDeduction: EmployeeDeductionOwnWhereSchema.optional(),
+});
+
+export const EmployeeTaxDataWhereSchema = z.object({
+  id: _intFilter.optional(),
+  createdAt: _dateFilter.optional(),
+  updatedAt: _dateFilter.optional(),
+  startDate: _dateFilter.optional(),
+  endDate: _dateFilter.optional(),
+  employeeId: _intFilter.optional(),
+  federalStatus: TaxFilingStatusFilterSchema.optional(),
+  dependentsCredit: _numFilter.optional(),
+  multipleJobs: _boolFilter.optional(),
+  otherIncome: _numFilter.optional(),
+  deductionsAmount: _numFilter.optional(),
+  extraWithholding: _numFilter.optional(),
+  isExempt: _boolFilter.optional(),
+  isNonResidentAlien: _boolFilter.optional(),
+  stateTaxes: z
+    .object({
+      every: StateTaxWithholdingOwnWhereSchema.optional(),
+      some: StateTaxWithholdingOwnWhereSchema.optional(),
+      none: StateTaxWithholdingOwnWhereSchema.optional(),
+    })
+    .optional(),
+  localTaxes: z
+    .object({
+      every: LocalTaxWithholdingOwnWhereSchema.optional(),
+      some: LocalTaxWithholdingOwnWhereSchema.optional(),
+      none: LocalTaxWithholdingOwnWhereSchema.optional(),
+    })
+    .optional(),
+  employee: EmployeeOwnWhereSchema.optional(),
+});
+
+export const StateTaxWithholdingWhereSchema = z.object({
+  id: _intFilter.optional(),
+  taxDataId: _intFilter.optional(),
+  stateCode: _strFilter.optional(),
+  stateStatus: _strFilter.optional(),
+  allowances: _intFilter.optional(),
+  extraWithholding: _numFilter.optional(),
+  taxData: EmployeeTaxDataOwnWhereSchema.optional(),
+});
+
+export const LocalTaxWithholdingWhereSchema = z.object({
+  id: _intFilter.optional(),
+  taxDataId: _intFilter.optional(),
+  jurisdiction: _strFilter.optional(),
+  localStatus: _strFilter.optional(),
+  extraWithholding: _numFilter.optional(),
+  taxData: EmployeeTaxDataOwnWhereSchema.optional(),
+});
+
+export const PayrollRunWhereSchema = z.object({
+  id: _intFilter.optional(),
+  resolverId: _intFilter.optional(),
+  startDate: _dateFilter.optional(),
+  endDate: _dateFilter.optional(),
+  payDate: _dateFilter.optional(),
+  status: PayrollStatusFilterSchema.optional(),
+  approvedBy: EmployeeOwnWhereSchema.optional(),
+  paychecks: z
+    .object({
+      every: PaycheckOwnWhereSchema.optional(),
+      some: PaycheckOwnWhereSchema.optional(),
+      none: PaycheckOwnWhereSchema.optional(),
+    })
+    .optional(),
+});
+
+export const ContactWhereSchema = z.object({
+  id: _intFilter.optional(),
+  employeeId: _intFilter.optional(),
+  employee: EmployeeOwnWhereSchema.optional(),
+  emails: z
+    .object({
+      every: EmailOwnWhereSchema.optional(),
+      some: EmailOwnWhereSchema.optional(),
+      none: EmailOwnWhereSchema.optional(),
+    })
+    .optional(),
+  phones: z
+    .object({
+      every: PhoneOwnWhereSchema.optional(),
+      some: PhoneOwnWhereSchema.optional(),
+      none: PhoneOwnWhereSchema.optional(),
+    })
+    .optional(),
+  addresses: z
+    .object({
+      every: AddressOwnWhereSchema.optional(),
+      some: AddressOwnWhereSchema.optional(),
+      none: AddressOwnWhereSchema.optional(),
+    })
+    .optional(),
+  primaryEmail: PrimaryEmailOwnWhereSchema.optional(),
+  primaryPhone: PrimaryPhoneOwnWhereSchema.optional(),
+  primaryAddress: PrimaryAddressOwnWhereSchema.optional(),
+});
+
+export const CountryWhereSchema = z.object({
+  id: _intFilter.optional(),
+  name: _strFilter.optional(),
+  code: _strFilter.optional(),
+  states: z
+    .object({
+      every: StateOwnWhereSchema.optional(),
+      some: StateOwnWhereSchema.optional(),
+      none: StateOwnWhereSchema.optional(),
+    })
+    .optional(),
+});
+
+export const StateWhereSchema = z.object({
+  id: _intFilter.optional(),
+  countryId: _intFilter.optional(),
+  name: _strFilter.optional(),
+  code: _strFilter.optional(),
+  country: CountryOwnWhereSchema.optional(),
+  addresses: z
+    .object({
+      every: AddressOwnWhereSchema.optional(),
+      some: AddressOwnWhereSchema.optional(),
+      none: AddressOwnWhereSchema.optional(),
+    })
+    .optional(),
+});
+
+export const AddressWhereSchema = z.object({
+  id: _intFilter.optional(),
+  type: ContactTypeFilterSchema.optional(),
+  contactId: _intFilter.optional(),
+  stateId: _intFilter.optional(),
+  street: _strFilter.optional(),
+  zip: _strFilter.optional(),
+  city: _strFilter.optional(),
+  state: StateOwnWhereSchema.optional(),
+  contact: ContactOwnWhereSchema.optional(),
+  primary: PrimaryAddressOwnWhereSchema.optional(),
+});
+
+export const EmailWhereSchema = z.object({
+  id: _intFilter.optional(),
+  type: ContactTypeFilterSchema.optional(),
+  contactId: _intFilter.optional(),
+  email: _strFilter.optional(),
+  contact: ContactOwnWhereSchema.optional(),
+  primary: PrimaryEmailOwnWhereSchema.optional(),
+});
+
+export const PhoneWhereSchema = z.object({
+  id: _intFilter.optional(),
+  type: ContactTypeFilterSchema.optional(),
+  contactId: _intFilter.optional(),
+  phone: _strFilter.optional(),
+  contact: ContactOwnWhereSchema.optional(),
+  primary: PrimaryPhoneOwnWhereSchema.optional(),
+});
+
+export const PrimaryEmailWhereSchema = z.object({
+  id: _intFilter.optional(),
+  emailId: _intFilter.optional(),
+  contactId: _intFilter.optional(),
+  email: EmailOwnWhereSchema.optional(),
+  contact: ContactOwnWhereSchema.optional(),
+});
+
+export const PrimaryPhoneWhereSchema = z.object({
+  id: _intFilter.optional(),
+  phoneId: _intFilter.optional(),
+  contactId: _intFilter.optional(),
+  phone: PhoneOwnWhereSchema.optional(),
+  contact: ContactOwnWhereSchema.optional(),
+});
+
+export const PrimaryAddressWhereSchema = z.object({
+  id: _intFilter.optional(),
+  addressId: _intFilter.optional(),
+  contactId: _intFilter.optional(),
+  address: AddressOwnWhereSchema.optional(),
+  contact: ContactOwnWhereSchema.optional(),
+});
 
 export const DepartmentWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   DepartmentWhereSchema
 );
 
-export const DepartmentSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    parentId: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-    slug: PZ.Scalar.bool(),
-    isActive: PZ.Scalar.bool(),
-    parent: PZ.Scalar.bool().or(DepartmentOwnQueryOneSchema),
-    departments: PZ.Scalar.bool().or(DepartmentOwnQuerySchema),
-    titles: PZ.Scalar.bool().or(TitleOwnQuerySchema),
-  })
-  .partial();
-
-export const DepartmentSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  DepartmentSelectFieldsSchema
+export const TitleWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleWhereSchema
 );
 
-export const DepartmentOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    parentId: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-    slug: PZ.Scalar.bool(),
-    isActive: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      !['id', 'parentId', 'name', 'slug', 'isActive'].every((e) =>
-        Object.hasOwn(value, e)
-      ),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const DepartmentOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  DepartmentOmitFieldsSchema
+export const PersonalDataWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PersonalDataWhereSchema
 );
 
-export const DepartmentIncludeSchema = z
-  .object({
-    parent: PZ.Scalar.bool().or(DepartmentOwnQueryOneSchema),
-    departments: PZ.Scalar.bool().or(DepartmentOwnQuerySchema),
-    titles: PZ.Scalar.bool().or(TitleOwnQuerySchema),
-  })
-  .partial();
+export const EmployeeWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeWhereSchema
+);
+
+export const TeamWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamWhereSchema
+);
+
+export const TeamManagerWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamManagerWhereSchema
+);
+
+export const TeamMemberWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamMemberWhereSchema
+);
+
+export const SalaryWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryWhereSchema
+);
+
+export const SalaryHistoryWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryHistoryWhereSchema
+);
+
+export const BenefitWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitWhereSchema
+);
+
+export const BenefitEnrolmentWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitEnrolmentWhereSchema
+);
+
+export const TitleHistoryWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleHistoryWhereSchema
+);
+
+export const TimeOffPolicyWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffPolicyWhereSchema
+);
+
+export const TimeOffBalanceWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffBalanceWhereSchema
+);
+
+export const TimeOffRequestWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffRequestWhereSchema
+);
+
+export const TimeOffTransactionWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffTransactionWhereSchema
+);
+
+export const ClockInWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ClockInWhereSchema
+);
+
+export const PaycheckWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckWhereSchema
+);
+
+export const EarningWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EarningWhereSchema
+);
+
+export const PaycheckTaxWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckTaxWhereSchema
+);
+
+export const DeductionPolicyWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DeductionPolicyWhereSchema
+);
+
+export const EmployeeDeductionWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeDeductionWhereSchema
+);
+
+export const PaycheckDeductionWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckDeductionWhereSchema
+);
+
+export const EmployeeTaxDataWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeTaxDataWhereSchema
+);
+
+export const StateTaxWithholdingWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateTaxWithholdingWhereSchema
+);
+
+export const LocalTaxWithholdingWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  LocalTaxWithholdingWhereSchema
+);
+
+export const PayrollRunWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PayrollRunWhereSchema
+);
+
+export const ContactWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ContactWhereSchema
+);
+
+export const CountryWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CountryWhereSchema
+);
+
+export const StateWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateWhereSchema
+);
+
+export const AddressWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  AddressWhereSchema
+);
+
+export const EmailWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmailWhereSchema
+);
+
+export const PhoneWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PhoneWhereSchema
+);
+
+export const PrimaryEmailWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryEmailWhereSchema
+);
+
+export const PrimaryPhoneWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryPhoneWhereSchema
+);
+
+export const PrimaryAddressWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryAddressWhereSchema
+);
+
+export const DepartmentOwnOrderBySchema = z.object({
+  id: _direction,
+  parentId: _direction,
+  name: _direction,
+  slug: _direction,
+  isActive: _direction,
+});
+
+export const TitleOwnOrderBySchema = z.object({
+  id: _direction,
+  departmentId: _direction,
+  name: _direction,
+  slug: _direction,
+  description: _direction,
+  isActive: _direction,
+});
+
+export const PersonalDataOwnOrderBySchema = z.object({
+  id: _direction,
+  employeeId: _direction,
+  ein: _direction,
+  gender: _direction,
+  dob: _direction,
+  maritalStatus: _direction,
+});
+
+export const EmployeeOwnOrderBySchema = z.object({
+  id: _direction,
+  uuid: _direction,
+  titleId: _direction,
+  firstName: _direction,
+  middleName: _direction,
+  lastName: _direction,
+  preferedName: _direction,
+  status: _direction,
+  hireDate: _direction,
+  terminationDate: _direction,
+  employmentType: _direction,
+  directManagerId: _direction,
+});
+
+export const TeamOwnOrderBySchema = z.object({
+  id: _direction,
+  name: _direction,
+});
+
+export const TeamManagerOwnOrderBySchema = z.object({
+  id: _direction,
+  teamId: _direction,
+  managerId: _direction,
+});
+
+export const TeamMemberOwnOrderBySchema = z.object({
+  id: _direction,
+  teamId: _direction,
+  memberId: _direction,
+});
+
+export const SalaryOwnOrderBySchema = z.object({
+  id: _direction,
+  employeeId: _direction,
+  gross: _direction,
+  startDate: _direction,
+  endDate: _direction,
+  frequency: _direction,
+});
+
+export const SalaryHistoryOwnOrderBySchema = z.object({
+  id: _direction,
+  employeeId: _direction,
+  createdAt: _direction,
+  oldSalary: _direction,
+  newSalary: _direction,
+  reason: _direction,
+});
+
+export const BenefitOwnOrderBySchema = z.object({
+  id: _direction,
+  name: _direction,
+  description: _direction,
+  type: _direction,
+});
+
+export const BenefitEnrolmentOwnOrderBySchema = z.object({
+  id: _direction,
+  benefitId: _direction,
+  employeeId: _direction,
+  startDate: _direction,
+  status: _direction,
+});
+
+export const TitleHistoryOwnOrderBySchema = z.object({
+  id: _direction,
+  employeeId: _direction,
+  titleId: _direction,
+  type: _direction,
+  reason: _direction,
+  startDate: _direction,
+  endDate: _direction,
+});
+
+export const TimeOffPolicyOwnOrderBySchema = z.object({
+  id: _direction,
+  name: _direction,
+  description: _direction,
+  accrualRate: _direction,
+  maxRollover: _direction,
+});
+
+export const TimeOffBalanceOwnOrderBySchema = z.object({
+  id: _direction,
+  policyId: _direction,
+  employeeId: _direction,
+  accruedHours: _direction,
+  usedHours: _direction,
+  availableHours: _direction,
+});
+
+export const TimeOffRequestOwnOrderBySchema = z.object({
+  id: _direction,
+  createdAt: _direction,
+  employeeId: _direction,
+  reason: _direction,
+  policyId: _direction,
+  resolverId: _direction,
+  status: _direction,
+  startDate: _direction,
+  endDate: _direction,
+});
+
+export const TimeOffTransactionOwnOrderBySchema = z.object({
+  id: _direction,
+  createdAt: _direction,
+  updatedAt: _direction,
+  type: _direction,
+  balanceId: _direction,
+  requestId: _direction,
+  amount: _direction,
+});
+
+export const ClockInOwnOrderBySchema = z.object({
+  id: _direction,
+  employeeId: _direction,
+  clockIn: _direction,
+  clockOut: _direction,
+});
+
+export const PaycheckOwnOrderBySchema = z.object({
+  id: _direction,
+  createdAt: _direction,
+  payrollRunId: _direction,
+  updatedAt: _direction,
+  employeeId: _direction,
+  grossAmount: _direction,
+  netAmount: _direction,
+});
+
+export const EarningOwnOrderBySchema = z.object({
+  id: _direction,
+  type: _direction,
+  hours: _direction,
+  rate: _direction,
+  amount: _direction,
+  paycheckId: _direction,
+});
+
+export const PaycheckTaxOwnOrderBySchema = z.object({
+  id: _direction,
+  paycheckId: _direction,
+  taxAuthority: _direction,
+  amount: _direction,
+});
+
+export const DeductionPolicyOwnOrderBySchema = z.object({
+  id: _direction,
+  name: _direction,
+  type: _direction,
+  defaultAmount: _direction,
+  defaultPercent: _direction,
+});
+
+export const EmployeeDeductionOwnOrderBySchema = z.object({
+  id: _direction,
+  employeeId: _direction,
+  policyId: _direction,
+  employeeAmount: _direction,
+});
+
+export const PaycheckDeductionOwnOrderBySchema = z.object({
+  id: _direction,
+  paycheckId: _direction,
+  employeeDeductionId: _direction,
+  amount: _direction,
+});
+
+export const EmployeeTaxDataOwnOrderBySchema = z.object({
+  id: _direction,
+  createdAt: _direction,
+  updatedAt: _direction,
+  startDate: _direction,
+  endDate: _direction,
+  employeeId: _direction,
+  federalStatus: _direction,
+  dependentsCredit: _direction,
+  multipleJobs: _direction,
+  otherIncome: _direction,
+  deductionsAmount: _direction,
+  extraWithholding: _direction,
+  isExempt: _direction,
+  isNonResidentAlien: _direction,
+});
+
+export const StateTaxWithholdingOwnOrderBySchema = z.object({
+  id: _direction,
+  taxDataId: _direction,
+  stateCode: _direction,
+  stateStatus: _direction,
+  allowances: _direction,
+  extraWithholding: _direction,
+});
+
+export const LocalTaxWithholdingOwnOrderBySchema = z.object({
+  id: _direction,
+  taxDataId: _direction,
+  jurisdiction: _direction,
+  localStatus: _direction,
+  extraWithholding: _direction,
+});
+
+export const PayrollRunOwnOrderBySchema = z.object({
+  id: _direction,
+  resolverId: _direction,
+  startDate: _direction,
+  endDate: _direction,
+  payDate: _direction,
+  status: _direction,
+});
+
+export const ContactOwnOrderBySchema = z.object({
+  id: _direction,
+  employeeId: _direction,
+});
+
+export const CountryOwnOrderBySchema = z.object({
+  id: _direction,
+  name: _direction,
+  code: _direction,
+});
+
+export const StateOwnOrderBySchema = z.object({
+  id: _direction,
+  countryId: _direction,
+  name: _direction,
+  code: _direction,
+});
+
+export const AddressOwnOrderBySchema = z.object({
+  id: _direction,
+  type: _direction,
+  contactId: _direction,
+  stateId: _direction,
+  street: _direction,
+  zip: _direction,
+  city: _direction,
+});
+
+export const EmailOwnOrderBySchema = z.object({
+  id: _direction,
+  type: _direction,
+  contactId: _direction,
+  email: _direction,
+});
+
+export const PhoneOwnOrderBySchema = z.object({
+  id: _direction,
+  type: _direction,
+  contactId: _direction,
+  phone: _direction,
+});
+
+export const PrimaryEmailOwnOrderBySchema = z.object({
+  id: _direction,
+  emailId: _direction,
+  contactId: _direction,
+});
+
+export const PrimaryPhoneOwnOrderBySchema = z.object({
+  id: _direction,
+  phoneId: _direction,
+  contactId: _direction,
+});
+
+export const PrimaryAddressOwnOrderBySchema = z.object({
+  id: _direction,
+  addressId: _direction,
+  contactId: _direction,
+});
+
+export const DepartmentOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DepartmentOwnOrderBySchema
+);
+
+export const TitleOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleOwnOrderBySchema
+);
+
+export const PersonalDataOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PersonalDataOwnOrderBySchema
+);
+
+export const EmployeeOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeOwnOrderBySchema
+);
+
+export const TeamOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamOwnOrderBySchema
+);
+
+export const TeamManagerOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamManagerOwnOrderBySchema
+);
+
+export const TeamMemberOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamMemberOwnOrderBySchema
+);
+
+export const SalaryOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryOwnOrderBySchema
+);
+
+export const SalaryHistoryOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryHistoryOwnOrderBySchema
+);
+
+export const BenefitOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitOwnOrderBySchema
+);
+
+export const BenefitEnrolmentOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitEnrolmentOwnOrderBySchema
+);
+
+export const TitleHistoryOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleHistoryOwnOrderBySchema
+);
+
+export const TimeOffPolicyOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffPolicyOwnOrderBySchema
+);
+
+export const TimeOffBalanceOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffBalanceOwnOrderBySchema
+);
+
+export const TimeOffRequestOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffRequestOwnOrderBySchema
+);
+
+export const TimeOffTransactionOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffTransactionOwnOrderBySchema
+);
+
+export const ClockInOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ClockInOwnOrderBySchema
+);
+
+export const PaycheckOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckOwnOrderBySchema
+);
+
+export const EarningOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EarningOwnOrderBySchema
+);
+
+export const PaycheckTaxOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckTaxOwnOrderBySchema
+);
+
+export const DeductionPolicyOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DeductionPolicyOwnOrderBySchema
+);
+
+export const EmployeeDeductionOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeDeductionOwnOrderBySchema
+);
+
+export const PaycheckDeductionOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckDeductionOwnOrderBySchema
+);
+
+export const EmployeeTaxDataOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeTaxDataOwnOrderBySchema
+);
+
+export const StateTaxWithholdingOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateTaxWithholdingOwnOrderBySchema
+);
+
+export const LocalTaxWithholdingOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  LocalTaxWithholdingOwnOrderBySchema
+);
+
+export const PayrollRunOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PayrollRunOwnOrderBySchema
+);
+
+export const ContactOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ContactOwnOrderBySchema
+);
+
+export const CountryOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CountryOwnOrderBySchema
+);
+
+export const StateOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateOwnOrderBySchema
+);
+
+export const AddressOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  AddressOwnOrderBySchema
+);
+
+export const EmailOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmailOwnOrderBySchema
+);
+
+export const PhoneOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PhoneOwnOrderBySchema
+);
+
+export const PrimaryEmailOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryEmailOwnOrderBySchema
+);
+
+export const PrimaryPhoneOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryPhoneOwnOrderBySchema
+);
+
+export const PrimaryAddressOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryAddressOwnOrderBySchema
+);
+
+export const DepartmentOrderBySchema = z.object({
+  id: _direction,
+  parentId: _direction,
+  name: _direction,
+  slug: _direction,
+  isActive: _direction,
+  parent: DepartmentOwnOrderBySchema.optional(),
+  departments: _orderByCount,
+  titles: _orderByCount,
+});
+
+export const TitleOrderBySchema = z.object({
+  id: _direction,
+  departmentId: _direction,
+  name: _direction,
+  slug: _direction,
+  description: _direction,
+  isActive: _direction,
+  department: DepartmentOwnOrderBySchema.optional(),
+  employees: _orderByCount,
+  histories: _orderByCount,
+});
+
+export const PersonalDataOrderBySchema = z.object({
+  id: _direction,
+  employeeId: _direction,
+  ein: _direction,
+  gender: _direction,
+  dob: _direction,
+  maritalStatus: _direction,
+  employee: EmployeeOwnOrderBySchema.optional(),
+});
+
+export const EmployeeOrderBySchema = z.object({
+  id: _direction,
+  uuid: _direction,
+  titleId: _direction,
+  firstName: _direction,
+  middleName: _direction,
+  lastName: _direction,
+  preferedName: _direction,
+  status: _direction,
+  title: TitleOwnOrderBySchema.optional(),
+  hireDate: _direction,
+  terminationDate: _direction,
+  employmentType: _direction,
+  salary: SalaryOwnOrderBySchema.optional(),
+  salaryHistory: _orderByCount,
+  benefits: _orderByCount,
+  titleHistory: _orderByCount,
+  timeOffBalances: _orderByCount,
+  timeOffRequests: _orderByCount,
+  resolvedTimeOffs: _orderByCount,
+  clockIns: _orderByCount,
+  personalData: PersonalDataOwnOrderBySchema.optional(),
+  taxData: _orderByCount,
+  memberships: _orderByCount,
+  managingTeams: _orderByCount,
+  managingEmployees: _orderByCount,
+  directManager: EmployeeOwnOrderBySchema.optional(),
+  paychecks: _orderByCount,
+  directManagerId: _direction,
+  deductions: _orderByCount,
+  resolvedPayrollRuns: _orderByCount,
+  contact: ContactOwnOrderBySchema.optional(),
+});
+
+export const TeamOrderBySchema = z.object({
+  id: _direction,
+  name: _direction,
+  members: _orderByCount,
+  managers: _orderByCount,
+});
+
+export const TeamManagerOrderBySchema = z.object({
+  id: _direction,
+  teamId: _direction,
+  managerId: _direction,
+  team: TeamOwnOrderBySchema.optional(),
+  manager: EmployeeOwnOrderBySchema.optional(),
+});
+
+export const TeamMemberOrderBySchema = z.object({
+  id: _direction,
+  teamId: _direction,
+  memberId: _direction,
+  member: EmployeeOwnOrderBySchema.optional(),
+  team: TeamOwnOrderBySchema.optional(),
+});
+
+export const SalaryOrderBySchema = z.object({
+  id: _direction,
+  employeeId: _direction,
+  gross: _direction,
+  startDate: _direction,
+  endDate: _direction,
+  frequency: _direction,
+  employee: EmployeeOwnOrderBySchema.optional(),
+});
+
+export const SalaryHistoryOrderBySchema = z.object({
+  id: _direction,
+  employeeId: _direction,
+  createdAt: _direction,
+  oldSalary: _direction,
+  newSalary: _direction,
+  reason: _direction,
+  employee: EmployeeOwnOrderBySchema.optional(),
+});
+
+export const BenefitOrderBySchema = z.object({
+  id: _direction,
+  name: _direction,
+  description: _direction,
+  type: _direction,
+  enrolments: _orderByCount,
+});
+
+export const BenefitEnrolmentOrderBySchema = z.object({
+  id: _direction,
+  benefitId: _direction,
+  employeeId: _direction,
+  startDate: _direction,
+  status: _direction,
+  benefit: BenefitOwnOrderBySchema.optional(),
+  employee: EmployeeOwnOrderBySchema.optional(),
+});
+
+export const TitleHistoryOrderBySchema = z.object({
+  id: _direction,
+  employeeId: _direction,
+  titleId: _direction,
+  type: _direction,
+  reason: _direction,
+  startDate: _direction,
+  endDate: _direction,
+  employee: EmployeeOwnOrderBySchema.optional(),
+  title: TitleOwnOrderBySchema.optional(),
+});
+
+export const TimeOffPolicyOrderBySchema = z.object({
+  id: _direction,
+  name: _direction,
+  description: _direction,
+  accrualRate: _direction,
+  maxRollover: _direction,
+  balances: _orderByCount,
+  requests: _orderByCount,
+});
+
+export const TimeOffBalanceOrderBySchema = z.object({
+  id: _direction,
+  policyId: _direction,
+  employeeId: _direction,
+  accruedHours: _direction,
+  usedHours: _direction,
+  availableHours: _direction,
+  policy: TimeOffPolicyOwnOrderBySchema.optional(),
+  employee: EmployeeOwnOrderBySchema.optional(),
+  transactions: _orderByCount,
+});
+
+export const TimeOffRequestOrderBySchema = z.object({
+  id: _direction,
+  createdAt: _direction,
+  employeeId: _direction,
+  reason: _direction,
+  policyId: _direction,
+  resolverId: _direction,
+  status: _direction,
+  startDate: _direction,
+  endDate: _direction,
+  employee: EmployeeOwnOrderBySchema.optional(),
+  policy: TimeOffPolicyOwnOrderBySchema.optional(),
+  resolver: EmployeeOwnOrderBySchema.optional(),
+  transactions: _orderByCount,
+});
+
+export const TimeOffTransactionOrderBySchema = z.object({
+  id: _direction,
+  createdAt: _direction,
+  updatedAt: _direction,
+  type: _direction,
+  balanceId: _direction,
+  requestId: _direction,
+  amount: _direction,
+  balance: TimeOffBalanceOwnOrderBySchema.optional(),
+  request: TimeOffRequestOwnOrderBySchema.optional(),
+});
+
+export const ClockInOrderBySchema = z.object({
+  id: _direction,
+  employeeId: _direction,
+  clockIn: _direction,
+  clockOut: _direction,
+  employee: EmployeeOwnOrderBySchema.optional(),
+});
+
+export const PaycheckOrderBySchema = z.object({
+  id: _direction,
+  createdAt: _direction,
+  payrollRunId: _direction,
+  updatedAt: _direction,
+  employeeId: _direction,
+  grossAmount: _direction,
+  netAmount: _direction,
+  employee: EmployeeOwnOrderBySchema.optional(),
+  earnings: _orderByCount,
+  paycheckTaxes: _orderByCount,
+  deductions: _orderByCount,
+  payrollRun: PayrollRunOwnOrderBySchema.optional(),
+});
+
+export const EarningOrderBySchema = z.object({
+  id: _direction,
+  type: _direction,
+  hours: _direction,
+  rate: _direction,
+  amount: _direction,
+  paycheckId: _direction,
+  paycheck: PaycheckOwnOrderBySchema.optional(),
+});
+
+export const PaycheckTaxOrderBySchema = z.object({
+  id: _direction,
+  paycheckId: _direction,
+  taxAuthority: _direction,
+  amount: _direction,
+  paycheck: PaycheckOwnOrderBySchema.optional(),
+});
+
+export const DeductionPolicyOrderBySchema = z.object({
+  id: _direction,
+  name: _direction,
+  type: _direction,
+  defaultAmount: _direction,
+  defaultPercent: _direction,
+  employeeDeductions: _orderByCount,
+});
+
+export const EmployeeDeductionOrderBySchema = z.object({
+  id: _direction,
+  employeeId: _direction,
+  policyId: _direction,
+  employeeAmount: _direction,
+  employee: EmployeeOwnOrderBySchema.optional(),
+  policy: DeductionPolicyOwnOrderBySchema.optional(),
+  paycheckDeductions: _orderByCount,
+});
+
+export const PaycheckDeductionOrderBySchema = z.object({
+  id: _direction,
+  paycheckId: _direction,
+  employeeDeductionId: _direction,
+  amount: _direction,
+  paycheck: PaycheckOwnOrderBySchema.optional(),
+  employeeDeduction: EmployeeDeductionOwnOrderBySchema.optional(),
+});
+
+export const EmployeeTaxDataOrderBySchema = z.object({
+  id: _direction,
+  createdAt: _direction,
+  updatedAt: _direction,
+  startDate: _direction,
+  endDate: _direction,
+  employeeId: _direction,
+  federalStatus: _direction,
+  dependentsCredit: _direction,
+  multipleJobs: _direction,
+  otherIncome: _direction,
+  deductionsAmount: _direction,
+  extraWithholding: _direction,
+  isExempt: _direction,
+  isNonResidentAlien: _direction,
+  stateTaxes: _orderByCount,
+  localTaxes: _orderByCount,
+  employee: EmployeeOwnOrderBySchema.optional(),
+});
+
+export const StateTaxWithholdingOrderBySchema = z.object({
+  id: _direction,
+  taxDataId: _direction,
+  stateCode: _direction,
+  stateStatus: _direction,
+  allowances: _direction,
+  extraWithholding: _direction,
+  taxData: EmployeeTaxDataOwnOrderBySchema.optional(),
+});
+
+export const LocalTaxWithholdingOrderBySchema = z.object({
+  id: _direction,
+  taxDataId: _direction,
+  jurisdiction: _direction,
+  localStatus: _direction,
+  extraWithholding: _direction,
+  taxData: EmployeeTaxDataOwnOrderBySchema.optional(),
+});
+
+export const PayrollRunOrderBySchema = z.object({
+  id: _direction,
+  resolverId: _direction,
+  startDate: _direction,
+  endDate: _direction,
+  payDate: _direction,
+  status: _direction,
+  approvedBy: EmployeeOwnOrderBySchema.optional(),
+  paychecks: _orderByCount,
+});
+
+export const ContactOrderBySchema = z.object({
+  id: _direction,
+  employeeId: _direction,
+  employee: EmployeeOwnOrderBySchema.optional(),
+  emails: _orderByCount,
+  phones: _orderByCount,
+  addresses: _orderByCount,
+  primaryEmail: PrimaryEmailOwnOrderBySchema.optional(),
+  primaryPhone: PrimaryPhoneOwnOrderBySchema.optional(),
+  primaryAddress: PrimaryAddressOwnOrderBySchema.optional(),
+});
+
+export const CountryOrderBySchema = z.object({
+  id: _direction,
+  name: _direction,
+  code: _direction,
+  states: _orderByCount,
+});
+
+export const StateOrderBySchema = z.object({
+  id: _direction,
+  countryId: _direction,
+  name: _direction,
+  code: _direction,
+  country: CountryOwnOrderBySchema.optional(),
+  addresses: _orderByCount,
+});
+
+export const AddressOrderBySchema = z.object({
+  id: _direction,
+  type: _direction,
+  contactId: _direction,
+  stateId: _direction,
+  street: _direction,
+  zip: _direction,
+  city: _direction,
+  state: StateOwnOrderBySchema.optional(),
+  contact: ContactOwnOrderBySchema.optional(),
+  primary: PrimaryAddressOwnOrderBySchema.optional(),
+});
+
+export const EmailOrderBySchema = z.object({
+  id: _direction,
+  type: _direction,
+  contactId: _direction,
+  email: _direction,
+  contact: ContactOwnOrderBySchema.optional(),
+  primary: PrimaryEmailOwnOrderBySchema.optional(),
+});
+
+export const PhoneOrderBySchema = z.object({
+  id: _direction,
+  type: _direction,
+  contactId: _direction,
+  phone: _direction,
+  contact: ContactOwnOrderBySchema.optional(),
+  primary: PrimaryPhoneOwnOrderBySchema.optional(),
+});
+
+export const PrimaryEmailOrderBySchema = z.object({
+  id: _direction,
+  emailId: _direction,
+  contactId: _direction,
+  email: EmailOwnOrderBySchema.optional(),
+  contact: ContactOwnOrderBySchema.optional(),
+});
+
+export const PrimaryPhoneOrderBySchema = z.object({
+  id: _direction,
+  phoneId: _direction,
+  contactId: _direction,
+  phone: PhoneOwnOrderBySchema.optional(),
+  contact: ContactOwnOrderBySchema.optional(),
+});
+
+export const PrimaryAddressOrderBySchema = z.object({
+  id: _direction,
+  addressId: _direction,
+  contactId: _direction,
+  address: AddressOwnOrderBySchema.optional(),
+  contact: ContactOwnOrderBySchema.optional(),
+});
+
+export const DepartmentOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DepartmentOrderBySchema
+);
+
+export const TitleOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleOrderBySchema
+);
+
+export const PersonalDataOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PersonalDataOrderBySchema
+);
+
+export const EmployeeOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeOrderBySchema
+);
+
+export const TeamOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamOrderBySchema
+);
+
+export const TeamManagerOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamManagerOrderBySchema
+);
+
+export const TeamMemberOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamMemberOrderBySchema
+);
+
+export const SalaryOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryOrderBySchema
+);
+
+export const SalaryHistoryOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryHistoryOrderBySchema
+);
+
+export const BenefitOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitOrderBySchema
+);
+
+export const BenefitEnrolmentOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitEnrolmentOrderBySchema
+);
+
+export const TitleHistoryOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleHistoryOrderBySchema
+);
+
+export const TimeOffPolicyOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffPolicyOrderBySchema
+);
+
+export const TimeOffBalanceOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffBalanceOrderBySchema
+);
+
+export const TimeOffRequestOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffRequestOrderBySchema
+);
+
+export const TimeOffTransactionOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffTransactionOrderBySchema
+);
+
+export const ClockInOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ClockInOrderBySchema
+);
+
+export const PaycheckOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckOrderBySchema
+);
+
+export const EarningOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EarningOrderBySchema
+);
+
+export const PaycheckTaxOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckTaxOrderBySchema
+);
+
+export const DeductionPolicyOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DeductionPolicyOrderBySchema
+);
+
+export const EmployeeDeductionOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeDeductionOrderBySchema
+);
+
+export const PaycheckDeductionOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckDeductionOrderBySchema
+);
+
+export const EmployeeTaxDataOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeTaxDataOrderBySchema
+);
+
+export const StateTaxWithholdingOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateTaxWithholdingOrderBySchema
+);
+
+export const LocalTaxWithholdingOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  LocalTaxWithholdingOrderBySchema
+);
+
+export const PayrollRunOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PayrollRunOrderBySchema
+);
+
+export const ContactOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ContactOrderBySchema
+);
+
+export const CountryOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CountryOrderBySchema
+);
+
+export const StateOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateOrderBySchema
+);
+
+export const AddressOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  AddressOrderBySchema
+);
+
+export const EmailOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmailOrderBySchema
+);
+
+export const PhoneOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PhoneOrderBySchema
+);
+
+export const PrimaryEmailOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryEmailOrderBySchema
+);
+
+export const PrimaryPhoneOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryPhoneOrderBySchema
+);
+
+export const PrimaryAddressOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryAddressOrderBySchema
+);
+
+export const DepartmentOwnSelectSchema = z.object({
+  id: _select,
+  parentId: _select,
+  name: _select,
+  slug: _select,
+  isActive: _select,
+});
+
+export const TitleOwnSelectSchema = z.object({
+  id: _select,
+  departmentId: _select,
+  name: _select,
+  slug: _select,
+  description: _select,
+  isActive: _select,
+});
+
+export const PersonalDataOwnSelectSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  ein: _select,
+  gender: _select,
+  dob: _select,
+  maritalStatus: _select,
+});
+
+export const EmployeeOwnSelectSchema = z.object({
+  id: _select,
+  uuid: _select,
+  titleId: _select,
+  firstName: _select,
+  middleName: _select,
+  lastName: _select,
+  preferedName: _select,
+  status: _select,
+  hireDate: _select,
+  terminationDate: _select,
+  employmentType: _select,
+  directManagerId: _select,
+});
+
+export const TeamOwnSelectSchema = z.object({ id: _select, name: _select });
+
+export const TeamManagerOwnSelectSchema = z.object({
+  id: _select,
+  teamId: _select,
+  managerId: _select,
+});
+
+export const TeamMemberOwnSelectSchema = z.object({
+  id: _select,
+  teamId: _select,
+  memberId: _select,
+});
+
+export const SalaryOwnSelectSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  gross: _select,
+  startDate: _select,
+  endDate: _select,
+  frequency: _select,
+});
+
+export const SalaryHistoryOwnSelectSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  createdAt: _select,
+  oldSalary: _select,
+  newSalary: _select,
+  reason: _select,
+});
+
+export const BenefitOwnSelectSchema = z.object({
+  id: _select,
+  name: _select,
+  description: _select,
+  type: _select,
+});
+
+export const BenefitEnrolmentOwnSelectSchema = z.object({
+  id: _select,
+  benefitId: _select,
+  employeeId: _select,
+  startDate: _select,
+  status: _select,
+});
+
+export const TitleHistoryOwnSelectSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  titleId: _select,
+  type: _select,
+  reason: _select,
+  startDate: _select,
+  endDate: _select,
+});
+
+export const TimeOffPolicyOwnSelectSchema = z.object({
+  id: _select,
+  name: _select,
+  description: _select,
+  accrualRate: _select,
+  maxRollover: _select,
+});
+
+export const TimeOffBalanceOwnSelectSchema = z.object({
+  id: _select,
+  policyId: _select,
+  employeeId: _select,
+  accruedHours: _select,
+  usedHours: _select,
+  availableHours: _select,
+});
+
+export const TimeOffRequestOwnSelectSchema = z.object({
+  id: _select,
+  createdAt: _select,
+  employeeId: _select,
+  reason: _select,
+  policyId: _select,
+  resolverId: _select,
+  status: _select,
+  startDate: _select,
+  endDate: _select,
+});
+
+export const TimeOffTransactionOwnSelectSchema = z.object({
+  id: _select,
+  createdAt: _select,
+  updatedAt: _select,
+  type: _select,
+  balanceId: _select,
+  requestId: _select,
+  amount: _select,
+});
+
+export const ClockInOwnSelectSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  clockIn: _select,
+  clockOut: _select,
+});
+
+export const PaycheckOwnSelectSchema = z.object({
+  id: _select,
+  createdAt: _select,
+  payrollRunId: _select,
+  updatedAt: _select,
+  employeeId: _select,
+  grossAmount: _select,
+  netAmount: _select,
+});
+
+export const EarningOwnSelectSchema = z.object({
+  id: _select,
+  type: _select,
+  hours: _select,
+  rate: _select,
+  amount: _select,
+  paycheckId: _select,
+});
+
+export const PaycheckTaxOwnSelectSchema = z.object({
+  id: _select,
+  paycheckId: _select,
+  taxAuthority: _select,
+  amount: _select,
+});
+
+export const DeductionPolicyOwnSelectSchema = z.object({
+  id: _select,
+  name: _select,
+  type: _select,
+  defaultAmount: _select,
+  defaultPercent: _select,
+});
+
+export const EmployeeDeductionOwnSelectSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  policyId: _select,
+  employeeAmount: _select,
+});
+
+export const PaycheckDeductionOwnSelectSchema = z.object({
+  id: _select,
+  paycheckId: _select,
+  employeeDeductionId: _select,
+  amount: _select,
+});
+
+export const EmployeeTaxDataOwnSelectSchema = z.object({
+  id: _select,
+  createdAt: _select,
+  updatedAt: _select,
+  startDate: _select,
+  endDate: _select,
+  employeeId: _select,
+  federalStatus: _select,
+  dependentsCredit: _select,
+  multipleJobs: _select,
+  otherIncome: _select,
+  deductionsAmount: _select,
+  extraWithholding: _select,
+  isExempt: _select,
+  isNonResidentAlien: _select,
+});
+
+export const StateTaxWithholdingOwnSelectSchema = z.object({
+  id: _select,
+  taxDataId: _select,
+  stateCode: _select,
+  stateStatus: _select,
+  allowances: _select,
+  extraWithholding: _select,
+});
+
+export const LocalTaxWithholdingOwnSelectSchema = z.object({
+  id: _select,
+  taxDataId: _select,
+  jurisdiction: _select,
+  localStatus: _select,
+  extraWithholding: _select,
+});
+
+export const PayrollRunOwnSelectSchema = z.object({
+  id: _select,
+  resolverId: _select,
+  startDate: _select,
+  endDate: _select,
+  payDate: _select,
+  status: _select,
+});
+
+export const ContactOwnSelectSchema = z.object({
+  id: _select,
+  employeeId: _select,
+});
+
+export const CountryOwnSelectSchema = z.object({
+  id: _select,
+  name: _select,
+  code: _select,
+});
+
+export const StateOwnSelectSchema = z.object({
+  id: _select,
+  countryId: _select,
+  name: _select,
+  code: _select,
+});
+
+export const AddressOwnSelectSchema = z.object({
+  id: _select,
+  type: _select,
+  contactId: _select,
+  stateId: _select,
+  street: _select,
+  zip: _select,
+  city: _select,
+});
+
+export const EmailOwnSelectSchema = z.object({
+  id: _select,
+  type: _select,
+  contactId: _select,
+  email: _select,
+});
+
+export const PhoneOwnSelectSchema = z.object({
+  id: _select,
+  type: _select,
+  contactId: _select,
+  phone: _select,
+});
+
+export const PrimaryEmailOwnSelectSchema = z.object({
+  id: _select,
+  emailId: _select,
+  contactId: _select,
+});
+
+export const PrimaryPhoneOwnSelectSchema = z.object({
+  id: _select,
+  phoneId: _select,
+  contactId: _select,
+});
+
+export const PrimaryAddressOwnSelectSchema = z.object({
+  id: _select,
+  addressId: _select,
+  contactId: _select,
+});
+
+export const DepartmentOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DepartmentOwnSelectSchema
+);
+
+export const TitleOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleOwnSelectSchema
+);
+
+export const PersonalDataOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PersonalDataOwnSelectSchema
+);
+
+export const EmployeeOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeOwnSelectSchema
+);
+
+export const TeamOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamOwnSelectSchema
+);
+
+export const TeamManagerOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamManagerOwnSelectSchema
+);
+
+export const TeamMemberOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamMemberOwnSelectSchema
+);
+
+export const SalaryOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryOwnSelectSchema
+);
+
+export const SalaryHistoryOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryHistoryOwnSelectSchema
+);
+
+export const BenefitOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitOwnSelectSchema
+);
+
+export const BenefitEnrolmentOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitEnrolmentOwnSelectSchema
+);
+
+export const TitleHistoryOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleHistoryOwnSelectSchema
+);
+
+export const TimeOffPolicyOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffPolicyOwnSelectSchema
+);
+
+export const TimeOffBalanceOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffBalanceOwnSelectSchema
+);
+
+export const TimeOffRequestOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffRequestOwnSelectSchema
+);
+
+export const TimeOffTransactionOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffTransactionOwnSelectSchema
+);
+
+export const ClockInOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ClockInOwnSelectSchema
+);
+
+export const PaycheckOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckOwnSelectSchema
+);
+
+export const EarningOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EarningOwnSelectSchema
+);
+
+export const PaycheckTaxOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckTaxOwnSelectSchema
+);
+
+export const DeductionPolicyOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DeductionPolicyOwnSelectSchema
+);
+
+export const EmployeeDeductionOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeDeductionOwnSelectSchema
+);
+
+export const PaycheckDeductionOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckDeductionOwnSelectSchema
+);
+
+export const EmployeeTaxDataOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeTaxDataOwnSelectSchema
+);
+
+export const StateTaxWithholdingOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateTaxWithholdingOwnSelectSchema
+);
+
+export const LocalTaxWithholdingOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  LocalTaxWithholdingOwnSelectSchema
+);
+
+export const PayrollRunOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PayrollRunOwnSelectSchema
+);
+
+export const ContactOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ContactOwnSelectSchema
+);
+
+export const CountryOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CountryOwnSelectSchema
+);
+
+export const StateOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateOwnSelectSchema
+);
+
+export const AddressOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  AddressOwnSelectSchema
+);
+
+export const EmailOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmailOwnSelectSchema
+);
+
+export const PhoneOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PhoneOwnSelectSchema
+);
+
+export const PrimaryEmailOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryEmailOwnSelectSchema
+);
+
+export const PrimaryPhoneOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryPhoneOwnSelectSchema
+);
+
+export const PrimaryAddressOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryAddressOwnSelectSchema
+);
+
+export const DepartmentSelectSchema = z.object({
+  id: _select,
+  parentId: _select,
+  name: _select,
+  slug: _select,
+  isActive: _select,
+  parent: _select,
+  departments: _select,
+  titles: _select,
+});
+
+export const TitleSelectSchema = z.object({
+  id: _select,
+  departmentId: _select,
+  name: _select,
+  slug: _select,
+  description: _select,
+  isActive: _select,
+  department: _select,
+  employees: _select,
+  histories: _select,
+});
+
+export const PersonalDataSelectSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  ein: _select,
+  gender: _select,
+  dob: _select,
+  maritalStatus: _select,
+  employee: _select,
+});
+
+export const EmployeeSelectSchema = z.object({
+  id: _select,
+  uuid: _select,
+  titleId: _select,
+  firstName: _select,
+  middleName: _select,
+  lastName: _select,
+  preferedName: _select,
+  status: _select,
+  title: _select,
+  hireDate: _select,
+  terminationDate: _select,
+  employmentType: _select,
+  salary: _select,
+  salaryHistory: _select,
+  benefits: _select,
+  titleHistory: _select,
+  timeOffBalances: _select,
+  timeOffRequests: _select,
+  resolvedTimeOffs: _select,
+  clockIns: _select,
+  personalData: _select,
+  taxData: _select,
+  memberships: _select,
+  managingTeams: _select,
+  managingEmployees: _select,
+  directManager: _select,
+  paychecks: _select,
+  directManagerId: _select,
+  deductions: _select,
+  resolvedPayrollRuns: _select,
+  contact: _select,
+});
+
+export const TeamSelectSchema = z.object({
+  id: _select,
+  name: _select,
+  members: _select,
+  managers: _select,
+});
+
+export const TeamManagerSelectSchema = z.object({
+  id: _select,
+  teamId: _select,
+  managerId: _select,
+  team: _select,
+  manager: _select,
+});
+
+export const TeamMemberSelectSchema = z.object({
+  id: _select,
+  teamId: _select,
+  memberId: _select,
+  member: _select,
+  team: _select,
+});
+
+export const SalarySelectSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  gross: _select,
+  startDate: _select,
+  endDate: _select,
+  frequency: _select,
+  employee: _select,
+});
+
+export const SalaryHistorySelectSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  createdAt: _select,
+  oldSalary: _select,
+  newSalary: _select,
+  reason: _select,
+  employee: _select,
+});
+
+export const BenefitSelectSchema = z.object({
+  id: _select,
+  name: _select,
+  description: _select,
+  type: _select,
+  enrolments: _select,
+});
+
+export const BenefitEnrolmentSelectSchema = z.object({
+  id: _select,
+  benefitId: _select,
+  employeeId: _select,
+  startDate: _select,
+  status: _select,
+  benefit: _select,
+  employee: _select,
+});
+
+export const TitleHistorySelectSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  titleId: _select,
+  type: _select,
+  reason: _select,
+  startDate: _select,
+  endDate: _select,
+  employee: _select,
+  title: _select,
+});
+
+export const TimeOffPolicySelectSchema = z.object({
+  id: _select,
+  name: _select,
+  description: _select,
+  accrualRate: _select,
+  maxRollover: _select,
+  balances: _select,
+  requests: _select,
+});
+
+export const TimeOffBalanceSelectSchema = z.object({
+  id: _select,
+  policyId: _select,
+  employeeId: _select,
+  accruedHours: _select,
+  usedHours: _select,
+  availableHours: _select,
+  policy: _select,
+  employee: _select,
+  transactions: _select,
+});
+
+export const TimeOffRequestSelectSchema = z.object({
+  id: _select,
+  createdAt: _select,
+  employeeId: _select,
+  reason: _select,
+  policyId: _select,
+  resolverId: _select,
+  status: _select,
+  startDate: _select,
+  endDate: _select,
+  employee: _select,
+  policy: _select,
+  resolver: _select,
+  transactions: _select,
+});
+
+export const TimeOffTransactionSelectSchema = z.object({
+  id: _select,
+  createdAt: _select,
+  updatedAt: _select,
+  type: _select,
+  balanceId: _select,
+  requestId: _select,
+  amount: _select,
+  balance: _select,
+  request: _select,
+});
+
+export const ClockInSelectSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  clockIn: _select,
+  clockOut: _select,
+  employee: _select,
+});
+
+export const PaycheckSelectSchema = z.object({
+  id: _select,
+  createdAt: _select,
+  payrollRunId: _select,
+  updatedAt: _select,
+  employeeId: _select,
+  grossAmount: _select,
+  netAmount: _select,
+  employee: _select,
+  earnings: _select,
+  paycheckTaxes: _select,
+  deductions: _select,
+  payrollRun: _select,
+});
+
+export const EarningSelectSchema = z.object({
+  id: _select,
+  type: _select,
+  hours: _select,
+  rate: _select,
+  amount: _select,
+  paycheckId: _select,
+  paycheck: _select,
+});
+
+export const PaycheckTaxSelectSchema = z.object({
+  id: _select,
+  paycheckId: _select,
+  taxAuthority: _select,
+  amount: _select,
+  paycheck: _select,
+});
+
+export const DeductionPolicySelectSchema = z.object({
+  id: _select,
+  name: _select,
+  type: _select,
+  defaultAmount: _select,
+  defaultPercent: _select,
+  employeeDeductions: _select,
+});
+
+export const EmployeeDeductionSelectSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  policyId: _select,
+  employeeAmount: _select,
+  employee: _select,
+  policy: _select,
+  paycheckDeductions: _select,
+});
+
+export const PaycheckDeductionSelectSchema = z.object({
+  id: _select,
+  paycheckId: _select,
+  employeeDeductionId: _select,
+  amount: _select,
+  paycheck: _select,
+  employeeDeduction: _select,
+});
+
+export const EmployeeTaxDataSelectSchema = z.object({
+  id: _select,
+  createdAt: _select,
+  updatedAt: _select,
+  startDate: _select,
+  endDate: _select,
+  employeeId: _select,
+  federalStatus: _select,
+  dependentsCredit: _select,
+  multipleJobs: _select,
+  otherIncome: _select,
+  deductionsAmount: _select,
+  extraWithholding: _select,
+  isExempt: _select,
+  isNonResidentAlien: _select,
+  stateTaxes: _select,
+  localTaxes: _select,
+  employee: _select,
+});
+
+export const StateTaxWithholdingSelectSchema = z.object({
+  id: _select,
+  taxDataId: _select,
+  stateCode: _select,
+  stateStatus: _select,
+  allowances: _select,
+  extraWithholding: _select,
+  taxData: _select,
+});
+
+export const LocalTaxWithholdingSelectSchema = z.object({
+  id: _select,
+  taxDataId: _select,
+  jurisdiction: _select,
+  localStatus: _select,
+  extraWithholding: _select,
+  taxData: _select,
+});
+
+export const PayrollRunSelectSchema = z.object({
+  id: _select,
+  resolverId: _select,
+  startDate: _select,
+  endDate: _select,
+  payDate: _select,
+  status: _select,
+  approvedBy: _select,
+  paychecks: _select,
+});
+
+export const ContactSelectSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  employee: _select,
+  emails: _select,
+  phones: _select,
+  addresses: _select,
+  primaryEmail: _select,
+  primaryPhone: _select,
+  primaryAddress: _select,
+});
+
+export const CountrySelectSchema = z.object({
+  id: _select,
+  name: _select,
+  code: _select,
+  states: _select,
+});
+
+export const StateSelectSchema = z.object({
+  id: _select,
+  countryId: _select,
+  name: _select,
+  code: _select,
+  country: _select,
+  addresses: _select,
+});
+
+export const AddressSelectSchema = z.object({
+  id: _select,
+  type: _select,
+  contactId: _select,
+  stateId: _select,
+  street: _select,
+  zip: _select,
+  city: _select,
+  state: _select,
+  contact: _select,
+  primary: _select,
+});
+
+export const EmailSelectSchema = z.object({
+  id: _select,
+  type: _select,
+  contactId: _select,
+  email: _select,
+  contact: _select,
+  primary: _select,
+});
+
+export const PhoneSelectSchema = z.object({
+  id: _select,
+  type: _select,
+  contactId: _select,
+  phone: _select,
+  contact: _select,
+  primary: _select,
+});
+
+export const PrimaryEmailSelectSchema = z.object({
+  id: _select,
+  emailId: _select,
+  contactId: _select,
+  email: _select,
+  contact: _select,
+});
+
+export const PrimaryPhoneSelectSchema = z.object({
+  id: _select,
+  phoneId: _select,
+  contactId: _select,
+  phone: _select,
+  contact: _select,
+});
+
+export const PrimaryAddressSelectSchema = z.object({
+  id: _select,
+  addressId: _select,
+  contactId: _select,
+  address: _select,
+  contact: _select,
+});
+
+export const DepartmentSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DepartmentSelectSchema
+);
+
+export const TitleSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleSelectSchema
+);
+
+export const PersonalDataSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PersonalDataSelectSchema
+);
+
+export const EmployeeSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeSelectSchema
+);
+
+export const TeamSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamSelectSchema
+);
+
+export const TeamManagerSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamManagerSelectSchema
+);
+
+export const TeamMemberSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamMemberSelectSchema
+);
+
+export const SalarySelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalarySelectSchema
+);
+
+export const SalaryHistorySelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryHistorySelectSchema
+);
+
+export const BenefitSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitSelectSchema
+);
+
+export const BenefitEnrolmentSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitEnrolmentSelectSchema
+);
+
+export const TitleHistorySelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleHistorySelectSchema
+);
+
+export const TimeOffPolicySelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffPolicySelectSchema
+);
+
+export const TimeOffBalanceSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffBalanceSelectSchema
+);
+
+export const TimeOffRequestSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffRequestSelectSchema
+);
+
+export const TimeOffTransactionSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffTransactionSelectSchema
+);
+
+export const ClockInSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ClockInSelectSchema
+);
+
+export const PaycheckSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckSelectSchema
+);
+
+export const EarningSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EarningSelectSchema
+);
+
+export const PaycheckTaxSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckTaxSelectSchema
+);
+
+export const DeductionPolicySelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DeductionPolicySelectSchema
+);
+
+export const EmployeeDeductionSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeDeductionSelectSchema
+);
+
+export const PaycheckDeductionSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckDeductionSelectSchema
+);
+
+export const EmployeeTaxDataSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeTaxDataSelectSchema
+);
+
+export const StateTaxWithholdingSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateTaxWithholdingSelectSchema
+);
+
+export const LocalTaxWithholdingSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  LocalTaxWithholdingSelectSchema
+);
+
+export const PayrollRunSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PayrollRunSelectSchema
+);
+
+export const ContactSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ContactSelectSchema
+);
+
+export const CountrySelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CountrySelectSchema
+);
+
+export const StateSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateSelectSchema
+);
+
+export const AddressSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  AddressSelectSchema
+);
+
+export const EmailSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmailSelectSchema
+);
+
+export const PhoneSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PhoneSelectSchema
+);
+
+export const PrimaryEmailSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryEmailSelectSchema
+);
+
+export const PrimaryPhoneSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryPhoneSelectSchema
+);
+
+export const PrimaryAddressSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryAddressSelectSchema
+);
+
+export const DepartmentOmitSchema = z.object({
+  id: _select,
+  parentId: _select,
+  name: _select,
+  slug: _select,
+  isActive: _select,
+});
+
+export const TitleOmitSchema = z.object({
+  id: _select,
+  departmentId: _select,
+  name: _select,
+  slug: _select,
+  description: _select,
+  isActive: _select,
+});
+
+export const PersonalDataOmitSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  ein: _select,
+  gender: _select,
+  dob: _select,
+  maritalStatus: _select,
+});
+
+export const EmployeeOmitSchema = z.object({
+  id: _select,
+  uuid: _select,
+  titleId: _select,
+  firstName: _select,
+  middleName: _select,
+  lastName: _select,
+  preferedName: _select,
+  status: _select,
+  hireDate: _select,
+  terminationDate: _select,
+  employmentType: _select,
+  directManagerId: _select,
+});
+
+export const TeamOmitSchema = z.object({ id: _select, name: _select });
+
+export const TeamManagerOmitSchema = z.object({
+  id: _select,
+  teamId: _select,
+  managerId: _select,
+});
+
+export const TeamMemberOmitSchema = z.object({
+  id: _select,
+  teamId: _select,
+  memberId: _select,
+});
+
+export const SalaryOmitSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  gross: _select,
+  startDate: _select,
+  endDate: _select,
+  frequency: _select,
+});
+
+export const SalaryHistoryOmitSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  createdAt: _select,
+  oldSalary: _select,
+  newSalary: _select,
+  reason: _select,
+});
+
+export const BenefitOmitSchema = z.object({
+  id: _select,
+  name: _select,
+  description: _select,
+  type: _select,
+});
+
+export const BenefitEnrolmentOmitSchema = z.object({
+  id: _select,
+  benefitId: _select,
+  employeeId: _select,
+  startDate: _select,
+  status: _select,
+});
+
+export const TitleHistoryOmitSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  titleId: _select,
+  type: _select,
+  reason: _select,
+  startDate: _select,
+  endDate: _select,
+});
+
+export const TimeOffPolicyOmitSchema = z.object({
+  id: _select,
+  name: _select,
+  description: _select,
+  accrualRate: _select,
+  maxRollover: _select,
+});
+
+export const TimeOffBalanceOmitSchema = z.object({
+  id: _select,
+  policyId: _select,
+  employeeId: _select,
+  accruedHours: _select,
+  usedHours: _select,
+  availableHours: _select,
+});
+
+export const TimeOffRequestOmitSchema = z.object({
+  id: _select,
+  createdAt: _select,
+  employeeId: _select,
+  reason: _select,
+  policyId: _select,
+  resolverId: _select,
+  status: _select,
+  startDate: _select,
+  endDate: _select,
+});
+
+export const TimeOffTransactionOmitSchema = z.object({
+  id: _select,
+  createdAt: _select,
+  updatedAt: _select,
+  type: _select,
+  balanceId: _select,
+  requestId: _select,
+  amount: _select,
+});
+
+export const ClockInOmitSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  clockIn: _select,
+  clockOut: _select,
+});
+
+export const PaycheckOmitSchema = z.object({
+  id: _select,
+  createdAt: _select,
+  payrollRunId: _select,
+  updatedAt: _select,
+  employeeId: _select,
+  grossAmount: _select,
+  netAmount: _select,
+});
+
+export const EarningOmitSchema = z.object({
+  id: _select,
+  type: _select,
+  hours: _select,
+  rate: _select,
+  amount: _select,
+  paycheckId: _select,
+});
+
+export const PaycheckTaxOmitSchema = z.object({
+  id: _select,
+  paycheckId: _select,
+  taxAuthority: _select,
+  amount: _select,
+});
+
+export const DeductionPolicyOmitSchema = z.object({
+  id: _select,
+  name: _select,
+  type: _select,
+  defaultAmount: _select,
+  defaultPercent: _select,
+});
+
+export const EmployeeDeductionOmitSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  policyId: _select,
+  employeeAmount: _select,
+});
+
+export const PaycheckDeductionOmitSchema = z.object({
+  id: _select,
+  paycheckId: _select,
+  employeeDeductionId: _select,
+  amount: _select,
+});
+
+export const EmployeeTaxDataOmitSchema = z.object({
+  id: _select,
+  createdAt: _select,
+  updatedAt: _select,
+  startDate: _select,
+  endDate: _select,
+  employeeId: _select,
+  federalStatus: _select,
+  dependentsCredit: _select,
+  multipleJobs: _select,
+  otherIncome: _select,
+  deductionsAmount: _select,
+  extraWithholding: _select,
+  isExempt: _select,
+  isNonResidentAlien: _select,
+});
+
+export const StateTaxWithholdingOmitSchema = z.object({
+  id: _select,
+  taxDataId: _select,
+  stateCode: _select,
+  stateStatus: _select,
+  allowances: _select,
+  extraWithholding: _select,
+});
+
+export const LocalTaxWithholdingOmitSchema = z.object({
+  id: _select,
+  taxDataId: _select,
+  jurisdiction: _select,
+  localStatus: _select,
+  extraWithholding: _select,
+});
+
+export const PayrollRunOmitSchema = z.object({
+  id: _select,
+  resolverId: _select,
+  startDate: _select,
+  endDate: _select,
+  payDate: _select,
+  status: _select,
+});
+
+export const ContactOmitSchema = z.object({ id: _select, employeeId: _select });
+
+export const CountryOmitSchema = z.object({
+  id: _select,
+  name: _select,
+  code: _select,
+});
+
+export const StateOmitSchema = z.object({
+  id: _select,
+  countryId: _select,
+  name: _select,
+  code: _select,
+});
+
+export const AddressOmitSchema = z.object({
+  id: _select,
+  type: _select,
+  contactId: _select,
+  stateId: _select,
+  street: _select,
+  zip: _select,
+  city: _select,
+});
+
+export const EmailOmitSchema = z.object({
+  id: _select,
+  type: _select,
+  contactId: _select,
+  email: _select,
+});
+
+export const PhoneOmitSchema = z.object({
+  id: _select,
+  type: _select,
+  contactId: _select,
+  phone: _select,
+});
+
+export const PrimaryEmailOmitSchema = z.object({
+  id: _select,
+  emailId: _select,
+  contactId: _select,
+});
+
+export const PrimaryPhoneOmitSchema = z.object({
+  id: _select,
+  phoneId: _select,
+  contactId: _select,
+});
+
+export const PrimaryAddressOmitSchema = z.object({
+  id: _select,
+  addressId: _select,
+  contactId: _select,
+});
+
+export const DepartmentOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DepartmentOmitSchema
+);
+
+export const TitleOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleOmitSchema
+);
+
+export const PersonalDataOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PersonalDataOmitSchema
+);
+
+export const EmployeeOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeOmitSchema
+);
+
+export const TeamOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamOmitSchema
+);
+
+export const TeamManagerOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamManagerOmitSchema
+);
+
+export const TeamMemberOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamMemberOmitSchema
+);
+
+export const SalaryOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryOmitSchema
+);
+
+export const SalaryHistoryOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryHistoryOmitSchema
+);
+
+export const BenefitOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitOmitSchema
+);
+
+export const BenefitEnrolmentOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitEnrolmentOmitSchema
+);
+
+export const TitleHistoryOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleHistoryOmitSchema
+);
+
+export const TimeOffPolicyOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffPolicyOmitSchema
+);
+
+export const TimeOffBalanceOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffBalanceOmitSchema
+);
+
+export const TimeOffRequestOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffRequestOmitSchema
+);
+
+export const TimeOffTransactionOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffTransactionOmitSchema
+);
+
+export const ClockInOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ClockInOmitSchema
+);
+
+export const PaycheckOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckOmitSchema
+);
+
+export const EarningOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EarningOmitSchema
+);
+
+export const PaycheckTaxOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckTaxOmitSchema
+);
+
+export const DeductionPolicyOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DeductionPolicyOmitSchema
+);
+
+export const EmployeeDeductionOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeDeductionOmitSchema
+);
+
+export const PaycheckDeductionOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckDeductionOmitSchema
+);
+
+export const EmployeeTaxDataOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeTaxDataOmitSchema
+);
+
+export const StateTaxWithholdingOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateTaxWithholdingOmitSchema
+);
+
+export const LocalTaxWithholdingOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  LocalTaxWithholdingOmitSchema
+);
+
+export const PayrollRunOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PayrollRunOmitSchema
+);
+
+export const ContactOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ContactOmitSchema
+);
+
+export const CountryOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CountryOmitSchema
+);
+
+export const StateOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateOmitSchema
+);
+
+export const AddressOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  AddressOmitSchema
+);
+
+export const EmailOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmailOmitSchema
+);
+
+export const PhoneOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PhoneOmitSchema
+);
+
+export const PrimaryEmailOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryEmailOmitSchema
+);
+
+export const PrimaryPhoneOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryPhoneOmitSchema
+);
+
+export const PrimaryAddressOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryAddressOmitSchema
+);
+
+export const DepartmentOwnQueryOneSchema = z.object({
+  select: DepartmentOwnSelectSchemaJson.optional(),
+  omit: DepartmentOmitSchemaJson.optional(),
+  where: DepartmentOwnWhereSchemaJson.optional(),
+});
+
+export const TitleOwnQueryOneSchema = z.object({
+  select: TitleOwnSelectSchemaJson.optional(),
+  omit: TitleOmitSchemaJson.optional(),
+  where: TitleOwnWhereSchemaJson.optional(),
+});
+
+export const PersonalDataOwnQueryOneSchema = z.object({
+  select: PersonalDataOwnSelectSchemaJson.optional(),
+  omit: PersonalDataOmitSchemaJson.optional(),
+  where: PersonalDataOwnWhereSchemaJson.optional(),
+});
+
+export const EmployeeOwnQueryOneSchema = z.object({
+  select: EmployeeOwnSelectSchemaJson.optional(),
+  omit: EmployeeOmitSchemaJson.optional(),
+  where: EmployeeOwnWhereSchemaJson.optional(),
+});
+
+export const TeamOwnQueryOneSchema = z.object({
+  select: TeamOwnSelectSchemaJson.optional(),
+  omit: TeamOmitSchemaJson.optional(),
+  where: TeamOwnWhereSchemaJson.optional(),
+});
+
+export const TeamManagerOwnQueryOneSchema = z.object({
+  select: TeamManagerOwnSelectSchemaJson.optional(),
+  omit: TeamManagerOmitSchemaJson.optional(),
+  where: TeamManagerOwnWhereSchemaJson.optional(),
+});
+
+export const TeamMemberOwnQueryOneSchema = z.object({
+  select: TeamMemberOwnSelectSchemaJson.optional(),
+  omit: TeamMemberOmitSchemaJson.optional(),
+  where: TeamMemberOwnWhereSchemaJson.optional(),
+});
+
+export const SalaryOwnQueryOneSchema = z.object({
+  select: SalaryOwnSelectSchemaJson.optional(),
+  omit: SalaryOmitSchemaJson.optional(),
+  where: SalaryOwnWhereSchemaJson.optional(),
+});
+
+export const SalaryHistoryOwnQueryOneSchema = z.object({
+  select: SalaryHistoryOwnSelectSchemaJson.optional(),
+  omit: SalaryHistoryOmitSchemaJson.optional(),
+  where: SalaryHistoryOwnWhereSchemaJson.optional(),
+});
+
+export const BenefitOwnQueryOneSchema = z.object({
+  select: BenefitOwnSelectSchemaJson.optional(),
+  omit: BenefitOmitSchemaJson.optional(),
+  where: BenefitOwnWhereSchemaJson.optional(),
+});
+
+export const BenefitEnrolmentOwnQueryOneSchema = z.object({
+  select: BenefitEnrolmentOwnSelectSchemaJson.optional(),
+  omit: BenefitEnrolmentOmitSchemaJson.optional(),
+  where: BenefitEnrolmentOwnWhereSchemaJson.optional(),
+});
+
+export const TitleHistoryOwnQueryOneSchema = z.object({
+  select: TitleHistoryOwnSelectSchemaJson.optional(),
+  omit: TitleHistoryOmitSchemaJson.optional(),
+  where: TitleHistoryOwnWhereSchemaJson.optional(),
+});
+
+export const TimeOffPolicyOwnQueryOneSchema = z.object({
+  select: TimeOffPolicyOwnSelectSchemaJson.optional(),
+  omit: TimeOffPolicyOmitSchemaJson.optional(),
+  where: TimeOffPolicyOwnWhereSchemaJson.optional(),
+});
+
+export const TimeOffBalanceOwnQueryOneSchema = z.object({
+  select: TimeOffBalanceOwnSelectSchemaJson.optional(),
+  omit: TimeOffBalanceOmitSchemaJson.optional(),
+  where: TimeOffBalanceOwnWhereSchemaJson.optional(),
+});
+
+export const TimeOffRequestOwnQueryOneSchema = z.object({
+  select: TimeOffRequestOwnSelectSchemaJson.optional(),
+  omit: TimeOffRequestOmitSchemaJson.optional(),
+  where: TimeOffRequestOwnWhereSchemaJson.optional(),
+});
+
+export const TimeOffTransactionOwnQueryOneSchema = z.object({
+  select: TimeOffTransactionOwnSelectSchemaJson.optional(),
+  omit: TimeOffTransactionOmitSchemaJson.optional(),
+  where: TimeOffTransactionOwnWhereSchemaJson.optional(),
+});
+
+export const ClockInOwnQueryOneSchema = z.object({
+  select: ClockInOwnSelectSchemaJson.optional(),
+  omit: ClockInOmitSchemaJson.optional(),
+  where: ClockInOwnWhereSchemaJson.optional(),
+});
+
+export const PaycheckOwnQueryOneSchema = z.object({
+  select: PaycheckOwnSelectSchemaJson.optional(),
+  omit: PaycheckOmitSchemaJson.optional(),
+  where: PaycheckOwnWhereSchemaJson.optional(),
+});
+
+export const EarningOwnQueryOneSchema = z.object({
+  select: EarningOwnSelectSchemaJson.optional(),
+  omit: EarningOmitSchemaJson.optional(),
+  where: EarningOwnWhereSchemaJson.optional(),
+});
+
+export const PaycheckTaxOwnQueryOneSchema = z.object({
+  select: PaycheckTaxOwnSelectSchemaJson.optional(),
+  omit: PaycheckTaxOmitSchemaJson.optional(),
+  where: PaycheckTaxOwnWhereSchemaJson.optional(),
+});
+
+export const DeductionPolicyOwnQueryOneSchema = z.object({
+  select: DeductionPolicyOwnSelectSchemaJson.optional(),
+  omit: DeductionPolicyOmitSchemaJson.optional(),
+  where: DeductionPolicyOwnWhereSchemaJson.optional(),
+});
+
+export const EmployeeDeductionOwnQueryOneSchema = z.object({
+  select: EmployeeDeductionOwnSelectSchemaJson.optional(),
+  omit: EmployeeDeductionOmitSchemaJson.optional(),
+  where: EmployeeDeductionOwnWhereSchemaJson.optional(),
+});
+
+export const PaycheckDeductionOwnQueryOneSchema = z.object({
+  select: PaycheckDeductionOwnSelectSchemaJson.optional(),
+  omit: PaycheckDeductionOmitSchemaJson.optional(),
+  where: PaycheckDeductionOwnWhereSchemaJson.optional(),
+});
+
+export const EmployeeTaxDataOwnQueryOneSchema = z.object({
+  select: EmployeeTaxDataOwnSelectSchemaJson.optional(),
+  omit: EmployeeTaxDataOmitSchemaJson.optional(),
+  where: EmployeeTaxDataOwnWhereSchemaJson.optional(),
+});
+
+export const StateTaxWithholdingOwnQueryOneSchema = z.object({
+  select: StateTaxWithholdingOwnSelectSchemaJson.optional(),
+  omit: StateTaxWithholdingOmitSchemaJson.optional(),
+  where: StateTaxWithholdingOwnWhereSchemaJson.optional(),
+});
+
+export const LocalTaxWithholdingOwnQueryOneSchema = z.object({
+  select: LocalTaxWithholdingOwnSelectSchemaJson.optional(),
+  omit: LocalTaxWithholdingOmitSchemaJson.optional(),
+  where: LocalTaxWithholdingOwnWhereSchemaJson.optional(),
+});
+
+export const PayrollRunOwnQueryOneSchema = z.object({
+  select: PayrollRunOwnSelectSchemaJson.optional(),
+  omit: PayrollRunOmitSchemaJson.optional(),
+  where: PayrollRunOwnWhereSchemaJson.optional(),
+});
+
+export const ContactOwnQueryOneSchema = z.object({
+  select: ContactOwnSelectSchemaJson.optional(),
+  omit: ContactOmitSchemaJson.optional(),
+  where: ContactOwnWhereSchemaJson.optional(),
+});
+
+export const CountryOwnQueryOneSchema = z.object({
+  select: CountryOwnSelectSchemaJson.optional(),
+  omit: CountryOmitSchemaJson.optional(),
+  where: CountryOwnWhereSchemaJson.optional(),
+});
+
+export const StateOwnQueryOneSchema = z.object({
+  select: StateOwnSelectSchemaJson.optional(),
+  omit: StateOmitSchemaJson.optional(),
+  where: StateOwnWhereSchemaJson.optional(),
+});
+
+export const AddressOwnQueryOneSchema = z.object({
+  select: AddressOwnSelectSchemaJson.optional(),
+  omit: AddressOmitSchemaJson.optional(),
+  where: AddressOwnWhereSchemaJson.optional(),
+});
+
+export const EmailOwnQueryOneSchema = z.object({
+  select: EmailOwnSelectSchemaJson.optional(),
+  omit: EmailOmitSchemaJson.optional(),
+  where: EmailOwnWhereSchemaJson.optional(),
+});
+
+export const PhoneOwnQueryOneSchema = z.object({
+  select: PhoneOwnSelectSchemaJson.optional(),
+  omit: PhoneOmitSchemaJson.optional(),
+  where: PhoneOwnWhereSchemaJson.optional(),
+});
+
+export const PrimaryEmailOwnQueryOneSchema = z.object({
+  select: PrimaryEmailOwnSelectSchemaJson.optional(),
+  omit: PrimaryEmailOmitSchemaJson.optional(),
+  where: PrimaryEmailOwnWhereSchemaJson.optional(),
+});
+
+export const PrimaryPhoneOwnQueryOneSchema = z.object({
+  select: PrimaryPhoneOwnSelectSchemaJson.optional(),
+  omit: PrimaryPhoneOmitSchemaJson.optional(),
+  where: PrimaryPhoneOwnWhereSchemaJson.optional(),
+});
+
+export const PrimaryAddressOwnQueryOneSchema = z.object({
+  select: PrimaryAddressOwnSelectSchemaJson.optional(),
+  omit: PrimaryAddressOmitSchemaJson.optional(),
+  where: PrimaryAddressOwnWhereSchemaJson.optional(),
+});
+
+export const DepartmentOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DepartmentOwnQueryOneSchema
+);
+
+export const TitleOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleOwnQueryOneSchema
+);
+
+export const PersonalDataOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PersonalDataOwnQueryOneSchema
+);
+
+export const EmployeeOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeOwnQueryOneSchema
+);
+
+export const TeamOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamOwnQueryOneSchema
+);
+
+export const TeamManagerOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamManagerOwnQueryOneSchema
+);
+
+export const TeamMemberOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamMemberOwnQueryOneSchema
+);
+
+export const SalaryOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryOwnQueryOneSchema
+);
+
+export const SalaryHistoryOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryHistoryOwnQueryOneSchema
+);
+
+export const BenefitOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitOwnQueryOneSchema
+);
+
+export const BenefitEnrolmentOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitEnrolmentOwnQueryOneSchema
+);
+
+export const TitleHistoryOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleHistoryOwnQueryOneSchema
+);
+
+export const TimeOffPolicyOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffPolicyOwnQueryOneSchema
+);
+
+export const TimeOffBalanceOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffBalanceOwnQueryOneSchema
+);
+
+export const TimeOffRequestOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffRequestOwnQueryOneSchema
+);
+
+export const TimeOffTransactionOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffTransactionOwnQueryOneSchema
+);
+
+export const ClockInOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ClockInOwnQueryOneSchema
+);
+
+export const PaycheckOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckOwnQueryOneSchema
+);
+
+export const EarningOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EarningOwnQueryOneSchema
+);
+
+export const PaycheckTaxOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckTaxOwnQueryOneSchema
+);
+
+export const DeductionPolicyOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DeductionPolicyOwnQueryOneSchema
+);
+
+export const EmployeeDeductionOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeDeductionOwnQueryOneSchema
+);
+
+export const PaycheckDeductionOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckDeductionOwnQueryOneSchema
+);
+
+export const EmployeeTaxDataOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeTaxDataOwnQueryOneSchema
+);
+
+export const StateTaxWithholdingOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateTaxWithholdingOwnQueryOneSchema
+);
+
+export const LocalTaxWithholdingOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  LocalTaxWithholdingOwnQueryOneSchema
+);
+
+export const PayrollRunOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PayrollRunOwnQueryOneSchema
+);
+
+export const ContactOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ContactOwnQueryOneSchema
+);
+
+export const CountryOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CountryOwnQueryOneSchema
+);
+
+export const StateOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateOwnQueryOneSchema
+);
+
+export const AddressOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  AddressOwnQueryOneSchema
+);
+
+export const EmailOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmailOwnQueryOneSchema
+);
+
+export const PhoneOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PhoneOwnQueryOneSchema
+);
+
+export const PrimaryEmailOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryEmailOwnQueryOneSchema
+);
+
+export const PrimaryPhoneOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryPhoneOwnQueryOneSchema
+);
+
+export const PrimaryAddressOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryAddressOwnQueryOneSchema
+);
+
+export const DepartmentOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: DepartmentDistinctSchema.optional(),
+  select: DepartmentOwnSelectSchemaJson.optional(),
+  omit: DepartmentOmitSchemaJson.optional(),
+  where: DepartmentOwnWhereSchemaJson.optional(),
+  orderBy: DepartmentOwnOrderBySchemaJson.optional(),
+});
+
+export const TitleOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TitleDistinctSchema.optional(),
+  select: TitleOwnSelectSchemaJson.optional(),
+  omit: TitleOmitSchemaJson.optional(),
+  where: TitleOwnWhereSchemaJson.optional(),
+  orderBy: TitleOwnOrderBySchemaJson.optional(),
+});
+
+export const PersonalDataOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PersonalDataDistinctSchema.optional(),
+  select: PersonalDataOwnSelectSchemaJson.optional(),
+  omit: PersonalDataOmitSchemaJson.optional(),
+  where: PersonalDataOwnWhereSchemaJson.optional(),
+  orderBy: PersonalDataOwnOrderBySchemaJson.optional(),
+});
+
+export const EmployeeOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: EmployeeDistinctSchema.optional(),
+  select: EmployeeOwnSelectSchemaJson.optional(),
+  omit: EmployeeOmitSchemaJson.optional(),
+  where: EmployeeOwnWhereSchemaJson.optional(),
+  orderBy: EmployeeOwnOrderBySchemaJson.optional(),
+});
+
+export const TeamOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TeamDistinctSchema.optional(),
+  select: TeamOwnSelectSchemaJson.optional(),
+  omit: TeamOmitSchemaJson.optional(),
+  where: TeamOwnWhereSchemaJson.optional(),
+  orderBy: TeamOwnOrderBySchemaJson.optional(),
+});
+
+export const TeamManagerOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TeamManagerDistinctSchema.optional(),
+  select: TeamManagerOwnSelectSchemaJson.optional(),
+  omit: TeamManagerOmitSchemaJson.optional(),
+  where: TeamManagerOwnWhereSchemaJson.optional(),
+  orderBy: TeamManagerOwnOrderBySchemaJson.optional(),
+});
+
+export const TeamMemberOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TeamMemberDistinctSchema.optional(),
+  select: TeamMemberOwnSelectSchemaJson.optional(),
+  omit: TeamMemberOmitSchemaJson.optional(),
+  where: TeamMemberOwnWhereSchemaJson.optional(),
+  orderBy: TeamMemberOwnOrderBySchemaJson.optional(),
+});
+
+export const SalaryOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: SalaryDistinctSchema.optional(),
+  select: SalaryOwnSelectSchemaJson.optional(),
+  omit: SalaryOmitSchemaJson.optional(),
+  where: SalaryOwnWhereSchemaJson.optional(),
+  orderBy: SalaryOwnOrderBySchemaJson.optional(),
+});
+
+export const SalaryHistoryOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: SalaryHistoryDistinctSchema.optional(),
+  select: SalaryHistoryOwnSelectSchemaJson.optional(),
+  omit: SalaryHistoryOmitSchemaJson.optional(),
+  where: SalaryHistoryOwnWhereSchemaJson.optional(),
+  orderBy: SalaryHistoryOwnOrderBySchemaJson.optional(),
+});
+
+export const BenefitOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: BenefitDistinctSchema.optional(),
+  select: BenefitOwnSelectSchemaJson.optional(),
+  omit: BenefitOmitSchemaJson.optional(),
+  where: BenefitOwnWhereSchemaJson.optional(),
+  orderBy: BenefitOwnOrderBySchemaJson.optional(),
+});
+
+export const BenefitEnrolmentOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: BenefitEnrolmentDistinctSchema.optional(),
+  select: BenefitEnrolmentOwnSelectSchemaJson.optional(),
+  omit: BenefitEnrolmentOmitSchemaJson.optional(),
+  where: BenefitEnrolmentOwnWhereSchemaJson.optional(),
+  orderBy: BenefitEnrolmentOwnOrderBySchemaJson.optional(),
+});
+
+export const TitleHistoryOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TitleHistoryDistinctSchema.optional(),
+  select: TitleHistoryOwnSelectSchemaJson.optional(),
+  omit: TitleHistoryOmitSchemaJson.optional(),
+  where: TitleHistoryOwnWhereSchemaJson.optional(),
+  orderBy: TitleHistoryOwnOrderBySchemaJson.optional(),
+});
+
+export const TimeOffPolicyOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TimeOffPolicyDistinctSchema.optional(),
+  select: TimeOffPolicyOwnSelectSchemaJson.optional(),
+  omit: TimeOffPolicyOmitSchemaJson.optional(),
+  where: TimeOffPolicyOwnWhereSchemaJson.optional(),
+  orderBy: TimeOffPolicyOwnOrderBySchemaJson.optional(),
+});
+
+export const TimeOffBalanceOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TimeOffBalanceDistinctSchema.optional(),
+  select: TimeOffBalanceOwnSelectSchemaJson.optional(),
+  omit: TimeOffBalanceOmitSchemaJson.optional(),
+  where: TimeOffBalanceOwnWhereSchemaJson.optional(),
+  orderBy: TimeOffBalanceOwnOrderBySchemaJson.optional(),
+});
+
+export const TimeOffRequestOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TimeOffRequestDistinctSchema.optional(),
+  select: TimeOffRequestOwnSelectSchemaJson.optional(),
+  omit: TimeOffRequestOmitSchemaJson.optional(),
+  where: TimeOffRequestOwnWhereSchemaJson.optional(),
+  orderBy: TimeOffRequestOwnOrderBySchemaJson.optional(),
+});
+
+export const TimeOffTransactionOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TimeOffTransactionDistinctSchema.optional(),
+  select: TimeOffTransactionOwnSelectSchemaJson.optional(),
+  omit: TimeOffTransactionOmitSchemaJson.optional(),
+  where: TimeOffTransactionOwnWhereSchemaJson.optional(),
+  orderBy: TimeOffTransactionOwnOrderBySchemaJson.optional(),
+});
+
+export const ClockInOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: ClockInDistinctSchema.optional(),
+  select: ClockInOwnSelectSchemaJson.optional(),
+  omit: ClockInOmitSchemaJson.optional(),
+  where: ClockInOwnWhereSchemaJson.optional(),
+  orderBy: ClockInOwnOrderBySchemaJson.optional(),
+});
+
+export const PaycheckOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PaycheckDistinctSchema.optional(),
+  select: PaycheckOwnSelectSchemaJson.optional(),
+  omit: PaycheckOmitSchemaJson.optional(),
+  where: PaycheckOwnWhereSchemaJson.optional(),
+  orderBy: PaycheckOwnOrderBySchemaJson.optional(),
+});
+
+export const EarningOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: EarningDistinctSchema.optional(),
+  select: EarningOwnSelectSchemaJson.optional(),
+  omit: EarningOmitSchemaJson.optional(),
+  where: EarningOwnWhereSchemaJson.optional(),
+  orderBy: EarningOwnOrderBySchemaJson.optional(),
+});
+
+export const PaycheckTaxOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PaycheckTaxDistinctSchema.optional(),
+  select: PaycheckTaxOwnSelectSchemaJson.optional(),
+  omit: PaycheckTaxOmitSchemaJson.optional(),
+  where: PaycheckTaxOwnWhereSchemaJson.optional(),
+  orderBy: PaycheckTaxOwnOrderBySchemaJson.optional(),
+});
+
+export const DeductionPolicyOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: DeductionPolicyDistinctSchema.optional(),
+  select: DeductionPolicyOwnSelectSchemaJson.optional(),
+  omit: DeductionPolicyOmitSchemaJson.optional(),
+  where: DeductionPolicyOwnWhereSchemaJson.optional(),
+  orderBy: DeductionPolicyOwnOrderBySchemaJson.optional(),
+});
+
+export const EmployeeDeductionOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: EmployeeDeductionDistinctSchema.optional(),
+  select: EmployeeDeductionOwnSelectSchemaJson.optional(),
+  omit: EmployeeDeductionOmitSchemaJson.optional(),
+  where: EmployeeDeductionOwnWhereSchemaJson.optional(),
+  orderBy: EmployeeDeductionOwnOrderBySchemaJson.optional(),
+});
+
+export const PaycheckDeductionOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PaycheckDeductionDistinctSchema.optional(),
+  select: PaycheckDeductionOwnSelectSchemaJson.optional(),
+  omit: PaycheckDeductionOmitSchemaJson.optional(),
+  where: PaycheckDeductionOwnWhereSchemaJson.optional(),
+  orderBy: PaycheckDeductionOwnOrderBySchemaJson.optional(),
+});
+
+export const EmployeeTaxDataOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: EmployeeTaxDataDistinctSchema.optional(),
+  select: EmployeeTaxDataOwnSelectSchemaJson.optional(),
+  omit: EmployeeTaxDataOmitSchemaJson.optional(),
+  where: EmployeeTaxDataOwnWhereSchemaJson.optional(),
+  orderBy: EmployeeTaxDataOwnOrderBySchemaJson.optional(),
+});
+
+export const StateTaxWithholdingOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: StateTaxWithholdingDistinctSchema.optional(),
+  select: StateTaxWithholdingOwnSelectSchemaJson.optional(),
+  omit: StateTaxWithholdingOmitSchemaJson.optional(),
+  where: StateTaxWithholdingOwnWhereSchemaJson.optional(),
+  orderBy: StateTaxWithholdingOwnOrderBySchemaJson.optional(),
+});
+
+export const LocalTaxWithholdingOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: LocalTaxWithholdingDistinctSchema.optional(),
+  select: LocalTaxWithholdingOwnSelectSchemaJson.optional(),
+  omit: LocalTaxWithholdingOmitSchemaJson.optional(),
+  where: LocalTaxWithholdingOwnWhereSchemaJson.optional(),
+  orderBy: LocalTaxWithholdingOwnOrderBySchemaJson.optional(),
+});
+
+export const PayrollRunOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PayrollRunDistinctSchema.optional(),
+  select: PayrollRunOwnSelectSchemaJson.optional(),
+  omit: PayrollRunOmitSchemaJson.optional(),
+  where: PayrollRunOwnWhereSchemaJson.optional(),
+  orderBy: PayrollRunOwnOrderBySchemaJson.optional(),
+});
+
+export const ContactOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: ContactDistinctSchema.optional(),
+  select: ContactOwnSelectSchemaJson.optional(),
+  omit: ContactOmitSchemaJson.optional(),
+  where: ContactOwnWhereSchemaJson.optional(),
+  orderBy: ContactOwnOrderBySchemaJson.optional(),
+});
+
+export const CountryOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: CountryDistinctSchema.optional(),
+  select: CountryOwnSelectSchemaJson.optional(),
+  omit: CountryOmitSchemaJson.optional(),
+  where: CountryOwnWhereSchemaJson.optional(),
+  orderBy: CountryOwnOrderBySchemaJson.optional(),
+});
+
+export const StateOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: StateDistinctSchema.optional(),
+  select: StateOwnSelectSchemaJson.optional(),
+  omit: StateOmitSchemaJson.optional(),
+  where: StateOwnWhereSchemaJson.optional(),
+  orderBy: StateOwnOrderBySchemaJson.optional(),
+});
+
+export const AddressOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: AddressDistinctSchema.optional(),
+  select: AddressOwnSelectSchemaJson.optional(),
+  omit: AddressOmitSchemaJson.optional(),
+  where: AddressOwnWhereSchemaJson.optional(),
+  orderBy: AddressOwnOrderBySchemaJson.optional(),
+});
+
+export const EmailOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: EmailDistinctSchema.optional(),
+  select: EmailOwnSelectSchemaJson.optional(),
+  omit: EmailOmitSchemaJson.optional(),
+  where: EmailOwnWhereSchemaJson.optional(),
+  orderBy: EmailOwnOrderBySchemaJson.optional(),
+});
+
+export const PhoneOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PhoneDistinctSchema.optional(),
+  select: PhoneOwnSelectSchemaJson.optional(),
+  omit: PhoneOmitSchemaJson.optional(),
+  where: PhoneOwnWhereSchemaJson.optional(),
+  orderBy: PhoneOwnOrderBySchemaJson.optional(),
+});
+
+export const PrimaryEmailOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PrimaryEmailDistinctSchema.optional(),
+  select: PrimaryEmailOwnSelectSchemaJson.optional(),
+  omit: PrimaryEmailOmitSchemaJson.optional(),
+  where: PrimaryEmailOwnWhereSchemaJson.optional(),
+  orderBy: PrimaryEmailOwnOrderBySchemaJson.optional(),
+});
+
+export const PrimaryPhoneOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PrimaryPhoneDistinctSchema.optional(),
+  select: PrimaryPhoneOwnSelectSchemaJson.optional(),
+  omit: PrimaryPhoneOmitSchemaJson.optional(),
+  where: PrimaryPhoneOwnWhereSchemaJson.optional(),
+  orderBy: PrimaryPhoneOwnOrderBySchemaJson.optional(),
+});
+
+export const PrimaryAddressOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PrimaryAddressDistinctSchema.optional(),
+  select: PrimaryAddressOwnSelectSchemaJson.optional(),
+  omit: PrimaryAddressOmitSchemaJson.optional(),
+  where: PrimaryAddressOwnWhereSchemaJson.optional(),
+  orderBy: PrimaryAddressOwnOrderBySchemaJson.optional(),
+});
+
+export const DepartmentOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DepartmentOwnQuerySchema
+);
+
+export const TitleOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleOwnQuerySchema
+);
+
+export const PersonalDataOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PersonalDataOwnQuerySchema
+);
+
+export const EmployeeOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeOwnQuerySchema
+);
+
+export const TeamOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamOwnQuerySchema
+);
+
+export const TeamManagerOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamManagerOwnQuerySchema
+);
+
+export const TeamMemberOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamMemberOwnQuerySchema
+);
+
+export const SalaryOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryOwnQuerySchema
+);
+
+export const SalaryHistoryOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryHistoryOwnQuerySchema
+);
+
+export const BenefitOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitOwnQuerySchema
+);
+
+export const BenefitEnrolmentOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitEnrolmentOwnQuerySchema
+);
+
+export const TitleHistoryOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleHistoryOwnQuerySchema
+);
+
+export const TimeOffPolicyOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffPolicyOwnQuerySchema
+);
+
+export const TimeOffBalanceOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffBalanceOwnQuerySchema
+);
+
+export const TimeOffRequestOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffRequestOwnQuerySchema
+);
+
+export const TimeOffTransactionOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffTransactionOwnQuerySchema
+);
+
+export const ClockInOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ClockInOwnQuerySchema
+);
+
+export const PaycheckOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckOwnQuerySchema
+);
+
+export const EarningOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EarningOwnQuerySchema
+);
+
+export const PaycheckTaxOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckTaxOwnQuerySchema
+);
+
+export const DeductionPolicyOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DeductionPolicyOwnQuerySchema
+);
+
+export const EmployeeDeductionOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeDeductionOwnQuerySchema
+);
+
+export const PaycheckDeductionOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckDeductionOwnQuerySchema
+);
+
+export const EmployeeTaxDataOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeTaxDataOwnQuerySchema
+);
+
+export const StateTaxWithholdingOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateTaxWithholdingOwnQuerySchema
+);
+
+export const LocalTaxWithholdingOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  LocalTaxWithholdingOwnQuerySchema
+);
+
+export const PayrollRunOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PayrollRunOwnQuerySchema
+);
+
+export const ContactOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ContactOwnQuerySchema
+);
+
+export const CountryOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CountryOwnQuerySchema
+);
+
+export const StateOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateOwnQuerySchema
+);
+
+export const AddressOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  AddressOwnQuerySchema
+);
+
+export const EmailOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmailOwnQuerySchema
+);
+
+export const PhoneOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PhoneOwnQuerySchema
+);
+
+export const PrimaryEmailOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryEmailOwnQuerySchema
+);
+
+export const PrimaryPhoneOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryPhoneOwnQuerySchema
+);
+
+export const PrimaryAddressOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryAddressOwnQuerySchema
+);
+
+export const DepartmentIncludeSchema = z.object({
+  parent: _select.or(DepartmentOwnQueryOneSchema).optional(),
+  departments: _select.or(DepartmentOwnQueryOneSchema).optional(),
+  titles: _select.or(TitleOwnQueryOneSchema).optional(),
+});
+
+export const TitleIncludeSchema = z.object({
+  department: _select.or(DepartmentOwnQueryOneSchema).optional(),
+  employees: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  histories: _select.or(TitleHistoryOwnQueryOneSchema).optional(),
+});
+
+export const PersonalDataIncludeSchema = z.object({
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+});
+
+export const EmployeeIncludeSchema = z.object({
+  title: _select.or(TitleOwnQueryOneSchema).optional(),
+  salary: _select.or(SalaryOwnQueryOneSchema).optional(),
+  salaryHistory: _select.or(SalaryHistoryOwnQueryOneSchema).optional(),
+  benefits: _select.or(BenefitEnrolmentOwnQueryOneSchema).optional(),
+  titleHistory: _select.or(TitleHistoryOwnQueryOneSchema).optional(),
+  timeOffBalances: _select.or(TimeOffBalanceOwnQueryOneSchema).optional(),
+  timeOffRequests: _select.or(TimeOffRequestOwnQueryOneSchema).optional(),
+  resolvedTimeOffs: _select.or(TimeOffRequestOwnQueryOneSchema).optional(),
+  clockIns: _select.or(ClockInOwnQueryOneSchema).optional(),
+  personalData: _select.or(PersonalDataOwnQueryOneSchema).optional(),
+  taxData: _select.or(EmployeeTaxDataOwnQueryOneSchema).optional(),
+  memberships: _select.or(TeamMemberOwnQueryOneSchema).optional(),
+  managingTeams: _select.or(TeamManagerOwnQueryOneSchema).optional(),
+  managingEmployees: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  directManager: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  paychecks: _select.or(PaycheckOwnQueryOneSchema).optional(),
+  deductions: _select.or(EmployeeDeductionOwnQueryOneSchema).optional(),
+  resolvedPayrollRuns: _select.or(PayrollRunOwnQueryOneSchema).optional(),
+  contact: _select.or(ContactOwnQueryOneSchema).optional(),
+});
+
+export const TeamIncludeSchema = z.object({
+  members: _select.or(TeamMemberOwnQueryOneSchema).optional(),
+  managers: _select.or(TeamManagerOwnQueryOneSchema).optional(),
+});
+
+export const TeamManagerIncludeSchema = z.object({
+  team: _select.or(TeamOwnQueryOneSchema).optional(),
+  manager: _select.or(EmployeeOwnQueryOneSchema).optional(),
+});
+
+export const TeamMemberIncludeSchema = z.object({
+  member: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  team: _select.or(TeamOwnQueryOneSchema).optional(),
+});
+
+export const SalaryIncludeSchema = z.object({
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+});
+
+export const SalaryHistoryIncludeSchema = z.object({
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+});
+
+export const BenefitIncludeSchema = z.object({
+  enrolments: _select.or(BenefitEnrolmentOwnQueryOneSchema).optional(),
+});
+
+export const BenefitEnrolmentIncludeSchema = z.object({
+  benefit: _select.or(BenefitOwnQueryOneSchema).optional(),
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+});
+
+export const TitleHistoryIncludeSchema = z.object({
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  title: _select.or(TitleOwnQueryOneSchema).optional(),
+});
+
+export const TimeOffPolicyIncludeSchema = z.object({
+  balances: _select.or(TimeOffBalanceOwnQueryOneSchema).optional(),
+  requests: _select.or(TimeOffRequestOwnQueryOneSchema).optional(),
+});
+
+export const TimeOffBalanceIncludeSchema = z.object({
+  policy: _select.or(TimeOffPolicyOwnQueryOneSchema).optional(),
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  transactions: _select.or(TimeOffTransactionOwnQueryOneSchema).optional(),
+});
+
+export const TimeOffRequestIncludeSchema = z.object({
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  policy: _select.or(TimeOffPolicyOwnQueryOneSchema).optional(),
+  resolver: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  transactions: _select.or(TimeOffTransactionOwnQueryOneSchema).optional(),
+});
+
+export const TimeOffTransactionIncludeSchema = z.object({
+  balance: _select.or(TimeOffBalanceOwnQueryOneSchema).optional(),
+  request: _select.or(TimeOffRequestOwnQueryOneSchema).optional(),
+});
+
+export const ClockInIncludeSchema = z.object({
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+});
+
+export const PaycheckIncludeSchema = z.object({
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  earnings: _select.or(EarningOwnQueryOneSchema).optional(),
+  paycheckTaxes: _select.or(PaycheckTaxOwnQueryOneSchema).optional(),
+  deductions: _select.or(PaycheckDeductionOwnQueryOneSchema).optional(),
+  payrollRun: _select.or(PayrollRunOwnQueryOneSchema).optional(),
+});
+
+export const EarningIncludeSchema = z.object({
+  paycheck: _select.or(PaycheckOwnQueryOneSchema).optional(),
+});
+
+export const PaycheckTaxIncludeSchema = z.object({
+  paycheck: _select.or(PaycheckOwnQueryOneSchema).optional(),
+});
+
+export const DeductionPolicyIncludeSchema = z.object({
+  employeeDeductions: _select.or(EmployeeDeductionOwnQueryOneSchema).optional(),
+});
+
+export const EmployeeDeductionIncludeSchema = z.object({
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  policy: _select.or(DeductionPolicyOwnQueryOneSchema).optional(),
+  paycheckDeductions: _select.or(PaycheckDeductionOwnQueryOneSchema).optional(),
+});
+
+export const PaycheckDeductionIncludeSchema = z.object({
+  paycheck: _select.or(PaycheckOwnQueryOneSchema).optional(),
+  employeeDeduction: _select.or(EmployeeDeductionOwnQueryOneSchema).optional(),
+});
+
+export const EmployeeTaxDataIncludeSchema = z.object({
+  stateTaxes: _select.or(StateTaxWithholdingOwnQueryOneSchema).optional(),
+  localTaxes: _select.or(LocalTaxWithholdingOwnQueryOneSchema).optional(),
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+});
+
+export const StateTaxWithholdingIncludeSchema = z.object({
+  taxData: _select.or(EmployeeTaxDataOwnQueryOneSchema).optional(),
+});
+
+export const LocalTaxWithholdingIncludeSchema = z.object({
+  taxData: _select.or(EmployeeTaxDataOwnQueryOneSchema).optional(),
+});
+
+export const PayrollRunIncludeSchema = z.object({
+  approvedBy: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  paychecks: _select.or(PaycheckOwnQueryOneSchema).optional(),
+});
+
+export const ContactIncludeSchema = z.object({
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  emails: _select.or(EmailOwnQueryOneSchema).optional(),
+  phones: _select.or(PhoneOwnQueryOneSchema).optional(),
+  addresses: _select.or(AddressOwnQueryOneSchema).optional(),
+  primaryEmail: _select.or(PrimaryEmailOwnQueryOneSchema).optional(),
+  primaryPhone: _select.or(PrimaryPhoneOwnQueryOneSchema).optional(),
+  primaryAddress: _select.or(PrimaryAddressOwnQueryOneSchema).optional(),
+});
+
+export const CountryIncludeSchema = z.object({
+  states: _select.or(StateOwnQueryOneSchema).optional(),
+});
+
+export const StateIncludeSchema = z.object({
+  country: _select.or(CountryOwnQueryOneSchema).optional(),
+  addresses: _select.or(AddressOwnQueryOneSchema).optional(),
+});
+
+export const AddressIncludeSchema = z.object({
+  state: _select.or(StateOwnQueryOneSchema).optional(),
+  contact: _select.or(ContactOwnQueryOneSchema).optional(),
+  primary: _select.or(PrimaryAddressOwnQueryOneSchema).optional(),
+});
+
+export const EmailIncludeSchema = z.object({
+  contact: _select.or(ContactOwnQueryOneSchema).optional(),
+  primary: _select.or(PrimaryEmailOwnQueryOneSchema).optional(),
+});
+
+export const PhoneIncludeSchema = z.object({
+  contact: _select.or(ContactOwnQueryOneSchema).optional(),
+  primary: _select.or(PrimaryPhoneOwnQueryOneSchema).optional(),
+});
+
+export const PrimaryEmailIncludeSchema = z.object({
+  email: _select.or(EmailOwnQueryOneSchema).optional(),
+  contact: _select.or(ContactOwnQueryOneSchema).optional(),
+});
+
+export const PrimaryPhoneIncludeSchema = z.object({
+  phone: _select.or(PhoneOwnQueryOneSchema).optional(),
+  contact: _select.or(ContactOwnQueryOneSchema).optional(),
+});
+
+export const PrimaryAddressIncludeSchema = z.object({
+  address: _select.or(AddressOwnQueryOneSchema).optional(),
+  contact: _select.or(ContactOwnQueryOneSchema).optional(),
+});
 
 export const DepartmentIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
+  _jsonPreprocessor,
   DepartmentIncludeSchema
 );
 
+export const TitleIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleIncludeSchema
+);
+
+export const PersonalDataIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PersonalDataIncludeSchema
+);
+
+export const EmployeeIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeIncludeSchema
+);
+
+export const TeamIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamIncludeSchema
+);
+
+export const TeamManagerIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamManagerIncludeSchema
+);
+
+export const TeamMemberIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamMemberIncludeSchema
+);
+
+export const SalaryIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryIncludeSchema
+);
+
+export const SalaryHistoryIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryHistoryIncludeSchema
+);
+
+export const BenefitIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitIncludeSchema
+);
+
+export const BenefitEnrolmentIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitEnrolmentIncludeSchema
+);
+
+export const TitleHistoryIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleHistoryIncludeSchema
+);
+
+export const TimeOffPolicyIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffPolicyIncludeSchema
+);
+
+export const TimeOffBalanceIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffBalanceIncludeSchema
+);
+
+export const TimeOffRequestIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffRequestIncludeSchema
+);
+
+export const TimeOffTransactionIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffTransactionIncludeSchema
+);
+
+export const ClockInIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ClockInIncludeSchema
+);
+
+export const PaycheckIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckIncludeSchema
+);
+
+export const EarningIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EarningIncludeSchema
+);
+
+export const PaycheckTaxIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckTaxIncludeSchema
+);
+
+export const DeductionPolicyIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DeductionPolicyIncludeSchema
+);
+
+export const EmployeeDeductionIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeDeductionIncludeSchema
+);
+
+export const PaycheckDeductionIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckDeductionIncludeSchema
+);
+
+export const EmployeeTaxDataIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeTaxDataIncludeSchema
+);
+
+export const StateTaxWithholdingIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateTaxWithholdingIncludeSchema
+);
+
+export const LocalTaxWithholdingIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  LocalTaxWithholdingIncludeSchema
+);
+
+export const PayrollRunIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PayrollRunIncludeSchema
+);
+
+export const ContactIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ContactIncludeSchema
+);
+
+export const CountryIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CountryIncludeSchema
+);
+
+export const StateIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateIncludeSchema
+);
+
+export const AddressIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  AddressIncludeSchema
+);
+
+export const EmailIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmailIncludeSchema
+);
+
+export const PhoneIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PhoneIncludeSchema
+);
+
+export const PrimaryEmailIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryEmailIncludeSchema
+);
+
+export const PrimaryPhoneIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryPhoneIncludeSchema
+);
+
+export const PrimaryAddressIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryAddressIncludeSchema
+);
+
+export const DepartmentCompleteSelectSchema = z.object({
+  id: _select,
+  parentId: _select,
+  name: _select,
+  slug: _select,
+  isActive: _select,
+  parent: _select.or(DepartmentOwnQueryOneSchema).optional(),
+  departments: _select.or(DepartmentOwnQueryOneSchema).optional(),
+  titles: _select.or(TitleOwnQueryOneSchema).optional(),
+});
+
+export const TitleCompleteSelectSchema = z.object({
+  id: _select,
+  departmentId: _select,
+  name: _select,
+  slug: _select,
+  description: _select,
+  isActive: _select,
+  department: _select.or(DepartmentOwnQueryOneSchema).optional(),
+  employees: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  histories: _select.or(TitleHistoryOwnQueryOneSchema).optional(),
+});
+
+export const PersonalDataCompleteSelectSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  ein: _select,
+  gender: _select,
+  dob: _select,
+  maritalStatus: _select,
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+});
+
+export const EmployeeCompleteSelectSchema = z.object({
+  id: _select,
+  uuid: _select,
+  titleId: _select,
+  firstName: _select,
+  middleName: _select,
+  lastName: _select,
+  preferedName: _select,
+  status: _select,
+  title: _select.or(TitleOwnQueryOneSchema).optional(),
+  hireDate: _select,
+  terminationDate: _select,
+  employmentType: _select,
+  salary: _select.or(SalaryOwnQueryOneSchema).optional(),
+  salaryHistory: _select.or(SalaryHistoryOwnQueryOneSchema).optional(),
+  benefits: _select.or(BenefitEnrolmentOwnQueryOneSchema).optional(),
+  titleHistory: _select.or(TitleHistoryOwnQueryOneSchema).optional(),
+  timeOffBalances: _select.or(TimeOffBalanceOwnQueryOneSchema).optional(),
+  timeOffRequests: _select.or(TimeOffRequestOwnQueryOneSchema).optional(),
+  resolvedTimeOffs: _select.or(TimeOffRequestOwnQueryOneSchema).optional(),
+  clockIns: _select.or(ClockInOwnQueryOneSchema).optional(),
+  personalData: _select.or(PersonalDataOwnQueryOneSchema).optional(),
+  taxData: _select.or(EmployeeTaxDataOwnQueryOneSchema).optional(),
+  memberships: _select.or(TeamMemberOwnQueryOneSchema).optional(),
+  managingTeams: _select.or(TeamManagerOwnQueryOneSchema).optional(),
+  managingEmployees: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  directManager: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  paychecks: _select.or(PaycheckOwnQueryOneSchema).optional(),
+  directManagerId: _select,
+  deductions: _select.or(EmployeeDeductionOwnQueryOneSchema).optional(),
+  resolvedPayrollRuns: _select.or(PayrollRunOwnQueryOneSchema).optional(),
+  contact: _select.or(ContactOwnQueryOneSchema).optional(),
+});
+
+export const TeamCompleteSelectSchema = z.object({
+  id: _select,
+  name: _select,
+  members: _select.or(TeamMemberOwnQueryOneSchema).optional(),
+  managers: _select.or(TeamManagerOwnQueryOneSchema).optional(),
+});
+
+export const TeamManagerCompleteSelectSchema = z.object({
+  id: _select,
+  teamId: _select,
+  managerId: _select,
+  team: _select.or(TeamOwnQueryOneSchema).optional(),
+  manager: _select.or(EmployeeOwnQueryOneSchema).optional(),
+});
+
+export const TeamMemberCompleteSelectSchema = z.object({
+  id: _select,
+  teamId: _select,
+  memberId: _select,
+  member: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  team: _select.or(TeamOwnQueryOneSchema).optional(),
+});
+
+export const SalaryCompleteSelectSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  gross: _select,
+  startDate: _select,
+  endDate: _select,
+  frequency: _select,
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+});
+
+export const SalaryHistoryCompleteSelectSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  createdAt: _select,
+  oldSalary: _select,
+  newSalary: _select,
+  reason: _select,
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+});
+
+export const BenefitCompleteSelectSchema = z.object({
+  id: _select,
+  name: _select,
+  description: _select,
+  type: _select,
+  enrolments: _select.or(BenefitEnrolmentOwnQueryOneSchema).optional(),
+});
+
+export const BenefitEnrolmentCompleteSelectSchema = z.object({
+  id: _select,
+  benefitId: _select,
+  employeeId: _select,
+  startDate: _select,
+  status: _select,
+  benefit: _select.or(BenefitOwnQueryOneSchema).optional(),
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+});
+
+export const TitleHistoryCompleteSelectSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  titleId: _select,
+  type: _select,
+  reason: _select,
+  startDate: _select,
+  endDate: _select,
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  title: _select.or(TitleOwnQueryOneSchema).optional(),
+});
+
+export const TimeOffPolicyCompleteSelectSchema = z.object({
+  id: _select,
+  name: _select,
+  description: _select,
+  accrualRate: _select,
+  maxRollover: _select,
+  balances: _select.or(TimeOffBalanceOwnQueryOneSchema).optional(),
+  requests: _select.or(TimeOffRequestOwnQueryOneSchema).optional(),
+});
+
+export const TimeOffBalanceCompleteSelectSchema = z.object({
+  id: _select,
+  policyId: _select,
+  employeeId: _select,
+  accruedHours: _select,
+  usedHours: _select,
+  availableHours: _select,
+  policy: _select.or(TimeOffPolicyOwnQueryOneSchema).optional(),
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  transactions: _select.or(TimeOffTransactionOwnQueryOneSchema).optional(),
+});
+
+export const TimeOffRequestCompleteSelectSchema = z.object({
+  id: _select,
+  createdAt: _select,
+  employeeId: _select,
+  reason: _select,
+  policyId: _select,
+  resolverId: _select,
+  status: _select,
+  startDate: _select,
+  endDate: _select,
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  policy: _select.or(TimeOffPolicyOwnQueryOneSchema).optional(),
+  resolver: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  transactions: _select.or(TimeOffTransactionOwnQueryOneSchema).optional(),
+});
+
+export const TimeOffTransactionCompleteSelectSchema = z.object({
+  id: _select,
+  createdAt: _select,
+  updatedAt: _select,
+  type: _select,
+  balanceId: _select,
+  requestId: _select,
+  amount: _select,
+  balance: _select.or(TimeOffBalanceOwnQueryOneSchema).optional(),
+  request: _select.or(TimeOffRequestOwnQueryOneSchema).optional(),
+});
+
+export const ClockInCompleteSelectSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  clockIn: _select,
+  clockOut: _select,
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+});
+
+export const PaycheckCompleteSelectSchema = z.object({
+  id: _select,
+  createdAt: _select,
+  payrollRunId: _select,
+  updatedAt: _select,
+  employeeId: _select,
+  grossAmount: _select,
+  netAmount: _select,
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  earnings: _select.or(EarningOwnQueryOneSchema).optional(),
+  paycheckTaxes: _select.or(PaycheckTaxOwnQueryOneSchema).optional(),
+  deductions: _select.or(PaycheckDeductionOwnQueryOneSchema).optional(),
+  payrollRun: _select.or(PayrollRunOwnQueryOneSchema).optional(),
+});
+
+export const EarningCompleteSelectSchema = z.object({
+  id: _select,
+  type: _select,
+  hours: _select,
+  rate: _select,
+  amount: _select,
+  paycheckId: _select,
+  paycheck: _select.or(PaycheckOwnQueryOneSchema).optional(),
+});
+
+export const PaycheckTaxCompleteSelectSchema = z.object({
+  id: _select,
+  paycheckId: _select,
+  taxAuthority: _select,
+  amount: _select,
+  paycheck: _select.or(PaycheckOwnQueryOneSchema).optional(),
+});
+
+export const DeductionPolicyCompleteSelectSchema = z.object({
+  id: _select,
+  name: _select,
+  type: _select,
+  defaultAmount: _select,
+  defaultPercent: _select,
+  employeeDeductions: _select.or(EmployeeDeductionOwnQueryOneSchema).optional(),
+});
+
+export const EmployeeDeductionCompleteSelectSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  policyId: _select,
+  employeeAmount: _select,
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  policy: _select.or(DeductionPolicyOwnQueryOneSchema).optional(),
+  paycheckDeductions: _select.or(PaycheckDeductionOwnQueryOneSchema).optional(),
+});
+
+export const PaycheckDeductionCompleteSelectSchema = z.object({
+  id: _select,
+  paycheckId: _select,
+  employeeDeductionId: _select,
+  amount: _select,
+  paycheck: _select.or(PaycheckOwnQueryOneSchema).optional(),
+  employeeDeduction: _select.or(EmployeeDeductionOwnQueryOneSchema).optional(),
+});
+
+export const EmployeeTaxDataCompleteSelectSchema = z.object({
+  id: _select,
+  createdAt: _select,
+  updatedAt: _select,
+  startDate: _select,
+  endDate: _select,
+  employeeId: _select,
+  federalStatus: _select,
+  dependentsCredit: _select,
+  multipleJobs: _select,
+  otherIncome: _select,
+  deductionsAmount: _select,
+  extraWithholding: _select,
+  isExempt: _select,
+  isNonResidentAlien: _select,
+  stateTaxes: _select.or(StateTaxWithholdingOwnQueryOneSchema).optional(),
+  localTaxes: _select.or(LocalTaxWithholdingOwnQueryOneSchema).optional(),
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+});
+
+export const StateTaxWithholdingCompleteSelectSchema = z.object({
+  id: _select,
+  taxDataId: _select,
+  stateCode: _select,
+  stateStatus: _select,
+  allowances: _select,
+  extraWithholding: _select,
+  taxData: _select.or(EmployeeTaxDataOwnQueryOneSchema).optional(),
+});
+
+export const LocalTaxWithholdingCompleteSelectSchema = z.object({
+  id: _select,
+  taxDataId: _select,
+  jurisdiction: _select,
+  localStatus: _select,
+  extraWithholding: _select,
+  taxData: _select.or(EmployeeTaxDataOwnQueryOneSchema).optional(),
+});
+
+export const PayrollRunCompleteSelectSchema = z.object({
+  id: _select,
+  resolverId: _select,
+  startDate: _select,
+  endDate: _select,
+  payDate: _select,
+  status: _select,
+  approvedBy: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  paychecks: _select.or(PaycheckOwnQueryOneSchema).optional(),
+});
+
+export const ContactCompleteSelectSchema = z.object({
+  id: _select,
+  employeeId: _select,
+  employee: _select.or(EmployeeOwnQueryOneSchema).optional(),
+  emails: _select.or(EmailOwnQueryOneSchema).optional(),
+  phones: _select.or(PhoneOwnQueryOneSchema).optional(),
+  addresses: _select.or(AddressOwnQueryOneSchema).optional(),
+  primaryEmail: _select.or(PrimaryEmailOwnQueryOneSchema).optional(),
+  primaryPhone: _select.or(PrimaryPhoneOwnQueryOneSchema).optional(),
+  primaryAddress: _select.or(PrimaryAddressOwnQueryOneSchema).optional(),
+});
+
+export const CountryCompleteSelectSchema = z.object({
+  id: _select,
+  name: _select,
+  code: _select,
+  states: _select.or(StateOwnQueryOneSchema).optional(),
+});
+
+export const StateCompleteSelectSchema = z.object({
+  id: _select,
+  countryId: _select,
+  name: _select,
+  code: _select,
+  country: _select.or(CountryOwnQueryOneSchema).optional(),
+  addresses: _select.or(AddressOwnQueryOneSchema).optional(),
+});
+
+export const AddressCompleteSelectSchema = z.object({
+  id: _select,
+  type: _select,
+  contactId: _select,
+  stateId: _select,
+  street: _select,
+  zip: _select,
+  city: _select,
+  state: _select.or(StateOwnQueryOneSchema).optional(),
+  contact: _select.or(ContactOwnQueryOneSchema).optional(),
+  primary: _select.or(PrimaryAddressOwnQueryOneSchema).optional(),
+});
+
+export const EmailCompleteSelectSchema = z.object({
+  id: _select,
+  type: _select,
+  contactId: _select,
+  email: _select,
+  contact: _select.or(ContactOwnQueryOneSchema).optional(),
+  primary: _select.or(PrimaryEmailOwnQueryOneSchema).optional(),
+});
+
+export const PhoneCompleteSelectSchema = z.object({
+  id: _select,
+  type: _select,
+  contactId: _select,
+  phone: _select,
+  contact: _select.or(ContactOwnQueryOneSchema).optional(),
+  primary: _select.or(PrimaryPhoneOwnQueryOneSchema).optional(),
+});
+
+export const PrimaryEmailCompleteSelectSchema = z.object({
+  id: _select,
+  emailId: _select,
+  contactId: _select,
+  email: _select.or(EmailOwnQueryOneSchema).optional(),
+  contact: _select.or(ContactOwnQueryOneSchema).optional(),
+});
+
+export const PrimaryPhoneCompleteSelectSchema = z.object({
+  id: _select,
+  phoneId: _select,
+  contactId: _select,
+  phone: _select.or(PhoneOwnQueryOneSchema).optional(),
+  contact: _select.or(ContactOwnQueryOneSchema).optional(),
+});
+
+export const PrimaryAddressCompleteSelectSchema = z.object({
+  id: _select,
+  addressId: _select,
+  contactId: _select,
+  address: _select.or(AddressOwnQueryOneSchema).optional(),
+  contact: _select.or(ContactOwnQueryOneSchema).optional(),
+});
+
+export const DepartmentCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DepartmentCompleteSelectSchema
+);
+
+export const TitleCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleCompleteSelectSchema
+);
+
+export const PersonalDataCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PersonalDataCompleteSelectSchema
+);
+
+export const EmployeeCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeCompleteSelectSchema
+);
+
+export const TeamCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamCompleteSelectSchema
+);
+
+export const TeamManagerCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamManagerCompleteSelectSchema
+);
+
+export const TeamMemberCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamMemberCompleteSelectSchema
+);
+
+export const SalaryCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryCompleteSelectSchema
+);
+
+export const SalaryHistoryCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryHistoryCompleteSelectSchema
+);
+
+export const BenefitCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitCompleteSelectSchema
+);
+
+export const BenefitEnrolmentCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitEnrolmentCompleteSelectSchema
+);
+
+export const TitleHistoryCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleHistoryCompleteSelectSchema
+);
+
+export const TimeOffPolicyCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffPolicyCompleteSelectSchema
+);
+
+export const TimeOffBalanceCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffBalanceCompleteSelectSchema
+);
+
+export const TimeOffRequestCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffRequestCompleteSelectSchema
+);
+
+export const TimeOffTransactionCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffTransactionCompleteSelectSchema
+);
+
+export const ClockInCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ClockInCompleteSelectSchema
+);
+
+export const PaycheckCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckCompleteSelectSchema
+);
+
+export const EarningCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EarningCompleteSelectSchema
+);
+
+export const PaycheckTaxCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckTaxCompleteSelectSchema
+);
+
+export const DeductionPolicyCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DeductionPolicyCompleteSelectSchema
+);
+
+export const EmployeeDeductionCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeDeductionCompleteSelectSchema
+);
+
+export const PaycheckDeductionCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckDeductionCompleteSelectSchema
+);
+
+export const EmployeeTaxDataCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeTaxDataCompleteSelectSchema
+);
+
+export const StateTaxWithholdingCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateTaxWithholdingCompleteSelectSchema
+);
+
+export const LocalTaxWithholdingCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  LocalTaxWithholdingCompleteSelectSchema
+);
+
+export const PayrollRunCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PayrollRunCompleteSelectSchema
+);
+
+export const ContactCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ContactCompleteSelectSchema
+);
+
+export const CountryCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CountryCompleteSelectSchema
+);
+
+export const StateCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateCompleteSelectSchema
+);
+
+export const AddressCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  AddressCompleteSelectSchema
+);
+
+export const EmailCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmailCompleteSelectSchema
+);
+
+export const PhoneCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PhoneCompleteSelectSchema
+);
+
+export const PrimaryEmailCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryEmailCompleteSelectSchema
+);
+
+export const PrimaryPhoneCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryPhoneCompleteSelectSchema
+);
+
+export const PrimaryAddressCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryAddressCompleteSelectSchema
+);
+
+export const DepartmentQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: DepartmentDistinctSchema.optional(),
+  select: DepartmentOwnSelectSchemaJson.optional(),
+  omit: DepartmentOmitSchemaJson.optional(),
+  include: DepartmentIncludeSchemaJson.optional(),
+  where: DepartmentOwnWhereSchemaJson.optional(),
+  orderBy: DepartmentOwnOrderBySchemaJson.optional(),
+});
+
+export const TitleQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TitleDistinctSchema.optional(),
+  select: TitleOwnSelectSchemaJson.optional(),
+  omit: TitleOmitSchemaJson.optional(),
+  include: TitleIncludeSchemaJson.optional(),
+  where: TitleOwnWhereSchemaJson.optional(),
+  orderBy: TitleOwnOrderBySchemaJson.optional(),
+});
+
+export const PersonalDataQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PersonalDataDistinctSchema.optional(),
+  select: PersonalDataOwnSelectSchemaJson.optional(),
+  omit: PersonalDataOmitSchemaJson.optional(),
+  include: PersonalDataIncludeSchemaJson.optional(),
+  where: PersonalDataOwnWhereSchemaJson.optional(),
+  orderBy: PersonalDataOwnOrderBySchemaJson.optional(),
+});
+
+export const EmployeeQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: EmployeeDistinctSchema.optional(),
+  select: EmployeeOwnSelectSchemaJson.optional(),
+  omit: EmployeeOmitSchemaJson.optional(),
+  include: EmployeeIncludeSchemaJson.optional(),
+  where: EmployeeOwnWhereSchemaJson.optional(),
+  orderBy: EmployeeOwnOrderBySchemaJson.optional(),
+});
+
+export const TeamQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TeamDistinctSchema.optional(),
+  select: TeamOwnSelectSchemaJson.optional(),
+  omit: TeamOmitSchemaJson.optional(),
+  include: TeamIncludeSchemaJson.optional(),
+  where: TeamOwnWhereSchemaJson.optional(),
+  orderBy: TeamOwnOrderBySchemaJson.optional(),
+});
+
+export const TeamManagerQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TeamManagerDistinctSchema.optional(),
+  select: TeamManagerOwnSelectSchemaJson.optional(),
+  omit: TeamManagerOmitSchemaJson.optional(),
+  include: TeamManagerIncludeSchemaJson.optional(),
+  where: TeamManagerOwnWhereSchemaJson.optional(),
+  orderBy: TeamManagerOwnOrderBySchemaJson.optional(),
+});
+
+export const TeamMemberQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TeamMemberDistinctSchema.optional(),
+  select: TeamMemberOwnSelectSchemaJson.optional(),
+  omit: TeamMemberOmitSchemaJson.optional(),
+  include: TeamMemberIncludeSchemaJson.optional(),
+  where: TeamMemberOwnWhereSchemaJson.optional(),
+  orderBy: TeamMemberOwnOrderBySchemaJson.optional(),
+});
+
+export const SalaryQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: SalaryDistinctSchema.optional(),
+  select: SalaryOwnSelectSchemaJson.optional(),
+  omit: SalaryOmitSchemaJson.optional(),
+  include: SalaryIncludeSchemaJson.optional(),
+  where: SalaryOwnWhereSchemaJson.optional(),
+  orderBy: SalaryOwnOrderBySchemaJson.optional(),
+});
+
+export const SalaryHistoryQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: SalaryHistoryDistinctSchema.optional(),
+  select: SalaryHistoryOwnSelectSchemaJson.optional(),
+  omit: SalaryHistoryOmitSchemaJson.optional(),
+  include: SalaryHistoryIncludeSchemaJson.optional(),
+  where: SalaryHistoryOwnWhereSchemaJson.optional(),
+  orderBy: SalaryHistoryOwnOrderBySchemaJson.optional(),
+});
+
+export const BenefitQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: BenefitDistinctSchema.optional(),
+  select: BenefitOwnSelectSchemaJson.optional(),
+  omit: BenefitOmitSchemaJson.optional(),
+  include: BenefitIncludeSchemaJson.optional(),
+  where: BenefitOwnWhereSchemaJson.optional(),
+  orderBy: BenefitOwnOrderBySchemaJson.optional(),
+});
+
+export const BenefitEnrolmentQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: BenefitEnrolmentDistinctSchema.optional(),
+  select: BenefitEnrolmentOwnSelectSchemaJson.optional(),
+  omit: BenefitEnrolmentOmitSchemaJson.optional(),
+  include: BenefitEnrolmentIncludeSchemaJson.optional(),
+  where: BenefitEnrolmentOwnWhereSchemaJson.optional(),
+  orderBy: BenefitEnrolmentOwnOrderBySchemaJson.optional(),
+});
+
+export const TitleHistoryQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TitleHistoryDistinctSchema.optional(),
+  select: TitleHistoryOwnSelectSchemaJson.optional(),
+  omit: TitleHistoryOmitSchemaJson.optional(),
+  include: TitleHistoryIncludeSchemaJson.optional(),
+  where: TitleHistoryOwnWhereSchemaJson.optional(),
+  orderBy: TitleHistoryOwnOrderBySchemaJson.optional(),
+});
+
+export const TimeOffPolicyQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TimeOffPolicyDistinctSchema.optional(),
+  select: TimeOffPolicyOwnSelectSchemaJson.optional(),
+  omit: TimeOffPolicyOmitSchemaJson.optional(),
+  include: TimeOffPolicyIncludeSchemaJson.optional(),
+  where: TimeOffPolicyOwnWhereSchemaJson.optional(),
+  orderBy: TimeOffPolicyOwnOrderBySchemaJson.optional(),
+});
+
+export const TimeOffBalanceQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TimeOffBalanceDistinctSchema.optional(),
+  select: TimeOffBalanceOwnSelectSchemaJson.optional(),
+  omit: TimeOffBalanceOmitSchemaJson.optional(),
+  include: TimeOffBalanceIncludeSchemaJson.optional(),
+  where: TimeOffBalanceOwnWhereSchemaJson.optional(),
+  orderBy: TimeOffBalanceOwnOrderBySchemaJson.optional(),
+});
+
+export const TimeOffRequestQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TimeOffRequestDistinctSchema.optional(),
+  select: TimeOffRequestOwnSelectSchemaJson.optional(),
+  omit: TimeOffRequestOmitSchemaJson.optional(),
+  include: TimeOffRequestIncludeSchemaJson.optional(),
+  where: TimeOffRequestOwnWhereSchemaJson.optional(),
+  orderBy: TimeOffRequestOwnOrderBySchemaJson.optional(),
+});
+
+export const TimeOffTransactionQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TimeOffTransactionDistinctSchema.optional(),
+  select: TimeOffTransactionOwnSelectSchemaJson.optional(),
+  omit: TimeOffTransactionOmitSchemaJson.optional(),
+  include: TimeOffTransactionIncludeSchemaJson.optional(),
+  where: TimeOffTransactionOwnWhereSchemaJson.optional(),
+  orderBy: TimeOffTransactionOwnOrderBySchemaJson.optional(),
+});
+
+export const ClockInQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: ClockInDistinctSchema.optional(),
+  select: ClockInOwnSelectSchemaJson.optional(),
+  omit: ClockInOmitSchemaJson.optional(),
+  include: ClockInIncludeSchemaJson.optional(),
+  where: ClockInOwnWhereSchemaJson.optional(),
+  orderBy: ClockInOwnOrderBySchemaJson.optional(),
+});
+
+export const PaycheckQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PaycheckDistinctSchema.optional(),
+  select: PaycheckOwnSelectSchemaJson.optional(),
+  omit: PaycheckOmitSchemaJson.optional(),
+  include: PaycheckIncludeSchemaJson.optional(),
+  where: PaycheckOwnWhereSchemaJson.optional(),
+  orderBy: PaycheckOwnOrderBySchemaJson.optional(),
+});
+
+export const EarningQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: EarningDistinctSchema.optional(),
+  select: EarningOwnSelectSchemaJson.optional(),
+  omit: EarningOmitSchemaJson.optional(),
+  include: EarningIncludeSchemaJson.optional(),
+  where: EarningOwnWhereSchemaJson.optional(),
+  orderBy: EarningOwnOrderBySchemaJson.optional(),
+});
+
+export const PaycheckTaxQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PaycheckTaxDistinctSchema.optional(),
+  select: PaycheckTaxOwnSelectSchemaJson.optional(),
+  omit: PaycheckTaxOmitSchemaJson.optional(),
+  include: PaycheckTaxIncludeSchemaJson.optional(),
+  where: PaycheckTaxOwnWhereSchemaJson.optional(),
+  orderBy: PaycheckTaxOwnOrderBySchemaJson.optional(),
+});
+
+export const DeductionPolicyQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: DeductionPolicyDistinctSchema.optional(),
+  select: DeductionPolicyOwnSelectSchemaJson.optional(),
+  omit: DeductionPolicyOmitSchemaJson.optional(),
+  include: DeductionPolicyIncludeSchemaJson.optional(),
+  where: DeductionPolicyOwnWhereSchemaJson.optional(),
+  orderBy: DeductionPolicyOwnOrderBySchemaJson.optional(),
+});
+
+export const EmployeeDeductionQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: EmployeeDeductionDistinctSchema.optional(),
+  select: EmployeeDeductionOwnSelectSchemaJson.optional(),
+  omit: EmployeeDeductionOmitSchemaJson.optional(),
+  include: EmployeeDeductionIncludeSchemaJson.optional(),
+  where: EmployeeDeductionOwnWhereSchemaJson.optional(),
+  orderBy: EmployeeDeductionOwnOrderBySchemaJson.optional(),
+});
+
+export const PaycheckDeductionQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PaycheckDeductionDistinctSchema.optional(),
+  select: PaycheckDeductionOwnSelectSchemaJson.optional(),
+  omit: PaycheckDeductionOmitSchemaJson.optional(),
+  include: PaycheckDeductionIncludeSchemaJson.optional(),
+  where: PaycheckDeductionOwnWhereSchemaJson.optional(),
+  orderBy: PaycheckDeductionOwnOrderBySchemaJson.optional(),
+});
+
+export const EmployeeTaxDataQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: EmployeeTaxDataDistinctSchema.optional(),
+  select: EmployeeTaxDataOwnSelectSchemaJson.optional(),
+  omit: EmployeeTaxDataOmitSchemaJson.optional(),
+  include: EmployeeTaxDataIncludeSchemaJson.optional(),
+  where: EmployeeTaxDataOwnWhereSchemaJson.optional(),
+  orderBy: EmployeeTaxDataOwnOrderBySchemaJson.optional(),
+});
+
+export const StateTaxWithholdingQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: StateTaxWithholdingDistinctSchema.optional(),
+  select: StateTaxWithholdingOwnSelectSchemaJson.optional(),
+  omit: StateTaxWithholdingOmitSchemaJson.optional(),
+  include: StateTaxWithholdingIncludeSchemaJson.optional(),
+  where: StateTaxWithholdingOwnWhereSchemaJson.optional(),
+  orderBy: StateTaxWithholdingOwnOrderBySchemaJson.optional(),
+});
+
+export const LocalTaxWithholdingQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: LocalTaxWithholdingDistinctSchema.optional(),
+  select: LocalTaxWithholdingOwnSelectSchemaJson.optional(),
+  omit: LocalTaxWithholdingOmitSchemaJson.optional(),
+  include: LocalTaxWithholdingIncludeSchemaJson.optional(),
+  where: LocalTaxWithholdingOwnWhereSchemaJson.optional(),
+  orderBy: LocalTaxWithholdingOwnOrderBySchemaJson.optional(),
+});
+
+export const PayrollRunQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PayrollRunDistinctSchema.optional(),
+  select: PayrollRunOwnSelectSchemaJson.optional(),
+  omit: PayrollRunOmitSchemaJson.optional(),
+  include: PayrollRunIncludeSchemaJson.optional(),
+  where: PayrollRunOwnWhereSchemaJson.optional(),
+  orderBy: PayrollRunOwnOrderBySchemaJson.optional(),
+});
+
+export const ContactQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: ContactDistinctSchema.optional(),
+  select: ContactOwnSelectSchemaJson.optional(),
+  omit: ContactOmitSchemaJson.optional(),
+  include: ContactIncludeSchemaJson.optional(),
+  where: ContactOwnWhereSchemaJson.optional(),
+  orderBy: ContactOwnOrderBySchemaJson.optional(),
+});
+
+export const CountryQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: CountryDistinctSchema.optional(),
+  select: CountryOwnSelectSchemaJson.optional(),
+  omit: CountryOmitSchemaJson.optional(),
+  include: CountryIncludeSchemaJson.optional(),
+  where: CountryOwnWhereSchemaJson.optional(),
+  orderBy: CountryOwnOrderBySchemaJson.optional(),
+});
+
+export const StateQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: StateDistinctSchema.optional(),
+  select: StateOwnSelectSchemaJson.optional(),
+  omit: StateOmitSchemaJson.optional(),
+  include: StateIncludeSchemaJson.optional(),
+  where: StateOwnWhereSchemaJson.optional(),
+  orderBy: StateOwnOrderBySchemaJson.optional(),
+});
+
+export const AddressQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: AddressDistinctSchema.optional(),
+  select: AddressOwnSelectSchemaJson.optional(),
+  omit: AddressOmitSchemaJson.optional(),
+  include: AddressIncludeSchemaJson.optional(),
+  where: AddressOwnWhereSchemaJson.optional(),
+  orderBy: AddressOwnOrderBySchemaJson.optional(),
+});
+
+export const EmailQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: EmailDistinctSchema.optional(),
+  select: EmailOwnSelectSchemaJson.optional(),
+  omit: EmailOmitSchemaJson.optional(),
+  include: EmailIncludeSchemaJson.optional(),
+  where: EmailOwnWhereSchemaJson.optional(),
+  orderBy: EmailOwnOrderBySchemaJson.optional(),
+});
+
+export const PhoneQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PhoneDistinctSchema.optional(),
+  select: PhoneOwnSelectSchemaJson.optional(),
+  omit: PhoneOmitSchemaJson.optional(),
+  include: PhoneIncludeSchemaJson.optional(),
+  where: PhoneOwnWhereSchemaJson.optional(),
+  orderBy: PhoneOwnOrderBySchemaJson.optional(),
+});
+
+export const PrimaryEmailQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PrimaryEmailDistinctSchema.optional(),
+  select: PrimaryEmailOwnSelectSchemaJson.optional(),
+  omit: PrimaryEmailOmitSchemaJson.optional(),
+  include: PrimaryEmailIncludeSchemaJson.optional(),
+  where: PrimaryEmailOwnWhereSchemaJson.optional(),
+  orderBy: PrimaryEmailOwnOrderBySchemaJson.optional(),
+});
+
+export const PrimaryPhoneQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PrimaryPhoneDistinctSchema.optional(),
+  select: PrimaryPhoneOwnSelectSchemaJson.optional(),
+  omit: PrimaryPhoneOmitSchemaJson.optional(),
+  include: PrimaryPhoneIncludeSchemaJson.optional(),
+  where: PrimaryPhoneOwnWhereSchemaJson.optional(),
+  orderBy: PrimaryPhoneOwnOrderBySchemaJson.optional(),
+});
+
+export const PrimaryAddressQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PrimaryAddressDistinctSchema.optional(),
+  select: PrimaryAddressOwnSelectSchemaJson.optional(),
+  omit: PrimaryAddressOmitSchemaJson.optional(),
+  include: PrimaryAddressIncludeSchemaJson.optional(),
+  where: PrimaryAddressOwnWhereSchemaJson.optional(),
+  orderBy: PrimaryAddressOwnOrderBySchemaJson.optional(),
+});
+
+export const DepartmentQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DepartmentQuerySchema
+);
+
+export const TitleQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleQuerySchema
+);
+
+export const PersonalDataQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PersonalDataQuerySchema
+);
+
+export const EmployeeQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeQuerySchema
+);
+
+export const TeamQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamQuerySchema
+);
+
+export const TeamManagerQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamManagerQuerySchema
+);
+
+export const TeamMemberQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamMemberQuerySchema
+);
+
+export const SalaryQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryQuerySchema
+);
+
+export const SalaryHistoryQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryHistoryQuerySchema
+);
+
+export const BenefitQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitQuerySchema
+);
+
+export const BenefitEnrolmentQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitEnrolmentQuerySchema
+);
+
+export const TitleHistoryQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleHistoryQuerySchema
+);
+
+export const TimeOffPolicyQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffPolicyQuerySchema
+);
+
+export const TimeOffBalanceQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffBalanceQuerySchema
+);
+
+export const TimeOffRequestQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffRequestQuerySchema
+);
+
+export const TimeOffTransactionQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffTransactionQuerySchema
+);
+
+export const ClockInQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ClockInQuerySchema
+);
+
+export const PaycheckQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckQuerySchema
+);
+
+export const EarningQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EarningQuerySchema
+);
+
+export const PaycheckTaxQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckTaxQuerySchema
+);
+
+export const DeductionPolicyQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DeductionPolicyQuerySchema
+);
+
+export const EmployeeDeductionQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeDeductionQuerySchema
+);
+
+export const PaycheckDeductionQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckDeductionQuerySchema
+);
+
+export const EmployeeTaxDataQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeTaxDataQuerySchema
+);
+
+export const StateTaxWithholdingQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateTaxWithholdingQuerySchema
+);
+
+export const LocalTaxWithholdingQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  LocalTaxWithholdingQuerySchema
+);
+
+export const PayrollRunQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PayrollRunQuerySchema
+);
+
+export const ContactQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ContactQuerySchema
+);
+
+export const CountryQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CountryQuerySchema
+);
+
+export const StateQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateQuerySchema
+);
+
+export const AddressQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  AddressQuerySchema
+);
+
+export const EmailQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmailQuerySchema
+);
+
+export const PhoneQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PhoneQuerySchema
+);
+
+export const PrimaryEmailQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryEmailQuerySchema
+);
+
+export const PrimaryPhoneQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryPhoneQuerySchema
+);
+
+export const PrimaryAddressQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryAddressQuerySchema
+);
+
+export const DepartmentCompleteQueryOneSchema = z.object({
+  select: DepartmentSelectSchemaJson.optional(),
+  omit: DepartmentOmitSchemaJson.optional(),
+  include: DepartmentIncludeSchemaJson.optional(),
+  where: DepartmentWhereSchemaJson.optional(),
+});
+
+export const TitleCompleteQueryOneSchema = z.object({
+  select: TitleSelectSchemaJson.optional(),
+  omit: TitleOmitSchemaJson.optional(),
+  include: TitleIncludeSchemaJson.optional(),
+  where: TitleWhereSchemaJson.optional(),
+});
+
+export const PersonalDataCompleteQueryOneSchema = z.object({
+  select: PersonalDataSelectSchemaJson.optional(),
+  omit: PersonalDataOmitSchemaJson.optional(),
+  include: PersonalDataIncludeSchemaJson.optional(),
+  where: PersonalDataWhereSchemaJson.optional(),
+});
+
+export const EmployeeCompleteQueryOneSchema = z.object({
+  select: EmployeeSelectSchemaJson.optional(),
+  omit: EmployeeOmitSchemaJson.optional(),
+  include: EmployeeIncludeSchemaJson.optional(),
+  where: EmployeeWhereSchemaJson.optional(),
+});
+
+export const TeamCompleteQueryOneSchema = z.object({
+  select: TeamSelectSchemaJson.optional(),
+  omit: TeamOmitSchemaJson.optional(),
+  include: TeamIncludeSchemaJson.optional(),
+  where: TeamWhereSchemaJson.optional(),
+});
+
+export const TeamManagerCompleteQueryOneSchema = z.object({
+  select: TeamManagerSelectSchemaJson.optional(),
+  omit: TeamManagerOmitSchemaJson.optional(),
+  include: TeamManagerIncludeSchemaJson.optional(),
+  where: TeamManagerWhereSchemaJson.optional(),
+});
+
+export const TeamMemberCompleteQueryOneSchema = z.object({
+  select: TeamMemberSelectSchemaJson.optional(),
+  omit: TeamMemberOmitSchemaJson.optional(),
+  include: TeamMemberIncludeSchemaJson.optional(),
+  where: TeamMemberWhereSchemaJson.optional(),
+});
+
+export const SalaryCompleteQueryOneSchema = z.object({
+  select: SalarySelectSchemaJson.optional(),
+  omit: SalaryOmitSchemaJson.optional(),
+  include: SalaryIncludeSchemaJson.optional(),
+  where: SalaryWhereSchemaJson.optional(),
+});
+
+export const SalaryHistoryCompleteQueryOneSchema = z.object({
+  select: SalaryHistorySelectSchemaJson.optional(),
+  omit: SalaryHistoryOmitSchemaJson.optional(),
+  include: SalaryHistoryIncludeSchemaJson.optional(),
+  where: SalaryHistoryWhereSchemaJson.optional(),
+});
+
+export const BenefitCompleteQueryOneSchema = z.object({
+  select: BenefitSelectSchemaJson.optional(),
+  omit: BenefitOmitSchemaJson.optional(),
+  include: BenefitIncludeSchemaJson.optional(),
+  where: BenefitWhereSchemaJson.optional(),
+});
+
+export const BenefitEnrolmentCompleteQueryOneSchema = z.object({
+  select: BenefitEnrolmentSelectSchemaJson.optional(),
+  omit: BenefitEnrolmentOmitSchemaJson.optional(),
+  include: BenefitEnrolmentIncludeSchemaJson.optional(),
+  where: BenefitEnrolmentWhereSchemaJson.optional(),
+});
+
+export const TitleHistoryCompleteQueryOneSchema = z.object({
+  select: TitleHistorySelectSchemaJson.optional(),
+  omit: TitleHistoryOmitSchemaJson.optional(),
+  include: TitleHistoryIncludeSchemaJson.optional(),
+  where: TitleHistoryWhereSchemaJson.optional(),
+});
+
+export const TimeOffPolicyCompleteQueryOneSchema = z.object({
+  select: TimeOffPolicySelectSchemaJson.optional(),
+  omit: TimeOffPolicyOmitSchemaJson.optional(),
+  include: TimeOffPolicyIncludeSchemaJson.optional(),
+  where: TimeOffPolicyWhereSchemaJson.optional(),
+});
+
+export const TimeOffBalanceCompleteQueryOneSchema = z.object({
+  select: TimeOffBalanceSelectSchemaJson.optional(),
+  omit: TimeOffBalanceOmitSchemaJson.optional(),
+  include: TimeOffBalanceIncludeSchemaJson.optional(),
+  where: TimeOffBalanceWhereSchemaJson.optional(),
+});
+
+export const TimeOffRequestCompleteQueryOneSchema = z.object({
+  select: TimeOffRequestSelectSchemaJson.optional(),
+  omit: TimeOffRequestOmitSchemaJson.optional(),
+  include: TimeOffRequestIncludeSchemaJson.optional(),
+  where: TimeOffRequestWhereSchemaJson.optional(),
+});
+
+export const TimeOffTransactionCompleteQueryOneSchema = z.object({
+  select: TimeOffTransactionSelectSchemaJson.optional(),
+  omit: TimeOffTransactionOmitSchemaJson.optional(),
+  include: TimeOffTransactionIncludeSchemaJson.optional(),
+  where: TimeOffTransactionWhereSchemaJson.optional(),
+});
+
+export const ClockInCompleteQueryOneSchema = z.object({
+  select: ClockInSelectSchemaJson.optional(),
+  omit: ClockInOmitSchemaJson.optional(),
+  include: ClockInIncludeSchemaJson.optional(),
+  where: ClockInWhereSchemaJson.optional(),
+});
+
+export const PaycheckCompleteQueryOneSchema = z.object({
+  select: PaycheckSelectSchemaJson.optional(),
+  omit: PaycheckOmitSchemaJson.optional(),
+  include: PaycheckIncludeSchemaJson.optional(),
+  where: PaycheckWhereSchemaJson.optional(),
+});
+
+export const EarningCompleteQueryOneSchema = z.object({
+  select: EarningSelectSchemaJson.optional(),
+  omit: EarningOmitSchemaJson.optional(),
+  include: EarningIncludeSchemaJson.optional(),
+  where: EarningWhereSchemaJson.optional(),
+});
+
+export const PaycheckTaxCompleteQueryOneSchema = z.object({
+  select: PaycheckTaxSelectSchemaJson.optional(),
+  omit: PaycheckTaxOmitSchemaJson.optional(),
+  include: PaycheckTaxIncludeSchemaJson.optional(),
+  where: PaycheckTaxWhereSchemaJson.optional(),
+});
+
+export const DeductionPolicyCompleteQueryOneSchema = z.object({
+  select: DeductionPolicySelectSchemaJson.optional(),
+  omit: DeductionPolicyOmitSchemaJson.optional(),
+  include: DeductionPolicyIncludeSchemaJson.optional(),
+  where: DeductionPolicyWhereSchemaJson.optional(),
+});
+
+export const EmployeeDeductionCompleteQueryOneSchema = z.object({
+  select: EmployeeDeductionSelectSchemaJson.optional(),
+  omit: EmployeeDeductionOmitSchemaJson.optional(),
+  include: EmployeeDeductionIncludeSchemaJson.optional(),
+  where: EmployeeDeductionWhereSchemaJson.optional(),
+});
+
+export const PaycheckDeductionCompleteQueryOneSchema = z.object({
+  select: PaycheckDeductionSelectSchemaJson.optional(),
+  omit: PaycheckDeductionOmitSchemaJson.optional(),
+  include: PaycheckDeductionIncludeSchemaJson.optional(),
+  where: PaycheckDeductionWhereSchemaJson.optional(),
+});
+
+export const EmployeeTaxDataCompleteQueryOneSchema = z.object({
+  select: EmployeeTaxDataSelectSchemaJson.optional(),
+  omit: EmployeeTaxDataOmitSchemaJson.optional(),
+  include: EmployeeTaxDataIncludeSchemaJson.optional(),
+  where: EmployeeTaxDataWhereSchemaJson.optional(),
+});
+
+export const StateTaxWithholdingCompleteQueryOneSchema = z.object({
+  select: StateTaxWithholdingSelectSchemaJson.optional(),
+  omit: StateTaxWithholdingOmitSchemaJson.optional(),
+  include: StateTaxWithholdingIncludeSchemaJson.optional(),
+  where: StateTaxWithholdingWhereSchemaJson.optional(),
+});
+
+export const LocalTaxWithholdingCompleteQueryOneSchema = z.object({
+  select: LocalTaxWithholdingSelectSchemaJson.optional(),
+  omit: LocalTaxWithholdingOmitSchemaJson.optional(),
+  include: LocalTaxWithholdingIncludeSchemaJson.optional(),
+  where: LocalTaxWithholdingWhereSchemaJson.optional(),
+});
+
+export const PayrollRunCompleteQueryOneSchema = z.object({
+  select: PayrollRunSelectSchemaJson.optional(),
+  omit: PayrollRunOmitSchemaJson.optional(),
+  include: PayrollRunIncludeSchemaJson.optional(),
+  where: PayrollRunWhereSchemaJson.optional(),
+});
+
+export const ContactCompleteQueryOneSchema = z.object({
+  select: ContactSelectSchemaJson.optional(),
+  omit: ContactOmitSchemaJson.optional(),
+  include: ContactIncludeSchemaJson.optional(),
+  where: ContactWhereSchemaJson.optional(),
+});
+
+export const CountryCompleteQueryOneSchema = z.object({
+  select: CountrySelectSchemaJson.optional(),
+  omit: CountryOmitSchemaJson.optional(),
+  include: CountryIncludeSchemaJson.optional(),
+  where: CountryWhereSchemaJson.optional(),
+});
+
+export const StateCompleteQueryOneSchema = z.object({
+  select: StateSelectSchemaJson.optional(),
+  omit: StateOmitSchemaJson.optional(),
+  include: StateIncludeSchemaJson.optional(),
+  where: StateWhereSchemaJson.optional(),
+});
+
+export const AddressCompleteQueryOneSchema = z.object({
+  select: AddressSelectSchemaJson.optional(),
+  omit: AddressOmitSchemaJson.optional(),
+  include: AddressIncludeSchemaJson.optional(),
+  where: AddressWhereSchemaJson.optional(),
+});
+
+export const EmailCompleteQueryOneSchema = z.object({
+  select: EmailSelectSchemaJson.optional(),
+  omit: EmailOmitSchemaJson.optional(),
+  include: EmailIncludeSchemaJson.optional(),
+  where: EmailWhereSchemaJson.optional(),
+});
+
+export const PhoneCompleteQueryOneSchema = z.object({
+  select: PhoneSelectSchemaJson.optional(),
+  omit: PhoneOmitSchemaJson.optional(),
+  include: PhoneIncludeSchemaJson.optional(),
+  where: PhoneWhereSchemaJson.optional(),
+});
+
+export const PrimaryEmailCompleteQueryOneSchema = z.object({
+  select: PrimaryEmailSelectSchemaJson.optional(),
+  omit: PrimaryEmailOmitSchemaJson.optional(),
+  include: PrimaryEmailIncludeSchemaJson.optional(),
+  where: PrimaryEmailWhereSchemaJson.optional(),
+});
+
+export const PrimaryPhoneCompleteQueryOneSchema = z.object({
+  select: PrimaryPhoneSelectSchemaJson.optional(),
+  omit: PrimaryPhoneOmitSchemaJson.optional(),
+  include: PrimaryPhoneIncludeSchemaJson.optional(),
+  where: PrimaryPhoneWhereSchemaJson.optional(),
+});
+
+export const PrimaryAddressCompleteQueryOneSchema = z.object({
+  select: PrimaryAddressSelectSchemaJson.optional(),
+  omit: PrimaryAddressOmitSchemaJson.optional(),
+  include: PrimaryAddressIncludeSchemaJson.optional(),
+  where: PrimaryAddressWhereSchemaJson.optional(),
+});
+
+export const DepartmentCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DepartmentCompleteQueryOneSchema
+);
+
+export const TitleCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleCompleteQueryOneSchema
+);
+
+export const PersonalDataCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PersonalDataCompleteQueryOneSchema
+);
+
+export const EmployeeCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeCompleteQueryOneSchema
+);
+
+export const TeamCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamCompleteQueryOneSchema
+);
+
+export const TeamManagerCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamManagerCompleteQueryOneSchema
+);
+
+export const TeamMemberCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamMemberCompleteQueryOneSchema
+);
+
+export const SalaryCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryCompleteQueryOneSchema
+);
+
+export const SalaryHistoryCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryHistoryCompleteQueryOneSchema
+);
+
+export const BenefitCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitCompleteQueryOneSchema
+);
+
+export const BenefitEnrolmentCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitEnrolmentCompleteQueryOneSchema
+);
+
+export const TitleHistoryCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleHistoryCompleteQueryOneSchema
+);
+
+export const TimeOffPolicyCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffPolicyCompleteQueryOneSchema
+);
+
+export const TimeOffBalanceCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffBalanceCompleteQueryOneSchema
+);
+
+export const TimeOffRequestCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffRequestCompleteQueryOneSchema
+);
+
+export const TimeOffTransactionCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffTransactionCompleteQueryOneSchema
+);
+
+export const ClockInCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ClockInCompleteQueryOneSchema
+);
+
+export const PaycheckCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckCompleteQueryOneSchema
+);
+
+export const EarningCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EarningCompleteQueryOneSchema
+);
+
+export const PaycheckTaxCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckTaxCompleteQueryOneSchema
+);
+
+export const DeductionPolicyCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DeductionPolicyCompleteQueryOneSchema
+);
+
+export const EmployeeDeductionCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeDeductionCompleteQueryOneSchema
+);
+
+export const PaycheckDeductionCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckDeductionCompleteQueryOneSchema
+);
+
+export const EmployeeTaxDataCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeTaxDataCompleteQueryOneSchema
+);
+
+export const StateTaxWithholdingCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateTaxWithholdingCompleteQueryOneSchema
+);
+
+export const LocalTaxWithholdingCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  LocalTaxWithholdingCompleteQueryOneSchema
+);
+
+export const PayrollRunCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PayrollRunCompleteQueryOneSchema
+);
+
+export const ContactCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ContactCompleteQueryOneSchema
+);
+
+export const CountryCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CountryCompleteQueryOneSchema
+);
+
+export const StateCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateCompleteQueryOneSchema
+);
+
+export const AddressCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  AddressCompleteQueryOneSchema
+);
+
+export const EmailCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmailCompleteQueryOneSchema
+);
+
+export const PhoneCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PhoneCompleteQueryOneSchema
+);
+
+export const PrimaryEmailCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryEmailCompleteQueryOneSchema
+);
+
+export const PrimaryPhoneCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryPhoneCompleteQueryOneSchema
+);
+
+export const PrimaryAddressCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryAddressCompleteQueryOneSchema
+);
+
+export const DepartmentCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: DepartmentDistinctSchema.optional(),
+  select: DepartmentCompleteSelectSchemaJson.optional(),
+  omit: DepartmentOmitSchemaJson.optional(),
+  include: DepartmentIncludeSchemaJson.optional(),
+  where: DepartmentWhereSchemaJson.optional(),
+  orderBy: DepartmentOrderBySchemaJson.optional(),
+});
+
+export const TitleCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TitleDistinctSchema.optional(),
+  select: TitleCompleteSelectSchemaJson.optional(),
+  omit: TitleOmitSchemaJson.optional(),
+  include: TitleIncludeSchemaJson.optional(),
+  where: TitleWhereSchemaJson.optional(),
+  orderBy: TitleOrderBySchemaJson.optional(),
+});
+
+export const PersonalDataCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PersonalDataDistinctSchema.optional(),
+  select: PersonalDataCompleteSelectSchemaJson.optional(),
+  omit: PersonalDataOmitSchemaJson.optional(),
+  include: PersonalDataIncludeSchemaJson.optional(),
+  where: PersonalDataWhereSchemaJson.optional(),
+  orderBy: PersonalDataOrderBySchemaJson.optional(),
+});
+
+export const EmployeeCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: EmployeeDistinctSchema.optional(),
+  select: EmployeeCompleteSelectSchemaJson.optional(),
+  omit: EmployeeOmitSchemaJson.optional(),
+  include: EmployeeIncludeSchemaJson.optional(),
+  where: EmployeeWhereSchemaJson.optional(),
+  orderBy: EmployeeOrderBySchemaJson.optional(),
+});
+
+export const TeamCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TeamDistinctSchema.optional(),
+  select: TeamCompleteSelectSchemaJson.optional(),
+  omit: TeamOmitSchemaJson.optional(),
+  include: TeamIncludeSchemaJson.optional(),
+  where: TeamWhereSchemaJson.optional(),
+  orderBy: TeamOrderBySchemaJson.optional(),
+});
+
+export const TeamManagerCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TeamManagerDistinctSchema.optional(),
+  select: TeamManagerCompleteSelectSchemaJson.optional(),
+  omit: TeamManagerOmitSchemaJson.optional(),
+  include: TeamManagerIncludeSchemaJson.optional(),
+  where: TeamManagerWhereSchemaJson.optional(),
+  orderBy: TeamManagerOrderBySchemaJson.optional(),
+});
+
+export const TeamMemberCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TeamMemberDistinctSchema.optional(),
+  select: TeamMemberCompleteSelectSchemaJson.optional(),
+  omit: TeamMemberOmitSchemaJson.optional(),
+  include: TeamMemberIncludeSchemaJson.optional(),
+  where: TeamMemberWhereSchemaJson.optional(),
+  orderBy: TeamMemberOrderBySchemaJson.optional(),
+});
+
+export const SalaryCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: SalaryDistinctSchema.optional(),
+  select: SalaryCompleteSelectSchemaJson.optional(),
+  omit: SalaryOmitSchemaJson.optional(),
+  include: SalaryIncludeSchemaJson.optional(),
+  where: SalaryWhereSchemaJson.optional(),
+  orderBy: SalaryOrderBySchemaJson.optional(),
+});
+
+export const SalaryHistoryCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: SalaryHistoryDistinctSchema.optional(),
+  select: SalaryHistoryCompleteSelectSchemaJson.optional(),
+  omit: SalaryHistoryOmitSchemaJson.optional(),
+  include: SalaryHistoryIncludeSchemaJson.optional(),
+  where: SalaryHistoryWhereSchemaJson.optional(),
+  orderBy: SalaryHistoryOrderBySchemaJson.optional(),
+});
+
+export const BenefitCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: BenefitDistinctSchema.optional(),
+  select: BenefitCompleteSelectSchemaJson.optional(),
+  omit: BenefitOmitSchemaJson.optional(),
+  include: BenefitIncludeSchemaJson.optional(),
+  where: BenefitWhereSchemaJson.optional(),
+  orderBy: BenefitOrderBySchemaJson.optional(),
+});
+
+export const BenefitEnrolmentCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: BenefitEnrolmentDistinctSchema.optional(),
+  select: BenefitEnrolmentCompleteSelectSchemaJson.optional(),
+  omit: BenefitEnrolmentOmitSchemaJson.optional(),
+  include: BenefitEnrolmentIncludeSchemaJson.optional(),
+  where: BenefitEnrolmentWhereSchemaJson.optional(),
+  orderBy: BenefitEnrolmentOrderBySchemaJson.optional(),
+});
+
+export const TitleHistoryCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TitleHistoryDistinctSchema.optional(),
+  select: TitleHistoryCompleteSelectSchemaJson.optional(),
+  omit: TitleHistoryOmitSchemaJson.optional(),
+  include: TitleHistoryIncludeSchemaJson.optional(),
+  where: TitleHistoryWhereSchemaJson.optional(),
+  orderBy: TitleHistoryOrderBySchemaJson.optional(),
+});
+
+export const TimeOffPolicyCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TimeOffPolicyDistinctSchema.optional(),
+  select: TimeOffPolicyCompleteSelectSchemaJson.optional(),
+  omit: TimeOffPolicyOmitSchemaJson.optional(),
+  include: TimeOffPolicyIncludeSchemaJson.optional(),
+  where: TimeOffPolicyWhereSchemaJson.optional(),
+  orderBy: TimeOffPolicyOrderBySchemaJson.optional(),
+});
+
+export const TimeOffBalanceCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TimeOffBalanceDistinctSchema.optional(),
+  select: TimeOffBalanceCompleteSelectSchemaJson.optional(),
+  omit: TimeOffBalanceOmitSchemaJson.optional(),
+  include: TimeOffBalanceIncludeSchemaJson.optional(),
+  where: TimeOffBalanceWhereSchemaJson.optional(),
+  orderBy: TimeOffBalanceOrderBySchemaJson.optional(),
+});
+
+export const TimeOffRequestCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TimeOffRequestDistinctSchema.optional(),
+  select: TimeOffRequestCompleteSelectSchemaJson.optional(),
+  omit: TimeOffRequestOmitSchemaJson.optional(),
+  include: TimeOffRequestIncludeSchemaJson.optional(),
+  where: TimeOffRequestWhereSchemaJson.optional(),
+  orderBy: TimeOffRequestOrderBySchemaJson.optional(),
+});
+
+export const TimeOffTransactionCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TimeOffTransactionDistinctSchema.optional(),
+  select: TimeOffTransactionCompleteSelectSchemaJson.optional(),
+  omit: TimeOffTransactionOmitSchemaJson.optional(),
+  include: TimeOffTransactionIncludeSchemaJson.optional(),
+  where: TimeOffTransactionWhereSchemaJson.optional(),
+  orderBy: TimeOffTransactionOrderBySchemaJson.optional(),
+});
+
+export const ClockInCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: ClockInDistinctSchema.optional(),
+  select: ClockInCompleteSelectSchemaJson.optional(),
+  omit: ClockInOmitSchemaJson.optional(),
+  include: ClockInIncludeSchemaJson.optional(),
+  where: ClockInWhereSchemaJson.optional(),
+  orderBy: ClockInOrderBySchemaJson.optional(),
+});
+
+export const PaycheckCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PaycheckDistinctSchema.optional(),
+  select: PaycheckCompleteSelectSchemaJson.optional(),
+  omit: PaycheckOmitSchemaJson.optional(),
+  include: PaycheckIncludeSchemaJson.optional(),
+  where: PaycheckWhereSchemaJson.optional(),
+  orderBy: PaycheckOrderBySchemaJson.optional(),
+});
+
+export const EarningCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: EarningDistinctSchema.optional(),
+  select: EarningCompleteSelectSchemaJson.optional(),
+  omit: EarningOmitSchemaJson.optional(),
+  include: EarningIncludeSchemaJson.optional(),
+  where: EarningWhereSchemaJson.optional(),
+  orderBy: EarningOrderBySchemaJson.optional(),
+});
+
+export const PaycheckTaxCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PaycheckTaxDistinctSchema.optional(),
+  select: PaycheckTaxCompleteSelectSchemaJson.optional(),
+  omit: PaycheckTaxOmitSchemaJson.optional(),
+  include: PaycheckTaxIncludeSchemaJson.optional(),
+  where: PaycheckTaxWhereSchemaJson.optional(),
+  orderBy: PaycheckTaxOrderBySchemaJson.optional(),
+});
+
+export const DeductionPolicyCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: DeductionPolicyDistinctSchema.optional(),
+  select: DeductionPolicyCompleteSelectSchemaJson.optional(),
+  omit: DeductionPolicyOmitSchemaJson.optional(),
+  include: DeductionPolicyIncludeSchemaJson.optional(),
+  where: DeductionPolicyWhereSchemaJson.optional(),
+  orderBy: DeductionPolicyOrderBySchemaJson.optional(),
+});
+
+export const EmployeeDeductionCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: EmployeeDeductionDistinctSchema.optional(),
+  select: EmployeeDeductionCompleteSelectSchemaJson.optional(),
+  omit: EmployeeDeductionOmitSchemaJson.optional(),
+  include: EmployeeDeductionIncludeSchemaJson.optional(),
+  where: EmployeeDeductionWhereSchemaJson.optional(),
+  orderBy: EmployeeDeductionOrderBySchemaJson.optional(),
+});
+
+export const PaycheckDeductionCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PaycheckDeductionDistinctSchema.optional(),
+  select: PaycheckDeductionCompleteSelectSchemaJson.optional(),
+  omit: PaycheckDeductionOmitSchemaJson.optional(),
+  include: PaycheckDeductionIncludeSchemaJson.optional(),
+  where: PaycheckDeductionWhereSchemaJson.optional(),
+  orderBy: PaycheckDeductionOrderBySchemaJson.optional(),
+});
+
+export const EmployeeTaxDataCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: EmployeeTaxDataDistinctSchema.optional(),
+  select: EmployeeTaxDataCompleteSelectSchemaJson.optional(),
+  omit: EmployeeTaxDataOmitSchemaJson.optional(),
+  include: EmployeeTaxDataIncludeSchemaJson.optional(),
+  where: EmployeeTaxDataWhereSchemaJson.optional(),
+  orderBy: EmployeeTaxDataOrderBySchemaJson.optional(),
+});
+
+export const StateTaxWithholdingCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: StateTaxWithholdingDistinctSchema.optional(),
+  select: StateTaxWithholdingCompleteSelectSchemaJson.optional(),
+  omit: StateTaxWithholdingOmitSchemaJson.optional(),
+  include: StateTaxWithholdingIncludeSchemaJson.optional(),
+  where: StateTaxWithholdingWhereSchemaJson.optional(),
+  orderBy: StateTaxWithholdingOrderBySchemaJson.optional(),
+});
+
+export const LocalTaxWithholdingCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: LocalTaxWithholdingDistinctSchema.optional(),
+  select: LocalTaxWithholdingCompleteSelectSchemaJson.optional(),
+  omit: LocalTaxWithholdingOmitSchemaJson.optional(),
+  include: LocalTaxWithholdingIncludeSchemaJson.optional(),
+  where: LocalTaxWithholdingWhereSchemaJson.optional(),
+  orderBy: LocalTaxWithholdingOrderBySchemaJson.optional(),
+});
+
+export const PayrollRunCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PayrollRunDistinctSchema.optional(),
+  select: PayrollRunCompleteSelectSchemaJson.optional(),
+  omit: PayrollRunOmitSchemaJson.optional(),
+  include: PayrollRunIncludeSchemaJson.optional(),
+  where: PayrollRunWhereSchemaJson.optional(),
+  orderBy: PayrollRunOrderBySchemaJson.optional(),
+});
+
+export const ContactCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: ContactDistinctSchema.optional(),
+  select: ContactCompleteSelectSchemaJson.optional(),
+  omit: ContactOmitSchemaJson.optional(),
+  include: ContactIncludeSchemaJson.optional(),
+  where: ContactWhereSchemaJson.optional(),
+  orderBy: ContactOrderBySchemaJson.optional(),
+});
+
+export const CountryCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: CountryDistinctSchema.optional(),
+  select: CountryCompleteSelectSchemaJson.optional(),
+  omit: CountryOmitSchemaJson.optional(),
+  include: CountryIncludeSchemaJson.optional(),
+  where: CountryWhereSchemaJson.optional(),
+  orderBy: CountryOrderBySchemaJson.optional(),
+});
+
+export const StateCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: StateDistinctSchema.optional(),
+  select: StateCompleteSelectSchemaJson.optional(),
+  omit: StateOmitSchemaJson.optional(),
+  include: StateIncludeSchemaJson.optional(),
+  where: StateWhereSchemaJson.optional(),
+  orderBy: StateOrderBySchemaJson.optional(),
+});
+
+export const AddressCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: AddressDistinctSchema.optional(),
+  select: AddressCompleteSelectSchemaJson.optional(),
+  omit: AddressOmitSchemaJson.optional(),
+  include: AddressIncludeSchemaJson.optional(),
+  where: AddressWhereSchemaJson.optional(),
+  orderBy: AddressOrderBySchemaJson.optional(),
+});
+
+export const EmailCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: EmailDistinctSchema.optional(),
+  select: EmailCompleteSelectSchemaJson.optional(),
+  omit: EmailOmitSchemaJson.optional(),
+  include: EmailIncludeSchemaJson.optional(),
+  where: EmailWhereSchemaJson.optional(),
+  orderBy: EmailOrderBySchemaJson.optional(),
+});
+
+export const PhoneCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PhoneDistinctSchema.optional(),
+  select: PhoneCompleteSelectSchemaJson.optional(),
+  omit: PhoneOmitSchemaJson.optional(),
+  include: PhoneIncludeSchemaJson.optional(),
+  where: PhoneWhereSchemaJson.optional(),
+  orderBy: PhoneOrderBySchemaJson.optional(),
+});
+
+export const PrimaryEmailCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PrimaryEmailDistinctSchema.optional(),
+  select: PrimaryEmailCompleteSelectSchemaJson.optional(),
+  omit: PrimaryEmailOmitSchemaJson.optional(),
+  include: PrimaryEmailIncludeSchemaJson.optional(),
+  where: PrimaryEmailWhereSchemaJson.optional(),
+  orderBy: PrimaryEmailOrderBySchemaJson.optional(),
+});
+
+export const PrimaryPhoneCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PrimaryPhoneDistinctSchema.optional(),
+  select: PrimaryPhoneCompleteSelectSchemaJson.optional(),
+  omit: PrimaryPhoneOmitSchemaJson.optional(),
+  include: PrimaryPhoneIncludeSchemaJson.optional(),
+  where: PrimaryPhoneWhereSchemaJson.optional(),
+  orderBy: PrimaryPhoneOrderBySchemaJson.optional(),
+});
+
+export const PrimaryAddressCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: PrimaryAddressDistinctSchema.optional(),
+  select: PrimaryAddressCompleteSelectSchemaJson.optional(),
+  omit: PrimaryAddressOmitSchemaJson.optional(),
+  include: PrimaryAddressIncludeSchemaJson.optional(),
+  where: PrimaryAddressWhereSchemaJson.optional(),
+  orderBy: PrimaryAddressOrderBySchemaJson.optional(),
+});
+
+export const DepartmentCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DepartmentCompleteQuerySchema
+);
+
+export const TitleCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleCompleteQuerySchema
+);
+
+export const PersonalDataCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PersonalDataCompleteQuerySchema
+);
+
+export const EmployeeCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeCompleteQuerySchema
+);
+
+export const TeamCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamCompleteQuerySchema
+);
+
+export const TeamManagerCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamManagerCompleteQuerySchema
+);
+
+export const TeamMemberCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TeamMemberCompleteQuerySchema
+);
+
+export const SalaryCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryCompleteQuerySchema
+);
+
+export const SalaryHistoryCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  SalaryHistoryCompleteQuerySchema
+);
+
+export const BenefitCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitCompleteQuerySchema
+);
+
+export const BenefitEnrolmentCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  BenefitEnrolmentCompleteQuerySchema
+);
+
+export const TitleHistoryCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TitleHistoryCompleteQuerySchema
+);
+
+export const TimeOffPolicyCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffPolicyCompleteQuerySchema
+);
+
+export const TimeOffBalanceCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffBalanceCompleteQuerySchema
+);
+
+export const TimeOffRequestCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffRequestCompleteQuerySchema
+);
+
+export const TimeOffTransactionCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  TimeOffTransactionCompleteQuerySchema
+);
+
+export const ClockInCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ClockInCompleteQuerySchema
+);
+
+export const PaycheckCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckCompleteQuerySchema
+);
+
+export const EarningCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EarningCompleteQuerySchema
+);
+
+export const PaycheckTaxCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckTaxCompleteQuerySchema
+);
+
+export const DeductionPolicyCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  DeductionPolicyCompleteQuerySchema
+);
+
+export const EmployeeDeductionCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeDeductionCompleteQuerySchema
+);
+
+export const PaycheckDeductionCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PaycheckDeductionCompleteQuerySchema
+);
+
+export const EmployeeTaxDataCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmployeeTaxDataCompleteQuerySchema
+);
+
+export const StateTaxWithholdingCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateTaxWithholdingCompleteQuerySchema
+);
+
+export const LocalTaxWithholdingCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  LocalTaxWithholdingCompleteQuerySchema
+);
+
+export const PayrollRunCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PayrollRunCompleteQuerySchema
+);
+
+export const ContactCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  ContactCompleteQuerySchema
+);
+
+export const CountryCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CountryCompleteQuerySchema
+);
+
+export const StateCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  StateCompleteQuerySchema
+);
+
+export const AddressCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  AddressCompleteQuerySchema
+);
+
+export const EmailCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  EmailCompleteQuerySchema
+);
+
+export const PhoneCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PhoneCompleteQuerySchema
+);
+
+export const PrimaryEmailCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryEmailCompleteQuerySchema
+);
+
+export const PrimaryPhoneCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryPhoneCompleteQuerySchema
+);
+
+export const PrimaryAddressCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  PrimaryAddressCompleteQuerySchema
+);
+
 export const DepartmentProjectionSchema = z.union([
-  z.object({ omit: DepartmentOmitFieldsSchemaJson }),
-  z.object({ select: DepartmentSelectFieldsSchemaJson }),
+  z.object({ omit: DepartmentOmitSchemaJson }),
+  z.object({ select: DepartmentSelectSchemaJson }),
   z.object({ include: DepartmentIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TitleCreateSchema = z.preprocess(
-  PZ.slugTransformer('name'),
-  z.object({
-    departmentId: PZ.Scalar.id(),
-    name: PZ.Scalar.name(),
-    slug: PZ.Scalar.slug().optional(),
-    description: PZ.Scalar.description().optional(),
-    isActive: PZ.Scalar.bool().optional(),
-  })
-);
-
-export const TitleUpdateSchema = z.object({
-  departmentId: PZ.Scalar.id().optional(),
-  name: PZ.Scalar.name().optional(),
-  slug: PZ.Scalar.slug().optional().optional(),
-  description: PZ.Scalar.description().optional().optional(),
-  isActive: PZ.Scalar.bool().optional().optional(),
-});
-
-export const TitleOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    departmentId: PZ.OrderDirectionSchema,
-    name: PZ.OrderDirectionSchema,
-    slug: PZ.OrderDirectionSchema,
-    description: PZ.OrderDirectionSchema,
-    isActive: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const TitleOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TitleOrderBySchema
-);
-
-export const TitleWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    departmentId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    name: z.string().or(PZ.StringFilterSchema),
-    slug: z.string().or(PZ.StringFilterSchema),
-    description: z.string().or(PZ.StringFilterSchema),
-    isActive: z.coerce.boolean().or(PZ.BooleanFilterSchema),
-    department: DepartmentOwnWhereSchema,
-    employees: z
-      .object({
-        some: EmployeeOwnWhereSchema,
-        every: EmployeeOwnWhereSchema,
-        none: EmployeeOwnWhereSchema,
-      })
-      .partial(),
-    histories: z
-      .object({
-        some: TitleHistoryOwnWhereSchema,
-        every: TitleHistoryOwnWhereSchema,
-        none: TitleHistoryOwnWhereSchema,
-      })
-      .partial(),
-  })
-  .partial();
-
-export const TitleWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TitleWhereSchema
-);
-
-export const TitleSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    departmentId: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-    slug: PZ.Scalar.bool(),
-    description: PZ.Scalar.bool(),
-    isActive: PZ.Scalar.bool(),
-    department: PZ.Scalar.bool().or(DepartmentOwnQueryOneSchema),
-    employees: PZ.Scalar.bool().or(EmployeeOwnQuerySchema),
-    histories: PZ.Scalar.bool().or(TitleHistoryOwnQuerySchema),
-  })
-  .partial();
-
-export const TitleSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TitleSelectFieldsSchema
-);
-
-export const TitleOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    departmentId: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-    slug: PZ.Scalar.bool(),
-    description: PZ.Scalar.bool(),
-    isActive: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      !['id', 'departmentId', 'name', 'slug', 'description', 'isActive'].every(
-        (e) => Object.hasOwn(value, e)
-      ),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const TitleOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TitleOmitFieldsSchema
-);
-
-export const TitleIncludeSchema = z
-  .object({
-    department: PZ.Scalar.bool().or(DepartmentOwnQueryOneSchema),
-    employees: PZ.Scalar.bool().or(EmployeeOwnQuerySchema),
-    histories: PZ.Scalar.bool().or(TitleHistoryOwnQuerySchema),
-  })
-  .partial();
-
-export const TitleIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TitleIncludeSchema
-);
-
 export const TitleProjectionSchema = z.union([
-  z.object({ omit: TitleOmitFieldsSchemaJson }),
-  z.object({ select: TitleSelectFieldsSchemaJson }),
+  z.object({ omit: TitleOmitSchemaJson }),
+  z.object({ select: TitleSelectSchemaJson }),
   z.object({ include: TitleIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PersonalDataCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    employeeId: PZ.Scalar.id(),
-    ein: PZ.Scalar.string(),
-    gender: GenderSchema,
-    dob: PZ.Scalar.datetime(),
-    maritalStatus: MaritalStatusSchema,
-  })
-);
-
-export const PersonalDataUpdateSchema = z.object({
-  employeeId: PZ.Scalar.id().optional(),
-  ein: PZ.Scalar.string().optional(),
-  gender: GenderSchema.optional(),
-  dob: PZ.Scalar.datetime().optional(),
-  maritalStatus: MaritalStatusSchema.optional(),
-});
-
-export const PersonalDataOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    employeeId: PZ.OrderDirectionSchema,
-    ein: PZ.OrderDirectionSchema,
-    dob: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const PersonalDataOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PersonalDataOrderBySchema
-);
-
-export const PersonalDataWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    ein: z.string().or(PZ.StringFilterSchema),
-    gender: GenderSchema,
-    dob: z.string().or(PZ.DateTimeFilterSchema),
-    maritalStatus: MaritalStatusSchema,
-    employee: EmployeeOwnWhereSchema,
-  })
-  .partial();
-
-export const PersonalDataWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PersonalDataWhereSchema
-);
-
-export const PersonalDataSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    ein: PZ.Scalar.bool(),
-    gender: PZ.Scalar.bool(),
-    dob: PZ.Scalar.bool(),
-    maritalStatus: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-  })
-  .partial();
-
-export const PersonalDataSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PersonalDataSelectFieldsSchema
-);
-
-export const PersonalDataOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    ein: PZ.Scalar.bool(),
-    gender: PZ.Scalar.bool(),
-    dob: PZ.Scalar.bool(),
-    maritalStatus: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      !['id', 'employeeId', 'ein', 'gender', 'dob', 'maritalStatus'].every(
-        (e) => Object.hasOwn(value, e)
-      ),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const PersonalDataOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PersonalDataOmitFieldsSchema
-);
-
-export const PersonalDataIncludeSchema = z
-  .object({
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-  })
-  .partial();
-
-export const PersonalDataIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PersonalDataIncludeSchema
-);
-
 export const PersonalDataProjectionSchema = z.union([
-  z.object({ omit: PersonalDataOmitFieldsSchemaJson }),
-  z.object({ select: PersonalDataSelectFieldsSchemaJson }),
+  z.object({ omit: PersonalDataOmitSchemaJson }),
+  z.object({ select: PersonalDataSelectSchemaJson }),
   z.object({ include: PersonalDataIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const EmployeeCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    titleId: PZ.Scalar.id(),
-    firstName: PZ.Scalar.string(),
-    middleName: PZ.Scalar.string().optional(),
-    lastName: PZ.Scalar.string(),
-    preferedName: PZ.Scalar.string().optional(),
-    status: EmployeeStatusSchema.optional(),
-    hireDate: PZ.Scalar.datetime().optional(),
-    terminationDate: PZ.Scalar.datetime().optional(),
-    employmentType: EmploymentTypeSchema,
-    directManagerId: PZ.Scalar.id().optional(),
-  })
-);
-
-export const EmployeeUpdateSchema = z.object({
-  titleId: PZ.Scalar.id().optional(),
-  firstName: PZ.Scalar.string().optional(),
-  middleName: PZ.Scalar.string().optional().optional(),
-  lastName: PZ.Scalar.string().optional(),
-  preferedName: PZ.Scalar.string().optional().optional(),
-  status: EmployeeStatusSchema.optional().optional(),
-  hireDate: PZ.Scalar.datetime().optional().optional(),
-  terminationDate: PZ.Scalar.datetime().optional().optional(),
-  employmentType: EmploymentTypeSchema.optional(),
-  directManagerId: PZ.Scalar.id().optional().optional(),
-});
-
-export const EmployeeOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    uuid: PZ.OrderDirectionSchema,
-    titleId: PZ.OrderDirectionSchema,
-    firstName: PZ.OrderDirectionSchema,
-    middleName: PZ.OrderDirectionSchema,
-    lastName: PZ.OrderDirectionSchema,
-    preferedName: PZ.OrderDirectionSchema,
-    hireDate: PZ.OrderDirectionSchema,
-    terminationDate: PZ.OrderDirectionSchema,
-    directManagerId: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const EmployeeOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmployeeOrderBySchema
-);
-
-export const EmployeeWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    uuid: z.string().or(PZ.StringFilterSchema),
-    titleId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    firstName: z.string().or(PZ.StringFilterSchema),
-    middleName: z.string().or(PZ.StringFilterSchema),
-    lastName: z.string().or(PZ.StringFilterSchema),
-    preferedName: z.string().or(PZ.StringFilterSchema),
-    status: EmployeeStatusSchema,
-    title: TitleOwnWhereSchema,
-    hireDate: z.string().or(PZ.DateTimeFilterSchema),
-    terminationDate: z.string().or(PZ.DateTimeFilterSchema),
-    employmentType: EmploymentTypeSchema,
-    salary: SalaryOwnWhereSchema,
-    salaryHistory: z
-      .object({
-        some: SalaryHistoryOwnWhereSchema,
-        every: SalaryHistoryOwnWhereSchema,
-        none: SalaryHistoryOwnWhereSchema,
-      })
-      .partial(),
-    benefits: z
-      .object({
-        some: BenefitEnrolmentOwnWhereSchema,
-        every: BenefitEnrolmentOwnWhereSchema,
-        none: BenefitEnrolmentOwnWhereSchema,
-      })
-      .partial(),
-    titleHistory: z
-      .object({
-        some: TitleHistoryOwnWhereSchema,
-        every: TitleHistoryOwnWhereSchema,
-        none: TitleHistoryOwnWhereSchema,
-      })
-      .partial(),
-    timeOffBalances: z
-      .object({
-        some: TimeOffBalanceOwnWhereSchema,
-        every: TimeOffBalanceOwnWhereSchema,
-        none: TimeOffBalanceOwnWhereSchema,
-      })
-      .partial(),
-    timeOffRequests: z
-      .object({
-        some: TimeOffRequestOwnWhereSchema,
-        every: TimeOffRequestOwnWhereSchema,
-        none: TimeOffRequestOwnWhereSchema,
-      })
-      .partial(),
-    resolvedTimeOffs: z
-      .object({
-        some: TimeOffRequestOwnWhereSchema,
-        every: TimeOffRequestOwnWhereSchema,
-        none: TimeOffRequestOwnWhereSchema,
-      })
-      .partial(),
-    clockIns: z
-      .object({
-        some: ClockInOwnWhereSchema,
-        every: ClockInOwnWhereSchema,
-        none: ClockInOwnWhereSchema,
-      })
-      .partial(),
-    personalData: PersonalDataOwnWhereSchema,
-    taxData: z
-      .object({
-        some: EmployeeTaxDataOwnWhereSchema,
-        every: EmployeeTaxDataOwnWhereSchema,
-        none: EmployeeTaxDataOwnWhereSchema,
-      })
-      .partial(),
-    memberships: z
-      .object({
-        some: TeamMemberOwnWhereSchema,
-        every: TeamMemberOwnWhereSchema,
-        none: TeamMemberOwnWhereSchema,
-      })
-      .partial(),
-    managingTeams: z
-      .object({
-        some: TeamManagerOwnWhereSchema,
-        every: TeamManagerOwnWhereSchema,
-        none: TeamManagerOwnWhereSchema,
-      })
-      .partial(),
-    managingEmployees: z
-      .object({
-        some: EmployeeOwnWhereSchema,
-        every: EmployeeOwnWhereSchema,
-        none: EmployeeOwnWhereSchema,
-      })
-      .partial(),
-    directManager: EmployeeOwnWhereSchema,
-    paychecks: z
-      .object({
-        some: PaycheckOwnWhereSchema,
-        every: PaycheckOwnWhereSchema,
-        none: PaycheckOwnWhereSchema,
-      })
-      .partial(),
-    directManagerId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    deductions: z
-      .object({
-        some: EmployeeDeductionOwnWhereSchema,
-        every: EmployeeDeductionOwnWhereSchema,
-        none: EmployeeDeductionOwnWhereSchema,
-      })
-      .partial(),
-    resolvedPayrollRuns: z
-      .object({
-        some: PayrollRunOwnWhereSchema,
-        every: PayrollRunOwnWhereSchema,
-        none: PayrollRunOwnWhereSchema,
-      })
-      .partial(),
-    contact: ContactOwnWhereSchema,
-  })
-  .partial();
-
-export const EmployeeWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmployeeWhereSchema
-);
-
-export const EmployeeSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    uuid: PZ.Scalar.bool(),
-    titleId: PZ.Scalar.bool(),
-    firstName: PZ.Scalar.bool(),
-    middleName: PZ.Scalar.bool(),
-    lastName: PZ.Scalar.bool(),
-    preferedName: PZ.Scalar.bool(),
-    status: PZ.Scalar.bool(),
-    title: PZ.Scalar.bool().or(TitleOwnQueryOneSchema),
-    hireDate: PZ.Scalar.bool(),
-    terminationDate: PZ.Scalar.bool(),
-    employmentType: PZ.Scalar.bool(),
-    salary: PZ.Scalar.bool().or(SalaryOwnQueryOneSchema),
-    salaryHistory: PZ.Scalar.bool().or(SalaryHistoryOwnQuerySchema),
-    benefits: PZ.Scalar.bool().or(BenefitEnrolmentOwnQuerySchema),
-    titleHistory: PZ.Scalar.bool().or(TitleHistoryOwnQuerySchema),
-    timeOffBalances: PZ.Scalar.bool().or(TimeOffBalanceOwnQuerySchema),
-    timeOffRequests: PZ.Scalar.bool().or(TimeOffRequestOwnQuerySchema),
-    resolvedTimeOffs: PZ.Scalar.bool().or(TimeOffRequestOwnQuerySchema),
-    clockIns: PZ.Scalar.bool().or(ClockInOwnQuerySchema),
-    personalData: PZ.Scalar.bool().or(PersonalDataOwnQueryOneSchema),
-    taxData: PZ.Scalar.bool().or(EmployeeTaxDataOwnQuerySchema),
-    memberships: PZ.Scalar.bool().or(TeamMemberOwnQuerySchema),
-    managingTeams: PZ.Scalar.bool().or(TeamManagerOwnQuerySchema),
-    managingEmployees: PZ.Scalar.bool().or(EmployeeOwnQuerySchema),
-    directManager: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-    paychecks: PZ.Scalar.bool().or(PaycheckOwnQuerySchema),
-    directManagerId: PZ.Scalar.bool(),
-    deductions: PZ.Scalar.bool().or(EmployeeDeductionOwnQuerySchema),
-    resolvedPayrollRuns: PZ.Scalar.bool().or(PayrollRunOwnQuerySchema),
-    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
-  })
-  .partial();
-
-export const EmployeeSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmployeeSelectFieldsSchema
-);
-
-export const EmployeeOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    uuid: PZ.Scalar.bool(),
-    titleId: PZ.Scalar.bool(),
-    firstName: PZ.Scalar.bool(),
-    middleName: PZ.Scalar.bool(),
-    lastName: PZ.Scalar.bool(),
-    preferedName: PZ.Scalar.bool(),
-    status: PZ.Scalar.bool(),
-    hireDate: PZ.Scalar.bool(),
-    terminationDate: PZ.Scalar.bool(),
-    employmentType: PZ.Scalar.bool(),
-    directManagerId: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      ![
-        'id',
-        'uuid',
-        'titleId',
-        'firstName',
-        'middleName',
-        'lastName',
-        'preferedName',
-        'status',
-        'hireDate',
-        'terminationDate',
-        'employmentType',
-        'directManagerId',
-      ].every((e) => Object.hasOwn(value, e)),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const EmployeeOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmployeeOmitFieldsSchema
-);
-
-export const EmployeeIncludeSchema = z
-  .object({
-    title: PZ.Scalar.bool().or(TitleOwnQueryOneSchema),
-    salary: PZ.Scalar.bool().or(SalaryOwnQueryOneSchema),
-    salaryHistory: PZ.Scalar.bool().or(SalaryHistoryOwnQuerySchema),
-    benefits: PZ.Scalar.bool().or(BenefitEnrolmentOwnQuerySchema),
-    titleHistory: PZ.Scalar.bool().or(TitleHistoryOwnQuerySchema),
-    timeOffBalances: PZ.Scalar.bool().or(TimeOffBalanceOwnQuerySchema),
-    timeOffRequests: PZ.Scalar.bool().or(TimeOffRequestOwnQuerySchema),
-    resolvedTimeOffs: PZ.Scalar.bool().or(TimeOffRequestOwnQuerySchema),
-    clockIns: PZ.Scalar.bool().or(ClockInOwnQuerySchema),
-    personalData: PZ.Scalar.bool().or(PersonalDataOwnQueryOneSchema),
-    taxData: PZ.Scalar.bool().or(EmployeeTaxDataOwnQuerySchema),
-    memberships: PZ.Scalar.bool().or(TeamMemberOwnQuerySchema),
-    managingTeams: PZ.Scalar.bool().or(TeamManagerOwnQuerySchema),
-    managingEmployees: PZ.Scalar.bool().or(EmployeeOwnQuerySchema),
-    directManager: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-    paychecks: PZ.Scalar.bool().or(PaycheckOwnQuerySchema),
-    deductions: PZ.Scalar.bool().or(EmployeeDeductionOwnQuerySchema),
-    resolvedPayrollRuns: PZ.Scalar.bool().or(PayrollRunOwnQuerySchema),
-    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
-  })
-  .partial();
-
-export const EmployeeIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmployeeIncludeSchema
-);
-
 export const EmployeeProjectionSchema = z.union([
-  z.object({ omit: EmployeeOmitFieldsSchemaJson }),
-  z.object({ select: EmployeeSelectFieldsSchemaJson }),
+  z.object({ omit: EmployeeOmitSchemaJson }),
+  z.object({ select: EmployeeSelectSchemaJson }),
   z.object({ include: EmployeeIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TeamCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    name: PZ.Scalar.name(),
-  })
-);
-
-export const TeamUpdateSchema = z.object({
-  name: PZ.Scalar.name().optional(),
-});
-
-export const TeamOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    name: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const TeamOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TeamOrderBySchema
-);
-
-export const TeamWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    name: z.string().or(PZ.StringFilterSchema),
-    members: z
-      .object({
-        some: TeamMemberOwnWhereSchema,
-        every: TeamMemberOwnWhereSchema,
-        none: TeamMemberOwnWhereSchema,
-      })
-      .partial(),
-    managers: z
-      .object({
-        some: TeamManagerOwnWhereSchema,
-        every: TeamManagerOwnWhereSchema,
-        none: TeamManagerOwnWhereSchema,
-      })
-      .partial(),
-  })
-  .partial();
-
-export const TeamWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TeamWhereSchema
-);
-
-export const TeamSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-    members: PZ.Scalar.bool().or(TeamMemberOwnQuerySchema),
-    managers: PZ.Scalar.bool().or(TeamManagerOwnQuerySchema),
-  })
-  .partial();
-
-export const TeamSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TeamSelectFieldsSchema
-);
-
-export const TeamOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine((value) => !['id', 'name'].every((e) => Object.hasOwn(value, e)), {
-    message: 'Cannot omit all fields',
-    path: ['omit'],
-  });
-
-export const TeamOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TeamOmitFieldsSchema
-);
-
-export const TeamIncludeSchema = z
-  .object({
-    members: PZ.Scalar.bool().or(TeamMemberOwnQuerySchema),
-    managers: PZ.Scalar.bool().or(TeamManagerOwnQuerySchema),
-  })
-  .partial();
-
-export const TeamIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TeamIncludeSchema
-);
-
 export const TeamProjectionSchema = z.union([
-  z.object({ omit: TeamOmitFieldsSchemaJson }),
-  z.object({ select: TeamSelectFieldsSchemaJson }),
+  z.object({ omit: TeamOmitSchemaJson }),
+  z.object({ select: TeamSelectSchemaJson }),
   z.object({ include: TeamIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TeamManagerCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    teamId: PZ.Scalar.id(),
-    managerId: PZ.Scalar.id(),
-  })
-);
-
-export const TeamManagerUpdateSchema = z.object({
-  teamId: PZ.Scalar.id().optional(),
-  managerId: PZ.Scalar.id().optional(),
-});
-
-export const TeamManagerOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    teamId: PZ.OrderDirectionSchema,
-    managerId: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const TeamManagerOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TeamManagerOrderBySchema
-);
-
-export const TeamManagerWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    teamId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    managerId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    team: TeamOwnWhereSchema,
-    manager: EmployeeOwnWhereSchema,
-  })
-  .partial();
-
-export const TeamManagerWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TeamManagerWhereSchema
-);
-
-export const TeamManagerSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    teamId: PZ.Scalar.bool(),
-    managerId: PZ.Scalar.bool(),
-    team: PZ.Scalar.bool().or(TeamOwnQueryOneSchema),
-    manager: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-  })
-  .partial();
-
-export const TeamManagerSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TeamManagerSelectFieldsSchema
-);
-
-export const TeamManagerOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    teamId: PZ.Scalar.bool(),
-    managerId: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      !['id', 'teamId', 'managerId'].every((e) => Object.hasOwn(value, e)),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const TeamManagerOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TeamManagerOmitFieldsSchema
-);
-
-export const TeamManagerIncludeSchema = z
-  .object({
-    team: PZ.Scalar.bool().or(TeamOwnQueryOneSchema),
-    manager: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-  })
-  .partial();
-
-export const TeamManagerIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TeamManagerIncludeSchema
-);
-
 export const TeamManagerProjectionSchema = z.union([
-  z.object({ omit: TeamManagerOmitFieldsSchemaJson }),
-  z.object({ select: TeamManagerSelectFieldsSchemaJson }),
+  z.object({ omit: TeamManagerOmitSchemaJson }),
+  z.object({ select: TeamManagerSelectSchemaJson }),
   z.object({ include: TeamManagerIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TeamMemberCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    teamId: PZ.Scalar.id(),
-    memberId: PZ.Scalar.id(),
-  })
-);
-
-export const TeamMemberUpdateSchema = z.object({
-  teamId: PZ.Scalar.id().optional(),
-  memberId: PZ.Scalar.id().optional(),
-});
-
-export const TeamMemberOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    teamId: PZ.OrderDirectionSchema,
-    memberId: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const TeamMemberOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TeamMemberOrderBySchema
-);
-
-export const TeamMemberWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    teamId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    memberId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    member: EmployeeOwnWhereSchema,
-    team: TeamOwnWhereSchema,
-  })
-  .partial();
-
-export const TeamMemberWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TeamMemberWhereSchema
-);
-
-export const TeamMemberSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    teamId: PZ.Scalar.bool(),
-    memberId: PZ.Scalar.bool(),
-    member: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-    team: PZ.Scalar.bool().or(TeamOwnQueryOneSchema),
-  })
-  .partial();
-
-export const TeamMemberSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TeamMemberSelectFieldsSchema
-);
-
-export const TeamMemberOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    teamId: PZ.Scalar.bool(),
-    memberId: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      !['id', 'teamId', 'memberId'].every((e) => Object.hasOwn(value, e)),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const TeamMemberOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TeamMemberOmitFieldsSchema
-);
-
-export const TeamMemberIncludeSchema = z
-  .object({
-    member: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-    team: PZ.Scalar.bool().or(TeamOwnQueryOneSchema),
-  })
-  .partial();
-
-export const TeamMemberIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TeamMemberIncludeSchema
-);
-
 export const TeamMemberProjectionSchema = z.union([
-  z.object({ omit: TeamMemberOmitFieldsSchemaJson }),
-  z.object({ select: TeamMemberSelectFieldsSchemaJson }),
+  z.object({ omit: TeamMemberOmitSchemaJson }),
+  z.object({ select: TeamMemberSelectSchemaJson }),
   z.object({ include: TeamMemberIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const SalaryCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    employeeId: PZ.Scalar.id(),
-    gross: PZ.Scalar.number(),
-    startDate: PZ.Scalar.datetime(),
-    endDate: PZ.Scalar.datetime().optional(),
-    frequency: PayFrequencySchema,
-  })
-);
-
-export const SalaryUpdateSchema = z.object({
-  employeeId: PZ.Scalar.id().optional(),
-  gross: PZ.Scalar.number().optional(),
-  startDate: PZ.Scalar.datetime().optional(),
-  endDate: PZ.Scalar.datetime().optional().optional(),
-  frequency: PayFrequencySchema.optional(),
-});
-
-export const SalaryOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    employeeId: PZ.OrderDirectionSchema,
-    gross: PZ.OrderDirectionSchema,
-    startDate: PZ.OrderDirectionSchema,
-    endDate: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const SalaryOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  SalaryOrderBySchema
-);
-
-export const SalaryWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    gross: z.coerce.number().or(PZ.NumberFilterSchema),
-    startDate: z.string().or(PZ.DateTimeFilterSchema),
-    endDate: z.string().or(PZ.DateTimeFilterSchema),
-    frequency: PayFrequencySchema,
-    employee: EmployeeOwnWhereSchema,
-  })
-  .partial();
-
-export const SalaryWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  SalaryWhereSchema
-);
-
-export const SalarySelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    gross: PZ.Scalar.bool(),
-    startDate: PZ.Scalar.bool(),
-    endDate: PZ.Scalar.bool(),
-    frequency: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-  })
-  .partial();
-
-export const SalarySelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  SalarySelectFieldsSchema
-);
-
-export const SalaryOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    gross: PZ.Scalar.bool(),
-    startDate: PZ.Scalar.bool(),
-    endDate: PZ.Scalar.bool(),
-    frequency: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      !['id', 'employeeId', 'gross', 'startDate', 'endDate', 'frequency'].every(
-        (e) => Object.hasOwn(value, e)
-      ),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const SalaryOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  SalaryOmitFieldsSchema
-);
-
-export const SalaryIncludeSchema = z
-  .object({
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-  })
-  .partial();
-
-export const SalaryIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  SalaryIncludeSchema
-);
-
 export const SalaryProjectionSchema = z.union([
-  z.object({ omit: SalaryOmitFieldsSchemaJson }),
-  z.object({ select: SalarySelectFieldsSchemaJson }),
+  z.object({ omit: SalaryOmitSchemaJson }),
+  z.object({ select: SalarySelectSchemaJson }),
   z.object({ include: SalaryIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const SalaryHistoryCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    employeeId: PZ.Scalar.id(),
-    oldSalary: PZ.Scalar.number(),
-    newSalary: PZ.Scalar.number(),
-    reason: PZ.Scalar.string().optional(),
-  })
-);
-
-export const SalaryHistoryUpdateSchema = z.object({
-  employeeId: PZ.Scalar.id().optional(),
-  oldSalary: PZ.Scalar.number().optional(),
-  newSalary: PZ.Scalar.number().optional(),
-  reason: PZ.Scalar.string().optional().optional(),
-});
-
-export const SalaryHistoryOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    employeeId: PZ.OrderDirectionSchema,
-    createdAt: PZ.OrderDirectionSchema,
-    oldSalary: PZ.OrderDirectionSchema,
-    newSalary: PZ.OrderDirectionSchema,
-    reason: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const SalaryHistoryOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  SalaryHistoryOrderBySchema
-);
-
-export const SalaryHistoryWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    createdAt: z.string().or(PZ.DateTimeFilterSchema),
-    oldSalary: z.coerce.number().or(PZ.NumberFilterSchema),
-    newSalary: z.coerce.number().or(PZ.NumberFilterSchema),
-    reason: z.string().or(PZ.StringFilterSchema),
-    employee: EmployeeOwnWhereSchema,
-  })
-  .partial();
-
-export const SalaryHistoryWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  SalaryHistoryWhereSchema
-);
-
-export const SalaryHistorySelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    createdAt: PZ.Scalar.bool(),
-    oldSalary: PZ.Scalar.bool(),
-    newSalary: PZ.Scalar.bool(),
-    reason: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-  })
-  .partial();
-
-export const SalaryHistorySelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  SalaryHistorySelectFieldsSchema
-);
-
-export const SalaryHistoryOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    createdAt: PZ.Scalar.bool(),
-    oldSalary: PZ.Scalar.bool(),
-    newSalary: PZ.Scalar.bool(),
-    reason: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      ![
-        'id',
-        'employeeId',
-        'createdAt',
-        'oldSalary',
-        'newSalary',
-        'reason',
-      ].every((e) => Object.hasOwn(value, e)),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const SalaryHistoryOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  SalaryHistoryOmitFieldsSchema
-);
-
-export const SalaryHistoryIncludeSchema = z
-  .object({
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-  })
-  .partial();
-
-export const SalaryHistoryIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  SalaryHistoryIncludeSchema
-);
-
 export const SalaryHistoryProjectionSchema = z.union([
-  z.object({ omit: SalaryHistoryOmitFieldsSchemaJson }),
-  z.object({ select: SalaryHistorySelectFieldsSchemaJson }),
+  z.object({ omit: SalaryHistoryOmitSchemaJson }),
+  z.object({ select: SalaryHistorySelectSchemaJson }),
   z.object({ include: SalaryHistoryIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const BenefitCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    name: PZ.Scalar.name(),
-    description: PZ.Scalar.description().optional(),
-    type: PZ.Scalar.string().optional(),
-  })
-);
-
-export const BenefitUpdateSchema = z.object({
-  name: PZ.Scalar.name().optional(),
-  description: PZ.Scalar.description().optional().optional(),
-  type: PZ.Scalar.string().optional().optional(),
-});
-
-export const BenefitOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    name: PZ.OrderDirectionSchema,
-    description: PZ.OrderDirectionSchema,
-    type: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const BenefitOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  BenefitOrderBySchema
-);
-
-export const BenefitWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    name: z.string().or(PZ.StringFilterSchema),
-    description: z.string().or(PZ.StringFilterSchema),
-    type: z.string().or(PZ.StringFilterSchema),
-    enrolments: z
-      .object({
-        some: BenefitEnrolmentOwnWhereSchema,
-        every: BenefitEnrolmentOwnWhereSchema,
-        none: BenefitEnrolmentOwnWhereSchema,
-      })
-      .partial(),
-  })
-  .partial();
-
-export const BenefitWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  BenefitWhereSchema
-);
-
-export const BenefitSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-    description: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-    enrolments: PZ.Scalar.bool().or(BenefitEnrolmentOwnQuerySchema),
-  })
-  .partial();
-
-export const BenefitSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  BenefitSelectFieldsSchema
-);
-
-export const BenefitOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-    description: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      !['id', 'name', 'description', 'type'].every((e) =>
-        Object.hasOwn(value, e)
-      ),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const BenefitOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  BenefitOmitFieldsSchema
-);
-
-export const BenefitIncludeSchema = z
-  .object({
-    enrolments: PZ.Scalar.bool().or(BenefitEnrolmentOwnQuerySchema),
-  })
-  .partial();
-
-export const BenefitIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  BenefitIncludeSchema
-);
-
 export const BenefitProjectionSchema = z.union([
-  z.object({ omit: BenefitOmitFieldsSchemaJson }),
-  z.object({ select: BenefitSelectFieldsSchemaJson }),
+  z.object({ omit: BenefitOmitSchemaJson }),
+  z.object({ select: BenefitSelectSchemaJson }),
   z.object({ include: BenefitIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const BenefitEnrolmentCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    benefitId: PZ.Scalar.id(),
-    employeeId: PZ.Scalar.id(),
-    startDate: PZ.Scalar.datetime(),
-    status: BenefitStatusSchema.optional(),
-  })
-);
-
-export const BenefitEnrolmentUpdateSchema = z.object({
-  benefitId: PZ.Scalar.id().optional(),
-  employeeId: PZ.Scalar.id().optional(),
-  startDate: PZ.Scalar.datetime().optional(),
-  status: BenefitStatusSchema.optional().optional(),
-});
-
-export const BenefitEnrolmentOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    benefitId: PZ.OrderDirectionSchema,
-    employeeId: PZ.OrderDirectionSchema,
-    startDate: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const BenefitEnrolmentOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  BenefitEnrolmentOrderBySchema
-);
-
-export const BenefitEnrolmentWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    benefitId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    startDate: z.string().or(PZ.DateTimeFilterSchema),
-    status: BenefitStatusSchema,
-    benefit: BenefitOwnWhereSchema,
-    employee: EmployeeOwnWhereSchema,
-  })
-  .partial();
-
-export const BenefitEnrolmentWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  BenefitEnrolmentWhereSchema
-);
-
-export const BenefitEnrolmentSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    benefitId: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    startDate: PZ.Scalar.bool(),
-    status: PZ.Scalar.bool(),
-    benefit: PZ.Scalar.bool().or(BenefitOwnQueryOneSchema),
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-  })
-  .partial();
-
-export const BenefitEnrolmentSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  BenefitEnrolmentSelectFieldsSchema
-);
-
-export const BenefitEnrolmentOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    benefitId: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    startDate: PZ.Scalar.bool(),
-    status: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      !['id', 'benefitId', 'employeeId', 'startDate', 'status'].every((e) =>
-        Object.hasOwn(value, e)
-      ),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const BenefitEnrolmentOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  BenefitEnrolmentOmitFieldsSchema
-);
-
-export const BenefitEnrolmentIncludeSchema = z
-  .object({
-    benefit: PZ.Scalar.bool().or(BenefitOwnQueryOneSchema),
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-  })
-  .partial();
-
-export const BenefitEnrolmentIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  BenefitEnrolmentIncludeSchema
-);
-
 export const BenefitEnrolmentProjectionSchema = z.union([
-  z.object({ omit: BenefitEnrolmentOmitFieldsSchemaJson }),
-  z.object({ select: BenefitEnrolmentSelectFieldsSchemaJson }),
+  z.object({ omit: BenefitEnrolmentOmitSchemaJson }),
+  z.object({ select: BenefitEnrolmentSelectSchemaJson }),
   z.object({ include: BenefitEnrolmentIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TitleHistoryCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    employeeId: PZ.Scalar.id(),
-    titleId: PZ.Scalar.id(),
-    type: TitleChangeTypeSchema,
-    reason: PZ.Scalar.string().optional(),
-    startDate: PZ.Scalar.datetime(),
-    endDate: PZ.Scalar.datetime().optional(),
-  })
-);
-
-export const TitleHistoryUpdateSchema = z.object({
-  employeeId: PZ.Scalar.id().optional(),
-  titleId: PZ.Scalar.id().optional(),
-  type: TitleChangeTypeSchema.optional(),
-  reason: PZ.Scalar.string().optional().optional(),
-  startDate: PZ.Scalar.datetime().optional(),
-  endDate: PZ.Scalar.datetime().optional().optional(),
-});
-
-export const TitleHistoryOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    employeeId: PZ.OrderDirectionSchema,
-    titleId: PZ.OrderDirectionSchema,
-    reason: PZ.OrderDirectionSchema,
-    startDate: PZ.OrderDirectionSchema,
-    endDate: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const TitleHistoryOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TitleHistoryOrderBySchema
-);
-
-export const TitleHistoryWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    titleId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    type: TitleChangeTypeSchema,
-    reason: z.string().or(PZ.StringFilterSchema),
-    startDate: z.string().or(PZ.DateTimeFilterSchema),
-    endDate: z.string().or(PZ.DateTimeFilterSchema),
-    employee: EmployeeOwnWhereSchema,
-    title: TitleOwnWhereSchema,
-  })
-  .partial();
-
-export const TitleHistoryWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TitleHistoryWhereSchema
-);
-
-export const TitleHistorySelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    titleId: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-    reason: PZ.Scalar.bool(),
-    startDate: PZ.Scalar.bool(),
-    endDate: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-    title: PZ.Scalar.bool().or(TitleOwnQueryOneSchema),
-  })
-  .partial();
-
-export const TitleHistorySelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TitleHistorySelectFieldsSchema
-);
-
-export const TitleHistoryOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    titleId: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-    reason: PZ.Scalar.bool(),
-    startDate: PZ.Scalar.bool(),
-    endDate: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      ![
-        'id',
-        'employeeId',
-        'titleId',
-        'type',
-        'reason',
-        'startDate',
-        'endDate',
-      ].every((e) => Object.hasOwn(value, e)),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const TitleHistoryOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TitleHistoryOmitFieldsSchema
-);
-
-export const TitleHistoryIncludeSchema = z
-  .object({
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-    title: PZ.Scalar.bool().or(TitleOwnQueryOneSchema),
-  })
-  .partial();
-
-export const TitleHistoryIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TitleHistoryIncludeSchema
-);
-
 export const TitleHistoryProjectionSchema = z.union([
-  z.object({ omit: TitleHistoryOmitFieldsSchemaJson }),
-  z.object({ select: TitleHistorySelectFieldsSchemaJson }),
+  z.object({ omit: TitleHistoryOmitSchemaJson }),
+  z.object({ select: TitleHistorySelectSchemaJson }),
   z.object({ include: TitleHistoryIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TimeOffPolicyCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    name: PZ.Scalar.name(),
-    description: PZ.Scalar.description().optional(),
-    accrualRate: PZ.Scalar.number(),
-    maxRollover: PZ.Scalar.number(),
-  })
-);
-
-export const TimeOffPolicyUpdateSchema = z.object({
-  name: PZ.Scalar.name().optional(),
-  description: PZ.Scalar.description().optional().optional(),
-  accrualRate: PZ.Scalar.number().optional(),
-  maxRollover: PZ.Scalar.number().optional(),
-});
-
-export const TimeOffPolicyOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    name: PZ.OrderDirectionSchema,
-    description: PZ.OrderDirectionSchema,
-    accrualRate: PZ.OrderDirectionSchema,
-    maxRollover: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const TimeOffPolicyOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffPolicyOrderBySchema
-);
-
-export const TimeOffPolicyWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    name: z.string().or(PZ.StringFilterSchema),
-    description: z.string().or(PZ.StringFilterSchema),
-    accrualRate: z.coerce.number().or(PZ.NumberFilterSchema),
-    maxRollover: z.coerce.number().or(PZ.NumberFilterSchema),
-    balances: z
-      .object({
-        some: TimeOffBalanceOwnWhereSchema,
-        every: TimeOffBalanceOwnWhereSchema,
-        none: TimeOffBalanceOwnWhereSchema,
-      })
-      .partial(),
-    requests: z
-      .object({
-        some: TimeOffRequestOwnWhereSchema,
-        every: TimeOffRequestOwnWhereSchema,
-        none: TimeOffRequestOwnWhereSchema,
-      })
-      .partial(),
-  })
-  .partial();
-
-export const TimeOffPolicyWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffPolicyWhereSchema
-);
-
-export const TimeOffPolicySelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-    description: PZ.Scalar.bool(),
-    accrualRate: PZ.Scalar.bool(),
-    maxRollover: PZ.Scalar.bool(),
-    balances: PZ.Scalar.bool().or(TimeOffBalanceOwnQuerySchema),
-    requests: PZ.Scalar.bool().or(TimeOffRequestOwnQuerySchema),
-  })
-  .partial();
-
-export const TimeOffPolicySelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffPolicySelectFieldsSchema
-);
-
-export const TimeOffPolicyOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-    description: PZ.Scalar.bool(),
-    accrualRate: PZ.Scalar.bool(),
-    maxRollover: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      !['id', 'name', 'description', 'accrualRate', 'maxRollover'].every((e) =>
-        Object.hasOwn(value, e)
-      ),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const TimeOffPolicyOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffPolicyOmitFieldsSchema
-);
-
-export const TimeOffPolicyIncludeSchema = z
-  .object({
-    balances: PZ.Scalar.bool().or(TimeOffBalanceOwnQuerySchema),
-    requests: PZ.Scalar.bool().or(TimeOffRequestOwnQuerySchema),
-  })
-  .partial();
-
-export const TimeOffPolicyIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffPolicyIncludeSchema
-);
-
 export const TimeOffPolicyProjectionSchema = z.union([
-  z.object({ omit: TimeOffPolicyOmitFieldsSchemaJson }),
-  z.object({ select: TimeOffPolicySelectFieldsSchemaJson }),
+  z.object({ omit: TimeOffPolicyOmitSchemaJson }),
+  z.object({ select: TimeOffPolicySelectSchemaJson }),
   z.object({ include: TimeOffPolicyIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TimeOffBalanceCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    policyId: PZ.Scalar.id(),
-    employeeId: PZ.Scalar.id(),
-    accruedHours: PZ.Scalar.number(),
-    usedHours: PZ.Scalar.number(),
-    availableHours: PZ.Scalar.number(),
-  })
-);
-
-export const TimeOffBalanceUpdateSchema = z.object({
-  policyId: PZ.Scalar.id().optional(),
-  employeeId: PZ.Scalar.id().optional(),
-  accruedHours: PZ.Scalar.number().optional(),
-  usedHours: PZ.Scalar.number().optional(),
-  availableHours: PZ.Scalar.number().optional(),
-});
-
-export const TimeOffBalanceOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    policyId: PZ.OrderDirectionSchema,
-    employeeId: PZ.OrderDirectionSchema,
-    accruedHours: PZ.OrderDirectionSchema,
-    usedHours: PZ.OrderDirectionSchema,
-    availableHours: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const TimeOffBalanceOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffBalanceOrderBySchema
-);
-
-export const TimeOffBalanceWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    policyId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    accruedHours: z.coerce.number().or(PZ.NumberFilterSchema),
-    usedHours: z.coerce.number().or(PZ.NumberFilterSchema),
-    availableHours: z.coerce.number().or(PZ.NumberFilterSchema),
-    policy: TimeOffPolicyOwnWhereSchema,
-    employee: EmployeeOwnWhereSchema,
-    transactions: z
-      .object({
-        some: TimeOffTransactionOwnWhereSchema,
-        every: TimeOffTransactionOwnWhereSchema,
-        none: TimeOffTransactionOwnWhereSchema,
-      })
-      .partial(),
-  })
-  .partial();
-
-export const TimeOffBalanceWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffBalanceWhereSchema
-);
-
-export const TimeOffBalanceSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    policyId: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    accruedHours: PZ.Scalar.bool(),
-    usedHours: PZ.Scalar.bool(),
-    availableHours: PZ.Scalar.bool(),
-    policy: PZ.Scalar.bool().or(TimeOffPolicyOwnQueryOneSchema),
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-    transactions: PZ.Scalar.bool().or(TimeOffTransactionOwnQuerySchema),
-  })
-  .partial();
-
-export const TimeOffBalanceSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffBalanceSelectFieldsSchema
-);
-
-export const TimeOffBalanceOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    policyId: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    accruedHours: PZ.Scalar.bool(),
-    usedHours: PZ.Scalar.bool(),
-    availableHours: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      ![
-        'id',
-        'policyId',
-        'employeeId',
-        'accruedHours',
-        'usedHours',
-        'availableHours',
-      ].every((e) => Object.hasOwn(value, e)),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const TimeOffBalanceOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffBalanceOmitFieldsSchema
-);
-
-export const TimeOffBalanceIncludeSchema = z
-  .object({
-    policy: PZ.Scalar.bool().or(TimeOffPolicyOwnQueryOneSchema),
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-    transactions: PZ.Scalar.bool().or(TimeOffTransactionOwnQuerySchema),
-  })
-  .partial();
-
-export const TimeOffBalanceIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffBalanceIncludeSchema
-);
-
 export const TimeOffBalanceProjectionSchema = z.union([
-  z.object({ omit: TimeOffBalanceOmitFieldsSchemaJson }),
-  z.object({ select: TimeOffBalanceSelectFieldsSchemaJson }),
+  z.object({ omit: TimeOffBalanceOmitSchemaJson }),
+  z.object({ select: TimeOffBalanceSelectSchemaJson }),
   z.object({ include: TimeOffBalanceIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TimeOffRequestCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    employeeId: PZ.Scalar.id(),
-    reason: PZ.Scalar.string(),
-    policyId: PZ.Scalar.id(),
-    resolverId: PZ.Scalar.id().optional(),
-    status: RequestStatusSchema.optional(),
-    startDate: PZ.Scalar.datetime(),
-    endDate: PZ.Scalar.datetime(),
-  })
-);
-
-export const TimeOffRequestUpdateSchema = z.object({
-  employeeId: PZ.Scalar.id().optional(),
-  reason: PZ.Scalar.string().optional(),
-  policyId: PZ.Scalar.id().optional(),
-  resolverId: PZ.Scalar.id().optional().optional(),
-  status: RequestStatusSchema.optional().optional(),
-  startDate: PZ.Scalar.datetime().optional(),
-  endDate: PZ.Scalar.datetime().optional(),
-});
-
-export const TimeOffRequestOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    createdAt: PZ.OrderDirectionSchema,
-    employeeId: PZ.OrderDirectionSchema,
-    reason: PZ.OrderDirectionSchema,
-    policyId: PZ.OrderDirectionSchema,
-    resolverId: PZ.OrderDirectionSchema,
-    startDate: PZ.OrderDirectionSchema,
-    endDate: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const TimeOffRequestOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffRequestOrderBySchema
-);
-
-export const TimeOffRequestWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    createdAt: z.string().or(PZ.DateTimeFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    reason: z.string().or(PZ.StringFilterSchema),
-    policyId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    resolverId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    status: RequestStatusSchema,
-    startDate: z.string().or(PZ.DateTimeFilterSchema),
-    endDate: z.string().or(PZ.DateTimeFilterSchema),
-    employee: EmployeeOwnWhereSchema,
-    policy: TimeOffPolicyOwnWhereSchema,
-    resolver: EmployeeOwnWhereSchema,
-    transactions: z
-      .object({
-        some: TimeOffTransactionOwnWhereSchema,
-        every: TimeOffTransactionOwnWhereSchema,
-        none: TimeOffTransactionOwnWhereSchema,
-      })
-      .partial(),
-  })
-  .partial();
-
-export const TimeOffRequestWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffRequestWhereSchema
-);
-
-export const TimeOffRequestSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    createdAt: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    reason: PZ.Scalar.bool(),
-    policyId: PZ.Scalar.bool(),
-    resolverId: PZ.Scalar.bool(),
-    status: PZ.Scalar.bool(),
-    startDate: PZ.Scalar.bool(),
-    endDate: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-    policy: PZ.Scalar.bool().or(TimeOffPolicyOwnQueryOneSchema),
-    resolver: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-    transactions: PZ.Scalar.bool().or(TimeOffTransactionOwnQuerySchema),
-  })
-  .partial();
-
-export const TimeOffRequestSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffRequestSelectFieldsSchema
-);
-
-export const TimeOffRequestOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    createdAt: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    reason: PZ.Scalar.bool(),
-    policyId: PZ.Scalar.bool(),
-    resolverId: PZ.Scalar.bool(),
-    status: PZ.Scalar.bool(),
-    startDate: PZ.Scalar.bool(),
-    endDate: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      ![
-        'id',
-        'createdAt',
-        'employeeId',
-        'reason',
-        'policyId',
-        'resolverId',
-        'status',
-        'startDate',
-        'endDate',
-      ].every((e) => Object.hasOwn(value, e)),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const TimeOffRequestOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffRequestOmitFieldsSchema
-);
-
-export const TimeOffRequestIncludeSchema = z
-  .object({
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-    policy: PZ.Scalar.bool().or(TimeOffPolicyOwnQueryOneSchema),
-    resolver: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-    transactions: PZ.Scalar.bool().or(TimeOffTransactionOwnQuerySchema),
-  })
-  .partial();
-
-export const TimeOffRequestIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffRequestIncludeSchema
-);
-
 export const TimeOffRequestProjectionSchema = z.union([
-  z.object({ omit: TimeOffRequestOmitFieldsSchemaJson }),
-  z.object({ select: TimeOffRequestSelectFieldsSchemaJson }),
+  z.object({ omit: TimeOffRequestOmitSchemaJson }),
+  z.object({ select: TimeOffRequestSelectSchemaJson }),
   z.object({ include: TimeOffRequestIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const TimeOffTransactionCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    type: TimeOffTransactionTypeSchema,
-    balanceId: PZ.Scalar.id(),
-    requestId: PZ.Scalar.id().optional(),
-    amount: PZ.Scalar.number(),
-  })
-);
-
-export const TimeOffTransactionUpdateSchema = z.object({
-  type: TimeOffTransactionTypeSchema.optional(),
-  balanceId: PZ.Scalar.id().optional(),
-  requestId: PZ.Scalar.id().optional().optional(),
-  amount: PZ.Scalar.number().optional(),
-});
-
-export const TimeOffTransactionOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    createdAt: PZ.OrderDirectionSchema,
-    updatedAt: PZ.OrderDirectionSchema,
-    balanceId: PZ.OrderDirectionSchema,
-    requestId: PZ.OrderDirectionSchema,
-    amount: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const TimeOffTransactionOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffTransactionOrderBySchema
-);
-
-export const TimeOffTransactionWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    createdAt: z.string().or(PZ.DateTimeFilterSchema),
-    updatedAt: z.string().or(PZ.DateTimeFilterSchema),
-    type: TimeOffTransactionTypeSchema,
-    balanceId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    requestId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    amount: z.coerce.number().or(PZ.NumberFilterSchema),
-    balance: TimeOffBalanceOwnWhereSchema,
-    request: TimeOffRequestOwnWhereSchema,
-  })
-  .partial();
-
-export const TimeOffTransactionWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffTransactionWhereSchema
-);
-
-export const TimeOffTransactionSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    createdAt: PZ.Scalar.bool(),
-    updatedAt: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-    balanceId: PZ.Scalar.bool(),
-    requestId: PZ.Scalar.bool(),
-    amount: PZ.Scalar.bool(),
-    balance: PZ.Scalar.bool().or(TimeOffBalanceOwnQueryOneSchema),
-    request: PZ.Scalar.bool().or(TimeOffRequestOwnQueryOneSchema),
-  })
-  .partial();
-
-export const TimeOffTransactionSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffTransactionSelectFieldsSchema
-);
-
-export const TimeOffTransactionOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    createdAt: PZ.Scalar.bool(),
-    updatedAt: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-    balanceId: PZ.Scalar.bool(),
-    requestId: PZ.Scalar.bool(),
-    amount: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      ![
-        'id',
-        'createdAt',
-        'updatedAt',
-        'type',
-        'balanceId',
-        'requestId',
-        'amount',
-      ].every((e) => Object.hasOwn(value, e)),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const TimeOffTransactionOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffTransactionOmitFieldsSchema
-);
-
-export const TimeOffTransactionIncludeSchema = z
-  .object({
-    balance: PZ.Scalar.bool().or(TimeOffBalanceOwnQueryOneSchema),
-    request: PZ.Scalar.bool().or(TimeOffRequestOwnQueryOneSchema),
-  })
-  .partial();
-
-export const TimeOffTransactionIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  TimeOffTransactionIncludeSchema
-);
-
 export const TimeOffTransactionProjectionSchema = z.union([
-  z.object({ omit: TimeOffTransactionOmitFieldsSchemaJson }),
-  z.object({ select: TimeOffTransactionSelectFieldsSchemaJson }),
+  z.object({ omit: TimeOffTransactionOmitSchemaJson }),
+  z.object({ select: TimeOffTransactionSelectSchemaJson }),
   z.object({ include: TimeOffTransactionIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const ClockInCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    employeeId: PZ.Scalar.id(),
-    clockOut: PZ.Scalar.datetime().optional(),
-  })
-);
-
-export const ClockInUpdateSchema = z.object({
-  employeeId: PZ.Scalar.id().optional(),
-  clockOut: PZ.Scalar.datetime().optional().optional(),
-});
-
-export const ClockInOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    employeeId: PZ.OrderDirectionSchema,
-    clockIn: PZ.OrderDirectionSchema,
-    clockOut: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const ClockInOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  ClockInOrderBySchema
-);
-
-export const ClockInWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    clockIn: z.string().or(PZ.DateTimeFilterSchema),
-    clockOut: z.string().or(PZ.DateTimeFilterSchema),
-    employee: EmployeeOwnWhereSchema,
-  })
-  .partial();
-
-export const ClockInWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  ClockInWhereSchema
-);
-
-export const ClockInSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    clockIn: PZ.Scalar.bool(),
-    clockOut: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-  })
-  .partial();
-
-export const ClockInSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  ClockInSelectFieldsSchema
-);
-
-export const ClockInOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    clockIn: PZ.Scalar.bool(),
-    clockOut: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      !['id', 'employeeId', 'clockIn', 'clockOut'].every((e) =>
-        Object.hasOwn(value, e)
-      ),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const ClockInOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  ClockInOmitFieldsSchema
-);
-
-export const ClockInIncludeSchema = z
-  .object({
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-  })
-  .partial();
-
-export const ClockInIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  ClockInIncludeSchema
-);
-
 export const ClockInProjectionSchema = z.union([
-  z.object({ omit: ClockInOmitFieldsSchemaJson }),
-  z.object({ select: ClockInSelectFieldsSchemaJson }),
+  z.object({ omit: ClockInOmitSchemaJson }),
+  z.object({ select: ClockInSelectSchemaJson }),
   z.object({ include: ClockInIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PaycheckCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    payrollRunId: PZ.Scalar.id(),
-    employeeId: PZ.Scalar.id(),
-    grossAmount: PZ.Scalar.number(),
-    netAmount: PZ.Scalar.number(),
-  })
-);
-
-export const PaycheckUpdateSchema = z.object({
-  payrollRunId: PZ.Scalar.id().optional(),
-  employeeId: PZ.Scalar.id().optional(),
-  grossAmount: PZ.Scalar.number().optional(),
-  netAmount: PZ.Scalar.number().optional(),
-});
-
-export const PaycheckOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    createdAt: PZ.OrderDirectionSchema,
-    payrollRunId: PZ.OrderDirectionSchema,
-    updatedAt: PZ.OrderDirectionSchema,
-    employeeId: PZ.OrderDirectionSchema,
-    grossAmount: PZ.OrderDirectionSchema,
-    netAmount: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const PaycheckOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PaycheckOrderBySchema
-);
-
-export const PaycheckWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    createdAt: z.string().or(PZ.DateTimeFilterSchema),
-    payrollRunId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    updatedAt: z.string().or(PZ.DateTimeFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    grossAmount: z.coerce.number().or(PZ.NumberFilterSchema),
-    netAmount: z.coerce.number().or(PZ.NumberFilterSchema),
-    employee: EmployeeOwnWhereSchema,
-    earnings: z
-      .object({
-        some: EarningOwnWhereSchema,
-        every: EarningOwnWhereSchema,
-        none: EarningOwnWhereSchema,
-      })
-      .partial(),
-    paycheckTaxes: z
-      .object({
-        some: PaycheckTaxOwnWhereSchema,
-        every: PaycheckTaxOwnWhereSchema,
-        none: PaycheckTaxOwnWhereSchema,
-      })
-      .partial(),
-    deductions: z
-      .object({
-        some: PaycheckDeductionOwnWhereSchema,
-        every: PaycheckDeductionOwnWhereSchema,
-        none: PaycheckDeductionOwnWhereSchema,
-      })
-      .partial(),
-    payrollRun: PayrollRunOwnWhereSchema,
-  })
-  .partial();
-
-export const PaycheckWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PaycheckWhereSchema
-);
-
-export const PaycheckSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    createdAt: PZ.Scalar.bool(),
-    payrollRunId: PZ.Scalar.bool(),
-    updatedAt: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    grossAmount: PZ.Scalar.bool(),
-    netAmount: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-    earnings: PZ.Scalar.bool().or(EarningOwnQuerySchema),
-    paycheckTaxes: PZ.Scalar.bool().or(PaycheckTaxOwnQuerySchema),
-    deductions: PZ.Scalar.bool().or(PaycheckDeductionOwnQuerySchema),
-    payrollRun: PZ.Scalar.bool().or(PayrollRunOwnQueryOneSchema),
-  })
-  .partial();
-
-export const PaycheckSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PaycheckSelectFieldsSchema
-);
-
-export const PaycheckOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    createdAt: PZ.Scalar.bool(),
-    payrollRunId: PZ.Scalar.bool(),
-    updatedAt: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    grossAmount: PZ.Scalar.bool(),
-    netAmount: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      ![
-        'id',
-        'createdAt',
-        'payrollRunId',
-        'updatedAt',
-        'employeeId',
-        'grossAmount',
-        'netAmount',
-      ].every((e) => Object.hasOwn(value, e)),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const PaycheckOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PaycheckOmitFieldsSchema
-);
-
-export const PaycheckIncludeSchema = z
-  .object({
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-    earnings: PZ.Scalar.bool().or(EarningOwnQuerySchema),
-    paycheckTaxes: PZ.Scalar.bool().or(PaycheckTaxOwnQuerySchema),
-    deductions: PZ.Scalar.bool().or(PaycheckDeductionOwnQuerySchema),
-    payrollRun: PZ.Scalar.bool().or(PayrollRunOwnQueryOneSchema),
-  })
-  .partial();
-
-export const PaycheckIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PaycheckIncludeSchema
-);
-
 export const PaycheckProjectionSchema = z.union([
-  z.object({ omit: PaycheckOmitFieldsSchemaJson }),
-  z.object({ select: PaycheckSelectFieldsSchemaJson }),
+  z.object({ omit: PaycheckOmitSchemaJson }),
+  z.object({ select: PaycheckSelectSchemaJson }),
   z.object({ include: PaycheckIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const EarningCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    type: EarningTypeSchema,
-    hours: PZ.Scalar.number().optional(),
-    rate: PZ.Scalar.number(),
-    amount: PZ.Scalar.number(),
-    paycheckId: PZ.Scalar.id(),
-  })
-);
-
-export const EarningUpdateSchema = z.object({
-  type: EarningTypeSchema.optional(),
-  hours: PZ.Scalar.number().optional().optional(),
-  rate: PZ.Scalar.number().optional(),
-  amount: PZ.Scalar.number().optional(),
-  paycheckId: PZ.Scalar.id().optional(),
-});
-
-export const EarningOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    hours: PZ.OrderDirectionSchema,
-    rate: PZ.OrderDirectionSchema,
-    amount: PZ.OrderDirectionSchema,
-    paycheckId: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const EarningOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EarningOrderBySchema
-);
-
-export const EarningWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    type: EarningTypeSchema,
-    hours: z.coerce.number().or(PZ.NumberFilterSchema),
-    rate: z.coerce.number().or(PZ.NumberFilterSchema),
-    amount: z.coerce.number().or(PZ.NumberFilterSchema),
-    paycheckId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    paycheck: PaycheckOwnWhereSchema,
-  })
-  .partial();
-
-export const EarningWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EarningWhereSchema
-);
-
-export const EarningSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-    hours: PZ.Scalar.bool(),
-    rate: PZ.Scalar.bool(),
-    amount: PZ.Scalar.bool(),
-    paycheckId: PZ.Scalar.bool(),
-    paycheck: PZ.Scalar.bool().or(PaycheckOwnQueryOneSchema),
-  })
-  .partial();
-
-export const EarningSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EarningSelectFieldsSchema
-);
-
-export const EarningOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-    hours: PZ.Scalar.bool(),
-    rate: PZ.Scalar.bool(),
-    amount: PZ.Scalar.bool(),
-    paycheckId: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      !['id', 'type', 'hours', 'rate', 'amount', 'paycheckId'].every((e) =>
-        Object.hasOwn(value, e)
-      ),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const EarningOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EarningOmitFieldsSchema
-);
-
-export const EarningIncludeSchema = z
-  .object({
-    paycheck: PZ.Scalar.bool().or(PaycheckOwnQueryOneSchema),
-  })
-  .partial();
-
-export const EarningIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EarningIncludeSchema
-);
-
 export const EarningProjectionSchema = z.union([
-  z.object({ omit: EarningOmitFieldsSchemaJson }),
-  z.object({ select: EarningSelectFieldsSchemaJson }),
+  z.object({ omit: EarningOmitSchemaJson }),
+  z.object({ select: EarningSelectSchemaJson }),
   z.object({ include: EarningIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PaycheckTaxCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    paycheckId: PZ.Scalar.id(),
-    taxAuthority: PZ.Scalar.string(),
-    amount: PZ.Scalar.number(),
-  })
-);
-
-export const PaycheckTaxUpdateSchema = z.object({
-  paycheckId: PZ.Scalar.id().optional(),
-  taxAuthority: PZ.Scalar.string().optional(),
-  amount: PZ.Scalar.number().optional(),
-});
-
-export const PaycheckTaxOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    paycheckId: PZ.OrderDirectionSchema,
-    taxAuthority: PZ.OrderDirectionSchema,
-    amount: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const PaycheckTaxOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PaycheckTaxOrderBySchema
-);
-
-export const PaycheckTaxWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    paycheckId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    taxAuthority: z.string().or(PZ.StringFilterSchema),
-    amount: z.coerce.number().or(PZ.NumberFilterSchema),
-    paycheck: PaycheckOwnWhereSchema,
-  })
-  .partial();
-
-export const PaycheckTaxWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PaycheckTaxWhereSchema
-);
-
-export const PaycheckTaxSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    paycheckId: PZ.Scalar.bool(),
-    taxAuthority: PZ.Scalar.bool(),
-    amount: PZ.Scalar.bool(),
-    paycheck: PZ.Scalar.bool().or(PaycheckOwnQueryOneSchema),
-  })
-  .partial();
-
-export const PaycheckTaxSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PaycheckTaxSelectFieldsSchema
-);
-
-export const PaycheckTaxOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    paycheckId: PZ.Scalar.bool(),
-    taxAuthority: PZ.Scalar.bool(),
-    amount: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      !['id', 'paycheckId', 'taxAuthority', 'amount'].every((e) =>
-        Object.hasOwn(value, e)
-      ),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const PaycheckTaxOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PaycheckTaxOmitFieldsSchema
-);
-
-export const PaycheckTaxIncludeSchema = z
-  .object({
-    paycheck: PZ.Scalar.bool().or(PaycheckOwnQueryOneSchema),
-  })
-  .partial();
-
-export const PaycheckTaxIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PaycheckTaxIncludeSchema
-);
-
 export const PaycheckTaxProjectionSchema = z.union([
-  z.object({ omit: PaycheckTaxOmitFieldsSchemaJson }),
-  z.object({ select: PaycheckTaxSelectFieldsSchemaJson }),
+  z.object({ omit: PaycheckTaxOmitSchemaJson }),
+  z.object({ select: PaycheckTaxSelectSchemaJson }),
   z.object({ include: PaycheckTaxIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const DeductionPolicyCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    name: PZ.Scalar.name(),
-    type: DeductionTypeSchema,
-    defaultAmount: PZ.Scalar.number().optional(),
-    defaultPercent: PZ.Scalar.number().optional(),
-  })
-);
-
-export const DeductionPolicyUpdateSchema = z.object({
-  name: PZ.Scalar.name().optional(),
-  type: DeductionTypeSchema.optional(),
-  defaultAmount: PZ.Scalar.number().optional().optional(),
-  defaultPercent: PZ.Scalar.number().optional().optional(),
-});
-
-export const DeductionPolicyOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    name: PZ.OrderDirectionSchema,
-    defaultAmount: PZ.OrderDirectionSchema,
-    defaultPercent: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const DeductionPolicyOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  DeductionPolicyOrderBySchema
-);
-
-export const DeductionPolicyWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    name: z.string().or(PZ.StringFilterSchema),
-    type: DeductionTypeSchema,
-    defaultAmount: z.coerce.number().or(PZ.NumberFilterSchema),
-    defaultPercent: z.coerce.number().or(PZ.NumberFilterSchema),
-    employeeDeductions: z
-      .object({
-        some: EmployeeDeductionOwnWhereSchema,
-        every: EmployeeDeductionOwnWhereSchema,
-        none: EmployeeDeductionOwnWhereSchema,
-      })
-      .partial(),
-  })
-  .partial();
-
-export const DeductionPolicyWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  DeductionPolicyWhereSchema
-);
-
-export const DeductionPolicySelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-    defaultAmount: PZ.Scalar.bool(),
-    defaultPercent: PZ.Scalar.bool(),
-    employeeDeductions: PZ.Scalar.bool().or(EmployeeDeductionOwnQuerySchema),
-  })
-  .partial();
-
-export const DeductionPolicySelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  DeductionPolicySelectFieldsSchema
-);
-
-export const DeductionPolicyOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-    defaultAmount: PZ.Scalar.bool(),
-    defaultPercent: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      !['id', 'name', 'type', 'defaultAmount', 'defaultPercent'].every((e) =>
-        Object.hasOwn(value, e)
-      ),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const DeductionPolicyOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  DeductionPolicyOmitFieldsSchema
-);
-
-export const DeductionPolicyIncludeSchema = z
-  .object({
-    employeeDeductions: PZ.Scalar.bool().or(EmployeeDeductionOwnQuerySchema),
-  })
-  .partial();
-
-export const DeductionPolicyIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  DeductionPolicyIncludeSchema
-);
-
 export const DeductionPolicyProjectionSchema = z.union([
-  z.object({ omit: DeductionPolicyOmitFieldsSchemaJson }),
-  z.object({ select: DeductionPolicySelectFieldsSchemaJson }),
+  z.object({ omit: DeductionPolicyOmitSchemaJson }),
+  z.object({ select: DeductionPolicySelectSchemaJson }),
   z.object({ include: DeductionPolicyIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const EmployeeDeductionCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    employeeId: PZ.Scalar.id(),
-    policyId: PZ.Scalar.id(),
-    employeeAmount: PZ.Scalar.number().optional(),
-  })
-);
-
-export const EmployeeDeductionUpdateSchema = z.object({
-  employeeId: PZ.Scalar.id().optional(),
-  policyId: PZ.Scalar.id().optional(),
-  employeeAmount: PZ.Scalar.number().optional().optional(),
-});
-
-export const EmployeeDeductionOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    employeeId: PZ.OrderDirectionSchema,
-    policyId: PZ.OrderDirectionSchema,
-    employeeAmount: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const EmployeeDeductionOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmployeeDeductionOrderBySchema
-);
-
-export const EmployeeDeductionWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    policyId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    employeeAmount: z.coerce.number().or(PZ.NumberFilterSchema),
-    employee: EmployeeOwnWhereSchema,
-    policy: DeductionPolicyOwnWhereSchema,
-    paycheckDeductions: z
-      .object({
-        some: PaycheckDeductionOwnWhereSchema,
-        every: PaycheckDeductionOwnWhereSchema,
-        none: PaycheckDeductionOwnWhereSchema,
-      })
-      .partial(),
-  })
-  .partial();
-
-export const EmployeeDeductionWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmployeeDeductionWhereSchema
-);
-
-export const EmployeeDeductionSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    policyId: PZ.Scalar.bool(),
-    employeeAmount: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-    policy: PZ.Scalar.bool().or(DeductionPolicyOwnQueryOneSchema),
-    paycheckDeductions: PZ.Scalar.bool().or(PaycheckDeductionOwnQuerySchema),
-  })
-  .partial();
-
-export const EmployeeDeductionSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmployeeDeductionSelectFieldsSchema
-);
-
-export const EmployeeDeductionOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    policyId: PZ.Scalar.bool(),
-    employeeAmount: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      !['id', 'employeeId', 'policyId', 'employeeAmount'].every((e) =>
-        Object.hasOwn(value, e)
-      ),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const EmployeeDeductionOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmployeeDeductionOmitFieldsSchema
-);
-
-export const EmployeeDeductionIncludeSchema = z
-  .object({
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-    policy: PZ.Scalar.bool().or(DeductionPolicyOwnQueryOneSchema),
-    paycheckDeductions: PZ.Scalar.bool().or(PaycheckDeductionOwnQuerySchema),
-  })
-  .partial();
-
-export const EmployeeDeductionIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmployeeDeductionIncludeSchema
-);
-
 export const EmployeeDeductionProjectionSchema = z.union([
-  z.object({ omit: EmployeeDeductionOmitFieldsSchemaJson }),
-  z.object({ select: EmployeeDeductionSelectFieldsSchemaJson }),
+  z.object({ omit: EmployeeDeductionOmitSchemaJson }),
+  z.object({ select: EmployeeDeductionSelectSchemaJson }),
   z.object({ include: EmployeeDeductionIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PaycheckDeductionCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    paycheckId: PZ.Scalar.id(),
-    employeeDeductionId: PZ.Scalar.id(),
-    amount: PZ.Scalar.number(),
-  })
-);
-
-export const PaycheckDeductionUpdateSchema = z.object({
-  paycheckId: PZ.Scalar.id().optional(),
-  employeeDeductionId: PZ.Scalar.id().optional(),
-  amount: PZ.Scalar.number().optional(),
-});
-
-export const PaycheckDeductionOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    paycheckId: PZ.OrderDirectionSchema,
-    employeeDeductionId: PZ.OrderDirectionSchema,
-    amount: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const PaycheckDeductionOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PaycheckDeductionOrderBySchema
-);
-
-export const PaycheckDeductionWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    paycheckId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    employeeDeductionId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    amount: z.coerce.number().or(PZ.NumberFilterSchema),
-    paycheck: PaycheckOwnWhereSchema,
-    employeeDeduction: EmployeeDeductionOwnWhereSchema,
-  })
-  .partial();
-
-export const PaycheckDeductionWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PaycheckDeductionWhereSchema
-);
-
-export const PaycheckDeductionSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    paycheckId: PZ.Scalar.bool(),
-    employeeDeductionId: PZ.Scalar.bool(),
-    amount: PZ.Scalar.bool(),
-    paycheck: PZ.Scalar.bool().or(PaycheckOwnQueryOneSchema),
-    employeeDeduction: PZ.Scalar.bool().or(EmployeeDeductionOwnQueryOneSchema),
-  })
-  .partial();
-
-export const PaycheckDeductionSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PaycheckDeductionSelectFieldsSchema
-);
-
-export const PaycheckDeductionOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    paycheckId: PZ.Scalar.bool(),
-    employeeDeductionId: PZ.Scalar.bool(),
-    amount: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      !['id', 'paycheckId', 'employeeDeductionId', 'amount'].every((e) =>
-        Object.hasOwn(value, e)
-      ),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const PaycheckDeductionOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PaycheckDeductionOmitFieldsSchema
-);
-
-export const PaycheckDeductionIncludeSchema = z
-  .object({
-    paycheck: PZ.Scalar.bool().or(PaycheckOwnQueryOneSchema),
-    employeeDeduction: PZ.Scalar.bool().or(EmployeeDeductionOwnQueryOneSchema),
-  })
-  .partial();
-
-export const PaycheckDeductionIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PaycheckDeductionIncludeSchema
-);
-
 export const PaycheckDeductionProjectionSchema = z.union([
-  z.object({ omit: PaycheckDeductionOmitFieldsSchemaJson }),
-  z.object({ select: PaycheckDeductionSelectFieldsSchemaJson }),
+  z.object({ omit: PaycheckDeductionOmitSchemaJson }),
+  z.object({ select: PaycheckDeductionSelectSchemaJson }),
   z.object({ include: PaycheckDeductionIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const EmployeeTaxDataCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    startDate: PZ.Scalar.datetime(),
-    endDate: PZ.Scalar.datetime().optional(),
-    employeeId: PZ.Scalar.id(),
-    federalStatus: TaxFilingStatusSchema.optional(),
-    dependentsCredit: PZ.Scalar.number().optional(),
-    multipleJobs: PZ.Scalar.bool().optional(),
-    otherIncome: PZ.Scalar.number().optional(),
-    deductionsAmount: PZ.Scalar.number().optional(),
-    extraWithholding: PZ.Scalar.number().optional(),
-    isExempt: PZ.Scalar.bool().optional(),
-    isNonResidentAlien: PZ.Scalar.bool().optional(),
-  })
-);
-
-export const EmployeeTaxDataUpdateSchema = z.object({
-  startDate: PZ.Scalar.datetime().optional(),
-  endDate: PZ.Scalar.datetime().optional().optional(),
-  employeeId: PZ.Scalar.id().optional(),
-  federalStatus: TaxFilingStatusSchema.optional().optional(),
-  dependentsCredit: PZ.Scalar.number().optional().optional(),
-  multipleJobs: PZ.Scalar.bool().optional().optional(),
-  otherIncome: PZ.Scalar.number().optional().optional(),
-  deductionsAmount: PZ.Scalar.number().optional().optional(),
-  extraWithholding: PZ.Scalar.number().optional().optional(),
-  isExempt: PZ.Scalar.bool().optional().optional(),
-  isNonResidentAlien: PZ.Scalar.bool().optional().optional(),
-});
-
-export const EmployeeTaxDataOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    createdAt: PZ.OrderDirectionSchema,
-    updatedAt: PZ.OrderDirectionSchema,
-    startDate: PZ.OrderDirectionSchema,
-    endDate: PZ.OrderDirectionSchema,
-    employeeId: PZ.OrderDirectionSchema,
-    dependentsCredit: PZ.OrderDirectionSchema,
-    multipleJobs: PZ.OrderDirectionSchema,
-    otherIncome: PZ.OrderDirectionSchema,
-    deductionsAmount: PZ.OrderDirectionSchema,
-    extraWithholding: PZ.OrderDirectionSchema,
-    isExempt: PZ.OrderDirectionSchema,
-    isNonResidentAlien: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const EmployeeTaxDataOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmployeeTaxDataOrderBySchema
-);
-
-export const EmployeeTaxDataWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    createdAt: z.string().or(PZ.DateTimeFilterSchema),
-    updatedAt: z.string().or(PZ.DateTimeFilterSchema),
-    startDate: z.string().or(PZ.DateTimeFilterSchema),
-    endDate: z.string().or(PZ.DateTimeFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    federalStatus: TaxFilingStatusSchema,
-    dependentsCredit: z.coerce.number().or(PZ.NumberFilterSchema),
-    multipleJobs: z.coerce.boolean().or(PZ.BooleanFilterSchema),
-    otherIncome: z.coerce.number().or(PZ.NumberFilterSchema),
-    deductionsAmount: z.coerce.number().or(PZ.NumberFilterSchema),
-    extraWithholding: z.coerce.number().or(PZ.NumberFilterSchema),
-    isExempt: z.coerce.boolean().or(PZ.BooleanFilterSchema),
-    isNonResidentAlien: z.coerce.boolean().or(PZ.BooleanFilterSchema),
-    stateTaxes: z
-      .object({
-        some: StateTaxWithholdingOwnWhereSchema,
-        every: StateTaxWithholdingOwnWhereSchema,
-        none: StateTaxWithholdingOwnWhereSchema,
-      })
-      .partial(),
-    localTaxes: z
-      .object({
-        some: LocalTaxWithholdingOwnWhereSchema,
-        every: LocalTaxWithholdingOwnWhereSchema,
-        none: LocalTaxWithholdingOwnWhereSchema,
-      })
-      .partial(),
-    employee: EmployeeOwnWhereSchema,
-  })
-  .partial();
-
-export const EmployeeTaxDataWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmployeeTaxDataWhereSchema
-);
-
-export const EmployeeTaxDataSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    createdAt: PZ.Scalar.bool(),
-    updatedAt: PZ.Scalar.bool(),
-    startDate: PZ.Scalar.bool(),
-    endDate: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    federalStatus: PZ.Scalar.bool(),
-    dependentsCredit: PZ.Scalar.bool(),
-    multipleJobs: PZ.Scalar.bool(),
-    otherIncome: PZ.Scalar.bool(),
-    deductionsAmount: PZ.Scalar.bool(),
-    extraWithholding: PZ.Scalar.bool(),
-    isExempt: PZ.Scalar.bool(),
-    isNonResidentAlien: PZ.Scalar.bool(),
-    stateTaxes: PZ.Scalar.bool().or(StateTaxWithholdingOwnQuerySchema),
-    localTaxes: PZ.Scalar.bool().or(LocalTaxWithholdingOwnQuerySchema),
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-  })
-  .partial();
-
-export const EmployeeTaxDataSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmployeeTaxDataSelectFieldsSchema
-);
-
-export const EmployeeTaxDataOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    createdAt: PZ.Scalar.bool(),
-    updatedAt: PZ.Scalar.bool(),
-    startDate: PZ.Scalar.bool(),
-    endDate: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    federalStatus: PZ.Scalar.bool(),
-    dependentsCredit: PZ.Scalar.bool(),
-    multipleJobs: PZ.Scalar.bool(),
-    otherIncome: PZ.Scalar.bool(),
-    deductionsAmount: PZ.Scalar.bool(),
-    extraWithholding: PZ.Scalar.bool(),
-    isExempt: PZ.Scalar.bool(),
-    isNonResidentAlien: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      ![
-        'id',
-        'createdAt',
-        'updatedAt',
-        'startDate',
-        'endDate',
-        'employeeId',
-        'federalStatus',
-        'dependentsCredit',
-        'multipleJobs',
-        'otherIncome',
-        'deductionsAmount',
-        'extraWithholding',
-        'isExempt',
-        'isNonResidentAlien',
-      ].every((e) => Object.hasOwn(value, e)),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const EmployeeTaxDataOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmployeeTaxDataOmitFieldsSchema
-);
-
-export const EmployeeTaxDataIncludeSchema = z
-  .object({
-    stateTaxes: PZ.Scalar.bool().or(StateTaxWithholdingOwnQuerySchema),
-    localTaxes: PZ.Scalar.bool().or(LocalTaxWithholdingOwnQuerySchema),
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-  })
-  .partial();
-
-export const EmployeeTaxDataIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmployeeTaxDataIncludeSchema
-);
-
 export const EmployeeTaxDataProjectionSchema = z.union([
-  z.object({ omit: EmployeeTaxDataOmitFieldsSchemaJson }),
-  z.object({ select: EmployeeTaxDataSelectFieldsSchemaJson }),
+  z.object({ omit: EmployeeTaxDataOmitSchemaJson }),
+  z.object({ select: EmployeeTaxDataSelectSchemaJson }),
   z.object({ include: EmployeeTaxDataIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const StateTaxWithholdingCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    taxDataId: PZ.Scalar.id(),
-    stateCode: PZ.Scalar.string(),
-    stateStatus: PZ.Scalar.string().optional(),
-    allowances: PZ.Scalar.int().optional(),
-    extraWithholding: PZ.Scalar.number().optional(),
-  })
-);
-
-export const StateTaxWithholdingUpdateSchema = z.object({
-  taxDataId: PZ.Scalar.id().optional(),
-  stateCode: PZ.Scalar.string().optional(),
-  stateStatus: PZ.Scalar.string().optional().optional(),
-  allowances: PZ.Scalar.int().optional().optional(),
-  extraWithholding: PZ.Scalar.number().optional().optional(),
-});
-
-export const StateTaxWithholdingOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    taxDataId: PZ.OrderDirectionSchema,
-    stateCode: PZ.OrderDirectionSchema,
-    stateStatus: PZ.OrderDirectionSchema,
-    allowances: PZ.OrderDirectionSchema,
-    extraWithholding: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const StateTaxWithholdingOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  StateTaxWithholdingOrderBySchema
-);
-
-export const StateTaxWithholdingWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    taxDataId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    stateCode: z.string().or(PZ.StringFilterSchema),
-    stateStatus: z.string().or(PZ.StringFilterSchema),
-    allowances: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    extraWithholding: z.coerce.number().or(PZ.NumberFilterSchema),
-    taxData: EmployeeTaxDataOwnWhereSchema,
-  })
-  .partial();
-
-export const StateTaxWithholdingWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  StateTaxWithholdingWhereSchema
-);
-
-export const StateTaxWithholdingSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    taxDataId: PZ.Scalar.bool(),
-    stateCode: PZ.Scalar.bool(),
-    stateStatus: PZ.Scalar.bool(),
-    allowances: PZ.Scalar.bool(),
-    extraWithholding: PZ.Scalar.bool(),
-    taxData: PZ.Scalar.bool().or(EmployeeTaxDataOwnQueryOneSchema),
-  })
-  .partial();
-
-export const StateTaxWithholdingSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  StateTaxWithholdingSelectFieldsSchema
-);
-
-export const StateTaxWithholdingOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    taxDataId: PZ.Scalar.bool(),
-    stateCode: PZ.Scalar.bool(),
-    stateStatus: PZ.Scalar.bool(),
-    allowances: PZ.Scalar.bool(),
-    extraWithholding: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      ![
-        'id',
-        'taxDataId',
-        'stateCode',
-        'stateStatus',
-        'allowances',
-        'extraWithholding',
-      ].every((e) => Object.hasOwn(value, e)),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const StateTaxWithholdingOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  StateTaxWithholdingOmitFieldsSchema
-);
-
-export const StateTaxWithholdingIncludeSchema = z
-  .object({
-    taxData: PZ.Scalar.bool().or(EmployeeTaxDataOwnQueryOneSchema),
-  })
-  .partial();
-
-export const StateTaxWithholdingIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  StateTaxWithholdingIncludeSchema
-);
-
 export const StateTaxWithholdingProjectionSchema = z.union([
-  z.object({ omit: StateTaxWithholdingOmitFieldsSchemaJson }),
-  z.object({ select: StateTaxWithholdingSelectFieldsSchemaJson }),
+  z.object({ omit: StateTaxWithholdingOmitSchemaJson }),
+  z.object({ select: StateTaxWithholdingSelectSchemaJson }),
   z.object({ include: StateTaxWithholdingIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const LocalTaxWithholdingCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    taxDataId: PZ.Scalar.id(),
-    jurisdiction: PZ.Scalar.string(),
-    localStatus: PZ.Scalar.string().optional(),
-    extraWithholding: PZ.Scalar.number().optional(),
-  })
-);
-
-export const LocalTaxWithholdingUpdateSchema = z.object({
-  taxDataId: PZ.Scalar.id().optional(),
-  jurisdiction: PZ.Scalar.string().optional(),
-  localStatus: PZ.Scalar.string().optional().optional(),
-  extraWithholding: PZ.Scalar.number().optional().optional(),
-});
-
-export const LocalTaxWithholdingOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    taxDataId: PZ.OrderDirectionSchema,
-    jurisdiction: PZ.OrderDirectionSchema,
-    localStatus: PZ.OrderDirectionSchema,
-    extraWithholding: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const LocalTaxWithholdingOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  LocalTaxWithholdingOrderBySchema
-);
-
-export const LocalTaxWithholdingWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    taxDataId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    jurisdiction: z.string().or(PZ.StringFilterSchema),
-    localStatus: z.string().or(PZ.StringFilterSchema),
-    extraWithholding: z.coerce.number().or(PZ.NumberFilterSchema),
-    taxData: EmployeeTaxDataOwnWhereSchema,
-  })
-  .partial();
-
-export const LocalTaxWithholdingWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  LocalTaxWithholdingWhereSchema
-);
-
-export const LocalTaxWithholdingSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    taxDataId: PZ.Scalar.bool(),
-    jurisdiction: PZ.Scalar.bool(),
-    localStatus: PZ.Scalar.bool(),
-    extraWithholding: PZ.Scalar.bool(),
-    taxData: PZ.Scalar.bool().or(EmployeeTaxDataOwnQueryOneSchema),
-  })
-  .partial();
-
-export const LocalTaxWithholdingSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  LocalTaxWithholdingSelectFieldsSchema
-);
-
-export const LocalTaxWithholdingOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    taxDataId: PZ.Scalar.bool(),
-    jurisdiction: PZ.Scalar.bool(),
-    localStatus: PZ.Scalar.bool(),
-    extraWithholding: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      ![
-        'id',
-        'taxDataId',
-        'jurisdiction',
-        'localStatus',
-        'extraWithholding',
-      ].every((e) => Object.hasOwn(value, e)),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const LocalTaxWithholdingOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  LocalTaxWithholdingOmitFieldsSchema
-);
-
-export const LocalTaxWithholdingIncludeSchema = z
-  .object({
-    taxData: PZ.Scalar.bool().or(EmployeeTaxDataOwnQueryOneSchema),
-  })
-  .partial();
-
-export const LocalTaxWithholdingIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  LocalTaxWithholdingIncludeSchema
-);
-
 export const LocalTaxWithholdingProjectionSchema = z.union([
-  z.object({ omit: LocalTaxWithholdingOmitFieldsSchemaJson }),
-  z.object({ select: LocalTaxWithholdingSelectFieldsSchemaJson }),
+  z.object({ omit: LocalTaxWithholdingOmitSchemaJson }),
+  z.object({ select: LocalTaxWithholdingSelectSchemaJson }),
   z.object({ include: LocalTaxWithholdingIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PayrollRunCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    resolverId: PZ.Scalar.id(),
-    startDate: PZ.Scalar.datetime(),
-    endDate: PZ.Scalar.datetime(),
-    payDate: PZ.Scalar.datetime(),
-    status: PayrollStatusSchema.optional(),
-  })
-);
-
-export const PayrollRunUpdateSchema = z.object({
-  resolverId: PZ.Scalar.id().optional(),
-  startDate: PZ.Scalar.datetime().optional(),
-  endDate: PZ.Scalar.datetime().optional(),
-  payDate: PZ.Scalar.datetime().optional(),
-  status: PayrollStatusSchema.optional().optional(),
-});
-
-export const PayrollRunOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    resolverId: PZ.OrderDirectionSchema,
-    startDate: PZ.OrderDirectionSchema,
-    endDate: PZ.OrderDirectionSchema,
-    payDate: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const PayrollRunOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PayrollRunOrderBySchema
-);
-
-export const PayrollRunWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    resolverId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    startDate: z.string().or(PZ.DateTimeFilterSchema),
-    endDate: z.string().or(PZ.DateTimeFilterSchema),
-    payDate: z.string().or(PZ.DateTimeFilterSchema),
-    status: PayrollStatusSchema,
-    approvedBy: EmployeeOwnWhereSchema,
-    paychecks: z
-      .object({
-        some: PaycheckOwnWhereSchema,
-        every: PaycheckOwnWhereSchema,
-        none: PaycheckOwnWhereSchema,
-      })
-      .partial(),
-  })
-  .partial();
-
-export const PayrollRunWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PayrollRunWhereSchema
-);
-
-export const PayrollRunSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    resolverId: PZ.Scalar.bool(),
-    startDate: PZ.Scalar.bool(),
-    endDate: PZ.Scalar.bool(),
-    payDate: PZ.Scalar.bool(),
-    status: PZ.Scalar.bool(),
-    approvedBy: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-    paychecks: PZ.Scalar.bool().or(PaycheckOwnQuerySchema),
-  })
-  .partial();
-
-export const PayrollRunSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PayrollRunSelectFieldsSchema
-);
-
-export const PayrollRunOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    resolverId: PZ.Scalar.bool(),
-    startDate: PZ.Scalar.bool(),
-    endDate: PZ.Scalar.bool(),
-    payDate: PZ.Scalar.bool(),
-    status: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      !['id', 'resolverId', 'startDate', 'endDate', 'payDate', 'status'].every(
-        (e) => Object.hasOwn(value, e)
-      ),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const PayrollRunOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PayrollRunOmitFieldsSchema
-);
-
-export const PayrollRunIncludeSchema = z
-  .object({
-    approvedBy: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-    paychecks: PZ.Scalar.bool().or(PaycheckOwnQuerySchema),
-  })
-  .partial();
-
-export const PayrollRunIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PayrollRunIncludeSchema
-);
-
 export const PayrollRunProjectionSchema = z.union([
-  z.object({ omit: PayrollRunOmitFieldsSchemaJson }),
-  z.object({ select: PayrollRunSelectFieldsSchemaJson }),
+  z.object({ omit: PayrollRunOmitSchemaJson }),
+  z.object({ select: PayrollRunSelectSchemaJson }),
   z.object({ include: PayrollRunIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const ContactCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    employeeId: PZ.Scalar.id(),
-  })
-);
-
-export const ContactUpdateSchema = z.object({
-  employeeId: PZ.Scalar.id().optional(),
-});
-
-export const ContactOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    employeeId: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const ContactOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  ContactOrderBySchema
-);
-
-export const ContactWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    employeeId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    employee: EmployeeOwnWhereSchema,
-    emails: z
-      .object({
-        some: EmailOwnWhereSchema,
-        every: EmailOwnWhereSchema,
-        none: EmailOwnWhereSchema,
-      })
-      .partial(),
-    phones: z
-      .object({
-        some: PhoneOwnWhereSchema,
-        every: PhoneOwnWhereSchema,
-        none: PhoneOwnWhereSchema,
-      })
-      .partial(),
-    addresses: z
-      .object({
-        some: AddressOwnWhereSchema,
-        every: AddressOwnWhereSchema,
-        none: AddressOwnWhereSchema,
-      })
-      .partial(),
-    primaryEmail: PrimaryEmailOwnWhereSchema,
-    primaryPhone: PrimaryPhoneOwnWhereSchema,
-    primaryAddress: PrimaryAddressOwnWhereSchema,
-  })
-  .partial();
-
-export const ContactWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  ContactWhereSchema
-);
-
-export const ContactSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-    emails: PZ.Scalar.bool().or(EmailOwnQuerySchema),
-    phones: PZ.Scalar.bool().or(PhoneOwnQuerySchema),
-    addresses: PZ.Scalar.bool().or(AddressOwnQuerySchema),
-    primaryEmail: PZ.Scalar.bool().or(PrimaryEmailOwnQueryOneSchema),
-    primaryPhone: PZ.Scalar.bool().or(PrimaryPhoneOwnQueryOneSchema),
-    primaryAddress: PZ.Scalar.bool().or(PrimaryAddressOwnQueryOneSchema),
-  })
-  .partial();
-
-export const ContactSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  ContactSelectFieldsSchema
-);
-
-export const ContactOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    employeeId: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) => !['id', 'employeeId'].every((e) => Object.hasOwn(value, e)),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const ContactOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  ContactOmitFieldsSchema
-);
-
-export const ContactIncludeSchema = z
-  .object({
-    employee: PZ.Scalar.bool().or(EmployeeOwnQueryOneSchema),
-    emails: PZ.Scalar.bool().or(EmailOwnQuerySchema),
-    phones: PZ.Scalar.bool().or(PhoneOwnQuerySchema),
-    addresses: PZ.Scalar.bool().or(AddressOwnQuerySchema),
-    primaryEmail: PZ.Scalar.bool().or(PrimaryEmailOwnQueryOneSchema),
-    primaryPhone: PZ.Scalar.bool().or(PrimaryPhoneOwnQueryOneSchema),
-    primaryAddress: PZ.Scalar.bool().or(PrimaryAddressOwnQueryOneSchema),
-  })
-  .partial();
-
-export const ContactIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  ContactIncludeSchema
-);
-
 export const ContactProjectionSchema = z.union([
-  z.object({ omit: ContactOmitFieldsSchemaJson }),
-  z.object({ select: ContactSelectFieldsSchemaJson }),
+  z.object({ omit: ContactOmitSchemaJson }),
+  z.object({ select: ContactSelectSchemaJson }),
   z.object({ include: ContactIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const CountryCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    name: PZ.Scalar.name(),
-    code: PZ.Scalar.string(),
-  })
-);
-
-export const CountryUpdateSchema = z.object({
-  name: PZ.Scalar.name().optional(),
-  code: PZ.Scalar.string().optional(),
-});
-
-export const CountryOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    name: PZ.OrderDirectionSchema,
-    code: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const CountryOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  CountryOrderBySchema
-);
-
-export const CountryWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    name: z.string().or(PZ.StringFilterSchema),
-    code: z.string().or(PZ.StringFilterSchema),
-    states: z
-      .object({
-        some: StateOwnWhereSchema,
-        every: StateOwnWhereSchema,
-        none: StateOwnWhereSchema,
-      })
-      .partial(),
-  })
-  .partial();
-
-export const CountryWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  CountryWhereSchema
-);
-
-export const CountrySelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-    code: PZ.Scalar.bool(),
-    states: PZ.Scalar.bool().or(StateOwnQuerySchema),
-  })
-  .partial();
-
-export const CountrySelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  CountrySelectFieldsSchema
-);
-
-export const CountryOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-    code: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) => !['id', 'name', 'code'].every((e) => Object.hasOwn(value, e)),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const CountryOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  CountryOmitFieldsSchema
-);
-
-export const CountryIncludeSchema = z
-  .object({
-    states: PZ.Scalar.bool().or(StateOwnQuerySchema),
-  })
-  .partial();
-
-export const CountryIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  CountryIncludeSchema
-);
-
 export const CountryProjectionSchema = z.union([
-  z.object({ omit: CountryOmitFieldsSchemaJson }),
-  z.object({ select: CountrySelectFieldsSchemaJson }),
+  z.object({ omit: CountryOmitSchemaJson }),
+  z.object({ select: CountrySelectSchemaJson }),
   z.object({ include: CountryIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const StateCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    countryId: PZ.Scalar.id(),
-    name: PZ.Scalar.name(),
-    code: PZ.Scalar.string(),
-  })
-);
-
-export const StateUpdateSchema = z.object({
-  countryId: PZ.Scalar.id().optional(),
-  name: PZ.Scalar.name().optional(),
-  code: PZ.Scalar.string().optional(),
-});
-
-export const StateOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    countryId: PZ.OrderDirectionSchema,
-    name: PZ.OrderDirectionSchema,
-    code: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const StateOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  StateOrderBySchema
-);
-
-export const StateWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    countryId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    name: z.string().or(PZ.StringFilterSchema),
-    code: z.string().or(PZ.StringFilterSchema),
-    country: CountryOwnWhereSchema,
-    addresses: z
-      .object({
-        some: AddressOwnWhereSchema,
-        every: AddressOwnWhereSchema,
-        none: AddressOwnWhereSchema,
-      })
-      .partial(),
-  })
-  .partial();
-
-export const StateWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  StateWhereSchema
-);
-
-export const StateSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    countryId: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-    code: PZ.Scalar.bool(),
-    country: PZ.Scalar.bool().or(CountryOwnQueryOneSchema),
-    addresses: PZ.Scalar.bool().or(AddressOwnQuerySchema),
-  })
-  .partial();
-
-export const StateSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  StateSelectFieldsSchema
-);
-
-export const StateOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    countryId: PZ.Scalar.bool(),
-    name: PZ.Scalar.bool(),
-    code: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      !['id', 'countryId', 'name', 'code'].every((e) =>
-        Object.hasOwn(value, e)
-      ),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const StateOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  StateOmitFieldsSchema
-);
-
-export const StateIncludeSchema = z
-  .object({
-    country: PZ.Scalar.bool().or(CountryOwnQueryOneSchema),
-    addresses: PZ.Scalar.bool().or(AddressOwnQuerySchema),
-  })
-  .partial();
-
-export const StateIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  StateIncludeSchema
-);
-
 export const StateProjectionSchema = z.union([
-  z.object({ omit: StateOmitFieldsSchemaJson }),
-  z.object({ select: StateSelectFieldsSchemaJson }),
+  z.object({ omit: StateOmitSchemaJson }),
+  z.object({ select: StateSelectSchemaJson }),
   z.object({ include: StateIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const AddressCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    type: ContactTypeSchema,
-    contactId: PZ.Scalar.id(),
-    stateId: PZ.Scalar.id(),
-    street: PZ.Scalar.string(),
-    zip: PZ.Scalar.string(),
-    city: PZ.Scalar.string(),
-  })
-);
-
-export const AddressUpdateSchema = z.object({
-  type: ContactTypeSchema.optional(),
-  contactId: PZ.Scalar.id().optional(),
-  stateId: PZ.Scalar.id().optional(),
-  street: PZ.Scalar.string().optional(),
-  zip: PZ.Scalar.string().optional(),
-  city: PZ.Scalar.string().optional(),
-});
-
-export const AddressOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    contactId: PZ.OrderDirectionSchema,
-    stateId: PZ.OrderDirectionSchema,
-    street: PZ.OrderDirectionSchema,
-    zip: PZ.OrderDirectionSchema,
-    city: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const AddressOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  AddressOrderBySchema
-);
-
-export const AddressWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    type: ContactTypeSchema,
-    contactId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    stateId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    street: z.string().or(PZ.StringFilterSchema),
-    zip: z.string().or(PZ.StringFilterSchema),
-    city: z.string().or(PZ.StringFilterSchema),
-    state: StateOwnWhereSchema,
-    contact: ContactOwnWhereSchema,
-    primary: PrimaryAddressOwnWhereSchema,
-  })
-  .partial();
-
-export const AddressWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  AddressWhereSchema
-);
-
-export const AddressSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-    contactId: PZ.Scalar.bool(),
-    stateId: PZ.Scalar.bool(),
-    street: PZ.Scalar.bool(),
-    zip: PZ.Scalar.bool(),
-    city: PZ.Scalar.bool(),
-    state: PZ.Scalar.bool().or(StateOwnQueryOneSchema),
-    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
-    primary: PZ.Scalar.bool().or(PrimaryAddressOwnQueryOneSchema),
-  })
-  .partial();
-
-export const AddressSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  AddressSelectFieldsSchema
-);
-
-export const AddressOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-    contactId: PZ.Scalar.bool(),
-    stateId: PZ.Scalar.bool(),
-    street: PZ.Scalar.bool(),
-    zip: PZ.Scalar.bool(),
-    city: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      !['id', 'type', 'contactId', 'stateId', 'street', 'zip', 'city'].every(
-        (e) => Object.hasOwn(value, e)
-      ),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const AddressOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  AddressOmitFieldsSchema
-);
-
-export const AddressIncludeSchema = z
-  .object({
-    state: PZ.Scalar.bool().or(StateOwnQueryOneSchema),
-    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
-    primary: PZ.Scalar.bool().or(PrimaryAddressOwnQueryOneSchema),
-  })
-  .partial();
-
-export const AddressIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  AddressIncludeSchema
-);
-
 export const AddressProjectionSchema = z.union([
-  z.object({ omit: AddressOmitFieldsSchemaJson }),
-  z.object({ select: AddressSelectFieldsSchemaJson }),
+  z.object({ omit: AddressOmitSchemaJson }),
+  z.object({ select: AddressSelectSchemaJson }),
   z.object({ include: AddressIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const EmailCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    type: ContactTypeSchema,
-    contactId: PZ.Scalar.id(),
-    email: PZ.Scalar.email(),
-  })
-);
-
-export const EmailUpdateSchema = z.object({
-  type: ContactTypeSchema.optional(),
-  contactId: PZ.Scalar.id().optional(),
-  email: PZ.Scalar.email().optional(),
-});
-
-export const EmailOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    contactId: PZ.OrderDirectionSchema,
-    email: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const EmailOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmailOrderBySchema
-);
-
-export const EmailWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    type: ContactTypeSchema,
-    contactId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    email: z.string().or(PZ.StringFilterSchema),
-    contact: ContactOwnWhereSchema,
-    primary: PrimaryEmailOwnWhereSchema,
-  })
-  .partial();
-
-export const EmailWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmailWhereSchema
-);
-
-export const EmailSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-    contactId: PZ.Scalar.bool(),
-    email: PZ.Scalar.bool(),
-    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
-    primary: PZ.Scalar.bool().or(PrimaryEmailOwnQueryOneSchema),
-  })
-  .partial();
-
-export const EmailSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmailSelectFieldsSchema
-);
-
-export const EmailOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-    contactId: PZ.Scalar.bool(),
-    email: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      !['id', 'type', 'contactId', 'email'].every((e) =>
-        Object.hasOwn(value, e)
-      ),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const EmailOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmailOmitFieldsSchema
-);
-
-export const EmailIncludeSchema = z
-  .object({
-    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
-    primary: PZ.Scalar.bool().or(PrimaryEmailOwnQueryOneSchema),
-  })
-  .partial();
-
-export const EmailIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  EmailIncludeSchema
-);
-
 export const EmailProjectionSchema = z.union([
-  z.object({ omit: EmailOmitFieldsSchemaJson }),
-  z.object({ select: EmailSelectFieldsSchemaJson }),
+  z.object({ omit: EmailOmitSchemaJson }),
+  z.object({ select: EmailSelectSchemaJson }),
   z.object({ include: EmailIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PhoneCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    type: ContactTypeSchema,
-    contactId: PZ.Scalar.id(),
-    phone: PZ.Scalar.string(),
-  })
-);
-
-export const PhoneUpdateSchema = z.object({
-  type: ContactTypeSchema.optional(),
-  contactId: PZ.Scalar.id().optional(),
-  phone: PZ.Scalar.string().optional(),
-});
-
-export const PhoneOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    contactId: PZ.OrderDirectionSchema,
-    phone: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const PhoneOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PhoneOrderBySchema
-);
-
-export const PhoneWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    type: ContactTypeSchema,
-    contactId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    phone: z.string().or(PZ.StringFilterSchema),
-    contact: ContactOwnWhereSchema,
-    primary: PrimaryPhoneOwnWhereSchema,
-  })
-  .partial();
-
-export const PhoneWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PhoneWhereSchema
-);
-
-export const PhoneSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-    contactId: PZ.Scalar.bool(),
-    phone: PZ.Scalar.bool(),
-    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
-    primary: PZ.Scalar.bool().or(PrimaryPhoneOwnQueryOneSchema),
-  })
-  .partial();
-
-export const PhoneSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PhoneSelectFieldsSchema
-);
-
-export const PhoneOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    type: PZ.Scalar.bool(),
-    contactId: PZ.Scalar.bool(),
-    phone: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      !['id', 'type', 'contactId', 'phone'].every((e) =>
-        Object.hasOwn(value, e)
-      ),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const PhoneOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PhoneOmitFieldsSchema
-);
-
-export const PhoneIncludeSchema = z
-  .object({
-    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
-    primary: PZ.Scalar.bool().or(PrimaryPhoneOwnQueryOneSchema),
-  })
-  .partial();
-
-export const PhoneIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PhoneIncludeSchema
-);
-
 export const PhoneProjectionSchema = z.union([
-  z.object({ omit: PhoneOmitFieldsSchemaJson }),
-  z.object({ select: PhoneSelectFieldsSchemaJson }),
+  z.object({ omit: PhoneOmitSchemaJson }),
+  z.object({ select: PhoneSelectSchemaJson }),
   z.object({ include: PhoneIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PrimaryEmailCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    emailId: PZ.Scalar.id(),
-    contactId: PZ.Scalar.id(),
-  })
-);
-
-export const PrimaryEmailUpdateSchema = z.object({
-  emailId: PZ.Scalar.id().optional(),
-  contactId: PZ.Scalar.id().optional(),
-});
-
-export const PrimaryEmailOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    emailId: PZ.OrderDirectionSchema,
-    contactId: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const PrimaryEmailOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PrimaryEmailOrderBySchema
-);
-
-export const PrimaryEmailWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    emailId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    contactId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    email: EmailOwnWhereSchema,
-    contact: ContactOwnWhereSchema,
-  })
-  .partial();
-
-export const PrimaryEmailWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PrimaryEmailWhereSchema
-);
-
-export const PrimaryEmailSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    emailId: PZ.Scalar.bool(),
-    contactId: PZ.Scalar.bool(),
-    email: PZ.Scalar.bool().or(EmailOwnQueryOneSchema),
-    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
-  })
-  .partial();
-
-export const PrimaryEmailSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PrimaryEmailSelectFieldsSchema
-);
-
-export const PrimaryEmailOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    emailId: PZ.Scalar.bool(),
-    contactId: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      !['id', 'emailId', 'contactId'].every((e) => Object.hasOwn(value, e)),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const PrimaryEmailOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PrimaryEmailOmitFieldsSchema
-);
-
-export const PrimaryEmailIncludeSchema = z
-  .object({
-    email: PZ.Scalar.bool().or(EmailOwnQueryOneSchema),
-    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
-  })
-  .partial();
-
-export const PrimaryEmailIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PrimaryEmailIncludeSchema
-);
-
 export const PrimaryEmailProjectionSchema = z.union([
-  z.object({ omit: PrimaryEmailOmitFieldsSchemaJson }),
-  z.object({ select: PrimaryEmailSelectFieldsSchemaJson }),
+  z.object({ omit: PrimaryEmailOmitSchemaJson }),
+  z.object({ select: PrimaryEmailSelectSchemaJson }),
   z.object({ include: PrimaryEmailIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PrimaryPhoneCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    phoneId: PZ.Scalar.id(),
-    contactId: PZ.Scalar.id(),
-  })
-);
-
-export const PrimaryPhoneUpdateSchema = z.object({
-  phoneId: PZ.Scalar.id().optional(),
-  contactId: PZ.Scalar.id().optional(),
-});
-
-export const PrimaryPhoneOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    phoneId: PZ.OrderDirectionSchema,
-    contactId: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const PrimaryPhoneOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PrimaryPhoneOrderBySchema
-);
-
-export const PrimaryPhoneWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    phoneId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    contactId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    phone: PhoneOwnWhereSchema,
-    contact: ContactOwnWhereSchema,
-  })
-  .partial();
-
-export const PrimaryPhoneWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PrimaryPhoneWhereSchema
-);
-
-export const PrimaryPhoneSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    phoneId: PZ.Scalar.bool(),
-    contactId: PZ.Scalar.bool(),
-    phone: PZ.Scalar.bool().or(PhoneOwnQueryOneSchema),
-    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
-  })
-  .partial();
-
-export const PrimaryPhoneSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PrimaryPhoneSelectFieldsSchema
-);
-
-export const PrimaryPhoneOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    phoneId: PZ.Scalar.bool(),
-    contactId: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      !['id', 'phoneId', 'contactId'].every((e) => Object.hasOwn(value, e)),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const PrimaryPhoneOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PrimaryPhoneOmitFieldsSchema
-);
-
-export const PrimaryPhoneIncludeSchema = z
-  .object({
-    phone: PZ.Scalar.bool().or(PhoneOwnQueryOneSchema),
-    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
-  })
-  .partial();
-
-export const PrimaryPhoneIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PrimaryPhoneIncludeSchema
-);
-
 export const PrimaryPhoneProjectionSchema = z.union([
-  z.object({ omit: PrimaryPhoneOmitFieldsSchemaJson }),
-  z.object({ select: PrimaryPhoneSelectFieldsSchemaJson }),
+  z.object({ omit: PrimaryPhoneOmitSchemaJson }),
+  z.object({ select: PrimaryPhoneSelectSchemaJson }),
   z.object({ include: PrimaryPhoneIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const PrimaryAddressCreateSchema = z.preprocess(
-  (value) => value,
-  z.object({
-    addressId: PZ.Scalar.id(),
-    contactId: PZ.Scalar.id(),
-  })
-);
-
-export const PrimaryAddressUpdateSchema = z.object({
-  addressId: PZ.Scalar.id().optional(),
-  contactId: PZ.Scalar.id().optional(),
-});
-
-export const PrimaryAddressOrderBySchema = z
-  .object({
-    id: PZ.OrderDirectionSchema,
-    addressId: PZ.OrderDirectionSchema,
-    contactId: PZ.OrderDirectionSchema,
-  })
-  .partial()
-  .refine(
-    (value) => typeof value === 'object' && Object.keys(value).length === 1
-  )
-  .array();
-
-export const PrimaryAddressOrderBySchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PrimaryAddressOrderBySchema
-);
-
-export const PrimaryAddressWhereSchema = z
-  .object({
-    id: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    addressId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    contactId: z.coerce.number().int().or(PZ.IntegerFilterSchema),
-    address: AddressOwnWhereSchema,
-    contact: ContactOwnWhereSchema,
-  })
-  .partial();
-
-export const PrimaryAddressWhereSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PrimaryAddressWhereSchema
-);
-
-export const PrimaryAddressSelectFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    addressId: PZ.Scalar.bool(),
-    contactId: PZ.Scalar.bool(),
-    address: PZ.Scalar.bool().or(AddressOwnQueryOneSchema),
-    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
-  })
-  .partial();
-
-export const PrimaryAddressSelectFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PrimaryAddressSelectFieldsSchema
-);
-
-export const PrimaryAddressOmitFieldsSchema = z
-  .object({
-    id: PZ.Scalar.bool(),
-    addressId: PZ.Scalar.bool(),
-    contactId: PZ.Scalar.bool(),
-  })
-  .partial()
-  .refine(
-    (value) =>
-      !['id', 'addressId', 'contactId'].every((e) => Object.hasOwn(value, e)),
-    { message: 'Cannot omit all fields', path: ['omit'] }
-  );
-
-export const PrimaryAddressOmitFieldsSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PrimaryAddressOmitFieldsSchema
-);
-
-export const PrimaryAddressIncludeSchema = z
-  .object({
-    address: PZ.Scalar.bool().or(AddressOwnQueryOneSchema),
-    contact: PZ.Scalar.bool().or(ContactOwnQueryOneSchema),
-  })
-  .partial();
-
-export const PrimaryAddressIncludeSchemaJson = z.preprocess(
-  PZ.jsonPreprocessor,
-  PrimaryAddressIncludeSchema
-);
-
 export const PrimaryAddressProjectionSchema = z.union([
-  z.object({ omit: PrimaryAddressOmitFieldsSchemaJson }),
-  z.object({ select: PrimaryAddressSelectFieldsSchemaJson }),
+  z.object({ omit: PrimaryAddressOmitSchemaJson }),
+  z.object({ select: PrimaryAddressSelectSchemaJson }),
   z.object({ include: PrimaryAddressIncludeSchemaJson }),
   z.object({}),
 ]);
 
-export const DepartmentQueryOneSchema = z
-  .object({
-    where: DepartmentWhereSchemaJson,
-    distinct: DepartmentDistinctFieldsSchema,
-  })
-  .partial();
-
-export const DepartmentQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: DepartmentWhereSchemaJson,
-    distinct: DepartmentDistinctFieldsSchema,
-    orderBy: DepartmentOrderBySchemaJson,
-  })
-  .partial();
-
-export type DepartmentCreate = z.infer<typeof DepartmentCreateSchema>;
-
-export type DepartmentUpdate = z.infer<typeof DepartmentUpdateSchema>;
-
-export type DepartmentOrderBy = z.infer<typeof DepartmentOrderBySchema>;
-
-export type DepartmentOwnSelectFields = z.infer<
-  typeof DepartmentOwnSelectFieldsSchema
->;
-
-export type DepartmentOwnWhere = z.infer<typeof DepartmentOwnWhereSchema>;
-
-export type DepartmentOwnQuery = z.infer<typeof DepartmentOwnQuerySchema>;
-
-export type DepartmentOwnQueryOne = z.infer<typeof DepartmentOwnQueryOneSchema>;
-
-export type DepartmentWhere = z.infer<typeof DepartmentWhereSchema>;
-
-export type DepartmentInclude = z.infer<typeof DepartmentIncludeSchema>;
-
-export type DepartmentQueryOne = z.infer<typeof DepartmentQueryOneSchema>;
-
-export type DepartmentQuery = z.infer<typeof DepartmentQuerySchema>;
-
-export type DepartmentOmitFields = z.infer<typeof DepartmentOmitFieldsSchema>;
-
-export type DepartmentSelectFields = z.infer<
-  typeof DepartmentSelectFieldsSchema
->;
-
-export type DepartmentProjection = z.infer<typeof DepartmentProjectionSchema>;
-
-export const TitleQueryOneSchema = z
-  .object({
-    where: TitleWhereSchemaJson,
-    distinct: TitleDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TitleQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: TitleWhereSchemaJson,
-    distinct: TitleDistinctFieldsSchema,
-    orderBy: TitleOrderBySchemaJson,
-  })
-  .partial();
-
-export type TitleCreate = z.infer<typeof TitleCreateSchema>;
-
-export type TitleUpdate = z.infer<typeof TitleUpdateSchema>;
-
-export type TitleOrderBy = z.infer<typeof TitleOrderBySchema>;
-
-export type TitleOwnSelectFields = z.infer<typeof TitleOwnSelectFieldsSchema>;
-
-export type TitleOwnWhere = z.infer<typeof TitleOwnWhereSchema>;
-
-export type TitleOwnQuery = z.infer<typeof TitleOwnQuerySchema>;
-
-export type TitleOwnQueryOne = z.infer<typeof TitleOwnQueryOneSchema>;
-
-export type TitleWhere = z.infer<typeof TitleWhereSchema>;
-
-export type TitleInclude = z.infer<typeof TitleIncludeSchema>;
-
-export type TitleQueryOne = z.infer<typeof TitleQueryOneSchema>;
-
-export type TitleQuery = z.infer<typeof TitleQuerySchema>;
-
-export type TitleOmitFields = z.infer<typeof TitleOmitFieldsSchema>;
-
-export type TitleSelectFields = z.infer<typeof TitleSelectFieldsSchema>;
-
-export type TitleProjection = z.infer<typeof TitleProjectionSchema>;
-
-export const PersonalDataQueryOneSchema = z
-  .object({
-    where: PersonalDataWhereSchemaJson,
-    distinct: PersonalDataDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PersonalDataQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: PersonalDataWhereSchemaJson,
-    distinct: PersonalDataDistinctFieldsSchema,
-    orderBy: PersonalDataOrderBySchemaJson,
-  })
-  .partial();
-
-export type PersonalDataCreate = z.infer<typeof PersonalDataCreateSchema>;
-
-export type PersonalDataUpdate = z.infer<typeof PersonalDataUpdateSchema>;
-
-export type PersonalDataOrderBy = z.infer<typeof PersonalDataOrderBySchema>;
-
-export type PersonalDataOwnSelectFields = z.infer<
-  typeof PersonalDataOwnSelectFieldsSchema
->;
-
-export type PersonalDataOwnWhere = z.infer<typeof PersonalDataOwnWhereSchema>;
-
-export type PersonalDataOwnQuery = z.infer<typeof PersonalDataOwnQuerySchema>;
-
-export type PersonalDataOwnQueryOne = z.infer<
-  typeof PersonalDataOwnQueryOneSchema
->;
-
-export type PersonalDataWhere = z.infer<typeof PersonalDataWhereSchema>;
-
-export type PersonalDataInclude = z.infer<typeof PersonalDataIncludeSchema>;
-
-export type PersonalDataQueryOne = z.infer<typeof PersonalDataQueryOneSchema>;
-
-export type PersonalDataQuery = z.infer<typeof PersonalDataQuerySchema>;
-
-export type PersonalDataOmitFields = z.infer<
-  typeof PersonalDataOmitFieldsSchema
->;
-
-export type PersonalDataSelectFields = z.infer<
-  typeof PersonalDataSelectFieldsSchema
->;
-
-export type PersonalDataProjection = z.infer<
-  typeof PersonalDataProjectionSchema
->;
-
-export const EmployeeQueryOneSchema = z
-  .object({
-    where: EmployeeWhereSchemaJson,
-    distinct: EmployeeDistinctFieldsSchema,
-  })
-  .partial();
-
-export const EmployeeQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: EmployeeWhereSchemaJson,
-    distinct: EmployeeDistinctFieldsSchema,
-    orderBy: EmployeeOrderBySchemaJson,
-  })
-  .partial();
-
-export type EmployeeCreate = z.infer<typeof EmployeeCreateSchema>;
-
-export type EmployeeUpdate = z.infer<typeof EmployeeUpdateSchema>;
-
-export type EmployeeOrderBy = z.infer<typeof EmployeeOrderBySchema>;
-
-export type EmployeeOwnSelectFields = z.infer<
-  typeof EmployeeOwnSelectFieldsSchema
->;
-
-export type EmployeeOwnWhere = z.infer<typeof EmployeeOwnWhereSchema>;
-
-export type EmployeeOwnQuery = z.infer<typeof EmployeeOwnQuerySchema>;
-
-export type EmployeeOwnQueryOne = z.infer<typeof EmployeeOwnQueryOneSchema>;
-
-export type EmployeeWhere = z.infer<typeof EmployeeWhereSchema>;
-
-export type EmployeeInclude = z.infer<typeof EmployeeIncludeSchema>;
-
-export type EmployeeQueryOne = z.infer<typeof EmployeeQueryOneSchema>;
-
-export type EmployeeQuery = z.infer<typeof EmployeeQuerySchema>;
-
-export type EmployeeOmitFields = z.infer<typeof EmployeeOmitFieldsSchema>;
-
-export type EmployeeSelectFields = z.infer<typeof EmployeeSelectFieldsSchema>;
-
-export type EmployeeProjection = z.infer<typeof EmployeeProjectionSchema>;
-
-export const TeamQueryOneSchema = z
-  .object({
-    where: TeamWhereSchemaJson,
-    distinct: TeamDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TeamQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: TeamWhereSchemaJson,
-    distinct: TeamDistinctFieldsSchema,
-    orderBy: TeamOrderBySchemaJson,
-  })
-  .partial();
-
-export type TeamCreate = z.infer<typeof TeamCreateSchema>;
-
-export type TeamUpdate = z.infer<typeof TeamUpdateSchema>;
-
-export type TeamOrderBy = z.infer<typeof TeamOrderBySchema>;
-
-export type TeamOwnSelectFields = z.infer<typeof TeamOwnSelectFieldsSchema>;
-
-export type TeamOwnWhere = z.infer<typeof TeamOwnWhereSchema>;
-
-export type TeamOwnQuery = z.infer<typeof TeamOwnQuerySchema>;
-
-export type TeamOwnQueryOne = z.infer<typeof TeamOwnQueryOneSchema>;
-
-export type TeamWhere = z.infer<typeof TeamWhereSchema>;
-
-export type TeamInclude = z.infer<typeof TeamIncludeSchema>;
-
-export type TeamQueryOne = z.infer<typeof TeamQueryOneSchema>;
-
-export type TeamQuery = z.infer<typeof TeamQuerySchema>;
-
-export type TeamOmitFields = z.infer<typeof TeamOmitFieldsSchema>;
-
-export type TeamSelectFields = z.infer<typeof TeamSelectFieldsSchema>;
-
-export type TeamProjection = z.infer<typeof TeamProjectionSchema>;
-
-export const TeamManagerQueryOneSchema = z
-  .object({
-    where: TeamManagerWhereSchemaJson,
-    distinct: TeamManagerDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TeamManagerQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: TeamManagerWhereSchemaJson,
-    distinct: TeamManagerDistinctFieldsSchema,
-    orderBy: TeamManagerOrderBySchemaJson,
-  })
-  .partial();
-
-export type TeamManagerCreate = z.infer<typeof TeamManagerCreateSchema>;
-
-export type TeamManagerUpdate = z.infer<typeof TeamManagerUpdateSchema>;
-
-export type TeamManagerOrderBy = z.infer<typeof TeamManagerOrderBySchema>;
-
-export type TeamManagerOwnSelectFields = z.infer<
-  typeof TeamManagerOwnSelectFieldsSchema
->;
-
-export type TeamManagerOwnWhere = z.infer<typeof TeamManagerOwnWhereSchema>;
-
-export type TeamManagerOwnQuery = z.infer<typeof TeamManagerOwnQuerySchema>;
-
-export type TeamManagerOwnQueryOne = z.infer<
-  typeof TeamManagerOwnQueryOneSchema
->;
-
-export type TeamManagerWhere = z.infer<typeof TeamManagerWhereSchema>;
-
-export type TeamManagerInclude = z.infer<typeof TeamManagerIncludeSchema>;
-
-export type TeamManagerQueryOne = z.infer<typeof TeamManagerQueryOneSchema>;
-
-export type TeamManagerQuery = z.infer<typeof TeamManagerQuerySchema>;
-
-export type TeamManagerOmitFields = z.infer<typeof TeamManagerOmitFieldsSchema>;
-
-export type TeamManagerSelectFields = z.infer<
-  typeof TeamManagerSelectFieldsSchema
->;
-
-export type TeamManagerProjection = z.infer<typeof TeamManagerProjectionSchema>;
-
-export const TeamMemberQueryOneSchema = z
-  .object({
-    where: TeamMemberWhereSchemaJson,
-    distinct: TeamMemberDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TeamMemberQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: TeamMemberWhereSchemaJson,
-    distinct: TeamMemberDistinctFieldsSchema,
-    orderBy: TeamMemberOrderBySchemaJson,
-  })
-  .partial();
-
-export type TeamMemberCreate = z.infer<typeof TeamMemberCreateSchema>;
-
-export type TeamMemberUpdate = z.infer<typeof TeamMemberUpdateSchema>;
-
-export type TeamMemberOrderBy = z.infer<typeof TeamMemberOrderBySchema>;
-
-export type TeamMemberOwnSelectFields = z.infer<
-  typeof TeamMemberOwnSelectFieldsSchema
->;
-
-export type TeamMemberOwnWhere = z.infer<typeof TeamMemberOwnWhereSchema>;
-
-export type TeamMemberOwnQuery = z.infer<typeof TeamMemberOwnQuerySchema>;
-
-export type TeamMemberOwnQueryOne = z.infer<typeof TeamMemberOwnQueryOneSchema>;
-
-export type TeamMemberWhere = z.infer<typeof TeamMemberWhereSchema>;
-
-export type TeamMemberInclude = z.infer<typeof TeamMemberIncludeSchema>;
-
-export type TeamMemberQueryOne = z.infer<typeof TeamMemberQueryOneSchema>;
-
-export type TeamMemberQuery = z.infer<typeof TeamMemberQuerySchema>;
-
-export type TeamMemberOmitFields = z.infer<typeof TeamMemberOmitFieldsSchema>;
-
-export type TeamMemberSelectFields = z.infer<
-  typeof TeamMemberSelectFieldsSchema
->;
-
-export type TeamMemberProjection = z.infer<typeof TeamMemberProjectionSchema>;
-
-export const SalaryQueryOneSchema = z
-  .object({
-    where: SalaryWhereSchemaJson,
-    distinct: SalaryDistinctFieldsSchema,
-  })
-  .partial();
-
-export const SalaryQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: SalaryWhereSchemaJson,
-    distinct: SalaryDistinctFieldsSchema,
-    orderBy: SalaryOrderBySchemaJson,
-  })
-  .partial();
-
-export type SalaryCreate = z.infer<typeof SalaryCreateSchema>;
-
-export type SalaryUpdate = z.infer<typeof SalaryUpdateSchema>;
-
-export type SalaryOrderBy = z.infer<typeof SalaryOrderBySchema>;
-
-export type SalaryOwnSelectFields = z.infer<typeof SalaryOwnSelectFieldsSchema>;
-
-export type SalaryOwnWhere = z.infer<typeof SalaryOwnWhereSchema>;
-
-export type SalaryOwnQuery = z.infer<typeof SalaryOwnQuerySchema>;
-
-export type SalaryOwnQueryOne = z.infer<typeof SalaryOwnQueryOneSchema>;
-
-export type SalaryWhere = z.infer<typeof SalaryWhereSchema>;
-
-export type SalaryInclude = z.infer<typeof SalaryIncludeSchema>;
-
-export type SalaryQueryOne = z.infer<typeof SalaryQueryOneSchema>;
-
-export type SalaryQuery = z.infer<typeof SalaryQuerySchema>;
-
-export type SalaryOmitFields = z.infer<typeof SalaryOmitFieldsSchema>;
-
-export type SalarySelectFields = z.infer<typeof SalarySelectFieldsSchema>;
-
-export type SalaryProjection = z.infer<typeof SalaryProjectionSchema>;
-
-export const SalaryHistoryQueryOneSchema = z
-  .object({
-    where: SalaryHistoryWhereSchemaJson,
-    distinct: SalaryHistoryDistinctFieldsSchema,
-  })
-  .partial();
-
-export const SalaryHistoryQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: SalaryHistoryWhereSchemaJson,
-    distinct: SalaryHistoryDistinctFieldsSchema,
-    orderBy: SalaryHistoryOrderBySchemaJson,
-  })
-  .partial();
-
-export type SalaryHistoryCreate = z.infer<typeof SalaryHistoryCreateSchema>;
-
-export type SalaryHistoryUpdate = z.infer<typeof SalaryHistoryUpdateSchema>;
-
-export type SalaryHistoryOrderBy = z.infer<typeof SalaryHistoryOrderBySchema>;
-
-export type SalaryHistoryOwnSelectFields = z.infer<
-  typeof SalaryHistoryOwnSelectFieldsSchema
->;
-
-export type SalaryHistoryOwnWhere = z.infer<typeof SalaryHistoryOwnWhereSchema>;
-
-export type SalaryHistoryOwnQuery = z.infer<typeof SalaryHistoryOwnQuerySchema>;
-
-export type SalaryHistoryOwnQueryOne = z.infer<
-  typeof SalaryHistoryOwnQueryOneSchema
->;
-
-export type SalaryHistoryWhere = z.infer<typeof SalaryHistoryWhereSchema>;
-
-export type SalaryHistoryInclude = z.infer<typeof SalaryHistoryIncludeSchema>;
-
-export type SalaryHistoryQueryOne = z.infer<typeof SalaryHistoryQueryOneSchema>;
-
-export type SalaryHistoryQuery = z.infer<typeof SalaryHistoryQuerySchema>;
-
-export type SalaryHistoryOmitFields = z.infer<
-  typeof SalaryHistoryOmitFieldsSchema
->;
-
-export type SalaryHistorySelectFields = z.infer<
-  typeof SalaryHistorySelectFieldsSchema
->;
-
-export type SalaryHistoryProjection = z.infer<
-  typeof SalaryHistoryProjectionSchema
->;
-
-export const BenefitQueryOneSchema = z
-  .object({
-    where: BenefitWhereSchemaJson,
-    distinct: BenefitDistinctFieldsSchema,
-  })
-  .partial();
-
-export const BenefitQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: BenefitWhereSchemaJson,
-    distinct: BenefitDistinctFieldsSchema,
-    orderBy: BenefitOrderBySchemaJson,
-  })
-  .partial();
-
-export type BenefitCreate = z.infer<typeof BenefitCreateSchema>;
-
-export type BenefitUpdate = z.infer<typeof BenefitUpdateSchema>;
-
-export type BenefitOrderBy = z.infer<typeof BenefitOrderBySchema>;
-
-export type BenefitOwnSelectFields = z.infer<
-  typeof BenefitOwnSelectFieldsSchema
->;
-
-export type BenefitOwnWhere = z.infer<typeof BenefitOwnWhereSchema>;
-
-export type BenefitOwnQuery = z.infer<typeof BenefitOwnQuerySchema>;
-
-export type BenefitOwnQueryOne = z.infer<typeof BenefitOwnQueryOneSchema>;
-
-export type BenefitWhere = z.infer<typeof BenefitWhereSchema>;
-
-export type BenefitInclude = z.infer<typeof BenefitIncludeSchema>;
-
-export type BenefitQueryOne = z.infer<typeof BenefitQueryOneSchema>;
-
-export type BenefitQuery = z.infer<typeof BenefitQuerySchema>;
-
-export type BenefitOmitFields = z.infer<typeof BenefitOmitFieldsSchema>;
-
-export type BenefitSelectFields = z.infer<typeof BenefitSelectFieldsSchema>;
-
-export type BenefitProjection = z.infer<typeof BenefitProjectionSchema>;
-
-export const BenefitEnrolmentQueryOneSchema = z
-  .object({
-    where: BenefitEnrolmentWhereSchemaJson,
-    distinct: BenefitEnrolmentDistinctFieldsSchema,
-  })
-  .partial();
-
-export const BenefitEnrolmentQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: BenefitEnrolmentWhereSchemaJson,
-    distinct: BenefitEnrolmentDistinctFieldsSchema,
-    orderBy: BenefitEnrolmentOrderBySchemaJson,
-  })
-  .partial();
-
-export type BenefitEnrolmentCreate = z.infer<
-  typeof BenefitEnrolmentCreateSchema
->;
-
-export type BenefitEnrolmentUpdate = z.infer<
-  typeof BenefitEnrolmentUpdateSchema
->;
-
-export type BenefitEnrolmentOrderBy = z.infer<
-  typeof BenefitEnrolmentOrderBySchema
->;
-
-export type BenefitEnrolmentOwnSelectFields = z.infer<
-  typeof BenefitEnrolmentOwnSelectFieldsSchema
->;
-
-export type BenefitEnrolmentOwnWhere = z.infer<
-  typeof BenefitEnrolmentOwnWhereSchema
->;
-
-export type BenefitEnrolmentOwnQuery = z.infer<
-  typeof BenefitEnrolmentOwnQuerySchema
->;
-
-export type BenefitEnrolmentOwnQueryOne = z.infer<
-  typeof BenefitEnrolmentOwnQueryOneSchema
->;
-
-export type BenefitEnrolmentWhere = z.infer<typeof BenefitEnrolmentWhereSchema>;
-
-export type BenefitEnrolmentInclude = z.infer<
-  typeof BenefitEnrolmentIncludeSchema
->;
-
-export type BenefitEnrolmentQueryOne = z.infer<
-  typeof BenefitEnrolmentQueryOneSchema
->;
-
-export type BenefitEnrolmentQuery = z.infer<typeof BenefitEnrolmentQuerySchema>;
-
-export type BenefitEnrolmentOmitFields = z.infer<
-  typeof BenefitEnrolmentOmitFieldsSchema
->;
-
-export type BenefitEnrolmentSelectFields = z.infer<
-  typeof BenefitEnrolmentSelectFieldsSchema
->;
-
-export type BenefitEnrolmentProjection = z.infer<
-  typeof BenefitEnrolmentProjectionSchema
->;
-
-export const TitleHistoryQueryOneSchema = z
-  .object({
-    where: TitleHistoryWhereSchemaJson,
-    distinct: TitleHistoryDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TitleHistoryQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: TitleHistoryWhereSchemaJson,
-    distinct: TitleHistoryDistinctFieldsSchema,
-    orderBy: TitleHistoryOrderBySchemaJson,
-  })
-  .partial();
-
-export type TitleHistoryCreate = z.infer<typeof TitleHistoryCreateSchema>;
-
-export type TitleHistoryUpdate = z.infer<typeof TitleHistoryUpdateSchema>;
-
-export type TitleHistoryOrderBy = z.infer<typeof TitleHistoryOrderBySchema>;
-
-export type TitleHistoryOwnSelectFields = z.infer<
-  typeof TitleHistoryOwnSelectFieldsSchema
->;
-
-export type TitleHistoryOwnWhere = z.infer<typeof TitleHistoryOwnWhereSchema>;
-
-export type TitleHistoryOwnQuery = z.infer<typeof TitleHistoryOwnQuerySchema>;
-
-export type TitleHistoryOwnQueryOne = z.infer<
-  typeof TitleHistoryOwnQueryOneSchema
->;
-
-export type TitleHistoryWhere = z.infer<typeof TitleHistoryWhereSchema>;
-
-export type TitleHistoryInclude = z.infer<typeof TitleHistoryIncludeSchema>;
-
-export type TitleHistoryQueryOne = z.infer<typeof TitleHistoryQueryOneSchema>;
-
-export type TitleHistoryQuery = z.infer<typeof TitleHistoryQuerySchema>;
-
-export type TitleHistoryOmitFields = z.infer<
-  typeof TitleHistoryOmitFieldsSchema
->;
-
-export type TitleHistorySelectFields = z.infer<
-  typeof TitleHistorySelectFieldsSchema
->;
-
-export type TitleHistoryProjection = z.infer<
-  typeof TitleHistoryProjectionSchema
->;
-
-export const TimeOffPolicyQueryOneSchema = z
-  .object({
-    where: TimeOffPolicyWhereSchemaJson,
-    distinct: TimeOffPolicyDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TimeOffPolicyQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: TimeOffPolicyWhereSchemaJson,
-    distinct: TimeOffPolicyDistinctFieldsSchema,
-    orderBy: TimeOffPolicyOrderBySchemaJson,
-  })
-  .partial();
-
-export type TimeOffPolicyCreate = z.infer<typeof TimeOffPolicyCreateSchema>;
-
-export type TimeOffPolicyUpdate = z.infer<typeof TimeOffPolicyUpdateSchema>;
-
-export type TimeOffPolicyOrderBy = z.infer<typeof TimeOffPolicyOrderBySchema>;
-
-export type TimeOffPolicyOwnSelectFields = z.infer<
-  typeof TimeOffPolicyOwnSelectFieldsSchema
->;
-
-export type TimeOffPolicyOwnWhere = z.infer<typeof TimeOffPolicyOwnWhereSchema>;
-
-export type TimeOffPolicyOwnQuery = z.infer<typeof TimeOffPolicyOwnQuerySchema>;
-
-export type TimeOffPolicyOwnQueryOne = z.infer<
-  typeof TimeOffPolicyOwnQueryOneSchema
->;
-
-export type TimeOffPolicyWhere = z.infer<typeof TimeOffPolicyWhereSchema>;
-
-export type TimeOffPolicyInclude = z.infer<typeof TimeOffPolicyIncludeSchema>;
-
-export type TimeOffPolicyQueryOne = z.infer<typeof TimeOffPolicyQueryOneSchema>;
-
-export type TimeOffPolicyQuery = z.infer<typeof TimeOffPolicyQuerySchema>;
-
-export type TimeOffPolicyOmitFields = z.infer<
-  typeof TimeOffPolicyOmitFieldsSchema
->;
-
-export type TimeOffPolicySelectFields = z.infer<
-  typeof TimeOffPolicySelectFieldsSchema
->;
-
-export type TimeOffPolicyProjection = z.infer<
-  typeof TimeOffPolicyProjectionSchema
->;
-
-export const TimeOffBalanceQueryOneSchema = z
-  .object({
-    where: TimeOffBalanceWhereSchemaJson,
-    distinct: TimeOffBalanceDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TimeOffBalanceQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: TimeOffBalanceWhereSchemaJson,
-    distinct: TimeOffBalanceDistinctFieldsSchema,
-    orderBy: TimeOffBalanceOrderBySchemaJson,
-  })
-  .partial();
-
-export type TimeOffBalanceCreate = z.infer<typeof TimeOffBalanceCreateSchema>;
-
-export type TimeOffBalanceUpdate = z.infer<typeof TimeOffBalanceUpdateSchema>;
-
-export type TimeOffBalanceOrderBy = z.infer<typeof TimeOffBalanceOrderBySchema>;
-
-export type TimeOffBalanceOwnSelectFields = z.infer<
-  typeof TimeOffBalanceOwnSelectFieldsSchema
->;
-
-export type TimeOffBalanceOwnWhere = z.infer<
-  typeof TimeOffBalanceOwnWhereSchema
->;
-
-export type TimeOffBalanceOwnQuery = z.infer<
-  typeof TimeOffBalanceOwnQuerySchema
->;
-
-export type TimeOffBalanceOwnQueryOne = z.infer<
-  typeof TimeOffBalanceOwnQueryOneSchema
->;
-
-export type TimeOffBalanceWhere = z.infer<typeof TimeOffBalanceWhereSchema>;
-
-export type TimeOffBalanceInclude = z.infer<typeof TimeOffBalanceIncludeSchema>;
-
-export type TimeOffBalanceQueryOne = z.infer<
-  typeof TimeOffBalanceQueryOneSchema
->;
-
-export type TimeOffBalanceQuery = z.infer<typeof TimeOffBalanceQuerySchema>;
-
-export type TimeOffBalanceOmitFields = z.infer<
-  typeof TimeOffBalanceOmitFieldsSchema
->;
-
-export type TimeOffBalanceSelectFields = z.infer<
-  typeof TimeOffBalanceSelectFieldsSchema
->;
-
-export type TimeOffBalanceProjection = z.infer<
-  typeof TimeOffBalanceProjectionSchema
->;
-
-export const TimeOffRequestQueryOneSchema = z
-  .object({
-    where: TimeOffRequestWhereSchemaJson,
-    distinct: TimeOffRequestDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TimeOffRequestQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: TimeOffRequestWhereSchemaJson,
-    distinct: TimeOffRequestDistinctFieldsSchema,
-    orderBy: TimeOffRequestOrderBySchemaJson,
-  })
-  .partial();
-
-export type TimeOffRequestCreate = z.infer<typeof TimeOffRequestCreateSchema>;
-
-export type TimeOffRequestUpdate = z.infer<typeof TimeOffRequestUpdateSchema>;
-
-export type TimeOffRequestOrderBy = z.infer<typeof TimeOffRequestOrderBySchema>;
-
-export type TimeOffRequestOwnSelectFields = z.infer<
-  typeof TimeOffRequestOwnSelectFieldsSchema
->;
-
-export type TimeOffRequestOwnWhere = z.infer<
-  typeof TimeOffRequestOwnWhereSchema
->;
-
-export type TimeOffRequestOwnQuery = z.infer<
-  typeof TimeOffRequestOwnQuerySchema
->;
-
-export type TimeOffRequestOwnQueryOne = z.infer<
-  typeof TimeOffRequestOwnQueryOneSchema
->;
-
-export type TimeOffRequestWhere = z.infer<typeof TimeOffRequestWhereSchema>;
-
-export type TimeOffRequestInclude = z.infer<typeof TimeOffRequestIncludeSchema>;
-
-export type TimeOffRequestQueryOne = z.infer<
-  typeof TimeOffRequestQueryOneSchema
->;
-
-export type TimeOffRequestQuery = z.infer<typeof TimeOffRequestQuerySchema>;
-
-export type TimeOffRequestOmitFields = z.infer<
-  typeof TimeOffRequestOmitFieldsSchema
->;
-
-export type TimeOffRequestSelectFields = z.infer<
-  typeof TimeOffRequestSelectFieldsSchema
->;
-
-export type TimeOffRequestProjection = z.infer<
-  typeof TimeOffRequestProjectionSchema
->;
-
-export const TimeOffTransactionQueryOneSchema = z
-  .object({
-    where: TimeOffTransactionWhereSchemaJson,
-    distinct: TimeOffTransactionDistinctFieldsSchema,
-  })
-  .partial();
-
-export const TimeOffTransactionQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: TimeOffTransactionWhereSchemaJson,
-    distinct: TimeOffTransactionDistinctFieldsSchema,
-    orderBy: TimeOffTransactionOrderBySchemaJson,
-  })
-  .partial();
-
-export type TimeOffTransactionCreate = z.infer<
-  typeof TimeOffTransactionCreateSchema
->;
-
-export type TimeOffTransactionUpdate = z.infer<
-  typeof TimeOffTransactionUpdateSchema
->;
-
-export type TimeOffTransactionOrderBy = z.infer<
-  typeof TimeOffTransactionOrderBySchema
->;
-
-export type TimeOffTransactionOwnSelectFields = z.infer<
-  typeof TimeOffTransactionOwnSelectFieldsSchema
->;
-
-export type TimeOffTransactionOwnWhere = z.infer<
-  typeof TimeOffTransactionOwnWhereSchema
->;
-
-export type TimeOffTransactionOwnQuery = z.infer<
-  typeof TimeOffTransactionOwnQuerySchema
->;
-
-export type TimeOffTransactionOwnQueryOne = z.infer<
-  typeof TimeOffTransactionOwnQueryOneSchema
->;
-
-export type TimeOffTransactionWhere = z.infer<
-  typeof TimeOffTransactionWhereSchema
->;
-
-export type TimeOffTransactionInclude = z.infer<
-  typeof TimeOffTransactionIncludeSchema
->;
-
-export type TimeOffTransactionQueryOne = z.infer<
-  typeof TimeOffTransactionQueryOneSchema
->;
-
-export type TimeOffTransactionQuery = z.infer<
-  typeof TimeOffTransactionQuerySchema
->;
-
-export type TimeOffTransactionOmitFields = z.infer<
-  typeof TimeOffTransactionOmitFieldsSchema
->;
-
-export type TimeOffTransactionSelectFields = z.infer<
-  typeof TimeOffTransactionSelectFieldsSchema
->;
-
-export type TimeOffTransactionProjection = z.infer<
-  typeof TimeOffTransactionProjectionSchema
->;
-
-export const ClockInQueryOneSchema = z
-  .object({
-    where: ClockInWhereSchemaJson,
-    distinct: ClockInDistinctFieldsSchema,
-  })
-  .partial();
-
-export const ClockInQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: ClockInWhereSchemaJson,
-    distinct: ClockInDistinctFieldsSchema,
-    orderBy: ClockInOrderBySchemaJson,
-  })
-  .partial();
-
-export type ClockInCreate = z.infer<typeof ClockInCreateSchema>;
-
-export type ClockInUpdate = z.infer<typeof ClockInUpdateSchema>;
-
-export type ClockInOrderBy = z.infer<typeof ClockInOrderBySchema>;
-
-export type ClockInOwnSelectFields = z.infer<
-  typeof ClockInOwnSelectFieldsSchema
->;
-
-export type ClockInOwnWhere = z.infer<typeof ClockInOwnWhereSchema>;
-
-export type ClockInOwnQuery = z.infer<typeof ClockInOwnQuerySchema>;
-
-export type ClockInOwnQueryOne = z.infer<typeof ClockInOwnQueryOneSchema>;
-
-export type ClockInWhere = z.infer<typeof ClockInWhereSchema>;
-
-export type ClockInInclude = z.infer<typeof ClockInIncludeSchema>;
-
-export type ClockInQueryOne = z.infer<typeof ClockInQueryOneSchema>;
-
-export type ClockInQuery = z.infer<typeof ClockInQuerySchema>;
-
-export type ClockInOmitFields = z.infer<typeof ClockInOmitFieldsSchema>;
-
-export type ClockInSelectFields = z.infer<typeof ClockInSelectFieldsSchema>;
-
-export type ClockInProjection = z.infer<typeof ClockInProjectionSchema>;
-
-export const PaycheckQueryOneSchema = z
-  .object({
-    where: PaycheckWhereSchemaJson,
-    distinct: PaycheckDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PaycheckQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: PaycheckWhereSchemaJson,
-    distinct: PaycheckDistinctFieldsSchema,
-    orderBy: PaycheckOrderBySchemaJson,
-  })
-  .partial();
-
-export type PaycheckCreate = z.infer<typeof PaycheckCreateSchema>;
-
-export type PaycheckUpdate = z.infer<typeof PaycheckUpdateSchema>;
-
-export type PaycheckOrderBy = z.infer<typeof PaycheckOrderBySchema>;
-
-export type PaycheckOwnSelectFields = z.infer<
-  typeof PaycheckOwnSelectFieldsSchema
->;
-
-export type PaycheckOwnWhere = z.infer<typeof PaycheckOwnWhereSchema>;
-
-export type PaycheckOwnQuery = z.infer<typeof PaycheckOwnQuerySchema>;
-
-export type PaycheckOwnQueryOne = z.infer<typeof PaycheckOwnQueryOneSchema>;
-
-export type PaycheckWhere = z.infer<typeof PaycheckWhereSchema>;
-
-export type PaycheckInclude = z.infer<typeof PaycheckIncludeSchema>;
-
-export type PaycheckQueryOne = z.infer<typeof PaycheckQueryOneSchema>;
-
-export type PaycheckQuery = z.infer<typeof PaycheckQuerySchema>;
-
-export type PaycheckOmitFields = z.infer<typeof PaycheckOmitFieldsSchema>;
-
-export type PaycheckSelectFields = z.infer<typeof PaycheckSelectFieldsSchema>;
-
-export type PaycheckProjection = z.infer<typeof PaycheckProjectionSchema>;
-
-export const EarningQueryOneSchema = z
-  .object({
-    where: EarningWhereSchemaJson,
-    distinct: EarningDistinctFieldsSchema,
-  })
-  .partial();
-
-export const EarningQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: EarningWhereSchemaJson,
-    distinct: EarningDistinctFieldsSchema,
-    orderBy: EarningOrderBySchemaJson,
-  })
-  .partial();
-
-export type EarningCreate = z.infer<typeof EarningCreateSchema>;
-
-export type EarningUpdate = z.infer<typeof EarningUpdateSchema>;
-
-export type EarningOrderBy = z.infer<typeof EarningOrderBySchema>;
-
-export type EarningOwnSelectFields = z.infer<
-  typeof EarningOwnSelectFieldsSchema
->;
-
-export type EarningOwnWhere = z.infer<typeof EarningOwnWhereSchema>;
-
-export type EarningOwnQuery = z.infer<typeof EarningOwnQuerySchema>;
-
-export type EarningOwnQueryOne = z.infer<typeof EarningOwnQueryOneSchema>;
-
-export type EarningWhere = z.infer<typeof EarningWhereSchema>;
-
-export type EarningInclude = z.infer<typeof EarningIncludeSchema>;
-
-export type EarningQueryOne = z.infer<typeof EarningQueryOneSchema>;
-
-export type EarningQuery = z.infer<typeof EarningQuerySchema>;
-
-export type EarningOmitFields = z.infer<typeof EarningOmitFieldsSchema>;
-
-export type EarningSelectFields = z.infer<typeof EarningSelectFieldsSchema>;
-
-export type EarningProjection = z.infer<typeof EarningProjectionSchema>;
-
-export const PaycheckTaxQueryOneSchema = z
-  .object({
-    where: PaycheckTaxWhereSchemaJson,
-    distinct: PaycheckTaxDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PaycheckTaxQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: PaycheckTaxWhereSchemaJson,
-    distinct: PaycheckTaxDistinctFieldsSchema,
-    orderBy: PaycheckTaxOrderBySchemaJson,
-  })
-  .partial();
-
-export type PaycheckTaxCreate = z.infer<typeof PaycheckTaxCreateSchema>;
-
-export type PaycheckTaxUpdate = z.infer<typeof PaycheckTaxUpdateSchema>;
-
-export type PaycheckTaxOrderBy = z.infer<typeof PaycheckTaxOrderBySchema>;
-
-export type PaycheckTaxOwnSelectFields = z.infer<
-  typeof PaycheckTaxOwnSelectFieldsSchema
->;
-
-export type PaycheckTaxOwnWhere = z.infer<typeof PaycheckTaxOwnWhereSchema>;
-
-export type PaycheckTaxOwnQuery = z.infer<typeof PaycheckTaxOwnQuerySchema>;
-
-export type PaycheckTaxOwnQueryOne = z.infer<
-  typeof PaycheckTaxOwnQueryOneSchema
->;
-
-export type PaycheckTaxWhere = z.infer<typeof PaycheckTaxWhereSchema>;
-
-export type PaycheckTaxInclude = z.infer<typeof PaycheckTaxIncludeSchema>;
-
-export type PaycheckTaxQueryOne = z.infer<typeof PaycheckTaxQueryOneSchema>;
-
-export type PaycheckTaxQuery = z.infer<typeof PaycheckTaxQuerySchema>;
-
-export type PaycheckTaxOmitFields = z.infer<typeof PaycheckTaxOmitFieldsSchema>;
-
-export type PaycheckTaxSelectFields = z.infer<
-  typeof PaycheckTaxSelectFieldsSchema
->;
-
-export type PaycheckTaxProjection = z.infer<typeof PaycheckTaxProjectionSchema>;
-
-export const DeductionPolicyQueryOneSchema = z
-  .object({
-    where: DeductionPolicyWhereSchemaJson,
-    distinct: DeductionPolicyDistinctFieldsSchema,
-  })
-  .partial();
-
-export const DeductionPolicyQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: DeductionPolicyWhereSchemaJson,
-    distinct: DeductionPolicyDistinctFieldsSchema,
-    orderBy: DeductionPolicyOrderBySchemaJson,
-  })
-  .partial();
-
-export type DeductionPolicyCreate = z.infer<typeof DeductionPolicyCreateSchema>;
-
-export type DeductionPolicyUpdate = z.infer<typeof DeductionPolicyUpdateSchema>;
-
-export type DeductionPolicyOrderBy = z.infer<
-  typeof DeductionPolicyOrderBySchema
->;
-
-export type DeductionPolicyOwnSelectFields = z.infer<
-  typeof DeductionPolicyOwnSelectFieldsSchema
->;
-
-export type DeductionPolicyOwnWhere = z.infer<
-  typeof DeductionPolicyOwnWhereSchema
->;
-
-export type DeductionPolicyOwnQuery = z.infer<
-  typeof DeductionPolicyOwnQuerySchema
->;
-
-export type DeductionPolicyOwnQueryOne = z.infer<
-  typeof DeductionPolicyOwnQueryOneSchema
->;
-
-export type DeductionPolicyWhere = z.infer<typeof DeductionPolicyWhereSchema>;
-
-export type DeductionPolicyInclude = z.infer<
-  typeof DeductionPolicyIncludeSchema
->;
-
-export type DeductionPolicyQueryOne = z.infer<
-  typeof DeductionPolicyQueryOneSchema
->;
-
-export type DeductionPolicyQuery = z.infer<typeof DeductionPolicyQuerySchema>;
-
-export type DeductionPolicyOmitFields = z.infer<
-  typeof DeductionPolicyOmitFieldsSchema
->;
-
-export type DeductionPolicySelectFields = z.infer<
-  typeof DeductionPolicySelectFieldsSchema
->;
-
-export type DeductionPolicyProjection = z.infer<
-  typeof DeductionPolicyProjectionSchema
->;
-
-export const EmployeeDeductionQueryOneSchema = z
-  .object({
-    where: EmployeeDeductionWhereSchemaJson,
-    distinct: EmployeeDeductionDistinctFieldsSchema,
-  })
-  .partial();
-
-export const EmployeeDeductionQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: EmployeeDeductionWhereSchemaJson,
-    distinct: EmployeeDeductionDistinctFieldsSchema,
-    orderBy: EmployeeDeductionOrderBySchemaJson,
-  })
-  .partial();
-
-export type EmployeeDeductionCreate = z.infer<
-  typeof EmployeeDeductionCreateSchema
->;
-
-export type EmployeeDeductionUpdate = z.infer<
-  typeof EmployeeDeductionUpdateSchema
->;
-
-export type EmployeeDeductionOrderBy = z.infer<
-  typeof EmployeeDeductionOrderBySchema
->;
-
-export type EmployeeDeductionOwnSelectFields = z.infer<
-  typeof EmployeeDeductionOwnSelectFieldsSchema
->;
-
-export type EmployeeDeductionOwnWhere = z.infer<
-  typeof EmployeeDeductionOwnWhereSchema
->;
-
-export type EmployeeDeductionOwnQuery = z.infer<
-  typeof EmployeeDeductionOwnQuerySchema
->;
-
-export type EmployeeDeductionOwnQueryOne = z.infer<
-  typeof EmployeeDeductionOwnQueryOneSchema
->;
-
-export type EmployeeDeductionWhere = z.infer<
-  typeof EmployeeDeductionWhereSchema
->;
-
-export type EmployeeDeductionInclude = z.infer<
-  typeof EmployeeDeductionIncludeSchema
->;
-
-export type EmployeeDeductionQueryOne = z.infer<
-  typeof EmployeeDeductionQueryOneSchema
->;
-
-export type EmployeeDeductionQuery = z.infer<
-  typeof EmployeeDeductionQuerySchema
->;
-
-export type EmployeeDeductionOmitFields = z.infer<
-  typeof EmployeeDeductionOmitFieldsSchema
->;
-
-export type EmployeeDeductionSelectFields = z.infer<
-  typeof EmployeeDeductionSelectFieldsSchema
->;
-
-export type EmployeeDeductionProjection = z.infer<
-  typeof EmployeeDeductionProjectionSchema
->;
-
-export const PaycheckDeductionQueryOneSchema = z
-  .object({
-    where: PaycheckDeductionWhereSchemaJson,
-    distinct: PaycheckDeductionDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PaycheckDeductionQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: PaycheckDeductionWhereSchemaJson,
-    distinct: PaycheckDeductionDistinctFieldsSchema,
-    orderBy: PaycheckDeductionOrderBySchemaJson,
-  })
-  .partial();
-
-export type PaycheckDeductionCreate = z.infer<
-  typeof PaycheckDeductionCreateSchema
->;
-
-export type PaycheckDeductionUpdate = z.infer<
-  typeof PaycheckDeductionUpdateSchema
->;
-
-export type PaycheckDeductionOrderBy = z.infer<
-  typeof PaycheckDeductionOrderBySchema
->;
-
-export type PaycheckDeductionOwnSelectFields = z.infer<
-  typeof PaycheckDeductionOwnSelectFieldsSchema
->;
-
-export type PaycheckDeductionOwnWhere = z.infer<
-  typeof PaycheckDeductionOwnWhereSchema
->;
-
-export type PaycheckDeductionOwnQuery = z.infer<
-  typeof PaycheckDeductionOwnQuerySchema
->;
-
-export type PaycheckDeductionOwnQueryOne = z.infer<
-  typeof PaycheckDeductionOwnQueryOneSchema
->;
-
-export type PaycheckDeductionWhere = z.infer<
-  typeof PaycheckDeductionWhereSchema
->;
-
-export type PaycheckDeductionInclude = z.infer<
-  typeof PaycheckDeductionIncludeSchema
->;
-
-export type PaycheckDeductionQueryOne = z.infer<
-  typeof PaycheckDeductionQueryOneSchema
->;
-
-export type PaycheckDeductionQuery = z.infer<
-  typeof PaycheckDeductionQuerySchema
->;
-
-export type PaycheckDeductionOmitFields = z.infer<
-  typeof PaycheckDeductionOmitFieldsSchema
->;
-
-export type PaycheckDeductionSelectFields = z.infer<
-  typeof PaycheckDeductionSelectFieldsSchema
->;
-
-export type PaycheckDeductionProjection = z.infer<
-  typeof PaycheckDeductionProjectionSchema
->;
-
-export const EmployeeTaxDataQueryOneSchema = z
-  .object({
-    where: EmployeeTaxDataWhereSchemaJson,
-    distinct: EmployeeTaxDataDistinctFieldsSchema,
-  })
-  .partial();
-
-export const EmployeeTaxDataQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: EmployeeTaxDataWhereSchemaJson,
-    distinct: EmployeeTaxDataDistinctFieldsSchema,
-    orderBy: EmployeeTaxDataOrderBySchemaJson,
-  })
-  .partial();
-
-export type EmployeeTaxDataCreate = z.infer<typeof EmployeeTaxDataCreateSchema>;
-
-export type EmployeeTaxDataUpdate = z.infer<typeof EmployeeTaxDataUpdateSchema>;
-
-export type EmployeeTaxDataOrderBy = z.infer<
-  typeof EmployeeTaxDataOrderBySchema
->;
-
-export type EmployeeTaxDataOwnSelectFields = z.infer<
-  typeof EmployeeTaxDataOwnSelectFieldsSchema
->;
-
-export type EmployeeTaxDataOwnWhere = z.infer<
-  typeof EmployeeTaxDataOwnWhereSchema
->;
-
-export type EmployeeTaxDataOwnQuery = z.infer<
-  typeof EmployeeTaxDataOwnQuerySchema
->;
-
-export type EmployeeTaxDataOwnQueryOne = z.infer<
-  typeof EmployeeTaxDataOwnQueryOneSchema
->;
-
-export type EmployeeTaxDataWhere = z.infer<typeof EmployeeTaxDataWhereSchema>;
-
-export type EmployeeTaxDataInclude = z.infer<
-  typeof EmployeeTaxDataIncludeSchema
->;
-
-export type EmployeeTaxDataQueryOne = z.infer<
-  typeof EmployeeTaxDataQueryOneSchema
->;
-
-export type EmployeeTaxDataQuery = z.infer<typeof EmployeeTaxDataQuerySchema>;
-
-export type EmployeeTaxDataOmitFields = z.infer<
-  typeof EmployeeTaxDataOmitFieldsSchema
->;
-
-export type EmployeeTaxDataSelectFields = z.infer<
-  typeof EmployeeTaxDataSelectFieldsSchema
->;
-
-export type EmployeeTaxDataProjection = z.infer<
-  typeof EmployeeTaxDataProjectionSchema
->;
-
-export const StateTaxWithholdingQueryOneSchema = z
-  .object({
-    where: StateTaxWithholdingWhereSchemaJson,
-    distinct: StateTaxWithholdingDistinctFieldsSchema,
-  })
-  .partial();
-
-export const StateTaxWithholdingQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: StateTaxWithholdingWhereSchemaJson,
-    distinct: StateTaxWithholdingDistinctFieldsSchema,
-    orderBy: StateTaxWithholdingOrderBySchemaJson,
-  })
-  .partial();
-
-export type StateTaxWithholdingCreate = z.infer<
-  typeof StateTaxWithholdingCreateSchema
->;
-
-export type StateTaxWithholdingUpdate = z.infer<
-  typeof StateTaxWithholdingUpdateSchema
->;
-
-export type StateTaxWithholdingOrderBy = z.infer<
-  typeof StateTaxWithholdingOrderBySchema
->;
-
-export type StateTaxWithholdingOwnSelectFields = z.infer<
-  typeof StateTaxWithholdingOwnSelectFieldsSchema
->;
-
-export type StateTaxWithholdingOwnWhere = z.infer<
-  typeof StateTaxWithholdingOwnWhereSchema
->;
-
-export type StateTaxWithholdingOwnQuery = z.infer<
-  typeof StateTaxWithholdingOwnQuerySchema
->;
-
-export type StateTaxWithholdingOwnQueryOne = z.infer<
-  typeof StateTaxWithholdingOwnQueryOneSchema
->;
-
-export type StateTaxWithholdingWhere = z.infer<
-  typeof StateTaxWithholdingWhereSchema
->;
-
-export type StateTaxWithholdingInclude = z.infer<
-  typeof StateTaxWithholdingIncludeSchema
->;
-
-export type StateTaxWithholdingQueryOne = z.infer<
-  typeof StateTaxWithholdingQueryOneSchema
->;
-
-export type StateTaxWithholdingQuery = z.infer<
-  typeof StateTaxWithholdingQuerySchema
->;
-
-export type StateTaxWithholdingOmitFields = z.infer<
-  typeof StateTaxWithholdingOmitFieldsSchema
->;
-
-export type StateTaxWithholdingSelectFields = z.infer<
-  typeof StateTaxWithholdingSelectFieldsSchema
->;
-
-export type StateTaxWithholdingProjection = z.infer<
-  typeof StateTaxWithholdingProjectionSchema
->;
-
-export const LocalTaxWithholdingQueryOneSchema = z
-  .object({
-    where: LocalTaxWithholdingWhereSchemaJson,
-    distinct: LocalTaxWithholdingDistinctFieldsSchema,
-  })
-  .partial();
-
-export const LocalTaxWithholdingQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: LocalTaxWithholdingWhereSchemaJson,
-    distinct: LocalTaxWithholdingDistinctFieldsSchema,
-    orderBy: LocalTaxWithholdingOrderBySchemaJson,
-  })
-  .partial();
-
-export type LocalTaxWithholdingCreate = z.infer<
-  typeof LocalTaxWithholdingCreateSchema
->;
-
-export type LocalTaxWithholdingUpdate = z.infer<
-  typeof LocalTaxWithholdingUpdateSchema
->;
-
-export type LocalTaxWithholdingOrderBy = z.infer<
-  typeof LocalTaxWithholdingOrderBySchema
->;
-
-export type LocalTaxWithholdingOwnSelectFields = z.infer<
-  typeof LocalTaxWithholdingOwnSelectFieldsSchema
->;
-
-export type LocalTaxWithholdingOwnWhere = z.infer<
-  typeof LocalTaxWithholdingOwnWhereSchema
->;
-
-export type LocalTaxWithholdingOwnQuery = z.infer<
-  typeof LocalTaxWithholdingOwnQuerySchema
->;
-
-export type LocalTaxWithholdingOwnQueryOne = z.infer<
-  typeof LocalTaxWithholdingOwnQueryOneSchema
->;
-
-export type LocalTaxWithholdingWhere = z.infer<
-  typeof LocalTaxWithholdingWhereSchema
->;
-
-export type LocalTaxWithholdingInclude = z.infer<
-  typeof LocalTaxWithholdingIncludeSchema
->;
-
-export type LocalTaxWithholdingQueryOne = z.infer<
-  typeof LocalTaxWithholdingQueryOneSchema
->;
-
-export type LocalTaxWithholdingQuery = z.infer<
-  typeof LocalTaxWithholdingQuerySchema
->;
-
-export type LocalTaxWithholdingOmitFields = z.infer<
-  typeof LocalTaxWithholdingOmitFieldsSchema
->;
-
-export type LocalTaxWithholdingSelectFields = z.infer<
-  typeof LocalTaxWithholdingSelectFieldsSchema
->;
-
-export type LocalTaxWithholdingProjection = z.infer<
-  typeof LocalTaxWithholdingProjectionSchema
->;
-
-export const PayrollRunQueryOneSchema = z
-  .object({
-    where: PayrollRunWhereSchemaJson,
-    distinct: PayrollRunDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PayrollRunQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: PayrollRunWhereSchemaJson,
-    distinct: PayrollRunDistinctFieldsSchema,
-    orderBy: PayrollRunOrderBySchemaJson,
-  })
-  .partial();
-
-export type PayrollRunCreate = z.infer<typeof PayrollRunCreateSchema>;
-
-export type PayrollRunUpdate = z.infer<typeof PayrollRunUpdateSchema>;
-
-export type PayrollRunOrderBy = z.infer<typeof PayrollRunOrderBySchema>;
-
-export type PayrollRunOwnSelectFields = z.infer<
-  typeof PayrollRunOwnSelectFieldsSchema
->;
-
-export type PayrollRunOwnWhere = z.infer<typeof PayrollRunOwnWhereSchema>;
-
-export type PayrollRunOwnQuery = z.infer<typeof PayrollRunOwnQuerySchema>;
-
-export type PayrollRunOwnQueryOne = z.infer<typeof PayrollRunOwnQueryOneSchema>;
-
-export type PayrollRunWhere = z.infer<typeof PayrollRunWhereSchema>;
-
-export type PayrollRunInclude = z.infer<typeof PayrollRunIncludeSchema>;
-
-export type PayrollRunQueryOne = z.infer<typeof PayrollRunQueryOneSchema>;
-
-export type PayrollRunQuery = z.infer<typeof PayrollRunQuerySchema>;
-
-export type PayrollRunOmitFields = z.infer<typeof PayrollRunOmitFieldsSchema>;
-
-export type PayrollRunSelectFields = z.infer<
-  typeof PayrollRunSelectFieldsSchema
->;
-
-export type PayrollRunProjection = z.infer<typeof PayrollRunProjectionSchema>;
-
-export const ContactQueryOneSchema = z
-  .object({
-    where: ContactWhereSchemaJson,
-    distinct: ContactDistinctFieldsSchema,
-  })
-  .partial();
-
-export const ContactQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: ContactWhereSchemaJson,
-    distinct: ContactDistinctFieldsSchema,
-    orderBy: ContactOrderBySchemaJson,
-  })
-  .partial();
-
-export type ContactCreate = z.infer<typeof ContactCreateSchema>;
-
-export type ContactUpdate = z.infer<typeof ContactUpdateSchema>;
-
-export type ContactOrderBy = z.infer<typeof ContactOrderBySchema>;
-
-export type ContactOwnSelectFields = z.infer<
-  typeof ContactOwnSelectFieldsSchema
->;
-
-export type ContactOwnWhere = z.infer<typeof ContactOwnWhereSchema>;
-
-export type ContactOwnQuery = z.infer<typeof ContactOwnQuerySchema>;
-
-export type ContactOwnQueryOne = z.infer<typeof ContactOwnQueryOneSchema>;
-
-export type ContactWhere = z.infer<typeof ContactWhereSchema>;
-
-export type ContactInclude = z.infer<typeof ContactIncludeSchema>;
-
-export type ContactQueryOne = z.infer<typeof ContactQueryOneSchema>;
-
-export type ContactQuery = z.infer<typeof ContactQuerySchema>;
-
-export type ContactOmitFields = z.infer<typeof ContactOmitFieldsSchema>;
-
-export type ContactSelectFields = z.infer<typeof ContactSelectFieldsSchema>;
-
-export type ContactProjection = z.infer<typeof ContactProjectionSchema>;
-
-export const CountryQueryOneSchema = z
-  .object({
-    where: CountryWhereSchemaJson,
-    distinct: CountryDistinctFieldsSchema,
-  })
-  .partial();
-
-export const CountryQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: CountryWhereSchemaJson,
-    distinct: CountryDistinctFieldsSchema,
-    orderBy: CountryOrderBySchemaJson,
-  })
-  .partial();
-
-export type CountryCreate = z.infer<typeof CountryCreateSchema>;
-
-export type CountryUpdate = z.infer<typeof CountryUpdateSchema>;
-
-export type CountryOrderBy = z.infer<typeof CountryOrderBySchema>;
-
-export type CountryOwnSelectFields = z.infer<
-  typeof CountryOwnSelectFieldsSchema
->;
-
-export type CountryOwnWhere = z.infer<typeof CountryOwnWhereSchema>;
-
-export type CountryOwnQuery = z.infer<typeof CountryOwnQuerySchema>;
-
-export type CountryOwnQueryOne = z.infer<typeof CountryOwnQueryOneSchema>;
-
-export type CountryWhere = z.infer<typeof CountryWhereSchema>;
-
-export type CountryInclude = z.infer<typeof CountryIncludeSchema>;
-
-export type CountryQueryOne = z.infer<typeof CountryQueryOneSchema>;
-
-export type CountryQuery = z.infer<typeof CountryQuerySchema>;
-
-export type CountryOmitFields = z.infer<typeof CountryOmitFieldsSchema>;
-
-export type CountrySelectFields = z.infer<typeof CountrySelectFieldsSchema>;
-
-export type CountryProjection = z.infer<typeof CountryProjectionSchema>;
-
-export const StateQueryOneSchema = z
-  .object({
-    where: StateWhereSchemaJson,
-    distinct: StateDistinctFieldsSchema,
-  })
-  .partial();
-
-export const StateQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: StateWhereSchemaJson,
-    distinct: StateDistinctFieldsSchema,
-    orderBy: StateOrderBySchemaJson,
-  })
-  .partial();
-
-export type StateCreate = z.infer<typeof StateCreateSchema>;
-
-export type StateUpdate = z.infer<typeof StateUpdateSchema>;
-
-export type StateOrderBy = z.infer<typeof StateOrderBySchema>;
-
-export type StateOwnSelectFields = z.infer<typeof StateOwnSelectFieldsSchema>;
-
-export type StateOwnWhere = z.infer<typeof StateOwnWhereSchema>;
-
-export type StateOwnQuery = z.infer<typeof StateOwnQuerySchema>;
-
-export type StateOwnQueryOne = z.infer<typeof StateOwnQueryOneSchema>;
-
-export type StateWhere = z.infer<typeof StateWhereSchema>;
-
-export type StateInclude = z.infer<typeof StateIncludeSchema>;
-
-export type StateQueryOne = z.infer<typeof StateQueryOneSchema>;
-
-export type StateQuery = z.infer<typeof StateQuerySchema>;
-
-export type StateOmitFields = z.infer<typeof StateOmitFieldsSchema>;
-
-export type StateSelectFields = z.infer<typeof StateSelectFieldsSchema>;
-
-export type StateProjection = z.infer<typeof StateProjectionSchema>;
-
-export const AddressQueryOneSchema = z
-  .object({
-    where: AddressWhereSchemaJson,
-    distinct: AddressDistinctFieldsSchema,
-  })
-  .partial();
-
-export const AddressQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: AddressWhereSchemaJson,
-    distinct: AddressDistinctFieldsSchema,
-    orderBy: AddressOrderBySchemaJson,
-  })
-  .partial();
-
-export type AddressCreate = z.infer<typeof AddressCreateSchema>;
-
-export type AddressUpdate = z.infer<typeof AddressUpdateSchema>;
-
-export type AddressOrderBy = z.infer<typeof AddressOrderBySchema>;
-
-export type AddressOwnSelectFields = z.infer<
-  typeof AddressOwnSelectFieldsSchema
->;
-
-export type AddressOwnWhere = z.infer<typeof AddressOwnWhereSchema>;
-
-export type AddressOwnQuery = z.infer<typeof AddressOwnQuerySchema>;
-
-export type AddressOwnQueryOne = z.infer<typeof AddressOwnQueryOneSchema>;
-
-export type AddressWhere = z.infer<typeof AddressWhereSchema>;
-
-export type AddressInclude = z.infer<typeof AddressIncludeSchema>;
-
-export type AddressQueryOne = z.infer<typeof AddressQueryOneSchema>;
-
-export type AddressQuery = z.infer<typeof AddressQuerySchema>;
-
-export type AddressOmitFields = z.infer<typeof AddressOmitFieldsSchema>;
-
-export type AddressSelectFields = z.infer<typeof AddressSelectFieldsSchema>;
-
-export type AddressProjection = z.infer<typeof AddressProjectionSchema>;
-
-export const EmailQueryOneSchema = z
-  .object({
-    where: EmailWhereSchemaJson,
-    distinct: EmailDistinctFieldsSchema,
-  })
-  .partial();
-
-export const EmailQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: EmailWhereSchemaJson,
-    distinct: EmailDistinctFieldsSchema,
-    orderBy: EmailOrderBySchemaJson,
-  })
-  .partial();
-
-export type EmailCreate = z.infer<typeof EmailCreateSchema>;
-
-export type EmailUpdate = z.infer<typeof EmailUpdateSchema>;
-
-export type EmailOrderBy = z.infer<typeof EmailOrderBySchema>;
-
-export type EmailOwnSelectFields = z.infer<typeof EmailOwnSelectFieldsSchema>;
-
-export type EmailOwnWhere = z.infer<typeof EmailOwnWhereSchema>;
-
-export type EmailOwnQuery = z.infer<typeof EmailOwnQuerySchema>;
-
-export type EmailOwnQueryOne = z.infer<typeof EmailOwnQueryOneSchema>;
-
-export type EmailWhere = z.infer<typeof EmailWhereSchema>;
-
-export type EmailInclude = z.infer<typeof EmailIncludeSchema>;
-
-export type EmailQueryOne = z.infer<typeof EmailQueryOneSchema>;
-
-export type EmailQuery = z.infer<typeof EmailQuerySchema>;
-
-export type EmailOmitFields = z.infer<typeof EmailOmitFieldsSchema>;
-
-export type EmailSelectFields = z.infer<typeof EmailSelectFieldsSchema>;
-
-export type EmailProjection = z.infer<typeof EmailProjectionSchema>;
-
-export const PhoneQueryOneSchema = z
-  .object({
-    where: PhoneWhereSchemaJson,
-    distinct: PhoneDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PhoneQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: PhoneWhereSchemaJson,
-    distinct: PhoneDistinctFieldsSchema,
-    orderBy: PhoneOrderBySchemaJson,
-  })
-  .partial();
-
-export type PhoneCreate = z.infer<typeof PhoneCreateSchema>;
-
-export type PhoneUpdate = z.infer<typeof PhoneUpdateSchema>;
-
-export type PhoneOrderBy = z.infer<typeof PhoneOrderBySchema>;
-
-export type PhoneOwnSelectFields = z.infer<typeof PhoneOwnSelectFieldsSchema>;
-
-export type PhoneOwnWhere = z.infer<typeof PhoneOwnWhereSchema>;
-
-export type PhoneOwnQuery = z.infer<typeof PhoneOwnQuerySchema>;
-
-export type PhoneOwnQueryOne = z.infer<typeof PhoneOwnQueryOneSchema>;
-
-export type PhoneWhere = z.infer<typeof PhoneWhereSchema>;
-
-export type PhoneInclude = z.infer<typeof PhoneIncludeSchema>;
-
-export type PhoneQueryOne = z.infer<typeof PhoneQueryOneSchema>;
-
-export type PhoneQuery = z.infer<typeof PhoneQuerySchema>;
-
-export type PhoneOmitFields = z.infer<typeof PhoneOmitFieldsSchema>;
-
-export type PhoneSelectFields = z.infer<typeof PhoneSelectFieldsSchema>;
-
-export type PhoneProjection = z.infer<typeof PhoneProjectionSchema>;
-
-export const PrimaryEmailQueryOneSchema = z
-  .object({
-    where: PrimaryEmailWhereSchemaJson,
-    distinct: PrimaryEmailDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PrimaryEmailQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: PrimaryEmailWhereSchemaJson,
-    distinct: PrimaryEmailDistinctFieldsSchema,
-    orderBy: PrimaryEmailOrderBySchemaJson,
-  })
-  .partial();
-
-export type PrimaryEmailCreate = z.infer<typeof PrimaryEmailCreateSchema>;
-
-export type PrimaryEmailUpdate = z.infer<typeof PrimaryEmailUpdateSchema>;
-
-export type PrimaryEmailOrderBy = z.infer<typeof PrimaryEmailOrderBySchema>;
-
-export type PrimaryEmailOwnSelectFields = z.infer<
-  typeof PrimaryEmailOwnSelectFieldsSchema
->;
-
-export type PrimaryEmailOwnWhere = z.infer<typeof PrimaryEmailOwnWhereSchema>;
-
-export type PrimaryEmailOwnQuery = z.infer<typeof PrimaryEmailOwnQuerySchema>;
-
-export type PrimaryEmailOwnQueryOne = z.infer<
-  typeof PrimaryEmailOwnQueryOneSchema
->;
-
-export type PrimaryEmailWhere = z.infer<typeof PrimaryEmailWhereSchema>;
-
-export type PrimaryEmailInclude = z.infer<typeof PrimaryEmailIncludeSchema>;
-
-export type PrimaryEmailQueryOne = z.infer<typeof PrimaryEmailQueryOneSchema>;
-
-export type PrimaryEmailQuery = z.infer<typeof PrimaryEmailQuerySchema>;
-
-export type PrimaryEmailOmitFields = z.infer<
-  typeof PrimaryEmailOmitFieldsSchema
->;
-
-export type PrimaryEmailSelectFields = z.infer<
-  typeof PrimaryEmailSelectFieldsSchema
->;
-
-export type PrimaryEmailProjection = z.infer<
-  typeof PrimaryEmailProjectionSchema
->;
-
-export const PrimaryPhoneQueryOneSchema = z
-  .object({
-    where: PrimaryPhoneWhereSchemaJson,
-    distinct: PrimaryPhoneDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PrimaryPhoneQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: PrimaryPhoneWhereSchemaJson,
-    distinct: PrimaryPhoneDistinctFieldsSchema,
-    orderBy: PrimaryPhoneOrderBySchemaJson,
-  })
-  .partial();
-
-export type PrimaryPhoneCreate = z.infer<typeof PrimaryPhoneCreateSchema>;
-
-export type PrimaryPhoneUpdate = z.infer<typeof PrimaryPhoneUpdateSchema>;
-
-export type PrimaryPhoneOrderBy = z.infer<typeof PrimaryPhoneOrderBySchema>;
-
-export type PrimaryPhoneOwnSelectFields = z.infer<
-  typeof PrimaryPhoneOwnSelectFieldsSchema
->;
-
-export type PrimaryPhoneOwnWhere = z.infer<typeof PrimaryPhoneOwnWhereSchema>;
-
-export type PrimaryPhoneOwnQuery = z.infer<typeof PrimaryPhoneOwnQuerySchema>;
-
-export type PrimaryPhoneOwnQueryOne = z.infer<
-  typeof PrimaryPhoneOwnQueryOneSchema
->;
-
-export type PrimaryPhoneWhere = z.infer<typeof PrimaryPhoneWhereSchema>;
-
-export type PrimaryPhoneInclude = z.infer<typeof PrimaryPhoneIncludeSchema>;
-
-export type PrimaryPhoneQueryOne = z.infer<typeof PrimaryPhoneQueryOneSchema>;
-
-export type PrimaryPhoneQuery = z.infer<typeof PrimaryPhoneQuerySchema>;
-
-export type PrimaryPhoneOmitFields = z.infer<
-  typeof PrimaryPhoneOmitFieldsSchema
->;
-
-export type PrimaryPhoneSelectFields = z.infer<
-  typeof PrimaryPhoneSelectFieldsSchema
->;
-
-export type PrimaryPhoneProjection = z.infer<
-  typeof PrimaryPhoneProjectionSchema
->;
-
-export const PrimaryAddressQueryOneSchema = z
-  .object({
-    where: PrimaryAddressWhereSchemaJson,
-    distinct: PrimaryAddressDistinctFieldsSchema,
-  })
-  .partial();
-
-export const PrimaryAddressQuerySchema = z
-  .object({
-    ...PaginationSchema.shape,
-    where: PrimaryAddressWhereSchemaJson,
-    distinct: PrimaryAddressDistinctFieldsSchema,
-    orderBy: PrimaryAddressOrderBySchemaJson,
-  })
-  .partial();
-
-export type PrimaryAddressCreate = z.infer<typeof PrimaryAddressCreateSchema>;
-
-export type PrimaryAddressUpdate = z.infer<typeof PrimaryAddressUpdateSchema>;
-
-export type PrimaryAddressOrderBy = z.infer<typeof PrimaryAddressOrderBySchema>;
-
-export type PrimaryAddressOwnSelectFields = z.infer<
-  typeof PrimaryAddressOwnSelectFieldsSchema
->;
-
-export type PrimaryAddressOwnWhere = z.infer<
-  typeof PrimaryAddressOwnWhereSchema
->;
-
-export type PrimaryAddressOwnQuery = z.infer<
-  typeof PrimaryAddressOwnQuerySchema
->;
-
-export type PrimaryAddressOwnQueryOne = z.infer<
-  typeof PrimaryAddressOwnQueryOneSchema
->;
-
-export type PrimaryAddressWhere = z.infer<typeof PrimaryAddressWhereSchema>;
-
-export type PrimaryAddressInclude = z.infer<typeof PrimaryAddressIncludeSchema>;
-
-export type PrimaryAddressQueryOne = z.infer<
-  typeof PrimaryAddressQueryOneSchema
->;
-
-export type PrimaryAddressQuery = z.infer<typeof PrimaryAddressQuerySchema>;
-
-export type PrimaryAddressOmitFields = z.infer<
-  typeof PrimaryAddressOmitFieldsSchema
->;
-
-export type PrimaryAddressSelectFields = z.infer<
-  typeof PrimaryAddressSelectFieldsSchema
->;
-
-export type PrimaryAddressProjection = z.infer<
-  typeof PrimaryAddressProjectionSchema
->;
+export const DepartmentOwnCreateSchema = z.object({
+  parentId: _id.optional(),
+  name: _name,
+  slug: _slug,
+  isActive: _bool.optional(),
+});
+
+export const TitleOwnCreateSchema = z.object({
+  departmentId: _id,
+  name: _name,
+  slug: _slug,
+  description: _description.optional(),
+  isActive: _bool.optional(),
+});
+
+export const PersonalDataOwnCreateSchema = z.object({
+  employeeId: _id,
+  ein: _str,
+  gender: GenderSchema,
+  dob: _date,
+  maritalStatus: MaritalStatusSchema,
+});
+
+export const EmployeeOwnCreateSchema = z.object({
+  uuid: _str.optional(),
+  titleId: _id,
+  firstName: _str,
+  middleName: _str.optional(),
+  lastName: _str,
+  preferedName: _str.optional(),
+  status: EmployeeStatusSchema.optional(),
+  hireDate: _date.optional(),
+  terminationDate: _date.optional(),
+  employmentType: EmploymentTypeSchema,
+  directManagerId: _id.optional(),
+});
+
+export const TeamOwnCreateSchema = z.object({ name: _name });
+
+export const TeamManagerOwnCreateSchema = z.object({
+  teamId: _id,
+  managerId: _id,
+});
+
+export const TeamMemberOwnCreateSchema = z.object({
+  teamId: _id,
+  memberId: _id,
+});
+
+export const SalaryOwnCreateSchema = z.object({
+  employeeId: _id,
+  gross: _num,
+  startDate: _date,
+  endDate: _date.optional(),
+  frequency: PayFrequencySchema,
+});
+
+export const SalaryHistoryOwnCreateSchema = z.object({
+  employeeId: _id,
+  oldSalary: _num,
+  newSalary: _num,
+  reason: _str.optional(),
+});
+
+export const BenefitOwnCreateSchema = z.object({
+  name: _name,
+  description: _description.optional(),
+  type: _str.optional(),
+});
+
+export const BenefitEnrolmentOwnCreateSchema = z.object({
+  benefitId: _id,
+  employeeId: _id,
+  startDate: _date,
+  status: BenefitStatusSchema.optional(),
+});
+
+export const TitleHistoryOwnCreateSchema = z.object({
+  employeeId: _id,
+  titleId: _id,
+  type: TitleChangeTypeSchema,
+  reason: _str.optional(),
+  startDate: _date,
+  endDate: _date.optional(),
+});
+
+export const TimeOffPolicyOwnCreateSchema = z.object({
+  name: _name,
+  description: _description.optional(),
+  accrualRate: _currency,
+  maxRollover: _num,
+});
+
+export const TimeOffBalanceOwnCreateSchema = z.object({
+  policyId: _id,
+  employeeId: _id,
+  accruedHours: _num,
+  usedHours: _num,
+  availableHours: _num,
+});
+
+export const TimeOffRequestOwnCreateSchema = z.object({
+  employeeId: _id,
+  reason: _str,
+  policyId: _id,
+  resolverId: _id.optional(),
+  status: RequestStatusSchema.optional(),
+  startDate: _date,
+  endDate: _date,
+});
+
+export const TimeOffTransactionOwnCreateSchema = z.object({
+  type: TimeOffTransactionTypeSchema,
+  balanceId: _id,
+  requestId: _id.optional(),
+  amount: _currency,
+});
+
+export const ClockInOwnCreateSchema = z.object({
+  employeeId: _id,
+  clockOut: _date.optional(),
+});
+
+export const PaycheckOwnCreateSchema = z.object({
+  payrollRunId: _id,
+  employeeId: _id,
+  grossAmount: _currency,
+  netAmount: _currency,
+});
+
+export const EarningOwnCreateSchema = z.object({
+  type: EarningTypeSchema,
+  hours: _num.optional(),
+  rate: _currency,
+  amount: _currency,
+  paycheckId: _id,
+});
+
+export const PaycheckTaxOwnCreateSchema = z.object({
+  paycheckId: _id,
+  taxAuthority: _str,
+  amount: _currency,
+});
+
+export const DeductionPolicyOwnCreateSchema = z.object({
+  name: _name,
+  type: DeductionTypeSchema,
+  defaultAmount: _currency.optional(),
+  defaultPercent: _num.optional(),
+});
+
+export const EmployeeDeductionOwnCreateSchema = z.object({
+  employeeId: _id,
+  policyId: _id,
+  employeeAmount: _currency.optional(),
+});
+
+export const PaycheckDeductionOwnCreateSchema = z.object({
+  paycheckId: _id,
+  employeeDeductionId: _id,
+  amount: _currency,
+});
+
+export const EmployeeTaxDataOwnCreateSchema = z.object({
+  startDate: _date,
+  endDate: _date.optional(),
+  employeeId: _id,
+  federalStatus: TaxFilingStatusSchema.optional(),
+  dependentsCredit: _currency.optional(),
+  multipleJobs: _bool.optional(),
+  otherIncome: _num.optional(),
+  deductionsAmount: _currency.optional(),
+  extraWithholding: _num.optional(),
+  isExempt: _bool.optional(),
+  isNonResidentAlien: _bool.optional(),
+});
+
+export const StateTaxWithholdingOwnCreateSchema = z.object({
+  taxDataId: _id,
+  stateCode: _str,
+  stateStatus: _str.optional(),
+  allowances: _int.optional(),
+  extraWithholding: _num.optional(),
+});
+
+export const LocalTaxWithholdingOwnCreateSchema = z.object({
+  taxDataId: _id,
+  jurisdiction: _str,
+  localStatus: _str.optional(),
+  extraWithholding: _num.optional(),
+});
+
+export const PayrollRunOwnCreateSchema = z.object({
+  resolverId: _id,
+  startDate: _date,
+  endDate: _date,
+  payDate: _date,
+  status: PayrollStatusSchema.optional(),
+});
+
+export const ContactOwnCreateSchema = z.object({ employeeId: _id });
+
+export const CountryOwnCreateSchema = z.object({ name: _name, code: _str });
+
+export const StateOwnCreateSchema = z.object({
+  countryId: _id,
+  name: _name,
+  code: _str,
+});
+
+export const AddressOwnCreateSchema = z.object({
+  type: ContactTypeSchema,
+  contactId: _id,
+  stateId: _id,
+  street: _str,
+  zip: _str,
+  city: _str,
+});
+
+export const EmailOwnCreateSchema = z.object({
+  type: ContactTypeSchema,
+  contactId: _id,
+  email: _email,
+});
+
+export const PhoneOwnCreateSchema = z.object({
+  type: ContactTypeSchema,
+  contactId: _id,
+  phone: _phone,
+});
+
+export const PrimaryEmailOwnCreateSchema = z.object({
+  emailId: _id,
+  contactId: _id,
+});
+
+export const PrimaryPhoneOwnCreateSchema = z.object({
+  phoneId: _id,
+  contactId: _id,
+});
+
+export const PrimaryAddressOwnCreateSchema = z.object({
+  addressId: _id,
+  contactId: _id,
+});
+
+export const DepartmentCreateSchema = z.object({
+  parentId: _id.optional(),
+  name: _name,
+  slug: _slug,
+  isActive: _bool.optional(),
+  parent: z.object({ create: DepartmentOwnCreateSchema }).optional(),
+  departments: z
+    .object({ createMany: DepartmentOwnCreateSchema.array() })
+    .array(),
+  titles: z.object({ createMany: TitleOwnCreateSchema.array() }).array(),
+});
+
+export const TitleCreateSchema = z.object({
+  departmentId: _id,
+  name: _name,
+  slug: _slug,
+  description: _description.optional(),
+  isActive: _bool.optional(),
+  department: z.object({ create: DepartmentOwnCreateSchema }),
+  employees: z.object({ createMany: EmployeeOwnCreateSchema.array() }).array(),
+  histories: z
+    .object({ createMany: TitleHistoryOwnCreateSchema.array() })
+    .array(),
+});
+
+export const PersonalDataCreateSchema = z.object({
+  employeeId: _id,
+  ein: _str,
+  gender: GenderSchema,
+  dob: _date,
+  maritalStatus: MaritalStatusSchema,
+  employee: z.object({ create: EmployeeOwnCreateSchema }),
+});
+
+export const EmployeeCreateSchema = z.object({
+  uuid: _str.optional(),
+  titleId: _id,
+  firstName: _str,
+  middleName: _str.optional(),
+  lastName: _str,
+  preferedName: _str.optional(),
+  status: EmployeeStatusSchema.optional(),
+  title: z.object({ create: TitleOwnCreateSchema }),
+  hireDate: _date.optional(),
+  terminationDate: _date.optional(),
+  employmentType: EmploymentTypeSchema,
+  salary: z.object({ create: SalaryOwnCreateSchema }).optional(),
+  salaryHistory: z
+    .object({ createMany: SalaryHistoryOwnCreateSchema.array() })
+    .array(),
+  benefits: z
+    .object({ createMany: BenefitEnrolmentOwnCreateSchema.array() })
+    .array(),
+  titleHistory: z
+    .object({ createMany: TitleHistoryOwnCreateSchema.array() })
+    .array(),
+  timeOffBalances: z
+    .object({ createMany: TimeOffBalanceOwnCreateSchema.array() })
+    .array(),
+  timeOffRequests: z
+    .object({ createMany: TimeOffRequestOwnCreateSchema.array() })
+    .array(),
+  resolvedTimeOffs: z
+    .object({ createMany: TimeOffRequestOwnCreateSchema.array() })
+    .array(),
+  clockIns: z.object({ createMany: ClockInOwnCreateSchema.array() }).array(),
+  personalData: z.object({ create: PersonalDataOwnCreateSchema }).optional(),
+  taxData: z
+    .object({ createMany: EmployeeTaxDataOwnCreateSchema.array() })
+    .array(),
+  memberships: z
+    .object({ createMany: TeamMemberOwnCreateSchema.array() })
+    .array(),
+  managingTeams: z
+    .object({ createMany: TeamManagerOwnCreateSchema.array() })
+    .array(),
+  managingEmployees: z
+    .object({ createMany: EmployeeOwnCreateSchema.array() })
+    .array(),
+  directManager: z.object({ create: EmployeeOwnCreateSchema }).optional(),
+  paychecks: z.object({ createMany: PaycheckOwnCreateSchema.array() }).array(),
+  directManagerId: _id.optional(),
+  deductions: z
+    .object({ createMany: EmployeeDeductionOwnCreateSchema.array() })
+    .array(),
+  resolvedPayrollRuns: z
+    .object({ createMany: PayrollRunOwnCreateSchema.array() })
+    .array(),
+  contact: z.object({ create: ContactOwnCreateSchema }).optional(),
+});
+
+export const TeamCreateSchema = z.object({
+  name: _name,
+  members: z.object({ createMany: TeamMemberOwnCreateSchema.array() }).array(),
+  managers: z
+    .object({ createMany: TeamManagerOwnCreateSchema.array() })
+    .array(),
+});
+
+export const TeamManagerCreateSchema = z.object({
+  teamId: _id,
+  managerId: _id,
+  team: z.object({ create: TeamOwnCreateSchema }),
+  manager: z.object({ create: EmployeeOwnCreateSchema }),
+});
+
+export const TeamMemberCreateSchema = z.object({
+  teamId: _id,
+  memberId: _id,
+  member: z.object({ create: EmployeeOwnCreateSchema }),
+  team: z.object({ create: TeamOwnCreateSchema }),
+});
+
+export const SalaryCreateSchema = z.object({
+  employeeId: _id,
+  gross: _num,
+  startDate: _date,
+  endDate: _date.optional(),
+  frequency: PayFrequencySchema,
+  employee: z.object({ create: EmployeeOwnCreateSchema }),
+});
+
+export const SalaryHistoryCreateSchema = z.object({
+  employeeId: _id,
+  oldSalary: _num,
+  newSalary: _num,
+  reason: _str.optional(),
+  employee: z.object({ create: EmployeeOwnCreateSchema }),
+});
+
+export const BenefitCreateSchema = z.object({
+  name: _name,
+  description: _description.optional(),
+  type: _str.optional(),
+  enrolments: z
+    .object({ createMany: BenefitEnrolmentOwnCreateSchema.array() })
+    .array(),
+});
+
+export const BenefitEnrolmentCreateSchema = z.object({
+  benefitId: _id,
+  employeeId: _id,
+  startDate: _date,
+  status: BenefitStatusSchema.optional(),
+  benefit: z.object({ create: BenefitOwnCreateSchema }),
+  employee: z.object({ create: EmployeeOwnCreateSchema }),
+});
+
+export const TitleHistoryCreateSchema = z.object({
+  employeeId: _id,
+  titleId: _id,
+  type: TitleChangeTypeSchema,
+  reason: _str.optional(),
+  startDate: _date,
+  endDate: _date.optional(),
+  employee: z.object({ create: EmployeeOwnCreateSchema }),
+  title: z.object({ create: TitleOwnCreateSchema }),
+});
+
+export const TimeOffPolicyCreateSchema = z.object({
+  name: _name,
+  description: _description.optional(),
+  accrualRate: _currency,
+  maxRollover: _num,
+  balances: z
+    .object({ createMany: TimeOffBalanceOwnCreateSchema.array() })
+    .array(),
+  requests: z
+    .object({ createMany: TimeOffRequestOwnCreateSchema.array() })
+    .array(),
+});
+
+export const TimeOffBalanceCreateSchema = z.object({
+  policyId: _id,
+  employeeId: _id,
+  accruedHours: _num,
+  usedHours: _num,
+  availableHours: _num,
+  policy: z.object({ create: TimeOffPolicyOwnCreateSchema }),
+  employee: z.object({ create: EmployeeOwnCreateSchema }),
+  transactions: z
+    .object({ createMany: TimeOffTransactionOwnCreateSchema.array() })
+    .array(),
+});
+
+export const TimeOffRequestCreateSchema = z.object({
+  employeeId: _id,
+  reason: _str,
+  policyId: _id,
+  resolverId: _id.optional(),
+  status: RequestStatusSchema.optional(),
+  startDate: _date,
+  endDate: _date,
+  employee: z.object({ create: EmployeeOwnCreateSchema }),
+  policy: z.object({ create: TimeOffPolicyOwnCreateSchema }),
+  resolver: z.object({ create: EmployeeOwnCreateSchema }).optional(),
+  transactions: z
+    .object({ createMany: TimeOffTransactionOwnCreateSchema.array() })
+    .array(),
+});
+
+export const TimeOffTransactionCreateSchema = z.object({
+  type: TimeOffTransactionTypeSchema,
+  balanceId: _id,
+  requestId: _id.optional(),
+  amount: _currency,
+  balance: z.object({ create: TimeOffBalanceOwnCreateSchema }),
+  request: z.object({ create: TimeOffRequestOwnCreateSchema }).optional(),
+});
+
+export const ClockInCreateSchema = z.object({
+  employeeId: _id,
+  clockOut: _date.optional(),
+  employee: z.object({ create: EmployeeOwnCreateSchema }),
+});
+
+export const PaycheckCreateSchema = z.object({
+  payrollRunId: _id,
+  employeeId: _id,
+  grossAmount: _currency,
+  netAmount: _currency,
+  employee: z.object({ create: EmployeeOwnCreateSchema }),
+  earnings: z.object({ createMany: EarningOwnCreateSchema.array() }).array(),
+  paycheckTaxes: z
+    .object({ createMany: PaycheckTaxOwnCreateSchema.array() })
+    .array(),
+  deductions: z
+    .object({ createMany: PaycheckDeductionOwnCreateSchema.array() })
+    .array(),
+  payrollRun: z.object({ create: PayrollRunOwnCreateSchema }),
+});
+
+export const EarningCreateSchema = z.object({
+  type: EarningTypeSchema,
+  hours: _num.optional(),
+  rate: _currency,
+  amount: _currency,
+  paycheckId: _id,
+  paycheck: z.object({ create: PaycheckOwnCreateSchema }),
+});
+
+export const PaycheckTaxCreateSchema = z.object({
+  paycheckId: _id,
+  taxAuthority: _str,
+  amount: _currency,
+  paycheck: z.object({ create: PaycheckOwnCreateSchema }),
+});
+
+export const DeductionPolicyCreateSchema = z.object({
+  name: _name,
+  type: DeductionTypeSchema,
+  defaultAmount: _currency.optional(),
+  defaultPercent: _num.optional(),
+  employeeDeductions: z
+    .object({ createMany: EmployeeDeductionOwnCreateSchema.array() })
+    .array(),
+});
+
+export const EmployeeDeductionCreateSchema = z.object({
+  employeeId: _id,
+  policyId: _id,
+  employeeAmount: _currency.optional(),
+  employee: z.object({ create: EmployeeOwnCreateSchema }),
+  policy: z.object({ create: DeductionPolicyOwnCreateSchema }),
+  paycheckDeductions: z
+    .object({ createMany: PaycheckDeductionOwnCreateSchema.array() })
+    .array(),
+});
+
+export const PaycheckDeductionCreateSchema = z.object({
+  paycheckId: _id,
+  employeeDeductionId: _id,
+  amount: _currency,
+  paycheck: z.object({ create: PaycheckOwnCreateSchema }),
+  employeeDeduction: z.object({ create: EmployeeDeductionOwnCreateSchema }),
+});
+
+export const EmployeeTaxDataCreateSchema = z.object({
+  startDate: _date,
+  endDate: _date.optional(),
+  employeeId: _id,
+  federalStatus: TaxFilingStatusSchema.optional(),
+  dependentsCredit: _currency.optional(),
+  multipleJobs: _bool.optional(),
+  otherIncome: _num.optional(),
+  deductionsAmount: _currency.optional(),
+  extraWithholding: _num.optional(),
+  isExempt: _bool.optional(),
+  isNonResidentAlien: _bool.optional(),
+  stateTaxes: z
+    .object({ createMany: StateTaxWithholdingOwnCreateSchema.array() })
+    .array(),
+  localTaxes: z
+    .object({ createMany: LocalTaxWithholdingOwnCreateSchema.array() })
+    .array(),
+  employee: z.object({ create: EmployeeOwnCreateSchema }),
+});
+
+export const StateTaxWithholdingCreateSchema = z.object({
+  taxDataId: _id,
+  stateCode: _str,
+  stateStatus: _str.optional(),
+  allowances: _int.optional(),
+  extraWithholding: _num.optional(),
+  taxData: z.object({ create: EmployeeTaxDataOwnCreateSchema }),
+});
+
+export const LocalTaxWithholdingCreateSchema = z.object({
+  taxDataId: _id,
+  jurisdiction: _str,
+  localStatus: _str.optional(),
+  extraWithholding: _num.optional(),
+  taxData: z.object({ create: EmployeeTaxDataOwnCreateSchema }),
+});
+
+export const PayrollRunCreateSchema = z.object({
+  resolverId: _id,
+  startDate: _date,
+  endDate: _date,
+  payDate: _date,
+  status: PayrollStatusSchema.optional(),
+  approvedBy: z.object({ create: EmployeeOwnCreateSchema }),
+  paychecks: z.object({ createMany: PaycheckOwnCreateSchema.array() }).array(),
+});
+
+export const ContactCreateSchema = z.object({
+  employeeId: _id,
+  employee: z.object({ create: EmployeeOwnCreateSchema }),
+  emails: z.object({ createMany: EmailOwnCreateSchema.array() }).array(),
+  phones: z.object({ createMany: PhoneOwnCreateSchema.array() }).array(),
+  addresses: z.object({ createMany: AddressOwnCreateSchema.array() }).array(),
+  primaryEmail: z.object({ create: PrimaryEmailOwnCreateSchema }).optional(),
+  primaryPhone: z.object({ create: PrimaryPhoneOwnCreateSchema }).optional(),
+  primaryAddress: z
+    .object({ create: PrimaryAddressOwnCreateSchema })
+    .optional(),
+});
+
+export const CountryCreateSchema = z.object({
+  name: _name,
+  code: _str,
+  states: z.object({ createMany: StateOwnCreateSchema.array() }).array(),
+});
+
+export const StateCreateSchema = z.object({
+  countryId: _id,
+  name: _name,
+  code: _str,
+  country: z.object({ create: CountryOwnCreateSchema }),
+  addresses: z.object({ createMany: AddressOwnCreateSchema.array() }).array(),
+});
+
+export const AddressCreateSchema = z.object({
+  type: ContactTypeSchema,
+  contactId: _id,
+  stateId: _id,
+  street: _str,
+  zip: _str,
+  city: _str,
+  state: z.object({ create: StateOwnCreateSchema }),
+  contact: z.object({ create: ContactOwnCreateSchema }),
+  primary: z.object({ create: PrimaryAddressOwnCreateSchema }).optional(),
+});
+
+export const EmailCreateSchema = z.object({
+  type: ContactTypeSchema,
+  contactId: _id,
+  email: _email,
+  contact: z.object({ create: ContactOwnCreateSchema }),
+  primary: z.object({ create: PrimaryEmailOwnCreateSchema }).optional(),
+});
+
+export const PhoneCreateSchema = z.object({
+  type: ContactTypeSchema,
+  contactId: _id,
+  phone: _phone,
+  contact: z.object({ create: ContactOwnCreateSchema }),
+  primary: z.object({ create: PrimaryPhoneOwnCreateSchema }).optional(),
+});
+
+export const PrimaryEmailCreateSchema = z.object({
+  emailId: _id,
+  contactId: _id,
+  email: z.object({ create: EmailOwnCreateSchema }),
+  contact: z.object({ create: ContactOwnCreateSchema }),
+});
+
+export const PrimaryPhoneCreateSchema = z.object({
+  phoneId: _id,
+  contactId: _id,
+  phone: z.object({ create: PhoneOwnCreateSchema }),
+  contact: z.object({ create: ContactOwnCreateSchema }),
+});
+
+export const PrimaryAddressCreateSchema = z.object({
+  addressId: _id,
+  contactId: _id,
+  address: z.object({ create: AddressOwnCreateSchema }),
+  contact: z.object({ create: ContactOwnCreateSchema }),
+});
+
+export const DepartmentUpdateSchema = z.object({
+  parentId: _id.optional(),
+  name: _name,
+  slug: _slug,
+  isActive: _bool.optional(),
+});
+
+export const TitleUpdateSchema = z.object({
+  departmentId: _id,
+  name: _name,
+  slug: _slug,
+  description: _description.optional(),
+  isActive: _bool.optional(),
+});
+
+export const PersonalDataUpdateSchema = z.object({
+  employeeId: _id,
+  ein: _str,
+  gender: GenderSchema,
+  dob: _date,
+  maritalStatus: MaritalStatusSchema,
+});
+
+export const EmployeeUpdateSchema = z.object({
+  titleId: _id,
+  firstName: _str,
+  middleName: _str.optional(),
+  lastName: _str,
+  preferedName: _str.optional(),
+  status: EmployeeStatusSchema.optional(),
+  hireDate: _date.optional(),
+  terminationDate: _date.optional(),
+  employmentType: EmploymentTypeSchema,
+  directManagerId: _id.optional(),
+});
+
+export const TeamUpdateSchema = z.object({ name: _name });
+
+export const TeamManagerUpdateSchema = z.object({
+  teamId: _id,
+  managerId: _id,
+});
+
+export const TeamMemberUpdateSchema = z.object({ teamId: _id, memberId: _id });
+
+export const SalaryUpdateSchema = z.object({
+  employeeId: _id,
+  gross: _num,
+  startDate: _date,
+  endDate: _date.optional(),
+  frequency: PayFrequencySchema,
+});
+
+export const SalaryHistoryUpdateSchema = z.object({
+  employeeId: _id,
+  oldSalary: _num,
+  newSalary: _num,
+  reason: _str.optional(),
+});
+
+export const BenefitUpdateSchema = z.object({
+  name: _name,
+  description: _description.optional(),
+  type: _str.optional(),
+});
+
+export const BenefitEnrolmentUpdateSchema = z.object({
+  benefitId: _id,
+  employeeId: _id,
+  startDate: _date,
+  status: BenefitStatusSchema.optional(),
+});
+
+export const TitleHistoryUpdateSchema = z.object({
+  employeeId: _id,
+  titleId: _id,
+  type: TitleChangeTypeSchema,
+  reason: _str.optional(),
+  startDate: _date,
+  endDate: _date.optional(),
+});
+
+export const TimeOffPolicyUpdateSchema = z.object({
+  name: _name,
+  description: _description.optional(),
+  accrualRate: _currency,
+  maxRollover: _num,
+});
+
+export const TimeOffBalanceUpdateSchema = z.object({
+  policyId: _id,
+  employeeId: _id,
+  accruedHours: _num,
+  usedHours: _num,
+  availableHours: _num,
+});
+
+export const TimeOffRequestUpdateSchema = z.object({
+  employeeId: _id,
+  reason: _str,
+  policyId: _id,
+  resolverId: _id.optional(),
+  status: RequestStatusSchema.optional(),
+  startDate: _date,
+  endDate: _date,
+});
+
+export const TimeOffTransactionUpdateSchema = z.object({
+  type: TimeOffTransactionTypeSchema,
+  balanceId: _id,
+  requestId: _id.optional(),
+  amount: _currency,
+});
+
+export const ClockInUpdateSchema = z.object({
+  employeeId: _id,
+  clockOut: _date.optional(),
+});
+
+export const PaycheckUpdateSchema = z.object({
+  payrollRunId: _id,
+  employeeId: _id,
+  grossAmount: _currency,
+  netAmount: _currency,
+});
+
+export const EarningUpdateSchema = z.object({
+  type: EarningTypeSchema,
+  hours: _num.optional(),
+  rate: _currency,
+  amount: _currency,
+  paycheckId: _id,
+});
+
+export const PaycheckTaxUpdateSchema = z.object({
+  paycheckId: _id,
+  taxAuthority: _str,
+  amount: _currency,
+});
+
+export const DeductionPolicyUpdateSchema = z.object({
+  name: _name,
+  type: DeductionTypeSchema,
+  defaultAmount: _currency.optional(),
+  defaultPercent: _num.optional(),
+});
+
+export const EmployeeDeductionUpdateSchema = z.object({
+  employeeId: _id,
+  policyId: _id,
+  employeeAmount: _currency.optional(),
+});
+
+export const PaycheckDeductionUpdateSchema = z.object({
+  paycheckId: _id,
+  employeeDeductionId: _id,
+  amount: _currency,
+});
+
+export const EmployeeTaxDataUpdateSchema = z.object({
+  startDate: _date,
+  endDate: _date.optional(),
+  employeeId: _id,
+  federalStatus: TaxFilingStatusSchema.optional(),
+  dependentsCredit: _currency.optional(),
+  multipleJobs: _bool.optional(),
+  otherIncome: _num.optional(),
+  deductionsAmount: _currency.optional(),
+  extraWithholding: _num.optional(),
+  isExempt: _bool.optional(),
+  isNonResidentAlien: _bool.optional(),
+});
+
+export const StateTaxWithholdingUpdateSchema = z.object({
+  taxDataId: _id,
+  stateCode: _str,
+  stateStatus: _str.optional(),
+  allowances: _int.optional(),
+  extraWithholding: _num.optional(),
+});
+
+export const LocalTaxWithholdingUpdateSchema = z.object({
+  taxDataId: _id,
+  jurisdiction: _str,
+  localStatus: _str.optional(),
+  extraWithholding: _num.optional(),
+});
+
+export const PayrollRunUpdateSchema = z.object({
+  resolverId: _id,
+  startDate: _date,
+  endDate: _date,
+  payDate: _date,
+  status: PayrollStatusSchema.optional(),
+});
+
+export const ContactUpdateSchema = z.object({ employeeId: _id });
+
+export const CountryUpdateSchema = z.object({ name: _name, code: _str });
+
+export const StateUpdateSchema = z.object({
+  countryId: _id,
+  name: _name,
+  code: _str,
+});
+
+export const AddressUpdateSchema = z.object({
+  type: ContactTypeSchema,
+  contactId: _id,
+  stateId: _id,
+  street: _str,
+  zip: _str,
+  city: _str,
+});
+
+export const EmailUpdateSchema = z.object({
+  type: ContactTypeSchema,
+  contactId: _id,
+  email: _email,
+});
+
+export const PhoneUpdateSchema = z.object({
+  type: ContactTypeSchema,
+  contactId: _id,
+  phone: _phone,
+});
+
+export const PrimaryEmailUpdateSchema = z.object({
+  emailId: _id,
+  contactId: _id,
+});
+
+export const PrimaryPhoneUpdateSchema = z.object({
+  phoneId: _id,
+  contactId: _id,
+});
+
+export const PrimaryAddressUpdateSchema = z.object({
+  addressId: _id,
+  contactId: _id,
+});

@@ -107,15 +107,12 @@ export function printOmitProjectionSchema(model: DMMF.Model) {
  * ````
  */
 export function printIncludeProjectionSchema(model: DMMF.Model) {
-  if (model.fields.some((e) => e.relationName != undefined)) {
-    return printObjectSchema(
-      model,
-      toIncludeSchemaName,
-      toCompleteProjectionFieldDefinition,
-      isRelationField
-    );
-  }
-  return '';
+  return printObjectSchema(
+    model,
+    toIncludeSchemaName,
+    toCompleteProjectionFieldDefinition,
+    isRelationField
+  );
 }
 
 /**

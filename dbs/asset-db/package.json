@@ -251,19 +251,13 @@
     }
   },
   "peerDependencies": {
-    "@prisma/client": "^6.16.2",
-    "zod": "^4.1.11"
+    "zod": "4.1.11"
   },
   "dependencies": {
-    "@puq/names": "workspace:*",
-    "@puq/prisma-schema": "workspace:*",
-    "@puq/types": "workspace:*",
-    "@puq/zod": "workspace:*",
-    "@swc/helpers": "~0.5.11"
+    "@prisma/client": "6.16.2",
+    "@swc/helpers": "0.5.11"
   },
   "devDependencies": {
-    "prisma": "^6.16.2",
-    "@prisma/client": "6.16.2",
-    "@puq/inventory-db": "workspace:*"
+    "@puq/asset-db": "workspace:*"
   }
 }
