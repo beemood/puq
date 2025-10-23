@@ -150,7 +150,13 @@ export function generateSlugExtension(model: DMMF.Model) {
   return '(value)=>value';
 }
 
-export function generateZodSchemas(datamodel: DMMF.Datamodel) {
+/**
+ * Generate zod scheams from the prisma metadata
+ * @deprecated Use {@link printSchemas} function
+ * @param datamodel
+ * @returns string
+ */
+export function generateZodSchemas(datamodel: DMMF.Datamodel): string {
   const importList: string[] = [
     '/* eslint-disable @typescript-eslint/no-explicit-any */',
     `import * as PZ from '@puq/zod';`,
