@@ -8,13 +8,13 @@
     "access": "public",
     "tag": "latest"
   },
-  "homepage": "https://beemood.github.io/puq/dbs/contact-db",
+  "homepage": "https://beemood.github.io/dbs/contact-db",
   "author": {
     "email": "robert.brightline@gmail.com",
     "name": "Robert Brightline",
     "url": "https://beemood.github.io"
   },
-  "icon": "https://beemood.github.io/puq/dbs/contact-db/assets/favicon.png",
+  "icon": "https://beemood.github.io/dbs/contact-db/assets/favicon.png",
   "funding": [
     "https://cash.app/$puqlib"
   ],

@@ -8,13 +8,13 @@
     "access": "public",
     "tag": "latest"
   },
-  "homepage": "https://beemood.github.io/puq/libs/crypto",
+  "homepage": "https://beemood.github.io/libs/crypto",
   "author": {
     "email": "robert.brightline@gmail.com",
     "name": "Robert Brightline",
     "url": "https://beemood.github.io"
   },
-  "icon": "https://beemood.github.io/puq/libs/crypto/assets/favicon.png",
+  "icon": "https://beemood.github.io/libs/crypto/assets/favicon.png",
   "funding": [
     "https://cash.app/$puqlib"
   ],

@@ -7,13 +7,13 @@
     "access": "public",
     "tag": "latest"
   },
-  "homepage": "https://beemood.github.io/puq/dbs/auth-db",
+  "homepage": "https://beemood.github.io/dbs/auth-db",
   "author": {
     "email": "robert.brightline@gmail.com",
     "name": "Robert Brightline",
     "url": "https://beemood.github.io"
   },
-  "icon": "https://beemood.github.io/puq/dbs/auth-db/assets/favicon.png",
+  "icon": "https://beemood.github.io/dbs/auth-db/assets/favicon.png",
   "funding": [
     "https://cash.app/$puqlib"
   ],

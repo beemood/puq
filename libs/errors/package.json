@@ -8,13 +8,13 @@
     "access": "public",
     "tag": "latest"
   },
-  "homepage": "https://beemood.github.io/puq/libs/errors",
+  "homepage": "https://beemood.github.io/libs/errors",
   "author": {
     "email": "robert.brightline@gmail.com",
     "name": "Robert Brightline",
     "url": "https://beemood.github.io"
   },
-  "icon": "https://beemood.github.io/puq/libs/errors/assets/favicon.png",
+  "icon": "https://beemood.github.io/libs/errors/assets/favicon.png",
   "funding": [
     "https://cash.app/$puqlib"
   ],

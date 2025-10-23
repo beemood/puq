@@ -8,13 +8,13 @@
     "access": "public",
     "tag": "latest"
   },
-  "homepage": "https://beemood.github.io/puq/libs/prisma-schema",
+  "homepage": "https://beemood.github.io/libs/prisma-schema",
   "author": {
     "email": "robert.brightline@gmail.com",
     "name": "Robert Brightline",
     "url": "https://beemood.github.io"
   },
-  "icon": "https://beemood.github.io/puq/libs/prisma-schema/assets/favicon.png",
+  "icon": "https://beemood.github.io/libs/prisma-schema/assets/favicon.png",
   "funding": [
     "https://cash.app/$puqlib"
   ],

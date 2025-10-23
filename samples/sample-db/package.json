@@ -7,13 +7,13 @@
     "access": "public",
     "tag": "latest"
   },
-  "homepage": "https://beemood.github.io/puq/samples/sample-db",
+  "homepage": "https://beemood.github.io/samples/sample-db",
   "author": {
     "email": "robert.brightline@gmail.com",
     "name": "Robert Brightline",
     "url": "https://beemood.github.io"
   },
-  "icon": "https://beemood.github.io/puq/samples/sample-db/assets/favicon.png",
+  "icon": "https://beemood.github.io/samples/sample-db/assets/favicon.png",
   "funding": [
     "https://cash.app/$puqlib"
   ],

@@ -2,13 +2,9 @@
 
 # Replace all place holders in the template files with ejs template.
 
-for file in "*/**/*.template"; do
+for file in  do
 
-    sed -i 's|libs/sample-name|<%- projectDirectory %>|g' "$file"
-    sed -i 's|@puq/sample-name|<%- projectName %>|g' "$file"
-    sed -i 's|SampleName|<%- className %>|g' "$file"
-    sed -i 's|sample-name|<%- fileName %>|g' "$file"
-    sed -i 's|SAMPLE_NAME|<%- constantName %>|g' "$file"
-    sed -i 's|sampleName|<%- propertyName %>|g' "$file"
+  sed -i 's|https://beemood.github.io/puq/|https://beemood.github.io/|g' "$file"
+
 
 done
