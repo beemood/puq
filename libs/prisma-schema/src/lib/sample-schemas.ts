@@ -1192,17 +1192,17 @@ export const SampleTagProjectionSchema = z.union([
   z.object({}),
 ]);
 
-export const CategoryCreateSchema = z.object({
-  parentId: _id.nullable().optional(),
+export const CategoryOwnCreateSchema = z.object({
+  parentId: _id.optional(),
   name: _name,
   description: _description.optional(),
 });
 
-export const TagCreateSchema = z.object({ name: _name });
+export const TagOwnCreateSchema = z.object({ name: _name });
 
-export const SampleCreateSchema = z.object({
+export const SampleOwnCreateSchema = z.object({
   otherUuid: _str.optional(),
-  categoryId: _id.nullable().optional(),
+  categoryId: _id.optional(),
   name: _name,
   slug: _slug,
   description: _description.optional(),
@@ -1219,10 +1219,52 @@ export const SampleCreateSchema = z.object({
   statuses: StatusSchema.array(),
 });
 
-export const SampleTagCreateSchema = z.object({ tagId: _id, sampleId: _id });
+export const SampleTagOwnCreateSchema = z.object({ tagId: _id, sampleId: _id });
+
+export const CategoryCreateSchema = z.object({
+  parentId: _id.optional(),
+  name: _name,
+  description: _description.optional(),
+  parent: z.object({ create: CategoryOwnCreateSchema }).optional(),
+  children: z.object({ createMany: CategoryOwnCreateSchema.array() }).array(),
+  samples: z.object({ createMany: SampleOwnCreateSchema.array() }).array(),
+});
+
+export const TagCreateSchema = z.object({
+  name: _name,
+  samples: z.object({ createMany: SampleTagOwnCreateSchema.array() }).array(),
+});
+
+export const SampleCreateSchema = z.object({
+  otherUuid: _str.optional(),
+  categoryId: _id.optional(),
+  name: _name,
+  slug: _slug,
+  description: _description.optional(),
+  active: _bool.optional(),
+  notes: _str.array(),
+  nums: _int.array(),
+  url: _url.optional(),
+  json: _json.optional(),
+  email: _email,
+  password: _password.optional(),
+  price: _currency,
+  cost: _currency,
+  category: z.object({ create: CategoryOwnCreateSchema }).optional(),
+  tags: z.object({ createMany: SampleTagOwnCreateSchema.array() }).array(),
+  status: StatusSchema.optional(),
+  statuses: StatusSchema.array(),
+});
+
+export const SampleTagCreateSchema = z.object({
+  tagId: _id,
+  sampleId: _id,
+  sample: z.object({ create: SampleOwnCreateSchema }),
+  tag: z.object({ create: TagOwnCreateSchema }),
+});
 
 export const CategoryUpdateSchema = z.object({
-  parentId: _id.nullable().optional(),
+  parentId: _id.optional(),
   name: _name,
   description: _description.optional(),
 });
@@ -1230,7 +1272,7 @@ export const CategoryUpdateSchema = z.object({
 export const TagUpdateSchema = z.object({ name: _name });
 
 export const SampleUpdateSchema = z.object({
-  categoryId: _id.nullable().optional(),
+  categoryId: _id.optional(),
   name: _name,
   description: _description.optional(),
   active: _bool.optional(),

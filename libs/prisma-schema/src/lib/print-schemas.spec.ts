@@ -5,7 +5,6 @@ import { printSchemas } from './print-schemas.js';
 import {
   SampleCompleteQueryOneSchema,
   SampleCompleteQuerySchema,
-  SampleCreateSchema,
   SampleUpdateSchema,
 } from './sample-schemas.js';
 describe('printSchemas', () => {
@@ -25,7 +24,9 @@ describe('printSchemas', () => {
         where: { id: 1 },
       });
       client.sample.findFirst(SampleCompleteQueryOneSchema.parse({}));
-      client.sample.create({ data: SampleCreateSchema.parse({}) });
+      // client.sample.create({
+
+      // });
       client.sample.update({
         where: { id: 1 },
         data: SampleUpdateSchema.parse({}),

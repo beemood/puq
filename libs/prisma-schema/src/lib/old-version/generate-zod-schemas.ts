@@ -1,5 +1,5 @@
 import type { DMMF } from '@prisma/client/runtime/library.js';
-import { isTimestampField } from './is-field.js';
+import { isTimestampField } from '../helpers/is-field.js';
 
 /**
  * Check the field is included in create-operation

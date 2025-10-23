@@ -1,3 +1,10 @@
+export function toSchemaName(modelName: string) {
+  return `${modelName}Schema`;
+}
+
+export function toOwnCreateSchemaName(modelName: string) {
+  return `${modelName}OwnCreateSchema`;
+}
 export function toCreateSchemaName(modelName: string) {
   return `${modelName}CreateSchema`;
 }
@@ -41,8 +48,6 @@ export function toQuerySchemaName(modelName: string) {
   return `${modelName}QuerySchema`;
 }
 
-
-
 export function toOwnQueryOneSchemaName(modelName: string) {
   return `${modelName}OwnQueryOneSchema`;
 }
@@ -74,7 +79,11 @@ export function toCompleteWhereSchemaName(modelName: string) {
 }
 
 export function toEnumSchemaName(modelName: string) {
-  return `${modelName}Schema`;
+  return toSchemaName(modelName);
+}
+
+export function toEnumArraySchemaName(modelName: string) {
+  return `${modelName}ArraySchema`;
 }
 
 export function toEnumFilterSchemaName(modelName: string) {

@@ -6,32 +6,9 @@ import {
   printOwnSelectProjectionSchema,
   printProjectionSchema,
   printSelectProjectionSchema,
-} from './print-projection-schema.js';
+} from './printers/print-projection-schema.js';
 
-import { printCommonSchemas } from './print-common-schemas.js';
-import { printDistictSchema } from './print-distict-schema.js';
-import {
-  printEnumArrayFilterSchema,
-  printEnumFilterSchema,
-  printEnumSchema,
-} from './print-enum-schema.js';
-import {
-  printCreateInputSchema,
-  printUpdateInputSchema,
-} from './print-input-schema.js';
-import {
-  printOrderBySchema,
-  printOwnOrderBySchema,
-} from './print-order-by-schema.js';
-import {
-  printCompleteQueryOneSchema,
-  printCompleteQuerySchema,
-  printOwnQueryOneSchema,
-  printOwnQuerySchema,
-  printQuerySchema,
-} from './print-query-schema.js';
-import { printSchemaJsonProcessor } from './print-schema-json-processor.js';
-import { printOwnWhereSchema, printWhereSchema } from './print-where-schema.js';
+import { printPredefinedSchemas } from './common/print-pre-defiend-schemas.js';
 import {
   toCompleteQueryOneSchemaName,
   toCompleteQuerySchemaName,
@@ -47,7 +24,35 @@ import {
   toQuerySchemaName,
   toSelectSchemaName,
   toWhereSchemaName,
-} from './to-schema-names.js';
+} from './helpers/to-schema-name.js';
+import { printDistictSchema } from './printers/print-distict-schema.js';
+import {
+  printEnumArrayFilterSchema,
+  printEnumFilterSchema,
+  printEnumSchema,
+} from './printers/print-enum-schema.js';
+import {
+  printCreateInputSchema,
+  printOwnCreateInputSchema,
+  printUpdateInputSchema,
+} from './printers/print-input-schema.js';
+import {
+  printOwnWhereSchema,
+  printWhereSchema,
+} from './printers/print-where-schema.js';
+
+import {
+  printOrderBySchema,
+  printOwnOrderBySchema,
+} from './printers/print-order-by-schema.js';
+import {
+  printCompleteQueryOneSchema,
+  printCompleteQuerySchema,
+  printOwnQueryOneSchema,
+  printOwnQuerySchema,
+  printQuerySchema,
+} from './printers/print-query-schema.js';
+import { createJsonProcessorSchemaPrinter } from './printers/print-schema-json-processor.js';
 
 /**
  * Print all zod schemas for each database model
@@ -66,58 +71,61 @@ export function printSchemas(
   printerFns.add(printDistictSchema);
 
   printerFns.add(printOwnWhereSchema);
-  printerFns.add(printSchemaJsonProcessor(toOwnWhereSchemaName));
+  printerFns.add(createJsonProcessorSchemaPrinter(toOwnWhereSchemaName));
 
   printerFns.add(printWhereSchema);
-  printerFns.add(printSchemaJsonProcessor(toWhereSchemaName));
+  printerFns.add(createJsonProcessorSchemaPrinter(toWhereSchemaName));
 
   printerFns.add(printOwnOrderBySchema);
-  printerFns.add(printSchemaJsonProcessor(toOwnOrderBySchemaName));
+  printerFns.add(createJsonProcessorSchemaPrinter(toOwnOrderBySchemaName));
 
   printerFns.add(printOrderBySchema);
-  printerFns.add(printSchemaJsonProcessor(toOrderBySchemaName));
+  printerFns.add(createJsonProcessorSchemaPrinter(toOrderBySchemaName));
 
   printerFns.add(printOwnSelectProjectionSchema);
-  printerFns.add(printSchemaJsonProcessor(toOwnSelectSchemaName));
+  printerFns.add(createJsonProcessorSchemaPrinter(toOwnSelectSchemaName));
 
   printerFns.add(printSelectProjectionSchema);
-  printerFns.add(printSchemaJsonProcessor(toSelectSchemaName));
+  printerFns.add(createJsonProcessorSchemaPrinter(toSelectSchemaName));
 
   printerFns.add(printOmitProjectionSchema);
-  printerFns.add(printSchemaJsonProcessor(toOmitSchemaName));
+  printerFns.add(createJsonProcessorSchemaPrinter(toOmitSchemaName));
 
   printerFns.add(printOwnQueryOneSchema);
-  printerFns.add(printSchemaJsonProcessor(toOwnQueryOneSchemaName));
+  printerFns.add(createJsonProcessorSchemaPrinter(toOwnQueryOneSchemaName));
 
   printerFns.add(printOwnQuerySchema);
-  printerFns.add(printSchemaJsonProcessor(toOwnQuerySchemaName));
+  printerFns.add(createJsonProcessorSchemaPrinter(toOwnQuerySchemaName));
 
   printerFns.add(printIncludeProjectionSchema);
-  printerFns.add(printSchemaJsonProcessor(toIncludeSchemaName));
+  printerFns.add(createJsonProcessorSchemaPrinter(toIncludeSchemaName));
 
   printerFns.add(printCompleteSelectProjectionSchema);
-  printerFns.add(printSchemaJsonProcessor(toCompleteSelectSchemaName));
+  printerFns.add(createJsonProcessorSchemaPrinter(toCompleteSelectSchemaName));
 
   printerFns.add(printQuerySchema);
-  printerFns.add(printSchemaJsonProcessor(toQuerySchemaName));
+  printerFns.add(createJsonProcessorSchemaPrinter(toQuerySchemaName));
 
   printerFns.add(printCompleteSelectProjectionSchema);
-  printerFns.add(printSchemaJsonProcessor(toCompleteSelectSchemaName));
+  printerFns.add(createJsonProcessorSchemaPrinter(toCompleteSelectSchemaName));
 
   printerFns.add(printCompleteQueryOneSchema);
-  printerFns.add(printSchemaJsonProcessor(toCompleteQueryOneSchemaName));
+  printerFns.add(
+    createJsonProcessorSchemaPrinter(toCompleteQueryOneSchemaName)
+  );
 
   printerFns.add(printCompleteQuerySchema);
-  printerFns.add(printSchemaJsonProcessor(toCompleteQuerySchemaName));
+  printerFns.add(createJsonProcessorSchemaPrinter(toCompleteQuerySchemaName));
 
   printerFns.add(printProjectionSchema);
 
+  printerFns.add(printOwnCreateInputSchema);
   printerFns.add(printCreateInputSchema);
   printerFns.add(printUpdateInputSchema);
 
   // Common Code
   content.add(`import z from 'zod';`);
-  content.add(printCommonSchemas());
+  content.add(printPredefinedSchemas());
 
   for (const e of datamodel.enums) {
     content.add(printEnumSchema(e));

@@ -1,12 +1,19 @@
 import type { DMMF } from '@prisma/client/runtime/library';
-import { isRelationField } from './is-field.js';
+import { isRelationField } from '../helpers/is-field.js';
 import {
   toEnumArrayFilterSchemaName,
   toEnumFilterSchemaName,
   toOwnWhereSchemaName,
-} from './to-schema-names.js';
+} from '../helpers/to-schema-name.js';
 
-export function printWhereFieldSchemaDefinition(field: DMMF.Field) {
+
+
+/**
+ * Print a schema definition for where query schema object such as `_strFilter`
+ * @param field DMMF.Field
+ * @returns string
+ */
+export function printWhereSchemaFieldDefinition(field: DMMF.Field) {
   switch (field.kind) {
     case 'object': {
       if (isRelationField(field)) {

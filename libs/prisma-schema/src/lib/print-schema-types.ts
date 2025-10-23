@@ -5,7 +5,7 @@ import {
   toOwnSelectSchemaName,
   toSelectSchemaName,
   toUpdateSchemaName,
-} from './to-schema-names.js';
+} from './helpers/to-schema-name.js';
 
 export function printSchemaTypes(datamodel: Omit<DMMF.Datamodel, 'indexes'>) {
   const nameFns = new Set<(modelName: string) => string>();
