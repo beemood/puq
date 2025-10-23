@@ -1,3 +1,20 @@
+## 0.29.10 (2025-10-23)
+
+### 🚀 Features
+
+- integrated the prisma schema generator to thte puq-plugin ([998bc02](https://github.com/beemood/puq/commit/998bc02))
+- integrated the prisma schema generator to thte puq-plugin ([c6df8a6](https://github.com/beemood/puq/commit/c6df8a6))
+- removed old generate-schemas command from package.json ([483b6b2](https://github.com/beemood/puq/commit/483b6b2))
+
+### 🩹 Fixes
+
+- fixed the pre-defiend schemas ([d3bc8ed](https://github.com/beemood/puq/commit/d3bc8ed))
+- fixed the pre-defiend schemas ([38932bc](https://github.com/beemood/puq/commit/38932bc))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.29.9 (2025-10-23)
 
 ### 🚀 Features
