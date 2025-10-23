@@ -6,13 +6,13 @@
   "scripts": {
     "prepare": "husky"
   },
-  "homepage": "https://beemood.github.io/puq",
+  "homepage": "https://beemood.github.io",
   "author": {
     "email": "robert.brightline@gmail.com",
     "name": "Robert Brightline",
     "url": "https://beemood.github.io"
   },
-  "icon": "https://beemood.github.io/puq/favicon.png",
+  "icon": "https://beemood.github.io/favicon.png",
   "funding": [
     "https://cash.app/$puqlib"
   ],
