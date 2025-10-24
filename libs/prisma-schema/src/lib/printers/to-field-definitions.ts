@@ -4,7 +4,10 @@ import {
   toOwnOrderBySchemaName,
   toOwnQueryOneSchemaName,
 } from '../helpers/to-schema-name.js';
-import { printInputFieldSchemaDefinition } from './print-input-field-schema-definition.js';
+import {
+  printCreateInputFieldSchemaDefinition,
+  printUpdateInputFieldSchemaDefinition,
+} from './print-input-field-schema-definition.js';
 import { printWhereSchemaFieldDefinition } from './print-where-schema-field-definition.js';
 
 /**
@@ -49,8 +52,24 @@ export function toCompleteProjectionFieldDefinition(
  * @param field DMMF.Field
  * @returns string
  */
-export function toInputFieldDefinition(model: DMMF.Model, field: DMMF.Field) {
-  return `${field.name}: ${printInputFieldSchemaDefinition(model, field)}`;
+export function toCreateInputFieldDefinition(
+  model: DMMF.Model,
+  field: DMMF.Field
+) {
+  return `${field.name}: ${printCreateInputFieldSchemaDefinition(
+    model,
+    field
+  )}`;
+}
+
+export function toUpdateInputFieldDefinition(
+  model: DMMF.Model,
+  field: DMMF.Field
+) {
+  return `${field.name}: ${printUpdateInputFieldSchemaDefinition(
+    model,
+    field
+  )}`;
 }
 
 /**

@@ -47,12 +47,23 @@ export const _longText = `
 export const _longText = z.string().max(2000)
 `;
 
+
+
 /**
  * Coerced id schema definition
  */
 export const _id = `
 export const _id = z.coerce.number().int().min(1)
 `;
+
+
+/**
+ * Coerced id schema definition
+ */
+export const _idObject = `
+export const _idObject = z.object({ 
+   id: _id
+})`;
 
 /**
  * Coerced currency schema definition

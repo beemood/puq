@@ -16,6 +16,10 @@ export const _longText = z.string().max(2000);
 
 export const _id = z.coerce.number().int().min(1);
 
+export const _idObject = z.object({
+  id: _id,
+});
+
 export const _currency = z.coerce.number().min(0);
 
 export const _positiveInt = z.coerce.number().int().min(0);
@@ -365,6 +369,11 @@ export const CategoryDistinctSchema = z
   .array()
   .optional();
 
+export const CategoryDescriptionDistinctSchema = z
+  .enum(["id", "description", "categoryId"])
+  .array()
+  .optional();
+
 export const ProductDistinctSchema = z
   .enum([
     "id",
@@ -499,6 +508,12 @@ export const CategoryOwnWhereSchema = z.object({
   parentId: _intFilter.optional(),
   name: _strFilter.optional(),
   slug: _strFilter.optional(),
+});
+
+export const CategoryDescriptionOwnWhereSchema = z.object({
+  id: _intFilter.optional(),
+  description: _strFilter.optional(),
+  categoryId: _intFilter.optional(),
 });
 
 export const ProductOwnWhereSchema = z.object({
@@ -656,6 +671,11 @@ export const CategoryOwnWhereSchemaJson = z.preprocess(
   CategoryOwnWhereSchema
 );
 
+export const CategoryDescriptionOwnWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CategoryDescriptionOwnWhereSchema
+);
+
 export const ProductOwnWhereSchemaJson = z.preprocess(
   _jsonPreprocessor,
   ProductOwnWhereSchema
@@ -773,6 +793,14 @@ export const CategoryWhereSchema = z.object({
       none: DiscountTargetOwnWhereSchema.optional(),
     })
     .optional(),
+  categoryDescription: CategoryDescriptionOwnWhereSchema.optional(),
+});
+
+export const CategoryDescriptionWhereSchema = z.object({
+  id: _intFilter.optional(),
+  description: _strFilter.optional(),
+  categoryId: _intFilter.optional(),
+  category: CategoryOwnWhereSchema.optional(),
 });
 
 export const ProductWhereSchema = z.object({
@@ -1116,6 +1144,11 @@ export const CategoryWhereSchemaJson = z.preprocess(
   CategoryWhereSchema
 );
 
+export const CategoryDescriptionWhereSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CategoryDescriptionWhereSchema
+);
+
 export const ProductWhereSchemaJson = z.preprocess(
   _jsonPreprocessor,
   ProductWhereSchema
@@ -1211,6 +1244,12 @@ export const CategoryOwnOrderBySchema = z.object({
   parentId: _direction,
   name: _direction,
   slug: _direction,
+});
+
+export const CategoryDescriptionOwnOrderBySchema = z.object({
+  id: _direction,
+  description: _direction,
+  categoryId: _direction,
 });
 
 export const ProductOwnOrderBySchema = z.object({
@@ -1368,6 +1407,11 @@ export const CategoryOwnOrderBySchemaJson = z.preprocess(
   CategoryOwnOrderBySchema
 );
 
+export const CategoryDescriptionOwnOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CategoryDescriptionOwnOrderBySchema
+);
+
 export const ProductOwnOrderBySchemaJson = z.preprocess(
   _jsonPreprocessor,
   ProductOwnOrderBySchema
@@ -1467,6 +1511,14 @@ export const CategoryOrderBySchema = z.object({
   children: _orderByCount,
   products: _orderByCount,
   discountTargets: _orderByCount,
+  categoryDescription: CategoryDescriptionOwnOrderBySchema.optional(),
+});
+
+export const CategoryDescriptionOrderBySchema = z.object({
+  id: _direction,
+  description: _direction,
+  categoryId: _direction,
+  category: CategoryOwnOrderBySchema.optional(),
 });
 
 export const ProductOrderBySchema = z.object({
@@ -1672,6 +1724,11 @@ export const CategoryOrderBySchemaJson = z.preprocess(
   CategoryOrderBySchema
 );
 
+export const CategoryDescriptionOrderBySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CategoryDescriptionOrderBySchema
+);
+
 export const ProductOrderBySchemaJson = z.preprocess(
   _jsonPreprocessor,
   ProductOrderBySchema
@@ -1767,6 +1824,12 @@ export const CategoryOwnSelectSchema = z.object({
   parentId: _select,
   name: _select,
   slug: _select,
+});
+
+export const CategoryDescriptionOwnSelectSchema = z.object({
+  id: _select,
+  description: _select,
+  categoryId: _select,
 });
 
 export const ProductOwnSelectSchema = z.object({
@@ -1924,6 +1987,11 @@ export const CategoryOwnSelectSchemaJson = z.preprocess(
   CategoryOwnSelectSchema
 );
 
+export const CategoryDescriptionOwnSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CategoryDescriptionOwnSelectSchema
+);
+
 export const ProductOwnSelectSchemaJson = z.preprocess(
   _jsonPreprocessor,
   ProductOwnSelectSchema
@@ -2023,6 +2091,14 @@ export const CategorySelectSchema = z.object({
   children: _select,
   products: _select,
   discountTargets: _select,
+  categoryDescription: _select,
+});
+
+export const CategoryDescriptionSelectSchema = z.object({
+  id: _select,
+  description: _select,
+  categoryId: _select,
+  category: _select,
 });
 
 export const ProductSelectSchema = z.object({
@@ -2228,6 +2304,11 @@ export const CategorySelectSchemaJson = z.preprocess(
   CategorySelectSchema
 );
 
+export const CategoryDescriptionSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CategoryDescriptionSelectSchema
+);
+
 export const ProductSelectSchemaJson = z.preprocess(
   _jsonPreprocessor,
   ProductSelectSchema
@@ -2323,6 +2404,12 @@ export const CategoryOmitSchema = z.object({
   parentId: _select,
   name: _select,
   slug: _select,
+});
+
+export const CategoryDescriptionOmitSchema = z.object({
+  id: _select,
+  description: _select,
+  categoryId: _select,
 });
 
 export const ProductOmitSchema = z.object({
@@ -2480,6 +2567,11 @@ export const CategoryOmitSchemaJson = z.preprocess(
   CategoryOmitSchema
 );
 
+export const CategoryDescriptionOmitSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CategoryDescriptionOmitSchema
+);
+
 export const ProductOmitSchemaJson = z.preprocess(
   _jsonPreprocessor,
   ProductOmitSchema
@@ -2574,6 +2666,12 @@ export const CategoryOwnQueryOneSchema = z.object({
   select: CategoryOwnSelectSchemaJson.optional(),
   omit: CategoryOmitSchemaJson.optional(),
   where: CategoryOwnWhereSchemaJson.optional(),
+});
+
+export const CategoryDescriptionOwnQueryOneSchema = z.object({
+  select: CategoryDescriptionOwnSelectSchemaJson.optional(),
+  omit: CategoryDescriptionOmitSchemaJson.optional(),
+  where: CategoryDescriptionOwnWhereSchemaJson.optional(),
 });
 
 export const ProductOwnQueryOneSchema = z.object({
@@ -2689,6 +2787,11 @@ export const CategoryOwnQueryOneSchemaJson = z.preprocess(
   CategoryOwnQueryOneSchema
 );
 
+export const CategoryDescriptionOwnQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CategoryDescriptionOwnQueryOneSchema
+);
+
 export const ProductOwnQueryOneSchemaJson = z.preprocess(
   _jsonPreprocessor,
   ProductOwnQueryOneSchema
@@ -2787,6 +2890,16 @@ export const CategoryOwnQuerySchema = z.object({
   omit: CategoryOmitSchemaJson.optional(),
   where: CategoryOwnWhereSchemaJson.optional(),
   orderBy: CategoryOwnOrderBySchemaJson.optional(),
+});
+
+export const CategoryDescriptionOwnQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: CategoryDescriptionDistinctSchema.optional(),
+  select: CategoryDescriptionOwnSelectSchemaJson.optional(),
+  omit: CategoryDescriptionOmitSchemaJson.optional(),
+  where: CategoryDescriptionOwnWhereSchemaJson.optional(),
+  orderBy: CategoryDescriptionOwnOrderBySchemaJson.optional(),
 });
 
 export const ProductOwnQuerySchema = z.object({
@@ -2974,6 +3087,11 @@ export const CategoryOwnQuerySchemaJson = z.preprocess(
   CategoryOwnQuerySchema
 );
 
+export const CategoryDescriptionOwnQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CategoryDescriptionOwnQuerySchema
+);
+
 export const ProductOwnQuerySchemaJson = z.preprocess(
   _jsonPreprocessor,
   ProductOwnQuerySchema
@@ -3069,6 +3187,13 @@ export const CategoryIncludeSchema = z.object({
   children: _select.or(CategoryOwnQueryOneSchema).optional(),
   products: _select.or(ProductCategoryOwnQueryOneSchema).optional(),
   discountTargets: _select.or(DiscountTargetOwnQueryOneSchema).optional(),
+  categoryDescription: _select
+    .or(CategoryDescriptionOwnQueryOneSchema)
+    .optional(),
+});
+
+export const CategoryDescriptionIncludeSchema = z.object({
+  category: _select.or(CategoryOwnQueryOneSchema).optional(),
 });
 
 export const ProductIncludeSchema = z.object({
@@ -3178,6 +3303,11 @@ export const CategoryIncludeSchemaJson = z.preprocess(
   CategoryIncludeSchema
 );
 
+export const CategoryDescriptionIncludeSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CategoryDescriptionIncludeSchema
+);
+
 export const ProductIncludeSchemaJson = z.preprocess(
   _jsonPreprocessor,
   ProductIncludeSchema
@@ -3277,6 +3407,16 @@ export const CategoryCompleteSelectSchema = z.object({
   children: _select.or(CategoryOwnQueryOneSchema).optional(),
   products: _select.or(ProductCategoryOwnQueryOneSchema).optional(),
   discountTargets: _select.or(DiscountTargetOwnQueryOneSchema).optional(),
+  categoryDescription: _select
+    .or(CategoryDescriptionOwnQueryOneSchema)
+    .optional(),
+});
+
+export const CategoryDescriptionCompleteSelectSchema = z.object({
+  id: _select,
+  description: _select,
+  categoryId: _select,
+  category: _select.or(CategoryOwnQueryOneSchema).optional(),
 });
 
 export const ProductCompleteSelectSchema = z.object({
@@ -3482,6 +3622,11 @@ export const CategoryCompleteSelectSchemaJson = z.preprocess(
   CategoryCompleteSelectSchema
 );
 
+export const CategoryDescriptionCompleteSelectSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CategoryDescriptionCompleteSelectSchema
+);
+
 export const ProductCompleteSelectSchemaJson = z.preprocess(
   _jsonPreprocessor,
   ProductCompleteSelectSchema
@@ -3581,6 +3726,17 @@ export const CategoryQuerySchema = z.object({
   include: CategoryIncludeSchemaJson.optional(),
   where: CategoryOwnWhereSchemaJson.optional(),
   orderBy: CategoryOwnOrderBySchemaJson.optional(),
+});
+
+export const CategoryDescriptionQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: CategoryDescriptionDistinctSchema.optional(),
+  select: CategoryDescriptionOwnSelectSchemaJson.optional(),
+  omit: CategoryDescriptionOmitSchemaJson.optional(),
+  include: CategoryDescriptionIncludeSchemaJson.optional(),
+  where: CategoryDescriptionOwnWhereSchemaJson.optional(),
+  orderBy: CategoryDescriptionOwnOrderBySchemaJson.optional(),
 });
 
 export const ProductQuerySchema = z.object({
@@ -3786,6 +3942,11 @@ export const CategoryQuerySchemaJson = z.preprocess(
   CategoryQuerySchema
 );
 
+export const CategoryDescriptionQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CategoryDescriptionQuerySchema
+);
+
 export const ProductQuerySchemaJson = z.preprocess(
   _jsonPreprocessor,
   ProductQuerySchema
@@ -3881,6 +4042,13 @@ export const CategoryCompleteQueryOneSchema = z.object({
   omit: CategoryOmitSchemaJson.optional(),
   include: CategoryIncludeSchemaJson.optional(),
   where: CategoryWhereSchemaJson.optional(),
+});
+
+export const CategoryDescriptionCompleteQueryOneSchema = z.object({
+  select: CategoryDescriptionSelectSchemaJson.optional(),
+  omit: CategoryDescriptionOmitSchemaJson.optional(),
+  include: CategoryDescriptionIncludeSchemaJson.optional(),
+  where: CategoryDescriptionWhereSchemaJson.optional(),
 });
 
 export const ProductCompleteQueryOneSchema = z.object({
@@ -4014,6 +4182,11 @@ export const CategoryCompleteQueryOneSchemaJson = z.preprocess(
   CategoryCompleteQueryOneSchema
 );
 
+export const CategoryDescriptionCompleteQueryOneSchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CategoryDescriptionCompleteQueryOneSchema
+);
+
 export const ProductCompleteQueryOneSchemaJson = z.preprocess(
   _jsonPreprocessor,
   ProductCompleteQueryOneSchema
@@ -4113,6 +4286,17 @@ export const CategoryCompleteQuerySchema = z.object({
   include: CategoryIncludeSchemaJson.optional(),
   where: CategoryWhereSchemaJson.optional(),
   orderBy: CategoryOrderBySchemaJson.optional(),
+});
+
+export const CategoryDescriptionCompleteQuerySchema = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: CategoryDescriptionDistinctSchema.optional(),
+  select: CategoryDescriptionCompleteSelectSchemaJson.optional(),
+  omit: CategoryDescriptionOmitSchemaJson.optional(),
+  include: CategoryDescriptionIncludeSchemaJson.optional(),
+  where: CategoryDescriptionWhereSchemaJson.optional(),
+  orderBy: CategoryDescriptionOrderBySchemaJson.optional(),
 });
 
 export const ProductCompleteQuerySchema = z.object({
@@ -4318,6 +4502,11 @@ export const CategoryCompleteQuerySchemaJson = z.preprocess(
   CategoryCompleteQuerySchema
 );
 
+export const CategoryDescriptionCompleteQuerySchemaJson = z.preprocess(
+  _jsonPreprocessor,
+  CategoryDescriptionCompleteQuerySchema
+);
+
 export const ProductCompleteQuerySchemaJson = z.preprocess(
   _jsonPreprocessor,
   ProductCompleteQuerySchema
@@ -4412,6 +4601,13 @@ export const CategoryProjectionSchema = z.union([
   z.object({ omit: CategoryOmitSchemaJson }),
   z.object({ select: CategorySelectSchemaJson }),
   z.object({ include: CategoryIncludeSchemaJson }),
+  z.object({}),
+]);
+
+export const CategoryDescriptionProjectionSchema = z.union([
+  z.object({ omit: CategoryDescriptionOmitSchemaJson }),
+  z.object({ select: CategoryDescriptionSelectSchemaJson }),
+  z.object({ include: CategoryDescriptionIncludeSchemaJson }),
   z.object({}),
 ]);
 
@@ -4547,6 +4743,11 @@ export const CategoryOwnCreateSchema = z.object({
   slug: _slug,
 });
 
+export const CategoryDescriptionOwnCreateSchema = z.object({
+  description: _description,
+  categoryId: _id,
+});
+
 export const ProductOwnCreateSchema = z.object({
   isActive: _bool.optional(),
   uuid: _str.optional(),
@@ -4678,14 +4879,19 @@ export const CategoryCreateSchema = z.object({
   parentId: _id.optional(),
   name: _name,
   slug: _slug,
-  parent: z.object({ create: CategoryOwnCreateSchema }).optional(),
-  children: z.object({ createMany: CategoryOwnCreateSchema.array() }).array(),
-  products: z
-    .object({ createMany: ProductCategoryOwnCreateSchema.array() })
-    .array(),
-  discountTargets: z
-    .object({ createMany: DiscountTargetOwnCreateSchema.array() })
-    .array(),
+  children: z
+    .object({
+      createMany: z.object({
+        data: CategoryOwnCreateSchema.array(),
+        skipDuplicates: _bool.optional(),
+      }),
+    })
+    .optional(),
+});
+
+export const CategoryDescriptionCreateSchema = z.object({
+  description: _description,
+  categoryId: _id,
 });
 
 export const ProductCreateSchema = z.object({
@@ -4694,23 +4900,11 @@ export const ProductCreateSchema = z.object({
   name: _name,
   slug: _slug,
   description: _description.optional(),
-  variants: z.object({ createMany: VariantOwnCreateSchema.array() }).array(),
-  categories: z
-    .object({ createMany: ProductCategoryOwnCreateSchema.array() })
-    .array(),
-  discounts: z
-    .object({ createMany: DiscountTargetOwnCreateSchema.array() })
-    .array(),
-  warranties: z
-    .object({ createMany: ProductWarrantyOwnCreateSchema.array() })
-    .array(),
 });
 
 export const ProductCategoryCreateSchema = z.object({
   productId: _id,
   categoryId: _id,
-  product: z.object({ create: ProductOwnCreateSchema }),
-  category: z.object({ create: CategoryOwnCreateSchema }),
 });
 
 export const VariantCreateSchema = z.object({
@@ -4718,57 +4912,24 @@ export const VariantCreateSchema = z.object({
   productId: _id,
   sku: _str,
   upc: _str,
-  product: z.object({ create: ProductOwnCreateSchema }),
-  attributes: z
-    .object({ createMany: AttributeValueOwnCreateSchema.array() })
-    .array(),
-  prices: z.object({ createMany: PriceOwnCreateSchema.array() }).array(),
-  quantities: z.object({ createMany: QuantityOwnCreateSchema.array() }).array(),
-  discounts: z
-    .object({ createMany: DiscountTargetOwnCreateSchema.array() })
-    .array(),
-  serrialNumbers: z
-    .object({ createMany: SerialNumberOwnCreateSchema.array() })
-    .array(),
-  warranties: z
-    .object({ createMany: ProductWarrantyOwnCreateSchema.array() })
-    .array(),
 });
 
 export const AttributeCategoryCreateSchema = z.object({
   name: _name,
   slug: _slug,
-  attributes: z
-    .object({ createMany: AttributeOwnCreateSchema.array() })
-    .array(),
 });
 
 export const AttributeCreateSchema = z.object({
   categoryId: _id.optional(),
   name: _name,
   description: _description.optional(),
-  category: z.object({ create: AttributeCategoryOwnCreateSchema }).optional(),
-  unites: z
-    .object({ createMany: AttributeUnitOwnCreateSchema.array() })
-    .array(),
-  values: z
-    .object({ createMany: AttributeValueOwnCreateSchema.array() })
-    .array(),
 });
 
-export const UnitCreateSchema = z.object({
-  name: _name,
-  symbol: _str,
-  attributes: z
-    .object({ createMany: AttributeUnitOwnCreateSchema.array() })
-    .array(),
-});
+export const UnitCreateSchema = z.object({ name: _name, symbol: _str });
 
 export const AttributeUnitCreateSchema = z.object({
   attributeId: _id,
   unitId: _id,
-  attribute: z.object({ create: AttributeOwnCreateSchema }),
-  unit: z.object({ create: UnitOwnCreateSchema }),
 });
 
 export const AttributeValueCreateSchema = z.object({
@@ -4777,17 +4938,12 @@ export const AttributeValueCreateSchema = z.object({
   textValue: _str.optional(),
   booleanValue: _bool.optional(),
   floatValue: _currency.optional(),
-  variant: z.object({ create: VariantOwnCreateSchema }),
-  attribute: z.object({ create: AttributeOwnCreateSchema }),
 });
 
 export const CurrencyCreateSchema = z.object({
   name: _name,
   code: _str,
   symbol: _str.optional(),
-  priceLevels: z
-    .object({ createMany: PriceLevelOwnCreateSchema.array() })
-    .array(),
 });
 
 export const PriceLevelCreateSchema = z.object({
@@ -4796,12 +4952,6 @@ export const PriceLevelCreateSchema = z.object({
   slug: _slug,
   taxrate: _currency,
   notes: _str.optional(),
-  currency: z.object({ create: CurrencyOwnCreateSchema }),
-  stores: z.object({ createMany: StoreOwnCreateSchema.array() }).array(),
-  prices: z.object({ createMany: PriceOwnCreateSchema.array() }).array(),
-  discounts: z
-    .object({ createMany: DiscountTargetOwnCreateSchema.array() })
-    .array(),
 });
 
 export const PriceCreateSchema = z.object({
@@ -4810,8 +4960,6 @@ export const PriceCreateSchema = z.object({
   price: _currency,
   cost: _currency,
   description: _description.optional(),
-  variant: z.object({ create: VariantOwnCreateSchema }),
-  priceLevel: z.object({ create: PriceLevelOwnCreateSchema }),
 });
 
 export const QuantityCreateSchema = z.object({
@@ -4819,8 +4967,6 @@ export const QuantityCreateSchema = z.object({
   storeId: _id,
   quantity: _int,
   alertThreshold: _int.optional(),
-  variant: z.object({ create: VariantOwnCreateSchema }),
-  store: z.object({ create: StoreOwnCreateSchema }),
 });
 
 export const SerialNumberCreateSchema = z.object({
@@ -4828,8 +4974,6 @@ export const SerialNumberCreateSchema = z.object({
   storeId: _id,
   serialNumber: _str,
   inStock: _bool,
-  variant: z.object({ create: VariantOwnCreateSchema }),
-  store: z.object({ create: StoreOwnCreateSchema }),
 });
 
 export const DiscountCreateSchema = z.object({
@@ -4845,9 +4989,6 @@ export const DiscountCreateSchema = z.object({
   endDate: _date.optional(),
   usageLimit: _int.optional(),
   usageCount: _int.optional(),
-  targets: z
-    .object({ createMany: DiscountTargetOwnCreateSchema.array() })
-    .array(),
 });
 
 export const DiscountTargetCreateSchema = z.object({
@@ -4858,12 +4999,6 @@ export const DiscountTargetCreateSchema = z.object({
   variantId: _id.optional(),
   priceLevelId: _id.optional(),
   categoryId: _id.optional(),
-  discount: z.object({ create: DiscountOwnCreateSchema }),
-  store: z.object({ create: StoreOwnCreateSchema }).optional(),
-  category: z.object({ create: CategoryOwnCreateSchema }).optional(),
-  priceLevel: z.object({ create: PriceLevelOwnCreateSchema }).optional(),
-  product: z.object({ create: ProductOwnCreateSchema }).optional(),
-  variant: z.object({ create: VariantOwnCreateSchema }).optional(),
 });
 
 export const StoreCreateSchema = z.object({
@@ -4871,14 +5006,6 @@ export const StoreCreateSchema = z.object({
   name: _name,
   slug: _slug,
   description: _description.optional(),
-  priceLevel: z.object({ create: PriceLevelOwnCreateSchema }),
-  quantities: z.object({ createMany: QuantityOwnCreateSchema.array() }).array(),
-  discounts: z
-    .object({ createMany: DiscountTargetOwnCreateSchema.array() })
-    .array(),
-  serialNumbers: z
-    .object({ createMany: SerialNumberOwnCreateSchema.array() })
-    .array(),
 });
 
 export const WarrantyPolicyCreateSchema = z.object({
@@ -4886,110 +5013,136 @@ export const WarrantyPolicyCreateSchema = z.object({
   description: _description.optional(),
   duration: _int,
   durationUnit: TimeUnitSchema.optional(),
-  products: z
-    .object({ createMany: ProductWarrantyOwnCreateSchema.array() })
-    .array(),
 });
 
 export const ProductWarrantyCreateSchema = z.object({
   productId: _id.optional(),
   variantId: _id.optional(),
   policyId: _id,
-  product: z.object({ create: ProductOwnCreateSchema }).optional(),
-  variant: z.object({ create: VariantOwnCreateSchema }).optional(),
-  policy: z.object({ create: WarrantyPolicyOwnCreateSchema }),
 });
 
 export const CategoryUpdateSchema = z.object({
+  id: _id.optional(),
   parentId: _id.optional(),
-  name: _name,
-  slug: _slug,
+  name: _name.optional(),
+  slug: _slug.optional(),
+  children: z
+    .object({ connect: _idObject.optional(), disconnect: _idObject.optional() })
+    .optional()
+    .optional(),
+});
+
+export const CategoryDescriptionUpdateSchema = z.object({
+  id: _id.optional(),
+  description: _description.optional(),
+  categoryId: _id.optional(),
 });
 
 export const ProductUpdateSchema = z.object({
+  id: _id.optional(),
+  createdAt: _date.optional(),
+  updatedAt: _date.optional(),
   isActive: _bool.optional(),
-  name: _name,
-  slug: _slug,
+  uuid: _str.optional(),
+  name: _name.optional(),
+  slug: _slug.optional(),
   description: _description.optional(),
 });
 
 export const ProductCategoryUpdateSchema = z.object({
-  productId: _id,
-  categoryId: _id,
+  id: _id.optional(),
+  productId: _id.optional(),
+  categoryId: _id.optional(),
 });
 
 export const VariantUpdateSchema = z.object({
-  productId: _id,
-  sku: _str,
-  upc: _str,
+  id: _id.optional(),
+  uuid: _str.optional(),
+  productId: _id.optional(),
+  sku: _str.optional(),
+  upc: _str.optional(),
 });
 
 export const AttributeCategoryUpdateSchema = z.object({
-  name: _name,
-  slug: _slug,
+  id: _id.optional(),
+  name: _name.optional(),
+  slug: _slug.optional(),
 });
 
 export const AttributeUpdateSchema = z.object({
+  id: _id.optional(),
   categoryId: _id.optional(),
-  name: _name,
+  name: _name.optional(),
   description: _description.optional(),
 });
 
-export const UnitUpdateSchema = z.object({ name: _name, symbol: _str });
+export const UnitUpdateSchema = z.object({
+  id: _id.optional(),
+  name: _name.optional(),
+  symbol: _str.optional(),
+});
 
 export const AttributeUnitUpdateSchema = z.object({
-  attributeId: _id,
-  unitId: _id,
+  id: _id.optional(),
+  attributeId: _id.optional(),
+  unitId: _id.optional(),
 });
 
 export const AttributeValueUpdateSchema = z.object({
-  attributeId: _id,
-  variantId: _id,
+  id: _id.optional(),
+  attributeId: _id.optional(),
+  variantId: _id.optional(),
   textValue: _str.optional(),
   booleanValue: _bool.optional(),
   floatValue: _currency.optional(),
 });
 
 export const CurrencyUpdateSchema = z.object({
-  name: _name,
-  code: _str,
+  id: _id.optional(),
+  name: _name.optional(),
+  code: _str.optional(),
   symbol: _str.optional(),
 });
 
 export const PriceLevelUpdateSchema = z.object({
-  currencyId: _id,
-  name: _name,
-  slug: _slug,
-  taxrate: _currency,
+  id: _id.optional(),
+  currencyId: _id.optional(),
+  name: _name.optional(),
+  slug: _slug.optional(),
+  taxrate: _currency.optional(),
   notes: _str.optional(),
 });
 
 export const PriceUpdateSchema = z.object({
-  variantId: _id,
-  priceLevelId: _id,
-  price: _currency,
-  cost: _currency,
+  id: _id.optional(),
+  variantId: _id.optional(),
+  priceLevelId: _id.optional(),
+  price: _currency.optional(),
+  cost: _currency.optional(),
   description: _description.optional(),
 });
 
 export const QuantityUpdateSchema = z.object({
-  variantId: _id,
-  storeId: _id,
-  quantity: _int,
+  id: _id.optional(),
+  variantId: _id.optional(),
+  storeId: _id.optional(),
+  quantity: _int.optional(),
   alertThreshold: _int.optional(),
 });
 
 export const SerialNumberUpdateSchema = z.object({
-  variantId: _id,
-  storeId: _id,
-  serialNumber: _str,
-  inStock: _bool,
+  id: _id.optional(),
+  variantId: _id.optional(),
+  storeId: _id.optional(),
+  serialNumber: _str.optional(),
+  inStock: _bool.optional(),
 });
 
 export const DiscountUpdateSchema = z.object({
-  code: _str,
-  type: DiscountTypeSchema,
-  valueType: ValueTypeSchema,
+  id: _id.optional(),
+  code: _str.optional(),
+  type: DiscountTypeSchema.optional(),
+  valueType: ValueTypeSchema.optional(),
   value: _currency.optional(),
   minQuantity: _int.optional(),
   maxQuantity: _int.optional(),
@@ -5002,8 +5155,9 @@ export const DiscountUpdateSchema = z.object({
 });
 
 export const DiscountTargetUpdateSchema = z.object({
-  type: DiscountTargetTypeSchema,
-  discountId: _id,
+  id: _id.optional(),
+  type: DiscountTargetTypeSchema.optional(),
+  discountId: _id.optional(),
   storeId: _id.optional(),
   productId: _id.optional(),
   variantId: _id.optional(),
@@ -5012,21 +5166,1036 @@ export const DiscountTargetUpdateSchema = z.object({
 });
 
 export const StoreUpdateSchema = z.object({
-  priceLevelId: _id,
-  name: _name,
-  slug: _slug,
+  id: _id.optional(),
+  priceLevelId: _id.optional(),
+  name: _name.optional(),
+  slug: _slug.optional(),
   description: _description.optional(),
 });
 
 export const WarrantyPolicyUpdateSchema = z.object({
-  name: _name,
+  id: _id.optional(),
+  name: _name.optional(),
   description: _description.optional(),
-  duration: _int,
+  duration: _int.optional(),
   durationUnit: TimeUnitSchema.optional(),
 });
 
 export const ProductWarrantyUpdateSchema = z.object({
+  id: _id.optional(),
   productId: _id.optional(),
   variantId: _id.optional(),
-  policyId: _id,
+  policyId: _id.optional(),
 });
+
+export type CategoryDistinct = z.infer<typeof CategoryDistinctSchema>;
+
+export type CategoryDescriptionDistinct = z.infer<
+  typeof CategoryDescriptionDistinctSchema
+>;
+
+export type ProductDistinct = z.infer<typeof ProductDistinctSchema>;
+
+export type ProductCategoryDistinct = z.infer<
+  typeof ProductCategoryDistinctSchema
+>;
+
+export type VariantDistinct = z.infer<typeof VariantDistinctSchema>;
+
+export type AttributeCategoryDistinct = z.infer<
+  typeof AttributeCategoryDistinctSchema
+>;
+
+export type AttributeDistinct = z.infer<typeof AttributeDistinctSchema>;
+
+export type UnitDistinct = z.infer<typeof UnitDistinctSchema>;
+
+export type AttributeUnitDistinct = z.infer<typeof AttributeUnitDistinctSchema>;
+
+export type AttributeValueDistinct = z.infer<
+  typeof AttributeValueDistinctSchema
+>;
+
+export type CurrencyDistinct = z.infer<typeof CurrencyDistinctSchema>;
+
+export type PriceLevelDistinct = z.infer<typeof PriceLevelDistinctSchema>;
+
+export type PriceDistinct = z.infer<typeof PriceDistinctSchema>;
+
+export type QuantityDistinct = z.infer<typeof QuantityDistinctSchema>;
+
+export type SerialNumberDistinct = z.infer<typeof SerialNumberDistinctSchema>;
+
+export type DiscountDistinct = z.infer<typeof DiscountDistinctSchema>;
+
+export type DiscountTargetDistinct = z.infer<
+  typeof DiscountTargetDistinctSchema
+>;
+
+export type StoreDistinct = z.infer<typeof StoreDistinctSchema>;
+
+export type WarrantyPolicyDistinct = z.infer<
+  typeof WarrantyPolicyDistinctSchema
+>;
+
+export type ProductWarrantyDistinct = z.infer<
+  typeof ProductWarrantyDistinctSchema
+>;
+
+export type CategoryOwnWhere = z.infer<typeof CategoryOwnWhereSchema>;
+
+export type CategoryDescriptionOwnWhere = z.infer<
+  typeof CategoryDescriptionOwnWhereSchema
+>;
+
+export type ProductOwnWhere = z.infer<typeof ProductOwnWhereSchema>;
+
+export type ProductCategoryOwnWhere = z.infer<
+  typeof ProductCategoryOwnWhereSchema
+>;
+
+export type VariantOwnWhere = z.infer<typeof VariantOwnWhereSchema>;
+
+export type AttributeCategoryOwnWhere = z.infer<
+  typeof AttributeCategoryOwnWhereSchema
+>;
+
+export type AttributeOwnWhere = z.infer<typeof AttributeOwnWhereSchema>;
+
+export type UnitOwnWhere = z.infer<typeof UnitOwnWhereSchema>;
+
+export type AttributeUnitOwnWhere = z.infer<typeof AttributeUnitOwnWhereSchema>;
+
+export type AttributeValueOwnWhere = z.infer<
+  typeof AttributeValueOwnWhereSchema
+>;
+
+export type CurrencyOwnWhere = z.infer<typeof CurrencyOwnWhereSchema>;
+
+export type PriceLevelOwnWhere = z.infer<typeof PriceLevelOwnWhereSchema>;
+
+export type PriceOwnWhere = z.infer<typeof PriceOwnWhereSchema>;
+
+export type QuantityOwnWhere = z.infer<typeof QuantityOwnWhereSchema>;
+
+export type SerialNumberOwnWhere = z.infer<typeof SerialNumberOwnWhereSchema>;
+
+export type DiscountOwnWhere = z.infer<typeof DiscountOwnWhereSchema>;
+
+export type DiscountTargetOwnWhere = z.infer<
+  typeof DiscountTargetOwnWhereSchema
+>;
+
+export type StoreOwnWhere = z.infer<typeof StoreOwnWhereSchema>;
+
+export type WarrantyPolicyOwnWhere = z.infer<
+  typeof WarrantyPolicyOwnWhereSchema
+>;
+
+export type ProductWarrantyOwnWhere = z.infer<
+  typeof ProductWarrantyOwnWhereSchema
+>;
+
+export type CategoryWhere = z.infer<typeof CategoryWhereSchema>;
+
+export type CategoryDescriptionWhere = z.infer<
+  typeof CategoryDescriptionWhereSchema
+>;
+
+export type ProductWhere = z.infer<typeof ProductWhereSchema>;
+
+export type ProductCategoryWhere = z.infer<typeof ProductCategoryWhereSchema>;
+
+export type VariantWhere = z.infer<typeof VariantWhereSchema>;
+
+export type AttributeCategoryWhere = z.infer<
+  typeof AttributeCategoryWhereSchema
+>;
+
+export type AttributeWhere = z.infer<typeof AttributeWhereSchema>;
+
+export type UnitWhere = z.infer<typeof UnitWhereSchema>;
+
+export type AttributeUnitWhere = z.infer<typeof AttributeUnitWhereSchema>;
+
+export type AttributeValueWhere = z.infer<typeof AttributeValueWhereSchema>;
+
+export type CurrencyWhere = z.infer<typeof CurrencyWhereSchema>;
+
+export type PriceLevelWhere = z.infer<typeof PriceLevelWhereSchema>;
+
+export type PriceWhere = z.infer<typeof PriceWhereSchema>;
+
+export type QuantityWhere = z.infer<typeof QuantityWhereSchema>;
+
+export type SerialNumberWhere = z.infer<typeof SerialNumberWhereSchema>;
+
+export type DiscountWhere = z.infer<typeof DiscountWhereSchema>;
+
+export type DiscountTargetWhere = z.infer<typeof DiscountTargetWhereSchema>;
+
+export type StoreWhere = z.infer<typeof StoreWhereSchema>;
+
+export type WarrantyPolicyWhere = z.infer<typeof WarrantyPolicyWhereSchema>;
+
+export type ProductWarrantyWhere = z.infer<typeof ProductWarrantyWhereSchema>;
+
+export type CategoryOwnOrderBy = z.infer<typeof CategoryOwnOrderBySchema>;
+
+export type CategoryDescriptionOwnOrderBy = z.infer<
+  typeof CategoryDescriptionOwnOrderBySchema
+>;
+
+export type ProductOwnOrderBy = z.infer<typeof ProductOwnOrderBySchema>;
+
+export type ProductCategoryOwnOrderBy = z.infer<
+  typeof ProductCategoryOwnOrderBySchema
+>;
+
+export type VariantOwnOrderBy = z.infer<typeof VariantOwnOrderBySchema>;
+
+export type AttributeCategoryOwnOrderBy = z.infer<
+  typeof AttributeCategoryOwnOrderBySchema
+>;
+
+export type AttributeOwnOrderBy = z.infer<typeof AttributeOwnOrderBySchema>;
+
+export type UnitOwnOrderBy = z.infer<typeof UnitOwnOrderBySchema>;
+
+export type AttributeUnitOwnOrderBy = z.infer<
+  typeof AttributeUnitOwnOrderBySchema
+>;
+
+export type AttributeValueOwnOrderBy = z.infer<
+  typeof AttributeValueOwnOrderBySchema
+>;
+
+export type CurrencyOwnOrderBy = z.infer<typeof CurrencyOwnOrderBySchema>;
+
+export type PriceLevelOwnOrderBy = z.infer<typeof PriceLevelOwnOrderBySchema>;
+
+export type PriceOwnOrderBy = z.infer<typeof PriceOwnOrderBySchema>;
+
+export type QuantityOwnOrderBy = z.infer<typeof QuantityOwnOrderBySchema>;
+
+export type SerialNumberOwnOrderBy = z.infer<
+  typeof SerialNumberOwnOrderBySchema
+>;
+
+export type DiscountOwnOrderBy = z.infer<typeof DiscountOwnOrderBySchema>;
+
+export type DiscountTargetOwnOrderBy = z.infer<
+  typeof DiscountTargetOwnOrderBySchema
+>;
+
+export type StoreOwnOrderBy = z.infer<typeof StoreOwnOrderBySchema>;
+
+export type WarrantyPolicyOwnOrderBy = z.infer<
+  typeof WarrantyPolicyOwnOrderBySchema
+>;
+
+export type ProductWarrantyOwnOrderBy = z.infer<
+  typeof ProductWarrantyOwnOrderBySchema
+>;
+
+export type CategoryOrderBy = z.infer<typeof CategoryOrderBySchema>;
+
+export type CategoryDescriptionOrderBy = z.infer<
+  typeof CategoryDescriptionOrderBySchema
+>;
+
+export type ProductOrderBy = z.infer<typeof ProductOrderBySchema>;
+
+export type ProductCategoryOrderBy = z.infer<
+  typeof ProductCategoryOrderBySchema
+>;
+
+export type VariantOrderBy = z.infer<typeof VariantOrderBySchema>;
+
+export type AttributeCategoryOrderBy = z.infer<
+  typeof AttributeCategoryOrderBySchema
+>;
+
+export type AttributeOrderBy = z.infer<typeof AttributeOrderBySchema>;
+
+export type UnitOrderBy = z.infer<typeof UnitOrderBySchema>;
+
+export type AttributeUnitOrderBy = z.infer<typeof AttributeUnitOrderBySchema>;
+
+export type AttributeValueOrderBy = z.infer<typeof AttributeValueOrderBySchema>;
+
+export type CurrencyOrderBy = z.infer<typeof CurrencyOrderBySchema>;
+
+export type PriceLevelOrderBy = z.infer<typeof PriceLevelOrderBySchema>;
+
+export type PriceOrderBy = z.infer<typeof PriceOrderBySchema>;
+
+export type QuantityOrderBy = z.infer<typeof QuantityOrderBySchema>;
+
+export type SerialNumberOrderBy = z.infer<typeof SerialNumberOrderBySchema>;
+
+export type DiscountOrderBy = z.infer<typeof DiscountOrderBySchema>;
+
+export type DiscountTargetOrderBy = z.infer<typeof DiscountTargetOrderBySchema>;
+
+export type StoreOrderBy = z.infer<typeof StoreOrderBySchema>;
+
+export type WarrantyPolicyOrderBy = z.infer<typeof WarrantyPolicyOrderBySchema>;
+
+export type ProductWarrantyOrderBy = z.infer<
+  typeof ProductWarrantyOrderBySchema
+>;
+
+export type CategoryOwnSelect = z.infer<typeof CategoryOwnSelectSchema>;
+
+export type CategoryDescriptionOwnSelect = z.infer<
+  typeof CategoryDescriptionOwnSelectSchema
+>;
+
+export type ProductOwnSelect = z.infer<typeof ProductOwnSelectSchema>;
+
+export type ProductCategoryOwnSelect = z.infer<
+  typeof ProductCategoryOwnSelectSchema
+>;
+
+export type VariantOwnSelect = z.infer<typeof VariantOwnSelectSchema>;
+
+export type AttributeCategoryOwnSelect = z.infer<
+  typeof AttributeCategoryOwnSelectSchema
+>;
+
+export type AttributeOwnSelect = z.infer<typeof AttributeOwnSelectSchema>;
+
+export type UnitOwnSelect = z.infer<typeof UnitOwnSelectSchema>;
+
+export type AttributeUnitOwnSelect = z.infer<
+  typeof AttributeUnitOwnSelectSchema
+>;
+
+export type AttributeValueOwnSelect = z.infer<
+  typeof AttributeValueOwnSelectSchema
+>;
+
+export type CurrencyOwnSelect = z.infer<typeof CurrencyOwnSelectSchema>;
+
+export type PriceLevelOwnSelect = z.infer<typeof PriceLevelOwnSelectSchema>;
+
+export type PriceOwnSelect = z.infer<typeof PriceOwnSelectSchema>;
+
+export type QuantityOwnSelect = z.infer<typeof QuantityOwnSelectSchema>;
+
+export type SerialNumberOwnSelect = z.infer<typeof SerialNumberOwnSelectSchema>;
+
+export type DiscountOwnSelect = z.infer<typeof DiscountOwnSelectSchema>;
+
+export type DiscountTargetOwnSelect = z.infer<
+  typeof DiscountTargetOwnSelectSchema
+>;
+
+export type StoreOwnSelect = z.infer<typeof StoreOwnSelectSchema>;
+
+export type WarrantyPolicyOwnSelect = z.infer<
+  typeof WarrantyPolicyOwnSelectSchema
+>;
+
+export type ProductWarrantyOwnSelect = z.infer<
+  typeof ProductWarrantyOwnSelectSchema
+>;
+
+export type CategorySelect = z.infer<typeof CategorySelectSchema>;
+
+export type CategoryDescriptionSelect = z.infer<
+  typeof CategoryDescriptionSelectSchema
+>;
+
+export type ProductSelect = z.infer<typeof ProductSelectSchema>;
+
+export type ProductCategorySelect = z.infer<typeof ProductCategorySelectSchema>;
+
+export type VariantSelect = z.infer<typeof VariantSelectSchema>;
+
+export type AttributeCategorySelect = z.infer<
+  typeof AttributeCategorySelectSchema
+>;
+
+export type AttributeSelect = z.infer<typeof AttributeSelectSchema>;
+
+export type UnitSelect = z.infer<typeof UnitSelectSchema>;
+
+export type AttributeUnitSelect = z.infer<typeof AttributeUnitSelectSchema>;
+
+export type AttributeValueSelect = z.infer<typeof AttributeValueSelectSchema>;
+
+export type CurrencySelect = z.infer<typeof CurrencySelectSchema>;
+
+export type PriceLevelSelect = z.infer<typeof PriceLevelSelectSchema>;
+
+export type PriceSelect = z.infer<typeof PriceSelectSchema>;
+
+export type QuantitySelect = z.infer<typeof QuantitySelectSchema>;
+
+export type SerialNumberSelect = z.infer<typeof SerialNumberSelectSchema>;
+
+export type DiscountSelect = z.infer<typeof DiscountSelectSchema>;
+
+export type DiscountTargetSelect = z.infer<typeof DiscountTargetSelectSchema>;
+
+export type StoreSelect = z.infer<typeof StoreSelectSchema>;
+
+export type WarrantyPolicySelect = z.infer<typeof WarrantyPolicySelectSchema>;
+
+export type ProductWarrantySelect = z.infer<typeof ProductWarrantySelectSchema>;
+
+export type CategoryOmit = z.infer<typeof CategoryOmitSchema>;
+
+export type CategoryDescriptionOmit = z.infer<
+  typeof CategoryDescriptionOmitSchema
+>;
+
+export type ProductOmit = z.infer<typeof ProductOmitSchema>;
+
+export type ProductCategoryOmit = z.infer<typeof ProductCategoryOmitSchema>;
+
+export type VariantOmit = z.infer<typeof VariantOmitSchema>;
+
+export type AttributeCategoryOmit = z.infer<typeof AttributeCategoryOmitSchema>;
+
+export type AttributeOmit = z.infer<typeof AttributeOmitSchema>;
+
+export type UnitOmit = z.infer<typeof UnitOmitSchema>;
+
+export type AttributeUnitOmit = z.infer<typeof AttributeUnitOmitSchema>;
+
+export type AttributeValueOmit = z.infer<typeof AttributeValueOmitSchema>;
+
+export type CurrencyOmit = z.infer<typeof CurrencyOmitSchema>;
+
+export type PriceLevelOmit = z.infer<typeof PriceLevelOmitSchema>;
+
+export type PriceOmit = z.infer<typeof PriceOmitSchema>;
+
+export type QuantityOmit = z.infer<typeof QuantityOmitSchema>;
+
+export type SerialNumberOmit = z.infer<typeof SerialNumberOmitSchema>;
+
+export type DiscountOmit = z.infer<typeof DiscountOmitSchema>;
+
+export type DiscountTargetOmit = z.infer<typeof DiscountTargetOmitSchema>;
+
+export type StoreOmit = z.infer<typeof StoreOmitSchema>;
+
+export type WarrantyPolicyOmit = z.infer<typeof WarrantyPolicyOmitSchema>;
+
+export type ProductWarrantyOmit = z.infer<typeof ProductWarrantyOmitSchema>;
+
+export type CategoryOwnQueryOne = z.infer<typeof CategoryOwnQueryOneSchema>;
+
+export type CategoryDescriptionOwnQueryOne = z.infer<
+  typeof CategoryDescriptionOwnQueryOneSchema
+>;
+
+export type ProductOwnQueryOne = z.infer<typeof ProductOwnQueryOneSchema>;
+
+export type ProductCategoryOwnQueryOne = z.infer<
+  typeof ProductCategoryOwnQueryOneSchema
+>;
+
+export type VariantOwnQueryOne = z.infer<typeof VariantOwnQueryOneSchema>;
+
+export type AttributeCategoryOwnQueryOne = z.infer<
+  typeof AttributeCategoryOwnQueryOneSchema
+>;
+
+export type AttributeOwnQueryOne = z.infer<typeof AttributeOwnQueryOneSchema>;
+
+export type UnitOwnQueryOne = z.infer<typeof UnitOwnQueryOneSchema>;
+
+export type AttributeUnitOwnQueryOne = z.infer<
+  typeof AttributeUnitOwnQueryOneSchema
+>;
+
+export type AttributeValueOwnQueryOne = z.infer<
+  typeof AttributeValueOwnQueryOneSchema
+>;
+
+export type CurrencyOwnQueryOne = z.infer<typeof CurrencyOwnQueryOneSchema>;
+
+export type PriceLevelOwnQueryOne = z.infer<typeof PriceLevelOwnQueryOneSchema>;
+
+export type PriceOwnQueryOne = z.infer<typeof PriceOwnQueryOneSchema>;
+
+export type QuantityOwnQueryOne = z.infer<typeof QuantityOwnQueryOneSchema>;
+
+export type SerialNumberOwnQueryOne = z.infer<
+  typeof SerialNumberOwnQueryOneSchema
+>;
+
+export type DiscountOwnQueryOne = z.infer<typeof DiscountOwnQueryOneSchema>;
+
+export type DiscountTargetOwnQueryOne = z.infer<
+  typeof DiscountTargetOwnQueryOneSchema
+>;
+
+export type StoreOwnQueryOne = z.infer<typeof StoreOwnQueryOneSchema>;
+
+export type WarrantyPolicyOwnQueryOne = z.infer<
+  typeof WarrantyPolicyOwnQueryOneSchema
+>;
+
+export type ProductWarrantyOwnQueryOne = z.infer<
+  typeof ProductWarrantyOwnQueryOneSchema
+>;
+
+export type CategoryOwnQuery = z.infer<typeof CategoryOwnQuerySchema>;
+
+export type CategoryDescriptionOwnQuery = z.infer<
+  typeof CategoryDescriptionOwnQuerySchema
+>;
+
+export type ProductOwnQuery = z.infer<typeof ProductOwnQuerySchema>;
+
+export type ProductCategoryOwnQuery = z.infer<
+  typeof ProductCategoryOwnQuerySchema
+>;
+
+export type VariantOwnQuery = z.infer<typeof VariantOwnQuerySchema>;
+
+export type AttributeCategoryOwnQuery = z.infer<
+  typeof AttributeCategoryOwnQuerySchema
+>;
+
+export type AttributeOwnQuery = z.infer<typeof AttributeOwnQuerySchema>;
+
+export type UnitOwnQuery = z.infer<typeof UnitOwnQuerySchema>;
+
+export type AttributeUnitOwnQuery = z.infer<typeof AttributeUnitOwnQuerySchema>;
+
+export type AttributeValueOwnQuery = z.infer<
+  typeof AttributeValueOwnQuerySchema
+>;
+
+export type CurrencyOwnQuery = z.infer<typeof CurrencyOwnQuerySchema>;
+
+export type PriceLevelOwnQuery = z.infer<typeof PriceLevelOwnQuerySchema>;
+
+export type PriceOwnQuery = z.infer<typeof PriceOwnQuerySchema>;
+
+export type QuantityOwnQuery = z.infer<typeof QuantityOwnQuerySchema>;
+
+export type SerialNumberOwnQuery = z.infer<typeof SerialNumberOwnQuerySchema>;
+
+export type DiscountOwnQuery = z.infer<typeof DiscountOwnQuerySchema>;
+
+export type DiscountTargetOwnQuery = z.infer<
+  typeof DiscountTargetOwnQuerySchema
+>;
+
+export type StoreOwnQuery = z.infer<typeof StoreOwnQuerySchema>;
+
+export type WarrantyPolicyOwnQuery = z.infer<
+  typeof WarrantyPolicyOwnQuerySchema
+>;
+
+export type ProductWarrantyOwnQuery = z.infer<
+  typeof ProductWarrantyOwnQuerySchema
+>;
+
+export type CategoryInclude = z.infer<typeof CategoryIncludeSchema>;
+
+export type CategoryDescriptionInclude = z.infer<
+  typeof CategoryDescriptionIncludeSchema
+>;
+
+export type ProductInclude = z.infer<typeof ProductIncludeSchema>;
+
+export type ProductCategoryInclude = z.infer<
+  typeof ProductCategoryIncludeSchema
+>;
+
+export type VariantInclude = z.infer<typeof VariantIncludeSchema>;
+
+export type AttributeCategoryInclude = z.infer<
+  typeof AttributeCategoryIncludeSchema
+>;
+
+export type AttributeInclude = z.infer<typeof AttributeIncludeSchema>;
+
+export type UnitInclude = z.infer<typeof UnitIncludeSchema>;
+
+export type AttributeUnitInclude = z.infer<typeof AttributeUnitIncludeSchema>;
+
+export type AttributeValueInclude = z.infer<typeof AttributeValueIncludeSchema>;
+
+export type CurrencyInclude = z.infer<typeof CurrencyIncludeSchema>;
+
+export type PriceLevelInclude = z.infer<typeof PriceLevelIncludeSchema>;
+
+export type PriceInclude = z.infer<typeof PriceIncludeSchema>;
+
+export type QuantityInclude = z.infer<typeof QuantityIncludeSchema>;
+
+export type SerialNumberInclude = z.infer<typeof SerialNumberIncludeSchema>;
+
+export type DiscountInclude = z.infer<typeof DiscountIncludeSchema>;
+
+export type DiscountTargetInclude = z.infer<typeof DiscountTargetIncludeSchema>;
+
+export type StoreInclude = z.infer<typeof StoreIncludeSchema>;
+
+export type WarrantyPolicyInclude = z.infer<typeof WarrantyPolicyIncludeSchema>;
+
+export type ProductWarrantyInclude = z.infer<
+  typeof ProductWarrantyIncludeSchema
+>;
+
+export type CategoryCompleteSelect = z.infer<
+  typeof CategoryCompleteSelectSchema
+>;
+
+export type CategoryDescriptionCompleteSelect = z.infer<
+  typeof CategoryDescriptionCompleteSelectSchema
+>;
+
+export type ProductCompleteSelect = z.infer<typeof ProductCompleteSelectSchema>;
+
+export type ProductCategoryCompleteSelect = z.infer<
+  typeof ProductCategoryCompleteSelectSchema
+>;
+
+export type VariantCompleteSelect = z.infer<typeof VariantCompleteSelectSchema>;
+
+export type AttributeCategoryCompleteSelect = z.infer<
+  typeof AttributeCategoryCompleteSelectSchema
+>;
+
+export type AttributeCompleteSelect = z.infer<
+  typeof AttributeCompleteSelectSchema
+>;
+
+export type UnitCompleteSelect = z.infer<typeof UnitCompleteSelectSchema>;
+
+export type AttributeUnitCompleteSelect = z.infer<
+  typeof AttributeUnitCompleteSelectSchema
+>;
+
+export type AttributeValueCompleteSelect = z.infer<
+  typeof AttributeValueCompleteSelectSchema
+>;
+
+export type CurrencyCompleteSelect = z.infer<
+  typeof CurrencyCompleteSelectSchema
+>;
+
+export type PriceLevelCompleteSelect = z.infer<
+  typeof PriceLevelCompleteSelectSchema
+>;
+
+export type PriceCompleteSelect = z.infer<typeof PriceCompleteSelectSchema>;
+
+export type QuantityCompleteSelect = z.infer<
+  typeof QuantityCompleteSelectSchema
+>;
+
+export type SerialNumberCompleteSelect = z.infer<
+  typeof SerialNumberCompleteSelectSchema
+>;
+
+export type DiscountCompleteSelect = z.infer<
+  typeof DiscountCompleteSelectSchema
+>;
+
+export type DiscountTargetCompleteSelect = z.infer<
+  typeof DiscountTargetCompleteSelectSchema
+>;
+
+export type StoreCompleteSelect = z.infer<typeof StoreCompleteSelectSchema>;
+
+export type WarrantyPolicyCompleteSelect = z.infer<
+  typeof WarrantyPolicyCompleteSelectSchema
+>;
+
+export type ProductWarrantyCompleteSelect = z.infer<
+  typeof ProductWarrantyCompleteSelectSchema
+>;
+
+export type CategoryQuery = z.infer<typeof CategoryQuerySchema>;
+
+export type CategoryDescriptionQuery = z.infer<
+  typeof CategoryDescriptionQuerySchema
+>;
+
+export type ProductQuery = z.infer<typeof ProductQuerySchema>;
+
+export type ProductCategoryQuery = z.infer<typeof ProductCategoryQuerySchema>;
+
+export type VariantQuery = z.infer<typeof VariantQuerySchema>;
+
+export type AttributeCategoryQuery = z.infer<
+  typeof AttributeCategoryQuerySchema
+>;
+
+export type AttributeQuery = z.infer<typeof AttributeQuerySchema>;
+
+export type UnitQuery = z.infer<typeof UnitQuerySchema>;
+
+export type AttributeUnitQuery = z.infer<typeof AttributeUnitQuerySchema>;
+
+export type AttributeValueQuery = z.infer<typeof AttributeValueQuerySchema>;
+
+export type CurrencyQuery = z.infer<typeof CurrencyQuerySchema>;
+
+export type PriceLevelQuery = z.infer<typeof PriceLevelQuerySchema>;
+
+export type PriceQuery = z.infer<typeof PriceQuerySchema>;
+
+export type QuantityQuery = z.infer<typeof QuantityQuerySchema>;
+
+export type SerialNumberQuery = z.infer<typeof SerialNumberQuerySchema>;
+
+export type DiscountQuery = z.infer<typeof DiscountQuerySchema>;
+
+export type DiscountTargetQuery = z.infer<typeof DiscountTargetQuerySchema>;
+
+export type StoreQuery = z.infer<typeof StoreQuerySchema>;
+
+export type WarrantyPolicyQuery = z.infer<typeof WarrantyPolicyQuerySchema>;
+
+export type ProductWarrantyQuery = z.infer<typeof ProductWarrantyQuerySchema>;
+
+export type CategoryCompleteQueryOne = z.infer<
+  typeof CategoryCompleteQueryOneSchema
+>;
+
+export type CategoryDescriptionCompleteQueryOne = z.infer<
+  typeof CategoryDescriptionCompleteQueryOneSchema
+>;
+
+export type ProductCompleteQueryOne = z.infer<
+  typeof ProductCompleteQueryOneSchema
+>;
+
+export type ProductCategoryCompleteQueryOne = z.infer<
+  typeof ProductCategoryCompleteQueryOneSchema
+>;
+
+export type VariantCompleteQueryOne = z.infer<
+  typeof VariantCompleteQueryOneSchema
+>;
+
+export type AttributeCategoryCompleteQueryOne = z.infer<
+  typeof AttributeCategoryCompleteQueryOneSchema
+>;
+
+export type AttributeCompleteQueryOne = z.infer<
+  typeof AttributeCompleteQueryOneSchema
+>;
+
+export type UnitCompleteQueryOne = z.infer<typeof UnitCompleteQueryOneSchema>;
+
+export type AttributeUnitCompleteQueryOne = z.infer<
+  typeof AttributeUnitCompleteQueryOneSchema
+>;
+
+export type AttributeValueCompleteQueryOne = z.infer<
+  typeof AttributeValueCompleteQueryOneSchema
+>;
+
+export type CurrencyCompleteQueryOne = z.infer<
+  typeof CurrencyCompleteQueryOneSchema
+>;
+
+export type PriceLevelCompleteQueryOne = z.infer<
+  typeof PriceLevelCompleteQueryOneSchema
+>;
+
+export type PriceCompleteQueryOne = z.infer<typeof PriceCompleteQueryOneSchema>;
+
+export type QuantityCompleteQueryOne = z.infer<
+  typeof QuantityCompleteQueryOneSchema
+>;
+
+export type SerialNumberCompleteQueryOne = z.infer<
+  typeof SerialNumberCompleteQueryOneSchema
+>;
+
+export type DiscountCompleteQueryOne = z.infer<
+  typeof DiscountCompleteQueryOneSchema
+>;
+
+export type DiscountTargetCompleteQueryOne = z.infer<
+  typeof DiscountTargetCompleteQueryOneSchema
+>;
+
+export type StoreCompleteQueryOne = z.infer<typeof StoreCompleteQueryOneSchema>;
+
+export type WarrantyPolicyCompleteQueryOne = z.infer<
+  typeof WarrantyPolicyCompleteQueryOneSchema
+>;
+
+export type ProductWarrantyCompleteQueryOne = z.infer<
+  typeof ProductWarrantyCompleteQueryOneSchema
+>;
+
+export type CategoryCompleteQuery = z.infer<typeof CategoryCompleteQuerySchema>;
+
+export type CategoryDescriptionCompleteQuery = z.infer<
+  typeof CategoryDescriptionCompleteQuerySchema
+>;
+
+export type ProductCompleteQuery = z.infer<typeof ProductCompleteQuerySchema>;
+
+export type ProductCategoryCompleteQuery = z.infer<
+  typeof ProductCategoryCompleteQuerySchema
+>;
+
+export type VariantCompleteQuery = z.infer<typeof VariantCompleteQuerySchema>;
+
+export type AttributeCategoryCompleteQuery = z.infer<
+  typeof AttributeCategoryCompleteQuerySchema
+>;
+
+export type AttributeCompleteQuery = z.infer<
+  typeof AttributeCompleteQuerySchema
+>;
+
+export type UnitCompleteQuery = z.infer<typeof UnitCompleteQuerySchema>;
+
+export type AttributeUnitCompleteQuery = z.infer<
+  typeof AttributeUnitCompleteQuerySchema
+>;
+
+export type AttributeValueCompleteQuery = z.infer<
+  typeof AttributeValueCompleteQuerySchema
+>;
+
+export type CurrencyCompleteQuery = z.infer<typeof CurrencyCompleteQuerySchema>;
+
+export type PriceLevelCompleteQuery = z.infer<
+  typeof PriceLevelCompleteQuerySchema
+>;
+
+export type PriceCompleteQuery = z.infer<typeof PriceCompleteQuerySchema>;
+
+export type QuantityCompleteQuery = z.infer<typeof QuantityCompleteQuerySchema>;
+
+export type SerialNumberCompleteQuery = z.infer<
+  typeof SerialNumberCompleteQuerySchema
+>;
+
+export type DiscountCompleteQuery = z.infer<typeof DiscountCompleteQuerySchema>;
+
+export type DiscountTargetCompleteQuery = z.infer<
+  typeof DiscountTargetCompleteQuerySchema
+>;
+
+export type StoreCompleteQuery = z.infer<typeof StoreCompleteQuerySchema>;
+
+export type WarrantyPolicyCompleteQuery = z.infer<
+  typeof WarrantyPolicyCompleteQuerySchema
+>;
+
+export type ProductWarrantyCompleteQuery = z.infer<
+  typeof ProductWarrantyCompleteQuerySchema
+>;
+
+export type CategoryProjection = z.infer<typeof CategoryProjectionSchema>;
+
+export type CategoryDescriptionProjection = z.infer<
+  typeof CategoryDescriptionProjectionSchema
+>;
+
+export type ProductProjection = z.infer<typeof ProductProjectionSchema>;
+
+export type ProductCategoryProjection = z.infer<
+  typeof ProductCategoryProjectionSchema
+>;
+
+export type VariantProjection = z.infer<typeof VariantProjectionSchema>;
+
+export type AttributeCategoryProjection = z.infer<
+  typeof AttributeCategoryProjectionSchema
+>;
+
+export type AttributeProjection = z.infer<typeof AttributeProjectionSchema>;
+
+export type UnitProjection = z.infer<typeof UnitProjectionSchema>;
+
+export type AttributeUnitProjection = z.infer<
+  typeof AttributeUnitProjectionSchema
+>;
+
+export type AttributeValueProjection = z.infer<
+  typeof AttributeValueProjectionSchema
+>;
+
+export type CurrencyProjection = z.infer<typeof CurrencyProjectionSchema>;
+
+export type PriceLevelProjection = z.infer<typeof PriceLevelProjectionSchema>;
+
+export type PriceProjection = z.infer<typeof PriceProjectionSchema>;
+
+export type QuantityProjection = z.infer<typeof QuantityProjectionSchema>;
+
+export type SerialNumberProjection = z.infer<
+  typeof SerialNumberProjectionSchema
+>;
+
+export type DiscountProjection = z.infer<typeof DiscountProjectionSchema>;
+
+export type DiscountTargetProjection = z.infer<
+  typeof DiscountTargetProjectionSchema
+>;
+
+export type StoreProjection = z.infer<typeof StoreProjectionSchema>;
+
+export type WarrantyPolicyProjection = z.infer<
+  typeof WarrantyPolicyProjectionSchema
+>;
+
+export type ProductWarrantyProjection = z.infer<
+  typeof ProductWarrantyProjectionSchema
+>;
+
+export type CategoryOwnCreate = z.infer<typeof CategoryOwnCreateSchema>;
+
+export type CategoryDescriptionOwnCreate = z.infer<
+  typeof CategoryDescriptionOwnCreateSchema
+>;
+
+export type ProductOwnCreate = z.infer<typeof ProductOwnCreateSchema>;
+
+export type ProductCategoryOwnCreate = z.infer<
+  typeof ProductCategoryOwnCreateSchema
+>;
+
+export type VariantOwnCreate = z.infer<typeof VariantOwnCreateSchema>;
+
+export type AttributeCategoryOwnCreate = z.infer<
+  typeof AttributeCategoryOwnCreateSchema
+>;
+
+export type AttributeOwnCreate = z.infer<typeof AttributeOwnCreateSchema>;
+
+export type UnitOwnCreate = z.infer<typeof UnitOwnCreateSchema>;
+
+export type AttributeUnitOwnCreate = z.infer<
+  typeof AttributeUnitOwnCreateSchema
+>;
+
+export type AttributeValueOwnCreate = z.infer<
+  typeof AttributeValueOwnCreateSchema
+>;
+
+export type CurrencyOwnCreate = z.infer<typeof CurrencyOwnCreateSchema>;
+
+export type PriceLevelOwnCreate = z.infer<typeof PriceLevelOwnCreateSchema>;
+
+export type PriceOwnCreate = z.infer<typeof PriceOwnCreateSchema>;
+
+export type QuantityOwnCreate = z.infer<typeof QuantityOwnCreateSchema>;
+
+export type SerialNumberOwnCreate = z.infer<typeof SerialNumberOwnCreateSchema>;
+
+export type DiscountOwnCreate = z.infer<typeof DiscountOwnCreateSchema>;
+
+export type DiscountTargetOwnCreate = z.infer<
+  typeof DiscountTargetOwnCreateSchema
+>;
+
+export type StoreOwnCreate = z.infer<typeof StoreOwnCreateSchema>;
+
+export type WarrantyPolicyOwnCreate = z.infer<
+  typeof WarrantyPolicyOwnCreateSchema
+>;
+
+export type ProductWarrantyOwnCreate = z.infer<
+  typeof ProductWarrantyOwnCreateSchema
+>;
+
+export type CategoryCreate = z.infer<typeof CategoryCreateSchema>;
+
+export type CategoryDescriptionCreate = z.infer<
+  typeof CategoryDescriptionCreateSchema
+>;
+
+export type ProductCreate = z.infer<typeof ProductCreateSchema>;
+
+export type ProductCategoryCreate = z.infer<typeof ProductCategoryCreateSchema>;
+
+export type VariantCreate = z.infer<typeof VariantCreateSchema>;
+
+export type AttributeCategoryCreate = z.infer<
+  typeof AttributeCategoryCreateSchema
+>;
+
+export type AttributeCreate = z.infer<typeof AttributeCreateSchema>;
+
+export type UnitCreate = z.infer<typeof UnitCreateSchema>;
+
+export type AttributeUnitCreate = z.infer<typeof AttributeUnitCreateSchema>;
+
+export type AttributeValueCreate = z.infer<typeof AttributeValueCreateSchema>;
+
+export type CurrencyCreate = z.infer<typeof CurrencyCreateSchema>;
+
+export type PriceLevelCreate = z.infer<typeof PriceLevelCreateSchema>;
+
+export type PriceCreate = z.infer<typeof PriceCreateSchema>;
+
+export type QuantityCreate = z.infer<typeof QuantityCreateSchema>;
+
+export type SerialNumberCreate = z.infer<typeof SerialNumberCreateSchema>;
+
+export type DiscountCreate = z.infer<typeof DiscountCreateSchema>;
+
+export type DiscountTargetCreate = z.infer<typeof DiscountTargetCreateSchema>;
+
+export type StoreCreate = z.infer<typeof StoreCreateSchema>;
+
+export type WarrantyPolicyCreate = z.infer<typeof WarrantyPolicyCreateSchema>;
+
+export type ProductWarrantyCreate = z.infer<typeof ProductWarrantyCreateSchema>;
+
+export type CategoryUpdate = z.infer<typeof CategoryUpdateSchema>;
+
+export type CategoryDescriptionUpdate = z.infer<
+  typeof CategoryDescriptionUpdateSchema
+>;
+
+export type ProductUpdate = z.infer<typeof ProductUpdateSchema>;
+
+export type ProductCategoryUpdate = z.infer<typeof ProductCategoryUpdateSchema>;
+
+export type VariantUpdate = z.infer<typeof VariantUpdateSchema>;
+
+export type AttributeCategoryUpdate = z.infer<
+  typeof AttributeCategoryUpdateSchema
+>;
+
+export type AttributeUpdate = z.infer<typeof AttributeUpdateSchema>;
+
+export type UnitUpdate = z.infer<typeof UnitUpdateSchema>;
+
+export type AttributeUnitUpdate = z.infer<typeof AttributeUnitUpdateSchema>;
+
+export type AttributeValueUpdate = z.infer<typeof AttributeValueUpdateSchema>;
+
+export type CurrencyUpdate = z.infer<typeof CurrencyUpdateSchema>;
+
+export type PriceLevelUpdate = z.infer<typeof PriceLevelUpdateSchema>;
+
+export type PriceUpdate = z.infer<typeof PriceUpdateSchema>;
+
+export type QuantityUpdate = z.infer<typeof QuantityUpdateSchema>;
+
+export type SerialNumberUpdate = z.infer<typeof SerialNumberUpdateSchema>;
+
+export type DiscountUpdate = z.infer<typeof DiscountUpdateSchema>;
+
+export type DiscountTargetUpdate = z.infer<typeof DiscountTargetUpdateSchema>;
+
+export type StoreUpdate = z.infer<typeof StoreUpdateSchema>;
+
+export type WarrantyPolicyUpdate = z.infer<typeof WarrantyPolicyUpdateSchema>;
+
+export type ProductWarrantyUpdate = z.infer<typeof ProductWarrantyUpdateSchema>;

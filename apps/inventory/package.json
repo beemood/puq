@@ -1,0 +1,103 @@
+{
+  "name": "@puq/inventory",
+  "version": "0.29.10",
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  },
+  "description": "inventory",
+  "homepage": "https://beemood.github.io/beemood/apps/inventory",
+  "author": {
+    "email": "robert.brightline@gmail.com",
+    "name": "Robert Brightline",
+    "url": "https://beemood.github.io"
+  },
+  "icon": "https://beemood.github.io/beemood/apps/inventory/assets/favicon.png",
+  "funding": [
+    "https://cash.app/$puqlib"
+  ],
+  "keywords": [],
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "!**/*.tsbuildinfo"
+  ],
+  "nx": {
+    "sourceRoot": "apps/inventory/src",
+    "targets": {
+      "build": {
+        "executor": "@nx/js:swc",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "options": {
+          "outputPath": "apps/inventory/dist",
+          "main": "apps/inventory/src/index.ts",
+          "tsConfig": "apps/inventory/tsconfig.lib.json",
+          "skipTypeCheck": false,
+          "stripLeadingPaths": true
+        }
+      },
+      "serve": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npx nx build inventory --watch=true",
+            "nodemon {projectRoot}/dist/main.js"
+          ],
+          "parallel": true
+        }
+      },
+      "doc": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npx typedoc"
+          ],
+          "cwd": "{projectRoot}"
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "@nestjs/cache-manager": "^3.0.1",
+    "@nestjs/common": "^11.1.6",
+    "@nestjs/config": "^4.0.2",
+    "@nestjs/core": "^11.1.6",
+    "@nestjs/event-emitter": "^3.0.1",
+    "@nestjs/platform-express": "^11.1.6",
+    "@nestjs/schedule": "^6.0.0",
+    "@nestjs/swagger": "^11.2.0",
+    "@nestjs/throttler": "^6.4.0",
+    "@prisma/client": "^6.16.2",
+    "@puq/inventory-db": "workspace:*",
+    "@puq/nest": "workspace:*",
+    "@puq/prisma": "workspace:*",
+    "@puq/types": "workspace:*",
+    "@puq/zod": "workspace:*",
+    "@swc/helpers": "~0.5.11",
+    "cache-manager": "^7.2.2",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "zod": "^4.1.11"
+  },
+  "devDependencies": {
+    "@puq/inventory": "workspace:*",
+    "@nestjs/testing": "^11.1.6",
+    "@types/supertest": "^6.0.3",
+    "supertest": "^7.1.4"
+  }
+}

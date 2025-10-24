@@ -1,14 +1,17 @@
 import type { DMMF } from '@prisma/client/runtime/library';
 
-import { isCreateInputField, isOwnInputField } from '../helpers/is-field.js';
+import {
+  isCreateInputField,
+  isOwnInputField,
+  isUpdateInputField,
+} from '../helpers/is-field.js';
 import { printObjectSchema } from '../helpers/print-object-schema.js';
 import {
   toCreateSchemaName,
   toOwnCreateSchemaName,
   toUpdateSchemaName,
 } from '../helpers/to-schema-name.js';
-import { isUpdateField } from '../old-version/generate-zod-schemas.js';
-import { toInputFieldDefinition } from './to-field-definitions.js';
+import { toCreateInputFieldDefinition, toUpdateInputFieldDefinition } from './to-field-definitions.js';
 
 /**
  * Print create-input schema to validate *create* input from the given model
@@ -29,7 +32,7 @@ export function printCreateInputSchema(model: DMMF.Model) {
   return printObjectSchema(
     model,
     toCreateSchemaName,
-    toInputFieldDefinition,
+    toCreateInputFieldDefinition,
     isCreateInputField
   );
 }
@@ -38,7 +41,7 @@ export function printOwnCreateInputSchema(model: DMMF.Model) {
   return printObjectSchema(
     model,
     toOwnCreateSchemaName,
-    toInputFieldDefinition,
+    toCreateInputFieldDefinition,
     isOwnInputField
   );
 }
@@ -62,7 +65,7 @@ export function printUpdateInputSchema(model: DMMF.Model) {
   return printObjectSchema(
     model,
     toUpdateSchemaName,
-    toInputFieldDefinition,
-    isUpdateField
+    toUpdateInputFieldDefinition,
+    isUpdateInputField
   );
 }

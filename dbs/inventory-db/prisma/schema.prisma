@@ -107,7 +107,7 @@ model Category {
   /// Parent category
   parent Category? @relation("SubCategories", fields: [parentId], references: [id])
 
-  /// List of sub categories
+  /// List of sub categories: @children
   children Category[] @relation("SubCategories")
 
   /// List of products in this category

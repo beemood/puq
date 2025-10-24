@@ -11,6 +11,12 @@ export function isRequiredField(field: DMMF.Field): boolean {
     return false;
   }
 
+  if (isRelationField(field)) {
+    if (field.isList) {
+      return false;
+    }
+  }
+
   if (field.hasDefaultValue) {
     return false;
   }
@@ -119,6 +125,34 @@ export function isOwnField(field: DMMF.Field) {
 }
 
 /**
+ * Check the field is a child/children relation. Any relation contains one of the keywords **child, children,  attribute, attributes, tag, tags, label, labels** is considered a child relation
+ * @param field DMMF.Field
+ * @returns boolean
+ */
+export function isChildRelation(field: DMMF.Field): boolean {
+  if (!isRelationField(field)) {
+    return false;
+  }
+  const childRelationkeys = [
+    '@child',
+    '@children',
+    '@attribute',
+    '@attributes',
+    '@tag',
+    '@tags',
+    '@label',
+    '@labels',
+  ];
+
+  for (const k of childRelationkeys) {
+    if (field.documentation?.includes(k)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
  * Determines a field is included in the **create** operations or not
  * @param field DMMF.Field
  * @returns boolean
@@ -136,6 +170,13 @@ export function isCreateInputField(field: DMMF.Field) {
     return false;
   }
 
+  if (isRelationField(field)) {
+    if (isChildRelation(field)) {
+      return true;
+    }
+    return false;
+  }
+
   return true;
 }
 
@@ -145,7 +186,14 @@ export function isCreateInputField(field: DMMF.Field) {
  * @returns boolean
  */
 export function isOwnInputField(field: DMMF.Field): boolean {
-  return isCreateInputField(field) && !isRelationField(field);
+  if (isCreateInputField(field)) {
+    if (isRelationField(field)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  return false;
 }
 
 /**
@@ -154,7 +202,23 @@ export function isOwnInputField(field: DMMF.Field): boolean {
  * @returns boolean
  */
 export function isUpdateInputField(field: DMMF.Field) {
-  return isOwnInputField(field) && !isReadOnlyField(field);
+  if (isReadOnlyField(field)) {
+    return false;
+  }
+
+  if (isOwnField(field)) {
+    return true;
+  }
+
+  if (isRelationField(field)) {
+    if (isChildRelation(field)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  return true;
 }
 
 /**

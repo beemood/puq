@@ -13,16 +13,21 @@ import {
   toCompleteQueryOneSchemaName,
   toCompleteQuerySchemaName,
   toCompleteSelectSchemaName,
+  toCreateSchemaName,
+  toDistictSchemaName,
   toIncludeSchemaName,
   toOmitSchemaName,
   toOrderBySchemaName,
+  toOwnCreateSchemaName,
   toOwnOrderBySchemaName,
   toOwnQueryOneSchemaName,
   toOwnQuerySchemaName,
   toOwnSelectSchemaName,
   toOwnWhereSchemaName,
+  toProjectionSchemaName,
   toQuerySchemaName,
   toSelectSchemaName,
+  toUpdateSchemaName,
   toWhereSchemaName,
 } from './helpers/to-schema-name.js';
 import { printDistictSchema } from './printers/print-distict-schema.js';
@@ -41,6 +46,7 @@ import {
   printWhereSchema,
 } from './printers/print-where-schema.js';
 
+import { printSchemaType } from './print-schema-types.js';
 import {
   printOrderBySchema,
   printOwnOrderBySchema,
@@ -62,66 +68,99 @@ import { createJsonProcessorSchemaPrinter } from './printers/print-schema-json-p
 export function printSchemas(
   datamodel: Omit<DMMF.Datamodel, 'indexes'>
 ): string {
-  const printerFns = new Set<(model: DMMF.Model) => string>();
+  const schemaPrinterFns = new Set<(model: DMMF.Model) => string>();
+  const schemaNameFns = new Set<(modelName: string) => string>();
 
   const content = new Set<string>();
   const models = datamodel.models;
 
   // Printers ordered by priorities
-  printerFns.add(printDistictSchema);
+  schemaPrinterFns.add(printDistictSchema);
+  schemaNameFns.add(toDistictSchemaName);
 
-  printerFns.add(printOwnWhereSchema);
-  printerFns.add(createJsonProcessorSchemaPrinter(toOwnWhereSchemaName));
+  schemaPrinterFns.add(printOwnWhereSchema);
+  schemaNameFns.add(toOwnWhereSchemaName);
+  schemaPrinterFns.add(createJsonProcessorSchemaPrinter(toOwnWhereSchemaName));
 
-  printerFns.add(printWhereSchema);
-  printerFns.add(createJsonProcessorSchemaPrinter(toWhereSchemaName));
+  schemaPrinterFns.add(printWhereSchema);
+  schemaNameFns.add(toWhereSchemaName);
+  schemaPrinterFns.add(createJsonProcessorSchemaPrinter(toWhereSchemaName));
 
-  printerFns.add(printOwnOrderBySchema);
-  printerFns.add(createJsonProcessorSchemaPrinter(toOwnOrderBySchemaName));
+  schemaPrinterFns.add(printOwnOrderBySchema);
+  schemaNameFns.add(toOwnOrderBySchemaName);
+  schemaPrinterFns.add(
+    createJsonProcessorSchemaPrinter(toOwnOrderBySchemaName)
+  );
 
-  printerFns.add(printOrderBySchema);
-  printerFns.add(createJsonProcessorSchemaPrinter(toOrderBySchemaName));
+  schemaPrinterFns.add(printOrderBySchema);
+  schemaNameFns.add(toOrderBySchemaName);
+  schemaPrinterFns.add(createJsonProcessorSchemaPrinter(toOrderBySchemaName));
 
-  printerFns.add(printOwnSelectProjectionSchema);
-  printerFns.add(createJsonProcessorSchemaPrinter(toOwnSelectSchemaName));
+  schemaPrinterFns.add(printOwnSelectProjectionSchema);
+  schemaNameFns.add(toOwnSelectSchemaName);
+  schemaPrinterFns.add(createJsonProcessorSchemaPrinter(toOwnSelectSchemaName));
 
-  printerFns.add(printSelectProjectionSchema);
-  printerFns.add(createJsonProcessorSchemaPrinter(toSelectSchemaName));
+  schemaPrinterFns.add(printSelectProjectionSchema);
+  schemaNameFns.add(toSelectSchemaName);
+  schemaPrinterFns.add(createJsonProcessorSchemaPrinter(toSelectSchemaName));
 
-  printerFns.add(printOmitProjectionSchema);
-  printerFns.add(createJsonProcessorSchemaPrinter(toOmitSchemaName));
+  schemaPrinterFns.add(printOmitProjectionSchema);
+  schemaNameFns.add(toOmitSchemaName);
+  schemaPrinterFns.add(createJsonProcessorSchemaPrinter(toOmitSchemaName));
 
-  printerFns.add(printOwnQueryOneSchema);
-  printerFns.add(createJsonProcessorSchemaPrinter(toOwnQueryOneSchemaName));
+  schemaPrinterFns.add(printOwnQueryOneSchema);
+  schemaNameFns.add(toOwnQueryOneSchemaName);
+  schemaPrinterFns.add(
+    createJsonProcessorSchemaPrinter(toOwnQueryOneSchemaName)
+  );
 
-  printerFns.add(printOwnQuerySchema);
-  printerFns.add(createJsonProcessorSchemaPrinter(toOwnQuerySchemaName));
+  schemaPrinterFns.add(printOwnQuerySchema);
+  schemaNameFns.add(toOwnQuerySchemaName);
+  schemaPrinterFns.add(createJsonProcessorSchemaPrinter(toOwnQuerySchemaName));
 
-  printerFns.add(printIncludeProjectionSchema);
-  printerFns.add(createJsonProcessorSchemaPrinter(toIncludeSchemaName));
+  schemaPrinterFns.add(printIncludeProjectionSchema);
+  schemaNameFns.add(toIncludeSchemaName);
+  schemaPrinterFns.add(createJsonProcessorSchemaPrinter(toIncludeSchemaName));
 
-  printerFns.add(printCompleteSelectProjectionSchema);
-  printerFns.add(createJsonProcessorSchemaPrinter(toCompleteSelectSchemaName));
+  schemaPrinterFns.add(printCompleteSelectProjectionSchema);
+  schemaNameFns.add(toCompleteSelectSchemaName);
+  schemaPrinterFns.add(
+    createJsonProcessorSchemaPrinter(toCompleteSelectSchemaName)
+  );
 
-  printerFns.add(printQuerySchema);
-  printerFns.add(createJsonProcessorSchemaPrinter(toQuerySchemaName));
+  schemaPrinterFns.add(printQuerySchema);
+  schemaNameFns.add(toQuerySchemaName);
+  schemaPrinterFns.add(createJsonProcessorSchemaPrinter(toQuerySchemaName));
 
-  printerFns.add(printCompleteSelectProjectionSchema);
-  printerFns.add(createJsonProcessorSchemaPrinter(toCompleteSelectSchemaName));
+  schemaPrinterFns.add(printCompleteSelectProjectionSchema);
+  schemaNameFns.add(toCompleteSelectSchemaName);
+  schemaPrinterFns.add(
+    createJsonProcessorSchemaPrinter(toCompleteSelectSchemaName)
+  );
 
-  printerFns.add(printCompleteQueryOneSchema);
-  printerFns.add(
+  schemaPrinterFns.add(printCompleteQueryOneSchema);
+  schemaNameFns.add(toCompleteQueryOneSchemaName);
+  schemaPrinterFns.add(
     createJsonProcessorSchemaPrinter(toCompleteQueryOneSchemaName)
   );
 
-  printerFns.add(printCompleteQuerySchema);
-  printerFns.add(createJsonProcessorSchemaPrinter(toCompleteQuerySchemaName));
+  schemaPrinterFns.add(printCompleteQuerySchema);
+  schemaNameFns.add(toCompleteQuerySchemaName);
+  schemaPrinterFns.add(
+    createJsonProcessorSchemaPrinter(toCompleteQuerySchemaName)
+  );
 
-  printerFns.add(printProjectionSchema);
+  schemaPrinterFns.add(printProjectionSchema);
+  schemaNameFns.add(toProjectionSchemaName);
 
-  printerFns.add(printOwnCreateInputSchema);
-  printerFns.add(printCreateInputSchema);
-  printerFns.add(printUpdateInputSchema);
+  schemaPrinterFns.add(printOwnCreateInputSchema);
+  schemaNameFns.add(toOwnCreateSchemaName);
+
+  schemaPrinterFns.add(printCreateInputSchema);
+  schemaNameFns.add(toCreateSchemaName);
+
+  schemaPrinterFns.add(printUpdateInputSchema);
+  schemaNameFns.add(toUpdateSchemaName);
 
   // Common Code
   content.add(`import z from 'zod';`);
@@ -133,9 +172,15 @@ export function printSchemas(
     content.add(printEnumArrayFilterSchema(e));
   }
 
-  for (const fn of printerFns) {
+  for (const fn of schemaPrinterFns) {
     for (const m of models) {
       content.add(fn(m));
+    }
+  }
+
+  for (const fn of schemaNameFns) {
+    for (const m of models) {
+      content.add(printSchemaType(fn(m.name)));
     }
   }
 

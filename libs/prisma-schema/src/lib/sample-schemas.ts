@@ -577,3 +577,155 @@ export const TagUpdateSchema = z.object({name: _name})
 export const SampleUpdateSchema = z.object({categoryId: _id.optional(),name: _name,description: _description.optional(),active: _bool.optional(),notes: _str.array(),nums: _int.array(),url: _url.optional(),json: _json.optional(),email: _email,password: _password.optional(),price: _currency,cost: _currency,status: StatusSchema.optional(),statuses: StatusSchema.array()})
 
 export const SampleTagUpdateSchema = z.object({tagId: _id,sampleId: _id})
+
+export type CategoryDistinct = z.infer<typeof CategoryDistinctSchema>;
+
+export type TagDistinct = z.infer<typeof TagDistinctSchema>;
+
+export type SampleDistinct = z.infer<typeof SampleDistinctSchema>;
+
+export type SampleTagDistinct = z.infer<typeof SampleTagDistinctSchema>;
+
+export type CategoryOwnWhere = z.infer<typeof CategoryOwnWhereSchema>;
+
+export type TagOwnWhere = z.infer<typeof TagOwnWhereSchema>;
+
+export type SampleOwnWhere = z.infer<typeof SampleOwnWhereSchema>;
+
+export type SampleTagOwnWhere = z.infer<typeof SampleTagOwnWhereSchema>;
+
+export type CategoryWhere = z.infer<typeof CategoryWhereSchema>;
+
+export type TagWhere = z.infer<typeof TagWhereSchema>;
+
+export type SampleWhere = z.infer<typeof SampleWhereSchema>;
+
+export type SampleTagWhere = z.infer<typeof SampleTagWhereSchema>;
+
+export type CategoryOwnOrderBy = z.infer<typeof CategoryOwnOrderBySchema>;
+
+export type TagOwnOrderBy = z.infer<typeof TagOwnOrderBySchema>;
+
+export type SampleOwnOrderBy = z.infer<typeof SampleOwnOrderBySchema>;
+
+export type SampleTagOwnOrderBy = z.infer<typeof SampleTagOwnOrderBySchema>;
+
+export type CategoryOrderBy = z.infer<typeof CategoryOrderBySchema>;
+
+export type TagOrderBy = z.infer<typeof TagOrderBySchema>;
+
+export type SampleOrderBy = z.infer<typeof SampleOrderBySchema>;
+
+export type SampleTagOrderBy = z.infer<typeof SampleTagOrderBySchema>;
+
+export type CategoryOwnSelect = z.infer<typeof CategoryOwnSelectSchema>;
+
+export type TagOwnSelect = z.infer<typeof TagOwnSelectSchema>;
+
+export type SampleOwnSelect = z.infer<typeof SampleOwnSelectSchema>;
+
+export type SampleTagOwnSelect = z.infer<typeof SampleTagOwnSelectSchema>;
+
+export type CategorySelect = z.infer<typeof CategorySelectSchema>;
+
+export type TagSelect = z.infer<typeof TagSelectSchema>;
+
+export type SampleSelect = z.infer<typeof SampleSelectSchema>;
+
+export type SampleTagSelect = z.infer<typeof SampleTagSelectSchema>;
+
+export type CategoryOmit = z.infer<typeof CategoryOmitSchema>;
+
+export type TagOmit = z.infer<typeof TagOmitSchema>;
+
+export type SampleOmit = z.infer<typeof SampleOmitSchema>;
+
+export type SampleTagOmit = z.infer<typeof SampleTagOmitSchema>;
+
+export type CategoryOwnQueryOne = z.infer<typeof CategoryOwnQueryOneSchema>;
+
+export type TagOwnQueryOne = z.infer<typeof TagOwnQueryOneSchema>;
+
+export type SampleOwnQueryOne = z.infer<typeof SampleOwnQueryOneSchema>;
+
+export type SampleTagOwnQueryOne = z.infer<typeof SampleTagOwnQueryOneSchema>;
+
+export type CategoryOwnQuery = z.infer<typeof CategoryOwnQuerySchema>;
+
+export type TagOwnQuery = z.infer<typeof TagOwnQuerySchema>;
+
+export type SampleOwnQuery = z.infer<typeof SampleOwnQuerySchema>;
+
+export type SampleTagOwnQuery = z.infer<typeof SampleTagOwnQuerySchema>;
+
+export type CategoryInclude = z.infer<typeof CategoryIncludeSchema>;
+
+export type TagInclude = z.infer<typeof TagIncludeSchema>;
+
+export type SampleInclude = z.infer<typeof SampleIncludeSchema>;
+
+export type SampleTagInclude = z.infer<typeof SampleTagIncludeSchema>;
+
+export type CategoryCompleteSelect = z.infer<typeof CategoryCompleteSelectSchema>;
+
+export type TagCompleteSelect = z.infer<typeof TagCompleteSelectSchema>;
+
+export type SampleCompleteSelect = z.infer<typeof SampleCompleteSelectSchema>;
+
+export type SampleTagCompleteSelect = z.infer<typeof SampleTagCompleteSelectSchema>;
+
+export type CategoryQuery = z.infer<typeof CategoryQuerySchema>;
+
+export type TagQuery = z.infer<typeof TagQuerySchema>;
+
+export type SampleQuery = z.infer<typeof SampleQuerySchema>;
+
+export type SampleTagQuery = z.infer<typeof SampleTagQuerySchema>;
+
+export type CategoryCompleteQueryOne = z.infer<typeof CategoryCompleteQueryOneSchema>;
+
+export type TagCompleteQueryOne = z.infer<typeof TagCompleteQueryOneSchema>;
+
+export type SampleCompleteQueryOne = z.infer<typeof SampleCompleteQueryOneSchema>;
+
+export type SampleTagCompleteQueryOne = z.infer<typeof SampleTagCompleteQueryOneSchema>;
+
+export type CategoryCompleteQuery = z.infer<typeof CategoryCompleteQuerySchema>;
+
+export type TagCompleteQuery = z.infer<typeof TagCompleteQuerySchema>;
+
+export type SampleCompleteQuery = z.infer<typeof SampleCompleteQuerySchema>;
+
+export type SampleTagCompleteQuery = z.infer<typeof SampleTagCompleteQuerySchema>;
+
+export type CategoryProjection = z.infer<typeof CategoryProjectionSchema>;
+
+export type TagProjection = z.infer<typeof TagProjectionSchema>;
+
+export type SampleProjection = z.infer<typeof SampleProjectionSchema>;
+
+export type SampleTagProjection = z.infer<typeof SampleTagProjectionSchema>;
+
+export type CategoryOwnCreate = z.infer<typeof CategoryOwnCreateSchema>;
+
+export type TagOwnCreate = z.infer<typeof TagOwnCreateSchema>;
+
+export type SampleOwnCreate = z.infer<typeof SampleOwnCreateSchema>;
+
+export type SampleTagOwnCreate = z.infer<typeof SampleTagOwnCreateSchema>;
+
+export type CategoryCreate = z.infer<typeof CategoryCreateSchema>;
+
+export type TagCreate = z.infer<typeof TagCreateSchema>;
+
+export type SampleCreate = z.infer<typeof SampleCreateSchema>;
+
+export type SampleTagCreate = z.infer<typeof SampleTagCreateSchema>;
+
+export type CategoryUpdate = z.infer<typeof CategoryUpdateSchema>;
+
+export type TagUpdate = z.infer<typeof TagUpdateSchema>;
+
+export type SampleUpdate = z.infer<typeof SampleUpdateSchema>;
+
+export type SampleTagUpdate = z.infer<typeof SampleTagUpdateSchema>;
