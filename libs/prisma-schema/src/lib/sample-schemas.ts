@@ -25,6 +25,10 @@ export const _longText = z.string().max(2000)
 export const _id = z.coerce.number().int().min(1)
 
 
+export const _idObject = z.object({ 
+   id: _id
+})
+
 export const _currency = z.coerce.number().min(0)
 
 
@@ -554,29 +558,21 @@ export const SampleOwnCreateSchema = z.object({otherUuid: _str.optional(),catego
 
 export const SampleTagOwnCreateSchema = z.object({tagId: _id,sampleId: _id})
 
-export const CategoryCreateSchema = z.object({parentId: _id.optional(),name: _name,description: _description.optional(),parent: z.object({ create: CategoryOwnCreateSchema}).optional(),children: 
-            z.object({ createMany: CategoryOwnCreateSchema.array() })
-            .array(),samples: 
-            z.object({ createMany: SampleOwnCreateSchema.array() })
-            .array()})
+export const CategoryCreateSchema = z.object({parentId: _id.optional(),name: _name,description: _description.optional()})
 
-export const TagCreateSchema = z.object({name: _name,samples: 
-            z.object({ createMany: SampleTagOwnCreateSchema.array() })
-            .array()})
+export const TagCreateSchema = z.object({name: _name})
 
-export const SampleCreateSchema = z.object({otherUuid: _str.optional(),categoryId: _id.optional(),name: _name,slug: _slug,description: _description.optional(),active: _bool.optional(),notes: _str.array(),nums: _int.array(),url: _url.optional(),json: _json.optional(),email: _email,password: _password.optional(),price: _currency,cost: _currency,category: z.object({ create: CategoryOwnCreateSchema}).optional(),tags: 
-            z.object({ createMany: SampleTagOwnCreateSchema.array() })
-            .array(),status: StatusSchema.optional(),statuses: StatusSchema.array()})
+export const SampleCreateSchema = z.object({otherUuid: _str.optional(),categoryId: _id.optional(),name: _name,slug: _slug,description: _description.optional(),active: _bool.optional(),notes: _str.array(),nums: _int.array(),url: _url.optional(),json: _json.optional(),email: _email,password: _password.optional(),price: _currency,cost: _currency,status: StatusSchema.optional(),statuses: StatusSchema.array()})
 
-export const SampleTagCreateSchema = z.object({tagId: _id,sampleId: _id,sample: z.object({ create: SampleOwnCreateSchema}),tag: z.object({ create: TagOwnCreateSchema})})
+export const SampleTagCreateSchema = z.object({tagId: _id,sampleId: _id})
 
-export const CategoryUpdateSchema = z.object({parentId: _id.optional(),name: _name,description: _description.optional()})
+export const CategoryUpdateSchema = z.object({id: _id.optional(),parentId: _id.optional(),name: _name.optional(),description: _description.optional()})
 
-export const TagUpdateSchema = z.object({name: _name})
+export const TagUpdateSchema = z.object({id: _id.optional(),name: _name.optional()})
 
-export const SampleUpdateSchema = z.object({categoryId: _id.optional(),name: _name,description: _description.optional(),active: _bool.optional(),notes: _str.array(),nums: _int.array(),url: _url.optional(),json: _json.optional(),email: _email,password: _password.optional(),price: _currency,cost: _currency,status: StatusSchema.optional(),statuses: StatusSchema.array()})
+export const SampleUpdateSchema = z.object({id: _id.optional(),otherUuid: _str.optional(),createdAt: _date.optional(),updatedAt: _date.optional(),deletedAt: _date.optional(),categoryId: _id.optional(),name: _name.optional(),slug: _slug.optional(),description: _description.optional(),active: _bool.optional(),notes: _str.array().optional(),nums: _int.array().optional(),url: _url.optional(),json: _json.optional(),email: _email.optional(),password: _password.optional(),price: _currency.optional(),cost: _currency.optional(),status: StatusSchema.optional(),statuses: StatusSchema.array().optional()})
 
-export const SampleTagUpdateSchema = z.object({tagId: _id,sampleId: _id})
+export const SampleTagUpdateSchema = z.object({id: _id.optional(),tagId: _id.optional(),sampleId: _id.optional()})
 
 export type CategoryDistinct = z.infer<typeof CategoryDistinctSchema>;
 

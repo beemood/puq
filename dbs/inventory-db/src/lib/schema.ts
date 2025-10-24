@@ -1,4 +1,4 @@
-import z from "zod";
+import z from 'zod';
 
 export const _int = z.coerce.number().int();
 
@@ -31,7 +31,7 @@ export const _slug = z
   .min(3)
   .max(30)
   .regex(/[0-9a-z-]{0,30}/, {
-    error: "Slug must contain only lowercase letters, numbers, and dash.",
+    error: 'Slug must contain only lowercase letters, numbers, and dash.',
   });
 
 export const _description = z.string().max(1000);
@@ -41,7 +41,7 @@ export const _email = z.string().max(1000);
 export const _phone = z
   .string()
   .regex(/^[0-9]{3} [0-9]{3} [0-9]{2}-[0-9]{2}$/, {
-    error: "Invalid phone format",
+    error: 'Invalid phone format',
   });
 
 export const _url = z.url();
@@ -49,16 +49,16 @@ export const _url = z.url();
 export const _password = z
   .string()
   .min(6)
-  .regex(/[A-Z]{1,}/, { error: "must contain at least one upper-case letter" })
-  .regex(/[a-z]{1,}/, { error: "must contain at least one lower-case letter" })
-  .regex(/[0-9]{1,}/, { error: "must contain at least one number" })
+  .regex(/[A-Z]{1,}/, { error: 'must contain at least one upper-case letter' })
+  .regex(/[a-z]{1,}/, { error: 'must contain at least one lower-case letter' })
+  .regex(/[0-9]{1,}/, { error: 'must contain at least one number' })
   .regex(/[~!@#$%^&*()_+{}":'<>?]{1,}/, {
-    error: "must contain at least one special character",
+    error: 'must contain at least one special character',
   });
 
 export const _select = z.coerce.boolean().optional();
 
-export const _direction = z.enum(["asc", "desc"]).optional();
+export const _direction = z.enum(['asc', 'desc']).optional();
 
 export const _orderByCount = z.object({ _count: _direction }).optional();
 
@@ -67,7 +67,7 @@ export const _take = _int.min(1).default(20).optional();
 export const _skip = _int.min(0).optional();
 
 export const _json = z.preprocess((value) => {
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     try {
       return JSON.parse(value);
     } catch {
@@ -78,7 +78,7 @@ export const _json = z.preprocess((value) => {
 }, z.any());
 
 export const _jsonPreprocessor = (value: unknown) => {
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     try {
       return JSON.parse(value);
     } catch {
@@ -168,7 +168,7 @@ export const _1_dateFilter = z.object({
 
 export const _dateFilter = _date.or(_1_dateFilter);
 
-export const _strMode = z.enum(["default", "insensitive"]);
+export const _strMode = z.enum(['default', 'insensitive']);
 
 export const _0_strFilter = z.object({
   contains: _str.optional(),
@@ -251,17 +251,17 @@ export const _dateArrayFilter = z.object({
 });
 
 export const DiscountTargetTypeSchema = z.enum([
-  "STORE",
-  "PRICE_LEVEL",
-  "CATEGORY",
-  "PRODUCT",
-  "VARIANT",
-  "STORE_CATEGORY",
-  "STORE_PRODUCT",
-  "STORE_VARIANT",
-  "PRICE_LEVEL_CATEGORY",
-  "PRICE_LEVEL_PRODUCT",
-  "PRICE_LEVEL_VARIANT",
+  'STORE',
+  'PRICE_LEVEL',
+  'CATEGORY',
+  'PRODUCT',
+  'VARIANT',
+  'STORE_CATEGORY',
+  'STORE_PRODUCT',
+  'STORE_VARIANT',
+  'PRICE_LEVEL_CATEGORY',
+  'PRICE_LEVEL_PRODUCT',
+  'PRICE_LEVEL_VARIANT',
 ]);
 
 export const __DiscountTargetTypeFilterSchema = z.object({
@@ -284,7 +284,7 @@ export const DiscountTargetTypeArrayFilterSchema = z.object({
   isEmpty: _bool.optional(),
 });
 
-export const ValueTypeSchema = z.enum(["PERCENT", "FIXED"]);
+export const ValueTypeSchema = z.enum(['PERCENT', 'FIXED']);
 
 export const __ValueTypeFilterSchema = z.object({
   equals: ValueTypeSchema.optional(),
@@ -307,10 +307,10 @@ export const ValueTypeArrayFilterSchema = z.object({
 });
 
 export const DiscountTypeSchema = z.enum([
-  "SIMPLE",
-  "VOLUME",
-  "FREE_SHIPPING",
-  "ORDER_TOTAL",
+  'SIMPLE',
+  'VOLUME',
+  'FREE_SHIPPING',
+  'ORDER_TOTAL',
 ]);
 
 export const __DiscountTypeFilterSchema = z.object({
@@ -334,14 +334,14 @@ export const DiscountTypeArrayFilterSchema = z.object({
 });
 
 export const TimeUnitSchema = z.enum([
-  "SECOND",
-  "MINUTE",
-  "HOUR",
-  "DAY",
-  "MONTH",
-  "YEAR",
-  "DECADE",
-  "LIFE_TIME",
+  'SECOND',
+  'MINUTE',
+  'HOUR',
+  'DAY',
+  'MONTH',
+  'YEAR',
+  'DECADE',
+  'LIFE_TIME',
 ]);
 
 export const __TimeUnitFilterSchema = z.object({
@@ -365,141 +365,141 @@ export const TimeUnitArrayFilterSchema = z.object({
 });
 
 export const CategoryDistinctSchema = z
-  .enum(["id", "parentId", "name", "slug"])
+  .enum(['id', 'parentId', 'name', 'slug'])
   .array()
   .optional();
 
 export const CategoryDescriptionDistinctSchema = z
-  .enum(["id", "description", "categoryId"])
+  .enum(['id', 'description', 'categoryId'])
   .array()
   .optional();
 
 export const ProductDistinctSchema = z
   .enum([
-    "id",
-    "createdAt",
-    "updatedAt",
-    "isActive",
-    "uuid",
-    "name",
-    "slug",
-    "description",
+    'id',
+    'createdAt',
+    'updatedAt',
+    'isActive',
+    'uuid',
+    'name',
+    'slug',
+    'description',
   ])
   .array()
   .optional();
 
 export const ProductCategoryDistinctSchema = z
-  .enum(["id", "productId", "categoryId"])
+  .enum(['id', 'productId', 'categoryId'])
   .array()
   .optional();
 
 export const VariantDistinctSchema = z
-  .enum(["id", "uuid", "productId", "sku", "upc"])
+  .enum(['id', 'uuid', 'productId', 'sku', 'upc'])
   .array()
   .optional();
 
 export const AttributeCategoryDistinctSchema = z
-  .enum(["id", "name", "slug"])
+  .enum(['id', 'name', 'slug'])
   .array()
   .optional();
 
 export const AttributeDistinctSchema = z
-  .enum(["id", "categoryId", "name", "description"])
+  .enum(['id', 'categoryId', 'name', 'description'])
   .array()
   .optional();
 
 export const UnitDistinctSchema = z
-  .enum(["id", "name", "symbol"])
+  .enum(['id', 'name', 'symbol'])
   .array()
   .optional();
 
 export const AttributeUnitDistinctSchema = z
-  .enum(["id", "attributeId", "unitId"])
+  .enum(['id', 'attributeId', 'unitId'])
   .array()
   .optional();
 
 export const AttributeValueDistinctSchema = z
   .enum([
-    "id",
-    "attributeId",
-    "variantId",
-    "textValue",
-    "booleanValue",
-    "floatValue",
+    'id',
+    'attributeId',
+    'variantId',
+    'textValue',
+    'booleanValue',
+    'floatValue',
   ])
   .array()
   .optional();
 
 export const CurrencyDistinctSchema = z
-  .enum(["id", "name", "code", "symbol"])
+  .enum(['id', 'name', 'code', 'symbol'])
   .array()
   .optional();
 
 export const PriceLevelDistinctSchema = z
-  .enum(["id", "currencyId", "name", "slug", "taxrate", "notes"])
+  .enum(['id', 'currencyId', 'name', 'slug', 'taxrate', 'notes'])
   .array()
   .optional();
 
 export const PriceDistinctSchema = z
-  .enum(["id", "variantId", "priceLevelId", "price", "cost", "description"])
+  .enum(['id', 'variantId', 'priceLevelId', 'price', 'cost', 'description'])
   .array()
   .optional();
 
 export const QuantityDistinctSchema = z
-  .enum(["id", "variantId", "storeId", "quantity", "alertThreshold"])
+  .enum(['id', 'variantId', 'storeId', 'quantity', 'alertThreshold'])
   .array()
   .optional();
 
 export const SerialNumberDistinctSchema = z
-  .enum(["id", "variantId", "storeId", "serialNumber", "inStock"])
+  .enum(['id', 'variantId', 'storeId', 'serialNumber', 'inStock'])
   .array()
   .optional();
 
 export const DiscountDistinctSchema = z
   .enum([
-    "id",
-    "code",
-    "type",
-    "valueType",
-    "value",
-    "minQuantity",
-    "maxQuantity",
-    "minOrderTotal",
-    "maxOrderTotal",
-    "startDate",
-    "endDate",
-    "usageLimit",
-    "usageCount",
+    'id',
+    'code',
+    'type',
+    'valueType',
+    'value',
+    'minQuantity',
+    'maxQuantity',
+    'minOrderTotal',
+    'maxOrderTotal',
+    'startDate',
+    'endDate',
+    'usageLimit',
+    'usageCount',
   ])
   .array()
   .optional();
 
 export const DiscountTargetDistinctSchema = z
   .enum([
-    "id",
-    "type",
-    "discountId",
-    "storeId",
-    "productId",
-    "variantId",
-    "priceLevelId",
-    "categoryId",
+    'id',
+    'type',
+    'discountId',
+    'storeId',
+    'productId',
+    'variantId',
+    'priceLevelId',
+    'categoryId',
   ])
   .array()
   .optional();
 
 export const StoreDistinctSchema = z
-  .enum(["id", "priceLevelId", "name", "slug", "description"])
+  .enum(['id', 'priceLevelId', 'name', 'slug', 'description'])
   .array()
   .optional();
 
 export const WarrantyPolicyDistinctSchema = z
-  .enum(["id", "name", "description", "duration", "durationUnit"])
+  .enum(['id', 'name', 'description', 'duration', 'durationUnit'])
   .array()
   .optional();
 
 export const ProductWarrantyDistinctSchema = z
-  .enum(["id", "productId", "variantId", "policyId"])
+  .enum(['id', 'productId', 'variantId', 'policyId'])
   .array()
   .optional();
 
