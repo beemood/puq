@@ -1,4 +1,4 @@
-import type { ApiQueryOptions } from '@nestjs/swagger';
+import type { ApiParamOptions, ApiQueryOptions } from '@nestjs/swagger';
 import { ApiBody, ApiParam, ApiQuery } from '@nestjs/swagger';
 import type { ResourceOperationName } from '@puq/names';
 
@@ -92,11 +92,19 @@ function apiQueryOptions(
   };
 }
 
+export type SwaggerApiExamples = {
+  createOne: ApiParamOptions['examples'];
+  update: ApiParamOptions['examples'];
+  findMany: ApiParamOptions['examples'];
+};
+
 /**
  * Add common query,params, and body examples to the swagger ui.
  * @returns
  */
-export function SwaggerApiParams(): MethodDecorator {
+export function SwaggerApiParams(
+  options?: SwaggerApiExamples
+): MethodDecorator {
   return (...args) => {
     const operationName = args[1].toString() as ResourceOperationName;
 

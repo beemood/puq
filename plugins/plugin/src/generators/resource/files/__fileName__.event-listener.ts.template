@@ -1,0 +1,4 @@
+import { AbstractEventListener, AutoEventListener } from '@puq/nest';
+
+@AutoEventListener()
+export class <%- className %>EventListener extends AbstractEventListener {}

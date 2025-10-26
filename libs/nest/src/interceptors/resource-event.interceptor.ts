@@ -50,6 +50,7 @@ export class ResourceEventInterceptor implements NestInterceptor {
       },
     };
 
+    this.emitter.emit(EVENT_NAME, payload);
     return next.handle().pipe(
       tap((body) => {
         payload.res = { body };

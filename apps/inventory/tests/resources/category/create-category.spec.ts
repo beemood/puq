@@ -4,6 +4,7 @@ import { Test } from '@nestjs/testing';
 import { CategoryModule, ResourceModule } from '@puq/inventory';
 import { PrismaClient } from '@puq/inventory-db';
 import type { CategoryCreate, CategoryOwnCreate } from '@puq/inventory-db/zod';
+import { CommonAppModule } from '@puq/nest';
 import request from 'supertest';
 import type TestAgent from 'supertest/lib/agent.js';
 import { inspect } from 'util';
@@ -16,7 +17,7 @@ describe('CreateCategory', () => {
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [ResourceModule, CategoryModule],
+      imports: [CommonAppModule, ResourceModule, CategoryModule],
     }).compile();
     app = moduleFixture.createNestApplication();
     await app.init();

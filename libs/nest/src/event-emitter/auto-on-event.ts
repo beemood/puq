@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { extractResourceName } from '@puq/names';
 import { toEventName } from '../helpers/to-event-name.js';
@@ -9,11 +10,11 @@ import { toEventName } from '../helpers/to-event-name.js';
  */
 export function AutoOnEvent(): MethodDecorator {
   return (...args) => {
-    const className = args[0].constructor.name;
+    const className = (args[0] as any).name;
     const handlerName = args[1].toString();
     const resourceName = extractResourceName(className);
     const eventName = toEventName(resourceName, handlerName);
-
+    Logger.log(`Registered ${eventName}`, 'EventEmitter');
     OnEvent(eventName)(...args);
   };
 }

@@ -6,7 +6,7 @@ export default defineConfig(() => ({
   plugins: [],
 
   test: {
-    name: '@beemood/inventory',
+    name: '@puq/inventory',
     watch: false,
     globals: true,
     environment: 'node',

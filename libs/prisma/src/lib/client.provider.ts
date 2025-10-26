@@ -1,5 +1,6 @@
 import { Inject, type Provider, type Type } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import type { PrismaClient } from '@prisma/client/extension';
 
 import { names } from '@puq/names';
 export const DEFAULT_DATASOURCE_NAME = 'DEFAULT';
@@ -14,13 +15,14 @@ export function getClientToken(
 
 export function provideClient(
   datasourceName = DEFAULT_DATASOURCE_NAME,
-  prismaClient: Type
+  prismaClient: Type<PrismaClient>,
+  databaseUrlKey = 'DATABASE_URL'
 ): Provider {
   return {
     inject: [ConfigService],
     provide: getClientToken(datasourceName),
     useFactory(config: ConfigService) {
-      const url = config.getOrThrow('DATABASE_URL');
+      const url = config.getOrThrow(databaseUrlKey);
       return new prismaClient({
         datasources: { db: { url } },
       });

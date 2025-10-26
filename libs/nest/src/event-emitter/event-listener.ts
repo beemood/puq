@@ -13,9 +13,7 @@ import { Injectable } from '../base/injectable.js';
 export function EventListener(): ClassDecorator {
   return (...args) => {
     const className = args[0].name;
-
     isResourceClassNameOrThrow(className, '*.EventListener$');
-
-    Injectable()(...args);
+    Injectable()(...args)
   };
 }

@@ -10,6 +10,7 @@ import {
 export type PrismaModuleOptions = {
   datasourceName?: string;
   prismaClient: Type;
+  databaseUrlKey?: string;
 };
 
 export type PrismaModuleFeatureOptions = {
@@ -24,7 +25,13 @@ export class PrismaModule {
       global: true,
       module: PrismaModule,
       imports: [ConfigModule.forFeature(() => ({}))],
-      providers: [provideClient(options.datasourceName, options.prismaClient)],
+      providers: [
+        provideClient(
+          options.datasourceName,
+          options.prismaClient,
+          options.databaseUrlKey
+        ),
+      ],
       exports: [getClientToken(options.datasourceName)],
     };
   }
