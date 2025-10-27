@@ -14,19 +14,28 @@ export async function resourceGenerator(
 ) {
   const config = readProjectConfiguration(tree, options.project);
 
-  const root = config.root;
+  const projectRootPath = config.root;
 
-  const __names = names(options.name);
+  const sourcePath = path.join(__dirname, 'files');
 
-  generateFiles(
-    tree,
-    path.join(__dirname, 'files'),
-    path.join(root, 'src', 'lib', 'resources'),
-    {
+  const { Prisma } = require(path.join(projectRootPath, 'generated'));
+
+  const modelNames = Prisma.dmmf.datamodel.models.map((e: any) => e.name);
+
+  for (const modelName of modelNames) {
+    const __names = names(modelName);
+    const targetPath = path.join(
+      projectRootPath,
+      'src',
+      'lib',
+      'resources',
+      __names.fileName
+    );
+    generateFiles(tree, sourcePath, targetPath, {
       ...__names,
       projectName: options.project,
-    }
-  );
+    });
+  }
 
   await formatFiles(tree);
 }
