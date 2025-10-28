@@ -9,7 +9,7 @@
       "description": "",
       "$default": {
         "$source": "argv",
-        "index": 1
+        "index": 0
       },
       "x-prompt": "What project would you like to use?"
     }

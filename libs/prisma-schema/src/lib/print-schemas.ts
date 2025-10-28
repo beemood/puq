@@ -74,7 +74,9 @@ export function printSchemas(
   const content = new Set<string>();
   const models = datamodel.models;
 
-  // Printers ordered by priorities
+
+  // Done
+  // Printers ordered by priorities 
   schemaPrinterFns.add(printDistictSchema);
   schemaNameFns.add(toDistictSchemaName);
 

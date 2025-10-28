@@ -37,9 +37,6 @@ model Sample {
   /// Optional generated field @readonly @internal(not include in input schemas)
   uuid String @default(uuid())
 
-  /// Optional generated field
-  otherUuid String @default(uuid())
-
   createdAt DateTime @default(now())
 
   /// Optional internal timestamp 

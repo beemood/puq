@@ -31,7 +31,6 @@ describe('CreateCategory', () => {
   it('should create category with only required fields', async () => {
     const data: CategoryOwnCreate = {
       name: 'category name',
-      slug: 'category-name',
     };
     await agent.post('/category').send(data).expect(201);
     expect(await repo.count()).toEqual(1);
@@ -40,13 +39,9 @@ describe('CreateCategory', () => {
   it('should create category with child relations', async () => {
     const data: CategoryCreate = {
       name: 'category name',
-      slug: 'category-name',
       children: {
         createMany: {
-          data: [
-            { name: 'child 1', slug: 'child-1' },
-            { name: 'child 2', slug: 'child-2' },
-          ],
+          data: [{ name: 'child 1' }, { name: 'child 2' }],
         },
       },
     };
@@ -67,17 +62,11 @@ describe('CreateCategory', () => {
         (e: any) => e.property === 'name' && e.constraints.invalid_type
       )
     ).toBeDefined();
-    expect(
-      res.body.errors.find(
-        (e: any) => e.property === 'slug' && e.constraints.invalid_type
-      )
-    ).toBeDefined();
   });
 
   it('should validate child relation inputs', async () => {
     const data: CategoryCreate = {
       name: 'category name',
-      slug: 'category-name',
       children: {
         createMany: {
           data: [{} as CategoryCreate, {} as CategoryCreate],
@@ -95,11 +84,6 @@ describe('CreateCategory', () => {
     expect(
       res.body.errors.find(
         (e: any) => e.property.endsWith('name') && e.constraints.invalid_type
-      )
-    ).toBeDefined();
-    expect(
-      res.body.errors.find(
-        (e: any) => e.property.endsWith('slug') && e.constraints.invalid_type
       )
     ).toBeDefined();
   });

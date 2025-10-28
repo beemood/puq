@@ -1,70 +1,65 @@
-import type { ApiParamOptions, ApiQueryOptions } from '@nestjs/swagger';
+import type { ApiQueryOptions } from '@nestjs/swagger';
 import { ApiBody, ApiParam, ApiQuery } from '@nestjs/swagger';
 import type { ResourceOperationName } from '@puq/names';
 
 export const __PageExamples: ApiQueryOptions['examples'] = {
-  'Skip first and take 2 items': {
+  'Take first 20 items': {
     value: {
-      take: 2,
-      skip: 1,
+      take: 20,
     },
   },
 };
 
 export const __ProjectionExamples: ApiQueryOptions['examples'] = {
-  'Omit id property': {
-    value: {
-      omit: { id: true },
-    },
-  },
-  'Select id property only': {
+  'Select id field': {
     value: {
       select: { id: true },
     },
   },
-  'Include relations': {
+
+  'Omit id field': {
     value: {
-      include: { category: true },
+      omit: { id: true },
+    },
+  },
+  'Include category relation with id and name field': {
+    value: {
+      include: { category: { select: { id: true, name: true } } },
     },
   },
 };
 
 export const __OrderExamples: ApiQueryOptions['examples'] = {
-  'Order by id asc': {
+  'Order by id': {
     value: {
       orderBy: {
         id: 'asc',
       },
     },
   },
-  'Order by id desc': {
-    value: {
-      orderBy: {
-        id: 'desc',
-      },
-    },
-  },
 };
 
 export const __WhereExamples: ApiQueryOptions['examples'] = {
-  'Find items with id equals 1': {
+  'Find items by id': {
     value: {
-      id: { equals: 1 },
+      where: {
+        id: { equals: 1 },
+      },
     },
   },
-  'Find items with id greater than 1': {
+  'Find items by name contains': {
     value: {
-      id: { gt: 1 },
+      where: {
+        name: { contains: 'sample' },
+      },
     },
   },
-  'Find items with id is 1 or 3': {
+
+  'Find items by categories': {
     value: {
-      id: { in: [1, 3] },
-    },
-  },
-  'Find items with id is not 1': {
-    value: {
-      id: { not: { equals: 1 } },
+      where: {
+        categories: { some: { category: { name: { startsWith: 'Sample' } } } },
+      },
     },
   },
 };
@@ -92,19 +87,11 @@ function apiQueryOptions(
   };
 }
 
-export type SwaggerApiExamples = {
-  createOne: ApiParamOptions['examples'];
-  update: ApiParamOptions['examples'];
-  findMany: ApiParamOptions['examples'];
-};
-
 /**
  * Add common query,params, and body examples to the swagger ui.
  * @returns
  */
-export function SwaggerApiParams(
-  options?: SwaggerApiExamples
-): MethodDecorator {
+export function SwaggerApiParams(): MethodDecorator {
   return (...args) => {
     const operationName = args[1].toString() as ResourceOperationName;
 

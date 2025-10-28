@@ -1,5 +1,4 @@
 import type { Prisma } from '@puq/inventory-db';
-
 import type {
   CategoryCreate,
   CategoryProjection,
@@ -27,7 +26,6 @@ export class CategoryController extends AbstractResourceController {
     @InjectRepository() protected readonly repo: Prisma.CategoryDelegate
   ) {
     super();
-    this.repo.deleteMany().then();
   }
 
   override async saveOne(

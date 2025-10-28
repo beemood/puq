@@ -8,19 +8,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/**
- * **Store**: When STORE type is selected, the DiscountTarget model requires a unique [discountId, storeId] data
- * **PRICE_LEVEL**: When PRICE-LEVEL type is selected, the DiscountTarget model requires a unique [discountId, priceLevelId] data
- * **CATEGORY**: When CATEGORY type is selected, the DiscountTarget model requires a unique [discountId, categoryId] data
- * **PRODUCT**: When PRODUCT type is selected, the DiscountTarget model requires a unique [discountId, productId] data
- * **VARIANT**: When VARIANT type is selected, the DiscountTarget model requires a unique [discountId, variantId] data
- * **STORE_CATEGORY**: When STORE_CATEGORY type is selected, the DiscountTarget model requires a unique [discountId, storeId, categoryId] data
- * **STORE_PRODUCT**: When STORE_PRODUCT type is selected, the DiscountTarget model requires a unique [discountId, storeId, productId] data
- * **STORE_VARIANT**: When STORE_VARIANT type is selected, the DiscountTarget model requires a unique [discountId, storeId, variantId] data
- * **PRICE_LEVEL_CATEGORY**: When PRICE_LEVEL_CATEGORY type is selected, the DiscountTarget model requires a unique [discountId, priceLevelId, categoryId] data
- * **PRICE_LEVEL_PRODUCT**: When PRICE_LEVEL_PRODUCT type is selected, the DiscountTarget model requires a unique [discountId, priceLevelId, productId] data
- * **PRICE_LEVEL_VARIANT**: When PRICE_LEVEL_VARIANT type is selected, the DiscountTarget model requires a unique [discountId, priceLevelId, variantId] data
- */
 enum DiscountTargetType {
   /// Apply discount to all products in a store
   STORE
@@ -67,42 +54,58 @@ enum ValueType {
 
 /// Discount type  VOLUME, FREE_SHIPPING, ORDER_TOTAL
 enum DiscountType {
-  /// Discount applied directly to target without any volume or amount condition
+  /// Unconditional discount
   SIMPLE
 
-  /// Volumne discount such as 10 or more items %10 discount
+  /// A discount that applied for a specific volume such as 30 items
   VOLUME
 
-  /// Free shipping service discount
+  /// Free shipping
   FREE_SHIPPING
 
-  /// Apply discount when it reaches out to to a certain amount such as %10 discount for $200 total
+  /// A discount that applied for a specific total price limit such as after $300, %10 discount
   ORDER_TOTAL
 }
 
+/// Time unit
 enum TimeUnit {
+  /// 1 second
   SECOND
+
+  /// 60 second
   MINUTE
+
+  /// 60 minutes
   HOUR
+
+  /// 24 hours
   DAY
+
+  /// 30 days
   MONTH
+
+  /// 12 months
   YEAR
+
+  // 10 years
   DECADE
+
+  /// :)
   LIFE_TIME
 }
 
-/// Product category to group products 
+/// Product category
 model Category {
+  /// Unique incremental id
   id Int @id @default(autoincrement())
 
-  /// Categories might have parent category
+  /// Optional parent category id (if the category is a sub category of another category)
   parentId Int?
 
-  /// Unique category name
-  name String @unique
-
-  /// Unique url friendly version of the category name
-  slug String @unique
+  /// Unique maximum 30 character name 
+  name        String  @unique @db.VarChar(30)
+  /// Description
+  description String? @default("No Description") @db.VarChar(1000)
 
   /// Parent category
   parent Category? @relation("SubCategories", fields: [parentId], references: [id])
@@ -119,6 +122,7 @@ model Category {
 
 /// Main common product table
 model Product {
+  /// Unique incremental id
   id Int @id @default(autoincrement())
 
   /// The date the product is created
@@ -130,33 +134,31 @@ model Product {
   /// Is product active or not
   isActive Boolean @default(true)
 
-  /// Product uuid for external identification
+  /// Unique uuid for external usage.
   uuid String @unique @default(uuid())
 
-  /// Unique product name
-  name String @unique
+  /// Unique maximum 30 character name 
+  name String @unique @db.VarChar(30)
 
-  /// Unique url friendly product name (kebab case with NO special characters)
-  slug String @unique
+  /// Description
+  description String? @default("No Description") @db.VarChar(1000)
 
-  /// Product description
-  description String? @default("No description")
-
-  /// List of product variants 
+  /// List of variants
   variants Variant[]
 
-  /// List of categories that the product falls into.
+  /// List of categories
   categories ProductCategory[]
 
-  /// List of discounts that are applicable to this product. You can control discounts in price-level, store, and variant as well.
+  /// List of discounts
   discounts DiscountTarget[]
 
-  /// List of warranties that the product falls into.
+  /// List of warranties
   warranties ProductWarranty[]
 }
 
 /// Product category
 model ProductCategory {
+  /// Unique incremental id
   id Int @id @default(autoincrement())
 
   /// Product id
@@ -176,187 +178,114 @@ model ProductCategory {
 
 /// Product variant 
 model Variant {
+  /// Unique incremental id
   id Int @id @default(autoincrement())
 
-  /// Unique product uuid for external usages such as in crm application
+  /// Unique uuid for external usage.
   uuid String @unique @default(uuid())
 
   /// Product id
   productId Int
 
   /// Unique variant sku
-  sku String @unique
+  sku String @unique @db.VarChar(13)
 
   /// Unique product barcode/upc/ean
-  upc String @unique
+  upc String @unique @db.VarChar(13)
 
-  /// Parent product 
+  /// Description
+  description String? @default("No Description") @db.VarChar(1000)
+
+  /// Product details
   product Product @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  /// List of attributes such as color, make, model, size, length etc.
-  attributes AttributeValue[]
+  /// List of attributes
+  attributes Attribute[]
 
-  /// List of pricess of this variant in the price-levels
+  /// List of prices
   prices Price[]
 
-  /// List of stock/quantity information of this variant in the stores.
+  /// List of quantities
   quantities Quantity[]
 
-  /// List of discounts applicable to this variant
+  /// List of discounts 
   discounts DiscountTarget[]
 
-  /// List of serial numbers. 
-  serrialNumbers SerialNumber[]
+  /// List of serial numbers 
+  serialNumbers SerialNumber[]
 
-  /// List of warranties applicable to this product/variant
+  /// List of warranties
   warranties ProductWarranty[]
 }
 
-model AttributeCategory {
-  id Int @id @default(autoincrement())
-
-  /// Unique attribute category name such as Common, Size, etc.
-  name String @unique
-
-  /// Unique url friend attribute-category name
-  slug String @unique
-
-  /// List of attribute under this attribute category
-  attributes Attribute[]
-}
-
 model Attribute {
+  /// Unique incremental id
   id Int @id @default(autoincrement())
 
-  /// Optional attribute category id
-  categoryId Int?
-
-  /// Unique attribute name such as color, length, ram, capacity, brand etc.
-  name String @unique
-
-  /// Attribute description such as "The capacity of the storeage (harddisk-capacity)"
-  description String? @default("No description")
-
-  /// Attribute category
-  category AttributeCategory? @relation(fields: [categoryId], references: [id])
-
-  /// List of available attribute unites such as "m", "mm", "MB", "GB", "g", "kg" etc
-  unites AttributeUnit[]
-
-  /// List of attribute values
-  values AttributeValue[]
-}
-
-/// Attribute unit
-model Unit {
-  id Int @id @default(autoincrement())
-
-  /// Unique unit name
-  name String @unique
-
-  /// Unit symbol such as "m", "$" etc.
-  symbol String
-
-  /// List of attributes-units
-  attributes AttributeUnit[]
-}
-
-model AttributeUnit {
-  id Int @id @default(autoincrement())
-
-  /// Attribute id
-  attributeId Int
-
-  /// Unit id
-  unitId Int
-
-  /// Attribute 
-  attribute Attribute @relation(fields: [attributeId], references: [id])
-
-  /// Unit
-  unit Unit @relation(fields: [unitId], references: [id])
-
-  @@unique([attributeId, unitId])
-}
-
-/// Attribute value
-model AttributeValue {
-  id Int @id @default(autoincrement())
-
-  /// Attribute id
-  attributeId Int
-
-  /// Product variant id
+  /// Variant id
   variantId Int
 
-  /// Value as string 
-  textValue String?
+  /// Unique maximum 30 character name 
+  name String @unique @db.VarChar(30)
 
-  /// Value as boolean
-  booleanValue Boolean?
+  /// Value
+  value String @db.VarChar(400)
 
-  /// Value as floating number
-  floatValue Float?
+  variant Variant @relation(fields: [variantId], references: [id])
 
-  /// Variant 
-  variant Variant @relation(fields: [variantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-
-  /// Attribute 
-  attribute Attribute @relation(fields: [attributeId], references: [id])
-
-  @@unique([attributeId, variantId])
+  @@unique([variantId, name])
 }
 
 model Currency {
+  /// Unique incremental id
   id Int @id @default(autoincrement())
 
-  /// Currency name suchas "American Dolor"
-  name String @unique
+  /// Unique maximum 30 character name 
+  name String @unique @db.VarChar(30)
 
   /// Currency code such as "USD"
-  code String @unique
+  code String @unique @db.VarChar(10)
 
   /// Currency symbol such as "$"
-  symbol String?
+  symbol String? @db.VarChar(4)
 
-  /// List of price levels that uses this currency type
+  /// List of price levels
   priceLevels PriceLevel[]
 }
 
 /// Price levels. Price levels allows us to create multiple prices based on differnt taxrate, vip customers, or any other specific conditions such as family-price, friend-price, veteran-price, none-profit-price etc.
 model PriceLevel {
+  /// Unique incremental id
   id Int @id @default(autoincrement())
 
   /// Currency id
   currencyId Int
 
-  /// Unique price level name
-  name String @unique
+  /// Unique maximum 30 character name 
+  name String @unique @db.VarChar(30)
 
-  /// Unique url friendly price-level name
-  slug String @unique
+  /// Description
+  description String? @default("No Description") @db.VarChar(1000)
 
   /// Taxrate 
-  taxrate Decimal @db.Decimal(10, 4)
+  taxrate Decimal @default(0) @db.Decimal(10, 4)
 
-  /// Notes and description 
-  notes String?
-
-  /// Currency 
+  /// Currency  details
   currency Currency @relation(fields: [currencyId], references: [id])
 
-  /// List of stores using this price-level by default
+  /// List of stores 
   stores Store[]
 
-  /// List of prices using this price-level
+  /// List of prices 
   prices Price[]
 
-  /// List of discount using this price-level
+  /// List of discounts
   discounts DiscountTarget[]
 }
 
 /// Product/Variant price
 model Price {
+  /// Unique incremental id
   id Int @id @default(autoincrement())
 
   /// Variant id
@@ -371,8 +300,8 @@ model Price {
   /// Cost
   cost Decimal @db.Decimal(10, 2)
 
-  /// Price description
-  description String? @default("No description")
+  /// Description
+  description String? @default("No Description") @db.VarChar(1000)
 
   /// Variant 
   variant Variant @relation(fields: [variantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -385,6 +314,7 @@ model Price {
 
 /// Product/Variant quantity 
 model Quantity {
+  /// Unique incremental id
   id Int @id @default(autoincrement())
 
   /// Variant id
@@ -396,7 +326,7 @@ model Quantity {
   /// Quantity 
   quantity Int
 
-  /// Threshold to reorder the prduct 
+  /// Create a system alert under the defined threshold
   alertThreshold Int?
 
   /// Product variant 
@@ -410,6 +340,7 @@ model Quantity {
 
 /// Product/variant serial number. This is not for all products/variants. In case you need to track each product/variant specificly then use this table.
 model SerialNumber {
+  /// Unique incremental id
   id Int @id @default(autoincrement())
 
   /// Variant id
@@ -435,6 +366,7 @@ model SerialNumber {
 
 /// Discount/promotion table
 model Discount {
+  /// Unique incremental id
   id Int @id @default(autoincrement())
 
   ///	The unique promotional code (e.g., "FALL20", "BUY2GET1").
@@ -479,6 +411,7 @@ model Discount {
 
 /// Discount target table
 model DiscountTarget {
+  /// Unique incremental id
   id Int @id @default(autoincrement())
 
   /// Discount target to define discount group 
@@ -526,19 +459,17 @@ model DiscountTarget {
 
 /// Store 
 model Store {
+  /// Unique incremental id
   id Int @id @default(autoincrement())
 
   /// Default price level
   priceLevelId Int
 
-  /// Unique store name
-  name String @unique
+  /// Unique maximum 30 character name 
+  name String @unique @db.VarChar(30)
 
-  /// Unique url friendly store name
-  slug String @unique
-
-  /// Store description
-  description String? @default("No description")
+  /// Description
+  description String? @default("No Description") @db.VarChar(1000)
 
   /// Default price level details
   priceLevel PriceLevel @relation(fields: [priceLevelId], references: [id])
@@ -555,13 +486,14 @@ model Store {
 
 /// Product warranty policy
 model WarrantyPolicy {
+  /// Unique incremental id
   id Int @id @default(autoincrement())
 
-  /// Warranty policy name
-  name String @unique
+  /// Unique maximum 30 character name 
+  name String @unique @db.VarChar(30)
 
-  /// Warranty policy description 
-  description String? @default("No description")
+  /// Description
+  description String? @default("No Description") @db.VarChar(4000)
 
   /// Warranty duration such as 1 (YEAR), 6 (MONTH) etc. 
   duration Int
@@ -575,6 +507,7 @@ model WarrantyPolicy {
 
 /// Product/variant warranty table
 model ProductWarranty {
+  /// Unique incremental id
   id Int @id @default(autoincrement())
 
   /// Optional product id when all product variants under the same warranty

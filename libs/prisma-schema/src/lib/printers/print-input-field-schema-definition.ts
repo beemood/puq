@@ -8,6 +8,7 @@ import { printScalarSchemaDefinition } from './print-scalar-schema-definition.js
 
 export function printRelationCreateFieldSchemaDefinition(field: DMMF.Field) {
   const schemaName = toOwnCreateSchemaName(field.type);
+
   if (field.isList) {
     return `
             z.object({ 
@@ -23,7 +24,7 @@ export function printRelationCreateFieldSchemaDefinition(field: DMMF.Field) {
 }
 
 export function printRelationUpdateFieldSchemaDefinition() {
-  return `z.object({ connect: _idObject.optional(),disconnect: _idObject.optional() })`;
+  return `z.object({ connect: _idObject.optional(), disconnect: _idObject.optional() })`;
 }
 
 /**

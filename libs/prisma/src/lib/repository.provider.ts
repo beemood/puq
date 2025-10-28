@@ -18,11 +18,12 @@ export function provideRepository(
   resourceName: string,
   datasourceName = DEFAULT_DATASOURCE_NAME
 ): Provider {
+  const __resourceNames = names(resourceName);
   return {
     inject: [getClientToken(datasourceName)],
     provide: getRepositoryToken(resourceName),
     useFactory(client: any) {
-      const repository = client[resourceName];
+      const repository = client[__resourceNames.camel];
 
       if (repository == undefined) {
         throw new Error(

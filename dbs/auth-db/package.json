@@ -31,7 +31,7 @@
     "!**/*.tsbuildinfo"
   ],
   "scripts": {
-    "postinstall": "sh ./postinstall"
+    "postinstall": "sh ./scripts/prisma-generate.sh"
   },
   "exports": {
     "./package.json": "./package.json",
@@ -253,7 +253,7 @@
     "zod": "4.1.11"
   },
   "dependencies": {
-    "@prisma/client": "6.16.2",
+    "@prisma/client": "6.17.1",
     "@swc/helpers": "0.5.11"
   },
   "devDependencies": {

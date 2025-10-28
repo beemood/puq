@@ -124,9 +124,9 @@ export function printQuerySchema(model: DMMF.Model) {
     toOwnSelectSchemaName(model.name)
   );
   const omitName = toJsonProcessorSchemaName(toOmitSchemaName(model.name));
-  const whereName = toJsonProcessorSchemaName(toOwnWhereSchemaName(model.name));
+  const whereName = toJsonProcessorSchemaName(toWhereSchemaName(model.name));
   const orderByName = toJsonProcessorSchemaName(
-    toOwnOrderBySchemaName(model.name)
+    toOrderBySchemaName(model.name)
   );
   const includeName = toJsonProcessorSchemaName(
     toIncludeSchemaName(model.name)
