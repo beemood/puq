@@ -1,10 +1,10 @@
-import z from "zod";
+import z from 'zod';
 
 /**
  * Try to parse json value if it is a valid json or return it.
  */
 export function _parseJsonOrReturn(value: any) {
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     try {
       return JSON.parse(value);
     } catch {
@@ -87,7 +87,7 @@ export const _phoneCountryCode = z.string().regex(/^\+[0-9]{1,5}$/);
 export const _phone = z
   .string()
   .regex(/^[0-9]{3} [0-9]{3} [0-9]{2}-[0-9]{2}$/, {
-    error: "Invalid phone format",
+    error: 'Invalid phone format',
   });
 
 /**
@@ -103,7 +103,7 @@ export const _slug = z
   .min(3)
   .max(30)
   .regex(/[0-9a-z-]{0,30}/, {
-    error: "Slug must contain only lowercase letters, numbers, and dash.",
+    error: 'Slug must contain only lowercase letters, numbers, and dash.',
   });
 
 /**
@@ -127,11 +127,11 @@ export const _url = z.url();
 export const _password = z
   .string()
   .min(6)
-  .regex(/[A-Z]{1,}/, { error: "must contain at least one upper-case letter" })
-  .regex(/[a-z]{1,}/, { error: "must contain at least one lower-case letter" })
-  .regex(/[0-9]{1,}/, { error: "must contain at least one number" })
+  .regex(/[A-Z]{1,}/, { error: 'must contain at least one upper-case letter' })
+  .regex(/[a-z]{1,}/, { error: 'must contain at least one lower-case letter' })
+  .regex(/[0-9]{1,}/, { error: 'must contain at least one number' })
   .regex(/[~!@#$%^&*()_+{}":'<>?]{1,}/, {
-    error: "must contain at least one special character",
+    error: 'must contain at least one special character',
   });
 
 /**
@@ -142,7 +142,7 @@ export const _select = z.coerce.boolean().optional();
 /**
  * Order schema to define order direction either "asc" or "desc"
  */
-export const _direction = z.enum(["asc", "desc"]).optional();
+export const _direction = z.enum(['asc', 'desc']).optional();
 
 /**
  * Special object schema with _count property to order by relation count
@@ -283,7 +283,7 @@ export const _dateFilter = _date.or(_1_dateFilter);
 /**
  * Schema to define string query mode would be 'default' or 'insensitive' mode
  */
-export const _strMode = z.enum(["default", "insensitive"]);
+export const _strMode = z.enum(['default', 'insensitive']);
 
 /**
  * {@link _strFilter}
@@ -389,7 +389,7 @@ export const _dateArrayFilter = z.object({
   isEmpty: _bool.optional(),
 });
 
-export const Status = z.enum(["ACTIVE", "PASSIVE"]);
+export const Status = z.enum(['ACTIVE', 'PASSIVE']);
 
 export const StatusFilter = Status.or(
   z.object({
@@ -405,6 +405,36 @@ export const StatusFilter = Status.or(
       .optional(),
   })
 );
+
+export const CatField = z.enum(['id', 'parentId', 'name', 'description']);
+
+export const CatDistinctSelect = CatField.array().length(1);
+
+export const TagField = z.enum(['id', 'name']);
+
+export const TagDistinctSelect = TagField.array().length(1);
+
+export const ProductField = z.enum([
+  'id',
+  'name',
+  'description',
+  'cost',
+  'price',
+  'quantity',
+  'catId',
+  'status',
+]);
+
+export const ProductDistinctSelect = ProductField.array().length(1);
+
+export const ProductAttributeField = z.enum(['productId', 'name', 'value']);
+
+export const ProductAttributeDistinctSelect =
+  ProductAttributeField.array().length(1);
+
+export const ProductTagField = z.enum(['productId', 'tagId']);
+
+export const ProductTagDistinctSelect = ProductTagField.array().length(1);
 
 export const CatWhereOwn = z.object({
   id: _intFilter.optional(),
@@ -506,9 +536,312 @@ export const ProductWhere = z.object({
     .optional(),
 });
 
+export const CatOmit = z.object({
+  id: _select,
+  parentId: _select,
+  name: _select,
+  description: _select,
+});
+
+export const TagOmit = z.object({ id: _select, name: _select });
+
+export const ProductOmit = z.object({
+  id: _select,
+  name: _select,
+  description: _select,
+  cost: _select,
+  price: _select,
+  quantity: _select,
+  catId: _select,
+  status: _select,
+});
+
+export const ProductAttributeOmit = z.object({
+  productId: _select,
+  name: _select,
+  value: _select,
+});
+
+export const ProductTagOmit = z.object({ productId: _select, tagId: _select });
+
+export const CatOrderBy = z.object({
+  id: _direction,
+  parentId: _direction,
+  name: _direction,
+  description: _direction,
+});
+
+export const TagOrderBy = z.object({ id: _direction, name: _direction });
+
+export const ProductAttributeOrderBy = z.object({
+  productId: _direction,
+  name: _direction,
+  value: _direction,
+});
+
+export const ProductTagOrderBy = z.object({
+  productId: _direction,
+  tagId: _direction,
+  tag: TagOrderBy,
+});
+
+export const ProductOrderBy = z.object({
+  id: _direction,
+  name: _direction,
+  description: _direction,
+  cost: _direction,
+  price: _direction,
+  quantity: _direction,
+  catId: _direction,
+  status: _direction,
+  cat: CatOrderBy,
+  productTags: _orderByCount,
+  attributes: _orderByCount,
+});
+
+export const CatSelect = z.object({
+  id: _select.optional(),
+  parentId: _select.optional(),
+  name: _select.optional(),
+  description: _select.optional(),
+});
+
+export const TagSelect = z.object({
+  id: _select.optional(),
+  name: _select.optional(),
+});
+
+export const ProductAttributeSelect = z.object({
+  productId: _select.optional(),
+  name: _select.optional(),
+  value: _select.optional(),
+});
+
+export const TagInclude = z.object({});
+
+export const ProductTagSelect = z.object({
+  productId: _select.optional(),
+  tagId: _select.optional(),
+  tag: z
+    .object({
+      select: TagSelect.optional(),
+      where: TagWhere.optional(),
+      include: z.object({}).optional(),
+    })
+    .optional(),
+});
+
+export const ProductTagInclude = z.object({
+  tag: z
+    .object({
+      select: TagSelect.optional(),
+      where: TagWhere.optional(),
+    })
+    .optional(),
+});
+
+export const ProductAttributeInclude = z.object({});
+
+export const ProductSelect = z.object({
+  id: _select.optional(),
+  name: _select.optional(),
+  description: _select.optional(),
+  cost: _select.optional(),
+  price: _select.optional(),
+  quantity: _select.optional(),
+  catId: _select.optional(),
+  status: _select.optional(),
+  cat: z
+    .object({ select: CatSelect.optional(), where: CatWhere.optional() })
+    .optional(),
+  productTags: z
+    .object({
+      take: _take,
+      skip: _skip,
+      select: ProductTagSelect.optional(),
+      where: ProductTagWhere.optional(),
+      include: z
+        .object({
+          tag: z
+            .object({
+              select: TagSelect.optional(),
+              where: TagWhere.optional(),
+            })
+            .optional(),
+        })
+        .optional(),
+    })
+    .optional(),
+  attributes: z
+    .object({
+      take: _take,
+      skip: _skip,
+      select: ProductAttributeSelect.optional(),
+      where: ProductAttributeWhere.optional(),
+      include: z.object({}).optional(),
+    })
+    .optional(),
+});
+
+export const CatInclude = z.object({});
+
+export const ProductInclude = z.object({
+  productTags: z
+    .object({
+      select: ProductTagSelect.optional(),
+      where: ProductTagWhere.optional(),
+    })
+    .optional(),
+  attributes: z
+    .object({
+      select: ProductAttributeSelect.optional(),
+      where: ProductAttributeWhere.optional(),
+    })
+    .optional(),
+});
+
+export const CatProjection = z.union([
+  z.object({ select: z.preprocess(_parseJsonOrReturn, CatSelect).optional() }),
+  z.object({ omit: z.preprocess(_parseJsonOrReturn, CatOmit).optional() }),
+  z.object({
+    include: z.preprocess(_parseJsonOrReturn, CatInclude).optional(),
+  }),
+  z.object({}),
+]);
+
+export const TagProjection = z.union([
+  z.object({ select: z.preprocess(_parseJsonOrReturn, TagSelect).optional() }),
+  z.object({ omit: z.preprocess(_parseJsonOrReturn, TagOmit).optional() }),
+  z.object({
+    include: z.preprocess(_parseJsonOrReturn, TagInclude).optional(),
+  }),
+  z.object({}),
+]);
+
+export const ProductAttributeProjection = z.union([
+  z.object({
+    select: z.preprocess(_parseJsonOrReturn, ProductAttributeSelect).optional(),
+  }),
+  z.object({
+    omit: z.preprocess(_parseJsonOrReturn, ProductAttributeOmit).optional(),
+  }),
+  z.object({
+    include: z
+      .preprocess(_parseJsonOrReturn, ProductAttributeInclude)
+      .optional(),
+  }),
+  z.object({}),
+]);
+
+export const ProductTagProjection = z.union([
+  z.object({
+    select: z.preprocess(_parseJsonOrReturn, ProductTagSelect).optional(),
+  }),
+  z.object({
+    omit: z.preprocess(_parseJsonOrReturn, ProductTagOmit).optional(),
+  }),
+  z.object({
+    include: z.preprocess(_parseJsonOrReturn, ProductTagInclude).optional(),
+  }),
+  z.object({}),
+]);
+
+export const ProductProjection = z.union([
+  z.object({
+    select: z.preprocess(_parseJsonOrReturn, ProductSelect).optional(),
+  }),
+  z.object({ omit: z.preprocess(_parseJsonOrReturn, ProductOmit).optional() }),
+  z.object({
+    include: z.preprocess(_parseJsonOrReturn, ProductInclude).optional(),
+  }),
+  z.object({}).optional(),
+]);
+
+export const CatQueryOne = z.object({
+  where: z.preprocess(_parseJsonOrReturn, CatWhere).optional(),
+});
+
+export const TagQueryOne = z.object({
+  where: z.preprocess(_parseJsonOrReturn, TagWhere).optional(),
+});
+
+export const ProductAttributeQueryOne = z.object({
+  where: z.preprocess(_parseJsonOrReturn, ProductAttributeWhere).optional(),
+});
+
+export const ProductTagQueryOne = z.object({
+  where: z.preprocess(_parseJsonOrReturn, ProductTagWhere).optional(),
+});
+
+export const ProductQueryOne = z.object({
+  where: z.preprocess(_parseJsonOrReturn, ProductWhere).optional(),
+});
+
+export const CatQuery = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: CatDistinctSelect.optional(),
+  where: z.preprocess(_parseJsonOrReturn, CatWhere).optional(),
+  orderBy: z.preprocess(_parseJsonOrReturn, CatOrderBy).optional(),
+});
+
+export const TagQuery = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: TagDistinctSelect.optional(),
+  where: z.preprocess(_parseJsonOrReturn, TagWhere).optional(),
+  orderBy: z.preprocess(_parseJsonOrReturn, TagOrderBy).optional(),
+});
+
+export const ProductAttributeQuery = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: ProductAttributeDistinctSelect.optional(),
+  where: z.preprocess(_parseJsonOrReturn, ProductAttributeWhere).optional(),
+  orderBy: z.preprocess(_parseJsonOrReturn, ProductAttributeOrderBy).optional(),
+});
+
+export const ProductTagQuery = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: ProductTagDistinctSelect.optional(),
+  where: z.preprocess(_parseJsonOrReturn, ProductTagWhere).optional(),
+  orderBy: z.preprocess(_parseJsonOrReturn, ProductTagOrderBy).optional(),
+});
+
+export const ProductQuery = z.object({
+  take: _take,
+  skip: _skip,
+  distinct: ProductDistinctSelect.optional(),
+  where: z.preprocess(_parseJsonOrReturn, ProductWhere).optional(),
+  orderBy: z.preprocess(_parseJsonOrReturn, ProductOrderBy).optional(),
+});
+
 export type Status = z.infer<typeof Status>;
 
 export type StatusFilter = z.infer<typeof StatusFilter>;
+
+export type CatField = z.infer<typeof CatField>;
+
+export type CatDistinctSelect = z.infer<typeof CatDistinctSelect>;
+
+export type TagField = z.infer<typeof TagField>;
+
+export type TagDistinctSelect = z.infer<typeof TagDistinctSelect>;
+
+export type ProductField = z.infer<typeof ProductField>;
+
+export type ProductDistinctSelect = z.infer<typeof ProductDistinctSelect>;
+
+export type ProductAttributeField = z.infer<typeof ProductAttributeField>;
+
+export type ProductAttributeDistinctSelect = z.infer<
+  typeof ProductAttributeDistinctSelect
+>;
+
+export type ProductTagField = z.infer<typeof ProductTagField>;
+
+export type ProductTagDistinctSelect = z.infer<typeof ProductTagDistinctSelect>;
 
 export type CatWhereOwn = z.infer<typeof CatWhereOwn>;
 
@@ -529,3 +862,75 @@ export type ProductTagWhere = z.infer<typeof ProductTagWhere>;
 export type ProductWhereOwn = z.infer<typeof ProductWhereOwn>;
 
 export type ProductWhere = z.infer<typeof ProductWhere>;
+
+export type CatOmit = z.infer<typeof CatOmit>;
+
+export type TagOmit = z.infer<typeof TagOmit>;
+
+export type ProductOmit = z.infer<typeof ProductOmit>;
+
+export type ProductAttributeOmit = z.infer<typeof ProductAttributeOmit>;
+
+export type ProductTagOmit = z.infer<typeof ProductTagOmit>;
+
+export type CatOrderBy = z.infer<typeof CatOrderBy>;
+
+export type TagOrderBy = z.infer<typeof TagOrderBy>;
+
+export type ProductAttributeOrderBy = z.infer<typeof ProductAttributeOrderBy>;
+
+export type ProductTagOrderBy = z.infer<typeof ProductTagOrderBy>;
+
+export type ProductOrderBy = z.infer<typeof ProductOrderBy>;
+
+export type CatSelect = z.infer<typeof CatSelect>;
+
+export type TagSelect = z.infer<typeof TagSelect>;
+
+export type ProductAttributeSelect = z.infer<typeof ProductAttributeSelect>;
+
+export type TagInclude = z.infer<typeof TagInclude>;
+
+export type ProductTagSelect = z.infer<typeof ProductTagSelect>;
+
+export type ProductTagInclude = z.infer<typeof ProductTagInclude>;
+
+export type ProductAttributeInclude = z.infer<typeof ProductAttributeInclude>;
+
+export type ProductSelect = z.infer<typeof ProductSelect>;
+
+export type CatInclude = z.infer<typeof CatInclude>;
+
+export type ProductInclude = z.infer<typeof ProductInclude>;
+
+export type CatProjection = z.infer<typeof CatProjection>;
+
+export type TagProjection = z.infer<typeof TagProjection>;
+
+export type ProductAttributeProjection = z.infer<
+  typeof ProductAttributeProjection
+>;
+
+export type ProductTagProjection = z.infer<typeof ProductTagProjection>;
+
+export type ProductProjection = z.infer<typeof ProductProjection>;
+
+export type CatQueryOne = z.infer<typeof CatQueryOne>;
+
+export type TagQueryOne = z.infer<typeof TagQueryOne>;
+
+export type ProductAttributeQueryOne = z.infer<typeof ProductAttributeQueryOne>;
+
+export type ProductTagQueryOne = z.infer<typeof ProductTagQueryOne>;
+
+export type ProductQueryOne = z.infer<typeof ProductQueryOne>;
+
+export type CatQuery = z.infer<typeof CatQuery>;
+
+export type TagQuery = z.infer<typeof TagQuery>;
+
+export type ProductAttributeQuery = z.infer<typeof ProductAttributeQuery>;
+
+export type ProductTagQuery = z.infer<typeof ProductTagQuery>;
+
+export type ProductQuery = z.infer<typeof ProductQuery>;

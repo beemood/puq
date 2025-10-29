@@ -24,6 +24,10 @@ export function hasChildMark(model: Model) {
   return !!model.documentation?.includes('@child');
 }
 
+export function hasInputMark(model: Model) {
+  return !!model.documentation?.includes('@input');
+}
+
 export function hasMapMark(model: Model) {
   return !!model.documentation?.includes('@map');
 }

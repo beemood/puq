@@ -4,17 +4,20 @@ import { printOrderBy } from '../objects-printers/print-order-by.js';
 export function printOrderByField(
   datamodel: Datamodel,
   model: Model,
-  field: Field
+  field: Field,
+  limit = 0
 ): string {
-  if (field.relationName) {
+  if (field.relationName != undefined) {
+    const relationModel = datamodel.models.find((e) => e.name === field.type);
+
+    if (!relationModel) {
+      throw new Error(`${field.type} not found in models`);
+    }
+
     if (field.isList) {
       return '_orderByCount';
     } else {
-      const relationModel = datamodel.models.find((e) => e.name === field.type);
-      if (!relationModel) {
-        throw new Error(`${field.type} not found in models`);
-      }
-      return printOrderBy(datamodel, relationModel);
+      return printOrderBy(datamodel, relationModel, ++limit);
     }
   }
 

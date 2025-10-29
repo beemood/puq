@@ -23,7 +23,7 @@ export function printProjection(datamodel: Datamodel, model: Model): string {
     z.object({ select: z.preprocess(_parseJsonOrReturn, ${selectName}).optional() }),
     z.object({ omit: z.preprocess(_parseJsonOrReturn, ${omitName}).optional() }),
     z.object({ include: z.preprocess(_parseJsonOrReturn, ${includeName}).optional() }),
-    z.object({ })
+    z.object({ }).optional()
   ])`;
 
   registry.set(schemaName, schema);
