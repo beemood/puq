@@ -15,7 +15,7 @@ export function printQuerySchema(
   return `z.object({ 
         take:_take, 
         skip:_skip, 
-        where: ${printWhereSchema(datamodel, model, count)},
+        where: ${printWhereSchema(datamodel, model, count)}.optional(),
         distinct:${model.name}DistinctSchema.array().optional(),
         select: ${printSelectSchema(datamodel, model, count)} .optional(),
         omit: ${printOmitSchema(datamodel, model)}.optional(),

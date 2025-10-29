@@ -7,6 +7,8 @@ export function printWhereFieldSchema(
   field: DMMF.Field,
   count = 0
 ) {
+  count++;
+
   switch (field.kind) {
     case 'object': {
       if (field.relationName != undefined) {
@@ -15,15 +17,19 @@ export function printWhereFieldSchema(
           throw new Error(`${field.type} is not found!`);
         }
 
-        if (count > 3) {
-          return undefined;
+        if (count > 4) {
+          return `z.any()`;
         }
 
         if (field.isList) {
           return `z.object({ 
-            some: ${printWhereSchema(datamodel, foundModel, count)}, 
-            every: ${printWhereSchema(datamodel, foundModel, count)}, 
-            none: ${printWhereSchema(datamodel, foundModel, count)},
+            some: ${printWhereSchema(datamodel, foundModel, count)}.optional(), 
+            every: ${printWhereSchema(
+              datamodel,
+              foundModel,
+              count
+            )}.optional(), 
+            none: ${printWhereSchema(datamodel, foundModel, count)}.optional(),
           })`;
         }
         return `${printWhereSchema(datamodel, foundModel, count)}`;

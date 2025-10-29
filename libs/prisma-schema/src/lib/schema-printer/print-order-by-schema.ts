@@ -1,4 +1,5 @@
 import type { DMMF } from '@prisma/client/runtime/library';
+import { registry } from './registry.js';
 
 export function printOrderBySchema(
   datamodel: Omit<DMMF.Datamodel, 'indexes'>,
@@ -6,6 +7,12 @@ export function printOrderBySchema(
   counter = 0
 ): string {
   counter++;
+
+  const schemaName = `${model.name}OrderBySchema`;
+
+  if (registry.get(schemaName)) {
+    return schemaName;
+  }
 
   const fields = model.fields
     .map((field) => {
@@ -23,6 +30,9 @@ export function printOrderBySchema(
         if (field.isList) {
           return `${field.name}: _orderByCount`;
         } else {
+          if (registry.get(found.name + 'OrderBySchema')) {
+            return `${found.name}OrderBySchema`;
+          }
           return `${field.name}: ${printOrderBySchema(
             datamodel,
             found,
@@ -35,5 +45,9 @@ export function printOrderBySchema(
     .filter((e) => e)
     .join(',\n');
 
-  return `z.object({ ${fields} })`;
+  const schema = `z.object({ ${fields} })`;
+
+  registry.set(schemaName, schema);
+
+  return schema;
 }

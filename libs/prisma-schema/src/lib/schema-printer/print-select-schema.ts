@@ -1,6 +1,7 @@
 import type { DMMF } from '@prisma/client/runtime/library';
 import { printQueryOneSchema } from './print-query-one-schema.js';
 import { printQuerySchema } from './print-query-schema.js';
+import { registry } from './registry.js';
 
 export function printSelectSchema(
   datamodel: Omit<DMMF.Datamodel, 'indexes'>,
@@ -8,6 +9,12 @@ export function printSelectSchema(
   count = 0
 ) {
   count++;
+
+  const schemaName = `${model.name}SelectSchema`;
+
+  if (registry.get(schemaName)) {
+    return schemaName;
+  }
 
   const fields = model.fields
     .map((field) => {
@@ -40,5 +47,9 @@ export function printSelectSchema(
     .filter((e) => e)
     .join(',\n');
 
-  return `z.object({ ${fields} })`;
+  const schema = `z.object({ ${fields} })`;
+
+  registry.set(schemaName, schema);
+
+  return schema;
 }
