@@ -12,30 +12,4 @@ describe('printSchemas', () => {
   it('should work', () => {
     expect(1).toEqual(1);
   });
-  // const client = new PrismaClient();
-
-  // it('should work', () => {
-  //   try {
-  //     client.sample.findMany(SampleCompleteQuerySchema.parse({}));
-  //     client.sample.findUnique({
-  //       ...SampleCompleteQueryOneSchema.parse({}),
-  //       where: { id: 1 },
-  //     });
-  //     client.sample.findFirst(SampleCompleteQueryOneSchema.parse({}));
-  //     // client.sample.create({
-
-  //     // });
-  //     client.sample.update({
-  //       where: { id: 1 },
-  //       data: SampleUpdateSchema.parse({}),
-  //     });
-
-  //     client.sample.delete({
-  //       ...SampleCompleteQueryOneSchema.parse({}),
-  //       where: { id: 1 },
-  //     });
-  //   } catch {
-  //     //
-  //   }
-  // });
 });

@@ -1,6 +1,6 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -8,6 +8,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Status {
+  ACTIVE
+  PASSIVE
+}
+
+/// @child
 model Cat {
   id          Int       @id @default(autoincrement())
   parentId    Int?
@@ -18,25 +24,35 @@ model Cat {
   products    Product[]
 }
 
+/// @child
 model Tag {
   id          Int          @id @default(autoincrement())
   name        String       @unique @db.VarChar(30)
   productTags ProductTag[]
 }
 
+/// @parent
 model Product {
-  id          Int                @id @default(autoincrement())
-  name        String             @unique @db.VarChar(30)
-  description String?            @unique @default("No Description") @db.VarChar(400)
-  cost        Decimal            @db.Decimal(10, 2)
-  price       Decimal            @db.Decimal(10, 2)
+  id          Int     @id @default(autoincrement())
+  name        String  @unique @db.VarChar(30)
+  description String? @unique @default("No Description") @db.VarChar(400)
+  cost        Decimal @db.Decimal(10, 2)
+  price       Decimal @db.Decimal(10, 2)
   quantity    Int
   catId       Int?
-  cat         Cat?               @relation(fields: [catId], references: [id])
+  status      Status?
+
+  /// @select @where @include 
+  cat Cat? @relation(fields: [catId], references: [id])
+
+  //// @select @where @include
   productTags ProductTag[]
-  attributes  ProductAttribute[]
+
+  //// @select @where @include
+  attributes ProductAttribute[]
 }
 
+/// @child
 model ProductAttribute {
   productId Int
   name      String  @db.VarChar(30)
@@ -46,11 +62,14 @@ model ProductAttribute {
   @@unique([productId, name])
 }
 
+/// @map
 model ProductTag {
   productId Int
   tagId     Int
   product   Product @relation(fields: [productId], references: [id])
-  tag       Tag     @relation(fields: [tagId], references: [id])
+
+  /// @where @select @include
+  tag Tag @relation(fields: [tagId], references: [id])
 
   @@unique([tagId, productId])
 }

@@ -21,7 +21,7 @@ export function printSelect(
     })
     .join(',');
 
-  const schema = `z.object({ ${fields}})`;
+  const schema = `z.object({ ${fields} })`;
 
   registry.set(schemaName, schema);
 

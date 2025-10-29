@@ -1,10 +1,12 @@
 import type { Datamodel, Model } from '../dmmf.js';
-import { toQueryOneName } from '../names/to-schema-name.js';
+import {
+  toIncludeName,
+  toOmitName,
+  toQueryOneName,
+  toSelectName,
+  toWhereName,
+} from '../names/to-schema-name.js';
 import { registry } from '../registry/registry.js';
-import { printInclude } from './print-include.js';
-import { printOmit } from './print-omit.js';
-import { printSelect } from './print-select.js';
-import { printWhere } from './print-where.js';
 
 export function printQueryOne(datamodel: Datamodel, model: Model): string {
   const schemaName = toQueryOneName(model.name);
@@ -13,11 +15,17 @@ export function printQueryOne(datamodel: Datamodel, model: Model): string {
     return `${schemaName}`;
   }
 
+  const modelName = model.name;
+  const whereName = toWhereName(modelName);
+  const selectName = toSelectName(modelName);
+  const omitName = toOmitName(modelName);
+  const includeName = toIncludeName(modelName);
+
   const schema = `z.object({
-    select: ${printSelect(datamodel, model)}.optinoal(), 
-    omit: ${printOmit(datamodel, model)}.optinoal(), 
-    include: ${printInclude(datamodel, model)}.optinoal(), 
-    where: ${printWhere(datamodel, model)}.optional()
+    where: z.preprocess(_parseJsonOrReturn, ${whereName}).optional(),
+    select: z.preprocess(_parseJsonOrReturn, ${selectName}).optional(),
+    omit: z.preprocess(_parseJsonOrReturn, ${omitName}).optional(),
+    include: z.preprocess(_parseJsonOrReturn, ${includeName}).optional(),
   })`;
 
   registry.set(schemaName, schema);
