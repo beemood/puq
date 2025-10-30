@@ -390,4 +390,10 @@ export const _dateArrayFilter = z.object({
   isEmpty: _bool.optional(),
 });
 
+export const Pagination = z.object({ 
+  take:_take,
+  skip:_skip  
+});
+
+export type Pagination = z.infer<typeof Pagination>
 `;

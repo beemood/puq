@@ -29,7 +29,7 @@ export function printWhereField(
       } else if (registry.has(relationWhereOwnName)) {
         relationSchema = relationWhereOwnName;
       } else {
-        relationSchema = printWhere(datamodel, relationModel, ++limit);
+        relationSchema = printWhere(datamodel, relationModel, limit+1);
       }
 
       if (field.isList) {

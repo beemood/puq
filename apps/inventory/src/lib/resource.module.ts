@@ -7,10 +7,9 @@ import {
   ResourceEventInterceptor,
 } from '@puq/nest';
 import { PrismaModule } from '@puq/prisma';
-import { resourceModules } from './resources/resource-modules.js';
 
 @Module({
-  imports: [PrismaModule.forRoot({ prismaClient }), ...resourceModules],
+  imports: [PrismaModule.forRoot({ prismaClient })],
   providers: [
     {
       provide: APP_FILTER,

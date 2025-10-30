@@ -21,8 +21,6 @@ export function printQuery(datamodel: Datamodel, model: Model): string {
   const distinctSelectName = toDistinctSelectName(modelName);
 
   const schema = `z.object({ 
-    take: _take, 
-    skip: _skip, 
     distinct: ${distinctSelectName}.optional(),
     where: z.preprocess(_parseJsonOrReturn, ${whereName}).optional(),
     orderBy: z.preprocess(_parseJsonOrReturn, ${orderByName}).optional(),

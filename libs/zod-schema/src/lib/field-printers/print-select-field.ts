@@ -13,7 +13,8 @@ import { registry } from '../registry/registry.js';
 export function printSelectField(
   datamodel: Datamodel,
   model: Model,
-  field: Field
+  field: Field,
+  limit = 0
 ): string {
   if (field.relationName) {
     const relationModel = datamodel.models.find((m) => m.name === field.type);
@@ -27,16 +28,16 @@ export function printSelectField(
     const parts = new Set<string>();
 
     if (hasSelectMark(field)) {
-      parts.add(`select: ${printSelect(datamodel, relationModel)}.optional()`);
+      parts.add(`select: ${printSelect(datamodel, relationModel, limit+1)}.optional()`);
     }
 
     if (hasWhereMark(field)) {
-      parts.add(`where: ${printWhere(datamodel, relationModel)}.optional()`);
+      parts.add(`where: ${printWhere(datamodel, relationModel, limit+1)}.optional()`);
     }
 
     if (hasIncludeMark(field)) {
       parts.add(
-        `include: ${printInclude(datamodel, relationModel)}.optional()`
+        `include: ${printInclude(datamodel, relationModel, limit+1)}.optional()`
       );
     }
 

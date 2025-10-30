@@ -17,7 +17,7 @@ export function printOrderByField(
     if (field.isList) {
       return '_orderByCount';
     } else {
-      return printOrderBy(datamodel, relationModel, ++limit);
+      return printOrderBy(datamodel, relationModel, limit+1);
     }
   }
 

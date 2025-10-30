@@ -15,7 +15,7 @@ export async function schemasGenerator(
   const tempScript = [
     '#!/usr/bin/env node',
     '',
-    "const { printSchemas } = require('@puq/prisma-schema');",
+    "const { printSchemas } = require('@puq/zod-schema');",
     "const { Prisma } = require('./generated');",
     "const { writeFileSync } = require('fs');",
     'const schemas = printSchemas(Prisma.dmmf.datamodel);',

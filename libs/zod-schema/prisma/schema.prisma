@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  output   = "../generated"
 }
 
 datasource db {
@@ -8,69 +8,153 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Status {
-  ACTIVE
-  PASSIVE
+/// @child
+model Department {
+  id Int @id @default(autoincrement())
+
+  name String @unique @db.VarChar(30)
+
+  products Product[]
 }
 
 /// @child
-model Cat {
-  id          Int       @id @default(autoincrement())
-  parentId    Int?
-  name        String    @unique @db.VarChar(30)
-  description String?   @unique @default("No Description") @db.VarChar(400)
-  parent      Cat?      @relation("children", fields: [parentId], references: [id], onDelete: SetNull)
-  children    Cat[]     @relation("children")
-  products    Product[]
+model Category {
+  id Int @id @default(autoincrement())
+
+  name String @unique @db.VarChar(30)
+
+  products Product[]
 }
 
 /// @child
-model Tag {
-  id          Int          @id @default(autoincrement())
-  name        String       @unique @db.VarChar(30)
-  productTags ProductTag[]
+model Attribue {
+  id       Int                @id @default(autoincrement())
+  name     String             @unique @db.VarChar(30)
+  variants VariantAttribute[]
+}
+
+/// @map
+model VariantAttribute {
+  variantId  Int
+  attribueId Int
+  value      String
+
+  /// @include @where
+  attribute Attribue @relation(fields: [attribueId], references: [id])
+
+  /// @include @where 
+  variant Variant @relation(fields: [variantId], references: [id])
+
+  @@unique([variantId])
 }
 
 /// @parent
 model Product {
-  id          Int     @id @default(autoincrement())
+  id           Int      @id @default(autoincrement())
+  uuid         String   @unique @default(uuid())
+  categoryId   Int
+  departmentId Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
   name        String  @unique @db.VarChar(30)
-  description String? @unique @default("No Description") @db.VarChar(400)
-  cost        Decimal @db.Decimal(10, 2)
-  price       Decimal @db.Decimal(10, 2)
-  quantity    Int
-  catId       Int?
-  status      Status?
+  description String? @default("No Description") @db.VarChar(1000)
+  isActive    Boolean @default(true)
 
-  /// @select @where @order
-  cat Cat? @relation(fields: [catId], references: [id])
+  /// @include 
+  variants Variant[]
 
-  /// @input @select @where @include @order
-  productTags ProductTag[]
+  /// @include @where
+  category Category @relation(fields: [categoryId], references: [id])
 
-  /// @input @select @where @include @order
-  attributes ProductAttribute[]
+  /// @include @where
+  department Department @relation(fields: [departmentId], references: [id])
+}
+
+/// @parent 
+model Variant {
+  id            Int                @id @default(autoincrement())
+  uuid          String             @unique @default(uuid())
+  productId     Int
+  sku           String             @unique @db.VarChar(13)
+  upc           String             @unique @db.VarChar(13)
+  description   String?            @default("No Description") @db.VarChar(1000)
+  product       Product            @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  prices        Price[]
+  quantities    Quantity[]
+  serialNumbers SerialNumber[]
+  attributes    VariantAttribute[]
 }
 
 /// @child
-model ProductAttribute {
-  productId Int
-  name      String  @db.VarChar(30)
-  value     String  @db.VarChar(400)
-  product   Product @relation(fields: [productId], references: [id])
-
-  @@unique([productId, name])
+model Currency {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique @db.VarChar(30)
+  code        String       @unique @db.VarChar(10)
+  symbol      String?      @db.VarChar(4)
+  priceLevels PriceLevel[]
 }
 
-/// @map
-model ProductTag {
-  productId Int
-  tagId     Int
+/// @child 
+model PriceLevel {
+  id          Int      @id @default(autoincrement())
+  currencyId  Int
+  name        String   @unique @db.VarChar(30)
+  description String?  @default("No Description") @db.VarChar(1000)
+  taxrate     Decimal  @default(0) @db.Decimal(10, 4)
+  currency    Currency @relation(fields: [currencyId], references: [id])
+  stores      Store[]
+  prices      Price[]
+}
 
-  product Product @relation(fields: [productId], references: [id])
+/// @child
+model Price {
+  id           Int        @id @default(autoincrement())
+  variantId    Int
+  priceLevelId Int
+  price        Decimal    @db.Decimal(10, 2)
+  cost         Decimal    @db.Decimal(10, 2)
+  description  String?    @default("No Description") @db.VarChar(1000)
+  variant      Variant    @relation(fields: [variantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  priceLevel   PriceLevel @relation(fields: [priceLevelId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  /// @where @select @include @order
-  tag Tag @relation(fields: [tagId], references: [id])
+  @@unique([variantId, priceLevelId])
+}
 
-  @@unique([tagId, productId])
+/// @child
+model Quantity {
+  id             Int     @id @default(autoincrement())
+  variantId      Int
+  storeId        Int
+  quantity       Int
+  alertThreshold Int?
+  variant        Variant @relation(fields: [variantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  store          Store   @relation(fields: [storeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([variantId, storeId])
+}
+
+/// @child
+model SerialNumber {
+  id           Int     @id @default(autoincrement())
+  variantId    Int
+  storeId      Int
+  serialNumber String  @unique
+  inStock      Boolean @default(true)
+  variant      Variant @relation(fields: [variantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  store        Store   @relation(fields: [storeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([variantId, storeId])
+}
+
+/// @parent 
+model Store {
+  id            Int            @id @default(autoincrement())
+  priceLevelId  Int
+  name          String         @unique @db.VarChar(30)
+  description   String?        @default("No Description") @db.VarChar(1000)
+  /// @include @where
+  priceLevel    PriceLevel     @relation(fields: [priceLevelId], references: [id])
+  quantities    Quantity[]
+  serialNumbers SerialNumber[]
 }

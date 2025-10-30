@@ -24,7 +24,8 @@ export function printOrderBy(datamodel: Datamodel, model: Model, limit = 0) {
       return true;
     })
     .map(
-      (field) => `${field.name}: ${printOrderByField(datamodel, model, field)}`
+      (field) =>
+        `${field.name}: ${printOrderByField(datamodel, model, field, limit)}`
     )
     .join(',');
 

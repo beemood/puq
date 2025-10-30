@@ -16,7 +16,7 @@ export function printWhereManyRelationField(
   if (registry.has(whereSchemaName)) {
     whereSchema = whereSchemaName;
   } else {
-    whereSchema = printWhere(datamodel, model, ++limit);
+    whereSchema = printWhere(datamodel, model, limit+1);
   }
 
   return `z.object({ 
