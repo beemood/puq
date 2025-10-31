@@ -1,43 +1,38 @@
 import { Inject, type Provider, type Type } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import type { PrismaClientExtends } from '@prisma/client';
+import type { PrismaClient } from '@prisma/client/extension';
 import { names } from '@puq/names';
-import type { Datamodel } from '@puq/prisma-extentions';
-import { withSlugify, withSoftDelete } from '@puq/prisma-extentions';
 import { DEFAULT_DATASOURCE_NAME } from './constants.js';
 
-export function getClientToken(
+export function getRawClientToken(
   datasourceName = DEFAULT_DATASOURCE_NAME
 ): string {
   return `${
     names(datasourceName).screamingSnake
-  }_PRISMA_CLIENT_TOKEN`.toUpperCase();
+  }_PRISMA_RAW_CLIENT_TOKEN`.toUpperCase();
 }
 
-export function provideClient(
+export function provideRawClient(
   datasourceName = DEFAULT_DATASOURCE_NAME,
-  prismaClient: Type<PrismaClientExtends>,
-  databaseUrlKey = 'DATABASE_URL',
-  datamodel: Datamodel
+  prismaClient: Type<PrismaClient>,
+  databaseUrlKey = 'DATABASE_URL'
 ): Provider {
   return {
     inject: [ConfigService],
-    provide: getClientToken(datasourceName),
+    provide: getRawClientToken(datasourceName),
     useFactory(config: ConfigService) {
       const url = config.getOrThrow(databaseUrlKey);
       return new prismaClient({
         datasources: { db: { url } },
-      })
-        .$extends(withSlugify(datamodel))
-        .$extends(withSoftDelete(datamodel));
+      });
     },
   };
 }
 
-export function InjectClient(
+export function InjectRawClient(
   datasouceName = DEFAULT_DATASOURCE_NAME
 ): ParameterDecorator {
   return (...args) => {
-    Inject(getClientToken(datasouceName))(...args);
+    Inject(getRawClientToken(datasouceName))(...args);
   };
 }

@@ -2,15 +2,15 @@ import { defineConfig } from 'vite';
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../node_modules/.vite/dbs/inventory-db',
+  cacheDir: '../../node_modules/.vite/libs/prisma-zod-generator',
   plugins: [],
   test: {
-    name: '@puq/inventory-db',
+    name: '@puq/prisma-zod-generator',
     watch: false,
     globals: true,
     environment: 'node',
-    include: ['test/**/*.{test,spec}.ts'],
-    reporters: ['default', 'verbose'],
+    include: ['src/**/*.{test,spec}.ts'],
+    reporters: ['default'],
     coverage: {
       reportsDirectory: './test-output/vitest/coverage',
       provider: 'v8' as const,

@@ -1,20 +1,19 @@
 {
-  "name": "@puq/prisma",
+  "name": "@puq/prisma-zod-generator",
   "version": "0.29.10",
   "license": "MIT",
-  "displayName": "Nestjs Prisma Client Module",
-  "description": "The project provides a nestjs module that flawlessly integrates the project with prisma orm by providing repositories, database client, providers, and injectrors.",
+  "description": "Prisma zod schema geneator",
   "publishConfig": {
     "access": "public",
     "tag": "latest"
   },
-  "homepage": "https://beemood.github.io/libs/prisma",
+  "homepage": "https://beemood.github.io/libs/prisma-zod-generator",
   "author": {
     "email": "robert.brightline@gmail.com",
     "name": "Robert Brightline",
     "url": "https://beemood.github.io"
   },
-  "icon": "https://beemood.github.io/libs/prisma/assets/favicon.png",
+  "icon": "https://beemood.github.io/libs/prisma-zod-generator/assets/favicon.png",
   "funding": [
     "https://cash.app/$puqlib"
   ],
@@ -32,11 +31,18 @@
     }
   },
   "files": [
+    "bin",
     "dist",
     "!**/*.tsbuildinfo"
   ],
+  "bin": {
+    "prisma-zod-generator": "./bin/prisma-zod-generator.mjs"
+  },
+  "scripts": {
+    "start": "node  ./bin/prisma-zod-generator.mjs"
+  },
   "nx": {
-    "sourceRoot": "libs/prisma/src",
+    "sourceRoot": "libs/prisma-zod-generator/src",
     "targets": {
       "build": {
         "executor": "@nx/js:swc",
@@ -44,9 +50,9 @@
           "{options.outputPath}"
         ],
         "options": {
-          "outputPath": "libs/prisma/dist",
-          "main": "libs/prisma/src/index.ts",
-          "tsConfig": "libs/prisma/tsconfig.lib.json",
+          "outputPath": "libs/prisma-zod-generator/dist",
+          "main": "libs/prisma-zod-generator/src/index.ts",
+          "tsConfig": "libs/prisma-zod-generator/tsconfig.lib.json",
           "skipTypeCheck": false,
           "stripLeadingPaths": true
         }
@@ -62,22 +68,8 @@
       }
     }
   },
-  "peerDependencies": {
-    "@nestjs/common": "^11.1.6",
-    "@nestjs/config": "^4.0.2",
-    "@nestjs/core": "^11.1.6",
-    "@prisma/client": "6.16.2",
-    "express": "^5.1.0"
-  },
   "dependencies": {
-    "@puq/names": "workspace:*",
-    "@puq/prisma-extentions": "workspace:*",
-    "@puq/types": "workspace:*",
-    "@puq/utils": "workspace:*",
+    "@prisma/generator-helper": "^6.18.0",
     "@swc/helpers": "~0.5.11"
-  },
-  "devDependencies": {
-    "@nestjs/testing": "^11.1.6",
-    "@types/express": "^5.0.3"
   }
 }

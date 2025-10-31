@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
-import { PrismaClient as prismaClient } from '@puq/inventory-db/client';
+import { Prisma, PrismaClient as prismaClient } from '@puq/inventory-db';
 import { PrismaClientKnownRequestError } from '@puq/inventory-db/runtime/library';
 import {
   createPrismaExceptionFilter,
@@ -9,7 +9,9 @@ import {
 import { PrismaModule } from '@puq/prisma';
 
 @Module({
-  imports: [PrismaModule.forRoot({ prismaClient })],
+  imports: [
+    PrismaModule.forRoot({ prismaClient, datamodel: Prisma.dmmf.datamodel }),
+  ],
   providers: [
     {
       provide: APP_FILTER,

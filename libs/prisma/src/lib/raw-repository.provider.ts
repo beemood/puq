@@ -6,29 +6,29 @@ import { isStringOrThrow } from '@puq/utils';
 import { getClientToken } from './client.provider.js';
 import { DEFAULT_DATASOURCE_NAME } from './constants.js';
 
-export function getRepositoryToken(
+export function getRawRepositoryToken(
   resourceName: string,
   datasouceName = DEFAULT_DATASOURCE_NAME
 ) {
   return `${names(datasouceName).screamingSnake}_${
     names(resourceName).screamingSnake
-  }_PRISMA_REPOSITORY`.toUpperCase();
+  }_PRISMA_RAW_REPOSITORY`.toUpperCase();
 }
 
-export function provideRepository(
+export function provideRawRepository(
   resourceName: string,
   datasourceName = DEFAULT_DATASOURCE_NAME
 ): Provider {
   const __resourceNames = names(resourceName);
   return {
     inject: [getClientToken(datasourceName)],
-    provide: getRepositoryToken(resourceName),
+    provide: getRawRepositoryToken(resourceName),
     useFactory(client: any) {
       const repository = client[__resourceNames.camel];
 
       if (repository == undefined) {
         throw new Error(
-          `Prisma repository for ${resourceName}, is not found in the provided prisma instance!`
+          `Prisma raw repository for ${resourceName}, is not found in the provided prisma instance!`
         );
       }
       return repository;
@@ -36,7 +36,7 @@ export function provideRepository(
   };
 }
 
-export function InjectRepository(
+export function InjectRawRepository(
   resourceName?: string,
   datasourceName = DEFAULT_DATASOURCE_NAME
 ): ParameterDecorator {
@@ -47,6 +47,6 @@ export function InjectRepository(
       resourceName = extractResourceName(className);
     }
 
-    Inject(getRepositoryToken(resourceName, datasourceName))(...args);
+    Inject(getRawRepositoryToken(resourceName, datasourceName))(...args);
   };
 }

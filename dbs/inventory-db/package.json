@@ -21,19 +21,19 @@
   "keywords": [
     "prisma"
   ],
-  "main": "./generated/index.js",
-  "types": "./generated/index.d.ts",
-  "browser": "./generated/default.js",
-  "files": [
-    "dist",
-    "prisma",
-    "postinstall",
-    ".env",
-    "!**/*.tsbuildinfo"
-  ],
   "scripts": {
     "postinstall": "sh ./scripts/prisma-generate.sh"
   },
+  "files": [
+    "dist",
+    "prisma",
+    "scripts",
+    ".env",
+    "!**/*.tsbuildinfo"
+  ],
+  "main": "./generated/index.js",
+  "types": "./generated/index.d.ts",
+  "browser": "./generated/default.js",
   "exports": {
     "./package.json": "./package.json",
     "./zod": {
@@ -249,11 +249,13 @@
     "zod": "4.1.11"
   },
   "dependencies": {
-    "@prisma/client": "6.16.2",
+    "@prisma/client": "^6.18.0",
+    "@puq/prisma-extentions": "workspace:*",
+    "@puq/prisma-generators": "workspace:*",
     "@swc/helpers": "0.5.11"
   },
   "devDependencies": {
     "@puq/inventory-db": "workspace:*",
-    "prisma": "6.16.2"
+    "prisma": "^6.18.0"
   }
 }
