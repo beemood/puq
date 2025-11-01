@@ -1,16 +1,18 @@
 import { NotFoundError } from '@puq/errors';
-import { Prisma } from '../../../../generated/index.js';
-import { parseJsonOrReturn } from '../common/common-code.js';
-const datamodel = Prisma.dmmf.datamodel;
-const models = datamodel.models;
-const enumModels = datamodel.enums;
+import { Prisma, PrismaClient } from '../../../../generated/index.js';
+import { enumModel } from './enum-model.js';
 
-const model = models.find((e) => e.name == 'Product');
-
-if (!model) throw new NotFoundError();
+new PrismaClient().product.findMany({
+  where: { OR: [], AND: {}, NOT: {} },
+});
 
 describe('EnumModel', () => {
-  it('should print enum model', () => {
-    console.log(parseJsonOrReturn.toString());
+  const datamodel = Prisma.dmmf.datamodel;
+  const models = datamodel.enums;
+  const model = models.find((e) => e.name == 'Status');
+  if (!model) throw new NotFoundError();
+
+  it('should print', () => {
+    expect(enumModel(model)).toEqual(`z.enum([ 'OK', 'PENDING' ])`);
   });
 });

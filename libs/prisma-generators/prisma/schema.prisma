@@ -45,8 +45,6 @@ model Category {
   Parent   Category?  @relation("Categories", fields: [parentId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   Children Category[] @relation("Categories")
   Products Product[]
-
-  @@unique([id, name])
 }
 
 model Tag {

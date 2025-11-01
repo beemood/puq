@@ -11,24 +11,24 @@ export const whereScalarArrayField = (field: Field) => {
     case 'String':
     case 'BigInt':
     case 'Json': {
-      return 'filterStrArray';
+      return 'strArrayFilter';
     }
     case 'Number':
     case 'Decimal': {
-      return 'filerNumArray';
+      return 'numArrayFilter';
     }
     case 'Integer':
     case 'Int': {
-      return 'filterIntArray';
+      return 'intArrayFilter';
     }
     case 'Boolean': {
-      return 'filterBoolArray';
+      return 'boolArrayFilter';
     }
     case 'Date': {
-      return 'filterDateArray';
+      return 'dateArrayFilter';
     }
     case 'DateTime': {
-      return 'filterDatetimeArray';
+      return 'datetimeArrayFilter';
     }
   }
   throw new BadOperationError(field.name);
@@ -39,24 +39,24 @@ export const whereScalarField = (field: Field): string => {
     case 'String':
     case 'BigInt':
     case 'Json': {
-      return 'filterStr';
+      return 'strFilter';
     }
     case 'Number':
     case 'Decimal': {
-      return 'filerNum';
+      return 'numFilter';
     }
     case 'Integer':
     case 'Int': {
-      return 'filterInt';
+      return 'intFilter';
     }
     case 'Boolean': {
-      return 'filterBool';
+      return 'boolFilter';
     }
     case 'Date': {
-      return 'filterDate';
+      return 'dateFilter';
     }
     case 'DateTime': {
-      return 'filterDatetime';
+      return 'datetimeFilter';
     }
   }
   throw new BadOperationError(field.name);

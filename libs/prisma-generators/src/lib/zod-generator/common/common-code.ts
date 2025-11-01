@@ -1,3 +1,4 @@
+export const commonCode = `
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import z from 'zod';
 
@@ -145,7 +146,7 @@ export const dir = z.enum(['asc', 'desc']);
 /**
  * Special object schema with _count property to order by relation count
  */
-export const countObj = z.object({ _count: dir });
+export const orderByCount = z.object({ _count: dir });
 
 /**
  * Pagination schema for **take/limit** option
@@ -465,7 +466,7 @@ export type email = z.infer<typeof email>;
 export type url = z.infer<typeof url>;
 export type pass = z.infer<typeof pass>;
 export type dir = z.infer<typeof dir>;
-export type countObj = z.infer<typeof countObj>;
+export type orderByCount = z.infer<typeof orderByCount>;
 export type take = z.infer<typeof take>;
 export type skip = z.infer<typeof skip>;
 export type json = z.infer<typeof json>;
@@ -482,3 +483,5 @@ export type numArrayFilter = z.infer<typeof numArrayFilter>;
 export type intArrayFilter = z.infer<typeof intArrayFilter>;
 export type dateArrayFilter = z.infer<typeof dateArrayFilter>;
 export type page = z.infer<typeof page>;
+
+`;

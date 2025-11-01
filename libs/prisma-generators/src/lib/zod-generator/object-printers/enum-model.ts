@@ -7,7 +7,7 @@ import { enumField } from '../field-printers/enum-field.js';
  * @returns
  */
 export function enumFields(fields: EnumField[]) {
-  return fields.map(enumField).join(',');
+  return fields.map(enumField).join(', ');
 }
 
 /**
@@ -17,5 +17,5 @@ export function enumFields(fields: EnumField[]) {
  */
 export function enumModel(model: EnumModel) {
   const fields = enumFields([...model.values]);
-  return `z.enum({ ${fields} })`;
+  return `z.enum([ ${fields} ])`;
 }
