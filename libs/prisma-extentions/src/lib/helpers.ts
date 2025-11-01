@@ -4,11 +4,23 @@ export type Datamodel = Omit<DMMF.Datamodel, 'indexes'>;
 export type Model = DMMF.Model;
 export type Field = DMMF.Field;
 
+export function isCreateOperation(operation: string) {
+  return (operation as Operation) === 'create';
+}
+
 export function isCreateManyOperation(operation: string) {
   return (operation as Operation) === 'createMany';
 }
 
 export function isUpdateOperation(operation: string) {
+  return (operation as Operation) === 'update';
+}
+
+export function isUpdateManyOperation(operation: string) {
+  return (operation as Operation) === 'updateMany';
+}
+
+export function isUpdateOrCreateOperation(operation: string) {
   return (
     (operation as Operation) === 'update' ||
     (operation as Operation) === 'create' ||
@@ -25,6 +37,12 @@ export class DatamodelManager {
 
   findModel(modelName: string) {
     return this.datamodel.models.find((e) => e.name === modelName);
+  }
+
+  findChangeLogModel() {
+    return this.datamodel.models.find(
+      (e) => e.name === 'ChangeLog' || e.documentation?.includes('@changeLog')
+    );
   }
 }
 

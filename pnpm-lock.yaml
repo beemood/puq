@@ -522,12 +522,28 @@ importers:
 
   libs/prisma-generators:
     dependencies:
+      '@prisma/client':
+        specifier: ^6.18.0
+        version: 6.18.0(prisma@6.18.0(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)
       '@prisma/generator-helper':
         specifier: ^6.18.0
         version: 6.18.0
+      '@puq/errors':
+        specifier: workspace:*
+        version: link:../errors
+      '@puq/types':
+        specifier: workspace:*
+        version: link:../types
       '@swc/helpers':
-        specifier: ~0.5.11
+        specifier: 0.5.11
         version: 0.5.11
+      zod:
+        specifier: ^4.1.12
+        version: 4.1.12
+    devDependencies:
+      prisma:
+        specifier: ^6.18.0
+        version: 6.18.0(magicast@0.3.5)(typescript@5.9.3)
 
   libs/prisma-schema:
     dependencies:
@@ -544,15 +560,6 @@ importers:
       '@puq/zod':
         specifier: workspace:*
         version: link:../zod
-
-  libs/prisma-zod-generator:
-    dependencies:
-      '@prisma/generator-helper':
-        specifier: ^6.18.0
-        version: 6.18.0
-      '@swc/helpers':
-        specifier: ~0.5.11
-        version: 0.5.11
 
   libs/types:
     dependencies:

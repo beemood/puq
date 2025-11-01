@@ -73,9 +73,6 @@
       "path": "./libs/zod-schema"
     },
     {
-      "path": "./libs/prisma-zod-generator"
-    },
-    {
       "path": "./libs/prisma-extentions"
     },
     {

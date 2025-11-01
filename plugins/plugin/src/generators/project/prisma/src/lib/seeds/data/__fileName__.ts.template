@@ -1,0 +1,10 @@
+import type { Prisma } from '../../../../generated/index.js';
+
+export const <%- className %>: Prisma.<%- className %>CreateArgs[] = [
+  {
+    data: {
+      name: 'Data name',
+      readonly: true,
+    },
+  },
+];

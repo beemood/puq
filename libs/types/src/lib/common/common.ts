@@ -28,3 +28,11 @@ export interface ClassType<T = Any> {
 export type Keys<T> = (keyof T)[];
 
 export type Predicate<T> = (value: T) => boolean;
+
+export interface Filter<T> {
+  filter(value?: T): boolean;
+}
+
+export interface Printer {
+  print(): string;
+}

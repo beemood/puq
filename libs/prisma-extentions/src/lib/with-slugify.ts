@@ -5,7 +5,7 @@ import type { Datamodel } from './helpers.js';
 import {
   DatamodelManager,
   isCreateManyOperation,
-  isUpdateOperation,
+  isUpdateOrCreateOperation,
   ModelManager,
 } from './helpers.js';
 
@@ -28,7 +28,7 @@ export function withSlugify(datamodel: Datamodel) {
             model: modelName,
             operation: operationName,
           }: any) {
-            if (isUpdateOperation(operationName)) {
+            if (isUpdateOrCreateOperation(operationName)) {
               const model = dm.findModel(modelName);
 
               if (!model) {
@@ -37,7 +37,19 @@ export function withSlugify(datamodel: Datamodel) {
 
               const mm = new ModelManager(model);
               if (isCreateManyOperation(operationName)) {
-                //
+                const slugSource = mm.findSlugSource();
+                const slugTarget = mm.findSlugTarget();
+
+                if (slugSource && slugTarget) {
+                  const sourceValue = args.data[slugSource.name];
+                  if (sourceValue) {
+                    const slugValue = slugify(sourceValue);
+                    args.data.map((e: any) => {
+                      e[slugTarget.name] = slugValue;
+                      return e;
+                    });
+                  }
+                }
               } else {
                 const slugSource = mm.findSlugSource();
                 const slugTarget = mm.findSlugTarget();

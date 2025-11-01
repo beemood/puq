@@ -1,1 +1,1 @@
-export const mdoelNames = "Store,Category,Tag,ProductTag,Product,PriceLevel,Price,Quantity,SerialNumber"
+export const mdoelNames = "Store,Category,Tag,ProductTag,Manufacturer,Product,PriceLevel,Price,Quantity,SerialNumber"
