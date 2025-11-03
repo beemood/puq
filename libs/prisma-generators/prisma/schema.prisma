@@ -8,9 +8,77 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Status {
-  OK
-  PENDING
+/// A comprehensive classification for products, covering Consumer, Industrial, Digital, and Service categories.
+enum ProductType {
+  DEFAULT
+
+  /**
+   * Goods purchased frequently, immediately, and with minimal comparison effort.
+   * Examples: Milk, Bread, Standard Groceries, Basic OTC Drugs.
+   */
+  CONVENIENCE
+
+  /**
+   * Goods where the consumer spends significant time comparing quality, price, style, and features.
+   * Examples: Apparel, Electronics (TVs, Laptops), Furniture, Cars.
+   */
+  SHOPPING
+
+  /**
+   * Goods with unique characteristics or strong brand identification; buyers make a special purchase effort.
+   * Examples: Luxury Goods, Collectibles, Specific Designer Brands.
+   */
+  SPECIALTY
+
+  /**
+   * Goods the consumer does not normally seek out or even know they need until an event occurs.
+   * Examples: Life Insurance, Funeral Services, Smoke Detectors.
+   */
+  UNSOUGHT
+
+  /**
+   * Products that are intangible, inseparable (produced and consumed simultaneously), variable, and perishable.
+   * Examples: Haircuts, Consulting, Healthcare, Financial Advice.
+   */
+  SERVICE_PROFESSIONAL
+
+  /**
+   * Services provided on an ongoing, subscription-based model.
+   * Examples: Gym Memberships, Streaming Services (Netflix, Spotify), SaaS platforms.
+   */
+  SERVICE_SUBSCRIPTION
+
+  /**
+   * Non-physical products distributed electronically.
+   * Examples: E-books, Software Licenses, Downloadable Music/Movies, Digital Art.
+   */
+  DIGITAL_GOODS
+
+  /**
+   * Products based on access to data, specialized knowledge, or training.
+   * Examples: Online Courses, Premium News Content, Research Reports, Market Data APIs.
+   */
+  DIGITAL_INFORMATION
+
+  /**
+   * Items that become a part of the final product. Includes raw materials and manufactured parts.
+   * Examples: Wheat, Crude Oil (Raw), Steel Sheets, Tires (Parts).
+   */
+  INDUSTRIAL_MATERIALS
+
+  /**
+   * Long-lasting goods that aid in the production process or operations (non-portable, large cost).
+   * Examples: Buildings, Heavy Machinery, Conveyor Systems, Manufacturing Plants.
+   */
+  INDUSTRIAL_CAPITAL_INSTALLATIONS
+
+  /**
+   * Supplies and services needed to operate a business (low-cost, short-lived).
+   * Examples: Office Supplies (Paper, Pens), Maintenance Services, Lubricants, Cleaning Supplies.
+   */
+  INDUSTRIAL_SUPPLIES_OPERATIONS
+
+  @@map("AdvancedProductClassification")
 }
 
 model Store {
@@ -102,13 +170,15 @@ model Product {
   parentId       Int?
   categoryId     Int?
   manufacturerId Int?
-  name           String  @unique @db.VarChar(255)
-  slug           String  @default(uuid(7))
-  model          String? @db.VarChar(255)
-  description    String? @db.VarChar(2000)
-  upc            String  @unique
-  sku            String  @unique
-  active         Boolean @default(true)
+  name           String        @unique @db.VarChar(255)
+  slug           String        @default(uuid(7))
+  model          String?       @db.VarChar(255)
+  description    String?       @db.VarChar(2000)
+  upc            String        @unique
+  sku            String        @unique
+  active         Boolean       @default(true)
+  type           ProductType   @default(DEFAULT)
+  types          ProductType[] @default([DEFAULT])
 
   Parent        Product?       @relation("Variants", fields: [parentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   Category      Category?      @relation(fields: [categoryId], references: [id], onDelete: SetDefault, onUpdate: Cascade)

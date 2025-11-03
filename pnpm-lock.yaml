@@ -534,6 +534,9 @@ importers:
       '@puq/types':
         specifier: workspace:*
         version: link:../types
+      '@puq/zod':
+        specifier: workspace:*
+        version: link:../zod
       '@swc/helpers':
         specifier: 0.5.11
         version: 0.5.11

@@ -13,23 +13,23 @@ describe('WhereModel', () => {
   it('should print', () => {
     const actualModel = whereModel(model);
     const expectedModel = `z.object({ 
-        id: intFilter,
-        createdAt: datetimeFilter,
-        updatedAt: datetimeFilter,
-        deletedAt: datetimeFilter,
-        updatedBy: strFilter,
-        readonly: boolFilter,
-        parentId: intFilter,
-        name: strFilter,
-        slug: strFilter, 
-        description: strFilter, 
+        id: P.intFilter,
+        createdAt: P.datetimeFilter,
+        updatedAt: P.datetimeFilter,
+        deletedAt: P.datetimeFilter,
+        updatedBy: P.strFilter,
+        readonly: P.boolFilter,
+        parentId: P.intFilter,
+        name: P.strFilter,
+        slug: P.strFilter, 
+        description: P.strFilter, 
         Parent: CategoryWhereOwn,
         Children: CategoryWhereOwn,
         Products: ProductWhereOwn,
         AND: CategoryWhereOwn,
         OR: CategoryWhereOwn.array(),
         NOT: CategoryWhereOwn.or(CategoryWhereOwn.array())
-  })`;
+  }).partial()`;
 
     const format = require('prettier').format;
     expect(format(actualModel)).toEqual(format(expectedModel));

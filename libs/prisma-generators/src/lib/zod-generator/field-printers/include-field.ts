@@ -1,9 +1,16 @@
+import type { Field } from '../common/dmmf.js';
 import { toQueryOneOwn, toQueryOwn } from '../common/names.js';
-import type { Field } from '../common/types.js';
+import { pre } from '../common/pre.js';
 
+/**
+ * Print include field schema
+ *
+ * @param field {@link Field}
+ * @returns
+ */
 export const includeField = (field: Field): string => {
   if (field.isList) {
-    return `bool.or(${toQueryOwn(field.type)})`;
+    return `${pre('bool')}.or(${toQueryOwn(field.type)})`;
   }
-  return `bool.or(${toQueryOneOwn(field.type)})`;
+  return `${pre('bool')}.or(${toQueryOneOwn(field.type)})`;
 };

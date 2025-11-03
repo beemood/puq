@@ -10,20 +10,20 @@ describe('OrderByModel', () => {
   it('should print', () => {
     const actualModel = orderByModel(model);
     const expectedModel = `z.object({ 
-        id: dir,
-        createdAt: dir,
-        updatedAt: dir,
-        deletedAt: dir,
-        updatedBy: dir,
-        readonly: dir,
-        parentId: dir,
-        name: dir,
-        slug: dir, 
-        description: dir, 
+        id: P.dir,
+        createdAt: P.dir,
+        updatedAt: P.dir,
+        deletedAt: P.dir,
+        updatedBy: P.dir,
+        readonly: P.dir,
+        parentId: P.dir,
+        name: P.dir,
+        slug: P.dir, 
+        description: P.dir, 
         Parent: CategoryOrderByOwn,
-        Children: orderByCount,
-        Products: orderByCount,
-  })`;
+        Children: P.orderByCount,
+        Products: P.orderByCount,
+  }).partial()`;
 
     const format = require('prettier').format;
     expect(format(actualModel)).toEqual(format(expectedModel));

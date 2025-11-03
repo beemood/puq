@@ -1,4 +1,3 @@
-export const commonCode = `
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import z from 'zod';
 
@@ -96,11 +95,6 @@ export const phone = str.regex(/^[0-9]{3} [0-9]{3} [0-9]{2}-[0-9]{2}$/, {
 });
 
 /**
- * Name schema with minimum 3 and maximum 30 characters long constraints
- */
-export const name = short.clone();
-
-/**
  * Slug schema
  */
 export const slug = short.regex(/^[0-9a-z-]{0,}$/, { error: 'Invalid slug' });
@@ -108,12 +102,7 @@ export const slug = short.regex(/^[0-9a-z-]{0,}$/, { error: 'Invalid slug' });
 /**
  * Description schema
  */
-export const desc = long.clone();
-
-/**
- * Description schema
- */
-export const uuid = long.clone();
+export const uuid = z.uuid();
 
 /**
  * Email schemea
@@ -458,9 +447,7 @@ export type positiveNum = z.infer<typeof positiveNum>;
 export type positiveInt = z.infer<typeof positiveInt>;
 export type cc = z.infer<typeof cc>;
 export type phone = z.infer<typeof phone>;
-export type name = z.infer<typeof name>;
 export type slug = z.infer<typeof slug>;
-export type desc = z.infer<typeof desc>;
 export type uuid = z.infer<typeof uuid>;
 export type email = z.infer<typeof email>;
 export type url = z.infer<typeof url>;
@@ -483,5 +470,3 @@ export type numArrayFilter = z.infer<typeof numArrayFilter>;
 export type intArrayFilter = z.infer<typeof intArrayFilter>;
 export type dateArrayFilter = z.infer<typeof dateArrayFilter>;
 export type page = z.infer<typeof page>;
-
-`;

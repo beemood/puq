@@ -10,20 +10,20 @@ describe('SelectModel', () => {
   it('should print', () => {
     const actualModel = selectModel(model);
     const expectedModel = `z.object({ 
-        id: bool,
-        createdAt: bool,
-        updatedAt: bool,
-        deletedAt: bool,
-        updatedBy: bool,
-        readonly: bool,
-        parentId: bool,
-        name: bool,
-        slug: bool, 
-        description: bool, 
+        id: P.bool,
+        createdAt: P.bool,
+        updatedAt: P.bool,
+        deletedAt: P.bool,
+        updatedBy: P.bool,
+        readonly: P.bool,
+        parentId: P.bool,
+        name: P.bool,
+        slug: P.bool, 
+        description: P.bool, 
         Parent: CategoryQueryOneOwn,
         Children: CategoryQueryOwn,
         Products: ProductQueryOwn,
-  })`;
+  }).partial()`;
 
     const format = require('prettier').format;
     expect(format(actualModel)).toEqual(format(expectedModel));

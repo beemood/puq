@@ -7,8 +7,21 @@ describe('OmitModel', () => {
   const models = datamodel.models;
   const model = models.find((e) => e.name == 'Category');
   if (!model) throw new NotFoundError();
-  const expectedModel = `z.object({ id: bool, createdAt: bool, updatedAt: bool, deletedAt: bool, updatedBy: bool, readonly: bool, parentId: bool, name: bool, slug: bool, description: bool })`;
+  const expectedModel = `z.object({
+      id: P.bool, 
+      createdAt: P.bool,
+      updatedAt: P.bool,
+      deletedAt: P.bool,
+      updatedBy: P.bool,
+      readonly: P.bool,
+      parentId: P.bool,
+      name: P.bool, 
+      slug: P.bool,
+      description: P.bool 
+     }).partial()`;
   it('should print', () => {
-    expect(omitModel(model)).toEqual(expectedModel);
+    expect(require('prettier').format(omitModel(model))).toEqual(
+      require('prettier').format(expectedModel)
+    );
   });
 });

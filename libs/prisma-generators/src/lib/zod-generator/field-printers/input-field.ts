@@ -1,71 +1,121 @@
-import { toEnum } from '../common/names.js';
-import type { Field } from '../common/types.js';
+import { NotFoundError } from '@puq/errors';
+import type { Field } from '../common/dmmf.js';
+import { toCreateOwn, toEnum } from '../common/names.js';
+import { pre } from '../common/pre.js';
 import { makeArray } from './make-array.js';
 
-const builtinStringNames: Record<string, string> = {
-  uuid: 'uuid',
-  name: 'name',
-  slug: 'slug',
-  password: 'pass',
-  email: 'email',
-  username: 'email',
-  phone: 'phone',
-  description: 'desc',
+/**
+ * Print custom string field schema
+ *
+ * @param field {@link Field}
+ * @returns
+ */
+export const _customStringField = (field: Field) => {
+  switch (field.name) {
+    case 'uuid': {
+      return pre('uuid');
+    }
+    case 'name': {
+      return pre('short');
+    }
+    case 'slug': {
+      return pre('slug');
+    }
+    case 'password': {
+      return pre('pass');
+    }
+    case 'username':
+    case 'email': {
+      return pre('email');
+    }
+
+    case 'phone': {
+      return pre('phone');
+    }
+    case 'description': {
+      return pre('long');
+    }
+  }
+
+  return pre('str');
 };
 
-const builtinNumberNames: Record<string, string> = {
-  id: 'id',
-  price: 'currency',
-  cost: 'currency',
-  tax: 'currency',
-  quantity: 'positiveInt',
-  stock: 'positiveInt',
-  count: 'positiveInt',
+/**
+ * Print custom number field schema
+ *
+ * @param field {@link Field}
+ * @returns
+ */
+export const _customNumberField = (field: Field) => {
+  switch (field.name) {
+    case 'cost':
+    case 'tax':
+    case 'price': {
+      return pre('currency');
+    }
+  }
+
+  return pre('num');
 };
+
+/**
+ * Print custom field schema
+ *
+ * @param field {@link Field}
+ * @returns
+ */
+export const _customIntField = (field: Field) => {
+  switch (field.name) {
+    case 'id': {
+      return pre('id');
+    }
+    case 'count':
+    case 'stock':
+    case 'quantity': {
+      return pre('int');
+    }
+  }
+  return pre('int');
+};
+
+/**
+ * Print scalar field schema
+ *
+ * @param field {@link Field}
+ * @returns string
+ */
 export const inputScalarField = (field: Field) => {
   let s = '';
   switch (field.type) {
     case 'String':
     case 'BigInt': {
-      if (builtinStringNames[field.name]) {
-        s = builtinStringNames[field.name];
-      } else {
-        s = 'str';
-      }
+      s = _customStringField(field);
       break;
     }
     case 'Json': {
-      s = 'json';
+      s = pre('json');
       break;
     }
     case 'Number':
     case 'Decimal': {
-      if (builtinNumberNames[field.name]) {
-        s = builtinNumberNames[field.name];
-      } else {
-        s = 'num';
-      }
+      s = _customNumberField(field);
       break;
     }
     case 'Integer':
     case 'Int': {
-      if (builtinNumberNames[field.name]) {
-        s = builtinNumberNames[field.name];
-      } else {
-        s = 'int';
-      }
+      s = _customIntField(field);
       break;
     }
     case 'Boolean': {
-      s = 'bool';
+      s = pre('bool');
       break;
     }
     case 'Date': {
-      s = 'date';
+      s = pre('date');
       break;
     }
     case 'DateTime': {
-      s = 'datetime';
+      s = pre('datetime');
       break;
     }
   }
@@ -76,33 +126,59 @@ export const inputScalarField = (field: Field) => {
   return s;
 };
 
+/**
+ * Print enum-field schema such as `Status`, `Status.array()`
+ *
+ * @param field {@link Field}
+ * @returns
+ */
 export const inputEnumField = (field: Field): string => {
-  let s = toEnum(field.type);
+  const schema = toEnum(field.type);
   if (field.isList) {
-    s = makeArray(s);
+    return makeArray(schema);
   }
-  return s;
+  return schema;
 };
 
-export const inputField = (field: Field): string => {
-  let s = '';
+/**
+ * Print relation input field
+ * @param field {@link Field}
+ * @returns
+ */
+export const inputRelationField = (field: Field): string => {
+  if (field.isList) {
+    return `z.object({ 
+      createMany: { 
+        data: ${toCreateOwn(field.type)}.array() 
+      }
+    })`;
+  }
+  return `z.object({ 
+    create:{
+       data: ${toCreateOwn(field.type)} 
+    } 
+  })`;
+};
 
+/**
+ * Print input field schema
+ *
+ * @param field {@link Field}
+ * @returns
+ */
+export const inputField = (field: Field): string => {
   switch (field.kind) {
     case 'enum': {
-      s = inputEnumField(field);
-      break;
+      return inputEnumField(field);
     }
     case 'scalar': {
-      s = inputScalarField(field);
-      break;
+      return inputScalarField(field);
     }
     case 'object': {
-      return '';
+      return inputRelationField(field);
     }
     case 'unsupported': {
-      break;
+      throw new NotFoundError(field.kind);
     }
   }
-
-  return s;
 };

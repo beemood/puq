@@ -1,21 +1,23 @@
-import type { EnumField, EnumModel } from '../common/types.js';
+import type { EnumField, EnumModel } from '../common/dmmf.js';
 import { enumField } from '../field-printers/enum-field.js';
 
 /**
- * Enum fields
+ * Print enum schema fields
+ *
  * @param fields {@link EnumField}[]
  * @returns
  */
-export function enumFields(fields: EnumField[]) {
+export const enumFields = (fields: EnumField[]): string => {
   return fields.map(enumField).join(', ');
-}
+};
 
 /**
- * Enum model schema
+ * Print enum schema for enum model
+ *
  * @param model {@link EnumModel}
  * @returns string
  */
-export function enumModel(model: EnumModel) {
+export const enumModel = (model: EnumModel): string => {
   const fields = enumFields([...model.values]);
   return `z.enum([ ${fields} ])`;
-}
+};

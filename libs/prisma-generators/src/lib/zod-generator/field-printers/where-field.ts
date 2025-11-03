@@ -1,11 +1,14 @@
 import { BadOperationError } from '@puq/errors';
+import type { Field } from '../common/dmmf.js';
 import { toArrayFilter, toFilter, toWhereOwn } from '../common/names.js';
-import type { Field } from '../common/types.js';
+import { pre } from '../common/pre.js';
 
-export const whereRelationField = (field: Field) => {
-  return toWhereOwn(field.type);
-};
-
+/**
+ * Print scalar-array-where-field schemas
+ *
+ * @param field {@link Field}
+ * @returns
+ */
 export const whereScalarArrayField = (field: Field) => {
   switch (field.type) {
     case 'String':
@@ -34,6 +37,12 @@ export const whereScalarArrayField = (field: Field) => {
   throw new BadOperationError(field.name);
 };
 
+/**
+ * Print where-scalar field schemas
+ *
+ * @param field {@link Field}
+ * @returns
+ */
 export const whereScalarField = (field: Field): string => {
   switch (field.type) {
     case 'String':
@@ -61,13 +70,20 @@ export const whereScalarField = (field: Field): string => {
   }
   throw new BadOperationError(field.name);
 };
+
+/**
+ * Print where-field schema
+ *
+ * @param field {@link Field}
+ * @returns
+ */
 export const whereField = (field: Field): string => {
   switch (field.kind) {
     case 'scalar': {
       if (field.isList) {
-        return whereScalarArrayField(field);
+        return pre(whereScalarArrayField(field));
       }
-      return whereScalarField(field);
+      return pre(whereScalarField(field));
     }
 
     case 'enum': {
@@ -76,9 +92,11 @@ export const whereField = (field: Field): string => {
       }
       return toFilter(field.type);
     }
-    case 'object':
+    case 'object': {
+      return toWhereOwn(field.type);
+    }
     case 'unsupported': {
-      return whereRelationField(field);
+      throw new BadOperationError(field.kind);
     }
   }
 };

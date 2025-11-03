@@ -11,10 +11,10 @@ describe('IncludeModel', () => {
   it('should print', () => {
     const actualModel = includeModel(model);
     const expectedModel = `z.object({
-        Parent: bool.or(CategoryQueryOneOwn),
-        Children: bool.or(CategoryQueryOwn),
-        Products: bool.or(ProductQueryOwn),
-  })`;
+        Parent: P.bool.or(CategoryQueryOneOwn),
+        Children: P.bool.or(CategoryQueryOwn),
+        Products: P.bool.or(ProductQueryOwn),
+  }).partial()`;
 
     const format = require('prettier').format;
     expect(format(actualModel)).toEqual(format(expectedModel));

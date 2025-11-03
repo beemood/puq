@@ -1,3 +1,4 @@
+import type { Model } from '../common/dmmf.js';
 import {
   toField,
   toInclude,
@@ -7,22 +8,36 @@ import {
   toSelect,
   toWhere,
 } from '../common/names.js';
-import type { Model } from '../common/types.js';
+import { makePartial } from '../field-printers/make-partial.js';
 
-export function queryNoProjectionModel(model: Model) {
+/**
+ * Print query schema without projection fields
+ *
+ * @param model {@link Model}
+ * @returns string
+ */
+export const queryNoProjectionModel = (model: Model): string => {
   const where = toWhere(model.name);
   const orderBy = toOrderBy(model.name);
   const distinct = toField(model.name);
-  return `z.object({
+  const schema = `z.object({
     take: take,
     skip: skip,
     distinct: ${distinct}.array(),
     orderBy: ${orderBy},
     where: ${where},
-    })`;
-}
+  })`;
 
-export function queryModel(model: Model) {
+  return makePartial(schema);
+};
+
+/**
+ * Print query schema
+ *
+ * @param model {@link Model}
+ * @returns string
+ */
+export const queryModel = (model: Model): string => {
   const select = toSelect(model.name);
   const omit = toOmit(model.name);
   const include = toInclude(model.name);
@@ -35,4 +50,4 @@ export function queryModel(model: Model) {
     z.object({ include: ${include} }).extend(${noProjectionName}),
     z.object({})
   ])`;
-}
+};

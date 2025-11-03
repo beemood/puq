@@ -1,5 +1,5 @@
 import type { DMMF } from '@prisma/generator-helper';
-import type { Field } from './types.js';
+import type { Field } from './dmmf.js';
 
 export const isTimestampFieldName = (name: string) => {
   return name === 'createdAt' || name === 'updatedAt' || name === 'deletedAt';

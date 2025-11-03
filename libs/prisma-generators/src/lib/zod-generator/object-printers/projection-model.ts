@@ -1,7 +1,13 @@
+import type { Model } from '../common/dmmf.js';
 import { toInclude, toOmit, toSelect } from '../common/names.js';
-import type { Model } from '../common/types.js';
 
-export function projectionModel(model: Model) {
+/**
+ * Print projection schema
+ *
+ * @param model {@link Model}
+ * @returns
+ */
+export const projectionModel = (model: Model): string => {
   const select = toSelect(model.name);
   const omit = toOmit(model.name);
   const include = toInclude(model.name);
@@ -11,4 +17,4 @@ export function projectionModel(model: Model) {
         z.object({ include: ${include} }),
         z.object({})
     ])`;
-}
+};
