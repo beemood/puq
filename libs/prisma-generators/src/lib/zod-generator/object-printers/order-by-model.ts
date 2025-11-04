@@ -39,6 +39,7 @@ export const orderByModel = (model: Model): string => {
 export const orderByModelOwn = (model: Model): string => {
   const ownFields = model.fields.filter(isNotRelation);
   const fields = orderByFields([...ownFields]);
+
   const schema = `z.object({ 
     ${fields} 
   })`;

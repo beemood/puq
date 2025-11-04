@@ -1,17 +1,23 @@
 {
-  "name": "<%- projectName %>",
-  "version": "<%- mp.version %>",
+  "name": "@puq/common-db",
+  "version": "0.29.10",
   "license": "MIT",
-  "displayName": "<%- fileName %> | Prisma Client and Zod Schemas",
-  "description": "<%- fileName %> database schema, prisma client, zod schemas.",
+  "displayName": "common-db | Prisma Client and Zod Schemas",
+  "description": "common-db database schema, prisma client, zod schemas.",
   "publishConfig": {
     "access": "public",
     "tag": "latest"
   },
-  "homepage": "<%- mp.homepage %>/<%- projectDirectory %>",
-  "author": <%- JSON.stringify(mp.author) %>,
-  "icon": "<%- mp.homepage %>/<%- projectDirectory %>/assets/favicon.png",
-  "funding": <%- JSON.stringify(mp.funding) %>,
+  "homepage": "https://beemood.github.io/dbs/common-db",
+  "author": {
+    "email": "robert.brightline@gmail.com",
+    "name": "Robert Brightline",
+    "url": "https://beemood.github.io"
+  },
+  "icon": "https://beemood.github.io/dbs/common-db/assets/favicon.png",
+  "funding": [
+    "https://cash.app/$puqlib"
+  ],
   "keywords": [
     "prisma"
   ],
@@ -26,9 +32,9 @@
     "!**/*.tsbuildinfo"
   ],
   "scripts": {
-    "postinstall": "pnpm prisma:generate", 
-    "prisma:generate":"sh ./scripts/generate.sh",
-    "prisma:reset":"sh ./scripts/reset.sh"
+    "postinstall": "sh ./scripts/generate.sh",
+    "prisma:generate": "npx prisma generate",
+    "prisma:reset": "npx prisma reset --force"
   },
   "exports": {
     "./package.json": "./package.json",
@@ -197,7 +203,7 @@
     }
   },
   "nx": {
-    "sourceRoot": "<%- projectDirectory %>/src",
+    "sourceRoot": "dbs/common-db/src",
     "targets": {
       "build": {
         "executor": "@nx/js:swc",
@@ -205,9 +211,9 @@
           "{options.outputPath}"
         ],
         "options": {
-          "outputPath": "<%- projectDirectory %>/dist",
-          "main": "<%- projectDirectory %>/src/index.ts",
-          "tsConfig": "<%- projectDirectory %>/tsconfig.lib.json",
+          "outputPath": "dbs/common-db/dist",
+          "main": "dbs/common-db/src/index.ts",
+          "tsConfig": "dbs/common-db/tsconfig.lib.json",
           "skipTypeCheck": false,
           "stripLeadingPaths": true
         }
@@ -234,7 +240,7 @@
     "@swc/helpers": "0.5.11"
   },
   "devDependencies": {
-    "<%- projectName %>": "workspace:*",
+    "@puq/common-db": "workspace:*",
     "prisma": "^6.18.0"
   }
 }

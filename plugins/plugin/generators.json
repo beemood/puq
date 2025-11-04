@@ -10,11 +10,6 @@
       "schema": "./dist/generators/readme/schema.json",
       "description": "readme generator"
     },
-    "schemas": {
-      "factory": "./dist/generators/schemas/schemas",
-      "schema": "./dist/generators/schemas/schema.json",
-      "description": "schemas generator"
-    },
     "resource": {
       "factory": "./dist/generators/resource/resource",
       "schema": "./dist/generators/resource/schema.json",

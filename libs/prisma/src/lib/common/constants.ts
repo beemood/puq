@@ -1,0 +1,2 @@
+export const DEFAULT_DATASOURCE_NAME = 'DEFAULT';
+export const DEFAULT_GROUP_NAME = 'DEFAULT';

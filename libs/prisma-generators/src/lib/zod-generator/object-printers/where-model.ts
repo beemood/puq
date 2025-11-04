@@ -1,10 +1,10 @@
+import { isNotEmpty } from '@puq/utils';
 import type { Field, Model } from '../common/dmmf.js';
 import { isNotRelation, isRelation } from '../common/is-field.js';
 import { toWhereOwn } from '../common/names.js';
 import { fieldDef } from '../field-printers/field-def.js';
 import { makePartial } from '../field-printers/make-partial.js';
 import { whereField } from '../field-printers/where-field.js';
-
 /**
  * Print where schema fields
  *
@@ -25,13 +25,18 @@ export const whereModel = (model: Model): string => {
   const relationFields = model.fields.filter(isRelation);
 
   const ownSchemaName = toWhereOwn(model.name);
-  const schema = `z.object({ 
-  ...${ownSchemaName}.shape,
-  ${whereFields([...relationFields])}, 
-    AND:${toWhereOwn(model.name)},
-    OR:${toWhereOwn(model.name)}.array(), 
-    NOT:${toWhereOwn(model.name)}.or(${toWhereOwn(model.name)}.array())
-  })`;
+
+  const whereOwnName = toWhereOwn(model.name);
+
+  const content = [
+    `...${ownSchemaName}.shape`,
+    whereFields([...relationFields]),
+    `AND: ${whereOwnName}`,
+    `OR:  ${whereOwnName}.array()`,
+    `NOT: ${whereOwnName}.or(${whereOwnName}.array())`,
+  ].filter(isNotEmpty);
+
+  const schema = `z.object({ ${content} })`;
 
   return makePartial(schema);
 };

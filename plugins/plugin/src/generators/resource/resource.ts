@@ -9,6 +9,12 @@ import { writeFileSync } from 'fs';
 import * as path from 'path';
 import type { ResourceGeneratorSchema } from './schema';
 
+/**
+ * Generate rest api resoure module for a database model
+ *
+ * @param tree
+ * @param options
+ */
 export async function resourceGenerator(
   tree: Tree,
   options: ResourceGeneratorSchema

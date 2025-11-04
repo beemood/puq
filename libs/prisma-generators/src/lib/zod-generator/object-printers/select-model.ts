@@ -21,8 +21,6 @@ export const selectFields = (fields: Field[]): string => {
  * @returns string
  */
 export const selectModel = (model: Model): string => {
-  // const relationFields = model.fields.filter(isRelation);
-  // const fields = selectFields([...relationFields]);
   const ownSchemaName = toSelectOwn(model.name);
   const schema = `z.object({...${ownSchemaName}.shape,  })`;
   return makePartial(schema);

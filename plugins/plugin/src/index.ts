@@ -8,6 +8,4 @@ export * from './generators/readme/readme';
 export * from './generators/readme/schema.d';
 export * from './generators/resource/resource';
 export * from './generators/resource/schema.d';
-export * from './generators/schemas/schema.d';
-export * from './generators/schemas/schemas';
 

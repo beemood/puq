@@ -84,6 +84,7 @@
     "@puq/inventory-db": "workspace:*",
     "@puq/nest": "workspace:*",
     "@puq/prisma": "workspace:*",
+    "@puq/prisma-extentions": "workspace:*",
     "@puq/types": "workspace:*",
     "@puq/zod": "workspace:*",
     "@swc/helpers": "~0.5.11",
@@ -95,8 +96,8 @@
     "zod": "^4.1.11"
   },
   "devDependencies": {
-    "@puq/inventory": "workspace:*",
     "@nestjs/testing": "^11.1.6",
+    "@puq/inventory": "workspace:*",
     "@types/supertest": "^6.0.3",
     "supertest": "^7.1.4"
   }

@@ -13,6 +13,8 @@ export * from './lib/string/create-placeholder-replacer.js';
 export * from './lib/string/ends-with-fn.js';
 export * from './lib/string/equals-fn.js';
 export * from './lib/string/includes-fn.js';
+export * from './lib/string/is-empty.js';
+export * from './lib/string/is-not-empty.js';
 export * from './lib/string/matches-fn.js';
 export * from './lib/string/starts-with-fn.js';
 export * from './lib/validate/is-defined-or-throw.js';

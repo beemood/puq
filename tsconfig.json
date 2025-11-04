@@ -34,9 +34,6 @@
       "path": "./libs/prisma"
     },
     {
-      "path": "./samples/sample-db"
-    },
-    {
       "path": "./dbs/inventory-db"
     },
     {
@@ -77,6 +74,9 @@
     },
     {
       "path": "./libs/prisma-generators"
+    },
+    {
+      "path": "./dbs/common-db"
     }
   ]
 }

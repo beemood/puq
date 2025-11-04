@@ -1,3 +1,4 @@
+
 generator client {
   provider = "prisma-client-js"
   output   = "../generated"
@@ -9,7 +10,7 @@ generator zodGenerator {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("<%- DATABASE_URL %>")
 }
 
 model <%- className %> {

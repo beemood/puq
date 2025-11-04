@@ -1,0 +1,6 @@
+{
+  "name": "common-db",
+  "favicon": "./favicon.png",
+  "entryPoints": ["./src/index.ts"],
+  "out": "../../public/dbs/common-db"
+}
