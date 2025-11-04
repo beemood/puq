@@ -1,8 +1,10 @@
 import { NotFoundError } from '@puq/errors';
 import type { Field } from '../common/dmmf.js';
-import { toCreateOwn, toEnum } from '../common/names.js';
+import { isRequired } from '../common/is-field.js';
+import { toEnum } from '../common/names.js';
 import { pre } from '../common/pre.js';
 import { makeArray } from './make-array.js';
+import { makeOptional } from './make-optional.js';
 
 /**
  * Print custom string field schema
@@ -123,6 +125,10 @@ export const inputScalarField = (field: Field) => {
   if (field.isList) {
     s = makeArray(s);
   }
+
+  if (!isRequired(field)) {
+    s = makeOptional(s);
+  }
   return s;
 };
 
@@ -133,31 +139,15 @@ export const inputScalarField = (field: Field) => {
  * @returns
  */
 export const inputEnumField = (field: Field): string => {
-  const schema = toEnum(field.type);
+  let s = toEnum(field.type);
   if (field.isList) {
-    return makeArray(schema);
+    s = makeArray(s);
   }
-  return schema;
-};
 
-/**
- * Print relation input field
- * @param field {@link Field}
- * @returns
- */
-export const inputRelationField = (field: Field): string => {
-  if (field.isList) {
-    return `z.object({ 
-      createMany: { 
-        data: ${toCreateOwn(field.type)}.array() 
-      }
-    })`;
+  if (!isRequired(field)) {
+    s = makeOptional(s);
   }
-  return `z.object({ 
-    create:{
-       data: ${toCreateOwn(field.type)} 
-    } 
-  })`;
+  return s;
 };
 
 /**
@@ -175,7 +165,7 @@ export const inputField = (field: Field): string => {
       return inputScalarField(field);
     }
     case 'object': {
-      return inputRelationField(field);
+      return makeOptional(pre('connectMany'));
     }
     case 'unsupported': {
       throw new NotFoundError(field.kind);

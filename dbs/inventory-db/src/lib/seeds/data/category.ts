@@ -1,88 +1,12 @@
 import type { Prisma } from '../../../../generated';
 
-// export const data = [
-//   {
-//     category: 'Default',
-//   },
-//   {
-//     category: 'Fashion/Apparel and Accessories 🛍️',
-//     departments: [
-//       "Clothing (Men's, Women's, Kids')",
-//       'Shoes',
-//       'Jewelry and Watches',
-//       'Handbags and Wallets',
-//       'Eyewear',
-//       'Activewear and Sportswear',
-//     ],
-//   },
-//   {
-//     category: 'Electronics and Technology 📱',
-//     departments: [
-//       'Computers and Tablets',
-//       'Smartphones and Accessories',
-//       'TVs and Home Audio',
-//       'Cameras and Photo Equipment',
-//       'Wearable Technology',
-//       'Video Games and Consoles',
-//     ],
-//   },
-//   {
-//     category: 'Home and Garden / Furniture and Décor 🏡',
-//     departments: [
-//       'Kitchen and Dining',
-//       'Bedding and Bath',
-//       'Furniture',
-//       'Home Décor and Art',
-//       'Lighting',
-//       'Patio and Garden',
-//       'Cleaning and Laundry Supplies',
-//     ],
-//   },
-//   {
-//     category: 'Health, Personal Care, and Beauty ✨',
-//     departments: [
-//       'Skincare and Cosmetics',
-//       'Haircare and Fragrances',
-//       'Bath and Body',
-//       'Vitamins and Supplements',
-//       'Medical Supplies and Equipment',
-//       'Fitness Equipment and Gear',
-//     ],
-//   },
-//   {
-//     category: 'Food and Beverage / Grocery 🍎',
-//     departments: [
-//       'Fresh Produce and Dairy',
-//       'Meat and Seafood',
-//       'Pantry Staples',
-//       'Snacks and Confectionery',
-//       'Beverages (Non-Alcoholic)',
-//       'Alcoholic Drinks',
-//     ],
-//   },
-//   {
-//     category: 'Toys and Hobbies 🧸',
-//     departments: [
-//       'Action Figures and Collectibles',
-//       'Building Blocks and Construction',
-//       'Board Games and Puzzles',
-//       'Arts and Crafts',
-//       'Musical Instruments',
-//     ],
-//   },
-//   {
-//     category: 'Sports and Outdoors ⚽',
-//     departments: [
-//       'Exercise and Fitness',
-//       'Camping and Hiking Gear',
-//       'Cycling Equipment',
-//       'Team Sports',
-//       'Hunting and Fishing',
-//     ],
-//   },
-// ];
-
 export const Category: Prisma.CategoryCreateArgs[] = [
+  {
+    data: {
+      name: 'Default',
+      description: 'Default category',
+    },
+  },
   {
     data: {
       name: 'Office and School Supplies',
@@ -178,6 +102,124 @@ export const Category: Prisma.CategoryCreateArgs[] = [
             { name: 'Tires and Wheels', readonly: true },
             { name: 'Oil and Fluids', readonly: true },
             { name: 'Garage Storage', readonly: true },
+          ],
+        },
+      },
+    },
+  },
+  {
+    data: {
+      name: 'Sports and Outdoors',
+      Children: {
+        createMany: {
+          data: [
+            { name: 'Exercise and Fitness', readonly: true },
+            { name: 'Camping and Hiking Gear', readonly: true },
+            { name: 'Cycling Equipment', readonly: true },
+            { name: 'Team Sports', readonly: true },
+            { name: 'Hunting and Fishing', readonly: true },
+          ],
+        },
+      },
+    },
+  },
+  {
+    data: {
+      name: 'Toys and Hobbies',
+      Children: {
+        createMany: {
+          data: [
+            { name: 'Action Figures and Collectibles', readonly: true },
+            { name: 'Building Blocks and Construction', readonly: true },
+            { name: 'Board Games and Puzzles', readonly: true },
+            { name: 'Arts and Crafts', readonly: true },
+            { name: 'Musical Instruments', readonly: true },
+          ],
+        },
+      },
+    },
+  },
+  {
+    data: {
+      name: 'Food and Beverage',
+      Children: {
+        createMany: {
+          data: [
+            { name: 'Fresh Produce and Dairy', readonly: true },
+            { name: 'Meat and Seafood', readonly: true },
+            { name: 'Pantry Staples', readonly: true },
+            { name: 'Snacks and Confectionery', readonly: true },
+            { name: 'Beverages (Non-Alcoholic)', readonly: true },
+            { name: 'Alcoholic Drinks', readonly: true },
+          ],
+        },
+      },
+    },
+  },
+  {
+    data: {
+      name: 'Fashion, Apparel and Accessories',
+      Children: {
+        createMany: {
+          data: [
+            { name: "Clothing (Men's, Women's, Kids')", readonly: true },
+            { name: "Shoes',", readonly: true },
+            { name: "Jewelry and Watches',", readonly: true },
+            { name: "Handbags and Wallets',", readonly: true },
+            { name: "Eyewear',", readonly: true },
+            { name: "Activewear and Sportswear',", readonly: true },
+          ],
+        },
+      },
+    },
+  },
+  {
+    data: {
+      name: 'Electronics and Technology',
+      Children: {
+        createMany: {
+          data: [
+            { name: 'Computers and Tablets', readonly: true },
+            { name: 'Smartphones and Accessories', readonly: true },
+            { name: 'TVs and Home Audio', readonly: true },
+            { name: 'Cameras and Photo Equipment', readonly: true },
+            { name: 'Wearable Technology', readonly: true },
+            { name: 'Video Games and Consoles', readonly: true },
+          ],
+        },
+      },
+    },
+  },
+  {
+    data: {
+      name: 'Home, Garden, Furniture, and Decor',
+      Children: {
+        createMany: {
+          data: [
+            { name: 'Kitchen and Dining', readonly: true },
+            { name: 'Bedding and Bath', readonly: true },
+            { name: 'Furniture', readonly: true },
+            { name: 'Home Décor and Art', readonly: true },
+            { name: 'Lighting', readonly: true },
+            { name: 'Patio and Garden', readonly: true },
+            { name: 'Cleaning and Laundry Supplies', readonly: true },
+          ],
+        },
+      },
+    },
+  },
+  {
+    data: {
+      name: 'Health, Personal Care, and Beauty',
+      Children: {
+        createMany: {
+          data: [
+            { name: 'Skincare and Cosmetics', readonly: true },
+            { name: 'Haircare and Fragrances', readonly: true },
+            { name: 'Bath and Body', readonly: true },
+            { name: 'Vitamins and Supplements', readonly: true },
+            { name: 'Medical Supplies and Equipment', readonly: true },
+            { name: 'Fitness Equipment and Gear', readonly: true },
           ],
         },
       },

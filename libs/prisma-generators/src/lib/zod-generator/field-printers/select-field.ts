@@ -1,6 +1,6 @@
 import type { Field } from '../common/dmmf.js';
 import { isRelation } from '../common/is-field.js';
-import { toQueryOneOwn, toQueryOwn } from '../common/names.js';
+import { toQueryOne, toQueryOwn } from '../common/names.js';
 import { pre } from '../common/pre.js';
 
 /**
@@ -13,7 +13,7 @@ export const selectRelationField = (field: Field): string => {
   if (field.isList) {
     return toQueryOwn(field.type);
   }
-  return toQueryOneOwn(field.type);
+  return toQueryOne(field.type);
 };
 
 /**

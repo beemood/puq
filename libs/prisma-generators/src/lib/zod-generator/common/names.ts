@@ -2,7 +2,6 @@ export const __Create__ = 'Create';
 export const __Update__ = 'Update';
 export const __Query__ = 'Query';
 export const __QueryOne__ = 'QueryOne';
-export const __QueryNoProjection__ = 'QueryNoProjection';
 export const __OrderBy__ = 'OrderBy';
 export const __Select__ = 'Select';
 export const __Omit__ = 'Omit';
@@ -20,9 +19,9 @@ export const __QueryOwn__ = 'QueryOwn';
 export const __QueryOneOwn__ = 'QueryOneOwn';
 export const __OrderByOwn__ = 'OrderByOwn';
 export const __SelectOwn__ = 'SelectOwn';
-export const __IncludeOwn__ = 'IncludeOwn';
 export const __ProjectionOwn__ = 'ProjectionOwn';
 export const __WhereOwn__ = 'WhereOwn';
+export const __WhereScalarOwn__ = 'WhereScalarOwn';
 
 /**
  * Create model's Create schema name
@@ -52,13 +51,6 @@ export const toQuery = (name: string) => `${name}${__Query__}`;
  */
 export const toQueryOne = (name: string) => `${name}${__QueryOne__}`;
 
-/**
- * Create model's QueryNoProjection schema name
- * @param name
- * @returns
- */
-export const toQueryNoProjection = (name: string) =>
-  `${name}${__QueryNoProjection__}`;
 /**
  * Create model's OrderBy schema name
  * @param name
@@ -153,25 +145,19 @@ export const toOrderByOwn = (name: string) => `${name}${__OrderByOwn__}`;
 export const toSelectOwn = (name: string) => `${name}${__SelectOwn__}`;
 
 /**
- * Create model's IncludeOwn schema name
+ * Create model's WhereOwn schema name
  * @param name
  * @returns
  */
-export const toIncludeOwn = (name: string) => `${name}${__IncludeOwn__}`;
-
-/**
- * Create model's ProjectionOwn schema name
- * @param name
- * @returns
- */
-export const toProjectionOwn = (name: string) => `${name}${__ProjectionOwn__}`;
+export const toWhereOwn = (name: string) => `${name}${__WhereOwn__}`;
 
 /**
  * Create model's WhereOwn schema name
  * @param name
  * @returns
  */
-export const toWhereOwn = (name: string) => `${name}${__WhereOwn__}`;
+export const toWhereScalarOwn = (name: string) =>
+  `${name}${__WhereScalarOwn__}`;
 
 /**
  * Create model's Filter schema name

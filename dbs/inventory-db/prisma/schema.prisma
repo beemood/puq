@@ -64,7 +64,7 @@ model Tag {
 }
 
 model ProductTag {
-  id        String    @unique @default(uuid(7))
+  id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?

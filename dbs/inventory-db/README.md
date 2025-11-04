@@ -2,7 +2,7 @@
 
 # @puq/inventory-db
 
-Inventory database client
+Inventory database client and zod schemas
 
 [Contact us](mailto:robert.brightline+inventory-db@gmail.com?subject=inventory-db)
 

@@ -309,6 +309,9 @@ importers:
       '@puq/prisma-generators':
         specifier: workspace:*
         version: link:../../libs/prisma-generators
+      '@puq/zod':
+        specifier: workspace:*
+        version: link:../../libs/zod
       '@swc/helpers':
         specifier: 0.5.11
         version: 0.5.11

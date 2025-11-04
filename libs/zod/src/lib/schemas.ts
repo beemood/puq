@@ -232,6 +232,16 @@ export const numFilter_1 = z.object({
 });
 
 /**
+ * Connect one relation
+ */
+export const connectOne = z.object({ connect: idObj });
+
+/**
+ * Connect many relation
+ */
+export const connectMany = z.object({ connect: idObj.array() });
+
+/**
  * Filter schema to query number value
  */
 export const numFilter = num.or(numFilter_1);

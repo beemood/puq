@@ -1,4 +1,5 @@
 import type { Field, Model } from '../common/dmmf.js';
+import { toOmit, toSelectOwn } from '../common/names.js';
 import { fieldDef } from '../field-printers/field-def.js';
 import { makePartial } from '../field-printers/make-partial.js';
 import { selectField } from '../field-printers/select-field.js';
@@ -20,7 +21,13 @@ export const selectFields = (fields: Field[]): string => {
  * @returns string
  */
 export const selectModel = (model: Model): string => {
-  const fields = selectFields([...model.fields]);
-  const schema = `z.object({ ${fields} })`;
+  // const relationFields = model.fields.filter(isRelation);
+  // const fields = selectFields([...relationFields]);
+  const ownSchemaName = toSelectOwn(model.name);
+  const schema = `z.object({...${ownSchemaName}.shape,  })`;
   return makePartial(schema);
+};
+
+export const selectModelOwn = (model: Model): string => {
+  return toOmit(model.name);
 };

@@ -2,6 +2,7 @@ import { BadOperationError } from '@puq/errors';
 import type { Field } from '../common/dmmf.js';
 import { toArrayFilter, toFilter, toWhereOwn } from '../common/names.js';
 import { pre } from '../common/pre.js';
+import { makePartial } from './make-partial.js';
 
 /**
  * Print scalar-array-where-field schemas
@@ -93,7 +94,17 @@ export const whereField = (field: Field): string => {
       return toFilter(field.type);
     }
     case 'object': {
-      return toWhereOwn(field.type);
+      const sName = toWhereOwn(field.type);
+
+      if (field.isList) {
+        const schema = `z.object({ 
+          some: ${sName},
+          every: ${sName},
+          none: ${sName}
+        })`;
+        return makePartial(schema);
+      }
+      return makePartial(sName);
     }
     case 'unsupported': {
       throw new BadOperationError(field.kind);

@@ -1,5 +1,5 @@
 import type { Field } from '../common/dmmf.js';
-import { toQueryOneOwn, toQueryOwn } from '../common/names.js';
+import { toSelectOwn } from '../common/names.js';
 import { pre } from '../common/pre.js';
 
 /**
@@ -9,8 +9,10 @@ import { pre } from '../common/pre.js';
  * @returns
  */
 export const includeField = (field: Field): string => {
+  const query = `z.object({ select :${toSelectOwn(field.type)} })`;
+
   if (field.isList) {
-    return `${pre('bool')}.or(${toQueryOwn(field.type)})`;
+    return `${pre('bool')}.or(${query})`;
   }
-  return `${pre('bool')}.or(${toQueryOneOwn(field.type)})`;
+  return `${pre('bool')}.or(${query})`;
 };

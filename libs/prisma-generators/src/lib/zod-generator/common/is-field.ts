@@ -17,6 +17,10 @@ export const isNotRelation = (field: Field): boolean => {
   return field.relationName == undefined;
 };
 
+export const isNotId = (field: Field): boolean => {
+  return field.name != 'id';
+};
+
 export const hasDefaultValue = (field: Field): boolean => {
   return field.hasDefaultValue == true;
 };
@@ -43,15 +47,11 @@ export const isGeneratedSlugField = (field: Field): boolean => {
 export const isGeneratedIdField = (field: Field): boolean => {
   if (field.hasDefaultValue) {
     const d = field.default as DMMF.FieldDefault;
-    if (isIdName(field.name)) {
-      if (
-        d.name === 'autoincrement' ||
-        d.name === 'uuid' ||
-        d.name === 'ulid'
-      ) {
-        return true;
-      }
+
+    if (d.name === 'autoincrement' || d.name === 'uuid' || d.name === 'ulid') {
+      return true;
     }
+
     return false;
   }
 
@@ -60,16 +60,36 @@ export const isGeneratedIdField = (field: Field): boolean => {
 
 export const isTimestampField = (field: Field): boolean => {
   if (isTimestampFieldName(field.name)) {
-    if (field.type === 'Datetime') {
-      return true;
-    }
+    return true;
   }
   return false;
 };
 
+export const isAuditField = (field: Field): boolean => {
+  if (isTimestampField(field)) {
+    return true;
+  }
+
+  if (field.name === 'updatedBy') {
+    return true;
+  }
+
+  return false;
+};
+
+export const isNotTimestampField = (field: Field): boolean => {
+  return !isTimestampField(field);
+};
+
 export const isInputField = (field: Field): boolean => {
-  if (isGeneratedIdField(field) || isTimestampField(field)) {
+  if (isGeneratedIdField(field) || isAuditField(field)) {
     return false;
+  }
+
+  if (isRelation(field)) {
+    if (!field.isList) {
+      return false;
+    }
   }
 
   return true;
