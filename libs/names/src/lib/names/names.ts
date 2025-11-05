@@ -23,11 +23,11 @@ function toCamel(name: string) {
 }
 
 function toKebab(name: string) {
-  return name.replace(/\s/g, '-');
+  return name.replace(/\s{1,}/g, '-');
 }
 
 function toSnake(name: string) {
-  return name.replace(/\s/g, '_');
+  return name.replace(/\s{1,}/g, '_');
 }
 
 function toTitle(name: string) {

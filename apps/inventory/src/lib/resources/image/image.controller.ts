@@ -1,15 +1,15 @@
 import type { Prisma } from '@puq/inventory-db';
 import type {
-  CategoryCreateType,
-  CategoryProjectionType,
-  CategoryQueryType,
-  CategoryUpdateType,
+  ImageCreateType,
+  ImageProjectionType,
+  ImageQueryType,
+  ImageUpdateType,
 } from '@puq/inventory-db/zod';
 import {
-  CategoryCreate,
-  CategoryProjection,
-  CategoryQuery,
-  CategoryUpdate,
+  ImageCreate,
+  ImageProjection,
+  ImageQuery,
+  ImageUpdate,
 } from '@puq/inventory-db/zod';
 import {
   AbstractResourceController,
@@ -21,45 +21,45 @@ import {
 import { InjectRepository } from '@puq/prisma';
 
 @AutoResourceController()
-export class CategoryController extends AbstractResourceController {
+export class ImageController extends AbstractResourceController {
   constructor(
-    @InjectRepository() protected readonly repo: Prisma.CategoryDelegate
+    @InjectRepository() protected readonly repo: Prisma.ImageDelegate
   ) {
     super();
   }
 
   override async saveOne(
-    @Body(CategoryCreate) data: CategoryCreateType,
-    @Query(CategoryProjection) projection: CategoryProjectionType
+    @Body(ImageCreate) data: ImageCreateType,
+    @Query(ImageProjection) projection: ImageProjectionType
   ) {
     return await this.repo.create({ ...projection, data });
   }
 
   override async findOneById(
     @ParamId() id: number,
-    @Query(CategoryProjection) projection: CategoryProjectionType
+    @Query(ImageProjection) projection: ImageProjectionType
   ) {
     return await this.repo.findFirstOrThrow({ ...projection, where: { id } });
   }
 
   override async findMany(
-    @Query(CategoryQuery) query: CategoryQueryType,
-    @Query(CategoryProjection) projection: CategoryProjectionType
+    @Query(ImageQuery) query: ImageQueryType,
+    @Query(ImageProjection) projection: ImageProjectionType
   ) {
     return await this.repo.findMany({ ...query, ...projection });
   }
 
   override updateOneById(
     @ParamId() id: number,
-    @Query(CategoryProjection) projection: CategoryProjectionType,
-    @Body(CategoryUpdate) data: CategoryUpdateType
+    @Query(ImageProjection) projection: ImageProjectionType,
+    @Body(ImageUpdate) data: ImageUpdateType
   ) {
     return this.repo.update({ ...projection, where: { id }, data });
   }
 
   override async deleteOneById(
     @ParamId() id: number,
-    @Query(CategoryProjection) projection: CategoryProjectionType
+    @Query(ImageProjection) projection: ImageProjectionType
   ) {
     return await this.repo.delete({ ...projection, where: { id } });
   }

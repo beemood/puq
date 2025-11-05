@@ -31,6 +31,7 @@
     ".env",
     "!**/*.tsbuildinfo"
   ],
+  "type": "module",
   "main": "./generated/index.js",
   "types": "./generated/index.d.ts",
   "browser": "./generated/default.js",

@@ -8,7 +8,7 @@ import {
 } from '@puq/nest';
 import { PrismaModule } from '@puq/prisma';
 import { withSlugify, withSoftDelete } from '@puq/prisma-extentions';
-import { CategoryModule } from './resources/category/category.module.js';
+import * as modules from './resources/resource-modules.js';
 
 export const inventoryClient = new PrismaClient()
   .$extends(withSlugify(Prisma.dmmf.datamodel))
@@ -19,7 +19,7 @@ export const inventoryClient = new PrismaClient()
     PrismaModule.forRoot({
       client: inventoryClient,
     }),
-    CategoryModule,
+    ...Object.values(modules),
   ],
   providers: [
     {

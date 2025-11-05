@@ -1,15 +1,15 @@
 import type { Prisma } from '@puq/inventory-db';
 import type {
-  CategoryCreateType,
-  CategoryProjectionType,
-  CategoryQueryType,
-  CategoryUpdateType,
+  StoreCreateType,
+  StoreProjectionType,
+  StoreQueryType,
+  StoreUpdateType,
 } from '@puq/inventory-db/zod';
 import {
-  CategoryCreate,
-  CategoryProjection,
-  CategoryQuery,
-  CategoryUpdate,
+  StoreCreate,
+  StoreProjection,
+  StoreQuery,
+  StoreUpdate,
 } from '@puq/inventory-db/zod';
 import {
   AbstractResourceController,
@@ -21,45 +21,45 @@ import {
 import { InjectRepository } from '@puq/prisma';
 
 @AutoResourceController()
-export class CategoryController extends AbstractResourceController {
+export class StoreController extends AbstractResourceController {
   constructor(
-    @InjectRepository() protected readonly repo: Prisma.CategoryDelegate
+    @InjectRepository() protected readonly repo: Prisma.StoreDelegate
   ) {
     super();
   }
 
   override async saveOne(
-    @Body(CategoryCreate) data: CategoryCreateType,
-    @Query(CategoryProjection) projection: CategoryProjectionType
+    @Body(StoreCreate) data: StoreCreateType,
+    @Query(StoreProjection) projection: StoreProjectionType
   ) {
     return await this.repo.create({ ...projection, data });
   }
 
   override async findOneById(
     @ParamId() id: number,
-    @Query(CategoryProjection) projection: CategoryProjectionType
+    @Query(StoreProjection) projection: StoreProjectionType
   ) {
     return await this.repo.findFirstOrThrow({ ...projection, where: { id } });
   }
 
   override async findMany(
-    @Query(CategoryQuery) query: CategoryQueryType,
-    @Query(CategoryProjection) projection: CategoryProjectionType
+    @Query(StoreQuery) query: StoreQueryType,
+    @Query(StoreProjection) projection: StoreProjectionType
   ) {
     return await this.repo.findMany({ ...query, ...projection });
   }
 
   override updateOneById(
     @ParamId() id: number,
-    @Query(CategoryProjection) projection: CategoryProjectionType,
-    @Body(CategoryUpdate) data: CategoryUpdateType
+    @Query(StoreProjection) projection: StoreProjectionType,
+    @Body(StoreUpdate) data: StoreUpdateType
   ) {
     return this.repo.update({ ...projection, where: { id }, data });
   }
 
   override async deleteOneById(
     @ParamId() id: number,
-    @Query(CategoryProjection) projection: CategoryProjectionType
+    @Query(StoreProjection) projection: StoreProjectionType
   ) {
     return await this.repo.delete({ ...projection, where: { id } });
   }

@@ -1,15 +1,15 @@
 import type { Prisma } from '@puq/inventory-db';
 import type {
-  CategoryCreateType,
-  CategoryProjectionType,
-  CategoryQueryType,
-  CategoryUpdateType,
+  TagCreateType,
+  TagProjectionType,
+  TagQueryType,
+  TagUpdateType,
 } from '@puq/inventory-db/zod';
 import {
-  CategoryCreate,
-  CategoryProjection,
-  CategoryQuery,
-  CategoryUpdate,
+  TagCreate,
+  TagProjection,
+  TagQuery,
+  TagUpdate,
 } from '@puq/inventory-db/zod';
 import {
   AbstractResourceController,
@@ -21,45 +21,43 @@ import {
 import { InjectRepository } from '@puq/prisma';
 
 @AutoResourceController()
-export class CategoryController extends AbstractResourceController {
-  constructor(
-    @InjectRepository() protected readonly repo: Prisma.CategoryDelegate
-  ) {
+export class TagController extends AbstractResourceController {
+  constructor(@InjectRepository() protected readonly repo: Prisma.TagDelegate) {
     super();
   }
 
   override async saveOne(
-    @Body(CategoryCreate) data: CategoryCreateType,
-    @Query(CategoryProjection) projection: CategoryProjectionType
+    @Body(TagCreate) data: TagCreateType,
+    @Query(TagProjection) projection: TagProjectionType
   ) {
     return await this.repo.create({ ...projection, data });
   }
 
   override async findOneById(
     @ParamId() id: number,
-    @Query(CategoryProjection) projection: CategoryProjectionType
+    @Query(TagProjection) projection: TagProjectionType
   ) {
     return await this.repo.findFirstOrThrow({ ...projection, where: { id } });
   }
 
   override async findMany(
-    @Query(CategoryQuery) query: CategoryQueryType,
-    @Query(CategoryProjection) projection: CategoryProjectionType
+    @Query(TagQuery) query: TagQueryType,
+    @Query(TagProjection) projection: TagProjectionType
   ) {
     return await this.repo.findMany({ ...query, ...projection });
   }
 
   override updateOneById(
     @ParamId() id: number,
-    @Query(CategoryProjection) projection: CategoryProjectionType,
-    @Body(CategoryUpdate) data: CategoryUpdateType
+    @Query(TagProjection) projection: TagProjectionType,
+    @Body(TagUpdate) data: TagUpdateType
   ) {
     return this.repo.update({ ...projection, where: { id }, data });
   }
 
   override async deleteOneById(
     @ParamId() id: number,
-    @Query(CategoryProjection) projection: CategoryProjectionType
+    @Query(TagProjection) projection: TagProjectionType
   ) {
     return await this.repo.delete({ ...projection, where: { id } });
   }
