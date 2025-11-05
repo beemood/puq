@@ -1,3 +1,31 @@
+## 0.29.30 (2025-11-05)
+
+### 🚀 Features
+
+- created the resource generator ([2afc886](https://github.com/beemood/puq/commit/2afc886))
+- improved the zod schemas ([33a215a](https://github.com/beemood/puq/commit/33a215a))
+- optimizing zod schema generator ([195c07a](https://github.com/beemood/puq/commit/195c07a))
+- created the where schema generator ([1f820b2](https://github.com/beemood/puq/commit/1f820b2))
+- created all model schema generators ([b6bfdcf](https://github.com/beemood/puq/commit/b6bfdcf))
+- fixed extra include and select options ([464fe43](https://github.com/beemood/puq/commit/464fe43))
+- created prisma-extentions for slugify and soft-delete ([a53b942](https://github.com/beemood/puq/commit/a53b942))
+- re-creating the zod schema generator ([a3763b9](https://github.com/beemood/puq/commit/a3763b9))
+- working on schema printer ([f7fa935](https://github.com/beemood/puq/commit/f7fa935))
+- working on where schema ([d158a9b](https://github.com/beemood/puq/commit/d158a9b))
+- created zod schema generator ([467e992](https://github.com/beemood/puq/commit/467e992))
+- created a common database ([baa5d6f](https://github.com/beemood/puq/commit/baa5d6f))
+- to client app ([1c5155a](https://github.com/beemood/puq/commit/1c5155a))
+- renamed the schema types ([caa8a2d](https://github.com/beemood/puq/commit/caa8a2d))
+
+### 🩹 Fixes
+
+- fixed the create and update  schemas for relational operations ([7f4ddc3](https://github.com/beemood/puq/commit/7f4ddc3))
+- fixed the resource interceptor and tested ([3493d9c](https://github.com/beemood/puq/commit/3493d9c))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.29.10 (2025-10-23)
 
 ### 🚀 Features

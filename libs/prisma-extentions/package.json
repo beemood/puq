@@ -1,6 +1,6 @@
 {
   "name": "@puq/prisma-extentions",
-  "version": "0.29.10",
+  "version": "0.29.30",
   "license": "MIT",
   "description": "prisma-extentions",
   "publishConfig": {

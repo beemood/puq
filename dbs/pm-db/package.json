@@ -1,6 +1,6 @@
 {
   "name": "@puq/pm-db",
-  "version": "0.29.10",
+  "version": "0.29.30",
   "license": "MIT",
   "displayName": "Project Management | Prisma and Zod Schemas",
   "description": "Project management database to manage projects and tasks",
