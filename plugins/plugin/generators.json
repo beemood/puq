@@ -14,6 +14,11 @@
       "factory": "./dist/generators/resource/resource",
       "schema": "./dist/generators/resource/schema.json",
       "description": "resource generator"
+    },
+    "event-listener": {
+      "factory": "./dist/generators/event-listener/event-listener",
+      "schema": "./dist/generators/event-listener/schema.json",
+      "description": "event-listener generator"
     }
   }
 }

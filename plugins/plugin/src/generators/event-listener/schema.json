@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "EventListener",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "resourceName": {
+      "type": "string",
+      "description": "",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What resourceName would you like to use?"
+    },
+    "project": {
+      "type": "string",
+      "description": "",
+      "$default": {
+        "$source": "argv",
+        "index": 1
+      },
+      "x-prompt": "What project would you like to use?"
+    }
+  },
+  "required": [
+    "resourceName",
+    "project"
+  ]
+}

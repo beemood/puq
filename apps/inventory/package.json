@@ -1,22 +1,27 @@
 {
   "name": "@puq/inventory",
+  "displayName": "Inventory Rest Service",
   "version": "0.29.10",
   "publishConfig": {
     "access": "public",
     "tag": "latest"
   },
   "description": "inventory",
-  "homepage": "https://beemood.github.io/beemood/apps/inventory",
+  "homepage": "https://beemood.github.io/puq/apps/inventory",
   "author": {
     "email": "robert.brightline@gmail.com",
     "name": "Robert Brightline",
     "url": "https://beemood.github.io"
   },
-  "icon": "https://beemood.github.io/beemood/apps/inventory/assets/favicon.png",
+  "icon": "https://beemood.github.io/puq/apps/inventory/assets/favicon.png",
   "funding": [
     "https://cash.app/$puqlib"
   ],
-  "keywords": [],
+  "keywords": [
+    "rest",
+    "inventory",
+    "prisma"
+  ],
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",

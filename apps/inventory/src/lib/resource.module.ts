@@ -10,12 +10,14 @@ import { PrismaModule } from '@puq/prisma';
 import { withSlugify, withSoftDelete } from '@puq/prisma-extentions';
 import { CategoryModule } from './resources/category/category.module.js';
 
+export const inventoryClient = new PrismaClient()
+  .$extends(withSlugify(Prisma.dmmf.datamodel))
+  .$extends(withSoftDelete(Prisma.dmmf.datamodel));
+
 @Module({
   imports: [
     PrismaModule.forRoot({
-      client: new PrismaClient()
-        .$extends(withSlugify(Prisma.dmmf.datamodel))
-        .$extends(withSoftDelete(Prisma.dmmf.datamodel)),
+      client: inventoryClient,
     }),
     CategoryModule,
   ],

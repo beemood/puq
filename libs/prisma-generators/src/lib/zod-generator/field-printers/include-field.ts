@@ -12,7 +12,7 @@ export const includeField = (field: Field): string => {
   const query = `z.object({ select :${toSelectOwn(field.type)} })`;
 
   if (field.isList) {
-    return `${pre('bool')}.or(${query})`;
+    return `${query}.or(${pre('bool')})`;
   }
-  return `${pre('bool')}.or(${query})`;
+  return `${query}.or(${pre('bool')})`;
 };

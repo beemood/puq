@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import type { Request } from 'express';
+
 import { tap } from 'rxjs';
 import { v4 } from 'uuid';
 import { Injectable } from '../base/injectable.js';
@@ -14,6 +14,7 @@ import { toEventName } from '../helpers/to-event-name.js';
 import { OPERATION_NAME_METADATA_KEY } from '../metadata/operation-name.js';
 import { RESOURCE_NAME_METADATA_KEY } from '../metadata/resource-name.js';
 import type { EventPayload } from '../types/event-payload.js';
+import type { ExtendedRequest } from '../types/extended-request.js';
 
 /**
  * Interceptor that emits all controller events
@@ -34,17 +35,18 @@ export class ResourceEventInterceptor implements NestInterceptor {
       OPERATION_NAME_METADATA_KEY,
       context.getHandler()
     );
-    const req = context.switchToHttp().getRequest<Request>();
+    const req = context.switchToHttp().getRequest<ExtendedRequest>();
     const timestamp = Date.now();
     const uuid = v4();
     const EVENT_NAME = toEventName(resourceName, operationName);
+    const userId = req?.user?.id;
 
     const payload: EventPayload = {
       uuid,
       timestamp,
       req: {
         url: req.url,
-        body: req.body,
+        body: { ...req.body, updatedBy: userId },
         params: req.params,
         query: req.query,
       },

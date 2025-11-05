@@ -1,4 +1,10 @@
 import type { Prisma } from '@puq/inventory-db';
+import type {
+  <%- className %>CreateType,
+  <%- className %>ProjectionType,
+  <%- className %>QueryType,
+  <%- className %>UpdateType,
+} from '@puq/inventory-db/zod';
 import {
   <%- className %>Create,
   <%- className %>Projection,
@@ -23,37 +29,37 @@ export class <%- className %>Controller extends AbstractResourceController {
   }
 
   override async saveOne(
-    @Body(<%- className %>Create) data: <%- className %>Create,
-    @Query(<%- className %>Projection) projection: <%- className %>Projection
+    @Body(<%- className %>Create) data: <%- className %>CreateType,
+    @Query(<%- className %>Projection) projection: <%- className %>ProjectionType
   ) {
     return await this.repo.create({ ...projection, data });
   }
 
   override async findOneById(
     @ParamId() id: number,
-    @Query(<%- className %>Projection) projection: <%- className %>Projection
+    @Query(<%- className %>Projection) projection: <%- className %>ProjectionType
   ) {
     return await this.repo.findFirstOrThrow({ ...projection, where: { id } });
   }
 
   override async findMany(
-    @Query(<%- className %>Query) query: <%- className %>Query,
-    @Query(<%- className %>Projection) projection: <%- className %>Projection
+    @Query(<%- className %>Query) query: <%- className %>QueryType,
+    @Query(<%- className %>Projection) projection: <%- className %>ProjectionType
   ) {
     return await this.repo.findMany({ ...query, ...projection });
   }
 
   override updateOneById(
     @ParamId() id: number,
-    @Query(<%- className %>Projection) projection: <%- className %>Projection,
-    @Body(<%- className %>Update) data: <%- className %>Update
+    @Query(<%- className %>Projection) projection: <%- className %>ProjectionType,
+    @Body(<%- className %>Update) data: <%- className %>UpdateType
   ) {
     return this.repo.update({ ...projection, where: { id }, data });
   }
 
   override async deleteOneById(
     @ParamId() id: number,
-    @Query(<%- className %>Projection) projection: <%- className %>Projection
+    @Query(<%- className %>Projection) projection: <%- className %>ProjectionType
   ) {
     return await this.repo.delete({ ...projection, where: { id } });
   }

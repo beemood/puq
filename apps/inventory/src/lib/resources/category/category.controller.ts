@@ -46,6 +46,8 @@ export class CategoryController extends AbstractResourceController {
     @Query(CategoryQuery) query: CategoryQueryType,
     @Query(CategoryProjection) projection: CategoryProjectionType
   ) {
+    console.log(query);
+    console.log(projection);
     return await this.repo.findMany({ ...query, ...projection });
   }
 

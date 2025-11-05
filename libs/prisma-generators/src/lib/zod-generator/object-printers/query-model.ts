@@ -1,15 +1,15 @@
 import type { Model } from '../common/dmmf.js';
 import {
   toField,
+  toInclude,
   toOmit,
   toOrderBy,
   toQueryOwn,
   toSelectOwn,
-  toWhere
+  toWhere,
 } from '../common/names.js';
-import { makePartial } from '../field-printers/make-partial.js';
-
 import { pre } from '../common/pre.js';
+import { makePartial } from '../field-printers/make-partial.js';
 
 /**
  * Print query-one schema
@@ -21,12 +21,17 @@ export const queryOneModel = (model: Model): string => {
   const where = toWhere(model.name);
   const select = toSelectOwn(model.name);
   const omit = toOmit(model.name);
-  // const include = toInclude(model.name);
-  // z.object({ include: ${include}, where: ${where} }),
+  const include = toInclude(model.name);
+
+  const selectSchema = `z.preprocess(${pre('parseJsonOrReturn')}, ${select} )`;
+  const omitSchema = `z.preprocess(${pre('parseJsonOrReturn')}, ${omit}   )`;
+  const whereSchema = `z.preprocess(${pre('parseJsonOrReturn')}, ${where})`;
+  const includeSchema = `z.preprocess(${pre('parseJsonOrReturn')}, ${include})`;
   const schema = `z.object({ 
-    select: ${select},
-    omit: ${omit},
-    where: ${where}
+    select:   ${selectSchema},
+    omit:     ${omitSchema},
+    include: ${includeSchema},
+    where:    ${whereSchema}
   })`;
 
   return makePartial(schema);
@@ -42,12 +47,17 @@ export const queryModelOwn = (model: Model): string => {
   const where = toWhere(model.name);
   const orderBy = toOrderBy(model.name);
   const distinct = toField(model.name);
+
+  const orderBySchemea = `z.preprocess(${pre(
+    'parseJsonOrReturn'
+  )}, ${orderBy})`;
+  const whereSchema = `z.preprocess(${pre('parseJsonOrReturn')}, ${where})`;
   const schema = `z.object({
-    take: ${pre('take')},
-    skip: ${pre('skip')},
+    take:     ${pre('take')},
+    skip:     ${pre('skip')},
     distinct: ${distinct}.array(),
-    orderBy: ${orderBy},
-    where: ${where},
+    orderBy:  ${orderBySchemea},
+    where:    ${whereSchema}
   })`;
 
   return makePartial(schema);
@@ -62,14 +72,19 @@ export const queryModelOwn = (model: Model): string => {
 export const queryModel = (model: Model): string => {
   const select = toSelectOwn(model.name);
   const omit = toOmit(model.name);
-  // const include = toInclude(model.name);
-
+  const include = toInclude(model.name);
   const queryOwnName = toQueryOwn(model.name);
 
-  // z.object({ include: ${include} }).extend(${queryOwnName}),
+  const selectSchema = `z.preprocess(${pre('parseJsonOrReturn')}, ${select} )`;
+  const omitSchema = `z.preprocess(${pre('parseJsonOrReturn')}, ${omit}   )`;
+  const includeSchema = `z.preprocess(${pre(
+    'parseJsonOrReturn'
+  )}, ${include}   )`;
+
   const schema = `z.object({ 
-    select: ${select}, 
-    omit: ${omit}, 
+    select:   ${selectSchema}, 
+    omit:     ${omitSchema}, 
+    include:  ${includeSchema},
     ...${queryOwnName}.shape 
   })`;
 

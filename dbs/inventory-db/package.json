@@ -215,7 +215,7 @@
           "stripLeadingPaths": true
         }
       },
-      "prisma-migrate": {
+      "prisma:migrate": {
         "executor": "nx:run-commands",
         "options": {
           "commands": [
@@ -225,7 +225,7 @@
           "cwd": "{projectRoot}"
         }
       },
-      "prisma-reset": {
+      "prisma:reset": {
         "executor": "nx:run-commands",
         "options": {
           "commands": [

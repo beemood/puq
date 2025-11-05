@@ -1,0 +1,9 @@
+import type { EventPayload } from '@puq/nest';
+import { AbstractEventListener, AutoEventListener } from '@puq/nest';
+
+@AutoEventListener()
+export class <%- className %>EventListener extends AbstractEventListener {
+  override saveOne(payload: EventPayload): void {
+    console.log(payload);
+  }
+}

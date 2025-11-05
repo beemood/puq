@@ -4,36 +4,51 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
+import { createEnvKeys } from './create-env-keys.js';
 
 /**
- * Common nestjs bootstrap configuration including cors and helpmet middleware, global prefix, and swagger integrateion.
- *
- * @param appModule  Nestjs main app module
+ * Bootstrap the api project
+ * @param appModule  App module
  */
 export async function boot(appModule: Type) {
   const app = await NestFactory.create(appModule, {});
-
   const config = app.get(ConfigService);
-  const TITLE = config.get('TITLE', 'App name');
-  const GLOBAL_PREFIX = config.get('GLOBAL_PREFIX', 'api');
-  const DESCRIPTION = config.get('DESCRIPTION', 'App description');
-  const PORT = config.getOrThrow('PORT');
 
-  app.enableCors();
-  app.use(helmet());
-  app.setGlobalPrefix(GLOBAL_PREFIX);
+  const APP_NAME = config.getOrThrow('APP_NAME');
 
-  const swaggerConfig = new DocumentBuilder()
-    .setTitle(TITLE)
-    .setDescription(DESCRIPTION)
-    .addBearerAuth()
-    .build();
+  const {
+    description: DESCRIPTION_KEY,
+    port: PORT_KEY,
+    prefix: PREFIX_KEY,
+  } = createEnvKeys(APP_NAME);
 
-  const swaggerDoc = SwaggerModule.createDocument(app, swaggerConfig);
+  const DESCRIPTION = config.get(DESCRIPTION_KEY, 'App description');
+  const PORT = config.getOrThrow(PORT_KEY, 3000);
+  const SECONDARY_PREFIX = config.getOrThrow(PREFIX_KEY, 3000);
 
-  SwaggerModule.setup('api', app, swaggerDoc);
+  const PREFIX = `${SECONDARY_PREFIX}/api`;
+
+  // Configure app
+  {
+    app.enableCors();
+    app.use(helmet());
+    app.setGlobalPrefix(PREFIX);
+  }
+
+  // Configure swagger
+  {
+    const swaggerConfig = new DocumentBuilder()
+      .setTitle(APP_NAME)
+      .setDescription(DESCRIPTION)
+      .addBearerAuth()
+      .build();
+    const doc = SwaggerModule.createDocument(app, swaggerConfig);
+    SwaggerModule.setup(PREFIX, app, doc);
+  }
 
   await app.listen(PORT);
 
-  Logger.log(`Api is up and running ${await app.getUrl()}`);
+  const greeting = `${APP_NAME} is up: ${await app.getUrl()}`;
+
+  Logger.log(greeting, 'Boot');
 }

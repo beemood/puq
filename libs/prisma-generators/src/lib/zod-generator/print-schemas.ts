@@ -93,6 +93,11 @@ export function printSchemas(datamodel: Datamodel): string {
     schemas.set(toSelectOwn(m.name), selectModelOwn(m));
   }
 
+  // Include
+  for (const m of models) {
+    schemas.set(toInclude(m.name), includeModel(m));
+  }
+
   // Order-by Own Schemas
   for (const m of models) {
     schemas.set(toOrderByOwn(m.name), orderByModelOwn(m));
@@ -121,11 +126,6 @@ export function printSchemas(datamodel: Datamodel): string {
   // Query One schema
   for (const m of models) {
     schemas.set(toQueryOne(m.name), queryOneModel(m));
-  }
-
-  // Include
-  for (const m of models) {
-    schemas.set(toInclude(m.name), includeModel(m));
   }
 
   // Query schema
