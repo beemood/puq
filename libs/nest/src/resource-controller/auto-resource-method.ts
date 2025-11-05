@@ -19,6 +19,7 @@ export function AutoResourceMethod(): MethodDecorator {
 
     const operationName = args[1].toString() as ResourceOperationName;
     const resourceName = extractResourceName(className);
+
     const resourcePathRecord = resourcePaths(resourceName);
 
     OperationName()(...args);

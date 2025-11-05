@@ -7,7 +7,7 @@ import type { ZodType } from 'zod';
  */
 @Injectable()
 export class ZodValidationPipe<T extends ZodType> implements PipeTransform {
-  constructor(private schema: T) {}
+  constructor(public readonly schema: T) {}
   async transform(value: unknown) {
     const result = await this.schema.safeParseAsync(value);
 

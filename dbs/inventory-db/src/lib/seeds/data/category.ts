@@ -1,6 +1,6 @@
-import type { Prisma } from '../../../../generated';
+import type { Prisma } from '@puq/inventory-db';
 
-export const Category: Prisma.CategoryCreateArgs[] = [
+export const categories: Prisma.CategoryCreateArgs[] = [
   {
     data: {
       name: 'Default',
@@ -11,7 +11,7 @@ export const Category: Prisma.CategoryCreateArgs[] = [
     data: {
       name: 'Office and School Supplies',
       readonly: true,
-      Children: {
+      children: {
         createMany: {
           data: [
             { name: 'Stationery and Paper', readonly: true },
@@ -29,7 +29,7 @@ export const Category: Prisma.CategoryCreateArgs[] = [
     data: {
       name: 'Pet Supplies',
       readonly: true,
-      Children: {
+      children: {
         createMany: {
           data: [
             { name: 'Pet Food and Treats', readonly: true },
@@ -46,7 +46,7 @@ export const Category: Prisma.CategoryCreateArgs[] = [
     data: {
       name: 'Baby and Kids Gear',
       readonly: true,
-      Children: {
+      children: {
         createMany: {
           data: [
             { name: 'Strollers and Car Seats', readonly: true },
@@ -63,7 +63,7 @@ export const Category: Prisma.CategoryCreateArgs[] = [
   {
     data: {
       name: 'DIY, Tools and Home Improvement',
-      Children: {
+      children: {
         createMany: {
           data: [
             { name: 'Power Tools and Hand Tools', readonly: true },
@@ -80,7 +80,7 @@ export const Category: Prisma.CategoryCreateArgs[] = [
   {
     data: {
       name: 'Media (Books, Movies, Music)',
-      Children: {
+      children: {
         createMany: {
           data: [
             { name: 'Books (Physical and Digital)', readonly: true },
@@ -94,7 +94,7 @@ export const Category: Prisma.CategoryCreateArgs[] = [
   {
     data: {
       name: 'Automotive and Industrial',
-      Children: {
+      children: {
         createMany: {
           data: [
             { name: 'Car Parts and Accessories', readonly: true },
@@ -110,7 +110,7 @@ export const Category: Prisma.CategoryCreateArgs[] = [
   {
     data: {
       name: 'Sports and Outdoors',
-      Children: {
+      children: {
         createMany: {
           data: [
             { name: 'Exercise and Fitness', readonly: true },
@@ -126,7 +126,7 @@ export const Category: Prisma.CategoryCreateArgs[] = [
   {
     data: {
       name: 'Toys and Hobbies',
-      Children: {
+      children: {
         createMany: {
           data: [
             { name: 'Action Figures and Collectibles', readonly: true },
@@ -142,7 +142,7 @@ export const Category: Prisma.CategoryCreateArgs[] = [
   {
     data: {
       name: 'Food and Beverage',
-      Children: {
+      children: {
         createMany: {
           data: [
             { name: 'Fresh Produce and Dairy', readonly: true },
@@ -159,7 +159,7 @@ export const Category: Prisma.CategoryCreateArgs[] = [
   {
     data: {
       name: 'Fashion, Apparel and Accessories',
-      Children: {
+      children: {
         createMany: {
           data: [
             { name: "Clothing (Men's, Women's, Kids')", readonly: true },
@@ -176,7 +176,7 @@ export const Category: Prisma.CategoryCreateArgs[] = [
   {
     data: {
       name: 'Electronics and Technology',
-      Children: {
+      children: {
         createMany: {
           data: [
             { name: 'Computers and Tablets', readonly: true },
@@ -193,7 +193,7 @@ export const Category: Prisma.CategoryCreateArgs[] = [
   {
     data: {
       name: 'Home, Garden, Furniture, and Decor',
-      Children: {
+      children: {
         createMany: {
           data: [
             { name: 'Kitchen and Dining', readonly: true },
@@ -211,7 +211,7 @@ export const Category: Prisma.CategoryCreateArgs[] = [
   {
     data: {
       name: 'Health, Personal Care, and Beauty',
-      Children: {
+      children: {
         createMany: {
           data: [
             { name: 'Skincare and Cosmetics', readonly: true },

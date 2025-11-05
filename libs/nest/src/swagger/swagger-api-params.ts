@@ -66,7 +66,7 @@ export const __WhereExamples: ApiQueryOptions['examples'] = {
 
 export const __FinOneQueryOptions: ApiQueryOptions = {
   name: 'query',
-  schema: { type: 'object' },
+  schema: { type: 'object', properties: {} },
   examples: {
     ...__ProjectionExamples,
     ...__WhereExamples,
@@ -79,7 +79,7 @@ function apiQueryOptions(
 ): ApiQueryOptions {
   return {
     name: 'query',
-    schema: { type: 'object' },
+    schema: { type: 'object', properties: {} },
     examples: {
       ...examples,
     },

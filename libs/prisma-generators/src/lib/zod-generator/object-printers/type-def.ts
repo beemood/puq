@@ -4,5 +4,5 @@
  * @returns type definition
  */
 export const typeDef = (name: string) => {
-  return `export type ${name} = z.infer<typeof ${name}>; `;
+  return `export type ${name}Type = z.infer<typeof ${name}>; `;
 };

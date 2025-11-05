@@ -8,6 +8,7 @@ import {
 } from '@puq/nest';
 import { PrismaModule } from '@puq/prisma';
 import { withSlugify, withSoftDelete } from '@puq/prisma-extentions';
+import { CategoryModule } from './resources/category/category.module.js';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { withSlugify, withSoftDelete } from '@puq/prisma-extentions';
         .$extends(withSlugify(Prisma.dmmf.datamodel))
         .$extends(withSoftDelete(Prisma.dmmf.datamodel)),
     }),
+    CategoryModule,
   ],
   providers: [
     {

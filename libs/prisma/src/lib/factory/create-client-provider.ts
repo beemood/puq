@@ -26,7 +26,7 @@ export type ClientProvider = {
    * @param datasourceName optional datasource name to group resources (different from groupName)
    * @returns
    */
-  inject: (datasourceName?: string) => PropertyDecorator;
+  inject: (datasourceName?: string) => ParameterDecorator;
 };
 
 /**
@@ -52,7 +52,7 @@ export function createClientProvider(
 
   const inject = (
     datasourceName = DEFAULT_DATASOURCE_NAME
-  ): PropertyDecorator => {
+  ): ParameterDecorator => {
     return (...args) => {
       Inject(token(datasourceName))(...args);
     };
