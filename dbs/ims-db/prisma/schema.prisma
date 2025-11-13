@@ -28,6 +28,9 @@ model Customer {
   /// Defines deletion timestamp (system-input)
   deletedAt DateTime?
 
+  /// Defines updated-by log
+  updatedBy String @db.Uuid
+
   customerDiscounts CustomerDiscount[]
 
   /// Defines if the category is readonly
@@ -67,6 +70,9 @@ model Store {
 
   /// Defines deletion timestamp (system-input)
   deletedAt DateTime?
+
+  /// Defines updated-by log
+  updatedBy String @db.Uuid
 
   /// Unique store name s
   name String @unique @db.VarChar(255)
@@ -110,6 +116,9 @@ model Shelf {
 
   /// Defines deletion timestamp (system-input)
   deletedAt DateTime?
+
+  /// Defines updated-by log
+  updatedBy String @db.Uuid
 
   /// Shelf name (e.g  "A", "B", "AA", "BB")
   name String @db.VarChar(255)
@@ -155,6 +164,9 @@ model Category {
 
   /// Defines deletion timestamp (system-input)
   deletedAt DateTime?
+
+  /// Defines updated-by log
+  updatedBy String @db.Uuid
 
   /// Unqiue category  name (e.g Electronics)
   name String @unique @db.VarChar(255)
@@ -207,6 +219,9 @@ model Tag {
   /// Defines deletion timestamp (system-input)
   deletedAt DateTime?
 
+  /// Defines updated-by log
+  updatedBy String @db.Uuid
+
   /// Unique tag name
   name String @unique @db.VarChar(255)
 
@@ -229,6 +244,9 @@ model ProductTag {
 
   /// Defines deletion timestamp (system-input)
   deletedAt DateTime?
+
+  /// Defines updated-by log
+  updatedBy String @db.Uuid
 
   /// Product relation
   product Product @relation(fields: [productId], references: [id])
@@ -261,6 +279,9 @@ model Product {
 
   /// Defines deletion timestamp (system-input)
   deletedAt DateTime?
+
+  /// Defines updated-by log
+  updatedBy String @db.Uuid
 
   /// Unique product name
   name String @unique @db.VarChar(255)
@@ -345,6 +366,9 @@ model Quantity {
   /// Defines deletion timestamp (system-input)
   deletedAt DateTime?
 
+  /// Defines updated-by log
+  updatedBy String @db.Uuid
+
   /// Defines the number of items available in the store
   quantity Int
 
@@ -387,6 +411,9 @@ model SerialNumber {
   /// Defines deletion timestamp (system-input)
   deletedAt DateTime?
 
+  /// Defines updated-by log
+  updatedBy String @db.Uuid
+
   /// Product serial number 
   serialNumber String @unique
 
@@ -427,6 +454,9 @@ model Price {
 
   /// Defines deletion timestamp (system-input)
   deletedAt DateTime?
+
+  /// Defines updated-by log
+  updatedBy String @db.Uuid
 
   /// Defines the product price
   price Decimal @db.Decimal(10, 2)
@@ -491,6 +521,9 @@ model Discount {
 
   /// Defines deletion timestamp (system-input)
   deletedAt DateTime?
+
+  /// Defines updated-by log
+  updatedBy String @db.Uuid
 
   /// Discount name 
   name String @unique
@@ -727,6 +760,9 @@ model ProductType {
   /// Defines deletion timestamp (system-input)
   deletedAt DateTime?
 
+  /// Defines updated-by log
+  updatedBy String @db.Uuid
+
   /// The unique name of the product category 
   /// (e.g., "General Merchandise," "Prepared Food," "Prescription Drugs"). 
   /// This is critical for matching tax rules.
@@ -767,6 +803,9 @@ model Jurisdiction {
 
   /// Defines deletion timestamp (system-input)
   deletedAt DateTime?
+
+  /// Defines updated-by log
+  updatedBy String @db.Uuid
 
   /// A unique identifier often used in the U.S. (Federal Information Processing Standards) 
   /// to denote geographical entities like counties and states.
@@ -812,6 +851,9 @@ model TaxRate {
 
   /// Defines deletion timestamp (system-input)
   deletedAt DateTime?
+
+  /// Defines updated-by log
+  updatedBy String @db.Uuid
 
   /// The tax rate expressed as a percentage (e.g., 0.075 for 7.5%). 
   /// The database type Decimal(10, 6) ensures precise storage of the value.
@@ -888,8 +930,8 @@ model Log {
   /// Record/entry id
   recordId Int
 
-  /// Defines what changes are made
-  change Json
+  /// Differences from old data and new data
+  difference Json
 
   /// Defines if the entry is readonly or not
   /// Readonly entries cannot be updated by the client application

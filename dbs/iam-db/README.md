@@ -4,7 +4,7 @@
 
 # @puq/iam-db
 
-iam-db
+Identity and access management database and zod input validation schemas
 
 ## Install
 

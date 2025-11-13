@@ -4,7 +4,7 @@
 
 # @puq/ims-db
 
-ims-db
+Inventory management system database schema, prisma client, zod schemas.
 
 ## Install
 

@@ -2,8 +2,8 @@
   "name": "@puq/iam-db",
   "version": "0.29.10",
   "license": "MIT",
-  "displayName": "iam-db | Prisma Client and Zod Schemas",
-  "description": "iam-db database schema, prisma client, zod schemas.",
+  "displayName": "Identity and access management | Prisma Client and Zod Schemas",
+  "description": "Identity and access management database schema, prisma client, zod schemas.",
   "publishConfig": {
     "access": "public",
     "tag": "latest"
@@ -240,6 +240,8 @@
         "executor": "nx:run-commands",
         "options": {
           "commands": [
+            "rm -rf ./generated",
+            "rm -rf ./prisma/migrations",
             "npx prisma migrate reset --force"
           ],
           "cwd": "{projectRoot}"
