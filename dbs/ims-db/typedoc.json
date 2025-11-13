@@ -1,0 +1,6 @@
+{
+  "name": "ims-db",
+  "favicon": "./favicon.png",
+  "entryPoints": ["./src/index.ts"],
+  "out": "../../public/dbs/ims-db"
+}

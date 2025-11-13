@@ -75,5 +75,11 @@
     {
       "path": "./libs/prisma-generators"
     },
+    {
+      "path": "./dbs/ims-db"
+    },
+    {
+      "path": "./dbs/iam-db"
+    }
   ]
 }

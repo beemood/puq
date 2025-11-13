@@ -1,0 +1,330 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated"
+}
+
+generator zodGenerator {
+  provider = "zod-generator"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Locations
+model Store {
+  id Int @id @default(autoincrement())
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  name        String  @unique @db.VarChar(255)
+  description String?
+  slug        String  @unique
+
+  quantities Quantity[]
+
+  serials SerialNumber[]
+
+  shelves Shelf[]
+
+  readonly Boolean @default(false)
+
+  @@index([name])
+  @@index([slug])
+}
+
+model Shelf {
+  id Int @id @default(autoincrement())
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  name        String  @db.VarChar(255)
+  description String?
+  aisle       String  @db.VarChar(255)
+  rack        Int
+  level       Int
+
+  store   Store @relation(fields: [storeId], references: [id])
+  storeId Int
+
+  readonly Boolean @default(false)
+
+  @@unique([name, storeId])
+  @@unique([storeId, aisle, rack, level])
+  @@index([storeId])
+  @@index([aisle, rack, level])
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  uuid String @default(uuid()) @db.Uuid
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  name        String  @unique @db.VarChar(255)
+  description String?
+  slug        String  @unique
+
+  parent   Category? @relation("children", fields: [parentId], references: [id])
+  parentId Int?
+
+  children Category[] @relation("children")
+
+  products Product[]
+
+  readonly Boolean @default(false)
+
+  @@index([parentId])
+  @@index([name])
+  @@index([slug])
+}
+
+model Tag {
+  id Int @id @default(autoincrement())
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  name String @unique @db.VarChar(255)
+
+  productTags ProductTag[]
+
+  @@index([name])
+}
+
+model ProductTag {
+  id Int @id @default(autoincrement())
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+
+  tag   Tag @relation(fields: [tagId], references: [id])
+  tagId Int
+
+  @@unique([productId, tagId])
+  @@index([productId])
+  @@index([tagId])
+}
+
+model Product {
+  id   Int    @id @default(autoincrement())
+  uuid String @default(uuid()) @db.Uuid
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  name        String  @unique @db.VarChar(255)
+  description String?
+  slug        String  @unique
+  sku         String  @unique @db.VarChar(255)
+  upc         String  @unique @db.VarChar(255)
+  model       String? @db.VarChar(255)
+
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  categoryId Int?
+
+  type   ProductType @relation(fields: [typeId], references: [id])
+  typeId Int
+
+  parent   Product? @relation("variants", fields: [parentId], references: [id], onDelete: SetNull)
+  parentId Int?
+
+  variants Product[] @relation("variants")
+
+  quantities Quantity[]
+
+  prices Price[]
+
+  productTags   ProductTag[]
+  serialNumbers SerialNumber[]
+
+  readonly Boolean @default(false)
+
+  @@index([categoryId])
+  @@index([typeId])
+  @@index([parentId])
+  @@index([sku])
+  @@index([upc])
+  @@index([name])
+}
+
+model Quantity {
+  id Int @id @default(autoincrement())
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  quantity    Int
+  minQuantity Int?
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+
+  store   Store @relation(fields: [storeId], references: [id])
+  storeId Int
+
+  readonly Boolean @default(false)
+
+  @@unique([storeId, productId])
+  @@index([productId])
+  @@index([storeId])
+}
+
+model SerialNumber {
+  id Int @id @default(autoincrement())
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  serialNumber String  @unique
+  isInStock    Boolean @default(true)
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+
+  store   Store @relation(fields: [storeId], references: [id])
+  storeId Int
+
+  readonly Boolean @default(false)
+
+  @@index([productId])
+  @@index([storeId])
+  @@index([isInStock])
+}
+
+// Price Tables 
+model Price {
+  id Int @id @default(autoincrement())
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  price         Decimal   @db.Decimal(10, 2)
+  effectiveFrom DateTime
+  effectiveTo   DateTime?
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+
+  readonly Boolean @default(false)
+
+  @@unique([productId, effectiveFrom])
+  @@index([productId])
+  @@index([effectiveFrom])
+  @@index([effectiveTo])
+}
+
+model ProductType {
+  id Int @id @default(autoincrement())
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  name        String  @unique @db.VarChar(255)
+  description String?
+
+  products Product[]
+  taxRates TaxRate[]
+
+  readonly Boolean @default(false)
+
+  @@index([name])
+}
+
+model Jurisdiction {
+  id Int @id @default(autoincrement())
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  fipsCode String @unique
+  name     String
+  level    String
+
+  parent   Jurisdiction? @relation("children", fields: [parentId], references: [id])
+  parentId Int?
+
+  children Jurisdiction[] @relation("children")
+  taxRates TaxRate[]
+
+  readonly Boolean @default(false)
+
+  @@index([parentId])
+  @@index([name])
+  @@index([level])
+}
+
+model TaxRate {
+  id Int @id @default(autoincrement())
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  percentRate Decimal @db.Decimal(10, 2)
+  fixedRate   Decimal @db.Decimal(10, 2)
+  description String?
+
+  effectiveFrom DateTime
+  effectiveTo   DateTime?
+
+  jurisdiction   Jurisdiction @relation(fields: [jurisdictionId], references: [id])
+  jurisdictionId Int
+
+  productType   ProductType @relation(fields: [productTypeId], references: [id])
+  productTypeId Int
+
+  readonly Boolean @default(false)
+
+  @@unique([jurisdictionId, productTypeId, effectiveFrom])
+  @@index([jurisdictionId])
+  @@index([productTypeId])
+  @@index([effectiveFrom])
+  @@index([effectiveTo])
+}
+
+// Logs 
+enum OperationType {
+  READ
+  WRITE
+  UPDATE
+  DELETE
+}
+
+enum OperatorType {
+  USER
+  SYSTEM
+}
+
+model Log {
+  id            Int           @id @default(autoincrement())
+  timestamp     DateTime      @default(now())
+  operatorId    String        @db.Uuid
+  operatorType  OperatorType
+  operationType OperationType
+  recordName    String
+  recordId      Int
+  change        Json
+
+  @@index([operatorId, operatorType])
+  @@index([recordName, recordId])
+  @@index([timestamp])
+}

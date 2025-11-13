@@ -4,7 +4,7 @@
 
 # @puq/inventory
 
-Inventory api
+Inventory service that provides a rest api layer to access inventory database
 
 ## Install
 

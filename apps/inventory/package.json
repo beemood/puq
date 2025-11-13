@@ -1,12 +1,12 @@
 {
   "name": "@puq/inventory",
-  "displayName": "Inventory Rest Service",
+  "displayName": "Inventory Service",
   "version": "0.29.30",
   "publishConfig": {
     "access": "public",
     "tag": "latest"
   },
-  "description": "inventory",
+  "description": "Inventory service that provides a rest api layer to access inventory database",
   "homepage": "https://beemood.github.io/puq/apps/inventory",
   "author": {
     "email": "robert.brightline@gmail.com",
@@ -58,8 +58,9 @@
         "executor": "nx:run-commands",
         "options": {
           "commands": [
-            "nodemon {projectRoot}/dist/main.js"
-          ]
+            "nodemon ./dist/main.js"
+          ],
+          "cwd": "{projectRoot}"
         }
       },
       "serve": {
@@ -67,7 +68,7 @@
         "options": {
           "commands": [
             "npx nx build inventory --watch=true",
-            "nodemon {projectRoot}/dist/main.js"
+            "cd {projectRoot} &&  nodemon ./dist/main.js"
           ],
           "parallel": true
         }

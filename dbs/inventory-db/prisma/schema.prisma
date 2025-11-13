@@ -20,6 +20,7 @@ model Employee {
   deletedAt DateTime?
   updatedBy Int?
   readonly  Boolean   @default(false)
+  active    Boolean   @default(true)
 
   /// External employee id
   employeeId String @unique
@@ -205,6 +206,8 @@ model ProductImage {
   product  Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
   image    Image     @relation(fields: [imageId], references: [id], onDelete: Cascade)
   employee Employee? @relation(fields: [updatedBy], references: [id])
+
+  @@unique([productId, imageId])
 }
 
 model PriceLevel {

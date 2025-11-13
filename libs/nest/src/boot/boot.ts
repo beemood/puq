@@ -1,54 +1,83 @@
-import type { Type } from '@nestjs/common';
+import type { INestApplication, Type } from '@nestjs/common';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { readJsonFile } from '@puq/fs';
+import type { Package } from '@puq/types';
 import helmet from 'helmet';
-import { createEnvKeys } from './create-env-keys.js';
 
 /**
- * Bootstrap the api project
- * @param appModule  App module
+ * Integrate swagger UI
+ * @param app Nest application module
+ * @param prefix Global api prefix ('api' by default)
+ * @param name Application name (package.name)
+ * @param description Application description (package.description)
+ */
+export function configureSwagger(
+  app: INestApplication,
+  prefix = 'api',
+  name = 'name',
+  description = 'description'
+) {
+  SwaggerModule.setup(
+    prefix,
+    app,
+    SwaggerModule.createDocument(
+      app,
+      new DocumentBuilder()
+        .setTitle(name)
+        .setDescription(description)
+        .addBearerAuth()
+        .build()
+    )
+  );
+}
+
+/**
+ * Boot application
+ * @param appModule Nest application module
  */
 export async function boot(appModule: Type) {
-  const app = await NestFactory.create(appModule, {});
-  const config = app.get(ConfigService);
-
-  const APP_NAME = config.getOrThrow('APP_NAME');
+  const GLOBAL_PREFIX = 'api';
 
   const {
-    description: DESCRIPTION_KEY,
-    port: PORT_KEY,
-    prefix: PREFIX_KEY,
-  } = createEnvKeys(APP_NAME);
+    displayName: NAME,
+    description: DESCRIPTION,
+    funding,
+    author,
+    homepage,
+  } = await readJsonFile<Package>('package.json');
 
-  const DESCRIPTION = config.get(DESCRIPTION_KEY, 'App description');
-  const PORT = config.getOrThrow(PORT_KEY, 3000);
-  const SECONDARY_PREFIX = config.getOrThrow(PREFIX_KEY, 3000);
-
-  const PREFIX = `${SECONDARY_PREFIX}/api`;
+  const app = await NestFactory.create(appModule, {});
+  const config = app.get(ConfigService);
+  const PORT = config.get('PORT', 3000);
 
   // Configure app
   {
     app.enableCors();
-    app.use(helmet());
-    app.setGlobalPrefix(PREFIX);
+    app.use(
+      helmet({
+        contentSecurityPolicy: false,
+      })
+    );
+    app.setGlobalPrefix(GLOBAL_PREFIX);
   }
 
   // Configure swagger
-  {
-    const swaggerConfig = new DocumentBuilder()
-      .setTitle(APP_NAME)
-      .setDescription(DESCRIPTION)
-      .addBearerAuth()
-      .build();
-    const doc = SwaggerModule.createDocument(app, swaggerConfig);
-    SwaggerModule.setup(PREFIX, app, doc);
-  }
+  configureSwagger(app, GLOBAL_PREFIX, NAME, DESCRIPTION);
 
+  // Start
   await app.listen(PORT);
 
-  const greeting = `${APP_NAME} is up: ${await app.getUrl()}`;
-
-  Logger.log(greeting, 'Boot');
+  // Links
+  {
+    const baseURL = await app.getUrl();
+    const appURL = `${baseURL}/${GLOBAL_PREFIX}`;
+    Logger.log(`${NAME} : ${appURL}`, 'Boot');
+    Logger.log(`Swagger : ${appURL}`, 'Boot');
+    Logger.log(`Documentation : ${homepage}`, 'Boot');
+    Logger.log(`Contact us : ${author?.email}`, 'Boot');
+    Logger.log(`Support us : ${funding?.[0]}`, 'Boot');
+  }
 }

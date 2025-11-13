@@ -1,0 +1,26 @@
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated"
+}
+
+generator zodGenerator {
+  provider = "zod-generator"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model IamDb {
+  id        Int       @id @default(autoincrement())
+  uuid      String    @unique @default(uuid(7))
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  updatedBy String?
+  readonly  Boolean   @default(false)
+
+  name String @unique @db.VarChar(255)
+}

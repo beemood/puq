@@ -38,14 +38,11 @@ export async function projectGenerator(
 
   const __names = names(shortName);
 
-  const projectNames = names(shortName);
-  const DATABASE_URL = projectNames.constantName + '_URL';
-
   generateFiles(tree, source, target, {
     ...__names,
-    DATABASE_URL,
     projectName,
     projectDirectory,
+    databaseName: __names.fileName,
     mp,
   });
 

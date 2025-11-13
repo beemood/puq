@@ -307,6 +307,62 @@ importers:
         specifier: workspace:*
         version: 'link:'
 
+  dbs/iam-db:
+    dependencies:
+      '@prisma/client':
+        specifier: ^6.18.0
+        version: 6.18.0(prisma@6.18.0(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)
+      '@puq/prisma-extentions':
+        specifier: workspace:*
+        version: link:../../libs/prisma-extentions
+      '@puq/prisma-generators':
+        specifier: workspace:*
+        version: link:../../libs/prisma-generators
+      '@puq/zod':
+        specifier: workspace:*
+        version: link:../../libs/zod
+      '@swc/helpers':
+        specifier: 0.5.11
+        version: 0.5.11
+      zod:
+        specifier: 4.1.11
+        version: 4.1.11
+    devDependencies:
+      '@puq/iam-db':
+        specifier: workspace:*
+        version: 'link:'
+      prisma:
+        specifier: ^6.18.0
+        version: 6.18.0(magicast@0.3.5)(typescript@5.9.3)
+
+  dbs/ims-db:
+    dependencies:
+      '@prisma/client':
+        specifier: ^6.18.0
+        version: 6.18.0(prisma@6.18.0(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)
+      '@puq/prisma-extentions':
+        specifier: workspace:*
+        version: link:../../libs/prisma-extentions
+      '@puq/prisma-generators':
+        specifier: workspace:*
+        version: link:../../libs/prisma-generators
+      '@puq/zod':
+        specifier: workspace:*
+        version: link:../../libs/zod
+      '@swc/helpers':
+        specifier: 0.5.11
+        version: 0.5.11
+      zod:
+        specifier: 4.1.11
+        version: 4.1.11
+    devDependencies:
+      '@puq/ims-db':
+        specifier: workspace:*
+        version: 'link:'
+      prisma:
+        specifier: ^6.18.0
+        version: 6.18.0(magicast@0.3.5)(typescript@5.9.3)
+
   dbs/inventory-db:
     dependencies:
       '@prisma/client':
@@ -442,6 +498,9 @@ importers:
       '@puq/errors':
         specifier: workspace:*
         version: link:../errors
+      '@puq/fs':
+        specifier: workspace:*
+        version: link:../fs
       '@puq/names':
         specifier: workspace:*
         version: link:../names

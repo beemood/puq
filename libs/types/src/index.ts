@@ -2,4 +2,5 @@
 export * from './lib/common/common.js';
 export * from './lib/common/record.js';
 export * from './lib/filters/filters.js';
+export * from './lib/package/package.js';
 

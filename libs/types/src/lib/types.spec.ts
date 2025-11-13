@@ -1,4 +1,4 @@
-describe('ignore: common', { skip: true }, () => {
+describe('types', { skip: true }, () => {
   it('should work', async () => {
     expect(1).toEqual(1);
   });
