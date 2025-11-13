@@ -956,14 +956,6 @@ model TaxRate {
   @@index([effectiveTo])
 }
 
-// Logs 
-enum OperationType {
-  READ
-  WRITE
-  UPDATE
-  DELETE
-}
-
 enum OperatorType {
   USER
   SYSTEM
@@ -981,8 +973,8 @@ model Log {
   /// Operator type (system/user)
   operatorType OperatorType
 
-  /// Operation type 
-  operationType OperationType
+  /// Operation name
+  operationName String
 
   /// Record/model/database table name
   recordName String
