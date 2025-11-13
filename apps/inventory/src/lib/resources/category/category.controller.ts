@@ -1,4 +1,3 @@
-import { Inject } from '@nestjs/common';
 import type { Prisma } from '@puq/inventory-db';
 import type {
   CategoryCreateType,
@@ -24,8 +23,7 @@ import { InjectRepository } from '@puq/prisma';
 @AutoResourceController()
 export class CategoryController extends AbstractResourceController {
   constructor(
-    @InjectRepository() protected readonly repo: Prisma.CategoryDelegate,
-    @Inject('Some') protected readonly some: string
+    @InjectRepository() protected readonly repo: Prisma.CategoryDelegate
   ) {
     super();
   }
@@ -56,7 +54,6 @@ export class CategoryController extends AbstractResourceController {
     @Query(CategoryProjection) projection: CategoryProjectionType,
     @Body(CategoryUpdate) data: CategoryUpdateType
   ) {
-    console.log(this.some);
     return this.repo.update({ ...projection, where: { id }, data });
   }
 

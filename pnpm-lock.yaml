@@ -587,9 +587,18 @@ importers:
       '@prisma/client':
         specifier: ^6.18.0
         version: 6.18.0(prisma@6.18.0(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)
+      '@puq/crypto':
+        specifier: workspace:*
+        version: link:../crypto
+      '@puq/errors':
+        specifier: workspace:*
+        version: link:../errors
       '@puq/names':
         specifier: workspace:*
         version: link:../names
+      '@puq/types':
+        specifier: workspace:*
+        version: link:../types
       '@swc/helpers':
         specifier: ~0.5.11
         version: 0.5.11
@@ -8014,7 +8023,7 @@ snapshots:
       tslib: 2.8.1
       uid: 2.0.2
     optionalDependencies:
-      '@nestjs/microservices': 11.1.8(@nestjs/common@11.1.8(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)(cache-manager@7.2.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/microservices': 11.1.8(@nestjs/common@11.1.8(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)(cache-manager@7.2.0)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/platform-express': 11.1.8(@nestjs/common@11.1.8(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)
 
   '@nestjs/event-emitter@3.0.1(@nestjs/common@11.1.8(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)':
@@ -8041,6 +8050,18 @@ snapshots:
       tslib: 2.8.1
     optionalDependencies:
       cache-manager: 7.2.2
+    optional: true
+
+  '@nestjs/microservices@11.1.8(@nestjs/common@11.1.8(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)(cache-manager@7.2.0)(reflect-metadata@0.2.2)(rxjs@7.8.2)':
+    dependencies:
+      '@nestjs/common': 11.1.8(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/core': 11.1.8(@nestjs/common@11.1.8(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/microservices@11.1.8)(@nestjs/platform-express@11.1.8)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      iterare: 1.2.1
+      reflect-metadata: 0.2.2
+      rxjs: 7.8.2
+      tslib: 2.8.1
+    optionalDependencies:
+      cache-manager: 7.2.0
     optional: true
 
   '@nestjs/microservices@11.1.8(@nestjs/common@11.1.8(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)(cache-manager@7.2.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)':

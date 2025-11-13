@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Prisma } from '@prisma/client';
+import { NotFoundError } from '@puq/errors';
 import { slugify } from '@puq/names';
 import type { Datamodel } from './helpers.js';
 import {
@@ -32,7 +33,7 @@ export function withSlugify(datamodel: Datamodel) {
               const model = dm.findModel(modelName);
 
               if (!model) {
-                throw new Error(`${modelName} is not found!`);
+                throw new NotFoundError(modelName);
               }
 
               const mm = new ModelManager(model);

@@ -36,3 +36,11 @@ export interface Filter<T> {
 export interface Printer {
   print(): string;
 }
+
+export interface Encoder {
+  encode<T, R>(data: T): R;
+}
+
+export interface Decoder {
+  decode<T, R>(data: T): R;
+}

@@ -4,9 +4,9 @@ import type { Datamodel } from './helpers.js';
 import { DatamodelManager, isFindOperation, ModelManager } from './helpers.js';
 
 /**
- * Analize database models and integrate soft-delete feature to the compatible database models
+ * Add soft-delete functionality to database models with "deletedAt" column
  * @param datamodel
- * @returns
+ * @returns PrismaClientExtends
  */
 export function withSoftDelete(datamodel: Datamodel) {
   const dm = new DatamodelManager(datamodel);

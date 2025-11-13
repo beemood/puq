@@ -4,6 +4,10 @@ export type Datamodel = Omit<DMMF.Datamodel, 'indexes'>;
 export type Model = DMMF.Model;
 export type Field = DMMF.Field;
 
+export function isInputOperation(operation: string) {
+  return operation.startsWith('update') || operation.startsWith('create');
+}
+
 export function isCreateOperation(operation: string) {
   return (operation as Operation) === 'create';
 }
@@ -14,6 +18,10 @@ export function isCreateManyOperation(operation: string) {
 
 export function isUpdateOperation(operation: string) {
   return (operation as Operation) === 'update';
+}
+
+export function isModifyOperation(operation: string) {
+  return operation.startsWith('update') || operation.startsWith('delete');
 }
 
 export function isUpdateManyOperation(operation: string) {
@@ -68,6 +76,26 @@ export class ModelManager {
     return field.name === 'slug' || field.documentation?.includes('@slug');
   }
 
+  protected isHashField(field: Field) {
+    return (
+      field.name === 'password' ||
+      field.name === 'pin' ||
+      field.documentation?.includes('@hash')
+    );
+  }
+
+  protected isSensitiveField(field: Field) {
+    return field.documentation?.includes('@senstive');
+  }
+
+  findHashFields() {
+    return this.model.fields.filter(this.isHashField);
+  }
+
+  findSenstiveFields() {
+    return this.model.fields.filter(this.isSensitiveField);
+  }
+
   findSlugTarget() {
     return this.model.fields
       .filter(this.isSlugField)
@@ -88,5 +116,11 @@ export class ModelManager {
           e.name === 'deletedAt' || e.documentation?.includes('@deletedAt')
         );
       });
+  }
+
+  findReadonlyField() {
+    return this.model.fields
+      .filter((e) => e.type === 'Boolean')
+      .find((e) => e.name === 'readonly');
   }
 }
