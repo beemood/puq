@@ -4,7 +4,12 @@
 
 # @puq/prisma-extentions
 
-prisma-extentions
+Prisma extentions 
+
+- Encription extention 
+- Hash extention
+- Slugify extention 
+- Soft-delete extention 
 
 [Contact us](mailto:robert.brightline@gmail.com?subject=@puq/prisma-extentions)
 

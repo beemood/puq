@@ -10,7 +10,7 @@ import { DatamodelManager, isInputOperation, ModelManager } from './helpers.js';
  * @param datamodel
  * @returns PrismaClient
  */
-export function withEncription(datamodel: Datamodel, encriptor: Encoder) {
+export function withEncription(datamodel: Datamodel, encoder: Encoder) {
   const datamodelManager = new DatamodelManager(datamodel);
 
   return Prisma.defineExtension((client) => {
@@ -38,7 +38,7 @@ export function withEncription(datamodel: Datamodel, encriptor: Encoder) {
                 for (const field of fields) {
                   const fieldValue = data[field.name];
                   if (fieldValue != undefined) {
-                    const encodedValue = await encriptor.encode(fieldValue);
+                    const encodedValue = await encoder.encode(fieldValue);
                     data = {
                       ...data,
                       [field.name]: encodedValue,

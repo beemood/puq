@@ -12,6 +12,48 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Customer {
+  /// Unique local integer identifier (system-input)
+  id Int @id @default(autoincrement())
+
+  /// Customer uuid (get this from crm)
+  uuid String @db.Uuid
+
+  /// Defines the creation timestamp (system-input)
+  createdAt DateTime @default(now())
+
+  /// Defines the modification timestamp (system-input)
+  updatedAt DateTime @updatedAt
+
+  /// Defines deletion timestamp (system-input)
+  deletedAt DateTime?
+
+  customerDiscounts CustomerDiscount[]
+
+  /// Defines if the category is readonly
+  /// which means it cannot be updated by the client application
+  /// This field is to protect the default categories data (common categories provided by the system) from deletion.
+  readonly Boolean @default(false)
+}
+
+model CustomerGroup {
+  /// Unique local integer identifier (system-input)
+  id Int @id @default(autoincrement())
+
+  /// Customer group uuid (get this from crm)
+  uuid String @db.Uuid
+
+  /// Defines the creation timestamp (system-input)
+  createdAt DateTime @default(now())
+
+  /// Defines the modification timestamp (system-input)
+  updatedAt DateTime @updatedAt
+
+  /// Defines deletion timestamp (system-input)
+  deletedAt              DateTime?
+  customerGroupDiscounts CustomerGroupDiscount[]
+}
+
 // Locations
 model Store {
   /// Unique local integer identifier (system-input)
@@ -495,8 +537,13 @@ model Discount {
   categoryDiscounts CategoryDiscount[]
 
   /// List of product-type-discount map
-
   productTypeDiscounts ProductTypeDiscount[]
+
+  /// List of customer-discount map
+  customerDiscounts CustomerDiscount[]
+
+  /// List of customer-group map
+  customerGroupDiscounts CustomerGroupDiscount[]
 
   /// Defines if the entry is readonly or not
   /// Readonly entries cannot be updated by the client application
@@ -602,6 +649,50 @@ model ProductTypeDiscount {
 
   @@unique([productTypeId, discountId])
   @@index([productTypeId])
+}
+
+model CustomerDiscount {
+  /// Unique local integer identifier (system-input)
+  id Int @id @default(autoincrement())
+
+  /// Defines the creation timestamp (system-input)
+  createdAt DateTime @default(now())
+
+  /// Defines the modification timestamp (system-input)
+  updatedAt DateTime @updatedAt
+
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId Int
+
+  discount   Discount @relation(fields: [discountId], references: [id])
+  discountId Int
+
+  /// Defines if the entry is readonly or not
+  /// Readonly entries cannot be updated by the client application
+  readonly Boolean @default(false)
+
+  @@unique([customerId, discountId])
+  @@index([customerId])
+}
+
+model CustomerGroupDiscount {
+  /// Unique local integer identifier (system-input)
+  id Int @id @default(autoincrement())
+
+  /// Defines the creation timestamp (system-input)
+  createdAt DateTime @default(now())
+
+  /// Defines the modification timestamp (system-input)
+  updatedAt DateTime @updatedAt
+
+  customerGroup   CustomerGroup @relation(fields: [customerGroupId], references: [id])
+  customerGroupId Int
+
+  discount   Discount @relation(fields: [discountId], references: [id])
+  discountId Int
+
+  @@unique([customerGroupId, discountId])
+  @@index([customerGroupId])
 }
 
 // Tax tables
