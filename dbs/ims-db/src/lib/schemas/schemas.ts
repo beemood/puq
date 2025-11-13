@@ -26,75 +26,81 @@ export const OperatorType = z.enum([ 'USER', 'SYSTEM' ])
 export type OperatorTypeType = z.infer<typeof OperatorType>; 
 
   /**
+   * EmployeeField schema (Thu Nov 13 2025)
+   */
+export const EmployeeField = z.enum([ 'id', 'uuid', 'createdAt', 'updatedAt', 'deletedAt', 'employeeId' ])
+export type EmployeeFieldType = z.infer<typeof EmployeeField>; 
+
+  /**
    * CustomerField schema (Thu Nov 13 2025)
    */
-export const CustomerField = z.enum([ 'id', 'uuid', 'createdAt', 'updatedAt', 'deletedAt', 'updatedBy', 'readonly' ])
+export const CustomerField = z.enum([ 'id', 'uuid', 'createdAt', 'updatedAt', 'deletedAt', 'updatedById', 'readonly' ])
 export type CustomerFieldType = z.infer<typeof CustomerField>; 
 
   /**
    * CustomerGroupField schema (Thu Nov 13 2025)
    */
-export const CustomerGroupField = z.enum([ 'id', 'uuid', 'createdAt', 'updatedAt', 'deletedAt' ])
+export const CustomerGroupField = z.enum([ 'id', 'uuid', 'createdAt', 'updatedAt', 'deletedAt', 'readonly' ])
 export type CustomerGroupFieldType = z.infer<typeof CustomerGroupField>; 
 
   /**
    * StoreField schema (Thu Nov 13 2025)
    */
-export const StoreField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'updatedBy', 'name', 'description', 'slug', 'readonly' ])
+export const StoreField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'name', 'description', 'slug', 'readonly', 'updatedById' ])
 export type StoreFieldType = z.infer<typeof StoreField>; 
 
   /**
    * ShelfField schema (Thu Nov 13 2025)
    */
-export const ShelfField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'updatedBy', 'name', 'description', 'aisle', 'rack', 'level', 'storeId', 'readonly' ])
+export const ShelfField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'updatedById', 'name', 'description', 'aisle', 'rack', 'level', 'storeId', 'readonly' ])
 export type ShelfFieldType = z.infer<typeof ShelfField>; 
 
   /**
    * CategoryField schema (Thu Nov 13 2025)
    */
-export const CategoryField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'updatedBy', 'name', 'description', 'slug', 'parentId', 'readonly' ])
+export const CategoryField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'updatedById', 'name', 'description', 'slug', 'parentId', 'readonly' ])
 export type CategoryFieldType = z.infer<typeof CategoryField>; 
 
   /**
    * TagField schema (Thu Nov 13 2025)
    */
-export const TagField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'updatedBy', 'name' ])
+export const TagField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'updatedById', 'name', 'slug' ])
 export type TagFieldType = z.infer<typeof TagField>; 
 
   /**
    * ProductTagField schema (Thu Nov 13 2025)
    */
-export const ProductTagField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'updatedBy', 'productId', 'tagId' ])
+export const ProductTagField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'updatedById', 'productId', 'tagId' ])
 export type ProductTagFieldType = z.infer<typeof ProductTagField>; 
 
   /**
    * ProductField schema (Thu Nov 13 2025)
    */
-export const ProductField = z.enum([ 'id', 'uuid', 'createdAt', 'updatedAt', 'deletedAt', 'updatedBy', 'name', 'description', 'slug', 'sku', 'upc', 'model', 'categoryId', 'typeId', 'parentId', 'readonly' ])
+export const ProductField = z.enum([ 'id', 'uuid', 'createdAt', 'updatedAt', 'deletedAt', 'updatedById', 'name', 'description', 'slug', 'sku', 'upc', 'model', 'categoryId', 'typeId', 'parentId', 'readonly' ])
 export type ProductFieldType = z.infer<typeof ProductField>; 
 
   /**
    * QuantityField schema (Thu Nov 13 2025)
    */
-export const QuantityField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'updatedBy', 'quantity', 'minQuantity', 'productId', 'storeId', 'readonly' ])
+export const QuantityField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'updatedById', 'quantity', 'minQuantity', 'productId', 'storeId', 'readonly' ])
 export type QuantityFieldType = z.infer<typeof QuantityField>; 
 
   /**
    * SerialNumberField schema (Thu Nov 13 2025)
    */
-export const SerialNumberField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'updatedBy', 'serialNumber', 'isInStock', 'productId', 'storeId', 'readonly' ])
+export const SerialNumberField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'updatedById', 'serialNumber', 'isInStock', 'productId', 'storeId', 'readonly' ])
 export type SerialNumberFieldType = z.infer<typeof SerialNumberField>; 
 
   /**
    * PriceField schema (Thu Nov 13 2025)
    */
-export const PriceField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'updatedBy', 'price', 'effectiveFrom', 'effectiveTo', 'productId', 'readonly' ])
+export const PriceField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'updatedById', 'price', 'effectiveFrom', 'effectiveTo', 'productId', 'readonly' ])
 export type PriceFieldType = z.infer<typeof PriceField>; 
 
   /**
    * DiscountField schema (Thu Nov 13 2025)
    */
-export const DiscountField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'updatedBy', 'name', 'code', 'description', 'discountValue', 'minQuantity', 'minSubtotal', 'effectiveFrom', 'effectiveTo', 'target', 'productId', 'readonly' ])
+export const DiscountField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'updatedById', 'name', 'code', 'description', 'discountValue', 'minQuantity', 'minSubtotal', 'effectiveFrom', 'effectiveTo', 'target', 'productId', 'readonly' ])
 export type DiscountFieldType = z.infer<typeof DiscountField>; 
 
   /**
@@ -136,19 +142,19 @@ export type CustomerGroupDiscountFieldType = z.infer<typeof CustomerGroupDiscoun
   /**
    * ProductTypeField schema (Thu Nov 13 2025)
    */
-export const ProductTypeField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'updatedBy', 'name', 'description', 'readonly' ])
+export const ProductTypeField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'updatedById', 'name', 'description', 'readonly' ])
 export type ProductTypeFieldType = z.infer<typeof ProductTypeField>; 
 
   /**
    * JurisdictionField schema (Thu Nov 13 2025)
    */
-export const JurisdictionField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'updatedBy', 'fipsCode', 'name', 'level', 'parentId', 'readonly' ])
+export const JurisdictionField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'fipsCode', 'name', 'level', 'parentId', 'readonly', 'updatedById' ])
 export type JurisdictionFieldType = z.infer<typeof JurisdictionField>; 
 
   /**
    * TaxRateField schema (Thu Nov 13 2025)
    */
-export const TaxRateField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'updatedBy', 'percentRate', 'fixedRate', 'description', 'effectiveFrom', 'effectiveTo', 'jurisdictionId', 'productTypeId', 'readonly' ])
+export const TaxRateField = z.enum([ 'id', 'createdAt', 'updatedAt', 'deletedAt', 'updatedById', 'percentRate', 'fixedRate', 'description', 'effectiveFrom', 'effectiveTo', 'jurisdictionId', 'productTypeId', 'readonly' ])
 export type TaxRateFieldType = z.infer<typeof TaxRateField>; 
 
   /**
@@ -250,75 +256,81 @@ export const OperatorTypeArrayFilter = z.object({
 export type OperatorTypeArrayFilterType = z.infer<typeof OperatorTypeArrayFilter>; 
 
   /**
+   * EmployeeOmit schema (Thu Nov 13 2025)
+   */
+export const EmployeeOmit = z.object({ id: P.bool, uuid: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, employeeId: P.bool }).partial()
+export type EmployeeOmitType = z.infer<typeof EmployeeOmit>; 
+
+  /**
    * CustomerOmit schema (Thu Nov 13 2025)
    */
-export const CustomerOmit = z.object({ id: P.bool, uuid: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedBy: P.bool, readonly: P.bool }).partial()
+export const CustomerOmit = z.object({ id: P.bool, uuid: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedById: P.bool, readonly: P.bool }).partial()
 export type CustomerOmitType = z.infer<typeof CustomerOmit>; 
 
   /**
    * CustomerGroupOmit schema (Thu Nov 13 2025)
    */
-export const CustomerGroupOmit = z.object({ id: P.bool, uuid: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool }).partial()
+export const CustomerGroupOmit = z.object({ id: P.bool, uuid: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, readonly: P.bool }).partial()
 export type CustomerGroupOmitType = z.infer<typeof CustomerGroupOmit>; 
 
   /**
    * StoreOmit schema (Thu Nov 13 2025)
    */
-export const StoreOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedBy: P.bool, name: P.bool, description: P.bool, slug: P.bool, readonly: P.bool }).partial()
+export const StoreOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, name: P.bool, description: P.bool, slug: P.bool, readonly: P.bool, updatedById: P.bool }).partial()
 export type StoreOmitType = z.infer<typeof StoreOmit>; 
 
   /**
    * ShelfOmit schema (Thu Nov 13 2025)
    */
-export const ShelfOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedBy: P.bool, name: P.bool, description: P.bool, aisle: P.bool, rack: P.bool, level: P.bool, storeId: P.bool, readonly: P.bool }).partial()
+export const ShelfOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedById: P.bool, name: P.bool, description: P.bool, aisle: P.bool, rack: P.bool, level: P.bool, storeId: P.bool, readonly: P.bool }).partial()
 export type ShelfOmitType = z.infer<typeof ShelfOmit>; 
 
   /**
    * CategoryOmit schema (Thu Nov 13 2025)
    */
-export const CategoryOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedBy: P.bool, name: P.bool, description: P.bool, slug: P.bool, parentId: P.bool, readonly: P.bool }).partial()
+export const CategoryOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedById: P.bool, name: P.bool, description: P.bool, slug: P.bool, parentId: P.bool, readonly: P.bool }).partial()
 export type CategoryOmitType = z.infer<typeof CategoryOmit>; 
 
   /**
    * TagOmit schema (Thu Nov 13 2025)
    */
-export const TagOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedBy: P.bool, name: P.bool }).partial()
+export const TagOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedById: P.bool, name: P.bool, slug: P.bool }).partial()
 export type TagOmitType = z.infer<typeof TagOmit>; 
 
   /**
    * ProductTagOmit schema (Thu Nov 13 2025)
    */
-export const ProductTagOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedBy: P.bool, productId: P.bool, tagId: P.bool }).partial()
+export const ProductTagOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedById: P.bool, productId: P.bool, tagId: P.bool }).partial()
 export type ProductTagOmitType = z.infer<typeof ProductTagOmit>; 
 
   /**
    * ProductOmit schema (Thu Nov 13 2025)
    */
-export const ProductOmit = z.object({ id: P.bool, uuid: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedBy: P.bool, name: P.bool, description: P.bool, slug: P.bool, sku: P.bool, upc: P.bool, model: P.bool, categoryId: P.bool, typeId: P.bool, parentId: P.bool, readonly: P.bool }).partial()
+export const ProductOmit = z.object({ id: P.bool, uuid: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedById: P.bool, name: P.bool, description: P.bool, slug: P.bool, sku: P.bool, upc: P.bool, model: P.bool, categoryId: P.bool, typeId: P.bool, parentId: P.bool, readonly: P.bool }).partial()
 export type ProductOmitType = z.infer<typeof ProductOmit>; 
 
   /**
    * QuantityOmit schema (Thu Nov 13 2025)
    */
-export const QuantityOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedBy: P.bool, quantity: P.bool, minQuantity: P.bool, productId: P.bool, storeId: P.bool, readonly: P.bool }).partial()
+export const QuantityOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedById: P.bool, quantity: P.bool, minQuantity: P.bool, productId: P.bool, storeId: P.bool, readonly: P.bool }).partial()
 export type QuantityOmitType = z.infer<typeof QuantityOmit>; 
 
   /**
    * SerialNumberOmit schema (Thu Nov 13 2025)
    */
-export const SerialNumberOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedBy: P.bool, serialNumber: P.bool, isInStock: P.bool, productId: P.bool, storeId: P.bool, readonly: P.bool }).partial()
+export const SerialNumberOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedById: P.bool, serialNumber: P.bool, isInStock: P.bool, productId: P.bool, storeId: P.bool, readonly: P.bool }).partial()
 export type SerialNumberOmitType = z.infer<typeof SerialNumberOmit>; 
 
   /**
    * PriceOmit schema (Thu Nov 13 2025)
    */
-export const PriceOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedBy: P.bool, price: P.bool, effectiveFrom: P.bool, effectiveTo: P.bool, productId: P.bool, readonly: P.bool }).partial()
+export const PriceOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedById: P.bool, price: P.bool, effectiveFrom: P.bool, effectiveTo: P.bool, productId: P.bool, readonly: P.bool }).partial()
 export type PriceOmitType = z.infer<typeof PriceOmit>; 
 
   /**
    * DiscountOmit schema (Thu Nov 13 2025)
    */
-export const DiscountOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedBy: P.bool, name: P.bool, code: P.bool, description: P.bool, discountValue: P.bool, minQuantity: P.bool, minSubtotal: P.bool, effectiveFrom: P.bool, effectiveTo: P.bool, target: P.bool, productId: P.bool, readonly: P.bool }).partial()
+export const DiscountOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedById: P.bool, name: P.bool, code: P.bool, description: P.bool, discountValue: P.bool, minQuantity: P.bool, minSubtotal: P.bool, effectiveFrom: P.bool, effectiveTo: P.bool, target: P.bool, productId: P.bool, readonly: P.bool }).partial()
 export type DiscountOmitType = z.infer<typeof DiscountOmit>; 
 
   /**
@@ -360,19 +372,19 @@ export type CustomerGroupDiscountOmitType = z.infer<typeof CustomerGroupDiscount
   /**
    * ProductTypeOmit schema (Thu Nov 13 2025)
    */
-export const ProductTypeOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedBy: P.bool, name: P.bool, description: P.bool, readonly: P.bool }).partial()
+export const ProductTypeOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedById: P.bool, name: P.bool, description: P.bool, readonly: P.bool }).partial()
 export type ProductTypeOmitType = z.infer<typeof ProductTypeOmit>; 
 
   /**
    * JurisdictionOmit schema (Thu Nov 13 2025)
    */
-export const JurisdictionOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedBy: P.bool, fipsCode: P.bool, name: P.bool, level: P.bool, parentId: P.bool, readonly: P.bool }).partial()
+export const JurisdictionOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, fipsCode: P.bool, name: P.bool, level: P.bool, parentId: P.bool, readonly: P.bool, updatedById: P.bool }).partial()
 export type JurisdictionOmitType = z.infer<typeof JurisdictionOmit>; 
 
   /**
    * TaxRateOmit schema (Thu Nov 13 2025)
    */
-export const TaxRateOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedBy: P.bool, percentRate: P.bool, fixedRate: P.bool, description: P.bool, effectiveFrom: P.bool, effectiveTo: P.bool, jurisdictionId: P.bool, productTypeId: P.bool, readonly: P.bool }).partial()
+export const TaxRateOmit = z.object({ id: P.bool, createdAt: P.bool, updatedAt: P.bool, deletedAt: P.bool, updatedById: P.bool, percentRate: P.bool, fixedRate: P.bool, description: P.bool, effectiveFrom: P.bool, effectiveTo: P.bool, jurisdictionId: P.bool, productTypeId: P.bool, readonly: P.bool }).partial()
 export type TaxRateOmitType = z.infer<typeof TaxRateOmit>; 
 
   /**
@@ -380,6 +392,12 @@ export type TaxRateOmitType = z.infer<typeof TaxRateOmit>;
    */
 export const LogOmit = z.object({ id: P.bool, timestamp: P.bool, operatorId: P.bool, operatorType: P.bool, operationType: P.bool, recordName: P.bool, recordId: P.bool, difference: P.bool, readonly: P.bool }).partial()
 export type LogOmitType = z.infer<typeof LogOmit>; 
+
+  /**
+   * EmployeeSelectOwn schema (Thu Nov 13 2025)
+   */
+export const EmployeeSelectOwn = EmployeeOmit
+export type EmployeeSelectOwnType = z.infer<typeof EmployeeSelectOwn>; 
 
   /**
    * CustomerSelectOwn schema (Thu Nov 13 2025)
@@ -514,9 +532,15 @@ export const LogSelectOwn = LogOmit
 export type LogSelectOwnType = z.infer<typeof LogSelectOwn>; 
 
   /**
+   * EmployeeInclude schema (Thu Nov 13 2025)
+   */
+export const EmployeeInclude = z.object({ updatedBy: z.object({ select :EmployeeSelectOwn }).or(P.bool), updatedCustomers: z.object({ select :CustomerSelectOwn }).or(P.bool), updatedStores: z.object({ select :StoreSelectOwn }).or(P.bool), updatedShelves: z.object({ select :ShelfSelectOwn }).or(P.bool), updatedCategories: z.object({ select :CategorySelectOwn }).or(P.bool), updatedTags: z.object({ select :TagSelectOwn }).or(P.bool), updatedProducttags: z.object({ select :ProductTagSelectOwn }).or(P.bool), updatedProducts: z.object({ select :ProductSelectOwn }).or(P.bool), updatedQuantities: z.object({ select :QuantitySelectOwn }).or(P.bool), updatedSerialnumbers: z.object({ select :SerialNumberSelectOwn }).or(P.bool), updatedPrices: z.object({ select :PriceSelectOwn }).or(P.bool), updatedDiscounts: z.object({ select :DiscountSelectOwn }).or(P.bool), updatedProducttypes: z.object({ select :ProductTypeSelectOwn }).or(P.bool), updatedJurisdictions: z.object({ select :JurisdictionSelectOwn }).or(P.bool), updatedTaxrates: z.object({ select :TaxRateSelectOwn }).or(P.bool), updatedEmployees: z.object({ select :EmployeeSelectOwn }).or(P.bool) }).partial()
+export type EmployeeIncludeType = z.infer<typeof EmployeeInclude>; 
+
+  /**
    * CustomerInclude schema (Thu Nov 13 2025)
    */
-export const CustomerInclude = z.object({ customerDiscounts: z.object({ select :CustomerDiscountSelectOwn }).or(P.bool) }).partial()
+export const CustomerInclude = z.object({ updatedBy: z.object({ select :EmployeeSelectOwn }).or(P.bool), customerDiscounts: z.object({ select :CustomerDiscountSelectOwn }).or(P.bool) }).partial()
 export type CustomerIncludeType = z.infer<typeof CustomerInclude>; 
 
   /**
@@ -528,61 +552,61 @@ export type CustomerGroupIncludeType = z.infer<typeof CustomerGroupInclude>;
   /**
    * StoreInclude schema (Thu Nov 13 2025)
    */
-export const StoreInclude = z.object({ quantities: z.object({ select :QuantitySelectOwn }).or(P.bool), serials: z.object({ select :SerialNumberSelectOwn }).or(P.bool), shelves: z.object({ select :ShelfSelectOwn }).or(P.bool), storeDiscounts: z.object({ select :StoreDiscountSelectOwn }).or(P.bool) }).partial()
+export const StoreInclude = z.object({ quantities: z.object({ select :QuantitySelectOwn }).or(P.bool), serials: z.object({ select :SerialNumberSelectOwn }).or(P.bool), shelves: z.object({ select :ShelfSelectOwn }).or(P.bool), storeDiscounts: z.object({ select :StoreDiscountSelectOwn }).or(P.bool), updatedBy: z.object({ select :EmployeeSelectOwn }).or(P.bool) }).partial()
 export type StoreIncludeType = z.infer<typeof StoreInclude>; 
 
   /**
    * ShelfInclude schema (Thu Nov 13 2025)
    */
-export const ShelfInclude = z.object({ store: z.object({ select :StoreSelectOwn }).or(P.bool) }).partial()
+export const ShelfInclude = z.object({ updatedBy: z.object({ select :EmployeeSelectOwn }).or(P.bool), store: z.object({ select :StoreSelectOwn }).or(P.bool) }).partial()
 export type ShelfIncludeType = z.infer<typeof ShelfInclude>; 
 
   /**
    * CategoryInclude schema (Thu Nov 13 2025)
    */
-export const CategoryInclude = z.object({ parent: z.object({ select :CategorySelectOwn }).or(P.bool), children: z.object({ select :CategorySelectOwn }).or(P.bool), products: z.object({ select :ProductSelectOwn }).or(P.bool), categoryDiscounts: z.object({ select :CategoryDiscountSelectOwn }).or(P.bool) }).partial()
+export const CategoryInclude = z.object({ updatedBy: z.object({ select :EmployeeSelectOwn }).or(P.bool), parent: z.object({ select :CategorySelectOwn }).or(P.bool), children: z.object({ select :CategorySelectOwn }).or(P.bool), products: z.object({ select :ProductSelectOwn }).or(P.bool), categoryDiscounts: z.object({ select :CategoryDiscountSelectOwn }).or(P.bool) }).partial()
 export type CategoryIncludeType = z.infer<typeof CategoryInclude>; 
 
   /**
    * TagInclude schema (Thu Nov 13 2025)
    */
-export const TagInclude = z.object({ productTags: z.object({ select :ProductTagSelectOwn }).or(P.bool) }).partial()
+export const TagInclude = z.object({ updatedBy: z.object({ select :EmployeeSelectOwn }).or(P.bool), productTags: z.object({ select :ProductTagSelectOwn }).or(P.bool) }).partial()
 export type TagIncludeType = z.infer<typeof TagInclude>; 
 
   /**
    * ProductTagInclude schema (Thu Nov 13 2025)
    */
-export const ProductTagInclude = z.object({ product: z.object({ select :ProductSelectOwn }).or(P.bool), tag: z.object({ select :TagSelectOwn }).or(P.bool) }).partial()
+export const ProductTagInclude = z.object({ updatedBy: z.object({ select :EmployeeSelectOwn }).or(P.bool), product: z.object({ select :ProductSelectOwn }).or(P.bool), tag: z.object({ select :TagSelectOwn }).or(P.bool) }).partial()
 export type ProductTagIncludeType = z.infer<typeof ProductTagInclude>; 
 
   /**
    * ProductInclude schema (Thu Nov 13 2025)
    */
-export const ProductInclude = z.object({ category: z.object({ select :CategorySelectOwn }).or(P.bool), type: z.object({ select :ProductTypeSelectOwn }).or(P.bool), parent: z.object({ select :ProductSelectOwn }).or(P.bool), variants: z.object({ select :ProductSelectOwn }).or(P.bool), quantities: z.object({ select :QuantitySelectOwn }).or(P.bool), serialNumbers: z.object({ select :SerialNumberSelectOwn }).or(P.bool), prices: z.object({ select :PriceSelectOwn }).or(P.bool), productTags: z.object({ select :ProductTagSelectOwn }).or(P.bool), discounts: z.object({ select :ProductDiscountSelectOwn }).or(P.bool), ownDiscounts: z.object({ select :DiscountSelectOwn }).or(P.bool) }).partial()
+export const ProductInclude = z.object({ updatedBy: z.object({ select :EmployeeSelectOwn }).or(P.bool), category: z.object({ select :CategorySelectOwn }).or(P.bool), type: z.object({ select :ProductTypeSelectOwn }).or(P.bool), parent: z.object({ select :ProductSelectOwn }).or(P.bool), variants: z.object({ select :ProductSelectOwn }).or(P.bool), quantities: z.object({ select :QuantitySelectOwn }).or(P.bool), serialNumbers: z.object({ select :SerialNumberSelectOwn }).or(P.bool), prices: z.object({ select :PriceSelectOwn }).or(P.bool), productTags: z.object({ select :ProductTagSelectOwn }).or(P.bool), discounts: z.object({ select :ProductDiscountSelectOwn }).or(P.bool), ownDiscounts: z.object({ select :DiscountSelectOwn }).or(P.bool) }).partial()
 export type ProductIncludeType = z.infer<typeof ProductInclude>; 
 
   /**
    * QuantityInclude schema (Thu Nov 13 2025)
    */
-export const QuantityInclude = z.object({ product: z.object({ select :ProductSelectOwn }).or(P.bool), store: z.object({ select :StoreSelectOwn }).or(P.bool) }).partial()
+export const QuantityInclude = z.object({ updatedBy: z.object({ select :EmployeeSelectOwn }).or(P.bool), product: z.object({ select :ProductSelectOwn }).or(P.bool), store: z.object({ select :StoreSelectOwn }).or(P.bool) }).partial()
 export type QuantityIncludeType = z.infer<typeof QuantityInclude>; 
 
   /**
    * SerialNumberInclude schema (Thu Nov 13 2025)
    */
-export const SerialNumberInclude = z.object({ product: z.object({ select :ProductSelectOwn }).or(P.bool), store: z.object({ select :StoreSelectOwn }).or(P.bool) }).partial()
+export const SerialNumberInclude = z.object({ updatedBy: z.object({ select :EmployeeSelectOwn }).or(P.bool), product: z.object({ select :ProductSelectOwn }).or(P.bool), store: z.object({ select :StoreSelectOwn }).or(P.bool) }).partial()
 export type SerialNumberIncludeType = z.infer<typeof SerialNumberInclude>; 
 
   /**
    * PriceInclude schema (Thu Nov 13 2025)
    */
-export const PriceInclude = z.object({ product: z.object({ select :ProductSelectOwn }).or(P.bool) }).partial()
+export const PriceInclude = z.object({ updatedBy: z.object({ select :EmployeeSelectOwn }).or(P.bool), product: z.object({ select :ProductSelectOwn }).or(P.bool) }).partial()
 export type PriceIncludeType = z.infer<typeof PriceInclude>; 
 
   /**
    * DiscountInclude schema (Thu Nov 13 2025)
    */
-export const DiscountInclude = z.object({ product: z.object({ select :ProductSelectOwn }).or(P.bool), productDiscounts: z.object({ select :ProductDiscountSelectOwn }).or(P.bool), storeDiscounts: z.object({ select :StoreDiscountSelectOwn }).or(P.bool), categoryDiscounts: z.object({ select :CategoryDiscountSelectOwn }).or(P.bool), productTypeDiscounts: z.object({ select :ProductTypeDiscountSelectOwn }).or(P.bool), customerDiscounts: z.object({ select :CustomerDiscountSelectOwn }).or(P.bool), customerGroupDiscounts: z.object({ select :CustomerGroupDiscountSelectOwn }).or(P.bool) }).partial()
+export const DiscountInclude = z.object({ updatedBy: z.object({ select :EmployeeSelectOwn }).or(P.bool), product: z.object({ select :ProductSelectOwn }).or(P.bool), productDiscounts: z.object({ select :ProductDiscountSelectOwn }).or(P.bool), storeDiscounts: z.object({ select :StoreDiscountSelectOwn }).or(P.bool), categoryDiscounts: z.object({ select :CategoryDiscountSelectOwn }).or(P.bool), productTypeDiscounts: z.object({ select :ProductTypeDiscountSelectOwn }).or(P.bool), customerDiscounts: z.object({ select :CustomerDiscountSelectOwn }).or(P.bool), customerGroupDiscounts: z.object({ select :CustomerGroupDiscountSelectOwn }).or(P.bool) }).partial()
 export type DiscountIncludeType = z.infer<typeof DiscountInclude>; 
 
   /**
@@ -624,19 +648,19 @@ export type CustomerGroupDiscountIncludeType = z.infer<typeof CustomerGroupDisco
   /**
    * ProductTypeInclude schema (Thu Nov 13 2025)
    */
-export const ProductTypeInclude = z.object({ products: z.object({ select :ProductSelectOwn }).or(P.bool), taxRates: z.object({ select :TaxRateSelectOwn }).or(P.bool), productTypeDiscounts: z.object({ select :ProductTypeDiscountSelectOwn }).or(P.bool) }).partial()
+export const ProductTypeInclude = z.object({ updatedBy: z.object({ select :EmployeeSelectOwn }).or(P.bool), products: z.object({ select :ProductSelectOwn }).or(P.bool), taxRates: z.object({ select :TaxRateSelectOwn }).or(P.bool), productTypeDiscounts: z.object({ select :ProductTypeDiscountSelectOwn }).or(P.bool) }).partial()
 export type ProductTypeIncludeType = z.infer<typeof ProductTypeInclude>; 
 
   /**
    * JurisdictionInclude schema (Thu Nov 13 2025)
    */
-export const JurisdictionInclude = z.object({ parent: z.object({ select :JurisdictionSelectOwn }).or(P.bool), children: z.object({ select :JurisdictionSelectOwn }).or(P.bool), taxRates: z.object({ select :TaxRateSelectOwn }).or(P.bool) }).partial()
+export const JurisdictionInclude = z.object({ parent: z.object({ select :JurisdictionSelectOwn }).or(P.bool), children: z.object({ select :JurisdictionSelectOwn }).or(P.bool), taxRates: z.object({ select :TaxRateSelectOwn }).or(P.bool), updatedBy: z.object({ select :EmployeeSelectOwn }).or(P.bool) }).partial()
 export type JurisdictionIncludeType = z.infer<typeof JurisdictionInclude>; 
 
   /**
    * TaxRateInclude schema (Thu Nov 13 2025)
    */
-export const TaxRateInclude = z.object({ jurisdiction: z.object({ select :JurisdictionSelectOwn }).or(P.bool), productType: z.object({ select :ProductTypeSelectOwn }).or(P.bool) }).partial()
+export const TaxRateInclude = z.object({ updatedBy: z.object({ select :EmployeeSelectOwn }).or(P.bool), jurisdiction: z.object({ select :JurisdictionSelectOwn }).or(P.bool), productType: z.object({ select :ProductTypeSelectOwn }).or(P.bool) }).partial()
 export type TaxRateIncludeType = z.infer<typeof TaxRateInclude>; 
 
   /**
@@ -646,10 +670,18 @@ export const LogInclude = z.object({  }).partial()
 export type LogIncludeType = z.infer<typeof LogInclude>; 
 
   /**
+   * EmployeeOrderByOwn schema (Thu Nov 13 2025)
+   */
+export const EmployeeOrderByOwn = z.object({ 
+    id: P.dir, uuid: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, employeeId: P.dir 
+  }).partial()
+export type EmployeeOrderByOwnType = z.infer<typeof EmployeeOrderByOwn>; 
+
+  /**
    * CustomerOrderByOwn schema (Thu Nov 13 2025)
    */
 export const CustomerOrderByOwn = z.object({ 
-    id: P.dir, uuid: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedBy: P.dir, readonly: P.dir 
+    id: P.dir, uuid: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedById: P.dir, readonly: P.dir 
   }).partial()
 export type CustomerOrderByOwnType = z.infer<typeof CustomerOrderByOwn>; 
 
@@ -657,7 +689,7 @@ export type CustomerOrderByOwnType = z.infer<typeof CustomerOrderByOwn>;
    * CustomerGroupOrderByOwn schema (Thu Nov 13 2025)
    */
 export const CustomerGroupOrderByOwn = z.object({ 
-    id: P.dir, uuid: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir 
+    id: P.dir, uuid: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, readonly: P.dir 
   }).partial()
 export type CustomerGroupOrderByOwnType = z.infer<typeof CustomerGroupOrderByOwn>; 
 
@@ -665,7 +697,7 @@ export type CustomerGroupOrderByOwnType = z.infer<typeof CustomerGroupOrderByOwn
    * StoreOrderByOwn schema (Thu Nov 13 2025)
    */
 export const StoreOrderByOwn = z.object({ 
-    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedBy: P.dir, name: P.dir, description: P.dir, slug: P.dir, readonly: P.dir 
+    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, name: P.dir, description: P.dir, slug: P.dir, readonly: P.dir, updatedById: P.dir 
   }).partial()
 export type StoreOrderByOwnType = z.infer<typeof StoreOrderByOwn>; 
 
@@ -673,7 +705,7 @@ export type StoreOrderByOwnType = z.infer<typeof StoreOrderByOwn>;
    * ShelfOrderByOwn schema (Thu Nov 13 2025)
    */
 export const ShelfOrderByOwn = z.object({ 
-    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedBy: P.dir, name: P.dir, description: P.dir, aisle: P.dir, rack: P.dir, level: P.dir, storeId: P.dir, readonly: P.dir 
+    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedById: P.dir, name: P.dir, description: P.dir, aisle: P.dir, rack: P.dir, level: P.dir, storeId: P.dir, readonly: P.dir 
   }).partial()
 export type ShelfOrderByOwnType = z.infer<typeof ShelfOrderByOwn>; 
 
@@ -681,7 +713,7 @@ export type ShelfOrderByOwnType = z.infer<typeof ShelfOrderByOwn>;
    * CategoryOrderByOwn schema (Thu Nov 13 2025)
    */
 export const CategoryOrderByOwn = z.object({ 
-    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedBy: P.dir, name: P.dir, description: P.dir, slug: P.dir, parentId: P.dir, readonly: P.dir 
+    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedById: P.dir, name: P.dir, description: P.dir, slug: P.dir, parentId: P.dir, readonly: P.dir 
   }).partial()
 export type CategoryOrderByOwnType = z.infer<typeof CategoryOrderByOwn>; 
 
@@ -689,7 +721,7 @@ export type CategoryOrderByOwnType = z.infer<typeof CategoryOrderByOwn>;
    * TagOrderByOwn schema (Thu Nov 13 2025)
    */
 export const TagOrderByOwn = z.object({ 
-    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedBy: P.dir, name: P.dir 
+    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedById: P.dir, name: P.dir, slug: P.dir 
   }).partial()
 export type TagOrderByOwnType = z.infer<typeof TagOrderByOwn>; 
 
@@ -697,7 +729,7 @@ export type TagOrderByOwnType = z.infer<typeof TagOrderByOwn>;
    * ProductTagOrderByOwn schema (Thu Nov 13 2025)
    */
 export const ProductTagOrderByOwn = z.object({ 
-    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedBy: P.dir, productId: P.dir, tagId: P.dir 
+    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedById: P.dir, productId: P.dir, tagId: P.dir 
   }).partial()
 export type ProductTagOrderByOwnType = z.infer<typeof ProductTagOrderByOwn>; 
 
@@ -705,7 +737,7 @@ export type ProductTagOrderByOwnType = z.infer<typeof ProductTagOrderByOwn>;
    * ProductOrderByOwn schema (Thu Nov 13 2025)
    */
 export const ProductOrderByOwn = z.object({ 
-    id: P.dir, uuid: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedBy: P.dir, name: P.dir, description: P.dir, slug: P.dir, sku: P.dir, upc: P.dir, model: P.dir, categoryId: P.dir, typeId: P.dir, parentId: P.dir, readonly: P.dir 
+    id: P.dir, uuid: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedById: P.dir, name: P.dir, description: P.dir, slug: P.dir, sku: P.dir, upc: P.dir, model: P.dir, categoryId: P.dir, typeId: P.dir, parentId: P.dir, readonly: P.dir 
   }).partial()
 export type ProductOrderByOwnType = z.infer<typeof ProductOrderByOwn>; 
 
@@ -713,7 +745,7 @@ export type ProductOrderByOwnType = z.infer<typeof ProductOrderByOwn>;
    * QuantityOrderByOwn schema (Thu Nov 13 2025)
    */
 export const QuantityOrderByOwn = z.object({ 
-    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedBy: P.dir, quantity: P.dir, minQuantity: P.dir, productId: P.dir, storeId: P.dir, readonly: P.dir 
+    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedById: P.dir, quantity: P.dir, minQuantity: P.dir, productId: P.dir, storeId: P.dir, readonly: P.dir 
   }).partial()
 export type QuantityOrderByOwnType = z.infer<typeof QuantityOrderByOwn>; 
 
@@ -721,7 +753,7 @@ export type QuantityOrderByOwnType = z.infer<typeof QuantityOrderByOwn>;
    * SerialNumberOrderByOwn schema (Thu Nov 13 2025)
    */
 export const SerialNumberOrderByOwn = z.object({ 
-    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedBy: P.dir, serialNumber: P.dir, isInStock: P.dir, productId: P.dir, storeId: P.dir, readonly: P.dir 
+    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedById: P.dir, serialNumber: P.dir, isInStock: P.dir, productId: P.dir, storeId: P.dir, readonly: P.dir 
   }).partial()
 export type SerialNumberOrderByOwnType = z.infer<typeof SerialNumberOrderByOwn>; 
 
@@ -729,7 +761,7 @@ export type SerialNumberOrderByOwnType = z.infer<typeof SerialNumberOrderByOwn>;
    * PriceOrderByOwn schema (Thu Nov 13 2025)
    */
 export const PriceOrderByOwn = z.object({ 
-    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedBy: P.dir, price: P.dir, effectiveFrom: P.dir, effectiveTo: P.dir, productId: P.dir, readonly: P.dir 
+    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedById: P.dir, price: P.dir, effectiveFrom: P.dir, effectiveTo: P.dir, productId: P.dir, readonly: P.dir 
   }).partial()
 export type PriceOrderByOwnType = z.infer<typeof PriceOrderByOwn>; 
 
@@ -737,7 +769,7 @@ export type PriceOrderByOwnType = z.infer<typeof PriceOrderByOwn>;
    * DiscountOrderByOwn schema (Thu Nov 13 2025)
    */
 export const DiscountOrderByOwn = z.object({ 
-    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedBy: P.dir, name: P.dir, code: P.dir, description: P.dir, discountValue: P.dir, minQuantity: P.dir, minSubtotal: P.dir, effectiveFrom: P.dir, effectiveTo: P.dir, target: P.dir, productId: P.dir, readonly: P.dir 
+    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedById: P.dir, name: P.dir, code: P.dir, description: P.dir, discountValue: P.dir, minQuantity: P.dir, minSubtotal: P.dir, effectiveFrom: P.dir, effectiveTo: P.dir, target: P.dir, productId: P.dir, readonly: P.dir 
   }).partial()
 export type DiscountOrderByOwnType = z.infer<typeof DiscountOrderByOwn>; 
 
@@ -793,7 +825,7 @@ export type CustomerGroupDiscountOrderByOwnType = z.infer<typeof CustomerGroupDi
    * ProductTypeOrderByOwn schema (Thu Nov 13 2025)
    */
 export const ProductTypeOrderByOwn = z.object({ 
-    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedBy: P.dir, name: P.dir, description: P.dir, readonly: P.dir 
+    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedById: P.dir, name: P.dir, description: P.dir, readonly: P.dir 
   }).partial()
 export type ProductTypeOrderByOwnType = z.infer<typeof ProductTypeOrderByOwn>; 
 
@@ -801,7 +833,7 @@ export type ProductTypeOrderByOwnType = z.infer<typeof ProductTypeOrderByOwn>;
    * JurisdictionOrderByOwn schema (Thu Nov 13 2025)
    */
 export const JurisdictionOrderByOwn = z.object({ 
-    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedBy: P.dir, fipsCode: P.dir, name: P.dir, level: P.dir, parentId: P.dir, readonly: P.dir 
+    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, fipsCode: P.dir, name: P.dir, level: P.dir, parentId: P.dir, readonly: P.dir, updatedById: P.dir 
   }).partial()
 export type JurisdictionOrderByOwnType = z.infer<typeof JurisdictionOrderByOwn>; 
 
@@ -809,7 +841,7 @@ export type JurisdictionOrderByOwnType = z.infer<typeof JurisdictionOrderByOwn>;
    * TaxRateOrderByOwn schema (Thu Nov 13 2025)
    */
 export const TaxRateOrderByOwn = z.object({ 
-    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedBy: P.dir, percentRate: P.dir, fixedRate: P.dir, description: P.dir, effectiveFrom: P.dir, effectiveTo: P.dir, jurisdictionId: P.dir, productTypeId: P.dir, readonly: P.dir 
+    id: P.dir, createdAt: P.dir, updatedAt: P.dir, deletedAt: P.dir, updatedById: P.dir, percentRate: P.dir, fixedRate: P.dir, description: P.dir, effectiveFrom: P.dir, effectiveTo: P.dir, jurisdictionId: P.dir, productTypeId: P.dir, readonly: P.dir 
   }).partial()
 export type TaxRateOrderByOwnType = z.infer<typeof TaxRateOrderByOwn>; 
 
@@ -822,11 +854,20 @@ export const LogOrderByOwn = z.object({
 export type LogOrderByOwnType = z.infer<typeof LogOrderByOwn>; 
 
   /**
+   * EmployeeOrderBy schema (Thu Nov 13 2025)
+   */
+export const EmployeeOrderBy = z.object({
+    ...EmployeeOrderByOwn.shape, 
+    updatedBy: EmployeeOrderByOwn, updatedCustomers: P.orderByCount, updatedStores: P.orderByCount, updatedShelves: P.orderByCount, updatedCategories: P.orderByCount, updatedTags: P.orderByCount, updatedProducttags: P.orderByCount, updatedProducts: P.orderByCount, updatedQuantities: P.orderByCount, updatedSerialnumbers: P.orderByCount, updatedPrices: P.orderByCount, updatedDiscounts: P.orderByCount, updatedProducttypes: P.orderByCount, updatedJurisdictions: P.orderByCount, updatedTaxrates: P.orderByCount, updatedEmployees: P.orderByCount 
+  }).partial()
+export type EmployeeOrderByType = z.infer<typeof EmployeeOrderBy>; 
+
+  /**
    * CustomerOrderBy schema (Thu Nov 13 2025)
    */
 export const CustomerOrderBy = z.object({
     ...CustomerOrderByOwn.shape, 
-    customerDiscounts: P.orderByCount 
+    updatedBy: EmployeeOrderByOwn, customerDiscounts: P.orderByCount 
   }).partial()
 export type CustomerOrderByType = z.infer<typeof CustomerOrderBy>; 
 
@@ -844,7 +885,7 @@ export type CustomerGroupOrderByType = z.infer<typeof CustomerGroupOrderBy>;
    */
 export const StoreOrderBy = z.object({
     ...StoreOrderByOwn.shape, 
-    quantities: P.orderByCount, serials: P.orderByCount, shelves: P.orderByCount, storeDiscounts: P.orderByCount 
+    quantities: P.orderByCount, serials: P.orderByCount, shelves: P.orderByCount, storeDiscounts: P.orderByCount, updatedBy: EmployeeOrderByOwn 
   }).partial()
 export type StoreOrderByType = z.infer<typeof StoreOrderBy>; 
 
@@ -853,7 +894,7 @@ export type StoreOrderByType = z.infer<typeof StoreOrderBy>;
    */
 export const ShelfOrderBy = z.object({
     ...ShelfOrderByOwn.shape, 
-    store: StoreOrderByOwn 
+    updatedBy: EmployeeOrderByOwn, store: StoreOrderByOwn 
   }).partial()
 export type ShelfOrderByType = z.infer<typeof ShelfOrderBy>; 
 
@@ -862,7 +903,7 @@ export type ShelfOrderByType = z.infer<typeof ShelfOrderBy>;
    */
 export const CategoryOrderBy = z.object({
     ...CategoryOrderByOwn.shape, 
-    parent: CategoryOrderByOwn, children: P.orderByCount, products: P.orderByCount, categoryDiscounts: P.orderByCount 
+    updatedBy: EmployeeOrderByOwn, parent: CategoryOrderByOwn, children: P.orderByCount, products: P.orderByCount, categoryDiscounts: P.orderByCount 
   }).partial()
 export type CategoryOrderByType = z.infer<typeof CategoryOrderBy>; 
 
@@ -871,7 +912,7 @@ export type CategoryOrderByType = z.infer<typeof CategoryOrderBy>;
    */
 export const TagOrderBy = z.object({
     ...TagOrderByOwn.shape, 
-    productTags: P.orderByCount 
+    updatedBy: EmployeeOrderByOwn, productTags: P.orderByCount 
   }).partial()
 export type TagOrderByType = z.infer<typeof TagOrderBy>; 
 
@@ -880,7 +921,7 @@ export type TagOrderByType = z.infer<typeof TagOrderBy>;
    */
 export const ProductTagOrderBy = z.object({
     ...ProductTagOrderByOwn.shape, 
-    product: ProductOrderByOwn, tag: TagOrderByOwn 
+    updatedBy: EmployeeOrderByOwn, product: ProductOrderByOwn, tag: TagOrderByOwn 
   }).partial()
 export type ProductTagOrderByType = z.infer<typeof ProductTagOrderBy>; 
 
@@ -889,7 +930,7 @@ export type ProductTagOrderByType = z.infer<typeof ProductTagOrderBy>;
    */
 export const ProductOrderBy = z.object({
     ...ProductOrderByOwn.shape, 
-    category: CategoryOrderByOwn, type: ProductTypeOrderByOwn, parent: ProductOrderByOwn, variants: P.orderByCount, quantities: P.orderByCount, serialNumbers: P.orderByCount, prices: P.orderByCount, productTags: P.orderByCount, discounts: P.orderByCount, ownDiscounts: P.orderByCount 
+    updatedBy: EmployeeOrderByOwn, category: CategoryOrderByOwn, type: ProductTypeOrderByOwn, parent: ProductOrderByOwn, variants: P.orderByCount, quantities: P.orderByCount, serialNumbers: P.orderByCount, prices: P.orderByCount, productTags: P.orderByCount, discounts: P.orderByCount, ownDiscounts: P.orderByCount 
   }).partial()
 export type ProductOrderByType = z.infer<typeof ProductOrderBy>; 
 
@@ -898,7 +939,7 @@ export type ProductOrderByType = z.infer<typeof ProductOrderBy>;
    */
 export const QuantityOrderBy = z.object({
     ...QuantityOrderByOwn.shape, 
-    product: ProductOrderByOwn, store: StoreOrderByOwn 
+    updatedBy: EmployeeOrderByOwn, product: ProductOrderByOwn, store: StoreOrderByOwn 
   }).partial()
 export type QuantityOrderByType = z.infer<typeof QuantityOrderBy>; 
 
@@ -907,7 +948,7 @@ export type QuantityOrderByType = z.infer<typeof QuantityOrderBy>;
    */
 export const SerialNumberOrderBy = z.object({
     ...SerialNumberOrderByOwn.shape, 
-    product: ProductOrderByOwn, store: StoreOrderByOwn 
+    updatedBy: EmployeeOrderByOwn, product: ProductOrderByOwn, store: StoreOrderByOwn 
   }).partial()
 export type SerialNumberOrderByType = z.infer<typeof SerialNumberOrderBy>; 
 
@@ -916,7 +957,7 @@ export type SerialNumberOrderByType = z.infer<typeof SerialNumberOrderBy>;
    */
 export const PriceOrderBy = z.object({
     ...PriceOrderByOwn.shape, 
-    product: ProductOrderByOwn 
+    updatedBy: EmployeeOrderByOwn, product: ProductOrderByOwn 
   }).partial()
 export type PriceOrderByType = z.infer<typeof PriceOrderBy>; 
 
@@ -925,7 +966,7 @@ export type PriceOrderByType = z.infer<typeof PriceOrderBy>;
    */
 export const DiscountOrderBy = z.object({
     ...DiscountOrderByOwn.shape, 
-    product: ProductOrderByOwn, productDiscounts: P.orderByCount, storeDiscounts: P.orderByCount, categoryDiscounts: P.orderByCount, productTypeDiscounts: P.orderByCount, customerDiscounts: P.orderByCount, customerGroupDiscounts: P.orderByCount 
+    updatedBy: EmployeeOrderByOwn, product: ProductOrderByOwn, productDiscounts: P.orderByCount, storeDiscounts: P.orderByCount, categoryDiscounts: P.orderByCount, productTypeDiscounts: P.orderByCount, customerDiscounts: P.orderByCount, customerGroupDiscounts: P.orderByCount 
   }).partial()
 export type DiscountOrderByType = z.infer<typeof DiscountOrderBy>; 
 
@@ -988,7 +1029,7 @@ export type CustomerGroupDiscountOrderByType = z.infer<typeof CustomerGroupDisco
    */
 export const ProductTypeOrderBy = z.object({
     ...ProductTypeOrderByOwn.shape, 
-    products: P.orderByCount, taxRates: P.orderByCount, productTypeDiscounts: P.orderByCount 
+    updatedBy: EmployeeOrderByOwn, products: P.orderByCount, taxRates: P.orderByCount, productTypeDiscounts: P.orderByCount 
   }).partial()
 export type ProductTypeOrderByType = z.infer<typeof ProductTypeOrderBy>; 
 
@@ -997,7 +1038,7 @@ export type ProductTypeOrderByType = z.infer<typeof ProductTypeOrderBy>;
    */
 export const JurisdictionOrderBy = z.object({
     ...JurisdictionOrderByOwn.shape, 
-    parent: JurisdictionOrderByOwn, children: P.orderByCount, taxRates: P.orderByCount 
+    parent: JurisdictionOrderByOwn, children: P.orderByCount, taxRates: P.orderByCount, updatedBy: EmployeeOrderByOwn 
   }).partial()
 export type JurisdictionOrderByType = z.infer<typeof JurisdictionOrderBy>; 
 
@@ -1006,7 +1047,7 @@ export type JurisdictionOrderByType = z.infer<typeof JurisdictionOrderBy>;
    */
 export const TaxRateOrderBy = z.object({
     ...TaxRateOrderByOwn.shape, 
-    jurisdiction: JurisdictionOrderByOwn, productType: ProductTypeOrderByOwn 
+    updatedBy: EmployeeOrderByOwn, jurisdiction: JurisdictionOrderByOwn, productType: ProductTypeOrderByOwn 
   }).partial()
 export type TaxRateOrderByType = z.infer<typeof TaxRateOrderBy>; 
 
@@ -1020,75 +1061,81 @@ export const LogOrderBy = z.object({
 export type LogOrderByType = z.infer<typeof LogOrderBy>; 
 
   /**
+   * EmployeeWhereOwn schema (Thu Nov 13 2025)
+   */
+export const EmployeeWhereOwn = z.object({ id: P.intFilter, uuid: P.strFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, employeeId: P.intFilter }).partial()
+export type EmployeeWhereOwnType = z.infer<typeof EmployeeWhereOwn>; 
+
+  /**
    * CustomerWhereOwn schema (Thu Nov 13 2025)
    */
-export const CustomerWhereOwn = z.object({ id: P.intFilter, uuid: P.strFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedBy: P.strFilter, readonly: P.boolFilter }).partial()
+export const CustomerWhereOwn = z.object({ id: P.intFilter, uuid: P.strFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedById: P.intFilter, readonly: P.boolFilter }).partial()
 export type CustomerWhereOwnType = z.infer<typeof CustomerWhereOwn>; 
 
   /**
    * CustomerGroupWhereOwn schema (Thu Nov 13 2025)
    */
-export const CustomerGroupWhereOwn = z.object({ id: P.intFilter, uuid: P.strFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter }).partial()
+export const CustomerGroupWhereOwn = z.object({ id: P.intFilter, uuid: P.strFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, readonly: P.boolFilter }).partial()
 export type CustomerGroupWhereOwnType = z.infer<typeof CustomerGroupWhereOwn>; 
 
   /**
    * StoreWhereOwn schema (Thu Nov 13 2025)
    */
-export const StoreWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedBy: P.strFilter, name: P.strFilter, description: P.strFilter, slug: P.strFilter, readonly: P.boolFilter }).partial()
+export const StoreWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, name: P.strFilter, description: P.strFilter, slug: P.strFilter, readonly: P.boolFilter, updatedById: P.intFilter }).partial()
 export type StoreWhereOwnType = z.infer<typeof StoreWhereOwn>; 
 
   /**
    * ShelfWhereOwn schema (Thu Nov 13 2025)
    */
-export const ShelfWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedBy: P.strFilter, name: P.strFilter, description: P.strFilter, aisle: P.strFilter, rack: P.intFilter, level: P.intFilter, storeId: P.intFilter, readonly: P.boolFilter }).partial()
+export const ShelfWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedById: P.intFilter, name: P.strFilter, description: P.strFilter, aisle: P.strFilter, rack: P.intFilter, level: P.intFilter, storeId: P.intFilter, readonly: P.boolFilter }).partial()
 export type ShelfWhereOwnType = z.infer<typeof ShelfWhereOwn>; 
 
   /**
    * CategoryWhereOwn schema (Thu Nov 13 2025)
    */
-export const CategoryWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedBy: P.strFilter, name: P.strFilter, description: P.strFilter, slug: P.strFilter, parentId: P.intFilter, readonly: P.boolFilter }).partial()
+export const CategoryWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedById: P.intFilter, name: P.strFilter, description: P.strFilter, slug: P.strFilter, parentId: P.intFilter, readonly: P.boolFilter }).partial()
 export type CategoryWhereOwnType = z.infer<typeof CategoryWhereOwn>; 
 
   /**
    * TagWhereOwn schema (Thu Nov 13 2025)
    */
-export const TagWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedBy: P.strFilter, name: P.strFilter }).partial()
+export const TagWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedById: P.intFilter, name: P.strFilter, slug: P.strFilter }).partial()
 export type TagWhereOwnType = z.infer<typeof TagWhereOwn>; 
 
   /**
    * ProductTagWhereOwn schema (Thu Nov 13 2025)
    */
-export const ProductTagWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedBy: P.strFilter, productId: P.intFilter, tagId: P.intFilter }).partial()
+export const ProductTagWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedById: P.intFilter, productId: P.intFilter, tagId: P.intFilter }).partial()
 export type ProductTagWhereOwnType = z.infer<typeof ProductTagWhereOwn>; 
 
   /**
    * ProductWhereOwn schema (Thu Nov 13 2025)
    */
-export const ProductWhereOwn = z.object({ id: P.intFilter, uuid: P.strFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedBy: P.strFilter, name: P.strFilter, description: P.strFilter, slug: P.strFilter, sku: P.strFilter, upc: P.strFilter, model: P.strFilter, categoryId: P.intFilter, typeId: P.intFilter, parentId: P.intFilter, readonly: P.boolFilter }).partial()
+export const ProductWhereOwn = z.object({ id: P.intFilter, uuid: P.strFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedById: P.intFilter, name: P.strFilter, description: P.strFilter, slug: P.strFilter, sku: P.strFilter, upc: P.strFilter, model: P.strFilter, categoryId: P.intFilter, typeId: P.intFilter, parentId: P.intFilter, readonly: P.boolFilter }).partial()
 export type ProductWhereOwnType = z.infer<typeof ProductWhereOwn>; 
 
   /**
    * QuantityWhereOwn schema (Thu Nov 13 2025)
    */
-export const QuantityWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedBy: P.strFilter, quantity: P.intFilter, minQuantity: P.intFilter, productId: P.intFilter, storeId: P.intFilter, readonly: P.boolFilter }).partial()
+export const QuantityWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedById: P.intFilter, quantity: P.intFilter, minQuantity: P.intFilter, productId: P.intFilter, storeId: P.intFilter, readonly: P.boolFilter }).partial()
 export type QuantityWhereOwnType = z.infer<typeof QuantityWhereOwn>; 
 
   /**
    * SerialNumberWhereOwn schema (Thu Nov 13 2025)
    */
-export const SerialNumberWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedBy: P.strFilter, serialNumber: P.strFilter, isInStock: P.boolFilter, productId: P.intFilter, storeId: P.intFilter, readonly: P.boolFilter }).partial()
+export const SerialNumberWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedById: P.intFilter, serialNumber: P.strFilter, isInStock: P.boolFilter, productId: P.intFilter, storeId: P.intFilter, readonly: P.boolFilter }).partial()
 export type SerialNumberWhereOwnType = z.infer<typeof SerialNumberWhereOwn>; 
 
   /**
    * PriceWhereOwn schema (Thu Nov 13 2025)
    */
-export const PriceWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedBy: P.strFilter, price: P.numFilter, effectiveFrom: P.datetimeFilter, effectiveTo: P.datetimeFilter, productId: P.intFilter, readonly: P.boolFilter }).partial()
+export const PriceWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedById: P.intFilter, price: P.numFilter, effectiveFrom: P.datetimeFilter, effectiveTo: P.datetimeFilter, productId: P.intFilter, readonly: P.boolFilter }).partial()
 export type PriceWhereOwnType = z.infer<typeof PriceWhereOwn>; 
 
   /**
    * DiscountWhereOwn schema (Thu Nov 13 2025)
    */
-export const DiscountWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedBy: P.strFilter, name: P.strFilter, code: P.strFilter, description: P.strFilter, discountValue: P.numFilter, minQuantity: P.intFilter, minSubtotal: P.numFilter, effectiveFrom: P.datetimeFilter, effectiveTo: P.datetimeFilter, target: DiscountTargetFilter, productId: P.intFilter, readonly: P.boolFilter }).partial()
+export const DiscountWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedById: P.intFilter, name: P.strFilter, code: P.strFilter, description: P.strFilter, discountValue: P.numFilter, minQuantity: P.intFilter, minSubtotal: P.numFilter, effectiveFrom: P.datetimeFilter, effectiveTo: P.datetimeFilter, target: DiscountTargetFilter, productId: P.intFilter, readonly: P.boolFilter }).partial()
 export type DiscountWhereOwnType = z.infer<typeof DiscountWhereOwn>; 
 
   /**
@@ -1130,19 +1177,19 @@ export type CustomerGroupDiscountWhereOwnType = z.infer<typeof CustomerGroupDisc
   /**
    * ProductTypeWhereOwn schema (Thu Nov 13 2025)
    */
-export const ProductTypeWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedBy: P.strFilter, name: P.strFilter, description: P.strFilter, readonly: P.boolFilter }).partial()
+export const ProductTypeWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedById: P.intFilter, name: P.strFilter, description: P.strFilter, readonly: P.boolFilter }).partial()
 export type ProductTypeWhereOwnType = z.infer<typeof ProductTypeWhereOwn>; 
 
   /**
    * JurisdictionWhereOwn schema (Thu Nov 13 2025)
    */
-export const JurisdictionWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedBy: P.strFilter, fipsCode: P.strFilter, name: P.strFilter, level: P.strFilter, parentId: P.intFilter, readonly: P.boolFilter }).partial()
+export const JurisdictionWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, fipsCode: P.strFilter, name: P.strFilter, level: P.strFilter, parentId: P.intFilter, readonly: P.boolFilter, updatedById: P.intFilter }).partial()
 export type JurisdictionWhereOwnType = z.infer<typeof JurisdictionWhereOwn>; 
 
   /**
    * TaxRateWhereOwn schema (Thu Nov 13 2025)
    */
-export const TaxRateWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedBy: P.strFilter, percentRate: P.numFilter, fixedRate: P.numFilter, description: P.strFilter, effectiveFrom: P.datetimeFilter, effectiveTo: P.datetimeFilter, jurisdictionId: P.intFilter, productTypeId: P.intFilter, readonly: P.boolFilter }).partial()
+export const TaxRateWhereOwn = z.object({ id: P.intFilter, createdAt: P.datetimeFilter, updatedAt: P.datetimeFilter, deletedAt: P.datetimeFilter, updatedById: P.intFilter, percentRate: P.numFilter, fixedRate: P.numFilter, description: P.strFilter, effectiveFrom: P.datetimeFilter, effectiveTo: P.datetimeFilter, jurisdictionId: P.intFilter, productTypeId: P.intFilter, readonly: P.boolFilter }).partial()
 export type TaxRateWhereOwnType = z.infer<typeof TaxRateWhereOwn>; 
 
   /**
@@ -1152,9 +1199,75 @@ export const LogWhereOwn = z.object({ id: P.intFilter, timestamp: P.datetimeFilt
 export type LogWhereOwnType = z.infer<typeof LogWhereOwn>; 
 
   /**
+   * EmployeeWhere schema (Thu Nov 13 2025)
+   */
+export const EmployeeWhere = z.object({ ...EmployeeWhereOwn.shape,updatedBy: EmployeeWhereOwn.partial(), updatedCustomers: z.object({ 
+          some: CustomerWhereOwn,
+          every: CustomerWhereOwn,
+          none: CustomerWhereOwn
+        }).partial(), updatedStores: z.object({ 
+          some: StoreWhereOwn,
+          every: StoreWhereOwn,
+          none: StoreWhereOwn
+        }).partial(), updatedShelves: z.object({ 
+          some: ShelfWhereOwn,
+          every: ShelfWhereOwn,
+          none: ShelfWhereOwn
+        }).partial(), updatedCategories: z.object({ 
+          some: CategoryWhereOwn,
+          every: CategoryWhereOwn,
+          none: CategoryWhereOwn
+        }).partial(), updatedTags: z.object({ 
+          some: TagWhereOwn,
+          every: TagWhereOwn,
+          none: TagWhereOwn
+        }).partial(), updatedProducttags: z.object({ 
+          some: ProductTagWhereOwn,
+          every: ProductTagWhereOwn,
+          none: ProductTagWhereOwn
+        }).partial(), updatedProducts: z.object({ 
+          some: ProductWhereOwn,
+          every: ProductWhereOwn,
+          none: ProductWhereOwn
+        }).partial(), updatedQuantities: z.object({ 
+          some: QuantityWhereOwn,
+          every: QuantityWhereOwn,
+          none: QuantityWhereOwn
+        }).partial(), updatedSerialnumbers: z.object({ 
+          some: SerialNumberWhereOwn,
+          every: SerialNumberWhereOwn,
+          none: SerialNumberWhereOwn
+        }).partial(), updatedPrices: z.object({ 
+          some: PriceWhereOwn,
+          every: PriceWhereOwn,
+          none: PriceWhereOwn
+        }).partial(), updatedDiscounts: z.object({ 
+          some: DiscountWhereOwn,
+          every: DiscountWhereOwn,
+          none: DiscountWhereOwn
+        }).partial(), updatedProducttypes: z.object({ 
+          some: ProductTypeWhereOwn,
+          every: ProductTypeWhereOwn,
+          none: ProductTypeWhereOwn
+        }).partial(), updatedJurisdictions: z.object({ 
+          some: JurisdictionWhereOwn,
+          every: JurisdictionWhereOwn,
+          none: JurisdictionWhereOwn
+        }).partial(), updatedTaxrates: z.object({ 
+          some: TaxRateWhereOwn,
+          every: TaxRateWhereOwn,
+          none: TaxRateWhereOwn
+        }).partial(), updatedEmployees: z.object({ 
+          some: EmployeeWhereOwn,
+          every: EmployeeWhereOwn,
+          none: EmployeeWhereOwn
+        }).partial(),AND: EmployeeWhereOwn,OR:  EmployeeWhereOwn.array(),NOT: EmployeeWhereOwn.or(EmployeeWhereOwn.array()) }).partial()
+export type EmployeeWhereType = z.infer<typeof EmployeeWhere>; 
+
+  /**
    * CustomerWhere schema (Thu Nov 13 2025)
    */
-export const CustomerWhere = z.object({ ...CustomerWhereOwn.shape,customerDiscounts: z.object({ 
+export const CustomerWhere = z.object({ ...CustomerWhereOwn.shape,updatedBy: EmployeeWhereOwn.partial(), customerDiscounts: z.object({ 
           some: CustomerDiscountWhereOwn,
           every: CustomerDiscountWhereOwn,
           none: CustomerDiscountWhereOwn
@@ -1190,19 +1303,19 @@ export const StoreWhere = z.object({ ...StoreWhereOwn.shape,quantities: z.object
           some: StoreDiscountWhereOwn,
           every: StoreDiscountWhereOwn,
           none: StoreDiscountWhereOwn
-        }).partial(),AND: StoreWhereOwn,OR:  StoreWhereOwn.array(),NOT: StoreWhereOwn.or(StoreWhereOwn.array()) }).partial()
+        }).partial(), updatedBy: EmployeeWhereOwn.partial(),AND: StoreWhereOwn,OR:  StoreWhereOwn.array(),NOT: StoreWhereOwn.or(StoreWhereOwn.array()) }).partial()
 export type StoreWhereType = z.infer<typeof StoreWhere>; 
 
   /**
    * ShelfWhere schema (Thu Nov 13 2025)
    */
-export const ShelfWhere = z.object({ ...ShelfWhereOwn.shape,store: StoreWhereOwn.partial(),AND: ShelfWhereOwn,OR:  ShelfWhereOwn.array(),NOT: ShelfWhereOwn.or(ShelfWhereOwn.array()) }).partial()
+export const ShelfWhere = z.object({ ...ShelfWhereOwn.shape,updatedBy: EmployeeWhereOwn.partial(), store: StoreWhereOwn.partial(),AND: ShelfWhereOwn,OR:  ShelfWhereOwn.array(),NOT: ShelfWhereOwn.or(ShelfWhereOwn.array()) }).partial()
 export type ShelfWhereType = z.infer<typeof ShelfWhere>; 
 
   /**
    * CategoryWhere schema (Thu Nov 13 2025)
    */
-export const CategoryWhere = z.object({ ...CategoryWhereOwn.shape,parent: CategoryWhereOwn.partial(), children: z.object({ 
+export const CategoryWhere = z.object({ ...CategoryWhereOwn.shape,updatedBy: EmployeeWhereOwn.partial(), parent: CategoryWhereOwn.partial(), children: z.object({ 
           some: CategoryWhereOwn,
           every: CategoryWhereOwn,
           none: CategoryWhereOwn
@@ -1220,7 +1333,7 @@ export type CategoryWhereType = z.infer<typeof CategoryWhere>;
   /**
    * TagWhere schema (Thu Nov 13 2025)
    */
-export const TagWhere = z.object({ ...TagWhereOwn.shape,productTags: z.object({ 
+export const TagWhere = z.object({ ...TagWhereOwn.shape,updatedBy: EmployeeWhereOwn.partial(), productTags: z.object({ 
           some: ProductTagWhereOwn,
           every: ProductTagWhereOwn,
           none: ProductTagWhereOwn
@@ -1230,13 +1343,13 @@ export type TagWhereType = z.infer<typeof TagWhere>;
   /**
    * ProductTagWhere schema (Thu Nov 13 2025)
    */
-export const ProductTagWhere = z.object({ ...ProductTagWhereOwn.shape,product: ProductWhereOwn.partial(), tag: TagWhereOwn.partial(),AND: ProductTagWhereOwn,OR:  ProductTagWhereOwn.array(),NOT: ProductTagWhereOwn.or(ProductTagWhereOwn.array()) }).partial()
+export const ProductTagWhere = z.object({ ...ProductTagWhereOwn.shape,updatedBy: EmployeeWhereOwn.partial(), product: ProductWhereOwn.partial(), tag: TagWhereOwn.partial(),AND: ProductTagWhereOwn,OR:  ProductTagWhereOwn.array(),NOT: ProductTagWhereOwn.or(ProductTagWhereOwn.array()) }).partial()
 export type ProductTagWhereType = z.infer<typeof ProductTagWhere>; 
 
   /**
    * ProductWhere schema (Thu Nov 13 2025)
    */
-export const ProductWhere = z.object({ ...ProductWhereOwn.shape,category: CategoryWhereOwn.partial(), type: ProductTypeWhereOwn.partial(), parent: ProductWhereOwn.partial(), variants: z.object({ 
+export const ProductWhere = z.object({ ...ProductWhereOwn.shape,updatedBy: EmployeeWhereOwn.partial(), category: CategoryWhereOwn.partial(), type: ProductTypeWhereOwn.partial(), parent: ProductWhereOwn.partial(), variants: z.object({ 
           some: ProductWhereOwn,
           every: ProductWhereOwn,
           none: ProductWhereOwn
@@ -1270,25 +1383,25 @@ export type ProductWhereType = z.infer<typeof ProductWhere>;
   /**
    * QuantityWhere schema (Thu Nov 13 2025)
    */
-export const QuantityWhere = z.object({ ...QuantityWhereOwn.shape,product: ProductWhereOwn.partial(), store: StoreWhereOwn.partial(),AND: QuantityWhereOwn,OR:  QuantityWhereOwn.array(),NOT: QuantityWhereOwn.or(QuantityWhereOwn.array()) }).partial()
+export const QuantityWhere = z.object({ ...QuantityWhereOwn.shape,updatedBy: EmployeeWhereOwn.partial(), product: ProductWhereOwn.partial(), store: StoreWhereOwn.partial(),AND: QuantityWhereOwn,OR:  QuantityWhereOwn.array(),NOT: QuantityWhereOwn.or(QuantityWhereOwn.array()) }).partial()
 export type QuantityWhereType = z.infer<typeof QuantityWhere>; 
 
   /**
    * SerialNumberWhere schema (Thu Nov 13 2025)
    */
-export const SerialNumberWhere = z.object({ ...SerialNumberWhereOwn.shape,product: ProductWhereOwn.partial(), store: StoreWhereOwn.partial(),AND: SerialNumberWhereOwn,OR:  SerialNumberWhereOwn.array(),NOT: SerialNumberWhereOwn.or(SerialNumberWhereOwn.array()) }).partial()
+export const SerialNumberWhere = z.object({ ...SerialNumberWhereOwn.shape,updatedBy: EmployeeWhereOwn.partial(), product: ProductWhereOwn.partial(), store: StoreWhereOwn.partial(),AND: SerialNumberWhereOwn,OR:  SerialNumberWhereOwn.array(),NOT: SerialNumberWhereOwn.or(SerialNumberWhereOwn.array()) }).partial()
 export type SerialNumberWhereType = z.infer<typeof SerialNumberWhere>; 
 
   /**
    * PriceWhere schema (Thu Nov 13 2025)
    */
-export const PriceWhere = z.object({ ...PriceWhereOwn.shape,product: ProductWhereOwn.partial(),AND: PriceWhereOwn,OR:  PriceWhereOwn.array(),NOT: PriceWhereOwn.or(PriceWhereOwn.array()) }).partial()
+export const PriceWhere = z.object({ ...PriceWhereOwn.shape,updatedBy: EmployeeWhereOwn.partial(), product: ProductWhereOwn.partial(),AND: PriceWhereOwn,OR:  PriceWhereOwn.array(),NOT: PriceWhereOwn.or(PriceWhereOwn.array()) }).partial()
 export type PriceWhereType = z.infer<typeof PriceWhere>; 
 
   /**
    * DiscountWhere schema (Thu Nov 13 2025)
    */
-export const DiscountWhere = z.object({ ...DiscountWhereOwn.shape,product: ProductWhereOwn.partial(), productDiscounts: z.object({ 
+export const DiscountWhere = z.object({ ...DiscountWhereOwn.shape,updatedBy: EmployeeWhereOwn.partial(), product: ProductWhereOwn.partial(), productDiscounts: z.object({ 
           some: ProductDiscountWhereOwn,
           every: ProductDiscountWhereOwn,
           none: ProductDiscountWhereOwn
@@ -1354,7 +1467,7 @@ export type CustomerGroupDiscountWhereType = z.infer<typeof CustomerGroupDiscoun
   /**
    * ProductTypeWhere schema (Thu Nov 13 2025)
    */
-export const ProductTypeWhere = z.object({ ...ProductTypeWhereOwn.shape,products: z.object({ 
+export const ProductTypeWhere = z.object({ ...ProductTypeWhereOwn.shape,updatedBy: EmployeeWhereOwn.partial(), products: z.object({ 
           some: ProductWhereOwn,
           every: ProductWhereOwn,
           none: ProductWhereOwn
@@ -1380,13 +1493,13 @@ export const JurisdictionWhere = z.object({ ...JurisdictionWhereOwn.shape,parent
           some: TaxRateWhereOwn,
           every: TaxRateWhereOwn,
           none: TaxRateWhereOwn
-        }).partial(),AND: JurisdictionWhereOwn,OR:  JurisdictionWhereOwn.array(),NOT: JurisdictionWhereOwn.or(JurisdictionWhereOwn.array()) }).partial()
+        }).partial(), updatedBy: EmployeeWhereOwn.partial(),AND: JurisdictionWhereOwn,OR:  JurisdictionWhereOwn.array(),NOT: JurisdictionWhereOwn.or(JurisdictionWhereOwn.array()) }).partial()
 export type JurisdictionWhereType = z.infer<typeof JurisdictionWhere>; 
 
   /**
    * TaxRateWhere schema (Thu Nov 13 2025)
    */
-export const TaxRateWhere = z.object({ ...TaxRateWhereOwn.shape,jurisdiction: JurisdictionWhereOwn.partial(), productType: ProductTypeWhereOwn.partial(),AND: TaxRateWhereOwn,OR:  TaxRateWhereOwn.array(),NOT: TaxRateWhereOwn.or(TaxRateWhereOwn.array()) }).partial()
+export const TaxRateWhere = z.object({ ...TaxRateWhereOwn.shape,updatedBy: EmployeeWhereOwn.partial(), jurisdiction: JurisdictionWhereOwn.partial(), productType: ProductTypeWhereOwn.partial(),AND: TaxRateWhereOwn,OR:  TaxRateWhereOwn.array(),NOT: TaxRateWhereOwn.or(TaxRateWhereOwn.array()) }).partial()
 export type TaxRateWhereType = z.infer<typeof TaxRateWhere>; 
 
   /**
@@ -1394,6 +1507,18 @@ export type TaxRateWhereType = z.infer<typeof TaxRateWhere>;
    */
 export const LogWhere = z.object({ ...LogWhereOwn.shape,AND: LogWhereOwn,OR:  LogWhereOwn.array(),NOT: LogWhereOwn.or(LogWhereOwn.array()) }).partial()
 export type LogWhereType = z.infer<typeof LogWhere>; 
+
+  /**
+   * EmployeeQueryOwn schema (Thu Nov 13 2025)
+   */
+export const EmployeeQueryOwn = z.object({
+    take:     P.take,
+    skip:     P.skip,
+    distinct: EmployeeField.array(),
+    orderBy:  z.preprocess(P.parseJsonOrReturn, EmployeeOrderBy),
+    where:    z.preprocess(P.parseJsonOrReturn, EmployeeWhere)
+  }).partial()
+export type EmployeeQueryOwnType = z.infer<typeof EmployeeQueryOwn>; 
 
   /**
    * CustomerQueryOwn schema (Thu Nov 13 2025)
@@ -1660,6 +1785,17 @@ export const LogQueryOwn = z.object({
 export type LogQueryOwnType = z.infer<typeof LogQueryOwn>; 
 
   /**
+   * EmployeeQueryOne schema (Thu Nov 13 2025)
+   */
+export const EmployeeQueryOne = z.object({ 
+    select:   z.preprocess(P.parseJsonOrReturn, EmployeeSelectOwn ),
+    omit:     z.preprocess(P.parseJsonOrReturn, EmployeeOmit   ),
+    include: z.preprocess(P.parseJsonOrReturn, EmployeeInclude),
+    where:    z.preprocess(P.parseJsonOrReturn, EmployeeWhere)
+  }).partial()
+export type EmployeeQueryOneType = z.infer<typeof EmployeeQueryOne>; 
+
+  /**
    * CustomerQueryOne schema (Thu Nov 13 2025)
    */
 export const CustomerQueryOne = z.object({ 
@@ -1900,6 +2036,17 @@ export const LogQueryOne = z.object({
     where:    z.preprocess(P.parseJsonOrReturn, LogWhere)
   }).partial()
 export type LogQueryOneType = z.infer<typeof LogQueryOne>; 
+
+  /**
+   * EmployeeQuery schema (Thu Nov 13 2025)
+   */
+export const EmployeeQuery = z.object({ 
+    select:   z.preprocess(P.parseJsonOrReturn, EmployeeSelectOwn ), 
+    omit:     z.preprocess(P.parseJsonOrReturn, EmployeeOmit   ), 
+    include:  z.preprocess(P.parseJsonOrReturn, EmployeeInclude   ),
+    ...EmployeeQueryOwn.shape 
+  }).partial()
+export type EmployeeQueryType = z.infer<typeof EmployeeQuery>; 
 
   /**
    * CustomerQuery schema (Thu Nov 13 2025)
@@ -2144,6 +2291,12 @@ export const LogQuery = z.object({
 export type LogQueryType = z.infer<typeof LogQuery>; 
 
   /**
+   * EmployeeSelect schema (Thu Nov 13 2025)
+   */
+export const EmployeeSelect = z.object({...EmployeeSelectOwn.shape,  }).partial()
+export type EmployeeSelectType = z.infer<typeof EmployeeSelect>; 
+
+  /**
    * CustomerSelect schema (Thu Nov 13 2025)
    */
 export const CustomerSelect = z.object({...CustomerSelectOwn.shape,  }).partial()
@@ -2274,6 +2427,17 @@ export type TaxRateSelectType = z.infer<typeof TaxRateSelect>;
    */
 export const LogSelect = z.object({...LogSelectOwn.shape,  }).partial()
 export type LogSelectType = z.infer<typeof LogSelect>; 
+
+  /**
+   * EmployeeProjection schema (Thu Nov 13 2025)
+   */
+export const EmployeeProjection = z.union([
+        z.object({ select:   z.preprocess(P.parseJsonOrReturn, EmployeeSelect ) }),
+        z.object({ omit:     z.preprocess(P.parseJsonOrReturn, EmployeeOmit   ) }),
+        z.object({ include:  z.preprocess(P.parseJsonOrReturn, EmployeeInclude) }),
+        z.object({})
+    ])
+export type EmployeeProjectionType = z.infer<typeof EmployeeProjection>; 
 
   /**
    * CustomerProjection schema (Thu Nov 13 2025)
@@ -2518,6 +2682,12 @@ export const LogProjection = z.union([
 export type LogProjectionType = z.infer<typeof LogProjection>; 
 
   /**
+   * EmployeeCreateOwn schema (Thu Nov 13 2025)
+   */
+export const EmployeeCreateOwn = z.object({ uuid: P.uuid })
+export type EmployeeCreateOwnType = z.infer<typeof EmployeeCreateOwn>; 
+
+  /**
    * CustomerCreateOwn schema (Thu Nov 13 2025)
    */
 export const CustomerCreateOwn = z.object({ uuid: P.uuid,readonly: P.bool.optional() })
@@ -2526,7 +2696,7 @@ export type CustomerCreateOwnType = z.infer<typeof CustomerCreateOwn>;
   /**
    * CustomerGroupCreateOwn schema (Thu Nov 13 2025)
    */
-export const CustomerGroupCreateOwn = z.object({ uuid: P.uuid })
+export const CustomerGroupCreateOwn = z.object({ uuid: P.uuid,readonly: P.bool.optional() })
 export type CustomerGroupCreateOwnType = z.infer<typeof CustomerGroupCreateOwn>; 
 
   /**
@@ -2562,7 +2732,7 @@ export type ProductTagCreateOwnType = z.infer<typeof ProductTagCreateOwn>;
   /**
    * ProductCreateOwn schema (Thu Nov 13 2025)
    */
-export const ProductCreateOwn = z.object({ name: P.short,sku: P.str,upc: P.str,typeId: P.int,readonly: P.bool.optional() })
+export const ProductCreateOwn = z.object({ name: P.short,sku: P.str,upc: P.str,readonly: P.bool.optional() })
 export type ProductCreateOwnType = z.infer<typeof ProductCreateOwn>; 
 
   /**
@@ -2650,9 +2820,21 @@ export const LogCreateOwn = z.object({ timestamp: P.datetime.optional(),operator
 export type LogCreateOwnType = z.infer<typeof LogCreateOwn>; 
 
   /**
+   * EmployeeCreate schema (Thu Nov 13 2025)
+   */
+export const EmployeeCreate = z.object({ uuid: P.uuid, employeeId: P.int.optional(), updatedCustomers: P.connectMany.optional(), updatedStores: P.connectMany.optional(), updatedShelves: P.connectMany.optional(), updatedCategories: P.connectMany.optional(), updatedTags: P.connectMany.optional(), updatedProducttags: P.connectMany.optional(), updatedProducts: P.connectMany.optional(), updatedQuantities: P.connectMany.optional(), updatedSerialnumbers: P.connectMany.optional(), updatedPrices: P.connectMany.optional(), updatedDiscounts: P.connectMany.optional(), updatedProducttypes: P.connectMany.optional(), updatedJurisdictions: P.connectMany.optional(), updatedTaxrates: P.connectMany.optional(), updatedEmployees: P.connectMany.optional() })
+export type EmployeeCreateType = z.infer<typeof EmployeeCreate>; 
+
+  /**
+   * EmployeeUpdate schema (Thu Nov 13 2025)
+   */
+export const EmployeeUpdate = EmployeeCreate.clone().partial()
+export type EmployeeUpdateType = z.infer<typeof EmployeeUpdate>; 
+
+  /**
    * CustomerCreate schema (Thu Nov 13 2025)
    */
-export const CustomerCreate = z.object({ uuid: P.uuid, customerDiscounts: P.connectMany.optional(), readonly: P.bool.optional() })
+export const CustomerCreate = z.object({ uuid: P.uuid, updatedById: P.int.optional(), customerDiscounts: P.connectMany.optional(), readonly: P.bool.optional() })
 export type CustomerCreateType = z.infer<typeof CustomerCreate>; 
 
   /**
@@ -2664,7 +2846,7 @@ export type CustomerUpdateType = z.infer<typeof CustomerUpdate>;
   /**
    * CustomerGroupCreate schema (Thu Nov 13 2025)
    */
-export const CustomerGroupCreate = z.object({ uuid: P.uuid, customerGroupDiscounts: P.connectMany.optional() })
+export const CustomerGroupCreate = z.object({ uuid: P.uuid, customerGroupDiscounts: P.connectMany.optional(), readonly: P.bool.optional() })
 export type CustomerGroupCreateType = z.infer<typeof CustomerGroupCreate>; 
 
   /**
@@ -2676,7 +2858,7 @@ export type CustomerGroupUpdateType = z.infer<typeof CustomerGroupUpdate>;
   /**
    * StoreCreate schema (Thu Nov 13 2025)
    */
-export const StoreCreate = z.object({ name: P.short, description: P.long.optional(), quantities: P.connectMany.optional(), serials: P.connectMany.optional(), shelves: P.connectMany.optional(), readonly: P.bool.optional(), storeDiscounts: P.connectMany.optional() })
+export const StoreCreate = z.object({ name: P.short, description: P.long.optional(), quantities: P.connectMany.optional(), serials: P.connectMany.optional(), shelves: P.connectMany.optional(), readonly: P.bool.optional(), storeDiscounts: P.connectMany.optional(), updatedById: P.int.optional() })
 export type StoreCreateType = z.infer<typeof StoreCreate>; 
 
   /**
@@ -2688,7 +2870,7 @@ export type StoreUpdateType = z.infer<typeof StoreUpdate>;
   /**
    * ShelfCreate schema (Thu Nov 13 2025)
    */
-export const ShelfCreate = z.object({ name: P.short, description: P.long.optional(), aisle: P.str, rack: P.int, level: P.int, storeId: P.int, readonly: P.bool.optional() })
+export const ShelfCreate = z.object({ updatedById: P.int.optional(), name: P.short, description: P.long.optional(), aisle: P.str, rack: P.int, level: P.int, storeId: P.int, readonly: P.bool.optional() })
 export type ShelfCreateType = z.infer<typeof ShelfCreate>; 
 
   /**
@@ -2700,7 +2882,7 @@ export type ShelfUpdateType = z.infer<typeof ShelfUpdate>;
   /**
    * CategoryCreate schema (Thu Nov 13 2025)
    */
-export const CategoryCreate = z.object({ name: P.short, description: P.long.optional(), parentId: P.int.optional(), children: P.connectMany.optional(), products: P.connectMany.optional(), categoryDiscounts: P.connectMany.optional(), readonly: P.bool.optional() })
+export const CategoryCreate = z.object({ updatedById: P.int.optional(), name: P.short, description: P.long.optional(), parentId: P.int.optional(), children: P.connectMany.optional(), products: P.connectMany.optional(), categoryDiscounts: P.connectMany.optional(), readonly: P.bool.optional() })
 export type CategoryCreateType = z.infer<typeof CategoryCreate>; 
 
   /**
@@ -2712,7 +2894,7 @@ export type CategoryUpdateType = z.infer<typeof CategoryUpdate>;
   /**
    * TagCreate schema (Thu Nov 13 2025)
    */
-export const TagCreate = z.object({ name: P.short, productTags: P.connectMany.optional() })
+export const TagCreate = z.object({ updatedById: P.int.optional(), name: P.short, productTags: P.connectMany.optional() })
 export type TagCreateType = z.infer<typeof TagCreate>; 
 
   /**
@@ -2724,7 +2906,7 @@ export type TagUpdateType = z.infer<typeof TagUpdate>;
   /**
    * ProductTagCreate schema (Thu Nov 13 2025)
    */
-export const ProductTagCreate = z.object({ productId: P.int, tagId: P.int })
+export const ProductTagCreate = z.object({ updatedById: P.int.optional(), productId: P.int, tagId: P.int })
 export type ProductTagCreateType = z.infer<typeof ProductTagCreate>; 
 
   /**
@@ -2736,7 +2918,7 @@ export type ProductTagUpdateType = z.infer<typeof ProductTagUpdate>;
   /**
    * ProductCreate schema (Thu Nov 13 2025)
    */
-export const ProductCreate = z.object({ name: P.short, description: P.long.optional(), sku: P.str, upc: P.str, model: P.str.optional(), categoryId: P.int.optional(), typeId: P.int, parentId: P.int.optional(), variants: P.connectMany.optional(), quantities: P.connectMany.optional(), serialNumbers: P.connectMany.optional(), prices: P.connectMany.optional(), productTags: P.connectMany.optional(), discounts: P.connectMany.optional(), ownDiscounts: P.connectMany.optional(), readonly: P.bool.optional() })
+export const ProductCreate = z.object({ updatedById: P.int.optional(), name: P.short, description: P.long.optional(), sku: P.str, upc: P.str, model: P.str.optional(), categoryId: P.int.optional(), typeId: P.int.optional(), parentId: P.int.optional(), variants: P.connectMany.optional(), quantities: P.connectMany.optional(), serialNumbers: P.connectMany.optional(), prices: P.connectMany.optional(), productTags: P.connectMany.optional(), discounts: P.connectMany.optional(), ownDiscounts: P.connectMany.optional(), readonly: P.bool.optional() })
 export type ProductCreateType = z.infer<typeof ProductCreate>; 
 
   /**
@@ -2748,7 +2930,7 @@ export type ProductUpdateType = z.infer<typeof ProductUpdate>;
   /**
    * QuantityCreate schema (Thu Nov 13 2025)
    */
-export const QuantityCreate = z.object({ quantity: P.int, minQuantity: P.int.optional(), productId: P.int, storeId: P.int, readonly: P.bool.optional() })
+export const QuantityCreate = z.object({ updatedById: P.int.optional(), quantity: P.int, minQuantity: P.int.optional(), productId: P.int, storeId: P.int, readonly: P.bool.optional() })
 export type QuantityCreateType = z.infer<typeof QuantityCreate>; 
 
   /**
@@ -2760,7 +2942,7 @@ export type QuantityUpdateType = z.infer<typeof QuantityUpdate>;
   /**
    * SerialNumberCreate schema (Thu Nov 13 2025)
    */
-export const SerialNumberCreate = z.object({ serialNumber: P.str, isInStock: P.bool.optional(), productId: P.int, storeId: P.int, readonly: P.bool.optional() })
+export const SerialNumberCreate = z.object({ updatedById: P.int.optional(), serialNumber: P.str, isInStock: P.bool.optional(), productId: P.int, storeId: P.int, readonly: P.bool.optional() })
 export type SerialNumberCreateType = z.infer<typeof SerialNumberCreate>; 
 
   /**
@@ -2772,7 +2954,7 @@ export type SerialNumberUpdateType = z.infer<typeof SerialNumberUpdate>;
   /**
    * PriceCreate schema (Thu Nov 13 2025)
    */
-export const PriceCreate = z.object({ price: P.currency, effectiveFrom: P.datetime, effectiveTo: P.datetime.optional(), productId: P.int, readonly: P.bool.optional() })
+export const PriceCreate = z.object({ updatedById: P.int.optional(), price: P.currency, effectiveFrom: P.datetime, effectiveTo: P.datetime.optional(), productId: P.int, readonly: P.bool.optional() })
 export type PriceCreateType = z.infer<typeof PriceCreate>; 
 
   /**
@@ -2784,7 +2966,7 @@ export type PriceUpdateType = z.infer<typeof PriceUpdate>;
   /**
    * DiscountCreate schema (Thu Nov 13 2025)
    */
-export const DiscountCreate = z.object({ name: P.short, code: P.str, description: P.long.optional(), discountValue: P.num.optional(), minQuantity: P.int.optional(), minSubtotal: P.num.optional(), effectiveFrom: P.datetime, effectiveTo: P.datetime.optional(), target: DiscountTarget, productId: P.int.optional(), productDiscounts: P.connectMany.optional(), storeDiscounts: P.connectMany.optional(), categoryDiscounts: P.connectMany.optional(), productTypeDiscounts: P.connectMany.optional(), customerDiscounts: P.connectMany.optional(), customerGroupDiscounts: P.connectMany.optional(), readonly: P.bool.optional() })
+export const DiscountCreate = z.object({ updatedById: P.int.optional(), name: P.short, code: P.str, description: P.long.optional(), discountValue: P.num.optional(), minQuantity: P.int.optional(), minSubtotal: P.num.optional(), effectiveFrom: P.datetime, effectiveTo: P.datetime.optional(), target: DiscountTarget, productId: P.int.optional(), productDiscounts: P.connectMany.optional(), storeDiscounts: P.connectMany.optional(), categoryDiscounts: P.connectMany.optional(), productTypeDiscounts: P.connectMany.optional(), customerDiscounts: P.connectMany.optional(), customerGroupDiscounts: P.connectMany.optional(), readonly: P.bool.optional() })
 export type DiscountCreateType = z.infer<typeof DiscountCreate>; 
 
   /**
@@ -2868,7 +3050,7 @@ export type CustomerGroupDiscountUpdateType = z.infer<typeof CustomerGroupDiscou
   /**
    * ProductTypeCreate schema (Thu Nov 13 2025)
    */
-export const ProductTypeCreate = z.object({ name: P.short, description: P.long.optional(), products: P.connectMany.optional(), taxRates: P.connectMany.optional(), productTypeDiscounts: P.connectMany.optional(), readonly: P.bool.optional() })
+export const ProductTypeCreate = z.object({ updatedById: P.int.optional(), name: P.short, description: P.long.optional(), products: P.connectMany.optional(), taxRates: P.connectMany.optional(), productTypeDiscounts: P.connectMany.optional(), readonly: P.bool.optional() })
 export type ProductTypeCreateType = z.infer<typeof ProductTypeCreate>; 
 
   /**
@@ -2880,7 +3062,7 @@ export type ProductTypeUpdateType = z.infer<typeof ProductTypeUpdate>;
   /**
    * JurisdictionCreate schema (Thu Nov 13 2025)
    */
-export const JurisdictionCreate = z.object({ fipsCode: P.str, name: P.short, level: P.str, parentId: P.int.optional(), children: P.connectMany.optional(), taxRates: P.connectMany.optional(), readonly: P.bool.optional() })
+export const JurisdictionCreate = z.object({ fipsCode: P.str, name: P.short, level: P.str, parentId: P.int.optional(), children: P.connectMany.optional(), taxRates: P.connectMany.optional(), readonly: P.bool.optional(), updatedById: P.int.optional() })
 export type JurisdictionCreateType = z.infer<typeof JurisdictionCreate>; 
 
   /**
@@ -2892,7 +3074,7 @@ export type JurisdictionUpdateType = z.infer<typeof JurisdictionUpdate>;
   /**
    * TaxRateCreate schema (Thu Nov 13 2025)
    */
-export const TaxRateCreate = z.object({ percentRate: P.num, fixedRate: P.num, description: P.long.optional(), effectiveFrom: P.datetime, effectiveTo: P.datetime.optional(), jurisdictionId: P.int, productTypeId: P.int, readonly: P.bool.optional() })
+export const TaxRateCreate = z.object({ updatedById: P.int.optional(), percentRate: P.num, fixedRate: P.num, description: P.long.optional(), effectiveFrom: P.datetime, effectiveTo: P.datetime.optional(), jurisdictionId: P.int, productTypeId: P.int, readonly: P.bool.optional() })
 export type TaxRateCreateType = z.infer<typeof TaxRateCreate>; 
 
   /**

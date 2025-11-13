@@ -12,12 +12,48 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Employee {
+  /// Unique local integer identifier (system-input)
+  id Int @id @default(autoincrement())
+
+  /// Employee uuid (get this from hr)
+  uuid String @unique @db.Uuid
+
+  /// Defines the creation timestamp (system-input)
+  createdAt DateTime @default(now())
+
+  /// Defines the modification timestamp (system-input)
+  updatedAt DateTime @updatedAt
+
+  /// Defines deletion timestamp (system-input)
+  deletedAt DateTime?
+
+  updatedBy  Employee? @relation("updatedEmployees", fields: [employeeId], references: [id])
+  employeeId Int?
+
+  updatedCustomers     Customer[]
+  updatedStores        Store[]
+  updatedShelves       Shelf[]
+  updatedCategories    Category[]
+  updatedTags          Tag[]
+  updatedProducttags   ProductTag[]
+  updatedProducts      Product[]
+  updatedQuantities    Quantity[]
+  updatedSerialnumbers SerialNumber[]
+  updatedPrices        Price[]
+  updatedDiscounts     Discount[]
+  updatedProducttypes  ProductType[]
+  updatedJurisdictions Jurisdiction[]
+  updatedTaxrates      TaxRate[]
+  updatedEmployees     Employee[]     @relation("updatedEmployees")
+}
+
 model Customer {
   /// Unique local integer identifier (system-input)
   id Int @id @default(autoincrement())
 
   /// Customer uuid (get this from crm)
-  uuid String @db.Uuid
+  uuid String @unique @db.Uuid
 
   /// Defines the creation timestamp (system-input)
   createdAt DateTime @default(now())
@@ -29,8 +65,10 @@ model Customer {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String? @db.Uuid
+  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedById Int?
 
+  /// List of discounts for this customer
   customerDiscounts CustomerDiscount[]
 
   /// Defines if the category is readonly
@@ -44,7 +82,7 @@ model CustomerGroup {
   id Int @id @default(autoincrement())
 
   /// Customer group uuid (get this from crm)
-  uuid String @db.Uuid
+  uuid String @unique @db.Uuid
 
   /// Defines the creation timestamp (system-input)
   createdAt DateTime @default(now())
@@ -77,9 +115,6 @@ model Store {
   /// Defines deletion timestamp (system-input)
   deletedAt DateTime?
 
-  /// Defines updated-by log
-  updatedBy String? @db.Uuid
-
   /// Unique store name s
   name String @unique @db.VarChar(255)
 
@@ -106,6 +141,10 @@ model Store {
   /// List of discount in this store
   storeDiscounts StoreDiscount[]
 
+  /// Defines updated-by log
+  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedById Int?
+
   @@index([name])
   @@index([slug])
 }
@@ -124,7 +163,8 @@ model Shelf {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String? @db.Uuid
+  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedById Int?
 
   /// Shelf name (e.g  "A", "B", "AA", "BB")
   name String @db.VarChar(255)
@@ -172,7 +212,8 @@ model Category {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String? @db.Uuid
+  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedById Int?
 
   /// Unqiue category  name (e.g Electronics)
   name String @unique @db.VarChar(255)
@@ -226,7 +267,8 @@ model Tag {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String? @db.Uuid
+  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedById Int?
 
   /// Unique tag name
   name String @unique @db.VarChar(255)
@@ -255,7 +297,8 @@ model ProductTag {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String? @db.Uuid
+  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedById Int?
 
   /// Product relation
   product Product @relation(fields: [productId], references: [id])
@@ -290,7 +333,8 @@ model Product {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String? @db.Uuid
+  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedById Int?
 
   /// Unique product name
   name String @unique @db.VarChar(255)
@@ -318,10 +362,10 @@ model Product {
 
   /// Product type. 
   /// Product type is used to indentify the applicable tax rate
-  type ProductType @relation(fields: [typeId], references: [id])
+  type ProductType? @relation(fields: [typeId], references: [id], onDelete: SetNull)
 
   //// Product type id
-  typeId Int
+  typeId Int?
 
   /// Parent product relation 
   parent Product? @relation("variants", fields: [parentId], references: [id], onDelete: SetNull)
@@ -376,7 +420,8 @@ model Quantity {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String? @db.Uuid
+  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedById Int?
 
   /// Defines the number of items available in the store
   quantity Int
@@ -421,7 +466,8 @@ model SerialNumber {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String? @db.Uuid
+  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedById Int?
 
   /// Product serial number 
   serialNumber String @unique
@@ -465,7 +511,8 @@ model Price {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String? @db.Uuid
+  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedById Int?
 
   /// Defines the product price
   price Decimal @db.Decimal(10, 2)
@@ -532,7 +579,8 @@ model Discount {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String? @db.Uuid
+  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedById Int?
 
   /// Discount name 
   name String @unique
@@ -770,7 +818,8 @@ model ProductType {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String? @db.Uuid
+  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedById Int?
 
   /// The unique name of the product category 
   /// (e.g., "General Merchandise," "Prepared Food," "Prescription Drugs"). 
@@ -813,9 +862,6 @@ model Jurisdiction {
   /// Defines deletion timestamp (system-input)
   deletedAt DateTime?
 
-  /// Defines updated-by log
-  updatedBy String? @db.Uuid
-
   /// A unique identifier often used in the U.S. (Federal Information Processing Standards) 
   /// to denote geographical entities like counties and states.
   fipsCode String @unique
@@ -843,6 +889,10 @@ model Jurisdiction {
   /// Readonly entries cannot be updated by the client applications
   readonly Boolean @default(true)
 
+  /// Defines updated-by log
+  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedById Int?
+
   @@index([parentId])
   @@index([name])
   @@index([level])
@@ -862,7 +912,8 @@ model TaxRate {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String? @db.Uuid
+  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedById Int?
 
   /// The tax rate expressed as a percentage (e.g., 0.075 for 7.5%). 
   /// The database type Decimal(10, 6) ensures precise storage of the value.
