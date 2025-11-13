@@ -2532,7 +2532,7 @@ export type CustomerGroupCreateOwnType = z.infer<typeof CustomerGroupCreateOwn>;
   /**
    * StoreCreateOwn schema (Thu Nov 13 2025)
    */
-export const StoreCreateOwn = z.object({ name: P.short,slug: P.slug,readonly: P.bool.optional() })
+export const StoreCreateOwn = z.object({ name: P.short,readonly: P.bool.optional() })
 export type StoreCreateOwnType = z.infer<typeof StoreCreateOwn>; 
 
   /**
@@ -2544,7 +2544,7 @@ export type ShelfCreateOwnType = z.infer<typeof ShelfCreateOwn>;
   /**
    * CategoryCreateOwn schema (Thu Nov 13 2025)
    */
-export const CategoryCreateOwn = z.object({ name: P.short,slug: P.slug,readonly: P.bool.optional() })
+export const CategoryCreateOwn = z.object({ name: P.short,readonly: P.bool.optional() })
 export type CategoryCreateOwnType = z.infer<typeof CategoryCreateOwn>; 
 
   /**
@@ -2562,7 +2562,7 @@ export type ProductTagCreateOwnType = z.infer<typeof ProductTagCreateOwn>;
   /**
    * ProductCreateOwn schema (Thu Nov 13 2025)
    */
-export const ProductCreateOwn = z.object({ name: P.short,slug: P.slug,sku: P.str,upc: P.str,typeId: P.int,readonly: P.bool.optional() })
+export const ProductCreateOwn = z.object({ name: P.short,sku: P.str,upc: P.str,typeId: P.int,readonly: P.bool.optional() })
 export type ProductCreateOwnType = z.infer<typeof ProductCreateOwn>; 
 
   /**
@@ -2676,7 +2676,7 @@ export type CustomerGroupUpdateType = z.infer<typeof CustomerGroupUpdate>;
   /**
    * StoreCreate schema (Thu Nov 13 2025)
    */
-export const StoreCreate = z.object({ name: P.short, description: P.long.optional(), slug: P.slug, quantities: P.connectMany.optional(), serials: P.connectMany.optional(), shelves: P.connectMany.optional(), readonly: P.bool.optional(), storeDiscounts: P.connectMany.optional() })
+export const StoreCreate = z.object({ name: P.short, description: P.long.optional(), quantities: P.connectMany.optional(), serials: P.connectMany.optional(), shelves: P.connectMany.optional(), readonly: P.bool.optional(), storeDiscounts: P.connectMany.optional() })
 export type StoreCreateType = z.infer<typeof StoreCreate>; 
 
   /**
@@ -2700,7 +2700,7 @@ export type ShelfUpdateType = z.infer<typeof ShelfUpdate>;
   /**
    * CategoryCreate schema (Thu Nov 13 2025)
    */
-export const CategoryCreate = z.object({ name: P.short, description: P.long.optional(), slug: P.slug, parentId: P.int.optional(), children: P.connectMany.optional(), products: P.connectMany.optional(), categoryDiscounts: P.connectMany.optional(), readonly: P.bool.optional() })
+export const CategoryCreate = z.object({ name: P.short, description: P.long.optional(), parentId: P.int.optional(), children: P.connectMany.optional(), products: P.connectMany.optional(), categoryDiscounts: P.connectMany.optional(), readonly: P.bool.optional() })
 export type CategoryCreateType = z.infer<typeof CategoryCreate>; 
 
   /**
@@ -2736,7 +2736,7 @@ export type ProductTagUpdateType = z.infer<typeof ProductTagUpdate>;
   /**
    * ProductCreate schema (Thu Nov 13 2025)
    */
-export const ProductCreate = z.object({ name: P.short, description: P.long.optional(), slug: P.slug, sku: P.str, upc: P.str, model: P.str.optional(), categoryId: P.int.optional(), typeId: P.int, parentId: P.int.optional(), variants: P.connectMany.optional(), quantities: P.connectMany.optional(), serialNumbers: P.connectMany.optional(), prices: P.connectMany.optional(), productTags: P.connectMany.optional(), discounts: P.connectMany.optional(), ownDiscounts: P.connectMany.optional(), readonly: P.bool.optional() })
+export const ProductCreate = z.object({ name: P.short, description: P.long.optional(), sku: P.str, upc: P.str, model: P.str.optional(), categoryId: P.int.optional(), typeId: P.int, parentId: P.int.optional(), variants: P.connectMany.optional(), quantities: P.connectMany.optional(), serialNumbers: P.connectMany.optional(), prices: P.connectMany.optional(), productTags: P.connectMany.optional(), discounts: P.connectMany.optional(), ownDiscounts: P.connectMany.optional(), readonly: P.bool.optional() })
 export type ProductCreateType = z.infer<typeof ProductCreate>; 
 
   /**

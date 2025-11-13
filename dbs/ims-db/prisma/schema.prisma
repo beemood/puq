@@ -29,7 +29,7 @@ model Customer {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String @db.Uuid
+  updatedBy String? @db.Uuid
 
   customerDiscounts CustomerDiscount[]
 
@@ -53,8 +53,14 @@ model CustomerGroup {
   updatedAt DateTime @updatedAt
 
   /// Defines deletion timestamp (system-input)
-  deletedAt              DateTime?
+  deletedAt DateTime?
+
+  /// List of customerGroupDiscounts
   customerGroupDiscounts CustomerGroupDiscount[]
+
+  /// Define if this store is readonly. 
+  /// Readonly entries cannot be updated by the client application but super user
+  readonly Boolean @default(false)
 }
 
 // Locations
@@ -72,7 +78,7 @@ model Store {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String @db.Uuid
+  updatedBy String? @db.Uuid
 
   /// Unique store name s
   name String @unique @db.VarChar(255)
@@ -82,7 +88,7 @@ model Store {
 
   /// This field can be generated using `slugExtention` provided 
   /// by `@puq/prisma-extentions`
-  slug String @unique
+  slug String @unique @default(uuid(7))
 
   /// List of product quantities in this store
   quantities Quantity[]
@@ -118,7 +124,7 @@ model Shelf {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String @db.Uuid
+  updatedBy String? @db.Uuid
 
   /// Shelf name (e.g  "A", "B", "AA", "BB")
   name String @db.VarChar(255)
@@ -166,7 +172,7 @@ model Category {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String @db.Uuid
+  updatedBy String? @db.Uuid
 
   /// Unqiue category  name (e.g Electronics)
   name String @unique @db.VarChar(255)
@@ -176,7 +182,7 @@ model Category {
 
   /// Defines a slug which is a url friendly category name
   /// Slugs are used in urls for better user experience
-  slug String @unique
+  slug String @unique @default(uuid(7))
 
   /// Defines parent category (e.g PC and Laptop are cateogry. 
   /// Electronics is the parent category)
@@ -220,10 +226,13 @@ model Tag {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String @db.Uuid
+  updatedBy String? @db.Uuid
 
   /// Unique tag name
   name String @unique @db.VarChar(255)
+
+  /// Unique url friendly slug
+  slug String @unique @default(uuid(7))
 
   /// Product tag map table 
   productTags ProductTag[]
@@ -246,7 +255,7 @@ model ProductTag {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String @db.Uuid
+  updatedBy String? @db.Uuid
 
   /// Product relation
   product Product @relation(fields: [productId], references: [id])
@@ -281,7 +290,7 @@ model Product {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String @db.Uuid
+  updatedBy String? @db.Uuid
 
   /// Unique product name
   name String @unique @db.VarChar(255)
@@ -290,7 +299,7 @@ model Product {
   description String?
 
   /// Url friendly product name (e.g for "Product Name" to "product-name")
-  slug String @unique
+  slug String @unique @default(uuid(7))
 
   /// Unqiue product stock keeping unite code (e.g "PC-8I-GREY-008")
   sku String @unique @db.VarChar(255)
@@ -367,7 +376,7 @@ model Quantity {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String @db.Uuid
+  updatedBy String? @db.Uuid
 
   /// Defines the number of items available in the store
   quantity Int
@@ -412,7 +421,7 @@ model SerialNumber {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String @db.Uuid
+  updatedBy String? @db.Uuid
 
   /// Product serial number 
   serialNumber String @unique
@@ -456,7 +465,7 @@ model Price {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String @db.Uuid
+  updatedBy String? @db.Uuid
 
   /// Defines the product price
   price Decimal @db.Decimal(10, 2)
@@ -523,7 +532,7 @@ model Discount {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String @db.Uuid
+  updatedBy String? @db.Uuid
 
   /// Discount name 
   name String @unique
@@ -761,7 +770,7 @@ model ProductType {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String @db.Uuid
+  updatedBy String? @db.Uuid
 
   /// The unique name of the product category 
   /// (e.g., "General Merchandise," "Prepared Food," "Prescription Drugs"). 
@@ -805,7 +814,7 @@ model Jurisdiction {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String @db.Uuid
+  updatedBy String? @db.Uuid
 
   /// A unique identifier often used in the U.S. (Federal Information Processing Standards) 
   /// to denote geographical entities like counties and states.
@@ -853,7 +862,7 @@ model TaxRate {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy String @db.Uuid
+  updatedBy String? @db.Uuid
 
   /// The tax rate expressed as a percentage (e.g., 0.075 for 7.5%). 
   /// The database type Decimal(10, 6) ensures precise storage of the value.

@@ -242,7 +242,8 @@
           "commands": [
             "rm -rf ./generated",
             "rm -rf ./prisma/migrations",
-            "npx prisma migrate reset --force"
+            "npx prisma migrate reset --force",
+            "npx prisma migrate dev --name=reset"
           ],
           "cwd": "{projectRoot}"
         }
@@ -263,10 +264,13 @@
   },
   "dependencies": {
     "@prisma/client": "^6.18.0",
+    "@puq/names": "workspace:*",
     "@puq/prisma-extentions": "workspace:*",
     "@puq/prisma-generators": "workspace:*",
+    "@puq/types": "workspace:*",
     "@puq/zod": "workspace:*",
-    "@swc/helpers": "0.5.11"
+    "@swc/helpers": "0.5.11",
+    "uuid": "13.0.0"
   },
   "devDependencies": {
     "@puq/ims-db": "workspace:*",

@@ -265,6 +265,7 @@
     "@prisma/client": "^6.18.0",
     "@puq/prisma-extentions": "workspace:*",
     "@puq/prisma-generators": "workspace:*",
+    "@puq/types": "workspace:*",
     "@puq/zod": "workspace:*",
     "@swc/helpers": "0.5.11"
   },
