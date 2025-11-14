@@ -45,10 +45,12 @@
   "exports": {
     "./package.json": "./package.json",
     "./zod": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "node": "./dist/index.js"
-      }
+      "types": "./dist/index.d.ts",
+      "node": {
+        "require": "./dist/index.js",
+        "default": "./dist/index.js"
+      },
+      "require": "./dist/index.js"
     },
     "./client": {
       "require": {
@@ -273,7 +275,7 @@
     "zod": "4.1.11"
   },
   "dependencies": {
-    "@prisma/client": "^6.18.0",
+    "@prisma/client": "6.18.0",
     "@puq/names": "workspace:*",
     "@puq/prisma-extentions": "workspace:*",
     "@puq/prisma-generators": "workspace:*",
@@ -284,6 +286,6 @@
   },
   "devDependencies": {
     "@puq/ims-db": "workspace:*",
-    "prisma": "^6.18.0"
+    "prisma": "6.18.0"
   }
 }

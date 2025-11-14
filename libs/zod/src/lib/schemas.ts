@@ -391,7 +391,7 @@ export const jsonFilter_1 = z.object({
   not: str.or(jsonFilter_0),
 });
 
-export const jsonFilter = str.or(jsonFilter_1);
+export const jsonFilter = jsonFilter_1;
 
 /**
  * Filter schema to query a list of strings

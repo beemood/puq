@@ -3,8 +3,8 @@ import {
   formatFiles,
   generateFiles,
   readProjectConfiguration,
-  workspaceRoot,
 } from '@nx/devkit';
+import { NotFoundError } from '@puq/errors';
 import { execSync } from 'child_process';
 import { rm } from 'fs/promises';
 import * as path from 'path';
@@ -15,21 +15,39 @@ export async function resourcesGenerator(
   options: ResourcesGeneratorSchema
 ) {
   const config = readProjectConfiguration(tree, options.project);
-
+  const projectRoot = config.root;
   const source = path.join(__dirname, 'files');
+
+  const target = path.join(projectRoot);
   const timestamp = new Date().getTime().toString();
 
-  const scriptPath = `tmp/generate-resources-${timestamp}.mjs`;
+  const scriptPath = path.join(
+    projectRoot,
+    `/tmp/generate-resources-${timestamp}.mjs`
+  );
 
-  await generateFiles(tree, source, workspaceRoot, {
-    projectName: config.name,
+  const projectName = config.name;
+
+  if (!projectName) throw new NotFoundError('config.name');
+
+  const databaseProjectName = projectName.replace('api', 'db');
+
+  await generateFiles(tree, source, target, {
+    databaseProjectName,
+    projectName,
+    timestamp,
   });
 
   await formatFiles(tree);
 
   return async () => {
-    await execSync(scriptPath, { stdio: 'inherit', cwd: workspaceRoot });
-    await rm(scriptPath, { maxRetries: 3 });
+    try {
+      await execSync(`node ${scriptPath}`, {
+        stdio: 'inherit',
+      });
+    } finally {
+      await rm(scriptPath, { maxRetries: 3 });
+    }
   };
 }
 

@@ -13,9 +13,11 @@ import { makePartial } from './make-partial.js';
 export const whereScalarArrayField = (field: Field) => {
   switch (field.type) {
     case 'String':
-    case 'BigInt':
-    case 'Json': {
+    case 'BigInt': {
       return 'strArrayFilter';
+    }
+    case 'Json': {
+      return 'jsonArrayFilter';
     }
     case 'Number':
     case 'Decimal': {
@@ -47,9 +49,11 @@ export const whereScalarArrayField = (field: Field) => {
 export const whereScalarField = (field: Field): string => {
   switch (field.type) {
     case 'String':
-    case 'BigInt':
-    case 'Json': {
+    case 'BigInt': {
       return 'strFilter';
+    }
+    case 'Json': {
+      return 'jsonFilter';
     }
     case 'Number':
     case 'Decimal': {

@@ -46,8 +46,8 @@ importers:
         specifier: 21.5.2
         version: 21.5.2(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.9.2))(@swc/core@1.5.29(@swc/helpers@0.5.17))
       '@prisma/client':
-        specifier: 6.16.2
-        version: 6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.2))(typescript@5.9.2)
+        specifier: 6.18.0
+        version: 6.18.0(prisma@6.18.0(magicast@0.3.5)(typescript@5.9.2))(typescript@5.9.2)
       '@puq/fs':
         specifier: workspace:*
         version: link:libs/fs
@@ -112,8 +112,8 @@ importers:
         specifier: ^2.6.2
         version: 2.8.8
       prisma:
-        specifier: 6.16.2
-        version: 6.16.2(magicast@0.3.5)(typescript@5.9.2)
+        specifier: 6.18.0
+        version: 6.18.0(magicast@0.3.5)(typescript@5.9.2)
       tslib:
         specifier: ^2.3.0
         version: 2.8.1
@@ -165,9 +165,6 @@ importers:
       '@nestjs/throttler':
         specifier: ^6.4.0
         version: 6.4.0(@nestjs/common@11.1.8(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)(reflect-metadata@0.2.2)
-      '@prisma/client':
-        specifier: 6.16.2
-        version: 6.16.2(prisma@6.18.0(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)
       '@puq/ims-db':
         specifier: workspace:*
         version: link:../../dbs/ims-db
@@ -230,7 +227,7 @@ importers:
   dbs/iam-db:
     dependencies:
       '@prisma/client':
-        specifier: ^6.18.0
+        specifier: 6.18.0
         version: 6.18.0(prisma@6.18.0(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)
       '@puq/names':
         specifier: workspace:*
@@ -261,13 +258,13 @@ importers:
         specifier: workspace:*
         version: 'link:'
       prisma:
-        specifier: ^6.18.0
+        specifier: 6.18.0
         version: 6.18.0(magicast@0.3.5)(typescript@5.9.3)
 
   dbs/ims-db:
     dependencies:
       '@prisma/client':
-        specifier: ^6.18.0
+        specifier: 6.18.0
         version: 6.18.0(prisma@6.18.0(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)
       '@puq/names':
         specifier: workspace:*
@@ -298,7 +295,7 @@ importers:
         specifier: workspace:*
         version: 'link:'
       prisma:
-        specifier: ^6.18.0
+        specifier: 6.18.0
         version: 6.18.0(magicast@0.3.5)(typescript@5.9.3)
 
   libs/barcode:
@@ -2650,8 +2647,8 @@ packages:
   '@types/unist@3.0.3':
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
 
-  '@types/validator@13.15.4':
-    resolution: {integrity: sha512-LSFfpSnJJY9wbC0LQxgvfb+ynbHftFo0tMsFOl/J4wexLnYMmDSPaj2ZyDv3TkfL1UePxPrxOWJfbiRS8mQv7A==}
+  '@types/validator@13.15.9':
+    resolution: {integrity: sha512-9ENIuq9PUX45M1QRtfJDprgfErED4fBiMPmjlPci4W9WiBelVtHYCjF3xkQNcSnmUeuruLS1kH6hSl5M1vz4Sw==}
 
   '@types/yargs-parser@21.0.3':
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
@@ -4873,8 +4870,8 @@ packages:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
 
-  libphonenumber-js@1.12.25:
-    resolution: {integrity: sha512-u90tUu/SEF8b+RaDKCoW7ZNFDakyBtFlX1ex3J+VH+ElWes/UaitJLt/w4jGu8uAE41lltV/s+kMVtywcMEg7g==}
+  libphonenumber-js@1.12.26:
+    resolution: {integrity: sha512-MagMOuqEXB2Pa90cWE+BoCmcKJx+de5uBIicaUkQ+uiEslZ0OBMNOkSZT/36syXNHu68UeayTxPm3DYM2IHoLQ==}
 
   lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
@@ -6270,6 +6267,10 @@ packages:
 
   validator@13.12.0:
     resolution: {integrity: sha512-c1Q0mCiPlgdTVVVIJIrBuxNicYE+t/7oKeI9MWLj3fh/uq2Pxh/3eeWbVZ4OcGW1TUf53At0njHw5SMdA3tmMg==}
+    engines: {node: '>= 0.10'}
+
+  validator@13.15.23:
+    resolution: {integrity: sha512-4yoz1kEWqUjzi5zsPbAS/903QXSYp0UOtHsPpp7p9rHAw/W+dkInskAE386Fat3oKRROwO98d9ZB0G4cObgUyw==}
     engines: {node: '>= 0.10'}
 
   vary@1.1.2:
@@ -8363,11 +8364,6 @@ snapshots:
 
   '@polka/url@1.0.0-next.29': {}
 
-  '@prisma/client@6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.2))(typescript@5.9.2)':
-    optionalDependencies:
-      prisma: 6.16.2(magicast@0.3.5)(typescript@5.9.2)
-      typescript: 5.9.2
-
   '@prisma/client@6.16.2(prisma@6.16.2(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)':
     optionalDependencies:
       prisma: 6.16.2(magicast@0.3.5)(typescript@5.9.3)
@@ -8377,6 +8373,11 @@ snapshots:
     optionalDependencies:
       prisma: 6.18.0(magicast@0.3.5)(typescript@5.9.3)
       typescript: 5.9.3
+
+  '@prisma/client@6.18.0(prisma@6.18.0(magicast@0.3.5)(typescript@5.9.2))(typescript@5.9.2)':
+    optionalDependencies:
+      prisma: 6.18.0(magicast@0.3.5)(typescript@5.9.2)
+      typescript: 5.9.2
 
   '@prisma/client@6.18.0(prisma@6.18.0(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)':
     optionalDependencies:
@@ -8837,7 +8838,7 @@ snapshots:
 
   '@types/unist@3.0.3': {}
 
-  '@types/validator@13.15.4':
+  '@types/validator@13.15.9':
     optional: true
 
   '@types/yargs-parser@21.0.3': {}
@@ -9821,9 +9822,9 @@ snapshots:
 
   class-validator@0.14.2:
     dependencies:
-      '@types/validator': 13.15.4
-      libphonenumber-js: 1.12.25
-      validator: 13.12.0
+      '@types/validator': 13.15.9
+      libphonenumber-js: 1.12.26
+      validator: 13.15.23
     optional: true
 
   cli-cursor@3.1.0:
@@ -11651,7 +11652,7 @@ snapshots:
       prelude-ls: 1.2.1
       type-check: 0.4.0
 
-  libphonenumber-js@1.12.25:
+  libphonenumber-js@1.12.26:
     optional: true
 
   lines-and-columns@1.2.4: {}
@@ -12257,21 +12258,21 @@ snapshots:
       ansi-styles: 5.2.0
       react-is: 18.3.1
 
-  prisma@6.16.2(magicast@0.3.5)(typescript@5.9.2):
-    dependencies:
-      '@prisma/config': 6.16.2(magicast@0.3.5)
-      '@prisma/engines': 6.16.2
-    optionalDependencies:
-      typescript: 5.9.2
-    transitivePeerDependencies:
-      - magicast
-
   prisma@6.16.2(magicast@0.3.5)(typescript@5.9.3):
     dependencies:
       '@prisma/config': 6.16.2(magicast@0.3.5)
       '@prisma/engines': 6.16.2
     optionalDependencies:
       typescript: 5.9.3
+    transitivePeerDependencies:
+      - magicast
+
+  prisma@6.18.0(magicast@0.3.5)(typescript@5.9.2):
+    dependencies:
+      '@prisma/config': 6.18.0(magicast@0.3.5)
+      '@prisma/engines': 6.18.0
+    optionalDependencies:
+      typescript: 5.9.2
     transitivePeerDependencies:
       - magicast
 
@@ -13212,6 +13213,9 @@ snapshots:
   validate-npm-package-name@5.0.1: {}
 
   validator@13.12.0: {}
+
+  validator@13.15.23:
+    optional: true
 
   vary@1.1.2: {}
 

@@ -21,8 +21,8 @@
       "description": "event-listener generator"
     },
     "resources": {
-      "factory": "./dist/generators/resources/resources/resources",
-      "schema": "./dist/generators/resources/resources/schema.json",
+      "factory": "./dist/generators/resources/resources",
+      "schema": "./dist/generators/resources/schema.json",
       "description": "resources generator"
     }
   }

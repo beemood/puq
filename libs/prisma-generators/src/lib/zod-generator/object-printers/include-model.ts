@@ -22,6 +22,11 @@ export const includeFields = (fields: Field[]): string => {
  */
 export const includeModel = (model: Model): string => {
   const fields = includeFields([...model.fields]);
+
+  if (fields.trim() === '') {
+    return `z.any()`;
+  }
+
   const schema = `z.object({ ${fields} })`;
   return makePartial(schema);
 };
