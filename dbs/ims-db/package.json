@@ -2,8 +2,8 @@
   "name": "@puq/ims-db",
   "version": "0.29.10",
   "license": "MIT",
-  "displayName": "Inventory management system | Prisma Client and Zod Schemas",
-  "description": "Inventory management system database schema, prisma client, zod schemas.",
+  "displayName": "Inventory management system database | Prisma client and zod schemas",
+  "description": "Inventory management system database | Prisma client and zod schemas",
   "publishConfig": {
     "access": "public",
     "tag": "latest"
@@ -132,6 +132,10 @@
     },
     "./runtime/library": {
       "types": "./generated/runtime/library.d.ts",
+      "node": {
+        "require": "./generated/runtime/library.js",
+        "default": "./generated/runtime/library.js"
+      },
       "require": "./generated/runtime/library.js"
     },
     "./runtime/binary": {

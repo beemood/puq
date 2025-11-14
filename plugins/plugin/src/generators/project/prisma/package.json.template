@@ -126,6 +126,10 @@
     },
     "./runtime/library": {
       "types": "./generated/runtime/library.d.ts",
+      "node": {
+        "require": "./generated/runtime/library.js",
+        "default": "./generated/runtime/library.js"
+      },
       "require": "./generated/runtime/library.js"
     },
     "./runtime/binary": {

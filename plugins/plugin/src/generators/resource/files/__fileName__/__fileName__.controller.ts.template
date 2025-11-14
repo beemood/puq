@@ -1,16 +1,16 @@
-import type { Prisma } from '@puq/inventory-db';
+import type { Prisma } from '<%- databaseProjectName %>';
 import type {
   <%- className %>CreateType,
   <%- className %>ProjectionType,
   <%- className %>QueryType,
   <%- className %>UpdateType,
-} from '@puq/inventory-db/zod';
+} from '<%- databaseProjectName %>/zod';
 import {
   <%- className %>Create,
   <%- className %>Projection,
   <%- className %>Query,
   <%- className %>Update,
-} from '@puq/inventory-db/zod';
+} from '<%- databaseProjectName %>/zod';
 import {
   AbstractResourceController,
   AutoResourceController,

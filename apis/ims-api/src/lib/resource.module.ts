@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
-import { PrismaClientKnownRequestError } from '<%- databaseProjectName %>/runtime/library';
+import { PrismaClientKnownRequestError } from '@puq/ims-db/runtime/library';
 import {
   createPrismaExceptionFilter,
   ResourceEventInterceptor,
@@ -11,7 +11,9 @@ import * as modules from './resources/resource-modules.js';
 
 @Module({
   imports: [
-    PrismaModule.forRoot({ client: extendedClient }),
+    PrismaModule.forRoot({
+      client: extendedClient,
+    }),
     ...Object.values(modules),
   ],
   providers: [

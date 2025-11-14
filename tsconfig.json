@@ -57,5 +57,8 @@
     {
       "path": "./dbs/iam-db"
     },
+    {
+      "path": "./apis/ims-api"
+    }
   ]
 }

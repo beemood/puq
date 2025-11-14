@@ -1,14 +1,14 @@
 <p align="center">
-  <img src="https://beemood.github.io/dbs/ims-db/assets/favicon.png" alt="Logo" />
+  <img src="https://beemood.github.io/apis/ims-api/assets/favicon.png" alt="Logo" />
 </p>
 
-# @puq/ims-db
+# @puq/ims-api
 
-Inventory management system database | Prisma client and zod schemas
+Inventory management system api
 
 ## Install
 
-`pnpm add @puq/ims-db`
+`pnpm add @puq/ims-api`
 
 ## Funding
 

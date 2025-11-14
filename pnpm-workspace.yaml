@@ -1,5 +1,6 @@
 packages:
   - apps/*
+  - apis/*
   - libs/*
   - samples/*
   - dbs/*

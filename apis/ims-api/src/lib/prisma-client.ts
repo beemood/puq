@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from '<%- databaseProjectName %>';
+import { Prisma, PrismaClient } from '@puq/ims-db';
 import {
   withHash,
   withReadonly,
@@ -12,7 +12,7 @@ import {
 export const client = new PrismaClient();
 
 /**
- * Prisma client with extentions 
+ * Prisma client with extentions
  * - withHash
  * - withReadonly
  * - withSlugify

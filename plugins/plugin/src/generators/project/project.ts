@@ -56,7 +56,7 @@ export async function projectGenerator(
     .map(() => '..')
     .join('/');
 
-  const typedocOut = join('..', segments, relativeTypeDocOut, __names.fileName);
+  const typedocOut = join('..', segments, relativeTypeDocOut, projectDirectory);
 
   generateFiles(tree, source, target, {
     ...__names,

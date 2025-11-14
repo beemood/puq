@@ -5,6 +5,7 @@ import {
   names,
   readProjectConfiguration,
 } from '@nx/devkit';
+import { NotFoundError } from '@puq/errors';
 import * as path from 'path';
 import type { ResourceGeneratorSchema } from './schema';
 
@@ -24,9 +25,14 @@ export async function resourceGenerator(
   const targetPath = path.join(projectRootPath, 'src', 'lib', 'resources');
   const __names = names(options.resourceName);
 
+  const databaseProjectName = config.name?.replace('api', 'db');
+
+  if (!databaseProjectName) throw new NotFoundError('config.name');
+
   generateFiles(tree, sourcePath, targetPath, {
     ...__names,
     projectName: options.project,
+    databaseProjectName,
   });
   await formatFiles(tree);
 }

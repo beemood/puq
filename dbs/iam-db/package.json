@@ -2,8 +2,8 @@
   "name": "@puq/iam-db",
   "version": "0.29.10",
   "license": "MIT",
-  "displayName": "iam-db | Prisma Client and Zod Schemas",
-  "description": "iam-db database schema, prisma client, zod schemas.",
+  "displayName": "Identity and access management system db | Prisma client and zod schemas",
+  "description": "Identity and access management system db | Prisma client and zod schemas",
   "publishConfig": {
     "access": "public",
     "tag": "latest"
@@ -132,6 +132,10 @@
     },
     "./runtime/library": {
       "types": "./generated/runtime/library.d.ts",
+      "node": {
+        "require": "./generated/runtime/library.js",
+        "default": "./generated/runtime/library.js"
+      },
       "require": "./generated/runtime/library.js"
     },
     "./runtime/binary": {

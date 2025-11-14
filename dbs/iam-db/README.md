@@ -4,7 +4,7 @@
 
 # @puq/iam-db
 
-iam-db
+Identity and access management system db | Prisma client and zod schemas
 
 ## Install
 

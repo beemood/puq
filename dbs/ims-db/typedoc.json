@@ -1,6 +1,8 @@
 {
   "name": "ims-db",
   "favicon": "./favicon.png",
-  "entryPoints": ["./src/index.ts"],
-  "out": "../../public/dbs/ims-db"
+  "entryPoints": [
+    "./src/index.ts"
+  ],
+  "out": "../../../beemood.github.io/public/dbs/ims-db"
 }
