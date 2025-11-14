@@ -968,10 +968,10 @@ model Log {
   timestamp DateTime @default(now())
 
   /// The operator who executed this operation
-  operatorId String @db.Uuid
+  operatorId String? @db.Uuid
 
   /// Operator type (system/user)
-  operatorType OperatorType
+  operatorType OperatorType?
 
   /// Operation name
   operationName String
@@ -983,7 +983,7 @@ model Log {
   recordId Int
 
   /// Differences from old data and new data
-  difference Json
+  difference Json?
 
   /// Defines if the entry is readonly or not
   /// Readonly entries cannot be updated by the client application

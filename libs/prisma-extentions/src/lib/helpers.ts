@@ -52,6 +52,10 @@ export class DatamodelManager {
       (e) => e.name === 'ChangeLog' || e.documentation?.includes('@changeLog')
     );
   }
+
+  findLogTable() {
+    return this.datamodel.models.find((e) => e.name.endsWith('Log'));
+  }
 }
 
 export class ModelManager {

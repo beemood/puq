@@ -14,12 +14,6 @@ export const DiscountTarget = z.enum([ 'ALL_PRODUCTS', 'SINGLE_PRODUCT', 'PRODUC
 export type DiscountTargetType = z.infer<typeof DiscountTarget>; 
 
   /**
-   * OperationType schema (Thu Nov 13 2025)
-   */
-export const OperationType = z.enum([ 'READ', 'WRITE', 'UPDATE', 'DELETE' ])
-export type OperationTypeType = z.infer<typeof OperationType>; 
-
-  /**
    * OperatorType schema (Thu Nov 13 2025)
    */
 export const OperatorType = z.enum([ 'USER', 'SYSTEM' ])
@@ -160,7 +154,7 @@ export type TaxRateFieldType = z.infer<typeof TaxRateField>;
   /**
    * LogField schema (Thu Nov 13 2025)
    */
-export const LogField = z.enum([ 'id', 'timestamp', 'operatorId', 'operatorType', 'operationType', 'recordName', 'recordId', 'difference', 'readonly' ])
+export const LogField = z.enum([ 'id', 'timestamp', 'operatorId', 'operatorType', 'operationName', 'recordName', 'recordId', 'difference', 'readonly' ])
 export type LogFieldType = z.infer<typeof LogField>; 
 
   /**
@@ -208,29 +202,6 @@ export const DiscountTargetArrayFilter = z.object({
       isEmpty: P.bool
     }).partial()
 export type DiscountTargetArrayFilterType = z.infer<typeof DiscountTargetArrayFilter>; 
-
-  /**
-   * OperationTypeFilter schema (Thu Nov 13 2025)
-   */
-export const OperationTypeFilter = z.object({ 
-      equals: OperationType,
-      in: OperationType.array(),
-      not: OperationType,
-      notIn: OperationType.array()
-  }).partial()
-export type OperationTypeFilterType = z.infer<typeof OperationTypeFilter>; 
-
-  /**
-   * OperationTypeArrayFilter schema (Thu Nov 13 2025)
-   */
-export const OperationTypeArrayFilter = z.object({ 
-      equals: OperationType.array(),
-      has: OperationType,
-      hasEvery: OperationType.array(),
-      hasSome: OperationType.array(),
-      isEmpty: P.bool
-    }).partial()
-export type OperationTypeArrayFilterType = z.infer<typeof OperationTypeArrayFilter>; 
 
   /**
    * OperatorTypeFilter schema (Thu Nov 13 2025)
@@ -390,7 +361,7 @@ export type TaxRateOmitType = z.infer<typeof TaxRateOmit>;
   /**
    * LogOmit schema (Thu Nov 13 2025)
    */
-export const LogOmit = z.object({ id: P.bool, timestamp: P.bool, operatorId: P.bool, operatorType: P.bool, operationType: P.bool, recordName: P.bool, recordId: P.bool, difference: P.bool, readonly: P.bool }).partial()
+export const LogOmit = z.object({ id: P.bool, timestamp: P.bool, operatorId: P.bool, operatorType: P.bool, operationName: P.bool, recordName: P.bool, recordId: P.bool, difference: P.bool, readonly: P.bool }).partial()
 export type LogOmitType = z.infer<typeof LogOmit>; 
 
   /**
@@ -849,7 +820,7 @@ export type TaxRateOrderByOwnType = z.infer<typeof TaxRateOrderByOwn>;
    * LogOrderByOwn schema (Thu Nov 13 2025)
    */
 export const LogOrderByOwn = z.object({ 
-    id: P.dir, timestamp: P.dir, operatorId: P.dir, operatorType: P.dir, operationType: P.dir, recordName: P.dir, recordId: P.dir, difference: P.dir, readonly: P.dir 
+    id: P.dir, timestamp: P.dir, operatorId: P.dir, operatorType: P.dir, operationName: P.dir, recordName: P.dir, recordId: P.dir, difference: P.dir, readonly: P.dir 
   }).partial()
 export type LogOrderByOwnType = z.infer<typeof LogOrderByOwn>; 
 
@@ -1195,7 +1166,7 @@ export type TaxRateWhereOwnType = z.infer<typeof TaxRateWhereOwn>;
   /**
    * LogWhereOwn schema (Thu Nov 13 2025)
    */
-export const LogWhereOwn = z.object({ id: P.intFilter, timestamp: P.datetimeFilter, operatorId: P.strFilter, operatorType: OperatorTypeFilter, operationType: OperationTypeFilter, recordName: P.strFilter, recordId: P.intFilter, difference: P.strFilter, readonly: P.boolFilter }).partial()
+export const LogWhereOwn = z.object({ id: P.intFilter, timestamp: P.datetimeFilter, operatorId: P.strFilter, operatorType: OperatorTypeFilter, operationName: P.strFilter, recordName: P.strFilter, recordId: P.intFilter, difference: P.strFilter, readonly: P.boolFilter }).partial()
 export type LogWhereOwnType = z.infer<typeof LogWhereOwn>; 
 
   /**
@@ -2816,7 +2787,7 @@ export type TaxRateCreateOwnType = z.infer<typeof TaxRateCreateOwn>;
   /**
    * LogCreateOwn schema (Thu Nov 13 2025)
    */
-export const LogCreateOwn = z.object({ timestamp: P.datetime.optional(),operatorId: P.str,operatorType: OperatorType,operationType: OperationType,recordName: P.str,recordId: P.int,difference: P.json,readonly: P.bool.optional() })
+export const LogCreateOwn = z.object({ timestamp: P.datetime.optional(),operationName: P.str,recordName: P.str,recordId: P.int,readonly: P.bool.optional() })
 export type LogCreateOwnType = z.infer<typeof LogCreateOwn>; 
 
   /**
@@ -3086,7 +3057,7 @@ export type TaxRateUpdateType = z.infer<typeof TaxRateUpdate>;
   /**
    * LogCreate schema (Thu Nov 13 2025)
    */
-export const LogCreate = z.object({ timestamp: P.datetime.optional(), operatorId: P.str, operatorType: OperatorType, operationType: OperationType, recordName: P.str, recordId: P.int, difference: P.json, readonly: P.bool.optional() })
+export const LogCreate = z.object({ timestamp: P.datetime.optional(), operatorId: P.str.optional(), operatorType: OperatorType.optional(), operationName: P.str, recordName: P.str, recordId: P.int, difference: P.json.optional(), readonly: P.bool.optional() })
 export type LogCreateType = z.infer<typeof LogCreate>; 
 
   /**
