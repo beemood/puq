@@ -9,7 +9,7 @@ import { DatamodelManager } from './helpers.js';
  */
 export function withAudit(datamodel: Datamodel) {
   const datamodelManager = new DatamodelManager(datamodel);
-  const logModel = datamodelManager.findLogTable();
+  const logModel = datamodelManager.findLogModel();
 
   return Prisma.defineExtension((client) => {
     return client.$extends({

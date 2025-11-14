@@ -53,8 +53,12 @@ export class DatamodelManager {
     );
   }
 
-  findLogTable() {
-    return this.datamodel.models.find((e) => e.name.endsWith('Log'));
+  findLogModel() {
+    return this.findModel('Log');
+  }
+
+  findHookModel() {
+    return this.findModel('Hook');
   }
 }
 

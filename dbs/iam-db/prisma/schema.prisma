@@ -32,15 +32,185 @@ model User {
   updatedBy   User? @relation("updatedUsers", fields: [updatedById], references: [id])
   updatedById Int?
 
+  username String @unique @db.VarChar(255)
+
+  /// @hash
+  password String @db.VarChar(255)
+
   displayName String?
 
   readonly Boolean @default(false)
 
-  updatedUsers   User[]   @relation("updatedUsers")
-  updatedSamples Sample[]
+  userRoles UserRole[] @relation("userRoles")
+
+  updatedUsers                  User[]                  @relation("updatedUsers")
+  updatedApps                   App[]
+  updatedPermissions            Permission[]
+  updatedRoles                  Role[]
+  updatedRolePermissions        RolePermission[]
+  updatedUserRoles              UserRole[]              @relation("updatedUserRoles")
+  updatedAccessTokens           AccessToken[]
+  updatedAccessTokenPermissions AccessTokenPermission[]
 }
 
-model Sample {
+model UserRole {
+  /// Unique local integer identifier (system-input)
+  id Int @id @default(autoincrement())
+
+  /// Defines the creation timestamp (system-input)
+  createdAt DateTime @default(now())
+
+  /// Defines the modification timestamp (system-input)
+  updatedAt DateTime @updatedAt
+
+  /// Defines deletion timestamp (system-input)
+  deletedAt DateTime?
+
+  updatedBy   User? @relation("updatedUserRoles", fields: [updatedById], references: [id])
+  updatedById Int?
+
+  user   User @relation("userRoles", fields: [userId], references: [id])
+  userId Int
+
+  role   Role @relation(fields: [roleId], references: [id])
+  roleId Int
+
+  /// Defines if the entry is readonly or not
+  /// Readonly entries cannot be updated by the client application
+  readonly Boolean @default(false)
+}
+
+model App {
+  /// Unique local integer identifier (system-input)
+  id Int @id @default(autoincrement())
+
+  /// Defines the creation timestamp (system-input)
+  createdAt DateTime @default(now())
+
+  /// Defines the modification timestamp (system-input)
+  updatedAt DateTime @updatedAt
+
+  /// Defines deletion timestamp (system-input)
+  deletedAt DateTime?
+
+  updatedBy   User? @relation(fields: [updatedById], references: [id])
+  updatedById Int?
+
+  name        String       @unique @db.VarChar(255)
+  permissions Permission[]
+
+  /// Defines if the entry is readonly or not
+  /// Readonly entries cannot be updated by the client application
+  readonly Boolean @default(false)
+}
+
+model Permission {
+  /// Unique local integer identifier (system-input)
+  id Int @id @default(autoincrement())
+
+  /// User uuid (if external data)
+  uuid String @unique @db.Uuid
+
+  /// Defines the creation timestamp (system-input)
+  createdAt DateTime @default(now())
+
+  /// Defines the modification timestamp (system-input)
+  updatedAt DateTime @updatedAt
+
+  /// Defines deletion timestamp (system-input)
+  deletedAt DateTime?
+
+  updatedBy   User? @relation(fields: [updatedById], references: [id])
+  updatedById Int?
+
+  resourceName  String  @unique @db.VarChar(255)
+  operationName String  @unique @db.VarChar(255)
+  description   String?
+
+  app   App @relation(fields: [appId], references: [id])
+  appId Int
+
+  rolePermissions RolePermission[]
+
+  /// Defines if the entry is readonly or not
+  /// Readonly entries cannot be updated by the client application
+  readonly Boolean @default(false)
+
+  /// List of access token permissions 
+  accessTokenPermissions AccessTokenPermission[]
+
+  @@unique([appId, resourceName, operationName])
+}
+
+model Role {
+  /// Unique local integer identifier (system-input)
+  id Int @id @default(autoincrement())
+
+  /// User uuid (if external data)
+  uuid String @unique @db.Uuid
+
+  /// Defines the creation timestamp (system-input)
+  createdAt DateTime @default(now())
+
+  /// Defines the modification timestamp (system-input)
+  updatedAt DateTime @updatedAt
+
+  /// Defines deletion timestamp (system-input)
+  deletedAt DateTime?
+
+  updatedBy   User? @relation(fields: [updatedById], references: [id])
+  updatedById Int?
+
+  name        String  @unique @db.VarChar(255)
+  description String?
+
+  rolePermissions RolePermission[]
+
+  /// Defines if the entry is readonly or not
+  /// Readonly entries cannot be updated by the client application
+  readonly Boolean @default(false)
+
+  /// List of user-role map 
+  userRoles UserRole[]
+
+  @@index([name])
+}
+
+model RolePermission {
+  /// Unique local integer identifier (system-input)
+  id Int @id @default(autoincrement())
+
+  /// User uuid (if external data)
+  uuid String @unique @db.Uuid
+
+  /// Defines the creation timestamp (system-input)
+  createdAt DateTime @default(now())
+
+  /// Defines the modification timestamp (system-input)
+  updatedAt DateTime @updatedAt
+
+  /// Defines deletion timestamp (system-input)
+  deletedAt DateTime?
+
+  updatedBy   User? @relation(fields: [updatedById], references: [id])
+  updatedById Int?
+
+  role   Role @relation(fields: [roleId], references: [id])
+  roleId Int
+
+  permission   Permission @relation(fields: [permissionId], references: [id])
+  permissionId Int
+
+  /// Defines if the entry is readonly or not
+  /// Readonly entries cannot be updated by the client application
+  readonly Boolean @default(false)
+
+  @@unique([roleId, permissionId])
+  @@index([roleId])
+  @@index([permissionId])
+}
+
+model AccessToken {
   /// Unique local integer identifier (system-input)
   id Int @id @default(autoincrement())
 
@@ -61,11 +231,61 @@ model Sample {
 
   name String @unique @db.VarChar(255)
 
-  description String?
+  /// @hash
+  token String
 
+  accessTokenPermissions AccessTokenPermission[]
+
+  /// Defines if the entry is readonly or not
+  /// Readonly entries cannot be updated by the client application
   readonly Boolean @default(false)
 }
 
+model AccessTokenPermission {
+  /// Unique local integer identifier (system-input)
+  id Int @id @default(autoincrement())
+
+  /// User uuid (if external data)
+  uuid String @unique @db.Uuid
+
+  /// Defines the creation timestamp (system-input)
+  createdAt DateTime @default(now())
+
+  /// Defines the modification timestamp (system-input)
+  updatedAt DateTime @updatedAt
+
+  /// Defines deletion timestamp (system-input)
+  deletedAt DateTime?
+
+  lastUsedAt DateTime?
+
+  useageLimit Int?
+
+  usageCount Int @default(0)
+
+  /// Defines expiration date for the token
+  expiresAt DateTime?
+
+  /// Defines the token is active or revoked
+  active Boolean @default(true)
+
+  updatedBy   User? @relation(fields: [updatedById], references: [id])
+  updatedById Int?
+
+  accessToken   AccessToken @relation(fields: [accessTokenId], references: [id])
+  accessTokenId Int
+
+  permission   Permission @relation(fields: [permissionId], references: [id])
+  permissionId Int
+
+  /// Defines if the entry is readonly or not
+  /// Readonly entries cannot be updated by the client application
+  readonly Boolean @default(false)
+
+  @@unique([accessTokenId, permissionId])
+}
+
+// Logs
 enum OperatorType {
   USER
   SYSTEM
