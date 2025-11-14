@@ -1,6 +1,6 @@
 {
   "name": "@puq/ims-db",
-  "version": "0.29.10",
+  "version": "0.29.20",
   "license": "MIT",
   "displayName": "Inventory management system database | Prisma client and zod schemas",
   "description": "Inventory management system database | Prisma client and zod schemas",

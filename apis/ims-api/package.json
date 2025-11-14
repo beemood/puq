@@ -1,6 +1,6 @@
 {
   "name": "@puq/ims-api",
-  "version": "0.29.10",
+  "version": "0.29.20",
   "license": "MIT",
   "displayName": "Inventory management system api",
   "description": "Inventory management system api",

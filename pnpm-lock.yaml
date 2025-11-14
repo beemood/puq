@@ -593,8 +593,8 @@ importers:
         specifier: 21.5.2
         version: 21.5.2(nx@21.5.2(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.5.29(@swc/helpers@0.5.17)))
       '@puq/errors':
-        specifier: 0.29.30
-        version: 0.29.30
+        specifier: workspace:*
+        version: link:../../libs/errors
       '@puq/types':
         specifier: workspace:*
         version: link:../../libs/types
@@ -2256,9 +2256,6 @@ packages:
 
   '@prisma/get-platform@6.18.0':
     resolution: {integrity: sha512-uXNJCJGhxTCXo2B25Ta91Rk1/Nmlqg9p7G9GKh8TPhxvAyXCvMNQoogj4JLEUy+3ku8g59cpyQIKFhqY2xO2bg==}
-
-  '@puq/errors@0.29.30':
-    resolution: {integrity: sha512-A6rSKAsjIQtLYvMrcThNrY+METoYW6xCNY82Cx3Sx8tJDvPeEAf3XAA3eTkacfATQopb/9f4iS2POL0FDQfl/A==}
 
   '@rollup/rollup-android-arm-eabi@4.50.1':
     resolution: {integrity: sha512-HJXwzoZN4eYTdD8bVV22DN8gsPCAj3V20NHKOs8ezfXanGpmVPR7kalUHd+Y31IJp9stdB87VKPFbsGY3H/2ag==}
@@ -8453,10 +8450,6 @@ snapshots:
   '@prisma/get-platform@6.18.0':
     dependencies:
       '@prisma/debug': 6.18.0
-
-  '@puq/errors@0.29.30':
-    dependencies:
-      '@swc/helpers': 0.5.11
 
   '@rollup/rollup-android-arm-eabi@4.50.1':
     optional: true

@@ -1,6 +1,6 @@
 {
   "name": "@puq/plugin",
-  "version": "0.29.30",
+  "version": "0.29.20",
   "license": "MIT",
   "description": "NX plugin that contains project, project part, resource generators, and common cli tools",
   "keywords": [
@@ -85,8 +85,7 @@
     "@nx/devkit": "21.5.2",
     "@puq/types": "workspace:*",
     "commander": "^14.0.1",
-    "tslib": "^2.3.0",
-    "@puq/errors": "0.29.30"
+    "tslib": "^2.3.0"
   },
   "generators": "./generators.json",
   "devDependencies": {

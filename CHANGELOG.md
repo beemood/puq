@@ -1,3 +1,28 @@
+## 0.29.20 (2025-11-14)
+
+### 🚀 Features
+
+- redesigning inventory database ([585dd0d](https://github.com/beemood/puq/commit/585dd0d))
+- created hash and encription extentions for prisma client ([6c290d0](https://github.com/beemood/puq/commit/6c290d0))
+- created discount types, targets ([38b0e82](https://github.com/beemood/puq/commit/38b0e82))
+- added prisma commands to the prisma projects ([e885692](https://github.com/beemood/puq/commit/e885692))
+- tested ims-db ([7ec3824](https://github.com/beemood/puq/commit/7ec3824))
+- added employee table to ims ([3c7e153](https://github.com/beemood/puq/commit/3c7e153))
+- added employee table to ims ([9435598](https://github.com/beemood/puq/commit/9435598))
+- created audit-log extentions ([3ba710d](https://github.com/beemood/puq/commit/3ba710d))
+- clean up ([13e9470](https://github.com/beemood/puq/commit/13e9470))
+- created resources generator ([df536cf](https://github.com/beemood/puq/commit/df536cf))
+
+### 🩹 Fixes
+
+- fixed the generator template ([5c03592](https://github.com/beemood/puq/commit/5c03592))
+- clean up ([573ce7d](https://github.com/beemood/puq/commit/573ce7d))
+- fixed the json-column filter ([f1f3cc0](https://github.com/beemood/puq/commit/f1f3cc0))
+
+### ❤️ Thank You
+
+- beemood @beemood
+
 ## 0.29.30 (2025-11-05)
 
 ### 🚀 Features
