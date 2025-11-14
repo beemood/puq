@@ -4,9 +4,6 @@
   "files": [],
   "references": [
     {
-      "path": "./apps/inventory"
-    },
-    {
       "path": "./libs/names"
     },
     {
@@ -34,34 +31,13 @@
       "path": "./libs/prisma"
     },
     {
-      "path": "./dbs/inventory-db"
-    },
-    {
       "path": "./libs/errors"
     },
     {
       "path": "./libs/prisma-schema"
     },
     {
-      "path": "./dbs/contact-db"
-    },
-    {
-      "path": "./dbs/hr-db"
-    },
-    {
-      "path": "./dbs/asset-db"
-    },
-    {
       "path": "./libs/barcode"
-    },
-    {
-      "path": "./dbs/auth-db"
-    },
-    {
-      "path": "./dbs/pm-db"
-    },
-    {
-      "path": "./dbs/app-db"
     },
     {
       "path": "./libs/crypto"

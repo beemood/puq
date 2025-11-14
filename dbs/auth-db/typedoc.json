@@ -1,8 +1,0 @@
-{
-  "name": "auth-db",
-  "favicon": "./favicon.png",
-  "entryPoints": [
-    "./src/index.ts"
-  ],
-  "out": "../../../beemood.github.io/public/dbs/auth-db"
-}

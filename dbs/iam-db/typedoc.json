@@ -2,5 +2,5 @@
   "name": "iam-db",
   "favicon": "./favicon.png",
   "entryPoints": ["./src/index.ts"],
-  "out": "../../public/dbs/iam-db"
+  "out": "../../../beemood.github.io/public/iam-db"
 }

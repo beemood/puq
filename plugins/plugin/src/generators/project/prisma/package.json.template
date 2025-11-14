@@ -25,10 +25,16 @@
     ".env",
     "!**/*.tsbuildinfo"
   ],
+  "bin": {
+    "generate": "./scripts/generate.sh",
+    "migrate": "./scripts/migrate.sh",
+    "reset": "./scripts/reset.sh"
+  },
   "scripts": {
-    "postinstall": "pnpm prisma:generate", 
-    "prisma:generate":"sh ./scripts/generate.sh",
-    "prisma:reset":"sh ./scripts/reset.sh"
+    "postinstall": "pnpm prisma:generate",
+    "prisma:generate": "sh ./scripts/generate.sh",
+    "prisma:migrate": "sh ./scripts/migrate.sh",
+    "prisma:reset": "sh ./scripts/reset.sh"
   },
   "exports": {
     "./package.json": "./package.json",
@@ -257,10 +263,13 @@
   },
   "dependencies": {
     "@prisma/client": "^6.18.0",
+    "@puq/names": "workspace:*",
     "@puq/prisma-extentions": "workspace:*",
     "@puq/prisma-generators": "workspace:*",
+    "@puq/types": "workspace:*",
     "@puq/zod": "workspace:*",
-    "@swc/helpers": "0.5.11"
+    "@swc/helpers": "0.5.11",
+    "uuid": "13.0.0"
   },
   "devDependencies": {
     "<%- projectName %>": "workspace:*",

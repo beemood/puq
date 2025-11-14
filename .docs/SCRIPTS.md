@@ -18,9 +18,7 @@ done
 Suffix all files under the `./` the directory and its sub directories by `.template`.
 
 ````shell 
-for file in *.*; do
-    mv "$file" "${file}.template"
-done
+for file in *.*; do  mv "$file" "${file}.template"; done
 
 ````
 

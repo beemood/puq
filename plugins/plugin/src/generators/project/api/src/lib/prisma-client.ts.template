@@ -1,0 +1,26 @@
+import { Prisma, PrismaClient } from '<%- databaseProjectName %>';
+import {
+  withHash,
+  withReadonly,
+  withSlugify,
+  withSoftDelete,
+} from '@puq/prisma-extentions';
+
+/**
+ * Plain prisma client instance
+ */
+export const inventoryClient = new PrismaClient();
+
+/**
+ * Prisma client with extentions 
+ * - withHash
+ * - withReadonly
+ * - withSlugify
+ * - withSoftDelete
+ */
+export const inventoryExtendedClient = new PrismaClient()
+
+  .$extends(withHash(Prisma.dmmf.datamodel))
+  .$extends(withReadonly(Prisma.dmmf.datamodel))
+  .$extends(withSlugify(Prisma.dmmf.datamodel))
+  .$extends(withSoftDelete(Prisma.dmmf.datamodel));

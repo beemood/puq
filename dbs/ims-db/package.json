@@ -31,9 +31,15 @@
     ".env",
     "!**/*.tsbuildinfo"
   ],
+  "bin": {
+    "generate": "./scripts/generate.sh",
+    "migrate": "./scripts/migrate.sh",
+    "reset": "./scripts/reset.sh"
+  },
   "scripts": {
     "postinstall": "pnpm prisma:generate",
     "prisma:generate": "sh ./scripts/generate.sh",
+    "prisma:migrate": "sh ./scripts/migrate.sh",
     "prisma:reset": "sh ./scripts/reset.sh"
   },
   "exports": {

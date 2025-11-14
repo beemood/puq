@@ -83,8 +83,10 @@
   },
   "dependencies": {
     "@nx/devkit": "21.5.2",
+    "@puq/types": "workspace:*",
     "commander": "^14.0.1",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "@puq/errors": "0.29.30"
   },
   "generators": "./generators.json",
   "devDependencies": {

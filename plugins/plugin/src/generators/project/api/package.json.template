@@ -1,0 +1,112 @@
+{ "name": "<%- projectName %>",
+  "version": "<%- mp.version %>",
+  "license": "MIT",
+  "displayName": "<%- fileName %> rest api",
+  "description": "<%- fileName %> rest api",
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  },
+  "homepage": "<%- mp.homepage %>/<%- projectDirectory %>",
+  "author": <%- JSON.stringify(mp.author) %>,
+  "icon": "<%- mp.homepage %>/<%- projectDirectory %>/assets/favicon.png",
+  "funding": <%- JSON.stringify(mp.funding) %>,
+  "keywords": [
+    "prisma"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "!**/*.tsbuildinfo"
+  ],
+  "nx": {
+    "sourceRoot": "<%- projectDirectory %>/src",
+    "targets": {
+      "build": {
+        "executor": "@nx/js:swc",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "options": {
+          "outputPath": "<%- projectDirectory %>/dist",
+          "main": "<%- projectDirectory %>/src/index.ts",
+          "tsConfig": "<%- projectDirectory %>/tsconfig.lib.json",
+          "skipTypeCheck": false,
+          "stripLeadingPaths": true
+        }
+      },
+      "serve:static": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "nodemon ./dist/main.js"
+          ],
+          "cwd": "{projectRoot}"
+        }
+      },
+      "serve": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npx nx build <%- fileName %> --watch=true",
+            "cd {projectRoot} &&  nodemon ./dist/main.js"
+          ],
+          "parallel": true
+        }
+      },
+      "doc": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npx typedoc"
+          ],
+          "cwd": "{projectRoot}"
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "@nestjs/cache-manager": "^3.0.1",
+    "@nestjs/common": "^11.1.8",
+    "@nestjs/config": "^4.0.2",
+    "@nestjs/core": "^11.1.8",
+    "@nestjs/event-emitter": "^3.0.1",
+    "@nestjs/platform-express": "^11.1.8",
+    "@nestjs/schedule": "^6.0.1",
+    "@nestjs/swagger": "^11.2.1",
+    "@nestjs/throttler": "^6.4.0",
+    "@prisma/client": "6.16.2",
+    "<%- databaseProjectName %>": "workspace:*",
+    "@puq/names": "workspace:*",
+    "@puq/nest": "workspace:*",
+    "@puq/prisma": "workspace:*",
+    "@puq/prisma-extentions": "workspace:*",
+    "@puq/types": "workspace:*",
+    "@puq/zod": "workspace:*",
+    "@swc/helpers": "~0.5.11",
+    "cache-manager": "7.2.2",
+    "express": "5.1.0",
+    "helmet": "8.1.0",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2",
+    "uuid": "13.0.0",
+    "zod": "4.1.11"
+  },
+  "devDependencies": {
+    "@nestjs/testing": "11.1.8",
+    "<%- projectName %>: "workspace:*",
+    "@types/supertest": "6.0.3",
+    "supertest": "7.1.4"
+  }
+}

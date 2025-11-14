@@ -1,3 +1,5 @@
+/// IMS | Inventeory management system database
+
 generator client {
   provider = "prisma-client-js"
   output   = "../generated"
@@ -12,11 +14,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Employee {
+model User {
   /// Unique local integer identifier (system-input)
   id Int @id @default(autoincrement())
 
-  /// Employee uuid (get this from hr)
+  /// User uuid (get this from hr)
   uuid String @unique @db.Uuid
 
   /// Defines the creation timestamp (system-input)
@@ -28,24 +30,27 @@ model Employee {
   /// Defines deletion timestamp (system-input)
   deletedAt DateTime?
 
-  updatedBy  Employee? @relation("updatedEmployees", fields: [employeeId], references: [id])
-  employeeId Int?
+  displayName String?
 
-  updatedCustomers     Customer[]
-  updatedStores        Store[]
-  updatedShelves       Shelf[]
-  updatedCategories    Category[]
-  updatedTags          Tag[]
-  updatedProducttags   ProductTag[]
-  updatedProducts      Product[]
-  updatedQuantities    Quantity[]
-  updatedSerialnumbers SerialNumber[]
-  updatedPrices        Price[]
-  updatedDiscounts     Discount[]
-  updatedProducttypes  ProductType[]
-  updatedJurisdictions Jurisdiction[]
-  updatedTaxrates      TaxRate[]
-  updatedEmployees     Employee[]     @relation("updatedEmployees")
+  updatedBy   User? @relation("updatedUsers", fields: [updatedById], references: [id])
+  updatedById Int?
+
+  updatedCustomers      Customer[]
+  updatedStores         Store[]
+  updatedShelves        Shelf[]
+  updatedCategories     Category[]
+  updatedTags           Tag[]
+  updatedProducttags    ProductTag[]
+  updatedProducts       Product[]
+  updatedQuantities     Quantity[]
+  updatedSerialnumbers  SerialNumber[]
+  updatedPrices         Price[]
+  updatedDiscounts      Discount[]
+  updatedProducttypes   ProductType[]
+  updatedJurisdictions  Jurisdiction[]
+  updatedTaxrates       TaxRate[]
+  updatedUsers          User[]          @relation("updatedUsers")
+  updatedCustomerGroups CustomerGroup[]
 }
 
 model Customer {
@@ -65,7 +70,7 @@ model Customer {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedBy   User? @relation(fields: [updatedById], references: [id])
   updatedById Int?
 
   /// List of discounts for this customer
@@ -84,6 +89,8 @@ model CustomerGroup {
   /// Customer group uuid (get this from crm)
   uuid String @unique @db.Uuid
 
+  displayName String?
+
   /// Defines the creation timestamp (system-input)
   createdAt DateTime @default(now())
 
@@ -99,6 +106,10 @@ model CustomerGroup {
   /// Define if this store is readonly. 
   /// Readonly entries cannot be updated by the client application but super user
   readonly Boolean @default(false)
+
+  /// Defines updated-by log
+  updatedBy   User? @relation(fields: [updatedById], references: [id])
+  updatedById Int?
 }
 
 // Locations
@@ -129,7 +140,7 @@ model Store {
   quantities Quantity[]
 
   /// List of products tracted by serial numbers instead of by quantity in this store
-  serials SerialNumber[]
+  serialNumbers SerialNumber[]
 
   /// List of shelves in this store
   shelves Shelf[]
@@ -142,7 +153,7 @@ model Store {
   storeDiscounts StoreDiscount[]
 
   /// Defines updated-by log
-  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedBy   User? @relation(fields: [updatedById], references: [id])
   updatedById Int?
 
   @@index([name])
@@ -163,7 +174,7 @@ model Shelf {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedBy   User? @relation(fields: [updatedById], references: [id])
   updatedById Int?
 
   /// Shelf name (e.g  "A", "B", "AA", "BB")
@@ -212,7 +223,7 @@ model Category {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedBy   User? @relation(fields: [updatedById], references: [id])
   updatedById Int?
 
   /// Unqiue category  name (e.g Electronics)
@@ -267,7 +278,7 @@ model Tag {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedBy   User? @relation(fields: [updatedById], references: [id])
   updatedById Int?
 
   /// Unique tag name
@@ -297,7 +308,7 @@ model ProductTag {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedBy   User? @relation(fields: [updatedById], references: [id])
   updatedById Int?
 
   /// Product relation
@@ -333,7 +344,7 @@ model Product {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedBy   User? @relation(fields: [updatedById], references: [id])
   updatedById Int?
 
   /// Unique product name
@@ -420,7 +431,7 @@ model Quantity {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedBy   User? @relation(fields: [updatedById], references: [id])
   updatedById Int?
 
   /// Defines the number of items available in the store
@@ -466,7 +477,7 @@ model SerialNumber {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedBy   User? @relation(fields: [updatedById], references: [id])
   updatedById Int?
 
   /// Product serial number 
@@ -511,7 +522,7 @@ model Price {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedBy   User? @relation(fields: [updatedById], references: [id])
   updatedById Int?
 
   /// Defines the product price
@@ -579,7 +590,7 @@ model Discount {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedBy   User? @relation(fields: [updatedById], references: [id])
   updatedById Int?
 
   /// Discount name 
@@ -818,7 +829,7 @@ model ProductType {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedBy   User? @relation(fields: [updatedById], references: [id])
   updatedById Int?
 
   /// The unique name of the product category 
@@ -890,7 +901,7 @@ model Jurisdiction {
   readonly Boolean @default(true)
 
   /// Defines updated-by log
-  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedBy   User? @relation(fields: [updatedById], references: [id])
   updatedById Int?
 
   @@index([parentId])
@@ -912,7 +923,7 @@ model TaxRate {
   deletedAt DateTime?
 
   /// Defines updated-by log
-  updatedBy   Employee? @relation(fields: [updatedById], references: [id])
+  updatedBy   User? @relation(fields: [updatedById], references: [id])
   updatedById Int?
 
   /// The tax rate expressed as a percentage (e.g., 0.075 for 7.5%). 
@@ -980,7 +991,7 @@ model Log {
   recordName String
 
   /// Record/entry id
-  recordId Int
+  recordId Int?
 
   /// Differences from old data and new data
   difference Json?
@@ -988,6 +999,9 @@ model Log {
   /// Defines if the entry is readonly or not
   /// Readonly entries cannot be updated by the client application
   readonly Boolean @default(true)
+
+  /// Defines if the operation is successful or not
+  successful Boolean @default(true)
 
   @@index([operatorId, operatorType])
   @@index([recordName, recordId])

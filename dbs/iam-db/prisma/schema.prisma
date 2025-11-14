@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
   output   = "../generated"
@@ -13,14 +12,101 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model IamDb {
-  id        Int       @id @default(autoincrement())
-  uuid      String    @unique @default(uuid(7))
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+model User {
+  /// Unique local integer identifier (system-input)
+  id Int @id @default(autoincrement())
+
+  /// User uuid (get this from hr)
+  uuid String @unique @db.Uuid
+
+  /// Defines the creation timestamp (system-input)
+  createdAt DateTime @default(now())
+
+  /// Defines the modification timestamp (system-input)
+  updatedAt DateTime @updatedAt
+
+  /// Defines deletion timestamp (system-input)
   deletedAt DateTime?
-  updatedBy String?
-  readonly  Boolean   @default(false)
+
+  /// Defines the last operator who updated this record.
+  updatedBy   User? @relation("updatedUsers", fields: [updatedById], references: [id])
+  updatedById Int?
+
+  displayName String?
+
+  readonly Boolean @default(false)
+
+  updatedUsers   User[]   @relation("updatedUsers")
+  updatedSamples Sample[]
+}
+
+model Sample {
+  /// Unique local integer identifier (system-input)
+  id Int @id @default(autoincrement())
+
+  /// User uuid (if external data)
+  uuid String @unique @db.Uuid
+
+  /// Defines the creation timestamp (system-input)
+  createdAt DateTime @default(now())
+
+  /// Defines the modification timestamp (system-input)
+  updatedAt DateTime @updatedAt
+
+  /// Defines deletion timestamp (system-input)
+  deletedAt DateTime?
+
+  updatedBy   User? @relation(fields: [updatedById], references: [id])
+  updatedById Int?
 
   name String @unique @db.VarChar(255)
+
+  description String?
+
+  readonly Boolean @default(false)
+}
+
+enum OperatorType {
+  USER
+  SYSTEM
+}
+
+model Log {
+  /// Unique local integer identifier (system-input)
+  id Int @id @default(autoincrement())
+
+  /// Defines the creation timestamp (system-input)
+  createdAt DateTime @default(now())
+
+  /// Defines the modification timestamp (system-input)
+  updatedAt DateTime @updatedAt
+
+  /// The user executed this operation
+  operatorId String? @db.Uuid
+
+  /// Operator type (system/user)
+  operatorType OperatorType?
+
+  /// Operation name
+  operationName String
+
+  /// Record/model/database table name
+  recordName String
+
+  /// Record/entry id
+  recordId Int?
+
+  /// Differences from old data and new data
+  difference Json?
+
+  /// Defines if the entry is readonly or not
+  /// Readonly entries cannot be updated by the client application
+  readonly Boolean @default(true)
+
+  /// Defines if the operation is successful or not
+  successful Boolean @default(true)
+
+  @@index([operatorId, operatorType])
+  @@index([recordName, recordId])
+  @@index([createdAt])
 }
