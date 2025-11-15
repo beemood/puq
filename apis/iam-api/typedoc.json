@@ -1,0 +1,6 @@
+{
+  "name": "iam-api",
+  "favicon": "./favicon.png",
+  "entryPoints": ["./src/index.ts"],
+  "out": "../../../beemood.github.io/public/apis/iam-api"
+}

@@ -1,0 +1,119 @@
+{
+  "name": "@puq/iam-api",
+  "version": "0.29.20",
+  "license": "MIT",
+  "displayName": "Indentity and access management system api",
+  "description": "Indentity and access management system api",
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  },
+  "homepage": "https://beemood.github.io/apis/iam-api",
+  "author": {
+    "email": "robert.brightline@gmail.com",
+    "name": "Robert Brightline",
+    "url": "https://beemood.github.io"
+  },
+  "icon": "https://beemood.github.io/apis/iam-api/assets/favicon.png",
+  "funding": [
+    "https://cash.app/$puqlib"
+  ],
+  "keywords": [
+    "prisma"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "!**/*.tsbuildinfo"
+  ],
+  "nx": {
+    "sourceRoot": "apis/iam-api/src",
+    "targets": {
+      "build": {
+        "executor": "@nx/js:swc",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "options": {
+          "outputPath": "apis/iam-api/dist",
+          "main": "apis/iam-api/src/index.ts",
+          "tsConfig": "apis/iam-api/tsconfig.lib.json",
+          "skipTypeCheck": false,
+          "stripLeadingPaths": true
+        }
+      },
+      "serve:static": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "nodemon ./dist/main.js"
+          ],
+          "cwd": "{projectRoot}"
+        }
+      },
+      "serve": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npx nx build iam-api --watch=true",
+            "cd {projectRoot} &&  nodemon ./dist/main.js"
+          ],
+          "parallel": true
+        }
+      },
+      "doc": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npx typedoc"
+          ],
+          "cwd": "{projectRoot}"
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "@nestjs/cache-manager": "^3.0.1",
+    "@nestjs/common": "^11.1.8",
+    "@nestjs/config": "^4.0.2",
+    "@nestjs/core": "^11.1.8",
+    "@nestjs/event-emitter": "^3.0.1",
+    "@nestjs/platform-express": "^11.1.8",
+    "@nestjs/schedule": "^6.0.1",
+    "@nestjs/swagger": "^11.2.1",
+    "@nestjs/throttler": "^6.4.0",
+    "@prisma/client": "6.18.0",
+    "@puq/iam-db": "workspace:*",
+    "@puq/names": "workspace:*",
+    "@puq/nest": "workspace:*",
+    "@puq/prisma": "workspace:*",
+    "@puq/prisma-extentions": "workspace:*",
+    "@puq/types": "workspace:*",
+    "@puq/zod": "workspace:*",
+    "@swc/helpers": "~0.5.11",
+    "cache-manager": "7.2.2",
+    "express": "5.1.0",
+    "helmet": "8.1.0",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2",
+    "uuid": "13.0.0",
+    "zod": "4.1.11"
+  },
+  "devDependencies": {
+    "@nestjs/testing": "11.1.8",
+    "@puq/iam-api": "workspace:*",
+    "@types/supertest": "6.0.3",
+    "supertest": "7.1.4"
+  }
+}

@@ -136,6 +136,97 @@ importers:
         specifier: ^3.0.0
         version: 3.2.4(@types/node@20.19.9)(@vitest/ui@3.2.4)(jiti@2.4.2)(jsdom@22.1.0)(yaml@2.8.1)
 
+  apis/iam-api:
+    dependencies:
+      '@nestjs/cache-manager':
+        specifier: ^3.0.1
+        version: 3.0.1(@nestjs/common@11.1.8(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)(cache-manager@7.2.2)(keyv@5.5.3)(rxjs@7.8.2)
+      '@nestjs/common':
+        specifier: ^11.1.8
+        version: 11.1.8(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/config':
+        specifier: ^4.0.2
+        version: 4.0.2(@nestjs/common@11.1.8(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(rxjs@7.8.2)
+      '@nestjs/core':
+        specifier: ^11.1.8
+        version: 11.1.8(@nestjs/common@11.1.8(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/microservices@11.1.8)(@nestjs/platform-express@11.1.8)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/event-emitter':
+        specifier: ^3.0.1
+        version: 3.0.1(@nestjs/common@11.1.8(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)
+      '@nestjs/platform-express':
+        specifier: ^11.1.8
+        version: 11.1.8(@nestjs/common@11.1.8(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)
+      '@nestjs/schedule':
+        specifier: ^6.0.1
+        version: 6.0.1(@nestjs/common@11.1.8(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)
+      '@nestjs/swagger':
+        specifier: ^11.2.1
+        version: 11.2.1(@nestjs/common@11.1.8(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)
+      '@nestjs/throttler':
+        specifier: ^6.4.0
+        version: 6.4.0(@nestjs/common@11.1.8(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)(reflect-metadata@0.2.2)
+      '@prisma/client':
+        specifier: 6.18.0
+        version: 6.18.0(prisma@6.18.0(magicast@0.3.5)(typescript@5.9.3))(typescript@5.9.3)
+      '@puq/iam-db':
+        specifier: workspace:*
+        version: link:../../dbs/iam-db
+      '@puq/names':
+        specifier: workspace:*
+        version: link:../../libs/names
+      '@puq/nest':
+        specifier: workspace:*
+        version: link:../../libs/nest
+      '@puq/prisma':
+        specifier: workspace:*
+        version: link:../../libs/prisma
+      '@puq/prisma-extentions':
+        specifier: workspace:*
+        version: link:../../libs/prisma-extentions
+      '@puq/types':
+        specifier: workspace:*
+        version: link:../../libs/types
+      '@puq/zod':
+        specifier: workspace:*
+        version: link:../../libs/zod
+      '@swc/helpers':
+        specifier: ~0.5.11
+        version: 0.5.11
+      cache-manager:
+        specifier: 7.2.2
+        version: 7.2.2
+      express:
+        specifier: 5.1.0
+        version: 5.1.0
+      helmet:
+        specifier: 8.1.0
+        version: 8.1.0
+      reflect-metadata:
+        specifier: 0.2.2
+        version: 0.2.2
+      rxjs:
+        specifier: 7.8.2
+        version: 7.8.2
+      uuid:
+        specifier: 13.0.0
+        version: 13.0.0
+      zod:
+        specifier: 4.1.11
+        version: 4.1.11
+    devDependencies:
+      '@nestjs/testing':
+        specifier: 11.1.8
+        version: 11.1.8(@nestjs/common@11.1.8(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.8)(@nestjs/microservices@11.1.8)(@nestjs/platform-express@11.1.8)
+      '@puq/iam-api':
+        specifier: workspace:*
+        version: 'link:'
+      '@types/supertest':
+        specifier: 6.0.3
+        version: 6.0.3
+      supertest:
+        specifier: 7.1.4
+        version: 7.1.4
+
   apis/ims-api:
     dependencies:
       '@nestjs/cache-manager':
@@ -592,9 +683,6 @@ importers:
       '@nx/devkit':
         specifier: 21.5.2
         version: 21.5.2(nx@21.5.2(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.5.29(@swc/helpers@0.5.17)))
-      '@puq/errors':
-        specifier: workspace:*
-        version: link:../../libs/errors
       '@puq/types':
         specifier: workspace:*
         version: link:../../libs/types
