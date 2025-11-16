@@ -4,7 +4,15 @@
 
 # @puq/ims-db
 
-Inventory management system database | Prisma client and zod schemas
+Inventory Management System Database 
+
+- category & sub categories and tags
+- multiple stores
+- product and product variants, price, quantity, and serial number tracking
+- product locations, shelfs
+- customer and employee integration
+- audit/change logs
+- extensive taxation tables
 
 ## Install
 

@@ -15,193 +15,115 @@ datasource db {
 }
 
 model User {
-  /// Unique local integer identifier (system-input)
-  id Int @id @default(autoincrement())
-
-  /// User uuid (get this from hr)
-  uuid String @unique @db.Uuid
-
-  /// Defines the creation timestamp (system-input)
-  createdAt DateTime @default(now())
-
-  /// Defines the modification timestamp (system-input)
-  updatedAt DateTime @updatedAt
-
-  /// Defines deletion timestamp (system-input)
-  deletedAt DateTime?
+  id          Int       @id @default(autoincrement())
+  uuid        String    @unique @db.Uuid
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  updatedBy   User?     @relation("updatedUsers", fields: [updatedById], references: [id])
+  updatedById Int?
+  readonly    Boolean   @default(false)
 
   displayName String?
 
-  updatedBy   User? @relation("updatedUsers", fields: [updatedById], references: [id])
-  updatedById Int?
-
-  updatedCustomers      Customer[]
-  updatedStores         Store[]
-  updatedShelves        Shelf[]
-  updatedCategories     Category[]
-  updatedTags           Tag[]
-  updatedProducttags    ProductTag[]
-  updatedProducts       Product[]
-  updatedQuantities     Quantity[]
-  updatedSerialnumbers  SerialNumber[]
-  updatedPrices         Price[]
-  updatedDiscounts      Discount[]
-  updatedProducttypes   ProductType[]
-  updatedJurisdictions  Jurisdiction[]
-  updatedTaxrates       TaxRate[]
-  updatedUsers          User[]          @relation("updatedUsers")
-  updatedCustomerGroups CustomerGroup[]
+  updatedCustomers              Customer[]
+  updatedStores                 Store[]
+  updatedShelves                Shelf[]
+  updatedCategories             Category[]
+  updatedTags                   Tag[]
+  updatedProducttags            ProductTag[]
+  updatedProducts               Product[]
+  updatedQuantities             Quantity[]
+  updatedSerialnumbers          SerialNumber[]
+  updatedPrices                 Price[]
+  updatedDiscounts              Discount[]
+  updatedProducttypes           ProductType[]
+  updatedJurisdictions          Jurisdiction[]
+  updatedTaxrates               TaxRate[]
+  updatedUsers                  User[]                  @relation("updatedUsers")
+  updatedCustomerGroups         CustomerGroup[]
+  updatedPriceLevels            PriceLevel[]
+  updatedProductDiscounts       ProductDiscount[]
+  updatedStoreDiscounts         StoreDiscount[]
+  updatedCategoryDiscounts      CategoryDiscount[]
+  updatedProductTypeDiscounts   ProductTypeDiscount[]
+  updatedCustomerDiscounts      CustomerDiscount[]
+  updatedCustomerGroupDiscounts CustomerGroupDiscount[]
 }
 
 model Customer {
-  /// Unique local integer identifier (system-input)
-  id Int @id @default(autoincrement())
-
-  /// Customer uuid (get this from crm)
-  uuid String @unique @db.Uuid
-
-  /// Defines the creation timestamp (system-input)
-  createdAt DateTime @default(now())
-
-  /// Defines the modification timestamp (system-input)
-  updatedAt DateTime @updatedAt
-
-  /// Defines deletion timestamp (system-input)
-  deletedAt DateTime?
-
-  /// Defines updated-by log
-  updatedBy   User? @relation(fields: [updatedById], references: [id])
+  id          Int       @id @default(autoincrement())
+  uuid        String    @unique @db.Uuid
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  updatedBy   User?     @relation(fields: [updatedById], references: [id])
   updatedById Int?
+  readonly    Boolean   @default(false)
 
-  /// List of discounts for this customer
-  customerDiscounts CustomerDiscount[]
-
-  /// Defines if the category is readonly
-  /// which means it cannot be updated by the client application
-  /// This field is to protect the default categories data (common categories provided by the system) from deletion.
-  readonly Boolean @default(false)
+  discounts CustomerDiscount[]
+  prices    Price[]
 }
 
 model CustomerGroup {
-  /// Unique local integer identifier (system-input)
-  id Int @id @default(autoincrement())
-
-  /// Customer group uuid (get this from crm)
-  uuid String @unique @db.Uuid
+  id          Int       @id @default(autoincrement())
+  uuid        String    @unique @db.Uuid
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  updatedBy   User?     @relation(fields: [updatedById], references: [id])
+  updatedById Int?
+  readonly    Boolean   @default(false)
 
   displayName String?
 
-  /// Defines the creation timestamp (system-input)
-  createdAt DateTime @default(now())
-
-  /// Defines the modification timestamp (system-input)
-  updatedAt DateTime @updatedAt
-
-  /// Defines deletion timestamp (system-input)
-  deletedAt DateTime?
-
-  /// List of customerGroupDiscounts
-  customerGroupDiscounts CustomerGroupDiscount[]
-
-  /// Define if this store is readonly. 
-  /// Readonly entries cannot be updated by the client application but super user
-  readonly Boolean @default(false)
-
-  /// Defines updated-by log
-  updatedBy   User? @relation(fields: [updatedById], references: [id])
-  updatedById Int?
+  discounts CustomerGroupDiscount[]
+  prices    Price[]
 }
 
-// Locations
 model Store {
-  /// Unique local integer identifier (system-input)
-  id Int @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  updatedBy   User?     @relation(fields: [updatedById], references: [id])
+  updatedById Int?
+  readonly    Boolean   @default(false)
 
-  /// Defines the creation timestamp (system-input)
-  createdAt DateTime @default(now())
-
-  /// Defines the modification timestamp (system-input)
-  updatedAt DateTime @updatedAt
-
-  /// Defines deletion timestamp (system-input)
-  deletedAt DateTime?
-
-  /// Unique store name s
-  name String @unique @db.VarChar(255)
-
-  /// Add required critical information about the store if any
+  name        String  @unique @db.VarChar(255)
+  slug        String  @unique @default(uuid(7))
   description String?
 
-  /// This field can be generated using `slugExtention` provided 
-  /// by `@puq/prisma-extentions`
-  slug String @unique @default(uuid(7))
+  priceLevel   PriceLevel @relation(fields: [priceLevelId], references: [id])
+  priceLevelId Int
 
-  /// List of product quantities in this store
   quantities Quantity[]
-
-  /// List of products tracted by serial numbers instead of by quantity in this store
-  serialNumbers SerialNumber[]
-
-  /// List of shelves in this store
-  shelves Shelf[]
-
-  /// Define if this store is readonly. 
-  /// Readonly entries cannot be updated by the client application but super user
-  readonly Boolean @default(false)
-
-  /// List of discount in this store
-  storeDiscounts StoreDiscount[]
-
-  /// Defines updated-by log
-  updatedBy   User? @relation(fields: [updatedById], references: [id])
-  updatedById Int?
+  serials    SerialNumber[]
+  shelves    Shelf[]
+  discounts  StoreDiscount[]
+  prices     Price[]
 
   @@index([name])
   @@index([slug])
 }
 
 model Shelf {
-  /// Unique local integer identifier (system-input)
-  id Int @id @default(autoincrement())
-
-  /// Defines the creation timestamp (system-input)
-  createdAt DateTime @default(now())
-
-  /// Defines the modification timestamp (system-input)
-  updatedAt DateTime @updatedAt
-
-  /// Defines deletion timestamp (system-input)
-  deletedAt DateTime?
-
-  /// Defines updated-by log
-  updatedBy   User? @relation(fields: [updatedById], references: [id])
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  updatedBy   User?     @relation(fields: [updatedById], references: [id])
   updatedById Int?
+  readonly    Boolean   @default(false)
 
-  /// Shelf name (e.g  "A", "B", "AA", "BB")
-  name String @db.VarChar(255)
-
-  /// Defines a description or required information about the shelf 
-  /// (e.g metal, wood, heavy duty)
+  name        String  @db.VarChar(255)
   description String?
+  aisle       String  @db.VarChar(255)
+  rack        Int
+  level       Int
 
-  /// Defiens aisle/section (e.g "1", "2")
-  aisle String @db.VarChar(255)
-
-  /// Defines the rack number  (e.g 1, 2)
-  rack Int
-
-  /// Defines the level/floor number  (e.g 1, 2)
-  level Int
-
-  /// Shelf store
-  store Store @relation(fields: [storeId], references: [id])
-
-  /// Shelf store id
+  store   Store @relation(fields: [storeId], references: [id])
   storeId Int
-
-  /// Defines if the shelf data is readonly or not. 
-  /// Readonly entires cannot be updated by client application
-  readonly Boolean @default(false)
 
   @@unique([name, storeId])
   @@unique([storeId, aisle, rack, level])
@@ -210,117 +132,59 @@ model Shelf {
 }
 
 model Category {
-  /// Unique local integer identifier (system-input)
-  id Int @id @default(autoincrement())
-
-  /// Defines the creation timestamp (system-input)
-  createdAt DateTime @default(now())
-
-  /// Defines the modification timestamp (system-input)
-  updatedAt DateTime @updatedAt
-
-  /// Defines deletion timestamp (system-input)
-  deletedAt DateTime?
-
-  /// Defines updated-by log
-  updatedBy   User? @relation(fields: [updatedById], references: [id])
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  updatedBy   User?     @relation(fields: [updatedById], references: [id])
   updatedById Int?
+  readonly    Boolean   @default(false)
 
-  /// Unqiue category  name (e.g Electronics)
-  name String @unique @db.VarChar(255)
-
-  /// Defines a category description
+  name        String  @unique @db.VarChar(255)
+  slug        String  @unique @default(uuid(7))
   description String?
 
-  /// Defines a slug which is a url friendly category name
-  /// Slugs are used in urls for better user experience
-  slug String @unique @default(uuid(7))
-
-  /// Defines parent category (e.g PC and Laptop are cateogry. 
-  /// Electronics is the parent category)
-  parent Category? @relation("children", fields: [parentId], references: [id])
-
-  /// Parent category id
-  parentId Int?
-
-  /// List of child categories 
-  children Category[] @relation("children")
-
-  /// List of products belong to this category
-  products Product[]
-
-  /// List of category-discounts
-  categoryDiscounts CategoryDiscount[]
-
-  /// Defines if the category is readonly
-  /// which means it cannot be updated by the client application
-  /// This field is to protect the default categories data (common categories provided by the system) from deletion.
-  readonly Boolean @default(false)
+  parent    Category?          @relation("children", fields: [parentId], references: [id])
+  parentId  Int?
+  children  Category[]         @relation("children")
+  products  Product[]
+  discounts CategoryDiscount[]
 
   @@index([parentId])
   @@index([name])
   @@index([slug])
 }
 
-/// Tag table does not have a specific role in this database. 
-/// It can be used for any kind of tracking to help identify products
 model Tag {
-  /// Unique local integer identifier (system-input)
-  id Int @id @default(autoincrement())
-
-  /// Defines the creation timestamp (system-input)
-  createdAt DateTime @default(now())
-
-  /// Defines the modification timestamp (system-input)
-  updatedAt DateTime @updatedAt
-
-  /// Defines deletion timestamp (system-input)
-  deletedAt DateTime?
-
-  /// Defines updated-by log
-  updatedBy   User? @relation(fields: [updatedById], references: [id])
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  updatedBy   User?     @relation(fields: [updatedById], references: [id])
   updatedById Int?
+  readonly    Boolean   @default(false)
 
-  /// Unique tag name
   name String @unique @db.VarChar(255)
-
-  /// Unique url friendly slug
   slug String @unique @default(uuid(7))
 
-  /// Product tag map table 
-  productTags ProductTag[]
+  tags ProductTag[]
 
   @@index([name])
 }
 
-/// Product-tag map table 
 model ProductTag {
-  /// Unique local integer identifier (system-input)
-  id Int @id @default(autoincrement())
-
-  /// Defines the creation timestamp (system-input)
-  createdAt DateTime @default(now())
-
-  /// Defines the modification timestamp (system-input)
-  updatedAt DateTime @updatedAt
-
-  /// Defines deletion timestamp (system-input)
-  deletedAt DateTime?
-
-  /// Defines updated-by log
-  updatedBy   User? @relation(fields: [updatedById], references: [id])
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  updatedBy   User?     @relation(fields: [updatedById], references: [id])
   updatedById Int?
+  readonly    Boolean   @default(false)
 
-  /// Product relation
-  product Product @relation(fields: [productId], references: [id])
-
-  /// Product id
+  product   Product @relation(fields: [productId], references: [id])
   productId Int
 
-  /// Tag relation 
-  tag Tag @relation(fields: [tagId], references: [id])
-
-  /// Tag id
+  tag   Tag @relation(fields: [tagId], references: [id])
   tagId Int
 
   @@unique([productId, tagId])
@@ -329,85 +193,37 @@ model ProductTag {
 }
 
 model Product {
-  id Int @id @default(autoincrement())
-
-  /// Universal unique indentifier to identify product accross the applications
-  uuid String @default(uuid()) @db.Uuid
-
-  /// Defines the creation timestamp (system-input)
-  createdAt DateTime @default(now())
-
-  /// Defines the modification timestamp (system-input)
-  updatedAt DateTime @updatedAt
-
-  /// Defines deletion timestamp (system-input)
-  deletedAt DateTime?
-
-  /// Defines updated-by log
-  updatedBy   User? @relation(fields: [updatedById], references: [id])
+  id          Int       @id @default(autoincrement())
+  uuid        String    @default(uuid()) @db.Uuid
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  updatedBy   User?     @relation(fields: [updatedById], references: [id])
   updatedById Int?
+  readonly    Boolean   @default(false)
 
-  /// Unique product name
-  name String @unique @db.VarChar(255)
-
-  /// Product description 
+  name        String  @unique @db.VarChar(255)
+  slug        String  @unique @default(uuid(7))
   description String?
+  sku         String  @unique @db.VarChar(255)
+  upc         String  @unique @db.VarChar(255)
+  model       String? @db.VarChar(255)
 
-  /// Url friendly product name (e.g for "Product Name" to "product-name")
-  slug String @unique @default(uuid(7))
-
-  /// Unqiue product stock keeping unite code (e.g "PC-8I-GREY-008")
-  sku String @unique @db.VarChar(255)
-
-  /// Unique product code (e.g "1234567890123")
-  upc String @unique @db.VarChar(255)
-
-  /// Product model 
-  model String? @db.VarChar(255)
-
-  /// Product category relation
-  category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-
-  /// Product category id
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   categoryId Int?
 
-  /// Product type. 
-  /// Product type is used to indentify the applicable tax rate
-  type ProductType? @relation(fields: [typeId], references: [id], onDelete: SetNull)
-
-  //// Product type id
-  typeId Int?
-
-  /// Parent product relation 
-  parent Product? @relation("variants", fields: [parentId], references: [id], onDelete: SetNull)
-
-  /// Parent product id
-  parentId Int?
-
-  /// List of product variatns belongs to this product
-  variants Product[] @relation("variants")
-
-  /// List of product quantities belongs to this product
-  quantities Quantity[]
-
-  /// List of product serial numbers belongs to this product 
+  type          ProductType?   @relation(fields: [typeId], references: [id], onDelete: SetNull)
+  typeId        Int?
+  parent        Product?       @relation("variants", fields: [parentId], references: [id], onDelete: SetNull)
+  parentId      Int?
+  variants      Product[]      @relation("variants")
+  quantities    Quantity[]
   serialNumbers SerialNumber[]
+  prices        Price[]
+  productTags   ProductTag[]
 
-  /// List of product prices belongs to this product 
-  prices Price[]
-
-  /// List of product-tags 
-  productTags ProductTag[]
-
-  /// Discounts that might belong to multiple products
-  discounts ProductDiscount[]
-
-  /// Discounts that only belongs to this product
+  discounts    ProductDiscount[]
   ownDiscounts Discount[]
-
-  /// Defines if the product is readonly or not
-  /// Readonly entries cannot be updated by the client application
-  readonly Boolean @default(false)
 
   @@index([categoryId])
   @@index([typeId])
@@ -418,44 +234,22 @@ model Product {
 }
 
 model Quantity {
-  /// Unique local integer identifier (system-input)
-  id Int @id @default(autoincrement())
-
-  /// Defines the creation timestamp (system-input)
-  createdAt DateTime @default(now())
-
-  /// Defines the modification timestamp (system-input)
-  updatedAt DateTime @updatedAt
-
-  /// Defines deletion timestamp (system-input)
-  deletedAt DateTime?
-
-  /// Defines updated-by log
-  updatedBy   User? @relation(fields: [updatedById], references: [id])
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  updatedBy   User?     @relation(fields: [updatedById], references: [id])
   updatedById Int?
 
-  /// Defines the number of items available in the store
-  quantity Int
-
-  /// Defines the minimum number of items required in the store. 
-  /// If the quantity falls under minimum quantity, 
-  /// the system create an actionable notification
+  quantity    Int
   minQuantity Int?
 
-  /// Product relation
-  product Product @relation(fields: [productId], references: [id])
-
-  /// Product id
+  product   Product @relation(fields: [productId], references: [id])
   productId Int
 
-  /// Store relation 
-  store Store @relation(fields: [storeId], references: [id])
-
-  /// Store id
+  store   Store @relation(fields: [storeId], references: [id])
   storeId Int
 
-  /// Defines if the entry is readonly or not
-  /// Readonly entries cannot be updated by the client application 
   readonly Boolean @default(false)
 
   @@unique([storeId, productId])
@@ -464,207 +258,132 @@ model Quantity {
 }
 
 model SerialNumber {
-  /// Unique local integer identifier (system-input)
-  id Int @id @default(autoincrement())
-
-  /// Defines the creation timestamp (system-input)
-  createdAt DateTime @default(now())
-
-  /// Defines the modification timestamp (system-input)
-  updatedAt DateTime @updatedAt
-
-  /// Defines deletion timestamp (system-input)
-  deletedAt DateTime?
-
-  /// Defines updated-by log
-  updatedBy   User? @relation(fields: [updatedById], references: [id])
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  updatedBy   User?     @relation(fields: [updatedById], references: [id])
   updatedById Int?
+  readonly    Boolean   @default(false)
 
-  /// Product serial number 
-  serialNumber String @unique
+  serial  String  @unique
+  inStock Boolean @default(true)
 
-  /// Defines if the product with the serial number is in stock or sold
-  isInStock Boolean @default(true)
-
-  /// Product relation 
-  product Product @relation(fields: [productId], references: [id])
-
-  /// Product id
+  product   Product @relation(fields: [productId], references: [id])
   productId Int
 
-  /// Store relation 
-  store Store @relation(fields: [storeId], references: [id])
-
-  /// Store id
+  store   Store @relation(fields: [storeId], references: [id])
   storeId Int
-
-  /// Defines if the entry is readonly or not 
-  /// Readonly entries cannot be modified or deleted by the client application 
-  readonly Boolean @default(false)
 
   @@index([productId])
   @@index([storeId])
-  @@index([isInStock])
+  @@index([inStock])
 }
 
-// Price Tables 
-model Price {
-  /// Unique local integer identifier (system-input)
-  id Int @id @default(autoincrement())
-
-  /// Defines the creation timestamp (system-input)
-  createdAt DateTime @default(now())
-
-  /// Defines the modification timestamp (system-input)
-  updatedAt DateTime @updatedAt
-
-  /// Defines deletion timestamp (system-input)
-  deletedAt DateTime?
-
-  /// Defines updated-by log
-  updatedBy   User? @relation(fields: [updatedById], references: [id])
+model PriceLevel {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  updatedBy   User?     @relation(fields: [updatedById], references: [id])
   updatedById Int?
+  readonly    Boolean   @default(false)
 
-  /// Defines the product price
-  price Decimal @db.Decimal(10, 2)
+  name        String  @unique
+  description String?
 
-  /// Defines the date from which this price is effective
-  effectiveFrom DateTime
+  prices Price[]
+  stores Store[]
 
-  /// Defines the date till which this price is effective
-  effectiveTo DateTime?
+  @@index([name])
+}
 
-  /// Product relation 
-  product Product @relation(fields: [productId], references: [id])
+model Price {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  updatedBy   User?     @relation(fields: [updatedById], references: [id])
+  updatedById Int?
+  readonly    Boolean   @default(false)
 
-  /// Product id
+  price     Decimal   @db.Decimal(10, 2)
+  startDate DateTime
+  endDate   DateTime?
+
+  product   Product @relation(fields: [productId], references: [id])
   productId Int
 
-  /// Defines if the entry is readonly or not
-  /// Readonly entries cannot be updated by the client application
-  readonly Boolean @default(false)
+  customer   Customer? @relation(fields: [customerId], references: [id])
+  customerId Int?
 
-  @@unique([productId, effectiveFrom])
+  store   Store? @relation(fields: [storeId], references: [id])
+  storeId Int?
+
+  customerGroup   CustomerGroup? @relation(fields: [customerGroupId], references: [id])
+  customerGroupId Int?
+
+  priceLevel   PriceLevel? @relation(fields: [priceLevelId], references: [id])
+  priceLevelId Int?
+
+  @@unique([productId, startDate, priceLevelId])
   @@index([productId])
-  @@index([effectiveFrom])
-  @@index([effectiveTo])
+  @@index([customerId])
+  @@index([storeId])
+  @@index([customerGroupId])
+  @@index([priceLevelId])
+  @@index([startDate])
+  @@index([endDate])
 }
 
-enum DiscountType {
-  /// (e.g $10)
-  FIXED_VALUE
-  /// (e.g %10)
-  PERCENT_VALUE
-  /// No discount but free shipping
-  FREE_SHIPPING
-
-  /// Discount is applied for the next_purchase
-  NEXT_PURCHASE
-}
-
-enum DiscountTarget {
-  /// Discount for all products
-  ALL_PRODUCTS
-
-  /// Discount for a single product (requires product id)
-  SINGLE_PRODUCT
-
-  /// Discount for a category/categories
-  PRODUCT_CATEGORY
-
-  /// Discount for specific product types such as "Tobacco"
-  PRODUCT_TYPE
+enum DiscountValueType {
+  FIXED
+  PERCENT
 }
 
 model Discount {
-  /// Unique local integer identifier (system-input)
-  id Int @id @default(autoincrement())
-
-  /// Defines the creation timestamp (system-input)
-  createdAt DateTime @default(now())
-
-  /// Defines the modification timestamp (system-input)
-  updatedAt DateTime @updatedAt
-
-  /// Defines deletion timestamp (system-input)
-  deletedAt DateTime?
-
-  /// Defines updated-by log
-  updatedBy   User? @relation(fields: [updatedById], references: [id])
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  updatedBy   User?     @relation(fields: [updatedById], references: [id])
   updatedById Int?
 
-  /// Discount name 
-  name String @unique
-
-  /// Discount code 
-  code String @unique
-
-  /// Defines detailed discount description 
+  name        String            @unique
+  code        String            @unique
   description String?
+  value       Decimal?          @db.Decimal(10, 2)
+  valueType   DiscountValueType @default(PERCENT)
+  startDate   DateTime
+  endDate     DateTime?
 
-  /// Discount value can be percent or fixed value 
-  /// (e.g $100 , %10)
-  discountValue Decimal? @db.Decimal(10, 2)
-
-  /// Conditional value for volumen discount 
-  /// (e.g unitQuantity = 3 then apply %10 discount or regular price)
   minQuantity Int?
-
-  /// Conditional value for price discount
-  /// (e.g unitPrice = $100 then apply the discount only to the items sales more than $100
   minSubtotal Decimal? @db.Decimal(10, 2)
 
-  /// These fields are crucial for historical accuracy. 
-  /// They define the time range during which this specific rate was or is valid. 
-  /// Tax rates change frequently, so the system must know which rate to apply 
-  /// for a transaction on any given date.
-  effectiveFrom DateTime
-  effectiveTo   DateTime?
+  product        Product?                @relation(fields: [productId], references: [id])
+  productId      Int?
+  products       ProductDiscount[]
+  stores         StoreDiscount[]
+  categories     CategoryDiscount[]
+  productTypes   ProductTypeDiscount[]
+  customers      CustomerDiscount[]
+  customerGroups CustomerGroupDiscount[]
 
-  /// Defines the target product or product group 
-  target DiscountTarget
-
-  /// Single product that have this discount
-  product   Product? @relation(fields: [productId], references: [id])
-  productId Int?
-
-  /// List of product-discount map
-  productDiscounts ProductDiscount[]
-
-  /// List of store-discount map
-  storeDiscounts StoreDiscount[]
-
-  /// List of category-discount map
-  categoryDiscounts CategoryDiscount[]
-
-  /// List of product-type-discount map
-  productTypeDiscounts ProductTypeDiscount[]
-
-  /// List of customer-discount map
-  customerDiscounts CustomerDiscount[]
-
-  /// List of customer-group map
-  customerGroupDiscounts CustomerGroupDiscount[]
-
-  /// Defines if the entry is readonly or not
-  /// Readonly entries cannot be updated by the client application
   readonly Boolean @default(false)
 
   @@index([name])
   @@index([code])
-  @@index([effectiveFrom, effectiveTo])
-  @@index([discountValue])
+  @@index([startDate, endDate])
 }
 
 model ProductDiscount {
-  /// Unique local integer identifier (system-input)
-  id Int @id @default(autoincrement())
-
-  /// Defines the creation timestamp (system-input)
-  createdAt DateTime @default(now())
-
-  /// Defines the modification timestamp (system-input)
-  updatedAt DateTime @updatedAt
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  updatedBy   User?     @relation(fields: [updatedById], references: [id])
+  updatedById Int?
+  readonly    Boolean   @default(false)
 
   product   Product @relation(fields: [productId], references: [id])
   productId Int
@@ -672,23 +391,20 @@ model ProductDiscount {
   discount   Discount @relation(fields: [discountId], references: [id])
   discountId Int
 
-  /// Defines if the entry is readonly or not
-  /// Readonly entries cannot be updated by the client application
-  readonly Boolean @default(false)
+  priority Int @default(0)
 
   @@unique([productId, discountId])
   @@index([productId])
 }
 
 model StoreDiscount {
-  /// Unique local integer identifier (system-input)
-  id Int @id @default(autoincrement())
-
-  /// Defines the creation timestamp (system-input)
-  createdAt DateTime @default(now())
-
-  /// Defines the modification timestamp (system-input)
-  updatedAt DateTime @updatedAt
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  updatedBy   User?     @relation(fields: [updatedById], references: [id])
+  updatedById Int?
+  readonly    Boolean   @default(false)
 
   discount   Discount @relation(fields: [discountId], references: [id])
   discountId Int
@@ -696,23 +412,20 @@ model StoreDiscount {
   store   Store @relation(fields: [storeId], references: [id])
   storeId Int
 
-  /// Defines if the entry is readonly or not
-  /// Readonly entries cannot be updated by the client application
-  readonly Boolean @default(false)
+  priority Int @default(0)
 
   @@unique([storeId, discountId])
   @@index([storeId])
 }
 
 model CategoryDiscount {
-  /// Unique local integer identifier (system-input)
-  id Int @id @default(autoincrement())
-
-  /// Defines the creation timestamp (system-input)
-  createdAt DateTime @default(now())
-
-  /// Defines the modification timestamp (system-input)
-  updatedAt DateTime @updatedAt
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  updatedBy   User?     @relation(fields: [updatedById], references: [id])
+  updatedById Int?
+  readonly    Boolean   @default(false)
 
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId Int
@@ -720,23 +433,20 @@ model CategoryDiscount {
   discount   Discount @relation(fields: [discountId], references: [id])
   discountId Int
 
-  /// Defines if the entry is readonly or not
-  /// Readonly entries cannot be updated by the client application
-  readonly Boolean @default(false)
+  priority Int @default(0)
 
   @@unique([categoryId, discountId])
   @@index([categoryId])
 }
 
 model ProductTypeDiscount {
-  /// Unique local integer identifier (system-input)
-  id Int @id @default(autoincrement())
-
-  /// Defines the creation timestamp (system-input)
-  createdAt DateTime @default(now())
-
-  /// Defines the modification timestamp (system-input)
-  updatedAt DateTime @updatedAt
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  updatedBy   User?     @relation(fields: [updatedById], references: [id])
+  updatedById Int?
+  readonly    Boolean   @default(false)
 
   productType   ProductType @relation(fields: [productTypeId], references: [id])
   productTypeId Int
@@ -744,23 +454,20 @@ model ProductTypeDiscount {
   discount   Discount @relation(fields: [discountId], references: [id])
   discountId Int
 
-  /// Defines if the entry is readonly or not
-  /// Readonly entries cannot be updated by the client application
-  readonly Boolean @default(false)
+  priority Int @default(0)
 
   @@unique([productTypeId, discountId])
   @@index([productTypeId])
 }
 
 model CustomerDiscount {
-  /// Unique local integer identifier (system-input)
-  id Int @id @default(autoincrement())
-
-  /// Defines the creation timestamp (system-input)
-  createdAt DateTime @default(now())
-
-  /// Defines the modification timestamp (system-input)
-  updatedAt DateTime @updatedAt
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  updatedBy   User?     @relation(fields: [updatedById], references: [id])
+  updatedById Int?
+  readonly    Boolean   @default(false)
 
   customer   Customer @relation(fields: [customerId], references: [id])
   customerId Int
@@ -768,29 +475,28 @@ model CustomerDiscount {
   discount   Discount @relation(fields: [discountId], references: [id])
   discountId Int
 
-  /// Defines if the entry is readonly or not
-  /// Readonly entries cannot be updated by the client application
-  readonly Boolean @default(false)
+  priority Int @default(0)
 
   @@unique([customerId, discountId])
   @@index([customerId])
 }
 
 model CustomerGroupDiscount {
-  /// Unique local integer identifier (system-input)
-  id Int @id @default(autoincrement())
-
-  /// Defines the creation timestamp (system-input)
-  createdAt DateTime @default(now())
-
-  /// Defines the modification timestamp (system-input)
-  updatedAt DateTime @updatedAt
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  updatedBy   User?     @relation(fields: [updatedById], references: [id])
+  updatedById Int?
+  readonly    Boolean   @default(false)
 
   customerGroup   CustomerGroup @relation(fields: [customerGroupId], references: [id])
   customerGroupId Int
 
   discount   Discount @relation(fields: [discountId], references: [id])
   discountId Int
+
+  priority Int @default(0)
 
   @@unique([customerGroupId, discountId])
   @@index([customerGroupId])
@@ -816,93 +522,40 @@ model CustomerGroupDiscount {
 ///   and digital downloads. Taxability varies widely.	
 ///   General Rate (in many states/jurisdictions)
 model ProductType {
-  /// Unique local integer identifier (system-input)
-  id Int @id @default(autoincrement())
-
-  /// Defines the creation timestamp (system-input)
-  createdAt DateTime @default(now())
-
-  /// Defines the modification timestamp (system-input)
-  updatedAt DateTime @updatedAt
-
-  /// Defines deletion timestamp (system-input)
-  deletedAt DateTime?
-
-  /// Defines updated-by log
-  updatedBy   User? @relation(fields: [updatedById], references: [id])
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  updatedBy   User?     @relation(fields: [updatedById], references: [id])
   updatedById Int?
+  readonly    Boolean   @default(true)
 
-  /// The unique name of the product category 
-  /// (e.g., "General Merchandise," "Prepared Food," "Prescription Drugs"). 
-  /// This is critical for matching tax rules.
-  name String @unique @db.VarChar(255)
-
-  /// An optional field for a detailed explanation of the product type.
+  name        String  @unique @db.VarChar(255)
   description String?
 
-  /// List of products of this product type
-  products Product[]
-
-  /// List of tax rates for this product type
-  taxRates TaxRate[]
-
-  /// List of product-type-discount map
-  productTypeDiscounts ProductTypeDiscount[]
-
-  /// Defines if the entry is readonly or not
-  /// Readonly entries cannot be updated by the client application
-  readonly Boolean @default(true)
+  products  Product[]
+  rates     TaxRate[]
+  discounts ProductTypeDiscount[]
 
   @@index([name])
 }
 
-/// The Jurisdiction model represents a governmental area that has the authority 
-/// to levy a tax (e.g., a country, state, county, or city). 
-/// Taxes often stack, meaning a product might be subject to 
-/// state, county, and city taxes simultaneously.
 model Jurisdiction {
-  /// Unique local integer identifier (system-input)
-  id Int @id @default(autoincrement())
-
-  /// Defines the creation timestamp (system-input)
-  createdAt DateTime @default(now())
-
-  /// Defines the modification timestamp (system-input)
-  updatedAt DateTime @updatedAt
-
-  /// Defines deletion timestamp (system-input)
-  deletedAt DateTime?
-
-  /// A unique identifier often used in the U.S. (Federal Information Processing Standards) 
-  /// to denote geographical entities like counties and states.
-  fipsCode String @unique
-
-  /// The common name of the jurisdiction (e.g., "State of California," "Cook County").
-  name String
-
-  /// Describes the type of jurisdiction (e.g., "State," "County," "City").
-  level String
-
-  /// These fields implement a self-referencing hierarchical relationship
-  /// (a tree structure). This allows one to model how jurisdictions are nested 
-  /// (e.g., a city is a child of a county, which is a child of a state). 
-  /// This is vital for calculating stacked taxes.
-  parent   Jurisdiction? @relation("children", fields: [parentId], references: [id])
-  parentId Int?
-
-  /// List of jurisdictions under this jurisdiction
-  children Jurisdiction[] @relation("children")
-
-  /// List of taxrate for this jurisdiction
-  taxRates TaxRate[]
-
-  /// Defines if the entry is readonly or not
-  /// Readonly entries cannot be updated by the client applications
-  readonly Boolean @default(true)
-
-  /// Defines updated-by log
-  updatedBy   User? @relation(fields: [updatedById], references: [id])
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  updatedBy   User?     @relation(fields: [updatedById], references: [id])
   updatedById Int?
+  readonly    Boolean   @default(true)
+
+  code     String         @unique
+  name     String
+  level    String
+  parent   Jurisdiction?  @relation("children", fields: [parentId], references: [id])
+  parentId Int?
+  children Jurisdiction[] @relation("children")
+  rates    TaxRate[]
 
   @@index([parentId])
   @@index([name])
@@ -910,61 +563,29 @@ model Jurisdiction {
 }
 
 model TaxRate {
-  /// Unique local integer identifier (system-input)
-  id Int @id @default(autoincrement())
-
-  /// Defines the creation timestamp (system-input)
-  createdAt DateTime @default(now())
-
-  /// Defines the modification timestamp (system-input)
-  updatedAt DateTime @updatedAt
-
-  /// Defines deletion timestamp (system-input)
-  deletedAt DateTime?
-
-  /// Defines updated-by log
-  updatedBy   User? @relation(fields: [updatedById], references: [id])
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  updatedBy   User?     @relation(fields: [updatedById], references: [id])
   updatedById Int?
+  readonly    Boolean   @default(false)
 
-  /// The tax rate expressed as a percentage (e.g., 0.075 for 7.5%). 
-  /// The database type Decimal(10, 6) ensures precise storage of the value.
-  percentRate Decimal @db.Decimal(10, 6)
-
-  /// An amount of tax charged as a flat fee, regardless of the price 
-  /// (less common for sales tax but used for things like excise taxes).
-  fixedRate Decimal @db.Decimal(10, 6)
-
-  /// A note about the tax (e.g., "State General Sales Tax").
-  description String?
-
-  /// These fields are crucial for historical accuracy. 
-  /// They define the time range during which this specific rate was or is valid. 
-  /// Tax rates change frequently, so the system must know which rate to apply 
-  /// for a transaction on any given date.
-  effectiveFrom DateTime
-  effectiveTo   DateTime?
-
-  /// Jurisdiction relation 
-  jurisdiction Jurisdiction @relation(fields: [jurisdictionId], references: [id])
-
-  /// Jurisdiction id
+  percentRate    Decimal      @db.Decimal(10, 6)
+  fixedRate      Decimal      @db.Decimal(10, 6)
+  description    String?
+  startDate      DateTime
+  endDate        DateTime?
+  jurisdiction   Jurisdiction @relation(fields: [jurisdictionId], references: [id])
   jurisdictionId Int
+  productType    ProductType  @relation(fields: [productTypeId], references: [id])
+  productTypeId  Int
 
-  /// Produc type 
-  productType ProductType @relation(fields: [productTypeId], references: [id])
-
-  /// Product type id
-  productTypeId Int
-
-  /// Defines if the entry is readonly or not
-  /// Readonly entries cannot be updated by the client applications
-  readonly Boolean @default(false)
-
-  @@unique([jurisdictionId, productTypeId, effectiveFrom])
+  @@unique([jurisdictionId, productTypeId, startDate])
   @@index([jurisdictionId])
   @@index([productTypeId])
-  @@index([effectiveFrom])
-  @@index([effectiveTo])
+  @@index([startDate])
+  @@index([endDate])
 }
 
 enum OperatorType {
@@ -973,35 +594,16 @@ enum OperatorType {
 }
 
 model Log {
-  id Int @id @default(autoincrement())
-
-  /// Log timestamp
-  timestamp DateTime @default(now())
-
-  /// The operator who executed this operation
-  operatorId String? @db.Uuid
-
-  /// Operator type (system/user)
-  operatorType OperatorType?
-
-  /// Operation name
+  id            Int          @id @default(autoincrement())
+  readonly      Boolean      @default(true)
+  timestamp     DateTime     @default(now())
+  operatorId    String?      @db.Uuid
+  operatorType  OperatorType @default(SYSTEM)
   operationName String
-
-  /// Record/model/database table name
-  recordName String
-
-  /// Record/entry id
-  recordId Int?
-
-  /// Differences from old data and new data
-  difference Json?
-
-  /// Defines if the entry is readonly or not
-  /// Readonly entries cannot be updated by the client application
-  readonly Boolean @default(true)
-
-  /// Defines if the operation is successful or not
-  successful Boolean @default(true)
+  recordName    String
+  recordId      Int?
+  difference    Json?
+  successful    Boolean      @default(true)
 
   @@index([operatorId, operatorType])
   @@index([recordName, recordId])
