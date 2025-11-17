@@ -72,6 +72,15 @@
           "parallel": true
         }
       },
+      "generate:resources": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npx nx g @puq/plugin:resources @puq/ims-api"
+          ],
+          "cwd": "{workspaceRoot}"
+        }
+      },
       "doc": {
         "executor": "nx:run-commands",
         "options": {

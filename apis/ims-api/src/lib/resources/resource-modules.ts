@@ -1,4 +1,5 @@
 // @index('./**/*.module.ts', f => `export * from '${f.path}.js'`)
+export * from './attribute/attribute.module.js';
 export * from './category-discount/category-discount.module.js';
 export * from './category/category.module.js';
 export * from './customer-discount/customer-discount.module.js';
@@ -8,7 +9,9 @@ export * from './customer/customer.module.js';
 export * from './discount/discount.module.js';
 export * from './jurisdiction/jurisdiction.module.js';
 export * from './log/log.module.js';
+export * from './price-level/price-level.module.js';
 export * from './price/price.module.js';
+export * from './product-attribute/product-attribute.module.js';
 export * from './product-discount/product-discount.module.js';
 export * from './product-tag/product-tag.module.js';
 export * from './product-type-discount/product-type-discount.module.js';
